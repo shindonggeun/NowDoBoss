@@ -26,8 +26,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver  # DB 드라이버
     url: jdbc:mysql://${server.base-url}:3306/nowdoboss?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true       # 데이터베이스 URL
-    username: ssafy                     # 데이터베이스 계정명
-    password: ssafy                     # 데이터베이스 계정 비밀번호
+    username: ENC(/u0+l2qNJvB7yNP4g9pITQ==)                     # 데이터베이스 계정명
+    password: ENC(8ZO2KjT7dEI3sWWMRNGIfg==)                     # 데이터베이스 계정 비밀번호
 
 
 # log 관리

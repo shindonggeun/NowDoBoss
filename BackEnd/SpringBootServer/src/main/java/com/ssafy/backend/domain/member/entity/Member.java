@@ -11,6 +11,9 @@ import org.hibernate.annotations.Comment;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {
+        @Index(name = "idx_email", columnList = "email")
+})
 public class Member extends BaseEntity {
 
     @Id

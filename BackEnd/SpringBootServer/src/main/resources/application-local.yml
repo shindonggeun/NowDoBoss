@@ -29,6 +29,13 @@ spring:
     username: ENC(/u0+l2qNJvB7yNP4g9pITQ==)                     # 데이터베이스 계정명
     password: ENC(8ZO2KjT7dEI3sWWMRNGIfg==)                     # 데이터베이스 계정 비밀번호
 
+  # data_테이블명.sql 관련 실행 setting (더미데이터)
+  sql:
+    init:
+      mode: always
+      data-locations:
+        - 'classpath:/db/data_foot_traffic_district.sql'
+
 
 # log 관리
 logging:

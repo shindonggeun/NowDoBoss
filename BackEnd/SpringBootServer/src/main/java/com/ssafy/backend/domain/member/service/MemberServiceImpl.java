@@ -1,6 +1,8 @@
 package com.ssafy.backend.domain.member.service;
 
 import com.ssafy.backend.domain.member.dto.MemberSignupRequest;
+import com.ssafy.backend.domain.member.exception.MemberErrorCode;
+import com.ssafy.backend.domain.member.exception.MemberException;
 import com.ssafy.backend.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +20,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void signupMember(MemberSignupRequest signupRequest) {
         if (memberRepository.existsByEmail(signupRequest.getEmail())) {
-            throw new RuntimeException("중복된 이메일입니다.");
+            throw new MemberException(MemberErrorCode.EXIST_MEMBER_EMAIL);
         }
 
         memberRepository.save(signupRequest.toEntity());

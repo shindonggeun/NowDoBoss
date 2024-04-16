@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
+import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,8 +26,8 @@ import java.time.LocalDateTime;
  * 생성 시간과 수정 시간을 자동으로 관리합니다.
  */
 @Getter
-@EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
     /**
@@ -40,6 +41,7 @@ public abstract class BaseEntity {
      * 기본값으로 현재 시간을 사용하도록 설정합니다.
      */
     @CreatedDate
+    @Comment("생성 날짜")
     @Column(updatable = false, nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
@@ -53,6 +55,7 @@ public abstract class BaseEntity {
      * TIMESTAMP 타입이며, 생성될 때와 업데이트될 때 현재 시간을 기본값으로 사용하도록 설정합니다.
      */
     @LastModifiedDate
+    @Comment("수정 날짜")
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 }

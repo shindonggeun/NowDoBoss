@@ -2,9 +2,15 @@ package com.ssafy.backend.global.component.jwt;
 
 import com.ssafy.backend.domain.member.entity.Member;
 import com.ssafy.backend.domain.member.entity.enums.MemberRole;
+import com.ssafy.backend.global.component.jwt.exception.JwtTokenErrorCode;
+import com.ssafy.backend.global.component.jwt.exception.JwtTokenException;
+import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -41,6 +47,18 @@ public class JwtTokenProvider {
         return issueToken(claims, tokenPropsInfo.accessExpiration(), tokenPropsInfo.accessKey());
     }
 
+    public MemberLoginActive parseAccessToken(String accessToken) {
+        Claims payload = parseToken(accessToken, tokenPropsInfo.accessKey());
+
+        return new MemberLoginActive(
+                Long.valueOf(payload.getId()),
+                payload.get(CLAIM_EMAIL, String.class),
+                payload.get(CLAIM_NAME, String.class),
+                payload.get(CLAIM_NICKNAME, String.class),
+                MemberRole.fromName(payload.get(CLAIM_ROLE, String.class))
+        );
+    }
+
     private String issueToken(Claims claims, Duration expiration, String secretKey) {
         Date now = new Date();
         // 토큰 발급 시 현재 시간과 만료 시간을 설정하여 JWT를 생성합니다.
@@ -50,5 +68,28 @@ public class JwtTokenProvider {
                 .expiration(new Date(now.getTime() + expiration.toMillis()))
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
+    }
+
+    private Claims parseToken(String token, String secretKey) {
+        Claims payload;
+
+        try {
+            // 토큰을 파싱하여 payload를 반환합니다. 이 과정에서 토큰의 무결성과 유효성이 검증됩니다.
+            payload = Jwts.parser()
+                    .verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                    .build()
+                    .parseSignedClaims(token).getPayload();
+        } catch (ExpiredJwtException e) {
+            // 토큰 만료 예외 처리
+            throw new JwtTokenException(JwtTokenErrorCode.EXPIRED_TOKEN);
+        } catch (MalformedJwtException | SecurityException | IllegalArgumentException e) {
+            // 토큰 형식 불일치 예외 처리
+            throw new JwtTokenException(JwtTokenErrorCode.INVALID_TOKEN);
+        } catch (SignatureException e) {
+            // 토큰 서명 검증 실패 예외 처리
+            throw new JwtTokenException(JwtTokenErrorCode.SIGNATURE_INVALID);
+        }
+
+        return payload;
     }
 }

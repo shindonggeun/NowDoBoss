@@ -53,6 +53,9 @@ dependencies {
 	// Firebase
 	implementation 'com.google.firebase:firebase-admin:9.2.0'
 
+	// Java Mail Sender (Google Email - Gmail)
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'

@@ -36,6 +36,13 @@ spring:
       data-locations:
         - 'classpath:/db/data_foot_traffic_district.sql'
 
+  # NoSQL setting
+  data:
+    # Redis setting
+    redis:
+      host: ${server.base-url}
+      port: 6379
+
 
 # log 관리
 logging:

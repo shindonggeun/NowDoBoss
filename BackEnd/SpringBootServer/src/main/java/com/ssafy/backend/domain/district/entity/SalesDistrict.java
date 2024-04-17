@@ -34,12 +34,11 @@ public class SalesDistrict {
     private String serviceCode;
 
     @Comment("서비스 업종 코드 명")
-    @Column(columnDefinition = "VARCHAR(10)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String serviceCodeName;
 
     @Enumerated(EnumType.STRING)
     @Comment("서비스 업종 타입")
-    @Column(nullable = false)
     private ServiceType serviceType;
 
     @Comment("당월 매출 금액")

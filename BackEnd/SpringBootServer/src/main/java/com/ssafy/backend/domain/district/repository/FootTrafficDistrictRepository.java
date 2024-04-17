@@ -6,15 +6,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
 
 import java.util.List;
 
+@Repository
 public interface FootTrafficDistrictRepository extends JpaRepository<FootTrafficDistrict, Long> {
 
     @Query("SELECT f.districtCodeName, " +
             "f2.totalFootTraffic AS curTotalFootTraffic, " +
-            "(f2.totalFootTraffic - f.totalFootTraffic) / f.totalFootTraffic * 100 AS totalFootTrafficChangeRate " +
+            "f.totalFootTraffic AS prevTotalFootTraffic " +
             "FROM FootTrafficDistrict f " +
             "JOIN FootTrafficDistrict f2 ON f.districtCodeName = f2.districtCodeName " +
             "WHERE f.periodCode = '20232' " +
@@ -25,6 +27,6 @@ public interface FootTrafficDistrictRepository extends JpaRepository<FootTraffic
             "    WHERE periodCode = '20233' " +
             "    ORDER BY totalFootTraffic DESC " +
             ")")
-    List<FootTrafficDistrictTopFiveInfo> getTopFiveFootTrafficDistrictByPeriodCode(Pageable pageable);
+    Page<FootTrafficDistrictTopFiveInfo> getTopFiveFootTrafficDistrictByPeriodCode(Pageable pageable);
 
 }

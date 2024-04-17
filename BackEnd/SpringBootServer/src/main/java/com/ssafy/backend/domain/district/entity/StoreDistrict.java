@@ -35,12 +35,11 @@ public class StoreDistrict {
     private String serviceCode;
 
     @Comment("서비스 업종 코드 명")
-    @Column(nullable = false)
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String serviceCodeName;
 
     @Enumerated(EnumType.STRING)
     @Comment("서비스 업종 타입")
-    @Column(nullable = false)
     private ServiceType serviceType;
 
     @Comment("점포 수")

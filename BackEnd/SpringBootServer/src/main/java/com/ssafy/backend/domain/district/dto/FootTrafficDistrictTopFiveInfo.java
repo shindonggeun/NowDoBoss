@@ -8,5 +8,5 @@ public class FootTrafficDistrictTopFiveInfo {
 
     private Long curTotalFootTraffic;
 
-    private Float footTrafficChangeRate;
+    private Long prevTotalFootTraffic;
 }

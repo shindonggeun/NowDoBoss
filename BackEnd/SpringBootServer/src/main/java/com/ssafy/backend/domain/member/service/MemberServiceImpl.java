@@ -40,7 +40,11 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByEmail(loginRequest.email())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_MEMBER));
 
-        // TODO: 패스워드 복호화 작업 실시해서 passwordEncoder 매칭되는지 확인
+        String realPassword = member.getPassword();
+
+        if (!passwordEncoder.matches(loginRequest.password(), realPassword)) {
+            throw new MemberException(MemberErrorCode.NOT_MATCH_PASSWORD);
+        }
 
         return jwtTokenService.issueAndSaveJwtToken(member);
     }

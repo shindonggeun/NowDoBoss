@@ -43,6 +43,19 @@ spring:
       host: ${server.base-url}
       port: 6379
 
+  # Java Mail Sender setting (Google Mail)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(9zcJxzMJjdfsV97O7BJQvAtUCYHyAV12FmzBkDqpDW8=)
+    password: ENC(bad9dzuo4Yv1McadA8EOSn13JEEl/6UeyvsknQfCXyQ=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 
 # log 관리
 logging:
@@ -58,3 +71,7 @@ jwt:
   accessExpiration: PT420M  # 420분 (PT420M)
   refreshExpiration: PT10080M  # 10080분 (7일) (PT10080M)
 
+# firebase setting
+app:
+  firebase-configuration-file: classpath:serviceAccountKey.json
+  firebase-bucket: ENC(kEjE5eNrPFCEldmd4VOt0mXnXI2qkPVNJIhOBdW8K60=)

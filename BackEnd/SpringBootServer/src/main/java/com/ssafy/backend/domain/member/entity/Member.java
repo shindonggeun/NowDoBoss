@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.member.entity;
 
+import com.ssafy.backend.domain.member.dto.MemberUpdateRequest;
 import com.ssafy.backend.domain.member.entity.enums.MemberRole;
 import com.ssafy.backend.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -45,4 +46,13 @@ public class Member extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberRole role;
+
+    public void updateProfileImageAndNickname(MemberUpdateRequest updateRequest) {
+        this.nickname = updateRequest.nickname();
+        this.profileImage = updateRequest.profileImage();
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }

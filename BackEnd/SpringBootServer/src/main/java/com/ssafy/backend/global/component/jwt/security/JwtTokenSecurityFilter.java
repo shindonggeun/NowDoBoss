@@ -57,6 +57,7 @@ public class JwtTokenSecurityFilter extends OncePerRequestFilter {
 
                 // 성공적으로 토큰이 파싱되면 로그를 통해 인증된 회원의 ID와 해당 요청의 시도를 기록합니다.
                 log.info("회원 ID : {}  - 요청 시도", member.id());
+                SecurityContextHolder.getContext().setAuthentication(createAuthenticationToken(member));
             } catch (JwtTokenException e) {
                 // JWT 토큰 파싱 중 예외가 발생하면, 보안 컨텍스트를 클리어하고 에러를 응답합니다.
                 SecurityContextHolder.clearContext();

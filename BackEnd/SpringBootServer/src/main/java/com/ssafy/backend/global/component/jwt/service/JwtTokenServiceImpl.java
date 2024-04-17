@@ -3,6 +3,9 @@ package com.ssafy.backend.global.component.jwt.service;
 import com.ssafy.backend.domain.member.dto.MemberInfo;
 import com.ssafy.backend.domain.member.dto.MemberLoginResponse;
 import com.ssafy.backend.domain.member.entity.Member;
+import com.ssafy.backend.domain.member.exception.MemberErrorCode;
+import com.ssafy.backend.domain.member.exception.MemberException;
+import com.ssafy.backend.domain.member.repository.MemberRepository;
 import com.ssafy.backend.global.component.jwt.JwtTokenProvider;
 import com.ssafy.backend.global.component.jwt.dto.JwtTokenInfo;
 import com.ssafy.backend.global.component.jwt.repository.RefreshTokenRepository;
@@ -19,6 +22,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public MemberLoginResponse issueAndSaveJwtToken(Member member) {
@@ -49,6 +53,12 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     @Override
     public String reissueAccessToken(String email) {
-        return null;
+        String refreshToken = refreshTokenRepository.find(email)
+                .orElseThrow(() -> new GlobalException(GlobalErrorCode.REDIS_NOT_TOKEN));
+
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_MEMBER));
+
+        return jwtTokenProvider.issueAccessToken(member);
     }
 }

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,7 @@ public class FirebaseController {
             description = "이미지 파일을 파이어베이스 스토리지에 업로드 합니다."
     )
     @PostMapping("/upload")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<String>> uploadFile(@RequestParam("file") MultipartFile file,
                                                       @RequestParam("fileName") String fileName) {
         String url = firebaseService.uploadFiles(file, fileName);

@@ -10,6 +10,7 @@ import com.ssafy.backend.domain.member.repository.MemberRepository;
 import com.ssafy.backend.global.component.jwt.service.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtTokenService jwtTokenService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void signupMember(MemberSignupRequest signupRequest) {
@@ -28,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
             throw new MemberException(MemberErrorCode.EXIST_MEMBER_EMAIL);
         }
 
-        // TODO: 패스워드 암호화 작업 실시 (passwordEncoder)
+        signupRequest.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
 
         memberRepository.save(signupRequest.toEntity());
     }

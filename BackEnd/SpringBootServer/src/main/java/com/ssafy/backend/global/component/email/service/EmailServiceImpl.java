@@ -99,7 +99,7 @@ public class EmailServiceImpl implements EmailService {
 
         try {
             mimeMessage.addRecipients(Message.RecipientType.TO, toEmail);
-            mimeMessage.setSubject("Talkydoki 이메일 인증 코드입니다.");
+            mimeMessage.setSubject("NowDoBoss 이메일 인증 코드입니다.");
 
             // 이메일 본문 구성
             String msgg = "";

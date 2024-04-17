@@ -22,12 +22,10 @@ public class MemberSignupRequest {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$", message = "비밀번호는 8~16자리수여야 합니다. 영문 대소문자, 숫자, 특수문자를 1개 이상 포함해야 합니다.")
     private String password;
 
-    @NotBlank(message = "이름은 비워둘 수 없습니다")
-    @Size(min = 2, max = 40, message = "이름은 2자 이상 12자 이하로 입력해주세요.")
+    @Size(min = 2, max = 12, message = "이름은 2자 이상 12자 이하로 입력해주세요.")
     private String name;
 
-    @NotBlank(message = "닉네임은 비워둘 수 없습니다")
-    @Size(min = 2, max = 30, message = "닉네임은 2자 이상 18자 이하로 입력해주세요.")
+    @Size(min = 2, max = 18, message = "닉네임은 2자 이상 18자 이하로 입력해주세요.")
     private String nickname;
 
     private String profileImage;

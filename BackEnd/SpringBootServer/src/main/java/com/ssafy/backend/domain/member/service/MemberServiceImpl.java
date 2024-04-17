@@ -7,12 +7,15 @@ import com.ssafy.backend.domain.member.entity.Member;
 import com.ssafy.backend.domain.member.exception.MemberErrorCode;
 import com.ssafy.backend.domain.member.exception.MemberException;
 import com.ssafy.backend.domain.member.repository.MemberRepository;
+import com.ssafy.backend.global.component.jwt.repository.RefreshTokenRepository;
 import com.ssafy.backend.global.component.jwt.service.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,6 +26,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final JwtTokenService jwtTokenService;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public void signupMember(MemberSignupRequest signupRequest) {
@@ -47,5 +51,17 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return jwtTokenService.issueAndSaveJwtToken(member);
+    }
+
+    @Override
+    public void logoutMember(String email) {
+        Optional<String> token = refreshTokenRepository.find(email);
+
+        if (token.isEmpty()) {
+            throw new MemberException(MemberErrorCode.ALREADY_MEMBER_LOGOUT);
+        }
+
+        // 리프레쉬 토큰 삭제
+        refreshTokenRepository.delete(email);
     }
 }

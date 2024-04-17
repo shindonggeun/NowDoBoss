@@ -9,4 +9,6 @@ public interface MemberService {
     void signupMember(MemberSignupRequest signupRequest);
 
     MemberLoginResponse loginMember(MemberLoginRequest loginRequest);
+
+    void logoutMember(String email);
 }

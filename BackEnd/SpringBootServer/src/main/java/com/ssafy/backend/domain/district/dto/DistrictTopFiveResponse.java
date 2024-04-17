@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Builder
 public record DistrictTopFiveResponse(
-        List<Map<String, Object>> footTrafficTopFiveList,
+        List<FootTrafficDistrictTopFiveInfo> footTrafficTopFiveList,
         List<Map<String, Object>> salesTopFiveList,
         List<Map<String, Object>> openedRateTopFiveList,
         List<Map<String, Object>> closedRateTopFiveList

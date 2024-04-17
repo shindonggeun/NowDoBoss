@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.member.service;
 
+import com.ssafy.backend.domain.member.dto.MemberInfo;
 import com.ssafy.backend.domain.member.dto.MemberLoginRequest;
 import com.ssafy.backend.domain.member.dto.MemberLoginResponse;
 import com.ssafy.backend.domain.member.dto.MemberSignupRequest;
@@ -63,5 +64,20 @@ public class MemberServiceImpl implements MemberService {
 
         // 리프레쉬 토큰 삭제
         refreshTokenRepository.delete(email);
+    }
+
+    @Override
+    public MemberInfo getMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_MEMBER));
+
+        return new MemberInfo(
+                member.getId(),
+                member.getEmail(),
+                member.getName(),
+                member.getNickname(),
+                member.getProfileImage(),
+                member.getRole()
+        );
     }
 }

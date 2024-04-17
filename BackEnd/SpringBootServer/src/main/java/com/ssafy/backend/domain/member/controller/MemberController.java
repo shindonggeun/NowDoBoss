@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.member.controller;
 
+import com.ssafy.backend.domain.member.dto.MemberInfo;
 import com.ssafy.backend.domain.member.dto.MemberLoginRequest;
 import com.ssafy.backend.domain.member.dto.MemberLoginResponse;
 import com.ssafy.backend.domain.member.dto.MemberSignupRequest;
@@ -15,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "회원", description = "회원 관련 API 입니다.")
 @RestController
@@ -69,5 +67,16 @@ public class MemberController {
         accessTokenCookie.setPath("/");
         response.addCookie(accessTokenCookie);
         return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "회원정보 불러오기",
+            description = "비밀번호를 제외한 회원가입때 입력한 정보를 불러오는 기능입니다."
+    )
+    @GetMapping("/info")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<MemberInfo>> getMember(@AuthenticationPrincipal MemberLoginActive loginActive) {
+        MemberInfo info = memberService.getMember(loginActive.id());
+        return ResponseEntity.ok().body(Message.success(info));
     }
 }

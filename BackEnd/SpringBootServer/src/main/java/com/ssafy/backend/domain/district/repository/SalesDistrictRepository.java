@@ -13,13 +13,14 @@ import java.util.List;
 
 @Repository
 public interface SalesDistrictRepository extends JpaRepository<SalesDistrict, Long> {
-    @Query("SELECT sd.districtCodeName, " +
-            "SUM(CASE WHEN sd.periodCode = '20233' THEN sd.monthSales ELSE 0 END) AS curTotalSales, " +
-            "SUM(CASE WHEN sd.periodCode = '20232' THEN sd.monthSales ELSE 0 END) AS prevTotalSales " +
+    @Query("SELECT new com.ssafy.backend.domain.district.dto.SalesDistrictTopFiveInfo(" +
+            "sd.districtCodeName, " +
+            "SUM(CASE WHEN sd.periodCode = '20233' THEN sd.monthSales ELSE 0 END), " +
+            "SUM(CASE WHEN sd.periodCode = '20232' THEN sd.monthSales ELSE 0 END)) " +
             "FROM SalesDistrict sd " +
             "WHERE sd.districtCodeName IN :districtNames " +
             "GROUP BY sd.districtCodeName " +
-            "ORDER BY curTotalSales DESC")
+            "ORDER BY SUM(CASE WHEN sd.periodCode = '20232' THEN sd.monthSales ELSE 0 END) DESC")
     List<SalesDistrictTopFiveInfo> getTopFiveSalesDistrictByPeriodCode(@Param("districtNames") List<String> districtNames);
 
     @Query("SELECT s.districtCodeName " +

@@ -34,8 +34,7 @@ spring:
     init:
       mode: always
       data-locations:
-        - 'classpath:/db/data_foot_traffic_district.sql'
-
+        - 'classpath:/db/*'
   # NoSQL setting
   data:
     # Redis setting

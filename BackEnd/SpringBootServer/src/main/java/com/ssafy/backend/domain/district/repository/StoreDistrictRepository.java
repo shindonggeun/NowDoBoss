@@ -16,27 +16,29 @@ import java.util.List;
 @Repository
 public interface StoreDistrictRepository extends JpaRepository<StoreDistrict, Long> {
 
-    @Query("SELECT s.districtCodeName, " +
-            "SUM(CASE WHEN s.periodCode = '20233' THEN s.totalStore ELSE 0 END) AS curTotalStore, " +
-            "SUM(CASE WHEN s.periodCode = '20233' THEN s.openedStore ELSE 0 END) AS curOpenedStore, " +
-            "SUM(CASE WHEN s.periodCode = '20232' THEN s.totalStore ELSE 0 END) AS prevTotalStore, " +
-            "SUM(CASE WHEN s.periodCode = '20232' THEN s.openedStore ELSE 0 END) AS prevOpenedStore " +
+    @Query("SELECT new com.ssafy.backend.domain.district.dto.OpenedStoreDistrictTopFiveInfo(" +
+            "s.districtCodeName, " +
+            "SUM(CASE WHEN s.periodCode = '20233' THEN s.totalStore ELSE 0 END), " +
+            "SUM(CASE WHEN s.periodCode = '20233' THEN s.openedStore ELSE 0 END), " +
+            "SUM(CASE WHEN s.periodCode = '20232' THEN s.totalStore ELSE 0 END), " +
+            "SUM(CASE WHEN s.periodCode = '20232' THEN s.openedStore ELSE 0 END)) " +
             "FROM StoreDistrict s " +
             "WHERE s.districtCodeName IN :districtNames " +
             "GROUP BY s.districtCodeName " +
             "ORDER BY (SUM(CASE WHEN s.periodCode = '20233' THEN s.openedStore ELSE 0 END) / SUM(CASE WHEN s.periodCode = '20233' THEN s.totalStore ELSE 0 END)) DESC")
-    List<OpenedStoreDistrictTopFiveInfo> getTopFiveOpenedStoreDistrictByPeriodCode(@Param("districtNames") List<String> districtNames);
+    List<OpenedStoreDistrictTopFiveInfo> getTopFiveOpenedStoreDistrictByPeriodCode(List<String> districtNames);
 
-    @Query("SELECT s.districtCodeName, " +
-            "SUM(CASE WHEN s.periodCode = '20233' THEN s.totalStore ELSE 0 END) AS curTotalStore, " +
-            "SUM(CASE WHEN s.periodCode = '20233' THEN s.closedStore ELSE 0 END) AS curClosedStore, " +
-            "SUM(CASE WHEN s.periodCode = '20232' THEN s.totalStore ELSE 0 END) AS prevTotalStore, " +
-            "SUM(CASE WHEN s.periodCode = '20232' THEN s.closedStore ELSE 0 END) AS prevClosedStore " +
+    @Query("SELECT new com.ssafy.backend.domain.district.dto.ClosedStoreDistrictTopFiveInfo(" +
+            "s.districtCodeName, " +
+            "SUM(CASE WHEN s.periodCode = '20233' THEN s.totalStore ELSE 0 END), " +
+            "SUM(CASE WHEN s.periodCode = '20233' THEN s.closedStore ELSE 0 END), " +
+            "SUM(CASE WHEN s.periodCode = '20232' THEN s.totalStore ELSE 0 END), " +
+            "SUM(CASE WHEN s.periodCode = '20232' THEN s.closedStore ELSE 0 END)) " +
             "FROM StoreDistrict s " +
             "WHERE s.districtCodeName IN :districtNames " +
             "GROUP BY s.districtCodeName " +
-            "ORDER BY (SUM(CASE WHEN s.periodCode = '20233' THEN s.totalStore ELSE 0 END) / SUM(CASE WHEN s.periodCode = '20233' THEN s.closedStore ELSE 0 END)) DESC")
-    List<ClosedStoreDistrictTopFiveInfo> getTopFiveClosedStoreDistrictByPeriodCode(@Param("districtNames") List<String> districtNames);
+            "ORDER BY (SUM(CASE WHEN s.periodCode = '20233' THEN s.closedStore ELSE 0 END) / SUM(CASE WHEN s.periodCode = '20233' THEN s.totalStore ELSE 0 END)) DESC")
+    List<ClosedStoreDistrictTopFiveInfo> getTopFiveClosedStoreDistrictByPeriodCode(List<String> districtNames);
 
     @Query("SELECT s.districtCodeName " +
             "FROM StoreDistrict s " +

@@ -36,7 +36,7 @@ public class DistrictServiceImpl implements DistrictService {
             Long curTotalFootTraffic = footTrafficDistrictTopFiveInfo.getCurTotalFootTraffic();
             String districtCodeName = footTrafficDistrictTopFiveInfo.getDistrictCodeName();
 
-            footTrafficResponseList.add(new FootTrafficDistrictTopFiveResponse(districtCodeName, curTotalFootTraffic, (float) ((curTotalFootTraffic-prevTotalFootTraffic)/prevTotalFootTraffic*100)));
+            footTrafficResponseList.add(new FootTrafficDistrictTopFiveResponse(districtCodeName, curTotalFootTraffic, (float) ((curTotalFootTraffic-prevTotalFootTraffic)/(float)prevTotalFootTraffic*100)));
         }
 
         // 매출 Top 5
@@ -48,7 +48,7 @@ public class DistrictServiceImpl implements DistrictService {
             Long curTotalSales = salesDistrictTopFiveInfo.getCurTotalSales();
             String districtCodeName = salesDistrictTopFiveInfo.getDistrictCodeName();
 
-            salesResponseList.add(new SalesDistrictTopFiveResponse(districtCodeName, curTotalSales, (float) ((curTotalSales-prevTotalSales)/prevTotalSales*100)));
+            salesResponseList.add(new SalesDistrictTopFiveResponse(districtCodeName, curTotalSales, ((curTotalSales-prevTotalSales)/(float)prevTotalSales*100)));
         }
 
         // 개업률 Top 5
@@ -58,14 +58,14 @@ public class DistrictServiceImpl implements DistrictService {
         for (OpenedStoreDistrictTopFiveInfo openedStoreDistrictTopFiveInfo : openedStoreInfoList) {
             Long prevTotalStore = openedStoreDistrictTopFiveInfo.getPrevTotalStore();
             Long prevOpenedStore = openedStoreDistrictTopFiveInfo.getPrevOpenedStore();
-            Float prevOpenedRate = (float) (prevOpenedStore / prevTotalStore * 100);
+            Float prevOpenedRate = ((float) prevOpenedStore / prevTotalStore * 100);
 
             Long curTotalStore = openedStoreDistrictTopFiveInfo.getCurTotalStore();
             Long curOpenedStore = openedStoreDistrictTopFiveInfo.getCurOpenedStore();
-            Float curOpenedRate = (float) (curOpenedStore / curTotalStore * 100);
+            Float curOpenedRate = ((float) curOpenedStore / curTotalStore * 100);
 
             String districtCodeName = openedStoreDistrictTopFiveInfo.getDistrictCodeName();
-
+            //System.out.println("자치구명: " + districtCodeName + "이번총점포수: " + curTotalStore + "이번개업점포수: " + curOpenedStore + "이전총점포수: " + prevTotalStore + "이전개업점포수: " + prevOpenedStore);
             openedStoreResponseList.add(new OpenedStoreDistrictTopFiveResponse(districtCodeName, curOpenedRate, (curOpenedRate-prevOpenedRate)/prevOpenedRate*100));
         }
 
@@ -76,14 +76,14 @@ public class DistrictServiceImpl implements DistrictService {
         for (ClosedStoreDistrictTopFiveInfo closedStoreDistrictTopFiveInfo : closedStoreInfoList) {
             Long prevTotalStore = closedStoreDistrictTopFiveInfo.getPrevTotalStore();
             Long prevClosedStore = closedStoreDistrictTopFiveInfo.getPrevClosedStore();
-            Float prevClosedRate = (float) (prevClosedStore / prevTotalStore * 100);
+            Float prevClosedRate = ((float) prevClosedStore / prevTotalStore * 100);
 
             Long curTotalStore = closedStoreDistrictTopFiveInfo.getCurTotalStore();
             Long curClosedStore = closedStoreDistrictTopFiveInfo.getCurClosedStore();
-            Float curClosedRate = (float) (curClosedStore / curTotalStore * 100);
+            Float curClosedRate = ((float) curClosedStore / curTotalStore * 100);
 
             String districtCodeName = closedStoreDistrictTopFiveInfo.getDistrictCodeName();
-
+            //System.out.println("자치구명: " + districtCodeName + "이번총점포수: " + curTotalStore + "이번폐업점포수: " + curClosedStore + "이전총점포수: " + prevTotalStore + "이전폐업점포수: " + prevClosedStore);
             closedStoreResponseList.add(new ClosedStoreDistrictTopFiveResponse(districtCodeName, curClosedRate, (curClosedRate-prevClosedRate)/prevClosedRate*100));
         }
 

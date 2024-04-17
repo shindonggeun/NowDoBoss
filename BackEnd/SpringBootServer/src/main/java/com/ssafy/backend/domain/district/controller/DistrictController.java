@@ -22,6 +22,7 @@ public class DistrictController {
     )
     @GetMapping("")
     public ResponseEntity<DistrictTopFiveResponse> getTopFiveDistricts() {
+        System.out.println("top5 가져오기!");
         return ResponseEntity.status(200).body(districtService.getTopFiveDistricts());
     }
 }

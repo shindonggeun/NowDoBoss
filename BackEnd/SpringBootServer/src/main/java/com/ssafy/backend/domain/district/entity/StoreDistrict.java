@@ -65,7 +65,7 @@ public class StoreDistrict {
 
     @Comment("개업률")
     @Column(columnDefinition = "Float")
-    private Long openedRate;
+    private Float openedRate;
 
     @Comment("폐업률")
     @Column(columnDefinition = "Float")

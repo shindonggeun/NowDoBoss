@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberLoginResponse loginMember(MemberLoginRequest loginRequest) {
         Member member = memberRepository.findByEmail(loginRequest.email())
-                .orElseThrow(() -> new RuntimeException("해당 회원을 찾을 수 없습니다."));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_MEMBER));
 
         // TODO: 패스워드 복호화 작업 실시해서 passwordEncoder 매칭되는지 확인
 

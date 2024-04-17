@@ -6,6 +6,8 @@ import com.ssafy.backend.domain.member.entity.Member;
 import com.ssafy.backend.global.component.jwt.JwtTokenProvider;
 import com.ssafy.backend.global.component.jwt.dto.JwtTokenInfo;
 import com.ssafy.backend.global.component.jwt.repository.RefreshTokenRepository;
+import com.ssafy.backend.global.exception.GlobalErrorCode;
+import com.ssafy.backend.global.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,8 +30,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         try {
             refreshTokenRepository.save(member.getEmail(), refreshToken);
         } catch (Exception e) {
-            // TODO: 레디스 관련 커스텀 Exception (Global)
-            throw new RuntimeException("레디스 연결에 실패하였습니다.");
+            throw new GlobalException(GlobalErrorCode.REDIS_CONNECTION_FAILURE);
         }
 
         JwtTokenInfo tokenInfo = new JwtTokenInfo(accessToken);

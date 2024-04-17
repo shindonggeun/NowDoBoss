@@ -58,3 +58,7 @@ jwt:
   accessExpiration: PT420M  # 420분 (PT420M)
   refreshExpiration: PT10080M  # 10080분 (7일) (PT10080M)
 
+# firebase setting
+app:
+  firebase-configuration-file: classpath:serviceAccountKey.json
+  firebase-bucket: nowdoboss.appspot.com

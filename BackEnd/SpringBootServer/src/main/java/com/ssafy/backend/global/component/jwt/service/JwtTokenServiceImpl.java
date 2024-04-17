@@ -39,4 +39,9 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
         return new MemberLoginResponse(tokenInfo, memberInfo);
     }
+
+    @Override
+    public String reissueAccessToken(String email) {
+        return null;
+    }
 }

@@ -1,6 +1,5 @@
 package com.ssafy.backend.global.component.jwt.repository;
 
-import com.ssafy.backend.global.component.jwt.JwtProps;
 import com.ssafy.backend.global.component.jwt.JwtTokenPropsInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

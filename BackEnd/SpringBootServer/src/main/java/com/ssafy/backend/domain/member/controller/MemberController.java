@@ -73,10 +73,21 @@ public class MemberController {
             summary = "회원정보 불러오기",
             description = "비밀번호를 제외한 회원가입때 입력한 정보를 불러오는 기능입니다."
     )
-    @GetMapping("/info")
+    @GetMapping("/get")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<MemberInfo>> getMember(@AuthenticationPrincipal MemberLoginActive loginActive) {
         MemberInfo info = memberService.getMember(loginActive.id());
         return ResponseEntity.ok().body(Message.success(info));
+    }
+
+    @Operation(
+            summary = "회원 탈퇴하기",
+            description = "해당 서비스에 가입한 회원의 회원정보를 삭제하는 기능입니다."
+    )
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<Void>> deleteMember(@AuthenticationPrincipal MemberLoginActive loginActive) {
+        memberService.deleteMember(loginActive.id());
+        return ResponseEntity.ok().body(Message.success());
     }
 }

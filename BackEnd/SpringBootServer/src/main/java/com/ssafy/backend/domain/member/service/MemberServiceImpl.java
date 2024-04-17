@@ -67,6 +67,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MemberInfo getMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_MEMBER));
@@ -79,5 +80,10 @@ public class MemberServiceImpl implements MemberService {
                 member.getProfileImage(),
                 member.getRole()
         );
+    }
+
+    @Override
+    public void deleteMember(Long memberId) {
+        memberRepository.deleteById(memberId);
     }
 }

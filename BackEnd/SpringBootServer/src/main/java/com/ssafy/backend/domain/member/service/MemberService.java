@@ -14,4 +14,6 @@ public interface MemberService {
     void logoutMember(String email);
 
     MemberInfo getMember(Long memberId);
+
+    void deleteMember(Long memberId);
 }

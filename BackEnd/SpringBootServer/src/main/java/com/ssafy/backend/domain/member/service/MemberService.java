@@ -1,9 +1,6 @@
 package com.ssafy.backend.domain.member.service;
 
-import com.ssafy.backend.domain.member.dto.MemberInfo;
-import com.ssafy.backend.domain.member.dto.MemberLoginRequest;
-import com.ssafy.backend.domain.member.dto.MemberLoginResponse;
-import com.ssafy.backend.domain.member.dto.MemberSignupRequest;
+import com.ssafy.backend.domain.member.dto.*;
 
 public interface MemberService {
 
@@ -16,4 +13,6 @@ public interface MemberService {
     MemberInfo getMember(Long memberId);
 
     void deleteMember(Long memberId);
+
+    void updateProfileImageAndNickNameMember(Long memberId, MemberUpdateRequest updateRequest);
 }

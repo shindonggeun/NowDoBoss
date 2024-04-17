@@ -1,9 +1,6 @@
 package com.ssafy.backend.domain.member.controller;
 
-import com.ssafy.backend.domain.member.dto.MemberInfo;
-import com.ssafy.backend.domain.member.dto.MemberLoginRequest;
-import com.ssafy.backend.domain.member.dto.MemberLoginResponse;
-import com.ssafy.backend.domain.member.dto.MemberSignupRequest;
+import com.ssafy.backend.domain.member.dto.*;
 import com.ssafy.backend.domain.member.service.MemberService;
 import com.ssafy.backend.global.common.dto.Message;
 import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
@@ -88,6 +85,18 @@ public class MemberController {
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> deleteMember(@AuthenticationPrincipal MemberLoginActive loginActive) {
         memberService.deleteMember(loginActive.id());
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "회원 수정하기",
+            description = "회원 정보를 수정(닉네임, 프로필 이미지)하는 기능입니다."
+    )
+    @PatchMapping("/update")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<Void>> updateImageAndNicknameMember(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                                      @RequestBody MemberUpdateRequest updateRequest) {
+        memberService.updateProfileImageAndNickNameMember(loginActive.id(), updateRequest);
         return ResponseEntity.ok().body(Message.success());
     }
 }

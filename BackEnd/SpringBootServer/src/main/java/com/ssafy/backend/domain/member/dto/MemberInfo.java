@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.member.dto;
 
 import com.ssafy.backend.domain.member.entity.enums.MemberRole;
+import com.ssafy.backend.global.component.oauth.vendor.enums.OAuthDomain;
 import lombok.Builder;
 
 public record MemberInfo(
@@ -9,7 +10,7 @@ public record MemberInfo(
         String name,
         String nickname,
         String profileImage,
-
-        MemberRole role
+        MemberRole role,
+        OAuthDomain provider
 ) {
 }

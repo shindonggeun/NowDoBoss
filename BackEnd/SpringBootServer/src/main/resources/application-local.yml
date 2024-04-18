@@ -107,3 +107,11 @@ oauth:
       - name
       - email
       - profile_image
+
+  google:
+    client_id: 750022711670-1k3malpj5m9qbtmk843bh4rdsr028vk1.apps.googleusercontent.com
+    client_secret: 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
+    redirect_uri: http://${server.base-url}:8080/api/v1/oauth/google/login
+    scope:
+      - profile
+      - email

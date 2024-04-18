@@ -89,8 +89,8 @@ app:
 # OAUTH2.0 Setting
 oauth:
   kakao:
-    client-id: aee5bb0ec532e9077c7a29b619deff30   # REST API 키
-    client-secret: bjHn0xWsua3bd4R6s54wuHMDm51EA3XB # 보안 -> Client Secret 키
+    client-id: ENC(BXCwf0NtueMIhhv565w/js6mYPVy/ydnEixfuH4untZmrP3mi6qKEPCRUvPYZSTQ)   # REST API 키
+    client-secret: ENC(Vt6Pop34W0MzRbM/vmr0uqASBu2KA78aqShRqWv7weGoNHzwkayNeCkxo11QeeTP) # 보안 -> Client Secret 키
     redirect-uri: http://${server.base-url}:8080/api/v1/oauth/kakao/login
     scope:
       - profile_nickname
@@ -99,8 +99,8 @@ oauth:
       - name
 
   naver:
-    client-id: 3QGeSObXBep3WXxw4ESY
-    client-secret: SEVwE5KS95
+    client-id: ENC(+VjRqdSmB6m1Jvl1ZJGJRW+bTtY4tJNh123J0sHB4QU=)
+    client-secret: ENC(0BeyGmHNDHLJW5hudtEfpEpq+0hFiGaO)
     redirect_uri: http://${server.base-url}:8080/api/v1/oauth/naver/login
     scope:
       - nickname
@@ -109,8 +109,8 @@ oauth:
       - profile_image
 
   google:
-    client_id: 750022711670-1k3malpj5m9qbtmk843bh4rdsr028vk1.apps.googleusercontent.com
-    client_secret: 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
+    client_id: ENC(cDBVfDvLY03EnW9oNtZ9XqgVTS1otEDtR+jbK/4o2cK67zN1bWTfsX/bBJNwjKW3pP2iu0LzCLwG3LUVn8AJyZb5ENsfeN3DavnK+k0SeASHOTrlvZWPxA==)
+    client_secret: ENC(FEWnh24Bb7QzhYBqVbWowEN+fJkgt0qVchd8MVcwNBwdBl8oRKn9qIz7Ff22gtNI)
     redirect_uri: http://${server.base-url}:8080/api/v1/oauth/google/login
     scope:
       - profile

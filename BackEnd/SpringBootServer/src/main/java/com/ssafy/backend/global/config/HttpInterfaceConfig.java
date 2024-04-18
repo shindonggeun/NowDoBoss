@@ -1,5 +1,6 @@
 package com.ssafy.backend.global.config;
 
+import com.ssafy.backend.global.component.oauth.vendor.google.client.GoogleApiClient;
 import com.ssafy.backend.global.component.oauth.vendor.kakao.client.KakaoApiClient;
 import com.ssafy.backend.global.component.oauth.vendor.naver.client.NaverApiClient;
 import org.springframework.context.annotation.Bean;
@@ -40,10 +41,10 @@ public class HttpInterfaceConfig {
      *
      * @return 구글 API를 사용하기 위한 프록시 인터페이스
      */
-//    @Bean
-//    public GoogleApiClient googleApiClient() {
-//        return createHttpInterface(GoogleApiClient.class);
-//    }
+    @Bean
+    public GoogleApiClient googleApiClient() {
+        return createHttpInterface(GoogleApiClient.class);
+    }
 
     /**
      * 지정된 HTTP 인터페이스 클래스에 대한 프록시 클라이언트를 생성합니다.

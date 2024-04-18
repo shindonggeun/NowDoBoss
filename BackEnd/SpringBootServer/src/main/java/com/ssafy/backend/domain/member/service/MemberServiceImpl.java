@@ -73,7 +73,8 @@ public class MemberServiceImpl implements MemberService {
                 member.getName(),
                 member.getNickname(),
                 member.getProfileImage(),
-                member.getRole()
+                member.getRole(),
+                member.getOAuthDomain()
         );
     }
 

@@ -85,3 +85,25 @@ jwt:
 app:
   firebase-configuration-file: classpath:serviceAccountKey.json
   firebase-bucket: ENC(kEjE5eNrPFCEldmd4VOt0mXnXI2qkPVNJIhOBdW8K60=)
+
+# OAUTH2.0 Setting
+oauth:
+  kakao:
+    client-id: aee5bb0ec532e9077c7a29b619deff30   # REST API 키
+    client-secret: bjHn0xWsua3bd4R6s54wuHMDm51EA3XB # 보안 -> Client Secret 키
+    redirect-uri: http://${server.base-url}:5173/member/loading/kakao
+    scope:
+      - profile_nickname
+      - profile_image
+      - account_email
+      - name
+
+  naver:
+    client-id: 3QGeSObXBep3WXxw4ESY
+    client-secret: SEVwE5KS95
+    redirect_uri: http://${server.base-url}:8080/api/v1/oauth/naver/login
+    scope:
+      - nickname
+      - name
+      - email
+      - profile_image

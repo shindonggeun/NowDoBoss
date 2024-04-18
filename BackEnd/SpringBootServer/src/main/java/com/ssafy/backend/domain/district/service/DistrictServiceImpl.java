@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.district.service;
 
 import com.ssafy.backend.domain.district.dto.*;
 import com.ssafy.backend.domain.district.dto.response.*;
+import com.ssafy.backend.domain.district.entity.ChangeDistrict;
 import com.ssafy.backend.domain.district.repository.ChangeDistrictRepository;
 import com.ssafy.backend.domain.district.repository.FootTrafficDistrictRepository;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
@@ -90,6 +91,13 @@ public class DistrictServiceImpl implements DistrictService {
         return new DistrictTopFiveResponse(footTrafficResponseList, salesResponseList, openedStoreResponseList, closedStoreResponseList);
     //    return null;
     }
+
+    public ChangeIndicatorDistrictResponse getChangeIndicatorDistrict(String districtCode) {
+        ChangeDistrict changeDistrict = changeDistrictRepository.getChangeIndicatorDistrictByDistrictCodeAndPeriodCode(districtCode);
+        return new ChangeIndicatorDistrictResponse(changeDistrict.getChangeIndicator(), changeDistrict.getChangeIndicatorName(), changeDistrict.getOpenedMonths(), changeDistrict.getClosedMonths());
+    }
+
+
 
     public List<FootTrafficDistrictTopFiveInfo> getTopFiveFootTrafficDistrictByPeriodCode() {
         Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴

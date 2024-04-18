@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.district.controller;
 
 import com.ssafy.backend.domain.district.dto.response.DistrictTopFiveResponse;
 import com.ssafy.backend.domain.district.service.DistrictService;
+import com.ssafy.backend.global.common.dto.Message;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,8 @@ public class DistrictController {
             description = "유동인구, 매출, 개업률, 폐업률 Top 5 리스트를 제공하는 기능입니다."
     )
     @GetMapping("")
-    public ResponseEntity<DistrictTopFiveResponse> getTopFiveDistricts() {
+    public ResponseEntity<Message<DistrictTopFiveResponse>> getTopFiveDistricts() {
         System.out.println("top5 가져오기!");
-        return ResponseEntity.status(200).body(districtService.getTopFiveDistricts());
+        return ResponseEntity.ok().body(Message.success(districtService.getTopFiveDistricts()));
     }
 }

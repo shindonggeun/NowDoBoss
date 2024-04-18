@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.member.entity;
 import com.ssafy.backend.domain.member.dto.MemberUpdateRequest;
 import com.ssafy.backend.domain.member.entity.enums.MemberRole;
 import com.ssafy.backend.global.common.entity.BaseEntity;
+import com.ssafy.backend.global.component.oauth.vendor.enums.OAuthDomain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -43,9 +44,14 @@ public class Member extends BaseEntity {
     private String profileImage;
 
     @Comment("권한")
-    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private MemberRole role;
+
+    @Column(name = "provider")
+    @Enumerated(EnumType.STRING)
+    @Comment("소셜 로그인 제공업체")
+    private OAuthDomain oAuthDomain;
 
     public void updateProfileImageAndNickname(MemberUpdateRequest updateRequest) {
         this.nickname = updateRequest.nickname();

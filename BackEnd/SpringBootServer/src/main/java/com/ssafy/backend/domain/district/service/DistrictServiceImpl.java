@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.district.service;
 import com.ssafy.backend.domain.district.dto.*;
 import com.ssafy.backend.domain.district.dto.response.*;
 import com.ssafy.backend.domain.district.entity.ChangeDistrict;
+import com.ssafy.backend.domain.district.entity.FootTrafficDistrict;
 import com.ssafy.backend.domain.district.repository.ChangeDistrictRepository;
 import com.ssafy.backend.domain.district.repository.FootTrafficDistrictRepository;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
@@ -92,9 +93,57 @@ public class DistrictServiceImpl implements DistrictService {
     //    return null;
     }
 
-    public ChangeIndicatorDistrictResponse getChangeIndicatorDistrict(String districtCode) {
+    public DistrictDetailResponse getDistrictDetail(String districtCode) {
+        // 상권 변화 지표 관련
         ChangeDistrict changeDistrict = changeDistrictRepository.getChangeIndicatorDistrictByDistrictCodeAndPeriodCode(districtCode);
-        return new ChangeIndicatorDistrictResponse(changeDistrict.getChangeIndicator(), changeDistrict.getChangeIndicatorName(), changeDistrict.getOpenedMonths(), changeDistrict.getClosedMonths());
+        ChangeIndicatorDistrictResponse changeIndicatorDistrictResponse = new ChangeIndicatorDistrictResponse(changeDistrict.getChangeIndicator(), changeDistrict.getChangeIndicatorName(), changeDistrict.getOpenedMonths(), changeDistrict.getClosedMonths());
+
+        // 유동인구 관련
+        List<FootTrafficDistrict> footTrafficDetailList = footTrafficDistrictRepository.getFootTrafficDistrictDetail(districtCode);
+        List<Long> footTrafficDistrictListByPeriod = new ArrayList<>();
+        List<Long> footTrafficDistrictListByTime = new ArrayList<>();
+        List<Long> footTrafficDistrictListByGender = new ArrayList<>();
+        List<Long> footTrafficDistrictListByAge = new ArrayList<>();
+        List<Long> footTrafficDistrictListByDay = new ArrayList<>();
+
+        for (FootTrafficDistrict footTrafficDistrict: footTrafficDetailList){
+            // 총 유동인구
+            footTrafficDistrictListByPeriod.add(footTrafficDistrict.getTotalFootTraffic());
+
+            if (footTrafficDistrict.getPeriodCode().equals("20233")){
+                // 시간대별
+                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic00());
+                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic06());
+                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic11());
+                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic14());
+                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic17());
+                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic21());
+
+                // 남녀
+                footTrafficDistrictListByGender.add(footTrafficDistrict.getMaleFootTraffic());
+                footTrafficDistrictListByGender.add(footTrafficDistrict.getFemaleFootTraffic());
+
+                // 연령대별
+                footTrafficDistrictListByAge.add(footTrafficDistrict.getTeenFootTraffic());
+                footTrafficDistrictListByAge.add(footTrafficDistrict.getTwentyFootTraffic());
+                footTrafficDistrictListByAge.add(footTrafficDistrict.getThirtyFootTraffic());
+                footTrafficDistrictListByAge.add(footTrafficDistrict.getFortyFootTraffic());
+                footTrafficDistrictListByAge.add(footTrafficDistrict.getFiftyFootTraffic());
+                footTrafficDistrictListByAge.add(footTrafficDistrict.getSixtyFootTraffic());
+
+                // 요일별
+                footTrafficDistrictListByDay.add(footTrafficDistrict.getMonFootTraffic());
+                footTrafficDistrictListByDay.add(footTrafficDistrict.getTueFootTraffic());
+                footTrafficDistrictListByDay.add(footTrafficDistrict.getWedFootTraffic());
+                footTrafficDistrictListByDay.add(footTrafficDistrict.getThuFootTraffic());
+                footTrafficDistrictListByDay.add(footTrafficDistrict.getFriFootTraffic());
+                footTrafficDistrictListByDay.add(footTrafficDistrict.getSatFootTraffic());
+                footTrafficDistrictListByDay.add(footTrafficDistrict.getSunFootTraffic());
+            }
+        }
+        FootTrafficDistrictDetailResponse footTrafficDistrictDetailResponse = new FootTrafficDistrictDetailResponse(footTrafficDistrictListByPeriod, footTrafficDistrictListByTime, footTrafficDistrictListByGender, footTrafficDistrictListByAge, footTrafficDistrictListByDay);
+
+        return new DistrictDetailResponse(changeIndicatorDistrictResponse, footTrafficDistrictDetailResponse);
     }
 
 

@@ -1,5 +1,9 @@
 package com.ssafy.backend.domain.district.service;
 
+import com.ssafy.backend.domain.administration.dto.ClosedStoreAdministrationTopFiveInfo;
+import com.ssafy.backend.domain.administration.dto.OpenedStoreAdministrationTopFiveInfo;
+import com.ssafy.backend.domain.administration.entity.StoreAdministration;
+import com.ssafy.backend.domain.administration.repository.StoreAdministrationRepository;
 import com.ssafy.backend.domain.district.dto.*;
 import com.ssafy.backend.domain.district.dto.response.*;
 import com.ssafy.backend.domain.district.entity.ChangeDistrict;
@@ -26,6 +30,7 @@ public class DistrictServiceImpl implements DistrictService {
     private final SalesDistrictRepository salesDistrictRepository;
     private final StoreDistrictRepository storeDistrictRepository;
     private final ChangeDistrictRepository changeDistrictRepository;
+    private final StoreAdministrationRepository storeAdministrationRepository;
 
     @Override
     public DistrictTopFiveResponse getTopFiveDistricts() {
@@ -143,7 +148,26 @@ public class DistrictServiceImpl implements DistrictService {
         }
         FootTrafficDistrictDetailResponse footTrafficDistrictDetailResponse = new FootTrafficDistrictDetailResponse(footTrafficDistrictListByPeriod, footTrafficDistrictListByTime, footTrafficDistrictListByGender, footTrafficDistrictListByAge, footTrafficDistrictListByDay);
 
-        return new DistrictDetailResponse(changeIndicatorDistrictResponse, footTrafficDistrictDetailResponse);
+        // 점포 관련
+        // 매출 Top 8 서비스 업종, 업종 코드명, 점포 개수
+        List<StoreDistrictTotalTopEightInfo> storeDistrictTotalTopEightList = getTopEightTotalStoreByServiceCode(districtCode);
+
+        // 지역구 코드로 해당 지역구에 속하는 행정동 코드 리스트 가져오기
+        List<String> allAdministrationCodes = new ArrayList<>();
+        allAdministrationCodes.add("11500591");
+        allAdministrationCodes.add("11500550");
+        allAdministrationCodes.add("11500535");
+
+        List<String> topFiveOpenedAdministrations = getTopFiveOpenedStoreAdministrationCodeByDistrictCode(allAdministrationCodes);
+        List<String> topFiveClosedAdministrations = getTopFiveClosedStoreAdministrationCodeByDistrictCode(allAdministrationCodes);
+
+        // 개업률 top 5 행정동
+        List<OpenedStoreAdministrationTopFiveInfo> openedStoreAdministrationTopFiveList = storeAdministrationRepository.getTopFiveOpenedRateAdministration(topFiveOpenedAdministrations);
+        // 폐업률 top 5 행정동
+        List<ClosedStoreAdministrationTopFiveInfo> closedStoreAdministrationTopFiveList = storeAdministrationRepository.getTopFiveClosedRateAdministration(topFiveClosedAdministrations);
+
+        StoreDistrictDetailResponse storeDistrictDetailResponse = new StoreDistrictDetailResponse(storeDistrictTotalTopEightList, openedStoreAdministrationTopFiveList, closedStoreAdministrationTopFiveList);
+        return new DistrictDetailResponse(changeIndicatorDistrictResponse, footTrafficDistrictDetailResponse, storeDistrictDetailResponse);
     }
 
 
@@ -169,6 +193,24 @@ public class DistrictServiceImpl implements DistrictService {
     public List<String> getTopFiveClosedStoreDistrictCodeNameByPeriodCode() {
         Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
         Page<String> page = storeDistrictRepository.getTopFiveClosedStoreDistrictCodeNameByPeriodCode(pageable);
+        return new ArrayList<>(page.getContent());
+    }
+
+    public List<StoreDistrictTotalTopEightInfo> getTopEightTotalStoreByServiceCode(String districtCode) {
+        Pageable pageable = PageRequest.of(0, 8); // 첫 번째 페이지에서 5개의 결과만 가져옴
+        Page<StoreDistrictTotalTopEightInfo> page = storeDistrictRepository.getTopEightTotalStoreByServiceCode(districtCode, pageable);
+        return new ArrayList<>(page.getContent());
+    }
+
+    public List<String> getTopFiveOpenedStoreAdministrationCodeByDistrictCode(List<String> allAdministrationCodes) {
+        Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
+        Page<String> page = storeAdministrationRepository.getTopFiveOpenedStoreAdministrationByAdministrationCode(allAdministrationCodes, pageable);
+        return new ArrayList<>(page.getContent());
+    }
+
+    public List<String> getTopFiveClosedStoreAdministrationCodeByDistrictCode(List<String> allAdministrationCodes) {
+        Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
+        Page<String> page = storeAdministrationRepository.getTopFiveClosedStoreAdministrationByAdministrationCode(allAdministrationCodes, pageable);
         return new ArrayList<>(page.getContent());
     }
 }

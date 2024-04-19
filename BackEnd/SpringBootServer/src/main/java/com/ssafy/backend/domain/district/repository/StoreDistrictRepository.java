@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.district.repository;
 import com.ssafy.backend.domain.district.dto.ClosedStoreDistrictTopFiveInfo;
 import com.ssafy.backend.domain.district.dto.OpenedStoreDistrictTopFiveInfo;
 import com.ssafy.backend.domain.district.dto.SalesDistrictTopFiveInfo;
+import com.ssafy.backend.domain.district.dto.StoreDistrictTotalTopEightInfo;
 import com.ssafy.backend.domain.district.entity.StoreDistrict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +40,11 @@ public interface StoreDistrictRepository extends JpaRepository<StoreDistrict, Lo
             "GROUP BY s.districtCodeName " +
             "ORDER BY (SUM(CASE WHEN s.periodCode = '20233' THEN s.closedStore ELSE 0 END) / SUM(CASE WHEN s.periodCode = '20233' THEN s.totalStore ELSE 0 END)) DESC")
     List<ClosedStoreDistrictTopFiveInfo> getTopFiveClosedStoreDistrictByPeriodCode(List<String> districtNames);
+
+    @Query("SELECT new com.ssafy.backend.domain.district.dto.StoreDistrictTotalTopEightInfo(" +
+            "s.serviceCode, s.serviceCodeName, s.totalStore) " +
+            "FROM StoreDistrict s WHERE s.periodCode = '20233' AND s.districtCode = :districtCode AND s.serviceType IS NOT NULL ORDER BY s.totalStore")
+    Page<StoreDistrictTotalTopEightInfo> getTopEightTotalStoreByServiceCode(@Param("districtCode")String districtCode, Pageable pageable);
 
     @Query("SELECT s.districtCodeName " +
             "FROM StoreDistrict s " +

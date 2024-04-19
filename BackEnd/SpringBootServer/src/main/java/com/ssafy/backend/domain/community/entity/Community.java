@@ -9,7 +9,7 @@ import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Community extends BaseEntity {

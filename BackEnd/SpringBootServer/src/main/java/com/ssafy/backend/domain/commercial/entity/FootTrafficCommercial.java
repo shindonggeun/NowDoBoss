@@ -9,6 +9,9 @@ import org.hibernate.annotations.Comment;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {
+        @Index(name = "idx_period_code", columnList = "periodCode")
+})
 public class FootTrafficCommercial {
 
     @Id

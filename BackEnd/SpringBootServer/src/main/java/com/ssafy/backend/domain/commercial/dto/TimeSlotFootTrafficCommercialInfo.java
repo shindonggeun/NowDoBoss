@@ -4,7 +4,7 @@ package com.ssafy.backend.domain.commercial.dto;
  * 시간대별 유동 인구 정보를 나타내는 record입니다.
  * 각 시간대별로 인구 수를 나타내며, 각 필드는 특정 시간대의 유동 인구 수를 포함합니다.
  */
-public record TimeSlotCommercialInfo(
+public record TimeSlotFootTrafficCommercialInfo(
         Long footTraffic00, // 새벽 시간대 (00:00 ~ 06:00)의 유동 인구 수
         Long footTraffic06, // 아침 시간대 (06:00 ~ 11:00)의 유동 인구 수
         Long footTraffic11, // 점심 시간대 (11:00 ~ 14:00)의 유동 인구 수

@@ -7,14 +7,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OpenedStoreDistrictTopFiveInfo {
+public class ClosedStoreDistrictTopTenInfo {
+    private String districtCode;
+
     private String districtCodeName;
 
     private Long curTotalStore;
 
-    private Long curOpenedStore;
+    private Long curClosedStore;
 
     private Long prevTotalStore;
 
-    private Long prevOpenedStore;
+    private Long prevClosedStore;
 }

@@ -3,7 +3,8 @@ package com.ssafy.backend.domain.district.dto.response;
 import lombok.Builder;
 
 @Builder
-public record SalesDistrictTopFiveResponse(
+public record SalesDistrictTopTenResponse(
+        String districtCode,
         String districtCodeName,
         Long totalMonthSales,
         Float totalMonthSalesChangeRate

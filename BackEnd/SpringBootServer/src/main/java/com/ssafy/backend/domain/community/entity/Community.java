@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder(toBuilder = true)
@@ -33,7 +36,7 @@ public class Community extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(65)", nullable = false)
     private String title;
 
-    @Comment("내용")
+    @Comment("커뮤니티 글 내용")
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
@@ -41,4 +44,6 @@ public class Community extends BaseEntity {
     @Column(columnDefinition = "INT UNSIGNED", nullable = false)
     private int readCount;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images = new ArrayList<>();
 }

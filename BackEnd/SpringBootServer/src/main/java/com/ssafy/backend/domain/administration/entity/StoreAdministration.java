@@ -46,6 +46,10 @@ public class StoreAdministration {
     @Column(columnDefinition = "INT UNSIGNED")
     private Long totalStore;
 
+    @Comment("유사 업종 점포 수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long similarStore;
+
     @Comment("개업 점포 수")
     @Column(columnDefinition = "INT UNSIGNED")
     private Long openedStore;
@@ -53,6 +57,10 @@ public class StoreAdministration {
     @Comment("폐업 점포 수")
     @Column(columnDefinition = "INT UNSIGNED")
     private Long closedStore;
+
+    @Comment("프랜차이즈 점포 수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long franchiseStore;
 
     @Comment("개업률")
     @Column(columnDefinition = "Float")

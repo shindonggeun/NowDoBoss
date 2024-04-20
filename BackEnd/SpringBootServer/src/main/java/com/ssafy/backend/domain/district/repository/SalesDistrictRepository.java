@@ -1,6 +1,8 @@
 package com.ssafy.backend.domain.district.repository;
 
+import com.ssafy.backend.domain.district.dto.SalesDistrictMonthSalesTopFiveInfo;
 import com.ssafy.backend.domain.district.dto.SalesDistrictTopTenInfo;
+import com.ssafy.backend.domain.district.dto.StoreDistrictTotalTopEightInfo;
 import com.ssafy.backend.domain.district.entity.SalesDistrict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,10 +26,16 @@ public interface SalesDistrictRepository extends JpaRepository<SalesDistrict, Lo
             "ORDER BY SUM(CASE WHEN sd.periodCode = '20232' THEN sd.monthSales ELSE 0 END) DESC")
     List<SalesDistrictTopTenInfo> getTopTenSalesDistrictByPeriodCode(@Param("districtNames") List<String> districtNames);
 
+    @Query("SELECT new com.ssafy.backend.domain.district.dto.SalesDistrictMonthSalesTopFiveInfo(" +
+            "s.serviceCode, s.serviceCodeName, s.monthSales) " +
+            "FROM SalesDistrict s WHERE s.periodCode = '20233' AND s.districtCode = :districtCode AND s.serviceType IS NOT NULL ORDER BY s.monthSales DESC")
+    Page<SalesDistrictMonthSalesTopFiveInfo> getTopFiveMonthSalesByServiceCode(@Param("districtCode")String districtCode, Pageable pageable);
+
     @Query("SELECT s.districtCodeName " +
             "FROM SalesDistrict s " +
             "WHERE s.periodCode = '20233' " +
             "GROUP BY s.districtCodeName " +
             "ORDER BY SUM(s.monthSales) DESC")
     Page<String> getTopTenSalesDistrictCodeNameByPeriodCode(Pageable pageable);
+
 }

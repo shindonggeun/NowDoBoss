@@ -1,7 +1,7 @@
 package com.ssafy.backend.domain.district.service;
 
-import com.ssafy.backend.domain.administration.dto.ClosedStoreAdministrationTopFiveInfo;
-import com.ssafy.backend.domain.administration.dto.OpenedStoreAdministrationTopFiveInfo;
+import com.ssafy.backend.domain.administration.dto.*;
+import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.administration.repository.StoreAdministrationRepository;
 import com.ssafy.backend.domain.district.dto.*;
 import com.ssafy.backend.domain.district.dto.response.*;
@@ -30,6 +30,7 @@ public class DistrictServiceImpl implements DistrictService {
     private final StoreDistrictRepository storeDistrictRepository;
     private final ChangeDistrictRepository changeDistrictRepository;
     private final StoreAdministrationRepository storeAdministrationRepository;
+    private final SalesAdministrationRepository salesAdministrationRepository;
 
     @Override
     public DistrictTopTenResponse getTopTenDistricts() {
@@ -155,22 +156,60 @@ public class DistrictServiceImpl implements DistrictService {
         // 매출 Top 8 서비스 업종, 업종 코드명, 점포 개수
         List<StoreDistrictTotalTopEightInfo> storeDistrictTotalTopEightList = getTopEightTotalStoreByServiceCode(districtCode);
 
-        // 지역구 코드로 해당 지역구에 속하는 행정동 코드 리스트 가져오기
+        // 지역구 코드로 해당 지역구에 속하는 행정동 코드 리스트 가져오기 - 지금은 우선 강서구 행정동들 직접 입력함
         List<String> allAdministrationCodes = new ArrayList<>();
         allAdministrationCodes.add("11500591");
         allAdministrationCodes.add("11500550");
         allAdministrationCodes.add("11500535");
+        allAdministrationCodes.add("11500605");
+        allAdministrationCodes.add("11500540");
+        allAdministrationCodes.add("11500560");
+        allAdministrationCodes.add("11500570");
 
         List<String> topFiveOpenedAdministrations = getTopFiveOpenedStoreAdministrationCodeByDistrictCode(allAdministrationCodes);
         List<String> topFiveClosedAdministrations = getTopFiveClosedStoreAdministrationCodeByDistrictCode(allAdministrationCodes);
 
         // 개업률 top 5 행정동
         List<OpenedStoreAdministrationTopFiveInfo> openedStoreAdministrationTopFiveList = storeAdministrationRepository.getTopFiveOpenedRateAdministration(topFiveOpenedAdministrations);
+        List<OpenedStoreAdministrationTopFiveResponse> openedStoreAdministrationTopFive = new ArrayList<>();
+        for (OpenedStoreAdministrationTopFiveInfo openedStoreAdministrationTopFiveInfo: openedStoreAdministrationTopFiveList){
+            OpenedStoreAdministrationTopFiveResponse openedStoreAdministrationTopFiveResponse = new OpenedStoreAdministrationTopFiveResponse(
+                    openedStoreAdministrationTopFiveInfo.getAdministrationCode(),
+                    openedStoreAdministrationTopFiveInfo.getAdministrationCodeName(),
+                    openedStoreAdministrationTopFiveInfo.getCurTotalStore(),
+                    openedStoreAdministrationTopFiveInfo.getCurOpenedStore(),
+                    openedStoreAdministrationTopFiveInfo.getCurOpenedStore() / (float) openedStoreAdministrationTopFiveInfo.getCurTotalStore()*100
+            );
+            openedStoreAdministrationTopFive.add(openedStoreAdministrationTopFiveResponse);
+        }
+
         // 폐업률 top 5 행정동
         List<ClosedStoreAdministrationTopFiveInfo> closedStoreAdministrationTopFiveList = storeAdministrationRepository.getTopFiveClosedRateAdministration(topFiveClosedAdministrations);
+        List<ClosedStoreAdministrationTopFiveResponse> closedStoreAdministrationTopFive = new ArrayList<>();
+        for (ClosedStoreAdministrationTopFiveInfo closedStoreAdministrationTopFiveInfo: closedStoreAdministrationTopFiveList){
+            ClosedStoreAdministrationTopFiveResponse closedStoreAdministrationTopFiveResponse = new ClosedStoreAdministrationTopFiveResponse(
+                    closedStoreAdministrationTopFiveInfo.getAdministrationCode(),
+                    closedStoreAdministrationTopFiveInfo.getAdministrationCodeName(),
+                    closedStoreAdministrationTopFiveInfo.getCurTotalStore(),
+                    closedStoreAdministrationTopFiveInfo.getCurClosedStore(),
+                    closedStoreAdministrationTopFiveInfo.getCurClosedStore() / (float) closedStoreAdministrationTopFiveInfo.getCurTotalStore()*100
+            );
+            closedStoreAdministrationTopFive.add(closedStoreAdministrationTopFiveResponse);
+        }
 
-        StoreDistrictDetailResponse storeDistrictDetailResponse = new StoreDistrictDetailResponse(storeDistrictTotalTopEightList, openedStoreAdministrationTopFiveList, closedStoreAdministrationTopFiveList);
-        return new DistrictDetailResponse(changeIndicatorDistrictResponse, footTrafficDistrictDetailResponse, storeDistrictDetailResponse);
+        StoreDistrictDetailResponse storeDistrictDetailResponse = new StoreDistrictDetailResponse(storeDistrictTotalTopEightList, openedStoreAdministrationTopFive, closedStoreAdministrationTopFive);
+
+        // 매출 관련 상세 분석
+        // 서비스 업종별 매출 Top 5
+        List<SalesDistrictMonthSalesTopFiveInfo> salesDistrictMonthSalesTopFiveInfoList = getTopFiveMonthSalesByServiceCode(districtCode);
+        // 해당 자치구 행정동 매출 Top 5
+        List<String> topFiveSalesAdministrations = getTopFiveSalesAdministrationByAdministrationCode(allAdministrationCodes);
+        List<SalesAdministrationTopFiveInfo> salesAdministrationTopFiveList = salesAdministrationRepository.getTopFiveSalesAdministrationByAdministrationCode(topFiveSalesAdministrations);
+
+        SalesDistrictDetailResponse salesDistrictDetailResponse = new SalesDistrictDetailResponse(salesDistrictMonthSalesTopFiveInfoList, salesAdministrationTopFiveList);
+
+
+        return new DistrictDetailResponse(changeIndicatorDistrictResponse, footTrafficDistrictDetailResponse, storeDistrictDetailResponse, salesDistrictDetailResponse);
     }
 
 
@@ -214,6 +253,18 @@ public class DistrictServiceImpl implements DistrictService {
     public List<String> getTopFiveClosedStoreAdministrationCodeByDistrictCode(List<String> allAdministrationCodes) {
         Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
         Page<String> page = storeAdministrationRepository.getTopFiveClosedStoreAdministrationByAdministrationCode(allAdministrationCodes, pageable);
+        return new ArrayList<>(page.getContent());
+    }
+
+    public List<SalesDistrictMonthSalesTopFiveInfo> getTopFiveMonthSalesByServiceCode(String districtCode) {
+        Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
+        Page<SalesDistrictMonthSalesTopFiveInfo> page = salesDistrictRepository.getTopFiveMonthSalesByServiceCode(districtCode, pageable);
+        return new ArrayList<>(page.getContent());
+    }
+
+    public List<String> getTopFiveSalesAdministrationByAdministrationCode(List<String> allAdministrationCodes) {
+        Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
+        Page<String> page = salesAdministrationRepository.getTopFiveSalesAdministrations(allAdministrationCodes, pageable);
         return new ArrayList<>(page.getContent());
     }
 }

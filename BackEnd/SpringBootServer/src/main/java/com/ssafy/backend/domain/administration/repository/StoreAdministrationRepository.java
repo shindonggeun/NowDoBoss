@@ -50,4 +50,6 @@ public interface StoreAdministrationRepository extends JpaRepository<StoreAdmini
             "GROUP BY s.administrationCode " +
             "ORDER BY (SUM(s.closedStore) / SUM(s.totalStore)) DESC")
     Page<String> getTopFiveClosedStoreAdministrationByAdministrationCode(@Param("administrationCodes")List<String> administrationCodes, Pageable pageable);
+
+
 }

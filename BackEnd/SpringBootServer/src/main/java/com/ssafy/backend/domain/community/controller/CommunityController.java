@@ -44,7 +44,7 @@ public class CommunityController {
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> createComment(@AuthenticationPrincipal MemberLoginActive loginActive,
                                                        @PathVariable Long communityId,
-                                                       @RequestBody CreateCommentRequest request) {
+                                                       @Validated @RequestBody CreateCommentRequest request) {
         commentService.createComment(loginActive.id(), communityId, request.content());
         return ResponseEntity.ok().body(Message.success());
     }

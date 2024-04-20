@@ -30,7 +30,7 @@ public class Community extends BaseEntity {
     private Category category;
 
     @Comment("제목")
-    @Column(columnDefinition = "VARCHAR(30)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(65)", nullable = false)
     private String title;
 
     @Comment("내용")

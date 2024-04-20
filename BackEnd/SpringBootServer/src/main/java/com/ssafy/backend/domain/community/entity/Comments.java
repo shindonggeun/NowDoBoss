@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.comment.entity;
+package com.ssafy.backend.domain.community.entity;
 
 import com.ssafy.backend.domain.community.entity.Community;
 import com.ssafy.backend.domain.member.entity.Member;

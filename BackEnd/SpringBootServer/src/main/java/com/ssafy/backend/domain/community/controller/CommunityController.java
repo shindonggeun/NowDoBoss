@@ -1,5 +1,7 @@
 package com.ssafy.backend.domain.community.controller;
 
+import com.ssafy.backend.domain.community.dto.CreateCommentRequest;
+import com.ssafy.backend.domain.community.service.CommentService;
 import com.ssafy.backend.domain.community.dto.CreateCommunityRequest;
 import com.ssafy.backend.domain.community.service.CommunityService;
 import com.ssafy.backend.global.common.dto.Message;
@@ -11,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "커뮤니티", description = "커뮤니티 관련 API 입니다.")
 @RestController
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/community")
 public class CommunityController {
     private final CommunityService communityService;
+    private final CommentService commentService;
 
     @Operation(
             summary = "게시글 작성",
@@ -33,6 +33,19 @@ public class CommunityController {
                                           @Validated @RequestBody CreateCommunityRequest request) {
 
         communityService.createCommunity(loginActive.id(), request);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "댓글 작성",
+            description = "커뮤니티 댓글을 작성하는 기능입니다."
+    )
+    @PostMapping("/{communityId}/comment")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<Void>> createComment(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                       @PathVariable Long communityId,
+                                                       @RequestBody CreateCommentRequest request) {
+        commentService.createComment(loginActive.id(), communityId, request.content());
         return ResponseEntity.ok().body(Message.success());
     }
 }

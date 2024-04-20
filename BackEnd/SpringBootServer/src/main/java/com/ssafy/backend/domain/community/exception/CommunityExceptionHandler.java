@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.community.exception;
 
+import com.ssafy.backend.domain.member.exception.MemberException;
 import com.ssafy.backend.global.common.dto.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,5 +28,11 @@ public class CommunityExceptionHandler {
         });
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Message.fail("validError", errors));
+    }
+
+    @ExceptionHandler(CommunityException.class)
+    public ResponseEntity<Message<Void>> memberException(CommunityException e) {
+        log.error("커뮤니티 글 관련 오류: {}", e.getMessage());
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(Message.fail(null, e.getErrorCode().getErrorMessage()));
     }
 }

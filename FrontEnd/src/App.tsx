@@ -1,7 +1,8 @@
 import { CookiesProvider } from 'react-cookie'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import MainPage from '@src/pages/MainPage.tsx'
 import Header from '@src/common/Header.tsx'
+import MainPage from '@src/pages/MainPage.tsx'
+import SignUpPage from '@src/pages/SignUpPage.tsx'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/register" element={<SignUpPage />} />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

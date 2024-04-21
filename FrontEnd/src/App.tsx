@@ -1,16 +1,18 @@
 import { CookiesProvider } from 'react-cookie'
-import {BrowserRouter, Route, Routes } from "react-router-dom";
-import MainPage from "@src/pages/MainPage.tsx";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import MainPage from '@src/pages/MainPage.tsx'
+import Header from '@src/common/Header.tsx'
 
 function App() {
   return (
-      <CookiesProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-          </Routes>
-        </BrowserRouter>
-      </CookiesProvider>
+    <CookiesProvider>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+        </Routes>
+      </BrowserRouter>
+    </CookiesProvider>
   )
 }
 

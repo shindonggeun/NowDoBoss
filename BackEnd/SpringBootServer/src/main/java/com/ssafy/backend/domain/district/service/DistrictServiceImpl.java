@@ -271,9 +271,9 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     @Override
-    public List<DistrictInfo> getAllDistricts() {
+    public List<DistrictAreaResponse> getAllDistricts() {
         return areaDistrictRepository.findAll().stream()
-                .map(ad -> new DistrictInfo(ad.getDistrictCode(), ad.getDistrictCodeName()))
+                .map(ad -> new DistrictAreaResponse(ad.getDistrictCode(), ad.getDistrictCodeName()))
                 .collect(Collectors.toList());
     }
 }

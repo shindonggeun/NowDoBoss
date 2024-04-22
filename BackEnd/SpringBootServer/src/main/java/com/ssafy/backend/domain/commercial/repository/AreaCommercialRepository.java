@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface AreaCommercialRepository extends JpaRepository<AreaCommercial, Long> {
     List<AreaCommercial> findAllByDistrictCode(String districtCode);
+
+    List<AreaCommercial> findByAdministrationCode(String administrationCode);
 }

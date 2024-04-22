@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.commercial.service;
 
-import com.ssafy.backend.domain.commercial.dto.AdministrativeAreaCommercialResponse;
+import com.ssafy.backend.domain.commercial.dto.CommercialAdministrationAreaResponse;
+import com.ssafy.backend.domain.commercial.dto.CommercialAreaResponse;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
 import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +20,31 @@ public class CommercialServiceImpl implements CommercialService {
     private final AreaCommercialRepository areaCommercialRepository;
 
     @Override
-    public List<AdministrativeAreaCommercialResponse> getAdministrativeAreasByDistrict(String districtCode) {
+    @Transactional(readOnly = true)
+    public List<CommercialAdministrationAreaResponse> getAdministrativeAreasByDistrict(String districtCode) {
         List<AreaCommercial> areaCommercialList = areaCommercialRepository.findAllByDistrictCode(districtCode);
         return areaCommercialList.stream()
-                .map(ac -> new AdministrativeAreaCommercialResponse(ac.getAdministrationCodeName(), ac.getAdministrationCode()))
+                .map(ac -> new CommercialAdministrationAreaResponse(
+                        ac.getAdministrationCodeName(),
+                        ac.getAdministrationCode())
+                )
                 .distinct() // 중복 제거
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CommercialAreaResponse> getCommercialAreasByAdministrationCode(String administrationCode) {
+        List<AreaCommercial> areaCommercialList = areaCommercialRepository.findByAdministrationCode(administrationCode);
+        return areaCommercialList.stream()
+                .map(ac -> new CommercialAreaResponse(
+                        ac.getCommercialCode(),
+                        ac.getCommercialCodeName(),
+                        ac.getCommercialClassificationCode(),
+                        ac.getCommercialClassificationCodeName())
+                )
+                .collect(Collectors.toList());
+    }
+
+
 }

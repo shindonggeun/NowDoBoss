@@ -1,5 +1,7 @@
 package com.ssafy.backend.domain.community.controller;
 
+import com.ssafy.backend.domain.community.dto.CommunityListRequest;
+import com.ssafy.backend.domain.community.dto.CommunityListResponse;
 import com.ssafy.backend.domain.community.dto.CreateCommentRequest;
 import com.ssafy.backend.domain.community.service.CommentService;
 import com.ssafy.backend.domain.community.dto.CreateCommunityRequest;
@@ -14,6 +16,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "커뮤니티", description = "커뮤니티 관련 API 입니다.")
 @RestController
@@ -35,6 +39,16 @@ public class CommunityController {
         communityService.createCommunity(loginActive.id(), request);
         return ResponseEntity.ok().body(Message.success());
     }
+
+    @Operation(
+            summary = "게시글 목록 조회",
+            description = "커뮤니티 게시글 목록을 조회하는 기능입니다."
+    )
+    @GetMapping
+    public ResponseEntity<Message<List<CommunityListResponse>>> selectCommunityList(CommunityListRequest request) {
+        return ResponseEntity.ok().body(Message.success(communityService.selectCommunityList(request)));
+    }
+
 
     @Operation(
             summary = "댓글 작성",

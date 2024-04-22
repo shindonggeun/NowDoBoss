@@ -1,8 +1,11 @@
 package com.ssafy.backend.domain.community.service;
 
+import com.ssafy.backend.domain.community.dto.CommunityListRequest;
+import com.ssafy.backend.domain.community.dto.CommunityListResponse;
 import com.ssafy.backend.domain.community.dto.CreateCommunityRequest;
 import com.ssafy.backend.domain.community.entity.Community;
 import com.ssafy.backend.domain.community.entity.Image;
+import com.ssafy.backend.domain.community.entity.enums.Category;
 import com.ssafy.backend.domain.community.repository.CommunityRepository;
 import com.ssafy.backend.domain.community.repository.ImageRepository;
 import com.ssafy.backend.domain.member.entity.Member;
@@ -44,5 +47,10 @@ public class CommunityServiceImpl implements CommunityService {
 
         imageRepository.saveAll(images);
         return community.getId();
+    }
+
+    @Override
+    public List<CommunityListResponse> selectCommunityList(CommunityListRequest request) {
+        return communityRepository.selectCommunityList(request.category(), request.lastId());
     }
 }

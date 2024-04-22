@@ -214,25 +214,25 @@ public class DistrictServiceImpl implements DistrictService {
 
 
     public List<FootTrafficDistrictTopTenInfo> getTopTenFootTrafficDistrictByPeriodCode() {
-        Pageable pageable = PageRequest.of(0, 10); // 첫 번째 페이지에서 5개의 결과만 가져옴
+        Pageable pageable = PageRequest.of(0, 25); // 첫 번째 페이지에서 5개의 결과만 가져옴
         Page<FootTrafficDistrictTopTenInfo> page =  footTrafficDistrictRepository.getTopTenFootTrafficDistrictByPeriodCode(pageable);
         return new ArrayList<>(page.getContent());
     }
 
     public List<String> getTopTenSalesDistrictCodeNameByPeriodCode() {
-        Pageable pageable = PageRequest.of(0, 10); // 첫 번째 페이지에서 5개의 결과만 가져옴
+        Pageable pageable = PageRequest.of(0, 25); // 첫 번째 페이지에서 5개의 결과만 가져옴
         Page<String> page = salesDistrictRepository.getTopTenSalesDistrictCodeNameByPeriodCode(pageable);
         return new ArrayList<>(page.getContent());
     }
 
     public List<String> getTopTenOpenedStoreDistrictCodeNameByPeriodCode() {
-        Pageable pageable = PageRequest.of(0, 10); // 첫 번째 페이지에서 5개의 결과만 가져옴
+        Pageable pageable = PageRequest.of(0, 25); // 첫 번째 페이지에서 5개의 결과만 가져옴
         Page<String> page = storeDistrictRepository.getTopTenOpenedStoreDistrictCodeNameByPeriodCode(pageable);
         return new ArrayList<>(page.getContent());
     }
 
     public List<String> getTopTenClosedStoreDistrictCodeNameByPeriodCode() {
-        Pageable pageable = PageRequest.of(0, 10); // 첫 번째 페이지에서 5개의 결과만 가져옴
+        Pageable pageable = PageRequest.of(0, 25); // 첫 번째 페이지에서 5개의 결과만 가져옴
         Page<String> page = storeDistrictRepository.getTopTenClosedStoreDistrictCodeNameByPeriodCode(pageable);
         return new ArrayList<>(page.getContent());
     }

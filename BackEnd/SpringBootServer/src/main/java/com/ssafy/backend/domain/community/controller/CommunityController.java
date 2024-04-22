@@ -8,6 +8,7 @@ import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.angus.mail.iap.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -53,6 +54,16 @@ public class CommunityController {
     @GetMapping("/{communityId}")
     public ResponseEntity<Message<CommunityResponse>> selectCommunity(@PathVariable Long communityId) {
         return ResponseEntity.ok().body(Message.success(communityService.selectCommunity(communityId)));
+    }
+
+    @Operation(
+            summary = "게시글 삭제",
+            description = "커뮤니티 게시글을 삭제하는 기능입니다."
+    )
+    @DeleteMapping("/{communityId}")
+    public ResponseEntity<Message<Void>> deleteCommunity(@PathVariable Long communityId) {
+        communityService.deleteCommunity(communityId);
+        return ResponseEntity.ok().body(Message.success());
     }
 
     @Operation(

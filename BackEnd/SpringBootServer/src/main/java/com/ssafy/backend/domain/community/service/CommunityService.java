@@ -13,4 +13,6 @@ public interface CommunityService {
     List<CommunityListResponse> selectCommunityList(CommunityListRequest request);
 
     CommunityResponse selectCommunity(Long communityId);
+
+    void deleteCommunity(Long communityId);
 }

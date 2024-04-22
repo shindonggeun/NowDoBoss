@@ -9,6 +9,7 @@ import com.ssafy.backend.domain.community.entity.Image;
 import com.ssafy.backend.domain.community.entity.enums.Category;
 import com.ssafy.backend.domain.community.exception.CommunityErrorCode;
 import com.ssafy.backend.domain.community.exception.CommunityException;
+import com.ssafy.backend.domain.community.repository.CommentRepository;
 import com.ssafy.backend.domain.community.repository.CommunityRepository;
 import com.ssafy.backend.domain.community.repository.ImageRepository;
 import com.ssafy.backend.domain.member.entity.Member;
@@ -30,6 +31,7 @@ public class CommunityServiceImpl implements CommunityService {
     private final MemberRepository memberRepository;
     private final CommunityRepository communityRepository;
     private final ImageRepository imageRepository;
+    private final CommentRepository commentRepository;
 
     @Override
     public Long createCommunity(Long memberId, CreateCommunityRequest request) {
@@ -66,5 +68,17 @@ public class CommunityServiceImpl implements CommunityService {
         community.read();
 
         return communityRepository.selectCommunity(communityId);
+    }
+
+    @Override
+    public void deleteCommunity(Long communityId) {
+        // Image 삭제
+        imageRepository.deleteByCommunityId(communityId);
+
+        // Comment 삭제
+        commentRepository.deleteByCommunityId(communityId);
+
+        // Community 삭제
+        communityRepository.deleteById(communityId);
     }
 }

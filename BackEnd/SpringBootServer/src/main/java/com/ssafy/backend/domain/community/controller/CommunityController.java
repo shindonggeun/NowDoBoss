@@ -87,4 +87,15 @@ public class CommunityController {
     public ResponseEntity selectCommentList(@PathVariable Long communityId, Long lastId) {
         return ResponseEntity.ok().body(Message.success(commentService.selectCommentList(communityId, lastId)));
     }
+
+    @Operation(
+            summary = "댓글 삭제 ",
+            description = "커뮤니티 댓글을 삭제하는 기능입니다."
+    )
+    @DeleteMapping("/{communityId}/comment/{commentId}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity deleteComment(@PathVariable Long commentId) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.ok().body(Message.success());
+    }
 }

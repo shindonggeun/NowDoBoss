@@ -47,4 +47,9 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentListResponse> selectCommentList(Long communityId, Long lastId) {
         return commentRepository.selectCommentList(communityId, lastId);
     }
+
+    @Override
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
 }

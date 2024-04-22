@@ -8,4 +8,6 @@ public interface CommentService {
     Long createComment(Long memberId, Long communityId, String content);
 
     List<CommentListResponse> selectCommentList(Long communityId, Long lastId);
+
+    void deleteComment(Long commentId);
 }

@@ -39,7 +39,7 @@ const Header = () => {
           menuName => (
             <h.Menu
               key={menuName}
-              isActive={activeMenu === menuName}
+              $isActive={activeMenu === menuName}
               onClick={() => handleMenuClick(menuName)}
             >
               {menuName}
@@ -54,7 +54,7 @@ const Header = () => {
         {['마이페이지', '로그인', '회원가입'].map(menuName => (
           <h.Menu
             key={menuName}
-            isActive={activeMenu === menuName}
+            $isActive={activeMenu === menuName}
             onClick={() => handleMenuClick(menuName)}
           >
             {menuName}

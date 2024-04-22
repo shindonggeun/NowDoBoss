@@ -29,7 +29,7 @@ export const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
     display: ${({ isMenuOpen }) => (isMenuOpen ? 'flex' : 'none')};
   }
 `
-export const Menu = styled.div<{ isActive?: boolean }>`
+export const Menu = styled.div<{ $isActive?: boolean }>`
   height: 57px;
   padding: 0 10px;
   font-size: 16px;
@@ -37,8 +37,8 @@ export const Menu = styled.div<{ isActive?: boolean }>`
   align-items: center;
   cursor: pointer;
   font-weight: bold;
-  border-bottom: 4px solid ${({ isActive }) => (isActive ? 'blue' : 'white')};
-  color: ${({ isActive }) => (isActive ? 'blue' : 'black')};
+  border-bottom: 4px solid ${props => (props.$isActive ? 'blue' : 'white')};
+  color: ${props => (props.$isActive ? 'blue' : 'black')};
   &:hover {
     color: blue;
     border-bottom: 4px solid blue;

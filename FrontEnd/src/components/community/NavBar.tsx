@@ -67,7 +67,7 @@ const NavBar = () => {
         {categories.map(category => (
           <n.Category
             key={category.name}
-            isChoice={isChoice === category.name}
+            $isChoice={isChoice === category.name}
             onClick={() => setIsChoice(category.name)}
           >
             <n.Icon
@@ -87,7 +87,7 @@ const NavBar = () => {
         {chatcards.map(chatcard => (
           <n.Category
             key={chatcard.id}
-            isChoice={isChoice === chatcard.name}
+            $isChoice={isChoice === chatcard.name}
             onClick={() => setIsChoice(chatcard.name)}
           >
             <n.ProfileImg>{chatcard.img}</n.ProfileImg>

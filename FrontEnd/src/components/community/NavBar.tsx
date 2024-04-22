@@ -37,6 +37,29 @@ const NavBar = () => {
     },
   ]
 
+  const chatcards = [
+    {
+      id: 1,
+      name: '나도광연',
+      img: '',
+    },
+    {
+      id: 2,
+      name: '나도정인',
+      img: '',
+    },
+    {
+      id: 3,
+      name: '나도동근',
+      img: '',
+    },
+    {
+      id: 4,
+      name: '나도성호',
+      img: '',
+    },
+  ]
+
   return (
     <n.Container>
       <n.Community>
@@ -61,6 +84,16 @@ const NavBar = () => {
       </n.Community>
       <n.Chatting>
         <n.Title>채팅</n.Title>
+        {chatcards.map(chatcard => (
+          <n.Category
+            key={chatcard.id}
+            isChoice={isChoice === chatcard.name}
+            onClick={() => setIsChoice(chatcard.name)}
+          >
+            <n.ProfileImg>{chatcard.img}</n.ProfileImg>
+            <n.Text>{chatcard.name}</n.Text>
+          </n.Category>
+        ))}
       </n.Chatting>
     </n.Container>
   )

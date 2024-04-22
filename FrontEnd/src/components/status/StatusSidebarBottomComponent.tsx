@@ -1,4 +1,4 @@
-const AnalysisSidebarBottomComponent = () => {
+const StatusSidebarBottomComponent = () => {
   return (
     <>
       <div>구별 상권 현황</div>
@@ -11,4 +11,4 @@ const AnalysisSidebarBottomComponent = () => {
   )
 }
 
-export default AnalysisSidebarBottomComponent
+export default StatusSidebarBottomComponent

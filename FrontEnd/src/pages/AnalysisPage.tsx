@@ -1,7 +1,7 @@
-import AnalysisContainer from '@src/containers/AnalysisContainer'
+import StatusContainer from '@src/containers/status/StatusContainer.tsx'
 
 const AnalysisPage = () => {
-  return <AnalysisContainer />
+  return <StatusContainer />
 }
 
 export default AnalysisPage

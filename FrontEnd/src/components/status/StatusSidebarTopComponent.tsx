@@ -1,6 +1,7 @@
-import * as h from '@src/components/styles/AnalysisSidebarTopStyle'
+// eslint-disable-next-line import/extensions
+import * as h from '@src/components/styles/status/AnalysisSidebarTopStyle.tsx'
 
-const AnalysisSidebarTopComponent = () => {
+const StatusSidebarTopComponent = () => {
   type DataItem = { name: string; num: number; percent: number }
   const data: DataItem[] = [
     { name: '강동구', num: 20000, percent: 12.4 },
@@ -31,4 +32,4 @@ const AnalysisSidebarTopComponent = () => {
   )
 }
 
-export default AnalysisSidebarTopComponent
+export default StatusSidebarTopComponent

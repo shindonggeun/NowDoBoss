@@ -22,7 +22,7 @@ export const Category = styled.div<CategoryType>`
   font-weight: 700;
   padding: 5px 15px;
   display: flex;
-  font-size: ${({ isChoice }) => (isChoice ? '1.2rem' : '1.1rem')};
+  font-size: ${({ isChoice }) => (isChoice ? '1.05rem' : '1rem')};
   color: ${({ isChoice }) => (isChoice ? 'black' : 'gray')};
   background-color: ${({ isChoice }) => (isChoice ? '#D9D9D9' : 'none')};
   border-radius: ${({ isChoice }) => (isChoice ? '5px' : 'none')};

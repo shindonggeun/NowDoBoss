@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.district.dto.response;
+package com.ssafy.backend.domain.district.dto;
 
 import com.ssafy.backend.domain.administration.dto.ClosedStoreAdministrationTopFiveInfo;
 import com.ssafy.backend.domain.administration.dto.ClosedStoreAdministrationTopFiveResponse;

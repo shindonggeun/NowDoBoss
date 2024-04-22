@@ -1,7 +1,7 @@
 package com.ssafy.backend.domain.district.controller;
 
-import com.ssafy.backend.domain.district.dto.response.DistrictDetailResponse;
-import com.ssafy.backend.domain.district.dto.response.DistrictTopTenResponse;
+import com.ssafy.backend.domain.district.dto.DistrictDetailResponse;
+import com.ssafy.backend.domain.district.dto.DistrictTopTenResponse;
 import com.ssafy.backend.domain.district.service.DistrictService;
 import com.ssafy.backend.global.common.dto.Message;
 import io.swagger.v3.oas.annotations.Operation;

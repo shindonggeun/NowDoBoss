@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.district.dto.response;
+package com.ssafy.backend.domain.district.dto;
 
 import lombok.Builder;
 

@@ -1,11 +1,10 @@
-package com.ssafy.backend.domain.district.dto.response;
+package com.ssafy.backend.domain.district.dto;
 
-import com.ssafy.backend.domain.district.entity.StoreDistrict;
 import lombok.Builder;
 
 @Builder
 public record DistrictDetailResponse(
-        ChangeIndicatorDistrictResponse ChangeIndicatorDistrictDetail,
+        ChangeIndicatorDistrictResponse changeIndicatorDistrictDetail,
         FootTrafficDistrictDetailResponse footTrafficDistrictDetail,
         StoreDistrictDetailResponse storeDistrictDetail,
         SalesDistrictDetailResponse salesDistrictDetail

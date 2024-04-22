@@ -1,13 +1,15 @@
 import styled from 'styled-components'
 
-export const Container = styled.div``
+export const Container = styled.div`
+  width: 100%;
+`
 export const Context = styled.div`
   display: flex;
   justify-content: space-between;
 `
 export const LeftGrid = styled.div`
   display: grid;
-  height: 14vh;
+  height: 15vh;
 `
 export const Title = styled.div`
   font-weight: 600;
@@ -26,25 +28,38 @@ export const CreateButton = styled.div`
   align-items: center;
   width: 120px;
   height: 40px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #707d8d;
+  }
 `
 
 export const ArrowDiv = styled.div`
   display: flex;
   justify-content: space-between;
   width: 80px;
+  margin: 10px 0;
 `
 export const ArrowButton = styled.img`
   cursor: pointer;
 `
-
+export const Slick = styled.div``
+export const SlickChild = styled.div`
+  &:hover {
+    margin: -10px 0 0 10px;
+    cursor: pointer;
+  }
+`
 export const ChatCard = styled.div`
   border: 2px solid #d9d9d9;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   //-3px -3px 5px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
-  width: 400px;
-  height: 200px;
+  width: auto;
+  height: auto;
   padding: 20px 30px;
+  margin: 10px 30px 10px 4px;
 `
 
 export const CategoryBadge = styled.div`
@@ -61,18 +76,21 @@ export const CategoryBadge = styled.div`
 
 export const CardTitle = styled.div`
   font-weight: 600;
-  font-size: 24px;
+  font-size: 1.5rem;
+  margin: 5px 0;
 `
 
 export const CardContent = styled.div`
   font-weight: 500;
   font-size: 16px;
+  margin: 5px 0;
 `
 
 export const CardCategory = styled.div`
   font-weight: 600;
   color: #696d6e;
   display: flex;
+  margin: 5px 0 0 -5px;
 `
 
 export const Icon = styled.img`
@@ -80,5 +98,7 @@ export const Icon = styled.img`
 `
 
 export const CardSubContent = styled.div`
+  font-weight: 500;
   color: #696d6e;
+  margin: 5px 0;
 `

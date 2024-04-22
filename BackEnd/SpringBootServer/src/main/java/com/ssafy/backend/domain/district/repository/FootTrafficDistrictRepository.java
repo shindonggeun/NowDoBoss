@@ -1,11 +1,12 @@
 package com.ssafy.backend.domain.district.repository;
 
-import com.ssafy.backend.domain.district.dto.FootTrafficDistrictTopFiveInfo;
+import com.ssafy.backend.domain.district.dto.FootTrafficDistrictTopTenInfo;
 import com.ssafy.backend.domain.district.entity.FootTrafficDistrict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
@@ -14,7 +15,8 @@ import java.util.List;
 @Repository
 public interface FootTrafficDistrictRepository extends JpaRepository<FootTrafficDistrict, Long> {
 
-    @Query("SELECT new com.ssafy.backend.domain.district.dto.FootTrafficDistrictTopFiveInfo(" +
+    @Query("SELECT new com.ssafy.backend.domain.district.dto.FootTrafficDistrictTopTenInfo(" +
+            "f.districtCode, " +
             "f.districtCodeName, " +
             "f2.totalFootTraffic, " +
             "f.totalFootTraffic) " +
@@ -29,6 +31,8 @@ public interface FootTrafficDistrictRepository extends JpaRepository<FootTraffic
             "    ORDER BY f3.totalFootTraffic DESC " +
             ") " +
             "ORDER BY f2.totalFootTraffic DESC")
-    Page<FootTrafficDistrictTopFiveInfo> getTopFiveFootTrafficDistrictByPeriodCode(Pageable pageable);
+    Page<FootTrafficDistrictTopTenInfo> getTopTenFootTrafficDistrictByPeriodCode(Pageable pageable);
 
+    @Query("SELECT f FROM FootTrafficDistrict f WHERE f.periodCode IN ('20224', '20231', '20232', '20233') AND f.districtCode = :districtCode ORDER BY f.periodCode")
+    List<FootTrafficDistrict> getFootTrafficDistrictDetail(@Param("districtCode")String districtCode);
 }

@@ -1,10 +1,10 @@
-import SignUpContainer from '@src/containers/SignUpContainer.tsx'
+import SignUpContainer from '@src/containers/User/SignUpContainer'
 
 const SignUpPage = () => {
   return (
-    <>
+    <div>
       <SignUpContainer />
-    </>
+    </div>
   )
 }
 

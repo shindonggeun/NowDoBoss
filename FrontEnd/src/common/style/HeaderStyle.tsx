@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.header`
-  height: 60px;
+  height: 61px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -36,14 +36,22 @@ export const Menu = styled.div<{ isActive?: boolean }>`
   display: flex;
   align-items: center;
   cursor: pointer;
-  border-bottom: 4px solid ${({ isActive }) => (isActive ? 'blue' : 'white')};
   font-weight: bold;
+  border-bottom: 4px solid ${({ isActive }) => (isActive ? 'blue' : 'white')};
   color: ${({ isActive }) => (isActive ? 'blue' : 'black')};
+  &:hover {
+    color: blue;
+    border-bottom: 4px solid blue;
+  }
 `
 
+export const LogoDiv = styled.div``
+
 export const Logo = styled.img`
-  width: 120px;
+  width: 110px;
   height: 55px;
+  margin: 7px 0 0 0;
+  cursor: pointer;
 `
 
 export const HamburgerMenu = styled.div`

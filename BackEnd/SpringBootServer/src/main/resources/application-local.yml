@@ -55,7 +55,7 @@ spring:
           starttls:
             enable: true
 
-
+  # Kafka setting
   kafka:
     bootstrap-servers: ${server.base-url}:9092
     consumer:

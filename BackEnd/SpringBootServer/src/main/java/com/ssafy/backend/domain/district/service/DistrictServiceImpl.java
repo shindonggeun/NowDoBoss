@@ -4,6 +4,7 @@ import com.ssafy.backend.domain.administration.dto.*;
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.administration.repository.StoreAdministrationRepository;
 import com.ssafy.backend.domain.district.dto.*;
+import com.ssafy.backend.domain.district.repository.*;
 import com.ssafy.backend.domain.district.entity.ChangeDistrict;
 import com.ssafy.backend.domain.district.entity.FootTrafficDistrict;
 import com.ssafy.backend.domain.district.repository.ChangeDistrictRepository;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -28,6 +30,7 @@ public class DistrictServiceImpl implements DistrictService {
     private final SalesDistrictRepository salesDistrictRepository;
     private final StoreDistrictRepository storeDistrictRepository;
     private final ChangeDistrictRepository changeDistrictRepository;
+    private final AreaDistrictRepository areaDistrictRepository;
     private final StoreAdministrationRepository storeAdministrationRepository;
     private final SalesAdministrationRepository salesAdministrationRepository;
 
@@ -265,5 +268,12 @@ public class DistrictServiceImpl implements DistrictService {
         Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
         Page<String> page = salesAdministrationRepository.getTopFiveSalesAdministrations(allAdministrationCodes, pageable);
         return new ArrayList<>(page.getContent());
+    }
+
+    @Override
+    public List<DistrictInfo> getAllDistricts() {
+        return areaDistrictRepository.findAll().stream()
+                .map(ad -> new DistrictInfo(ad.getDistrictCode(), ad.getDistrictCodeName()))
+                .collect(Collectors.toList());
     }
 }

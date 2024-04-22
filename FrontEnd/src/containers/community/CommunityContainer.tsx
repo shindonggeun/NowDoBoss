@@ -5,7 +5,9 @@ import * as c from './CommunityContainerStyle'
 const CommunityContainer = () => {
   return (
     <c.Container>
-      <NavBar />
+      <c.NabBar>
+        <NavBar />
+      </c.NabBar>
       <c.Context>
         <PopularChatList />
       </c.Context>

@@ -7,6 +7,8 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.community.dto.CommunityListResponse;
 import com.ssafy.backend.domain.community.dto.CommunityResponse;
+import com.ssafy.backend.domain.community.dto.ImageInfo;
+import com.ssafy.backend.domain.community.entity.QImage;
 import com.ssafy.backend.domain.community.entity.enums.Category;
 import com.ssafy.backend.global.util.NullSafeBuilder;
 import lombok.RequiredArgsConstructor;
@@ -79,10 +81,14 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
                 .where(equalsCommunityId(communityId))
                 .fetchOne();
 
-        List<String> images = queryFactory
-                .select(image.url)
+        List<ImageInfo> images = queryFactory
+                .select(Projections.constructor(ImageInfo.class,
+                        image.id,
+                        image.url
+                ))
                 .from(image)
                 .where(equalsCommunityId(communityId))
+//                .where(image.community.id.eq(communityId))
                 .fetch();
 
         communityResponse.setImages(images);

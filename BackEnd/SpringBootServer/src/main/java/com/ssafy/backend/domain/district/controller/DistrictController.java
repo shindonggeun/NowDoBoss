@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.district.controller;
 
+import com.ssafy.backend.domain.district.dto.DistrictInfo;
 import com.ssafy.backend.domain.district.dto.response.DistrictTopFiveResponse;
 import com.ssafy.backend.domain.district.service.DistrictService;
 import com.ssafy.backend.global.common.dto.Message;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +28,15 @@ public class DistrictController {
     public ResponseEntity<Message<DistrictTopFiveResponse>> getTopFiveDistricts() {
         System.out.println("top5 가져오기!");
         return ResponseEntity.ok().body(Message.success(districtService.getTopFiveDistricts()));
+    }
+
+    @Operation(
+            summary = "전체 자치구 목록 조회",
+            description = "모든 자치구의 코드와 이름을 반환하는 기능입니다."
+    )
+    @GetMapping("/all-districts")
+    public ResponseEntity<Message<List<DistrictInfo>>> getAllDistricts() {
+        List<DistrictInfo> districtInfoList = districtService.getAllDistricts();
+        return ResponseEntity.ok().body(Message.success(districtInfoList));
     }
 }

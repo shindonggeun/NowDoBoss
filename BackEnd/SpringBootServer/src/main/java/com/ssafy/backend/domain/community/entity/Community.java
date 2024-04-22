@@ -46,4 +46,8 @@ public class Community extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
+
+    public void read() {
+        this.readCount++;
+    }
 }

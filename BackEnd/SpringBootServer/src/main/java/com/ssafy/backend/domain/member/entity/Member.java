@@ -45,7 +45,7 @@ public class Member extends BaseEntity {
 
     @Comment("권한")
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    @Column(nullable = false)
     private MemberRole role;
 
     @Column(name = "provider")

@@ -18,6 +18,8 @@ export const Title = styled.div`
   font-weight: 600;
   padding: 10px 17px 5px;
 `
+
+// 카테고리 및 채팅 목록으로 재사용
 export const Category = styled.div<CategoryType>`
   font-weight: 700;
   padding: 5px 15px;
@@ -35,6 +37,13 @@ export const Text = styled.text`
 
 export const Chatting = styled.div`
   margin: 0 0 10px 0;
-  display: flex;
-  justify-content: space-between;
+  //display: flex;
+  //justify-content: space-between;
+`
+
+export const ProfileImg = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: #888888;
 `

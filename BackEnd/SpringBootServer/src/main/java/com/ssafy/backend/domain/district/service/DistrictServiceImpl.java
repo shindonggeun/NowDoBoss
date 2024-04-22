@@ -4,7 +4,6 @@ import com.ssafy.backend.domain.administration.dto.*;
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.administration.repository.StoreAdministrationRepository;
 import com.ssafy.backend.domain.district.dto.*;
-import com.ssafy.backend.domain.district.dto.response.*;
 import com.ssafy.backend.domain.district.repository.*;
 import com.ssafy.backend.domain.district.entity.ChangeDistrict;
 import com.ssafy.backend.domain.district.entity.FootTrafficDistrict;

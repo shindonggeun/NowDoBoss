@@ -1,7 +1,6 @@
 package com.ssafy.backend.domain.district.controller;
 
 import com.ssafy.backend.domain.district.dto.DistrictInfo;
-import com.ssafy.backend.domain.district.dto.response.DistrictTopFiveResponse;
 import com.ssafy.backend.domain.district.dto.DistrictDetailResponse;
 import com.ssafy.backend.domain.district.dto.DistrictTopTenResponse;
 import com.ssafy.backend.domain.district.service.DistrictService;

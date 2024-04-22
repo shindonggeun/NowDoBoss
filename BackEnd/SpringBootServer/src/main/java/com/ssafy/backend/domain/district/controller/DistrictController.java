@@ -7,6 +7,7 @@ import com.ssafy.backend.global.common.dto.Message;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +36,7 @@ public class DistrictController {
             description = "모든 자치구의 코드와 이름을 반환하는 기능입니다."
     )
     @GetMapping("/all-districts")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<List<DistrictInfo>>> getAllDistricts() {
         List<DistrictInfo> districtInfoList = districtService.getAllDistricts();
         return ResponseEntity.ok().body(Message.success(districtInfoList));

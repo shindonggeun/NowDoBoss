@@ -78,4 +78,13 @@ public class CommunityController {
         commentService.createComment(loginActive.id(), communityId, request.content());
         return ResponseEntity.ok().body(Message.success());
     }
+
+    @Operation(
+            summary = "댓글 목록 조회",
+            description = "커뮤니티 댓글 목록을 조회하는 기능입니다."
+    )
+    @GetMapping("/{communityId}/comment")
+    public ResponseEntity selectCommentList(@PathVariable Long communityId, Long lastId) {
+        return ResponseEntity.ok().body(Message.success(commentService.selectCommentList(communityId, lastId)));
+    }
 }

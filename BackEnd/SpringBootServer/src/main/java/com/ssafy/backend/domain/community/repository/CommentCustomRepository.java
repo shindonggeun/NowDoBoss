@@ -1,11 +1,9 @@
-package com.ssafy.backend.domain.community.service;
+package com.ssafy.backend.domain.community.repository;
 
 import com.ssafy.backend.domain.community.dto.CommentListResponse;
 
 import java.util.List;
 
-public interface CommentService {
-    Long createComment(Long memberId, Long communityId, String content);
-
+public interface CommentCustomRepository {
     List<CommentListResponse> selectCommentList(Long communityId, Long lastId);
 }

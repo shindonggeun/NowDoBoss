@@ -1,10 +1,7 @@
 package com.ssafy.backend.domain.community.controller;
 
-import com.ssafy.backend.domain.community.dto.CommunityListRequest;
-import com.ssafy.backend.domain.community.dto.CommunityListResponse;
-import com.ssafy.backend.domain.community.dto.CreateCommentRequest;
+import com.ssafy.backend.domain.community.dto.*;
 import com.ssafy.backend.domain.community.service.CommentService;
-import com.ssafy.backend.domain.community.dto.CreateCommunityRequest;
 import com.ssafy.backend.domain.community.service.CommunityService;
 import com.ssafy.backend.global.common.dto.Message;
 import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
@@ -49,6 +46,14 @@ public class CommunityController {
         return ResponseEntity.ok().body(Message.success(communityService.selectCommunityList(request)));
     }
 
+    @Operation(
+            summary = "게시글 상세 조회",
+            description = "커뮤니티 게시글을 상세 조회하는 기능입니다."
+    )
+    @GetMapping("/{communityId}")
+    public ResponseEntity<Message<CommunityResponse>> selectCommunity(@PathVariable Long communityId) {
+        return ResponseEntity.ok().body(Message.success(communityService.selectCommunity(communityId)));
+    }
 
     @Operation(
             summary = "댓글 작성",

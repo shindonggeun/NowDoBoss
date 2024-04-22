@@ -1,13 +1,26 @@
+import * as h from '@src/components/styles/status/AnalysisSidebarBottomStyle'
+import { useState } from 'react'
+
 const StatusSidebarBottomComponent = () => {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const options = ['유동인구', '매출평균', '입점률', '폐점률']
+
   return (
-    <>
-      <div>구별 상권 현황</div>
-      <div>아래의 구분을 선택하여 현황을 파악해 보세요</div>
-      <div>유동인구</div>
-      <div>매출평균</div>
-      <div>입점률</div>
-      <div>폐점률</div>
-    </>
+    <h.Container>
+      <h.Title>구별 상권 현황</h.Title>
+      <h.Subtitle>아래의 구분을 선택하여 현황을 파악해 보세요</h.Subtitle>
+      <h.OptionsContainer>
+        {options.map(option => (
+          <h.Option
+            key={option}
+            selected={selectedOption === option}
+            onClick={() => setSelectedOption(option)}
+          >
+            {option}
+          </h.Option>
+        ))}
+      </h.OptionsContainer>
+    </h.Container>
   )
 }
 

@@ -24,7 +24,7 @@ const StatusSidebarTopComponent = () => {
           <h.Name>
             {i + 1}. {item.name}
           </h.Name>
-          <h.Num>{item.num}천</h.Num>
+          <h.Num>{item.num.toLocaleString()}천</h.Num>
           <h.Percent>{item.percent}%</h.Percent>
         </h.Item>
       ))}

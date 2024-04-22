@@ -1,7 +1,7 @@
 import StatusContainer from '@src/containers/status/StatusContainer.tsx'
 
-const AnalysisPage = () => {
+const StatusPage = () => {
   return <StatusContainer />
 }
 
-export default AnalysisPage
+export default StatusPage

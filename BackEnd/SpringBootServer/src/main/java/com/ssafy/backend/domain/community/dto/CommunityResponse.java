@@ -19,7 +19,7 @@ public class CommunityResponse {
     private Long writerId;
     private String writerNickname;
     private String writerProfileImage;
-    private List<String> images;
+    private List<ImageInfo> images;
 
 
     public CommunityResponse(Long communityId, Category category, String title, String content, int readCount, Long writerId, String writerNickname, String writerProfileImage) {

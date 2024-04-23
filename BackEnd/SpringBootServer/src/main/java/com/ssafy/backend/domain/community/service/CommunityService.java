@@ -1,9 +1,6 @@
 package com.ssafy.backend.domain.community.service;
 
-import com.ssafy.backend.domain.community.dto.CommunityListRequest;
-import com.ssafy.backend.domain.community.dto.CommunityListResponse;
-import com.ssafy.backend.domain.community.dto.CommunityResponse;
-import com.ssafy.backend.domain.community.dto.CreateCommunityRequest;
+import com.ssafy.backend.domain.community.dto.*;
 
 import java.util.List;
 
@@ -13,6 +10,8 @@ public interface CommunityService {
     List<CommunityListResponse> selectCommunityList(CommunityListRequest request);
 
     CommunityResponse selectCommunity(Long communityId);
+
+    void updateCommunity(Long communityId, UpdateCommunityRequest request);
 
     void deleteCommunity(Long communityId);
 }

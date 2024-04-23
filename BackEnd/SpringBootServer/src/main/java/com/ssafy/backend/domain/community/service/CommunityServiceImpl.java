@@ -1,12 +1,8 @@
 package com.ssafy.backend.domain.community.service;
 
-import com.ssafy.backend.domain.community.dto.CommunityListRequest;
-import com.ssafy.backend.domain.community.dto.CommunityListResponse;
-import com.ssafy.backend.domain.community.dto.CommunityResponse;
-import com.ssafy.backend.domain.community.dto.CreateCommunityRequest;
+import com.ssafy.backend.domain.community.dto.*;
 import com.ssafy.backend.domain.community.entity.Community;
 import com.ssafy.backend.domain.community.entity.Image;
-import com.ssafy.backend.domain.community.entity.enums.Category;
 import com.ssafy.backend.domain.community.exception.CommunityErrorCode;
 import com.ssafy.backend.domain.community.exception.CommunityException;
 import com.ssafy.backend.domain.community.repository.CommentRepository;
@@ -17,11 +13,14 @@ import com.ssafy.backend.domain.member.exception.MemberErrorCode;
 import com.ssafy.backend.domain.member.exception.MemberException;
 import com.ssafy.backend.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,6 +67,38 @@ public class CommunityServiceImpl implements CommunityService {
         community.read();
 
         return communityRepository.selectCommunity(communityId);
+    }
+
+    @Override
+    public void updateCommunity(Long communityId, UpdateCommunityRequest request) {
+        Community community = communityRepository.findById(communityId)
+                .orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
+
+        // 제목, 내용 수정
+        community.update(request.title(), request.content());
+
+        Map<Long, Image> map = imageRepository.findByCommunityId(communityId)
+                .stream()
+                .collect(Collectors.toMap(Image::getId, Function.identity()));
+
+        List<Image> images = community.getImages();
+
+        for (ImageInfo imageInfo : request.images()) {
+            Long imageId = imageInfo.imageId();
+            // 새로 추가된 항목은 새로 저장
+            if (imageId == null) {
+                community.addImage(Image.builder()
+                        .community(community).url(imageInfo.url()).build());
+                continue;
+            }
+
+            // 기존에 있던 항목 map에서 제거 >> 이후 해당 map에 있는 값들을 한번에 삭제할 예정
+            if (map.containsKey(imageId)) {
+                map.remove(imageId);
+            }
+        }
+
+        images.removeAll(map.values());
     }
 
     @Override

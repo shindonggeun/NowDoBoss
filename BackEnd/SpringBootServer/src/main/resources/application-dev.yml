@@ -1,1 +1,72 @@
-# 추후에 배포서버 나올 시 추가 예정
+server:
+  base-url: k10C208.p.ssafy.io
+  https-url: http://k10C208.p.ssafy.io
+
+spring:
+  servlet:
+    # file 업로드 관련 세팅 (명시적으로 설정 안할 시 Spring boot는 기본적으로 1MB로 설정됨)
+    multipart:
+      max-file-size: 10MB  # 최대 파일 크기
+      max-request-size: 10MB  # 최대 요청 크기
+
+  jpa:
+    open-in-view: false
+    defer-datasource-initialization: false  # flyway 관련 마이그레이션 이슈 -> false로 변경
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true             # 하이버네이트가 실행한 SQL을 출력할 때 보기 좋게 정렬
+        use_sql_comments: true
+        show_sql: true               # 하이버네이트가 실행한 SQL을 출력
+        jdbc:
+          batch_size: 100              #   insert/update 쿼리를 원하는 개수만큼 모아서 DB에 날릴 수 있는 옵션
+        default_batch_fetch_size: 100
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver  # DB 드라이버
+    url: jdbc:mysql://${server.base-url}:3306/nowdoboss?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true       # 데이터베이스 URL
+    username: ENC(CIv9gIlHdeV0RVfvISnt1Q==)                     # 데이터베이스 계정명
+    password: ENC(8JDguUr+RtTPfR+4re7EluKRxKLKmaLb)             # 데이터베이스 계정 비밀번호
+
+  # data_테이블명.sql 관련 실행 setting (더미데이터)
+  sql:
+    init:
+      mode: always
+      data-locations:
+        - 'classpath:/db/*'
+
+  # NoSQL setting
+
+  # Java Mail Sender setting (Google Mail)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(9zcJxzMJjdfsV97O7BJQvAtUCYHyAV12FmzBkDqpDW8=)
+    password: ENC(bad9dzuo4Yv1McadA8EOSn13JEEl/6UeyvsknQfCXyQ=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# log 관리
+logging:
+  level:
+    org.hibernate:
+      type.descriptor.sql: trace
+      org.hibernate.SQLQuery: debug
+
+# jwt setting
+jwt:
+  accessKey: ENC(s0vsxAuXmlzr6DjkUVLrlIS+MdTML5arOQyKWar2qbFPkVVJ1zZoR09t83GnhFYhzIvLDaD119HeajudDJS4GXxVTkd+M/zQ/q1ssX4aw00y+52LOysZk/q/I3T4a3zYmOxfYI4aCslih6D5TTl5rQnPeZV2rmjdJXAg1X7owfGsquBPnuUptjuKxteIdEjtFFp1SF9QZ/+TvWyYrlwH1Q==)
+  refreshKey: ENC(gE+DTAeZ7HD32Rd6u5HcfJu+bg4kgdULucqZWVJCbHG5q5SE53YWhNuQcSyE61MVF8Cow5idsgt1RoMi3w0ri7Bq57Fr6+m6qr5bi+kXL+nQOv/GWoPcj2DxteTB5izXHEp5fzC5uq1m8QrltRiQa1WfY8s1w6myZFWqPzn4S8FjoR/7/4oG7XU/Q/+HV1I0viF/51ziOKJFVn0nPAyMnQ==)
+  accessExpiration: PT420M  # 420분 (PT420M)
+  refreshExpiration: PT10080M  # 10080분 (7일) (PT10080M)
+
+# firebase setting
+app:
+  firebase-configuration-file: classpath:serviceAccountKey.json
+  firebase-bucket: ENC(kEjE5eNrPFCEldmd4VOt0mXnXI2qkPVNJIhOBdW8K60=)

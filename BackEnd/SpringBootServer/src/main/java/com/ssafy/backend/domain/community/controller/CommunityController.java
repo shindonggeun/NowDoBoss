@@ -109,4 +109,16 @@ public class CommunityController {
         commentService.deleteComment(commentId);
         return ResponseEntity.ok().body(Message.success());
     }
+
+    @Operation(
+            summary = "댓글 수정 ",
+            description = "커뮤니티 댓글을 수정하는 기능입니다."
+    )
+    @PatchMapping("/{communityId}/comment/{commentId}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity updateComment(@PathVariable Long commentId,
+                                        @RequestBody UpdateCommentRequest request) {
+        commentService.updateComment(commentId, request);
+        return ResponseEntity.ok().body(Message.success());
+    }
 }

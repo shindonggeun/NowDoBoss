@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.community.service;
 
 import com.ssafy.backend.domain.community.dto.CommentListResponse;
+import com.ssafy.backend.domain.community.dto.UpdateCommentRequest;
 import com.ssafy.backend.domain.community.entity.Comments;
 import com.ssafy.backend.domain.community.entity.Community;
 import com.ssafy.backend.domain.community.exception.CommunityErrorCode;
@@ -51,5 +52,13 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+    @Override
+    public void updateComment(Long commentId, UpdateCommentRequest request) {
+        Comments comments = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMENT));
+
+        comments.update(request.content());
     }
 }

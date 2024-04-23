@@ -32,4 +32,8 @@ public class Comments {
     @Comment("댓글 내용")
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
+
+    public void update(String content) {
+        this.content = content;
+    }
 }

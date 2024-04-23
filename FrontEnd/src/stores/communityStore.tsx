@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 
 // 카테고리 타입 정의
 interface Category {

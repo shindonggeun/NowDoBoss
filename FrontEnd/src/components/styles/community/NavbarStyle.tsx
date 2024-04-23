@@ -28,6 +28,9 @@ export const Category = styled.div<CategoryType>`
   color: ${props => (props.$isChoice ? 'black' : 'gray')};
   background-color: ${props => (props.$isChoice ? '#D9D9D9' : 'none')};
   border-radius: ${props => (props.$isChoice ? '5px' : 'none')};
+  &:hover {
+    cursor: pointer;
+  }
 `
 export const Icon = styled.img``
 

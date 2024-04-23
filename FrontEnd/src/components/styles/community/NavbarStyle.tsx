@@ -7,9 +7,9 @@ interface CategoryType {
 export const Container = styled.div`
   background-color: #f1f1f1;
   //  왼쪽에 띄울 크기
-  width: 18.5vw;
+  width: 16.5vw;
   //width: 220px;
-  height: 91vh;
+  height: 120vh;
 
   @media only screen and (max-width: 992px) {
     display: flex;
@@ -54,6 +54,11 @@ export const ChatButton = styled.img`
     display: flow;
     margin-right: 18px;
     cursor: pointer;
+  }
+  @media only screen and (max-width: 500px) {
+    padding: 10px 5px;
+    margin-right: 0;
+    scale: 0.8;
   }
 `
 

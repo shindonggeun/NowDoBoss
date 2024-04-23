@@ -1,12 +1,57 @@
+import { useMutation } from '@tanstack/react-query'
+import userStore from '@src/stores/userStore'
+import {
+  registerUser,
+  sendEmailVerificationCode,
+  verifyEmailVerificationCode,
+} from '@src/api/userApi'
 import InfoSection from '@src/components/User/InfoSection'
+import NameInputSection from '@src/components/User/NameInputSection'
+import NicknameInputSection from '@src/components/User/NicknameInputSection'
+import EmailInputSection from '@src/components/User/EmailInputSection'
+import PwInputSection from '@src/components/User/PwInputSection'
+import RepeatPwInputSection from '@src/components/User/RepeatPwInputSection'
 import AskSection from '@src/components/User/AskSection'
 import SocialBtnSection from '@src/components/User/SocialBtnSection'
-import TextInput from '@src/components/User/TextInput'
-import PwInput from '@src/components/User/PwInput'
-import EmailInput from '@src/components/User/EmailInput'
 import * as u from '@src/containers/User/UserContainerStyle'
 
 const SignUpContainer = () => {
+  const { signUpData, emailCode } = userStore()
+
+  // 이메일 인증코드 발송
+  const { mutate: SendEmailVerificationCode } = useMutation({
+    mutationKey: ['sendEmailVerificationCode'],
+    mutationFn: sendEmailVerificationCode,
+  })
+
+  const handleSendEmailCode = () => {
+    SendEmailVerificationCode(signUpData.email)
+  }
+
+  // 이메일 인증코드 검증
+  const { mutate: VerifyEmailVerificationCode } = useMutation({
+    mutationKey: ['verifyEmailVerificationCode'],
+    mutationFn: verifyEmailVerificationCode,
+  })
+
+  const handleVerifyEmailCode = () => {
+    const params = {
+      memberEmail: signUpData.email,
+      emailCode,
+    }
+    VerifyEmailVerificationCode(params)
+  }
+
+  // 회원가입
+  const { mutate: RegisterUser } = useMutation({
+    mutationKey: ['registerUser'],
+    mutationFn: registerUser,
+  })
+
+  const handleRegisterUser = () => {
+    RegisterUser(signUpData)
+  }
+
   return (
     <u.Container>
       <u.LeftWrap>
@@ -14,41 +59,21 @@ const SignUpContainer = () => {
           title="Welecome!"
           subtitle="환영합니다! 회원가입 후 다양한 기능을 이용하세요."
         />
-        <u.FirstSection>
-          <u.InputDiv>
-            <div>Name</div>
-            <TextInput placeholder="Your name" flex={1} />
-          </u.InputDiv>
-          <u.InputDiv>
-            <div>Nickname</div>
-            <TextInput placeholder="Your nickname" flex={1} />
-          </u.InputDiv>
-        </u.FirstSection>
-
-        <u.EmailSection>
-          <div>Email</div>
-          <u.EmailFirstRow>
-            <EmailInput placeholder="example@example.com" flex={2} />
-            <u.Btn flex={1}>인증번호 전송</u.Btn>
-          </u.EmailFirstRow>
-          <u.EmailSecondRow>
-            <TextInput placeholder="000000" flex={1} />
-            <u.Btn flex={1}>인증번호 확인 3:00</u.Btn>
-          </u.EmailSecondRow>
-        </u.EmailSection>
-
-        <u.FirstSection>
-          <u.InputDiv>
-            <div>Password</div>
-            <PwInput placeholder="Your password" />
-          </u.InputDiv>
-          <u.InputDiv>
-            <div>Repeat password</div>
-            <PwInput placeholder="Repeat" />
-          </u.InputDiv>
-        </u.FirstSection>
-
-        <u.Btn marginTop="6%">Sign Up</u.Btn>
+        <u.InputWrap>
+          <NameInputSection />
+          <NicknameInputSection />
+        </u.InputWrap>
+        <EmailInputSection
+          handleSendEmailCode={handleSendEmailCode}
+          handleVerifyEmailCode={handleVerifyEmailCode}
+        />
+        <u.InputWrap>
+          <PwInputSection />
+          <RepeatPwInputSection />
+        </u.InputWrap>
+        <u.Btn marginTop="6%" onClick={handleRegisterUser}>
+          Sign Up
+        </u.Btn>
         <AskSection title="계정이 이미 있으신가요?" subtitle="Log In" />
         <SocialBtnSection />
       </u.LeftWrap>

@@ -1,43 +1,13 @@
 import * as n from '@src/components/styles/community/NavbarStyle'
 import { useState } from 'react'
+import useCommunityStore from '@src/stores/communityStore'
 
 const NavBar = () => {
   const [isChoice, setIsChoice] = useState<string>('전체보기')
 
-  const categories = [
-    {
-      name: '전체보기',
-      iconActive: 'src/assets/three_line.svg',
-      iconInactive: 'src/assets/three_line_gray.svg',
-    },
-    {
-      name: '이모저모',
-      iconActive: 'src/assets/fire.svg',
-      iconInactive: 'src/assets/fire_gray.svg',
-    },
-    {
-      name: '인테리어',
-      iconActive: 'src/assets/shop.svg',
-      iconInactive: 'src/assets/shop_gray.svg',
-    },
-    {
-      name: '상권공유',
-      iconActive: 'src/assets/map.svg',
-      iconInactive: 'src/assets/map_gray.svg',
-    },
-    {
-      name: '동업제안',
-      iconActive: 'src/assets/user_add.svg',
-      iconInactive: 'src/assets/user_add_gray.svg',
-    },
-    {
-      name: '창업고민',
-      iconActive: 'src/assets/chat.svg',
-      iconInactive: 'src/assets/chat_gray.svg',
-    },
-  ]
+  const categories = useCommunityStore(state => state.categories)
 
-  const chatcards = [
+  const chatCards = [
     {
       id: 1,
       name: '나도광연',
@@ -84,14 +54,14 @@ const NavBar = () => {
       </n.Community>
       <n.Chatting>
         <n.Title>채팅</n.Title>
-        {chatcards.map(chatcard => (
+        {chatCards.map(chatCard => (
           <n.Category
-            key={chatcard.id}
-            $isChoice={isChoice === chatcard.name}
-            onClick={() => setIsChoice(chatcard.name)}
+            key={chatCard.id}
+            $isChoice={isChoice === chatCard.name}
+            onClick={() => setIsChoice(chatCard.name)}
           >
-            <n.ProfileImg>{chatcard.img}</n.ProfileImg>
-            <n.Text>{chatcard.name}</n.Text>
+            <n.ProfileImg>{chatCard.img}</n.ProfileImg>
+            <n.Text>{chatCard.name}</n.Text>
           </n.Category>
         ))}
       </n.Chatting>

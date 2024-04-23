@@ -1,5 +1,7 @@
 import * as p from '@src/components/styles/community/CommunityStyle'
 import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 import { useEffect, useRef, useState } from 'react'
 import useCommunityStore from '@src/stores/communityStore'
 

@@ -2,6 +2,7 @@ import * as h from '@src/common/style/HeaderStyle'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { NavigateType } from '@src/types/GlobalType'
+import LogoImg from '@src/assets/logo.svg'
 
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
@@ -69,7 +70,7 @@ const Header = () => {
         )}
       </h.MenuListLeft>
       <h.LogoDiv onClick={() => goNavigate({ url: '/' })}>
-        <h.Logo src="src/assets/logo.png" alt="logo" />
+        <h.Logo src={LogoImg} alt="logo" />
       </h.LogoDiv>
       <h.MenuListRight>
         {['마이페이지', '로그인', '회원가입'].map(menuName => (

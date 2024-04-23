@@ -18,6 +18,8 @@ export const Title = styled.div`
 export const Sub = styled.div`
   font-weight: 500;
 `
+
+// 생성하기 버튼
 export const CreateButton = styled.div`
   background-color: #94a3b8;
   color: #f1f5f9;
@@ -60,6 +62,7 @@ export const ChatCard = styled.div`
   height: auto;
   padding: 20px 30px;
   margin: 10px 30px 10px 4px;
+  min-height: 175px;
 `
 
 export const CategoryBadge = styled.div`

@@ -6,6 +6,13 @@ export const Container = styled.header`
   align-items: center;
   justify-content: space-between;
   border-bottom: #c4c4c4 2px solid;
+  // 상단 고정하기 위한 코드
+  background-color: #fff;
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 `
 
 export const MenuListLeft = styled.div<{ isMenuOpen?: boolean }>`

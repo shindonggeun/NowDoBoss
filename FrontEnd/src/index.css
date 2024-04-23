@@ -70,11 +70,19 @@
     font-display: swap;
 }
 
-html, body {
+html {
     font-family: 'Pretendard', sans-serif;
     line-height: 1.5;
     font-weight: 400;
     margin: 0;
+}
+
+body {
+    font-family: 'Pretendard', sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    margin: 0;
+    padding-top: 61px;
 }
 
 :root {

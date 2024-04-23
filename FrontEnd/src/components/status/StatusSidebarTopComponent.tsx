@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/extensions
-import * as h from '@src/components/styles/status/AnalysisSidebarTopStyle.tsx'
+import * as h from '@src/components/styles/status/StatusSidebarTopStyle.tsx'
 
 const StatusSidebarTopComponent = () => {
   type DataItem = { name: string; num: number; percent: number }

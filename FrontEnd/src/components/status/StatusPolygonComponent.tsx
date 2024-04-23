@@ -3,9 +3,17 @@ import * as d3 from 'd3'
 
 type StatusPolygonProps = {
   tab: number
+  selectedRegion: string | null
+  onClickRegionHandler: any
+  onClickRegionCodeHandler: any
 }
 
-const StatusPolygonComponent = ({ tab }: StatusPolygonProps) => {
+const StatusPolygonComponent = ({
+  tab,
+  selectedRegion,
+  onClickRegionHandler,
+  onClickRegionCodeHandler,
+}: StatusPolygonProps) => {
   console.log(`선택된 탭 index : ${tab}`)
 
   const mapData = seoul.features // 서울시 행정구역 json data
@@ -18,7 +26,7 @@ const StatusPolygonComponent = ({ tab }: StatusPolygonProps) => {
     .geoMercator()
     .center([127.023136826325427, 37.57196080977203])
     .scale(scale)
-    .translate([width / 2 + 80, height / 2])
+    .translate([width / 2 + 200, height / 2])
 
   // projection을 이용하여 만든 경로 생성 함수
   const pathGenerator = d3.geoPath().projection(projection)
@@ -31,6 +39,13 @@ const StatusPolygonComponent = ({ tab }: StatusPolygonProps) => {
     // ['#F3FFDA', '#FAF0C3', '#F8DB6D', '#FFDE3C', '#E8C500'],
     // ['#D6FFFD', '#BBFBF7', '#68E1D9', '#10C1CC', '#009FA9'],
   ]
+  const handleRegionClick = (regionName: string) => {
+    if (selectedRegion === regionName) {
+      onClickRegionHandler(null)
+    } else {
+      onClickRegionHandler(regionName)
+    }
+  }
 
   // 행정구 폴리곤
   const countries = mapData.map((d: any, i) => (
@@ -39,6 +54,8 @@ const StatusPolygonComponent = ({ tab }: StatusPolygonProps) => {
       d={pathGenerator(d)!}
       onClick={() => {
         console.log(`${d.properties.SIG_KOR_NM}를 선택함!`)
+        handleRegionClick(d.properties.SIG_KOR_NM)
+        onClickRegionCodeHandler(d.properties.SIG_CD)
       }}
       style={{
         // <todo> 구별 색 다르게 나타내기!!

@@ -1,13 +1,13 @@
 import * as c from '@src/containers/status/StatusStyle'
-import * as h from '@src/components/styles/status/AnalysisSidebarBottomStyle.tsx'
-import { SeparateLine } from '@src/containers/status/StatusStyle.tsx'
 import StatusPolygonComponent from '@src/components/status/StatusPolygonComponent.tsx'
 import StatusSidebarTopComponent from '@src/components/status/StatusSidebarTopComponent.tsx'
-// import StatusSidebarBottomComponent from '@src/components/status/StatusSidebarBottomComponent.tsx'
+import StatusDetailbarComponent from '@src/components/status/StatusDetailbarComponent'
 import { useState } from 'react'
 
 const StatusContainer = () => {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null) // 지역 선택
+  const [regionCode, setRegionCode] = useState<number | null>(null) // 지역 선택
+  const [selectedOption, setSelectedOption] = useState<string | null>(null) // 옵션 선택
   const [tab, setTab] = useState<number>(0)
   const options = ['유동인구', '매출평균', '입점률', '폐점률']
   const optionList = options.map((e: string, i: number) => ({
@@ -18,29 +18,43 @@ const StatusContainer = () => {
     },
   }))
 
+  const onClickRegionHandler = (region: string) => {
+    setSelectedRegion(region)
+  }
+
+  const onClickRegionCodeHandler = (code: number) => {
+    setRegionCode(code)
+  }
+
   return (
     <c.AnalysisLayout>
+      {selectedRegion && <StatusDetailbarComponent regionCode={regionCode} />}
       <c.Sidebar>
         <StatusSidebarTopComponent />
-        <SeparateLine />
-        <h.Container>
-          <h.Title>구별 상권 현황</h.Title>
-          <h.Subtitle>아래의 구분을 선택하여 현황을 파악해 보세요</h.Subtitle>
-          <h.OptionsContainer>
+        <c.SeparateLine />
+        <c.Container>
+          <c.Title>구별 상권 현황</c.Title>
+          <c.Subtitle>아래의 구분을 선택하여 현황을 파악해 보세요</c.Subtitle>
+          <c.OptionsContainer>
             {optionList.map(option => (
-              <h.Option
+              <c.Option
                 key={option.name}
                 selected={selectedOption === option.name}
                 onClick={option.onClick}
               >
                 {option.name}
-              </h.Option>
+              </c.Option>
             ))}
-          </h.OptionsContainer>
-        </h.Container>
+          </c.OptionsContainer>
+        </c.Container>
       </c.Sidebar>
       <c.Content>
-        <StatusPolygonComponent tab={tab} />
+        <StatusPolygonComponent
+          tab={tab}
+          selectedRegion={selectedRegion}
+          onClickRegionHandler={onClickRegionHandler}
+          onClickRegionCodeHandler={onClickRegionCodeHandler}
+        />
       </c.Content>
     </c.AnalysisLayout>
   )

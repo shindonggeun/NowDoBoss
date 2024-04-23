@@ -65,6 +65,7 @@ const NavBar = () => {
           </n.Category>
         ))}
       </n.Chatting>
+      <n.ChatButton src="src/assets/chat_button.svg" />
     </n.Container>
   )
 }

@@ -48,7 +48,7 @@ public class CommercialController {
 
     @Operation(
             summary = "해당 분기의 상권별 유동 인구 조회",
-            description = "주어진 상권코드에 대해 해당 분기의 유동인구 데이터를 조회합니다. 기준년분기코드가 주어지지 않으면 최근 분기의 데이터를 사용합니다."
+            description = "주어진 상권코드에 대해 해당 분기의 유동인구 데이터를 조회합니다. 기준년분기코드가 주어지지 않으면 2023년 3분기의 데이터를 사용합니다."
     )
     @GetMapping("/foot-traffic/{commercialCode}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")

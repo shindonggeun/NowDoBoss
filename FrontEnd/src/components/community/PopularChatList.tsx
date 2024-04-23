@@ -1,13 +1,33 @@
 import * as p from '@src/components/styles/community/CommunityStyle'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
 import Slider from 'react-slick'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import useCommunityStore from '@src/stores/communityStore'
 
 const PopularChatList = () => {
   const categories = useCommunityStore(state => state.categories)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
+  // 화면 크기에 따라 slidesToShow 값을 설정하는 함수
+  const getSlidesToShow = () => {
+    if (windowWidth < 768) {
+      // 예를 들어 화면 너비가 768px 미만일 경우
+      return 1
+    }
+    return 2 // 기본값은 2로 설정
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    // 컴포넌트가 언마운트 될 때 이벤트 리스너를 제거
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
   // slider 옆으로 넘기기 위한 ref 상태
   const sliderRef = useRef<Slider | null>(null)
 
@@ -16,7 +36,7 @@ const PopularChatList = () => {
     infinite: true,
     arrows: false,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: getSlidesToShow(),
     slidesToScroll: 1,
     centerMode: true,
     centerPadding: '0px',
@@ -76,21 +96,21 @@ const PopularChatList = () => {
       <p.Context>
         <p.LeftGrid>
           <p.Title>인기 채팅방</p.Title>
-          <p.Sub>창업에 관심있는 멤버들과 함께 이야기를 나눠보세요!</p.Sub>
-          <p.ArrowDiv>
-            <p.ArrowButton
-              src="/src/assets/arrow_left.svg"
-              alt=""
-              onClick={prevSlide}
-            />
-            <p.ArrowButton
-              src="/src/assets/arrow_right.svg"
-              alt=""
-              onClick={nextSlide}
-            />
-          </p.ArrowDiv>
+          <p.CreateButton>채팅방 생성하기</p.CreateButton>
         </p.LeftGrid>
-        <p.CreateButton>채팅방 생성하기</p.CreateButton>
+        <p.Sub>창업에 관심있는 멤버들과 함께 이야기를 나눠보세요!</p.Sub>
+        <p.ArrowDiv>
+          <p.ArrowButton
+            src="/src/assets/arrow_left.svg"
+            alt=""
+            onClick={prevSlide}
+          />
+          <p.ArrowButton
+            src="/src/assets/arrow_right.svg"
+            alt=""
+            onClick={nextSlide}
+          />
+        </p.ArrowDiv>
       </p.Context>
       <p.Slick className="slider-container">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}

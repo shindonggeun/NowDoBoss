@@ -19,7 +19,7 @@ export const MenuListLeft = styled.div<{ isMenuOpen?: boolean }>`
   display: flex;
   margin: 0 1rem;
 
-  @media (max-width: 1050px) {
+  @media (max-width: 992px) {
     flex-direction: column;
     display: ${({ isMenuOpen }) => (isMenuOpen ? 'flex' : 'none')};
   }
@@ -31,7 +31,7 @@ export const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
   justify-content: right;
   margin: 0 1rem;
 
-  @media (max-width: 1050px) {
+  @media (max-width: 992px) {
     flex-direction: column;
     display: ${({ isMenuOpen }) => (isMenuOpen ? 'flex' : 'none')};
   }
@@ -50,6 +50,11 @@ export const Menu = styled.div<{ $isActive?: boolean }>`
     color: blue;
     border-bottom: 4px solid blue;
   }
+
+  @media (max-width: 1200px) {
+    font-size: 14px;
+    padding: 0 10px;
+  }
 `
 
 export const LogoDiv = styled.div``
@@ -59,15 +64,19 @@ export const Logo = styled.img`
   height: 55px;
   margin: 7px 0 0 0;
   cursor: pointer;
+  @media (max-width: 1200px) {
+    scale: 0.9;
+  }
 `
 
 export const HamburgerMenu = styled.div`
   font-size: 60px;
   display: none;
 
-  @media (max-width: 1050px) {
+  @media (max-width: 992px) {
     display: block; // 화면 너비가 1200px 이하일 경우 햄버거 메뉴 표시
     justify-content: right;
     cursor: pointer;
+    margin-right: 2vw;
   }
 `

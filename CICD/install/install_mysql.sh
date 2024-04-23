@@ -22,7 +22,7 @@ sudo systemctl enable mysql
 sudo cp ./mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # 추가 쿼리 실행
-sudo mysql -u root -e "CREATE USER 'ssafy'@'%' IDENTIFIED BY 'ssafy';"
+sudo mysql -u root -e "CREATE USER 'ssafy'@'%' IDENTIFIED BY 'ssafy!234';"
 sudo mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'ssafy'@'%' WITH GRANT OPTION;"
 sudo mysql -u root -e "CREATE DATABASE nowdoboss;"
 

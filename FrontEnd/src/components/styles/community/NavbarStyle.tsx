@@ -52,12 +52,12 @@ export const ChatButton = styled.img`
 
   @media only screen and (max-width: 992px) {
     display: flow;
-    margin-right: 18px;
+    margin-right: 2vw;
     cursor: pointer;
   }
   @media only screen and (max-width: 500px) {
     padding: 10px 5px;
-    margin-right: 0;
+    margin-right: 1.3vw;
     scale: 0.8;
   }
 `

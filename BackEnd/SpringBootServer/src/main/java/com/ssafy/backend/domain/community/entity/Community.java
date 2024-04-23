@@ -44,10 +44,19 @@ public class Community extends BaseEntity {
     @Column(columnDefinition = "INT UNSIGNED", nullable = false)
     private int readCount;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
 
     public void read() {
         this.readCount++;
+    }
+
+    public void addImage(Image image) {
+        images.add(image);
+    }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }

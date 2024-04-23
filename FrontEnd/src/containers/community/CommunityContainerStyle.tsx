@@ -8,10 +8,13 @@ export const NabBar = styled.div`
   z-index: 90;
 `
 
+export const MarginLeft = styled.div`
+  display: flex;
+  margin-left: 220px;
+  width: 100%;
+`
+
 export const Context = styled.div`
-  //margin-left: 220px;
-  margin: 3% 10% 3% 25%;
-  //margin: 3% 10%;
-  //background-color: blanchedalmond;
+  margin: 3% 10%;
   width: 65%;
 `

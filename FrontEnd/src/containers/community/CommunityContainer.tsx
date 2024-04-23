@@ -9,10 +9,12 @@ const CommunityContainer = () => {
       <c.NabBar>
         <NavBar />
       </c.NabBar>
-      <c.Context>
-        <PopularChatList />
-        <ArticleList />
-      </c.Context>
+      <c.MarginLeft>
+        <c.Context>
+          <PopularChatList />
+          <ArticleList />
+        </c.Context>
+      </c.MarginLeft>
     </c.Container>
   )
 }

@@ -11,10 +11,10 @@ spring:
 
   jpa:
     open-in-view: false
-    defer-datasource-initialization: false  # flyway 관련 마이그레이션 이슈 -> false로 변경
-    generate-ddl: false
+    defer-datasource-initialization: true
+    generate-ddl: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop                # ddl 자동 작성 여부
     properties:
       hibernate:
         format_sql: true             # 하이버네이트가 실행한 SQL을 출력할 때 보기 좋게 정렬

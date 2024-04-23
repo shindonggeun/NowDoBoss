@@ -1,9 +1,10 @@
 import * as a from '@src/components/styles/community/CommunityStyle'
 import useCommunityStore from '@src/stores/communityStore'
+import { useNavigate } from 'react-router-dom'
 
 const ArticleList = () => {
   const categories = useCommunityStore(state => state.categories)
-
+  const navigate = useNavigate()
   const ArticleDatas = [
     {
       id: 1,
@@ -33,9 +34,11 @@ const ArticleList = () => {
       <a.Context>
         <a.LeftGrid>
           <a.Title>커뮤니티 목록</a.Title>
-          <a.Sub>다양한 목적의 게시글을 올릴 수 있어요.</a.Sub>
+          <a.CreateButton onClick={() => navigate('/community/register')}>
+            게시글 작성하기
+          </a.CreateButton>
         </a.LeftGrid>
-        <a.CreateButton>게시글 작성하기</a.CreateButton>
+        <a.Sub>다양한 목적의 게시글을 올릴 수 있어요.</a.Sub>
       </a.Context>
       {/*  게시글 목록 */}
       <a.ArticlesContainer>
@@ -47,7 +50,10 @@ const ArticleList = () => {
           const iconSrc = matchedCategory ? matchedCategory.iconInactive : ''
 
           return (
-            <a.ArticleContainer key={article.id}>
+            <a.ArticleContainer
+              key={article.id}
+              onClick={() => navigate(`/community/${article.id}`)}
+            >
               <a.CategoryBadge>커뮤니티</a.CategoryBadge>
               <a.CardTitle>{article.title}</a.CardTitle>
               <a.CardContent>{article.content}</a.CardContent>

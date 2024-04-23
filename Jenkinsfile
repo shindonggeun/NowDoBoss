@@ -5,6 +5,13 @@ pipeline {
         stage('Deploy with Docker Compose') {  // 'Deploy with Docker Compose'라는 이름의 단계를 정의합니다. 이 단계에서는 Docker Compose를 사용한 배포가 이루어집니다.
             steps {
                 script {
+                    // Redis 컨테이너가 실행 중인지 확인
+                    def isRedisRunning = sh(script: "docker ps --filter name=nowdoboss_redis --filter status=running", returnStdout: true).trim()
+                    // Redis가 실행 중이지 않으면 실행
+                    if (!isRedisRunning) {
+                        sh "docker-compose -f docker-compose-redis.yml up -d"
+                    }
+
                     // 이전 실행에서 사용된 컨테이너 및 네트워크 정리
                     sh "docker-compose down --volumes"  // 'docker-compose down --volumes' 명령을 실행하여, 이전에 실행되었던 모든 컨테이너를 종료하고 관련된 볼륨을 삭제합니다. 이는 환경을 깨끗하게 정리하여 다음 배포가 깔끔한 상태에서 이루어질 수 있도록 합니다.
 

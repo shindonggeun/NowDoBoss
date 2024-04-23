@@ -3,8 +3,11 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import Slider from 'react-slick'
 import { useRef } from 'react'
+import useCommunityStore from '@src/stores/communityStore'
 
 const PopularChatList = () => {
+  const categories = useCommunityStore(state => state.categories)
+
   // slider 옆으로 넘기기 위한 ref 상태
   const sliderRef = useRef<Slider | null>(null)
 
@@ -46,7 +49,7 @@ const PopularChatList = () => {
       title: '잡담수다방',
       content:
         '강동구 사장님, 예비사장님들의 모임입니다. 부담 가지지 말고 들어오세요 :)',
-      category: '이모저모',
+      category: '인테리어',
       subContent: '인원 24 / 50',
     },
     {
@@ -54,7 +57,7 @@ const PopularChatList = () => {
       badge: '채팅방',
       title: '강남모임',
       content: '강남 사장 모임입니다 ㅎㅎ 누구든 들오세유',
-      category: '이모저모',
+      category: '창업고민',
       subContent: '인원 24 / 50',
     },
     {
@@ -62,7 +65,7 @@ const PopularChatList = () => {
       badge: '채팅방',
       title: '논현 게주아',
       content: '논현동 사장님, 예비사장님들의 모임입니다. 일단 드루와!',
-      category: '이모저모',
+      category: '동업제안',
       subContent: '인원 8 / 50',
     },
   ]
@@ -92,20 +95,28 @@ const PopularChatList = () => {
       <p.Slick className="slider-container">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Slider {...settings} ref={sliderRef}>
-          {ChatCardDatas.map(ChatCardData => (
-            <p.SlickChild key={ChatCardData.id}>
-              <p.ChatCard>
-                <p.CategoryBadge>{ChatCardData.badge}</p.CategoryBadge>
-                <p.CardTitle>{ChatCardData.title}</p.CardTitle>
-                <p.CardContent>{ChatCardData.content}</p.CardContent>
-                <p.CardCategory>
-                  <p.Icon src="src/assets/fire_gray.svg" />
-                  {ChatCardData.category}
-                </p.CardCategory>
-                <p.CardSubContent>{ChatCardData.subContent}</p.CardSubContent>
-              </p.ChatCard>
-            </p.SlickChild>
-          ))}
+          {ChatCardDatas.map(ChatCardData => {
+            // 카테고리 이미지를 find 함수를 사용해 category name 과 일치하는 이미지 불러오기
+            const matchedCategory = categories.find(
+              category => category.name === ChatCardData.category,
+            )
+            const iconSrc = matchedCategory ? matchedCategory.iconInactive : ''
+
+            return (
+              <p.SlickChild key={ChatCardData.id}>
+                <p.ChatCard>
+                  <p.CategoryBadge>{ChatCardData.badge}</p.CategoryBadge>
+                  <p.CardTitle>{ChatCardData.title}</p.CardTitle>
+                  <p.CardContent>{ChatCardData.content}</p.CardContent>
+                  <p.CardCategory>
+                    <p.Icon src={iconSrc} />
+                    {ChatCardData.category}
+                  </p.CardCategory>
+                  <p.CardSubContent>{ChatCardData.subContent}</p.CardSubContent>
+                </p.ChatCard>
+              </p.SlickChild>
+            )
+          })}
         </Slider>
       </p.Slick>
     </p.Container>

@@ -11,6 +11,7 @@ export const Title = styled.div`
 `
 
 export const Subtitle = styled.div`
+  font-size: small;
   text-align: left;
   margin-bottom: 1rem;
 `
@@ -26,9 +27,9 @@ export const Option = styled.div<{ selected: boolean }>`
   text-align: center;
   width: calc(50% - 50px);
   padding: 10px;
-  border: 2px solid ${({ selected }) => (selected ? 'blue' : 'gray')};
+  border: 1px solid ${({ selected }) => (selected ? '#0066FF' : '#DFDFDF')};
   border-radius: 0.5rem;
-  background-color: ${({ selected }) => (selected ? 'blue' : 'white')};
+  background-color: ${({ selected }) => (selected ? '#0066FF' : 'white')};
   color: ${({ selected }) => (selected ? 'white' : 'black')};
   cursor: pointer;
 `

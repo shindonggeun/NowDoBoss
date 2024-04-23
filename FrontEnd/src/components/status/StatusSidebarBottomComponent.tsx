@@ -1,8 +1,14 @@
 import * as h from '@src/components/styles/status/AnalysisSidebarBottomStyle'
-import { useState } from 'react'
 
-const StatusSidebarBottomComponent = () => {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null)
+type StatusSidebarBottomProps = {
+  selectedOption: string | null
+  setSelectedOption: React.Dispatch<React.SetStateAction<string | null>>
+}
+
+const StatusSidebarBottomComponent = ({
+  selectedOption,
+  setSelectedOption,
+}: StatusSidebarBottomProps) => {
   const options = ['유동인구', '매출평균', '입점률', '폐점률']
 
   return (

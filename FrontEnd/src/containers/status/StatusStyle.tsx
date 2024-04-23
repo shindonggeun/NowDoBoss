@@ -12,7 +12,8 @@ export const AnalysisLayout = styled.div`
 
 export const Sidebar = styled.div`
   flex: 1;
-  background-color: lightyellow;
+  border-right: 1px solid #dce5f2;
+  //background-color: lightyellow;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -20,15 +21,15 @@ export const Sidebar = styled.div`
 `
 
 export const SeparateLine = styled.div`
-  background-color: red;
-  height: 0.3rem;
+  background-color: #dce5f2;
+  height: 0.2rem;
   @media (max-width: 768px) {
     width: 100%;
   }
 `
 
 export const Content = styled.div`
-  flex: 3;
+  flex: 4;
   //background-color: blue;
 
   @media (max-width: 768px) {

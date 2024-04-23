@@ -33,7 +33,7 @@ const Header = () => {
     if (menuName === '커뮤니티') {
       navigate('/community')
     } else if (menuName === '상권현황') {
-      navigate('/')
+      navigate('/status')
     } else if (menuName === '상권분석') {
       navigate('/')
     } else if (menuName === '상권추천') {

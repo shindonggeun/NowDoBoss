@@ -3,6 +3,7 @@ export type SignUpDataType = {
   nickname: string
   email: string
   password: string
+  profileImage: string | null
 }
 
 export type InfoSectionPropsType = {

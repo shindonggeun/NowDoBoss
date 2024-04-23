@@ -25,6 +25,7 @@ export type UserStoreType = {
   loginData: LoginDataType
   setSignUpData: (fieldName: keyof SignUpDataType, value: string) => void
   setEmailCode: (code: string) => void
+  setLoginData: (fieldName: keyof LoginDataType, value: string) => void
 }
 
 // prop type

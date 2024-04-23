@@ -6,6 +6,13 @@ export const Container = styled.div`
   flex: 1;
 `
 
+export const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 3%;
+`
+
 export const HalfInput = styled.input`
   padding: 0.5rem;
   border: 1px solid #ccc;
@@ -41,6 +48,14 @@ export const EmailFlex2Input = styled.input`
   border-radius: 5px;
   font-size: 1rem;
   flex: 2;
+`
+
+export const EmailFlex1Input = styled.input`
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  flex: 1;
 `
 
 export const Btn = styled.div`

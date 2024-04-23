@@ -6,11 +6,11 @@ import {
   verifyEmailVerificationCode,
 } from '@src/api/userApi'
 import InfoSection from '@src/components/User/InfoSection'
-import NameInputSection from '@src/components/User/NameInputSection'
-import NicknameInputSection from '@src/components/User/NicknameInputSection'
-import EmailInputSection from '@src/components/User/EmailInputSection'
-import PwInputSection from '@src/components/User/PwInputSection'
-import RepeatPwInputSection from '@src/components/User/RepeatPwInputSection'
+import NameInputSection from '@src/components/User/SignUp/NameInputSection'
+import NicknameInputSection from '@src/components/User/SignUp/NicknameInputSection'
+import EmailInputSection from '@src/components/User/SignUp/EmailInputSection'
+import PwInputSection from '@src/components/User/SignUp/PwInputSection'
+import RepeatPwInputSection from '@src/components/User/SignUp/RepeatPwInputSection'
 import AskSection from '@src/components/User/AskSection'
 import SocialBtnSection from '@src/components/User/SocialBtnSection'
 import * as u from '@src/containers/User/UserContainerStyle'
@@ -71,7 +71,7 @@ const SignUpContainer = () => {
           <PwInputSection />
           <RepeatPwInputSection />
         </u.InputWrap>
-        <u.Btn marginTop="6%" onClick={handleRegisterUser}>
+        <u.Btn marginTop="7%" onClick={handleRegisterUser}>
           Sign Up
         </u.Btn>
         <AskSection title="계정이 이미 있으신가요?" subtitle="Log In" />

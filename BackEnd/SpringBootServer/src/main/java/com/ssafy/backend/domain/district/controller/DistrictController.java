@@ -1,6 +1,6 @@
 package com.ssafy.backend.domain.district.controller;
 
-import com.ssafy.backend.domain.district.dto.DistrictInfo;
+import com.ssafy.backend.domain.district.dto.DistrictAreaResponse;
 import com.ssafy.backend.domain.district.dto.DistrictDetailResponse;
 import com.ssafy.backend.domain.district.dto.DistrictTopTenResponse;
 import com.ssafy.backend.domain.district.service.DistrictService;
@@ -49,10 +49,10 @@ public class DistrictController {
             summary = "전체 자치구 목록 조회",
             description = "모든 자치구의 코드와 이름을 반환하는 기능입니다."
     )
-    @GetMapping("/all-districts")
+    @GetMapping("/areas")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<DistrictInfo>>> getAllDistricts() {
-        List<DistrictInfo> districtInfoList = districtService.getAllDistricts();
-        return ResponseEntity.ok().body(Message.success(districtInfoList));
+    public ResponseEntity<Message<List<DistrictAreaResponse>>> getAllDistricts() {
+        List<DistrictAreaResponse> areaResponseList = districtService.getAllDistricts();
+        return ResponseEntity.ok().body(Message.success(areaResponseList));
     }
 }

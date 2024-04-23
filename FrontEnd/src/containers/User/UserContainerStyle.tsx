@@ -23,7 +23,7 @@ export const RightWrap = styled.div`
     display: none;
   }
 `
-export const FirstSection = styled.div`
+export const InputWrap = styled.div`
   margin-top: 3%;
   display: flex;
   flex-direction: row;
@@ -36,35 +36,7 @@ export const FirstSection = styled.div`
   }
 `
 
-export const InputDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`
-
-export const EmailSection = styled.div`
-  margin-top: 3%;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
-
-export const EmailFirstRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 1%;
-`
-
-export const EmailSecondRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 1%;
-  width: 100%;
-  margin-top: 1%;
-`
-
 interface BtnProps {
-  flex?: number
   marginTop?: string
 }
 
@@ -77,6 +49,6 @@ export const Btn = styled.div<BtnProps>`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  flex: ${props => (props.flex ? props.flex : '1')};
-  ${({ marginTop }) => marginTop && `margin-top: ${marginTop};`}
+  flex: 1;
+  ${({ marginTop }) => marginTop && `margin-top: ${marginTop};`};
 `

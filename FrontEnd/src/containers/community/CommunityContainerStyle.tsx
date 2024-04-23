@@ -36,3 +36,20 @@ export const Context = styled.div`
   margin: 3% 10%;
   width: 80%;
 `
+
+// detail style
+
+export const DetailContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 92.5vh;
+`
+
+export const MainContentDiv = styled.div`
+  width: 66.7vw;
+`
+
+export const SubContentDiv = styled.div`
+  width: 33.3vw;
+`

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  width: 100%;
+  margin: 0 0 40px;
 `
 export const Context = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ export const Context = styled.div`
 `
 export const LeftGrid = styled.div`
   display: grid;
-  height: 15vh;
+  height: auto;
 `
 export const Title = styled.div`
   font-weight: 600;
@@ -46,6 +46,9 @@ export const ArrowDiv = styled.div`
 export const ArrowButton = styled.img`
   cursor: pointer;
 `
+
+// 인기 채팅방 관련 style
+
 export const Slick = styled.div``
 export const SlickChild = styled.div`
   &:hover {
@@ -104,4 +107,10 @@ export const CardSubContent = styled.div`
   font-weight: 500;
   color: #696d6e;
   margin: 5px 0;
+`
+
+// 커뮤니티 목록 style
+export const ArticleContainer = styled.div`
+  border-top: 2px solid #d9d9d9;
+  padding: 30px;
 `

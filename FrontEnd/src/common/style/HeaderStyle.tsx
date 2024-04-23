@@ -6,6 +6,13 @@ export const Container = styled.header`
   align-items: center;
   justify-content: space-between;
   border-bottom: #c4c4c4 2px solid;
+  // 상단 고정하기 위한 코드
+  background-color: #fff;
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 `
 
 export const MenuListLeft = styled.div<{ isMenuOpen?: boolean }>`
@@ -29,7 +36,7 @@ export const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
     display: ${({ isMenuOpen }) => (isMenuOpen ? 'flex' : 'none')};
   }
 `
-export const Menu = styled.div<{ isActive?: boolean }>`
+export const Menu = styled.div<{ $isActive?: boolean }>`
   height: 57px;
   padding: 0 10px;
   font-size: 16px;
@@ -37,8 +44,8 @@ export const Menu = styled.div<{ isActive?: boolean }>`
   align-items: center;
   cursor: pointer;
   font-weight: bold;
-  border-bottom: 4px solid ${({ isActive }) => (isActive ? 'blue' : 'white')};
-  color: ${({ isActive }) => (isActive ? 'blue' : 'black')};
+  border-bottom: 4px solid ${props => (props.$isActive ? 'blue' : 'white')};
+  color: ${props => (props.$isActive ? 'blue' : 'black')};
   &:hover {
     color: blue;
     border-bottom: 4px solid blue;

@@ -24,4 +24,8 @@ public class Image {
     @Comment("이미지 url")
     @Column(columnDefinition = "VARCHAR(255)", nullable = false)
     private String url;
+
+    public void update(String url) {
+        this.url = url;
+    }
 }

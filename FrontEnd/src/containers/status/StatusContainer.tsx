@@ -3,7 +3,7 @@ import * as h from '@src/components/styles/status/AnalysisSidebarBottomStyle.tsx
 import { SeparateLine } from '@src/containers/status/StatusStyle.tsx'
 import StatusPolygonComponent from '@src/components/status/StatusPolygonComponent.tsx'
 import StatusSidebarTopComponent from '@src/components/status/StatusSidebarTopComponent.tsx'
-import StatusSidebarBottomComponent from '@src/components/status/StatusSidebarBottomComponent.tsx'
+// import StatusSidebarBottomComponent from '@src/components/status/StatusSidebarBottomComponent.tsx'
 import { useState } from 'react'
 
 const StatusContainer = () => {

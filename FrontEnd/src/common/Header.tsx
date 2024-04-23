@@ -1,11 +1,32 @@
 import * as h from '@src/common/style/HeaderStyle'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { NavigateType } from '@src/types/GlobalType'
 
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    // 경로에 따라 activeMenu 설정
+    switch (location.pathname) {
+      case '/community':
+        setActiveMenu('커뮤니티')
+        break
+      case '/register':
+        setActiveMenu('회원가입')
+        break
+      case '/login':
+        setActiveMenu('로그인')
+        break
+      case '/mypage':
+        setActiveMenu('마이페이지')
+        break
+      default:
+        setActiveMenu(null)
+    }
+  }, [location.pathname])
 
   const handleMenuClick = (menuName: string) => {
     setActiveMenu(menuName)
@@ -39,7 +60,7 @@ const Header = () => {
           menuName => (
             <h.Menu
               key={menuName}
-              isActive={activeMenu === menuName}
+              $isActive={activeMenu === menuName}
               onClick={() => handleMenuClick(menuName)}
             >
               {menuName}
@@ -54,7 +75,7 @@ const Header = () => {
         {['마이페이지', '로그인', '회원가입'].map(menuName => (
           <h.Menu
             key={menuName}
-            isActive={activeMenu === menuName}
+            $isActive={activeMenu === menuName}
             onClick={() => handleMenuClick(menuName)}
           >
             {menuName}

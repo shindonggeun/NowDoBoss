@@ -67,6 +67,17 @@ public class CommunityController {
     }
 
     @Operation(
+            summary = "게시글 수정",
+            description = "커뮤니티 게시글을 수정하는 기능입니다."
+    )
+    @PatchMapping("/{communityId}")
+    public ResponseEntity<Message<Void>> updateCommunity(@PathVariable Long communityId,
+                                                         @Validated @RequestBody UpdateCommunityRequest request) {
+        communityService.updateCommunity(communityId, request);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
             summary = "댓글 작성",
             description = "커뮤니티 댓글을 작성하는 기능입니다."
     )
@@ -96,6 +107,18 @@ public class CommunityController {
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity deleteComment(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "댓글 수정 ",
+            description = "커뮤니티 댓글을 수정하는 기능입니다."
+    )
+    @PatchMapping("/{communityId}/comment/{commentId}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity updateComment(@PathVariable Long commentId,
+                                        @RequestBody UpdateCommentRequest request) {
+        commentService.updateComment(commentId, request);
         return ResponseEntity.ok().body(Message.success());
     }
 }

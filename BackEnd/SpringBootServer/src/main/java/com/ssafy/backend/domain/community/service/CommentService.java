@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.community.service;
 
 import com.ssafy.backend.domain.community.dto.CommentListResponse;
+import com.ssafy.backend.domain.community.dto.UpdateCommentRequest;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ public interface CommentService {
     List<CommentListResponse> selectCommentList(Long communityId, Long lastId);
 
     void deleteComment(Long commentId);
+
+    void updateComment(Long commentId, UpdateCommentRequest request);
 }

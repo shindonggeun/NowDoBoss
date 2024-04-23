@@ -12,7 +12,7 @@ export const Container = styled.div`
 
 export const LeftWrap = styled.div`
   flex: 1;
-  padding: 5%;
+  padding: 5% 3% 5% 5%;
 `
 
 export const RightWrap = styled.div`
@@ -23,86 +23,32 @@ export const RightWrap = styled.div`
     display: none;
   }
 `
-export const RowSection = styled.div`
+export const InputWrap = styled.div`
   margin-top: 3%;
   display: flex;
   flex-direction: row;
   gap: 1%;
   width: 100%;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
 `
 
-export const EmailSection = styled.div`
-  margin-top: 3%;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
+interface BtnProps {
+  marginTop?: string
+}
 
-export const EmailCodeSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 1%;
-  width: 100%;
-  margin-top: 1%;
-`
-
-export const InputDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`
-export const Label = styled.label`
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: 1%;
-`
-export const Input = styled.input`
+export const Btn = styled.div<BtnProps>`
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
-`
-
-export const InputButtonDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 1%;
-`
-
-export const EmailInput = styled.input`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  flex: 2;
-`
-
-export const EmailSendBtn = styled.div`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-`
-
-export const EmailCodeInput = styled.input`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
+  cursor: pointer;
   flex: 1;
-`
-
-export const EmailCheckBtn = styled.div`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  ${({ marginTop }) => marginTop && `margin-top: ${marginTop};`};
 `

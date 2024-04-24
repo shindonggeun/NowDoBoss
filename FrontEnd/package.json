@@ -21,6 +21,7 @@
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.8",
+    "time-counting": "^2.0.2",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

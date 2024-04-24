@@ -2,8 +2,20 @@ import styled from 'styled-components'
 
 // MainContent
 export const Container = styled.div`
-  padding: 3vh 5vw;
-  border-right: 2px solid #d9d9d9;
+  padding: 3vh 10% 0;
+
+  @media only screen and (min-width: 768px) {
+    padding: 3vh 10%;
+    border-right: 2px solid #d9d9d9;
+  }
+  @media only screen and (min-width: 992px) {
+    padding: 3vh 12%;
+    border-right: 2px solid #d9d9d9;
+  }
+  @media only screen and (min-width: 1200px) {
+    padding: 3vh 15%;
+    border-right: 2px solid #d9d9d9;
+  }
 `
 export const BackButton = styled.div`
   display: flex;
@@ -25,7 +37,7 @@ export const Title = styled.div`
 export const Category = styled.div`
   padding: 1vh 0;
 `
-export const Time = styled.div`
+export const TimeAndCounting = styled.div`
   padding: 0 0 2vh;
   font-weight: 600;
 `
@@ -37,83 +49,91 @@ export const ContentImg = styled.div`
 export const Content = styled.div`
   padding: 2vh 0;
 `
-// 댓글 관련 style
 
-// 댓글 입력 Box
-export const CommentBox = styled.div`
-  border: 1px solid #d9d9d9;
-  border-radius: 5px;
+// SubContent
+
+export const SubContainer = styled.div`
+  padding: 3vh 10%;
+
+  @media only screen and (min-width: 1200px) {
+    max-width: 400px;
+  }
+`
+export const TabName = styled.div`
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin: 10px 0;
+`
+
+export const WriterProfile = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  //width: 80%;
-  //font-size: 1rem;
-  padding: 1.2rem;
-  margin: 0 0 2vh;
+  margin: 20px 0;
 `
 
-// 댓글 input창
-export const CommentInput = styled.textarea`
-  width: 80%;
-  font-size: 1rem;
-  border: none;
-  color: #a9a9a9;
-  resize: none;
-  border-radius: 5px;
-
-  overflow-y: auto; // 내용이 넘칠 경우 스크롤바 생성
-  &:hover {
-    cursor: text;
-  }
-  &:focus {
-    outline: none;
-    border: none;
-  }
+export const ProfileDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
 `
 
-// 댓글 작성 버튼
-export const CommentSubmit = styled.div`
-  background-color: #b5c4f8;
-  padding: 5px 20px;
-  border-radius: 5px;
+export const UserProfileImg = styled.div`
+  background-color: #cacaca;
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+`
+export const UserName = styled.div`
+  font-weight: 600;
+  margin: 0 0.5rem;
+`
+export const ChatButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #ffffff;
-  font-weight: 600;
-`
-export const CommentTitle = styled.div`
-  font-size: 2rem;
-  font-weight: 600;
-  margin: 0 0 2vh;
-`
-export const CommentCard = styled.div`
-  margin: 2rem 0;
-`
+  background-color: #236cff;
+  color: white;
+  border-radius: 10px;
+  padding: 0 0.5rem;
+  height: 34px;
 
-export const CommentContainer = styled.div`
+  &:hover {
+    cursor: pointer;
+  }
+  &:active {
+    background-color: #1a53ff;
+  }
+`
+export const ChatImg = styled.img`
+  margin-top: -4px;
+`
+export const SameCategoryList = styled.div`
+  padding: 20px 0;
+`
+export const SubContent = styled.div`
+  color: #707882;
   display: flex;
-  flex-direction: row;
 `
-export const CommentUser = styled.div``
+export const Icon = styled.img`
+  padding: 0 2px;
+`
+export const AnotherCard = styled.div`
+  padding: 5px 0;
+`
+export const SubCardContent = styled.div`
+  margin: 5px 0 5px 40px;
+`
+export const SubCardTitle = styled.div`
+  font-weight: 500;
+`
+export const GotoCard = styled.div`
+  color: #707882;
+  padding-top: 5px;
 
-export const CommentProfile = styled.div`
-  border-radius: 100%;
-  background-color: #acacac;
-  width: 3rem;
-  height: 3rem;
-  margin-right: 1rem;
-`
-export const CommentName = styled.div`
-  font-weight: 600;
-  font-size: 1.3rem;
-  margin-top: -2px;
-`
-export const CommentTime = styled.div`
-  color: #acacac;
-  margin-top: -3px;
-  margin-bottom: 5px;
-`
-export const CommentContent = styled.div`
-  margin-left: 4rem;
+  &:hover {
+    cursor: pointer;
+    font-weight: 600;
+  }
 `

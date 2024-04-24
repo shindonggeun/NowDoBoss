@@ -9,21 +9,26 @@ import InfoSection from '@src/components/User/InfoSection'
 import NameInputSection from '@src/components/User/SignUp/NameInputSection'
 import NicknameInputSection from '@src/components/User/SignUp/NicknameInputSection'
 import EmailInputSection from '@src/components/User/SignUp/EmailInputSection'
+import CodeInputSection from '@src/components/User/SignUp/CodeInputSection'
 import PwInputSection from '@src/components/User/SignUp/PwInputSection'
 import RepeatPwInputSection from '@src/components/User/SignUp/RepeatPwInputSection'
 import AskSection from '@src/components/User/AskSection'
 import SocialBtnSection from '@src/components/User/SocialBtnSection'
 import * as u from '@src/containers/User/UserContainerStyle'
+import { useNavigate } from 'react-router-dom'
 
 const SignUpContainer = () => {
-  const { signUpData, emailCode } = userStore()
+  const { signUpData, emailCode, setSignUpError } = userStore()
+  const navigate = useNavigate()
 
   // 이메일 인증코드 발송
   const { mutate: SendEmailVerificationCode } = useMutation({
     mutationKey: ['sendEmailVerificationCode'],
     mutationFn: sendEmailVerificationCode,
+    onSuccess: res => {
+      setSignUpError('emailErr', res.dataHeader.resultMessage)
+    },
   })
-
   const handleSendEmailCode = () => {
     SendEmailVerificationCode(signUpData.email)
   }
@@ -32,20 +37,28 @@ const SignUpContainer = () => {
   const { mutate: VerifyEmailVerificationCode } = useMutation({
     mutationKey: ['verifyEmailVerificationCode'],
     mutationFn: verifyEmailVerificationCode,
+    onSuccess: res => {
+      setSignUpError('codeErr', res.dataHeader.resultMessage)
+    },
   })
 
   const handleVerifyEmailCode = () => {
-    const params = {
+    const paths = {
       memberEmail: signUpData.email,
       emailCode,
     }
-    VerifyEmailVerificationCode(params)
+    VerifyEmailVerificationCode(paths)
   }
 
   // 회원가입
   const { mutate: RegisterUser } = useMutation({
     mutationKey: ['registerUser'],
     mutationFn: registerUser,
+    onSuccess: () => {
+      console.log('회원가입성공! 로그인페이지로 리다이렉트합니다.')
+
+      navigate('/login')
+    },
   })
 
   const handleRegisterUser = () => {
@@ -63,10 +76,8 @@ const SignUpContainer = () => {
           <NameInputSection />
           <NicknameInputSection />
         </u.InputWrap>
-        <EmailInputSection
-          handleSendEmailCode={handleSendEmailCode}
-          handleVerifyEmailCode={handleVerifyEmailCode}
-        />
+        <EmailInputSection handleSendEmailCode={handleSendEmailCode} />
+        <CodeInputSection handleVerifyEmailCode={handleVerifyEmailCode} />
         <u.InputWrap>
           <PwInputSection />
           <RepeatPwInputSection />

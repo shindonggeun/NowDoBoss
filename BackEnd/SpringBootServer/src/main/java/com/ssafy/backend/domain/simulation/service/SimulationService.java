@@ -1,13 +1,11 @@
 package com.ssafy.backend.domain.simulation.service;
 
-import com.ssafy.backend.domain.simulation.dto.CreateSimulationRequest;
-import com.ssafy.backend.domain.simulation.dto.SearchFranchiseeRequest;
-import com.ssafy.backend.domain.simulation.dto.SearchFranchiseeResponse;
-import com.ssafy.backend.domain.simulation.dto.SimulationResponse;
+import com.ssafy.backend.domain.simulation.dto.*;
 
 import java.util.List;
 
 public interface SimulationService {
     List<SearchFranchiseeResponse> searchFranchisee(SearchFranchiseeRequest request);
+    StoreResponse selectStoreSize(String serviceCode);
     SimulationResponse simulate(CreateSimulationRequest request);
 }

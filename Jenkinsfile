@@ -9,7 +9,7 @@ pipeline {
                     def isRedisRunning = sh(script: "docker ps --filter name=nowdoboss_redis --filter status=running", returnStdout: true).trim()
                     // Redis가 실행 중이지 않으면 실행
                     if (!isRedisRunning) {
-                        sh "docker-compose -f docker-compose-redis.yml up -d"
+                        sh "docker-compose -f CICD/docker-compose-redis.yml up -d"
                     }
 
                     // 이전 실행에서 사용된 컨테이너 및 네트워크 정리

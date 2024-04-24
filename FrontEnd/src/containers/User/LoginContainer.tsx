@@ -8,6 +8,7 @@ import EmailInputSection from '@src/components/User/LogIn/EmailInputSection'
 import PwInputSection from '@src/components/User/LogIn/PwInputSection'
 import AskSection from '@src/components/User/AskSection'
 import SocialBtnSection from '@src/components/User/SocialBtnSection'
+import LogoutContainer from '@src/containers/User/LogoutContainer'
 import * as u from '@src/containers/User/UserContainerStyle'
 
 const LoginContainer = () => {
@@ -33,7 +34,9 @@ const LoginContainer = () => {
         // 로컬 스토리지에 memberInfo 저장
         const { memberInfo } = res.dataBody
         localStorage.setItem('memberInfo', JSON.stringify(memberInfo))
+
         console.log('로그인성공! 메인페이지로 리다이렉트합니다.')
+
         navigate('/')
       }
     },
@@ -58,6 +61,7 @@ const LoginContainer = () => {
         </u.Btn>
         <AskSection title="아직 회원이 아니신가요?" subtitle="Sign up" />
         <SocialBtnSection />
+        <LogoutContainer />
       </u.LeftWrap>
       <u.RightWrap />
     </u.Container>

@@ -38,3 +38,11 @@ export const loginUser = async (data: LoginDataType) => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 로그아웃
+export const logoutUser = async () => {
+  return customAxios
+    .post(`/member/logout`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

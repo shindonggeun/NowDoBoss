@@ -1,12 +1,13 @@
 package com.ssafy.backend.domain.simulation.controller;
 
-import com.ssafy.backend.domain.simulation.dto.CreateSimulationRequest;
-import com.ssafy.backend.domain.simulation.dto.SearchFranchiseeRequest;
+import com.ssafy.backend.domain.simulation.dto.*;
 import com.ssafy.backend.domain.simulation.service.SimulationService;
 import com.ssafy.backend.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,8 +16,13 @@ public class SimulationController {
     private final SimulationService simulationService;
 
     @GetMapping("/franchisee")
-    public ResponseEntity searchFranchisee(SearchFranchiseeRequest request) {
+    public ResponseEntity<Message<List<SearchFranchiseeResponse>>> searchFranchisee(SearchFranchiseeRequest request) {
         return ResponseEntity.ok().body(Message.success(simulationService.searchFranchisee(request)));
+    }
+
+    @GetMapping("/store")
+    public ResponseEntity<Message<StoreResponse>> selectStoreSize(String serviceCode) {
+        return ResponseEntity.ok().body(Message.success(simulationService.selectStoreSize(serviceCode)));
     }
 
     @PostMapping

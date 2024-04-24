@@ -16,17 +16,22 @@ public class Franchisee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Comment("서비스 아이디")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_type_id", nullable = false)
+    private ServiceType serviceType;
+
     @Comment("브랜드 이름")
     @Column(nullable = false)
     private String brandName;
 
-    @Comment("업종 코드")
-    @Column(nullable = false)
-    private String serviceCode;
-
-    @Comment("업종 이름")
-    @Column(nullable = false)
-    private String serviceCodeName;
+//    @Comment("업종 코드")
+//    @Column(nullable = false)
+//    private String serviceCode;
+//
+//    @Comment("업종 이름")
+//    @Column(nullable = false)
+//    private String serviceCodeName;
 
     @Comment("가입비")
     private int subscription;
@@ -52,12 +57,12 @@ public class Franchisee {
     @Comment("인테리어 비용")
     private int interior;
 
-    @Comment("소형 크기(m²)")
-    private int smallSize;
-
-    @Comment("중형 크기(m²)")
-    private int mediumSize;
-
-    @Comment("대형 크기(m²)")
-    private int largeSize;
+//    @Comment("소형 크기(m²)")
+//    private int smallSize;
+//
+//    @Comment("중형 크기(m²)")
+//    private int mediumSize;
+//
+//    @Comment("대형 크기(m²)")
+//    private int largeSize;
 }

@@ -31,19 +31,53 @@ export const Container = styled.div`
 export const FixedCategoryBar = styled.div`
   position: sticky;
   top: 0;
-  background-color: blue;
   z-index: 1010;
-  padding: 10px 0;
   width: 100%;
 `
 
-export const BarInnerText = styled.div`
+export const BarTopHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  padding: 15px 20px 10px 20px;
+  background-color: #236cff;
+  color: white;
+`
+
+export const BarTopTitle = styled.div`
+  font-size: 32px;
+  font-weight: 600;
+`
+
+export const BarTopSubtitle = styled.div`
+  font-size: 18px;
+  padding-left: 15px;
+`
+
+export const BarTopSeason = styled.div`
+  font-size: 14px;
+  padding-left: 15px;
+`
+export const BarInnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: white;
+`
+interface BarInnerTextProps {
+  isActive: boolean
+}
+
+export const BarInnerText = styled.div<BarInnerTextProps>`
   display: inline-block;
-  margin-left: 10px;
+  margin: 10px 10px;
+  cursor: pointer;
+  color: ${props => (props.isActive ? 'blue' : 'black')};
+  border-bottom: ${props => (props.isActive ? '2px solid blue' : 'none')};
 `
 
 export const TabBarContainer = styled.div`
-  scroll-margin-top: 40px;
+  scroll-margin-top: 120px;
   margin: 0 20px;
 `
 

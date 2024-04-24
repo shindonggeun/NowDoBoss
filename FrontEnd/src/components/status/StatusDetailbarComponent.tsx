@@ -1,23 +1,11 @@
 import * as c from '@src/components/styles/status/StatusDetailbarStyle'
-// import NavScroll from '@src/common/NavScroll'
-import { useRef } from 'react'
-import DetailPopulationComponent from '@src/components/status/DetailPopulationComponent.tsx'
-import DetailStoreNumberComponent from '@src/components/status/DetailStoreNumberComponent.tsx'
-import DetailOpenRateComponent from '@src/components/status/DetailOpenRateComponent.tsx'
-import DetailCloseRateConponent from '@src/components/status/DetailCloseRateComponent.tsx'
-import DetailAnalysisComponent from '@src/components/status/DetailAnalysisComponent.tsx'
-import DetailCommercialComponent from '@src/components/status/DetailCommercialComponent.tsx'
-
-// const DetailPopulation = forwardRef(function DetailPopulation(props, ref) {
-//   return (
-//     // <section ref={populationRef => (ref.current[0] = populationRef)}>
-//     <section ref={ref}>
-//       <h1>유동인구 페이지</h1>
-//       <p>유동인구 어쩌고 저쩌고</p>
-//       <p>유동인구 어쩌고 저쩌고</p>
-//     </section>
-//   )
-// })
+import DetailPopulationComponent from '@src/components/status/DetailPopulationComponent'
+import DetailStoreNumberComponent from '@src/components/status/DetailStoreNumberComponent'
+import DetailOpenRateComponent from '@src/components/status/DetailOpenRateComponent'
+import DetailCloseRateComponent from '@src/components/status/DetailCloseRateComponent'
+import DetailAnalysisComponent from '@src/components/status/DetailAnalysisComponent'
+import DetailCommercialComponent from '@src/components/status/DetailCommercialComponent'
+import { useRef, useState } from 'react'
 
 interface StatusDetailbarProps {
   selectedRegion: string | null
@@ -29,96 +17,65 @@ const StatusDetailbarComponent = ({
   regionCode,
 }: StatusDetailbarProps) => {
   console.log(`선택한 지역구 코드: ${regionCode}`)
+  const [activeTab, setActiveTab] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement[]>([])
 
-  const categories: string[] = [
-    '유동인구',
-    '점포수',
-    '개업률',
-    '폐업률',
-    '매출분석',
-    '상권변화',
+  const categories = [
+    { name: '유동인구', component: DetailPopulationComponent },
+    { name: '점포수', component: DetailStoreNumberComponent },
+    { name: '개업률', component: DetailOpenRateComponent },
+    { name: '폐업률', component: DetailCloseRateComponent },
+    { name: '매출분석', component: DetailAnalysisComponent },
+    { name: '상권변화', component: DetailCommercialComponent },
   ]
+
+  const onClickActiveTab = (tab: string) => {
+    setActiveTab(tab)
+  }
 
   const handleScrollView = event => {
     const name = event.target.innerText
-    scrollRef.current[categories.indexOf(name)].scrollIntoView({
-      behavior: 'smooth',
-    })
+    const index = categories.findIndex(category => category.name === name)
+    if (index !== -1) {
+      scrollRef.current[index].scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return (
     <c.Container>
-      {/* <NavScroll scrollRef={scrollRef} /> */}
       <c.FixedCategoryBar onClick={handleScrollView}>
-        {categories.map((category, index) => (
-          <c.BarInnerText key={index}>{category}</c.BarInnerText>
-        ))}
+        <c.BarTopHeader>
+          <c.BarTopTitle>{selectedRegion}</c.BarTopTitle>
+          <c.BarTopSubtitle>분석 리포트</c.BarTopSubtitle>
+          <c.BarTopSeason>(2023 3분기 기준)</c.BarTopSeason>
+        </c.BarTopHeader>
+        <c.BarInnerContainer>
+          {categories.map((category, index) => (
+            <c.BarInnerText
+              key={index}
+              onClick={() => onClickActiveTab(category.name)}
+              isActive={category.name === activeTab}
+            >
+              {category.name}
+            </c.BarInnerText>
+          ))}
+        </c.BarInnerContainer>
       </c.FixedCategoryBar>
 
-      <h1>{selectedRegion} 사이드바 테스트</h1>
       <p>선택한 지역구 코드: {regionCode} </p>
-      {/* <DetailPopulation ref={scrollRef} /> */}
-      <c.SeparateLine />
 
-      <c.TabBarContainer
-        ref={el => {
-          if (el) scrollRef.current[0] = el
-        }}
-      >
-        {/* 유동인구 */}
-        <DetailPopulationComponent />
-      </c.TabBarContainer>
-      <c.SeparateLine />
-
-      <c.TabBarContainer
-        ref={el => {
-          if (el) scrollRef.current[1] = el
-        }}
-      >
-        {/* 점포수 */}
-        <DetailStoreNumberComponent />
-      </c.TabBarContainer>
-      <c.SeparateLine />
-
-      <c.TabBarContainer
-        ref={el => {
-          if (el) scrollRef.current[2] = el
-        }}
-      >
-        {/* 개업률 */}
-        <DetailOpenRateComponent />
-      </c.TabBarContainer>
-      <c.SeparateLine />
-
-      <c.TabBarContainer
-        ref={el => {
-          if (el) scrollRef.current[3] = el
-        }}
-      >
-        {/* 폐업률 */}
-        <DetailCloseRateConponent />
-      </c.TabBarContainer>
-      <c.SeparateLine />
-
-      <c.TabBarContainer
-        ref={el => {
-          if (el) scrollRef.current[4] = el
-        }}
-      >
-        {/* 매출분석 */}
-        <DetailAnalysisComponent />
-      </c.TabBarContainer>
-      <c.SeparateLine />
-
-      <c.TabBarContainer
-        ref={el => {
-          if (el) scrollRef.current[5] = el
-        }}
-      >
-        {/* 상권변화 */}
-        <DetailCommercialComponent />
-      </c.TabBarContainer>
+      {categories.map((category, index) => (
+        <div key={index}>
+          <c.SeparateLine />
+          <c.TabBarContainer
+            ref={el => {
+              if (el) scrollRef.current[index] = el
+            }}
+          >
+            <category.component />
+          </c.TabBarContainer>
+        </div>
+      ))}
     </c.Container>
   )
 }

@@ -1,4 +1,4 @@
-const DetailCloseRateConponent = () => {
+const DetailCloseRateComponent = () => {
   return (
     <>
       <h1>폐업률 페이지</h1>
@@ -15,4 +15,4 @@ const DetailCloseRateConponent = () => {
   )
 }
 
-export default DetailCloseRateConponent
+export default DetailCloseRateComponent

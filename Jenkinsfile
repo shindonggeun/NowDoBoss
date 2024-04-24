@@ -22,7 +22,7 @@ pipeline {
                     echo "Redis 실행 상태: ${isRedisRunning}"
 
                     // Redis가 실행 중이지 않으면 실행
-                    if (!isRedisRunning) {
+                    if (isRedisRunning = "") {
                         sh "docker-compose -f CICD/docker-compose-redis.yml up -d"
                     }
                 }

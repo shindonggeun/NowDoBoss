@@ -15,7 +15,7 @@ foot_traffic_third = ['11305545', '11230545', '11740610', '11305555', '11380625'
 # 유동인구 모델을 불러오고 추천을 수행하는 함수
 def get_foot_traffic_recommendations(user_id: int, type: int, code: str, commercial_list: List):
     # 모델 불러오기
-    kmeans = joblib.load("kmeans_foot_traffic.pkl")
+    kmeans = joblib.load("models/kmeans_foot_traffic.pkl")
 
     # 주어진 새로운 데이터 - 받은 상권 코드 리스트들을 가지고 해당 상권 코드에 해당하는 유동인구 관련 데이터 리스트 가져오기
     # 이건 샘플
@@ -66,7 +66,7 @@ def get_foot_traffic_recommendations(user_id: int, type: int, code: str, commerc
 
 # 매출 모델을 불러오고 추천을 수행하는 함수
 def get_sales_recommendations(user_id: int, type: int, code: str, commercial_list: List):
-    kmeans = joblib.load("kmeans_sales.pkl")
+    kmeans = joblib.load("models/kmeans_sales.pkl")
 
     # 주어진 새로운 데이터 - 받은 상권 코드 리스트들을 가지고 해당 상권 코드에 해당하는 유동인구 관련 데이터 리스트 가져오기
     # 이건 샘플

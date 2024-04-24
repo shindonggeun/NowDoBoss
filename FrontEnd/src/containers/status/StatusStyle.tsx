@@ -4,6 +4,7 @@ export const AnalysisLayout = styled.div`
   display: flex;
   flex-direction: row;
   height: 91vh;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     flex-direction: column;

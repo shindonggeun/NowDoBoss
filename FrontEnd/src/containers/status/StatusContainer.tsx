@@ -8,7 +8,7 @@ const StatusContainer = () => {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null) // 지역 선택
   const [regionCode, setRegionCode] = useState<number | null>(null) // 지역 선택
   const [selectedOption, setSelectedOption] = useState<string | null>(null) // 옵션 선택
-  const [tab, setTab] = useState<number>(0)
+  const [tab, setTab] = useState<number | null>(null)
   const options = ['유동인구', '매출평균', '입점률', '폐점률']
   const optionList = options.map((e: string, i: number) => ({
     name: e,
@@ -28,7 +28,12 @@ const StatusContainer = () => {
 
   return (
     <c.AnalysisLayout>
-      {selectedRegion && <StatusDetailbarComponent regionCode={regionCode} />}
+      {selectedRegion && (
+        <StatusDetailbarComponent
+          selectedRegion={selectedRegion}
+          regionCode={regionCode}
+        />
+      )}
       <c.Sidebar>
         <StatusSidebarTopComponent />
         <c.SeparateLine />

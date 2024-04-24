@@ -8,7 +8,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.community.dto.CommunityListResponse;
 import com.ssafy.backend.domain.community.dto.CommunityResponse;
 import com.ssafy.backend.domain.community.dto.ImageInfo;
-import com.ssafy.backend.domain.community.entity.QImage;
 import com.ssafy.backend.domain.community.entity.enums.Category;
 import com.ssafy.backend.global.util.NullSafeBuilder;
 import lombok.RequiredArgsConstructor;
@@ -75,7 +74,8 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
                         community.readCount,
                         community.writer.id,
                         community.writer.nickname,
-                        community.writer.profileImage
+                        community.writer.profileImage,
+                        community.createdAt
                 ))
                 .from(community)
                 .where(equalsCommunityId(communityId))

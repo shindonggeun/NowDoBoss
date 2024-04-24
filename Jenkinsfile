@@ -17,12 +17,13 @@ pipeline {
         stage('Deploy Redis') {
             steps {
                 script {
-                    // 현재 실행 중인 Redis 컨테이너 확인
-                    def isRedisRunning = sh(script: "docker ps --filter name=nowdoboss_redis --filter status=running", returnStdout: true).trim()
-                    // Redis가 실행 중이지 않으면 실행
-                    if (!isRedisRunning) {
-                        sh "docker-compose -f CICD/docker-compose-redis.yml up -d"
-                    }
+                    sh "docker-compose -f CICD/docker-compose-redis.yml up -d"
+                    // // 현재 실행 중인 Redis 컨테이너 확인
+                    // def isRedisRunning = sh(script: "docker ps --filter name=nowdoboss_redis --filter status=running", returnStdout: true).trim()
+                    // // Redis가 실행 중이지 않으면 실행
+                    // if (!isRedisRunning) {
+                        
+                    // }
                 }
             }
         }

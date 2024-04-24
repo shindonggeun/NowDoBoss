@@ -9,7 +9,6 @@ sudo apt-get update
 # Certbot은 Let's Encrypt에서 무료 SSL 인증서를 제공받을 수 있게 해주는 도구입니다.
 # python3-certbot-nginx는 Certbot을 Nginx와 통합할 수 있게 해주는 플러그인입니다.
 sudo apt-get install certbot python3-certbot-nginx
-
 # Certbot을 실행하여 자동으로 Nginx 설정에 SSL 인증서를 설치하고 구성합니다.
 # '-d' 옵션 뒤에는 SSL 인증서를 설치하려는 도메인 이름을 명시합니다.
 # 이 명령은 Certbot이 Nginx 설정 파일을 자동으로 수정하여 SSL을 설정하게 합니다.

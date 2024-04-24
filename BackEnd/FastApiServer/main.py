@@ -34,10 +34,13 @@ def get_foot_traffic_recommendations(user_id: int, type: int, code: str, commerc
 
     new_data = np.array(data_values)
 
-    # 1. 군집의 중심값 가져오기
+    # 1. 새로운 데이터에 대한 예측된 군집 번호 가져오기
+    predicted_clusters = kmeans.predict(new_data)
+
+    # 2. 군집의 중심값 가져오기
     cluster_centers = kmeans.cluster_centers_
 
-    # 2. 각 군집에서의 상위 3개의 유사한 데이터와 유사도 찾기
+    # 3. 각 군집에서의 상위 3개의 유사한 데이터와 유사도 찾기
     top3_foot_traffic_recommendations = [[] for _ in range(len(kmeans.cluster_centers_))]
     for cluster_index in range(len(kmeans.cluster_centers_)):
         cluster_center = cluster_centers[cluster_index]
@@ -46,12 +49,13 @@ def get_foot_traffic_recommendations(user_id: int, type: int, code: str, commerc
         for similarity, data_index in zip(similarities_to_cluster_center[cluster_data_indices], cluster_data_indices):
             similar_data = data_values[data_index]
             top3_foot_traffic_recommendations[cluster_index].append({
-                '상권코드': data_index,
-                '유사도': similarity[0],
-                '입력데이터': similar_data[0:],
+                'commercial_code': data_index,
+                'similaritiy': similarity[0],
+                'data': similar_data[0:],
+                'cluster_num': predicted_clusters[data_index]  # 실제 예측된 군집 번호 추가
             })
 
-    # 3. 결과 출력
+    # 4. 결과 출력
     print("각 군집별 유사도 Top 3:")
     for cluster_index, top3 in enumerate(top3_foot_traffic_recommendations):
         print(f"Cluster {cluster_index}:")
@@ -61,34 +65,51 @@ def get_foot_traffic_recommendations(user_id: int, type: int, code: str, commerc
     return top3_foot_traffic_recommendations
 
 # 매출 모델을 불러오고 추천을 수행하는 함수
-def get_sales_recommendations(user_id: int, num_recommendations: int):
-    # 모델 불러오기
+def get_sales_recommendations(user_id: int, type: int, code: str, commercial_list: List):
     kmeans = joblib.load("kmeans_sales.pkl")
 
-    # 주어진 새로운 데이터
-    new_data = np.array([[63238612, 116, 56, 219681, 255881883000, 32067498000, 1.360529e+12, -1]])
+    # 주어진 새로운 데이터 - 받은 상권 코드 리스트들을 가지고 해당 상권 코드에 해당하는 유동인구 관련 데이터 리스트 가져오기
+    # 이건 샘플
+    data_values = [
+        [47.287750, 2.292817, 0.000000, 5.343152, 25.671641, 19.404640, -1],
+        [72.106115, 1.415391, 1.614059, 5.612730, 13.357847, 5.893858, -1],
+        [70.041560, 0.000000, 0.000000, 1.220358, 24.526993, 4.211089, -1],
+        [54.513798, 13.618983, 0.000000, 3.114275, 28.636141, 0.116803, -1],
+        [53.726332, 7.110885, 0.000000, 10.009971, 26.708615, 2.444197, -1]
+    ]
 
-    # 1. 새로운 데이터의 군집 예측
-    new_data_cluster = kmeans.predict(new_data)
-    print(new_data_cluster)
 
-    # 2. 가장 유사도가 높은 군집 내의 모든 상권 데이터를 DB에서 가져오기
-    #cluster_data = X[cluster_labels == new_data_cluster]
-    cluster_data = 0
+    new_data = np.array(data_values)
 
-    # 3. 군집 내의 데이터와 유사도 계산
-    similarities_to_cluster_data = cosine_similarity(new_data, cluster_data)
+    # 1. 새로운 데이터에 대한 예측된 군집 번호 가져오기
+    predicted_clusters = kmeans.predict(new_data)
 
-    # 4. 가장 유사도가 높은 자치구 데이터 3개 찾기
-    top_similarities_to_cluster_data = sorted(enumerate(similarities_to_cluster_data[0]), key=lambda x: x[1], reverse=True)[:3]
+    # 2. 군집의 중심값 가져오기
+    cluster_centers = kmeans.cluster_centers_
 
-    # 결과 출력
-    print(f"Cluster with highest similarity: {new_data_cluster[0]}")
-    print("Top 3 similar districts:")
-    for idx, similarity in top_similarities_to_cluster_data:
-        print(f"\tDistrict Index: {idx}, Similarity: {similarity:.4f}")
+    # 3. 각 군집에서의 상위 3개의 유사한 데이터와 유사도 찾기
+    top3_sales_recommendations = [[] for _ in range(len(kmeans.cluster_centers_))]
+    for cluster_index in range(len(kmeans.cluster_centers_)):
+        cluster_center = cluster_centers[cluster_index]
+        similarities_to_cluster_center = cosine_similarity(new_data, [cluster_center])
+        cluster_data_indices = np.argsort(similarities_to_cluster_center[:, 0])[::-1][:3]  # 해당 군집의 상위 3개 데이터의 인덱스
+        for similarity, data_index in zip(similarities_to_cluster_center[cluster_data_indices], cluster_data_indices):
+            similar_data = data_values[data_index]
+            top3_sales_recommendations[cluster_index].append({
+                'commercial_code': data_index,
+                'similaritiy': similarity[0],
+                'data': similar_data[0:],
+                'cluster_num': predicted_clusters[data_index]  # 실제 예측된 군집 번호 추가
+            })
 
-    return recommendations
+    # 4. 결과 출력
+    print("각 군집별 유사도 Top 3:")
+    for cluster_index, top3 in enumerate(top3_sales_recommendations):
+        print(f"Cluster {cluster_index}:")
+        for idx, similar in enumerate(top3):
+            print(f"Top {idx+1}: {similar}")
+    
+    return top3_sales_recommendations
 
 app = FastAPI()
 
@@ -104,7 +125,6 @@ class RecommendationRequest(BaseModel):
     commercial_list: List[Commercial]
 
 
-
 # 유동인구 추천 API 엔드포인트
 @app.post("/recommendations/foot/traffic")
 async def foot_traffic_recommendations(request: RecommendationRequest):
@@ -113,7 +133,7 @@ async def foot_traffic_recommendations(request: RecommendationRequest):
     commercial_list = request.commercial_list
 
     recommendations = get_foot_traffic_recommendations(user_id, type, commercial_list)
-    return {"recommendations": recommendations}
+    return {"foot_traffic_recommendations": recommendations}
 
 
 # 매출 추천 API 엔드포인트
@@ -123,8 +143,8 @@ async def sales_recommendations(request: RecommendationRequest):
     type = request.type
     commercial_list = request.commercial_list
 
-    recommendations = get_foot_traffic_recommendations(user_id, type, commercial_list)
-    return {"recommendations": recommendations}
+    recommendations = get_sales_recommendations(user_id, type, commercial_list)
+    return {"sales_recommendations": recommendations}
 
 
 @app.get("/")

@@ -7,7 +7,9 @@ public record FootTrafficDistrictTopTenResponse(
         String districtCode,
         String districtCodeName,
         Long totalFootTraffic,
-        Float totalFootTrafficChangeRate
+        Float totalFootTrafficChangeRate,
+
+        int level
 
 ) {
 }

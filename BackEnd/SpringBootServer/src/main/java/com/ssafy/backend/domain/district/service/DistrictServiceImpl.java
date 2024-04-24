@@ -40,33 +40,36 @@ public class DistrictServiceImpl implements DistrictService {
         List<FootTrafficDistrictTopTenInfo> footTrafficInfoList = getTopTenFootTrafficDistrictByPeriodCode();
 
         // 유동 인구 Top 10
-        for (FootTrafficDistrictTopTenInfo footTrafficDistrictTopTenInfo : footTrafficInfoList) {
+        for (int i = 0; i < 25; i++) {
+            FootTrafficDistrictTopTenInfo footTrafficDistrictTopTenInfo = footTrafficInfoList.get(i);
             Long prevTotalFootTraffic = footTrafficDistrictTopTenInfo.getPrevTotalFootTraffic();
             Long curTotalFootTraffic = footTrafficDistrictTopTenInfo.getCurTotalFootTraffic();
             String districtCodeName = footTrafficDistrictTopTenInfo.getDistrictCodeName();
             String districtCode = footTrafficDistrictTopTenInfo.getDistrictCode();
 
-            footTrafficResponseList.add(new FootTrafficDistrictTopTenResponse(districtCode,districtCodeName, curTotalFootTraffic, (float) ((curTotalFootTraffic-prevTotalFootTraffic)/(float)prevTotalFootTraffic*100)));
+            footTrafficResponseList.add(new FootTrafficDistrictTopTenResponse(districtCode,districtCodeName, curTotalFootTraffic, (float) ((curTotalFootTraffic-prevTotalFootTraffic)/(float)prevTotalFootTraffic*100), i/5+1));
         }
 
         // 매출 Top 10
         List<SalesDistrictTopTenResponse> salesResponseList = new ArrayList<>();
         List<String> districtNames = getTopTenSalesDistrictCodeNameByPeriodCode();
         List<SalesDistrictTopTenInfo> salesInfoList = salesDistrictRepository.getTopTenSalesDistrictByPeriodCode(districtNames);
-        for (SalesDistrictTopTenInfo salesDistrictTopTenInfo : salesInfoList) {
+        for (int i = 0; i < 25; i++) {
+            SalesDistrictTopTenInfo salesDistrictTopTenInfo = salesInfoList.get(i);
             Long prevTotalSales = salesDistrictTopTenInfo.getPrevTotalSales();
             Long curTotalSales = salesDistrictTopTenInfo.getCurTotalSales();
             String districtCodeName = salesDistrictTopTenInfo.getDistrictCodeName();
             String districtCode = salesDistrictTopTenInfo.getDistrictCode();
 
-            salesResponseList.add(new SalesDistrictTopTenResponse(districtCode, districtCodeName, curTotalSales, ((curTotalSales-prevTotalSales)/(float)prevTotalSales*100)));
+            salesResponseList.add(new SalesDistrictTopTenResponse(districtCode, districtCodeName, curTotalSales, ((curTotalSales-prevTotalSales)/(float)prevTotalSales*100), i/5+1));
         }
 
         // 개업률 Top 10
         List<OpenedStoreDistrictTopTenResponse> openedStoreResponseList = new ArrayList<>();
         List<String> openedStores = getTopTenOpenedStoreDistrictCodeNameByPeriodCode();
         List<OpenedStoreDistrictTopTenInfo> openedStoreInfoList = storeDistrictRepository.getTopTenOpenedStoreDistrictByPeriodCode(openedStores);
-        for (OpenedStoreDistrictTopTenInfo openedStoreDistrictTopTenInfo : openedStoreInfoList) {
+        for (int i = 0; i < 25; i++) {
+            OpenedStoreDistrictTopTenInfo openedStoreDistrictTopTenInfo = openedStoreInfoList.get(i);
             Long prevTotalStore = openedStoreDistrictTopTenInfo.getPrevTotalStore();
             Long prevOpenedStore = openedStoreDistrictTopTenInfo.getPrevOpenedStore();
             Float prevOpenedRate = ((float) prevOpenedStore / prevTotalStore * 100);
@@ -78,14 +81,15 @@ public class DistrictServiceImpl implements DistrictService {
             String districtCodeName = openedStoreDistrictTopTenInfo.getDistrictCodeName();
             String districtCode = openedStoreDistrictTopTenInfo.getDistrictCode();
             //System.out.println("자치구명: " + districtCodeName + "이번총점포수: " + curTotalStore + "이번개업점포수: " + curOpenedStore + "이전총점포수: " + prevTotalStore + "이전개업점포수: " + prevOpenedStore);
-            openedStoreResponseList.add(new OpenedStoreDistrictTopTenResponse(districtCode, districtCodeName, curOpenedRate, (curOpenedRate-prevOpenedRate)/prevOpenedRate*100));
+            openedStoreResponseList.add(new OpenedStoreDistrictTopTenResponse(districtCode, districtCodeName, curOpenedRate, (curOpenedRate-prevOpenedRate)/prevOpenedRate*100, i/5+1));
         }
 
         // 폐업률 Top 5
         List<ClosedStoreDistrictTopTenResponse> closedStoreResponseList = new ArrayList<>();
         List<String> closedStores = getTopTenClosedStoreDistrictCodeNameByPeriodCode();
         List<ClosedStoreDistrictTopTenInfo> closedStoreInfoList = storeDistrictRepository.getTopTenClosedStoreDistrictByPeriodCode(closedStores);
-        for (ClosedStoreDistrictTopTenInfo closedStoreDistrictTopTenInfo : closedStoreInfoList) {
+        for (int i = 0; i < 25; i++) {
+            ClosedStoreDistrictTopTenInfo closedStoreDistrictTopTenInfo = closedStoreInfoList.get(i);
             Long prevTotalStore = closedStoreDistrictTopTenInfo.getPrevTotalStore();
             Long prevClosedStore = closedStoreDistrictTopTenInfo.getPrevClosedStore();
             Float prevClosedRate = ((float) prevClosedStore / prevTotalStore * 100);
@@ -97,7 +101,7 @@ public class DistrictServiceImpl implements DistrictService {
             String districtCodeName = closedStoreDistrictTopTenInfo.getDistrictCodeName();
             String districtCode = closedStoreDistrictTopTenInfo.getDistrictCode();
             //System.out.println("자치구명: " + districtCodeName + "이번총점포수: " + curTotalStore + "이번폐업점포수: " + curClosedStore + "이전총점포수: " + prevTotalStore + "이전폐업점포수: " + prevClosedStore);
-            closedStoreResponseList.add(new ClosedStoreDistrictTopTenResponse(districtCode, districtCodeName, curClosedRate, (curClosedRate-prevClosedRate)/prevClosedRate*100));
+            closedStoreResponseList.add(new ClosedStoreDistrictTopTenResponse(districtCode, districtCodeName, curClosedRate, (curClosedRate-prevClosedRate)/prevClosedRate*100, i/5+1));
         }
 
         return new DistrictTopTenResponse(footTrafficResponseList, salesResponseList, openedStoreResponseList, closedStoreResponseList);

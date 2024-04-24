@@ -7,7 +7,8 @@ public record SalesDistrictTopTenResponse(
         String districtCode,
         String districtCodeName,
         Long totalMonthSales,
-        Float totalMonthSalesChangeRate
+        Float totalMonthSalesChangeRate,
+        int level
 
 ) {
 }

@@ -7,6 +7,7 @@ public record OpenedStoreDistrictTopTenResponse(
         String districtCode,
         String districtCodeName,
         Float curOpenedRate,
-        Float openedRateChangeRate
+        Float openedRateChangeRate,
+        int level
 ) {
 }

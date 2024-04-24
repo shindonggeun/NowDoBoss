@@ -1,6 +1,6 @@
 server:
   base-url: k10C208.p.ssafy.io
-  https-url: http://k10C208.p.ssafy.io
+  https-url: https://k10C208.p.ssafy.io
 
 spring:
   servlet:
@@ -11,10 +11,10 @@ spring:
 
   jpa:
     open-in-view: false
-    defer-datasource-initialization: false  # flyway 관련 마이그레이션 이슈 -> false로 변경
-    generate-ddl: false
+    defer-datasource-initialization: true
+    generate-ddl: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop                # ddl 자동 작성 여부
     properties:
       hibernate:
         format_sql: true             # 하이버네이트가 실행한 SQL을 출력할 때 보기 좋게 정렬
@@ -38,6 +38,12 @@ spring:
         - 'classpath:/db/*'
 
   # NoSQL setting
+  data:
+    # Redis setting
+    redis:
+      host: ${server.base-url}
+      port: 6379
+
 
   # Java Mail Sender setting (Google Mail)
   mail:
@@ -51,6 +57,18 @@ spring:
           auth: true
           starttls:
             enable: true
+
+  # Kafka setting
+  kafka:
+    bootstrap-servers: ${server.base-url}:9092
+    consumer:
+      group-id: NoWDoBossGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 # log 관리
 logging:
@@ -70,3 +88,33 @@ jwt:
 app:
   firebase-configuration-file: classpath:serviceAccountKey.json
   firebase-bucket: ENC(kEjE5eNrPFCEldmd4VOt0mXnXI2qkPVNJIhOBdW8K60=)
+
+# OAUTH2.0 Setting
+oauth:
+  kakao:
+    client-id: ENC(BXCwf0NtueMIhhv565w/js6mYPVy/ydnEixfuH4untZmrP3mi6qKEPCRUvPYZSTQ)   # REST API 키
+    client-secret: ENC(Vt6Pop34W0MzRbM/vmr0uqASBu2KA78aqShRqWv7weGoNHzwkayNeCkxo11QeeTP) # 보안 -> Client Secret 키
+    redirect-uri: http://${server.https-url}/member/loading/kakao
+    scope:
+      - profile_nickname
+      - profile_image
+      - account_email
+      - name
+
+  naver:
+    client-id: ENC(+VjRqdSmB6m1Jvl1ZJGJRW+bTtY4tJNh123J0sHB4QU=)
+    client-secret: ENC(0BeyGmHNDHLJW5hudtEfpEpq+0hFiGaO)
+    redirect_uri: http://${server.https-url}/member/loading/naver
+    scope:
+      - nickname
+      - name
+      - email
+      - profile_image
+
+  google:
+    client_id: ENC(cDBVfDvLY03EnW9oNtZ9XqgVTS1otEDtR+jbK/4o2cK67zN1bWTfsX/bBJNwjKW3pP2iu0LzCLwG3LUVn8AJyZb5ENsfeN3DavnK+k0SeASHOTrlvZWPxA==)
+    client_secret: ENC(FEWnh24Bb7QzhYBqVbWowEN+fJkgt0qVchd8MVcwNBwdBl8oRKn9qIz7Ff22gtNI)
+    redirect_uri: http://${server.https-url}/member/loading/google
+    scope:
+      - profile
+      - email

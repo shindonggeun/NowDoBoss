@@ -1,4 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 import userStore from '@src/stores/userStore'
 import { loginUser } from '@src/api/userApi'
 import InfoSection from '@src/components/User/InfoSection'
@@ -10,11 +12,31 @@ import * as u from '@src/containers/User/UserContainerStyle'
 
 const LoginContainer = () => {
   const { loginData } = userStore()
+  const [, setCookie] = useCookies(['accessToken'])
+  const navigate = useNavigate()
 
   // 일반 로그인
   const { mutate: LoginUser } = useMutation({
     mutationKey: ['loginUser'],
     mutationFn: loginUser,
+    onSuccess: res => {
+      if (res.dataHeader.successCode === 1) {
+        console.log('로그인실패 : ', res.dataHeader.resultMessage)
+      } else {
+        // 쿠키에 accessToken 저장 (7일 동안 유지)
+        const { accessToken } = res.dataBody.tokenInfo
+        setCookie('accessToken', accessToken, {
+          maxAge: 60 * 60 * 24 * 7,
+          path: '/',
+        })
+
+        // 로컬 스토리지에 memberInfo 저장
+        const { memberInfo } = res.dataBody
+        localStorage.setItem('memberInfo', JSON.stringify(memberInfo))
+        console.log('로그인성공! 메인페이지로 리다이렉트합니다.')
+        navigate('/')
+      }
+    },
   })
 
   const handleLoginUser = () => {

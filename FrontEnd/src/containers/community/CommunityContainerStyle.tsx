@@ -44,12 +44,22 @@ export const DetailContainer = styled.div`
   flex-direction: row;
   width: 100vw;
   height: 92.5vh;
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `
 
 export const MainContentDiv = styled.div`
   width: 66.7vw;
+
+  @media only screen and (max-width: 768px) {
+    width: 100vw;
+  }
 `
 
 export const SubContentDiv = styled.div`
   width: 33.3vw;
+  @media only screen and (max-width: 768px) {
+    width: 100vw;
+  }
 `

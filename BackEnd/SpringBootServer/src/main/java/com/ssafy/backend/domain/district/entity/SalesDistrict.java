@@ -96,4 +96,36 @@ public class SalesDistrict {
     @Comment("시간대 21 ~ 24 매출 금액")
     @Column(name = "sales_21", columnDefinition = "BIGINT UNSIGNED")
     private Long sales21;
+
+    @Comment("남성 매출 금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long maleSales;
+
+    @Comment("여성 매출 금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long femaleSales;
+
+    @Comment("10대 매출_금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long teenSales;
+
+    @Comment("20대 매출_금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long twentySales;
+
+    @Comment("30대 매출_금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long thirtySales;
+
+    @Comment("40대 매출_금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long fortySales;
+
+    @Comment("50대 매출_금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long fiftySales;
+
+    @Comment("60대 매출_금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long sixtySales;
 }

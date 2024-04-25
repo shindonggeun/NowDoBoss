@@ -25,44 +25,35 @@ public class Franchisee {
     @Column(nullable = false)
     private String brandName;
 
-//    @Comment("업종 코드")
-//    @Column(nullable = false)
-//    private String serviceCode;
-//
-//    @Comment("업종 이름")
-//    @Column(nullable = false)
-//    private String serviceCodeName;
-
-    @Comment("가입비")
+    @Comment("가입비, 천원")
     private int subscription;
 
-    @Comment("교육비")
+    @Comment("교육비, 천원")
     private int education;
 
-    @Comment("보증금")
+    @Comment("가맹 보증금, 천원")
     private int deposit;
 
-    @Comment("기타비용")
+    @Comment("기타비용, 천원")
     private int etc;
 
-    @Comment("부담금 합계")
+    @Comment("부담금 합계, 천원")
     private int totalLevy;
 
-    @Comment("단위면적(3.3㎡)당 인테리어 비용")
+    @Comment("단위면적(3.3㎡)당 인테리어 비용, 천원")
     private int unitArea;
 
     @Comment("기준점포면적(㎡)")
     private int area;
 
-    @Comment("인테리어 비용")
+    @Comment("인테리어 비용, 천원")
     private int interior;
 
-//    @Comment("소형 크기(m²)")
-//    private int smallSize;
-//
-//    @Comment("중형 크기(m²)")
-//    private int mediumSize;
-//
-//    @Comment("대형 크기(m²)")
-//    private int largeSize;
+    public Long getLevy() {
+        return this.totalLevy * 1000L;
+    }
+
+    public Long getTotalInterior() {
+        return this.interior * 1000L;
+    }
 }

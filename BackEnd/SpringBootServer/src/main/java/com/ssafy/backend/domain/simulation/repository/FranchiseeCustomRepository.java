@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface FranchiseeCustomRepository {
     List<SearchFranchiseeResponse> searchFranchisee(SearchFranchiseeRequest request);
+
+    Double findAvgByService(String serviceCode);
 }

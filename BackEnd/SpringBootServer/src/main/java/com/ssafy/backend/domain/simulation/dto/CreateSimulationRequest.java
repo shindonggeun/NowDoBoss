@@ -2,11 +2,10 @@ package com.ssafy.backend.domain.simulation.dto;
 
 public record CreateSimulationRequest(
         // 프랜차이즈 여부
-        // if 프랜차이즈 여부 true : 프랜차이즈 브랜드 명
+        // if 프랜차이즈 여부 true : 프랜차이즈 브랜드 명 존재
         // if 프랜차이즈 여부 false : 프랜차이즈 브랜드 명 null
-        boolean isFranchisee,
+        Boolean isFranchisee,
         String brandName,
-
         // 위치 (시 구 동)
         LocationInfo location,
 

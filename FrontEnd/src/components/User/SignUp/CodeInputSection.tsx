@@ -5,29 +5,32 @@ import * as i from '@src/components/styles/UserStyle/InputStyle'
 
 const CodeInputSection = (props: CodeInputSectionPropsType) => {
   const { handleVerifyEmailCode } = props
-  const { setEmailCode, signUpError, setSignUpError } = userStore()
+  const { setEmailCode, emailError, setEmailError } = userStore()
   const [code, setCode] = useState<string>('')
 
   const handleCodeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    setSignUpError('codeErr', '')
+    setEmailError('codeErr', '')
     setCode(value)
     setEmailCode(value)
   }
 
   return (
-    <i.EmailContainer>
+    <i.CodeContainer>
       <i.EmailSecondRow>
         <i.HalfInput
           type="text"
-          placeholder="000000"
+          placeholder="Code"
           value={code}
           onChange={handleCodeChange}
         />
-        <i.Btn onClick={handleVerifyEmailCode}>인증번호 확인 3:00</i.Btn>
+        <i.Btn onClick={handleVerifyEmailCode}>
+          <div>인증번호확인</div>
+          <div />
+        </i.Btn>
       </i.EmailSecondRow>
-      <div>{signUpError.codeErr}</div>
-    </i.EmailContainer>
+      {emailError.codeErr && <i.ErrMsg>{emailError.codeErr}</i.ErrMsg>}
+    </i.CodeContainer>
   )
 }
 

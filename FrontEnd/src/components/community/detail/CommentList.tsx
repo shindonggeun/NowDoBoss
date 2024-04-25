@@ -1,19 +1,9 @@
 import * as c from '@src/components/styles/community/CommentListStyle'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import TimeCounting, { TimeCountingOption } from 'time-counting'
 
 const CommentList = () => {
   const [comment, setComment] = useState<string>('')
-
-  // 제출버튼 활성화 비활성화 로직
-  const [commentSubmit, setCommentSubmit] = useState<boolean>(false)
-  useEffect(() => {
-    if (comment) {
-      setCommentSubmit(true)
-    } else {
-      setCommentSubmit(false)
-    }
-  }, [comment])
 
   // 생성 시간 보여주는 라이브러리 사용
   const TimeOption: TimeCountingOption = {
@@ -30,7 +20,7 @@ const CommentList = () => {
       <c.CommentTitle>댓글 0</c.CommentTitle>
       <c.CommentBox>
         <c.CommentInput
-          $isActive={commentSubmit}
+          $isActive={comment.length > 0}
           placeholder="댓글을 작성하세요."
           value={comment}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -38,7 +28,7 @@ const CommentList = () => {
           }}
         />
         <c.CommentSubmit
-          $isActive={commentSubmit}
+          $isActive={comment.length > 0}
           onClick={() => {
             // console.log('제출완료')
             setComment('')

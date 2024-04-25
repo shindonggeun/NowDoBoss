@@ -22,7 +22,11 @@ pipeline {
                     echo "SonarQube 컨테이너 실행 상태 확인 중..."
                     def isSonarQubeRunning = sh(script: "docker ps --filter name=nowdoboss_sonarqube --filter status=running", returnStdout: true).trim()
                     echo "SonarQube 실행 상태: ${isSonarQubeRunning}"
-                    sh "docker-compose -f CICD/docker-compose-sonarqube.yml up -d"
+
+                    // SonarQube가 실행 중이지 않으면 실행
+                    if (isSonarQubeRunning == "") {
+                        sh "docker-compose -f CICD/docker-compose-sonarqube.yml up -d"
+                    }
                 }
             }
         }

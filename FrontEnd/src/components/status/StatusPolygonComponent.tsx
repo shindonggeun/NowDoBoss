@@ -62,10 +62,29 @@ const StatusPolygonComponent = ({
 
   // 행정구 폴리곤
   const countries = mapData.map((d: any, i) => {
+    const isSelected = selectedRegion === d.properties.SIG_KOR_NM
     const tempItem = tempData.find(
       sig => sig.districtCode === d.properties.SIG_CD,
     )
     const colorIndex = tempItem ? tempItem.level - 1 : 0 // tempItem이 없는 경우 기본 색상 사용
+
+    const style = isSelected
+      ? {
+          fill: '#FFC940',
+          stroke: 'white',
+          strokeWidth: '2px',
+          transition: 'transform 0.5s ease-out, fill 0.3s ease-out',
+          transform: 'scale(1)',
+          transformOrigin: 'center',
+          cursor: 'pointer',
+        }
+      : {
+          fill: tab === null ? '#009FA9' : mapColor[tab][colorIndex],
+          stroke: 'white',
+          strokeWidth: '2px',
+          cursor: 'pointer',
+        }
+
     return (
       <path
         key={`path${i}`}
@@ -75,11 +94,7 @@ const StatusPolygonComponent = ({
           handleRegionClick(d.properties.SIG_KOR_NM)
           onClickRegionCodeHandler(d.properties.SIG_CD)
         }}
-        style={{
-          fill: tab === null ? '#009FA9' : mapColor[tab][colorIndex],
-          stroke: 'white',
-          strokeWidth: '2px',
-        }}
+        style={style}
       />
     )
   })
@@ -89,10 +104,18 @@ const StatusPolygonComponent = ({
     <text
       key={`path${i}text`}
       transform={`translate(${pathGenerator.centroid(d)})`}
-      style={{ textAnchor: 'middle', top: '10px', position: 'relative' }}
+      style={{
+        textAnchor: 'middle',
+        top: '10px',
+        position: 'relative',
+        cursor: 'pointer',
+      }}
       x={d.properties.x_offset ? d.properties.x_offset : ''}
       y={d.properties.y_offset ? d.properties.y_offset : ''}
-      onClick={() => {}}
+      onClick={() => {
+        handleRegionClick(d.properties.SIG_KOR_NM)
+        onClickRegionCodeHandler(d.properties.SIG_CD)
+      }}
     >
       {d.properties.SIG_KOR_NM}
     </text>

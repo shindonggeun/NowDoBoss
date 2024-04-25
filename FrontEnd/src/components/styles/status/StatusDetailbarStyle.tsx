@@ -4,7 +4,7 @@ export const Container = styled.div`
   position: fixed;
   top: 61px;
   left: 0;
-  width: 30rem;
+  width: 35rem;
   height: 92%;
   z-index: 1000;
   //background-color: yellowgreen;
@@ -39,45 +39,59 @@ export const BarTopHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  padding: 15px 20px 10px 20px;
+  padding: 10px 20px 5px 10px;
   background-color: #236cff;
   color: white;
 `
 
 export const BarTopTitle = styled.div`
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 600;
+  padding-left: 10px;
 `
 
 export const BarTopSubtitle = styled.div`
   font-size: 18px;
+  font-weight: 500;
   padding-left: 15px;
 `
 
 export const BarTopSeason = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   padding-left: 15px;
 `
+
+export const BookMarkIcon = styled.img`
+  width: 3rem;
+  margin: auto 0;
+`
+
+export const CloseIcon = styled.img`
+  width: 1rem;
+  margin: 5px 0 auto auto;
+`
+
 export const BarInnerContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   background-color: white;
 `
+
 interface BarInnerTextProps {
   isActive: boolean
 }
 
 export const BarInnerText = styled.div<BarInnerTextProps>`
   display: inline-block;
-  margin: 10px 10px;
+  margin: 10px 15px;
   cursor: pointer;
-  color: ${props => (props.isActive ? 'blue' : 'black')};
-  border-bottom: ${props => (props.isActive ? '2px solid blue' : 'none')};
+  color: ${props => (props.isActive ? '#154daf' : 'black')};
+  border-bottom: ${props => (props.isActive ? '2px solid #7DB6EB' : 'none')};
 `
 
 export const TabBarContainer = styled.div`
-  scroll-margin-top: 120px;
+  scroll-margin-top: 130px;
   margin: 0 20px;
 `
 

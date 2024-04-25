@@ -31,6 +31,7 @@ const StatusContainer = () => {
       {selectedRegion && (
         <StatusDetailbarComponent
           selectedRegion={selectedRegion}
+          onClickRegionHandler={onClickRegionHandler}
           regionCode={regionCode}
         />
       )}

@@ -23,6 +23,7 @@ export type SignUpErrorType = {
   nameError: string
   nicknameError: string
 }
+export type LoginErrorType = {}
 
 export type MemberInfoType = {
   id: number | null

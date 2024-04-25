@@ -56,7 +56,7 @@ pipeline {
                 dir('BackEnd/SpringBootServer') {
                     withSonarQubeEnv('SonarQube Server') {
                         sh 'chmod +x ./gradlew'
-                        sh './gradlew clean sonar -Dsonar.projectKey=nowdoboss'
+                        sh './gradlew sonar -Dsonar.projectKey=nowdoboss'
                     }
                 }
             }

@@ -34,3 +34,23 @@ export type CommunityListData = {
   readCount: number
   commentCount: number
 }[]
+
+export type CommentCreateType = {
+  communityId: number
+  data: { content: string }
+}
+
+// 댓글 type
+export type CommentDataType = {
+  commentId: number
+  content: string
+  writerId: number
+  writerNickname: string
+  writerProfileImage: string
+}
+
+// 댓글 리스트 type
+export type CommentListDataType = {
+  dataBody: CommentDataType[]
+  dataHeader: { successCode: number; resultCode: number; resultMessage: string }
+}

@@ -55,8 +55,7 @@ const LoginContainer = () => {
         />
         <EmailInputSection />
         <PwInputSection />
-        <u.ForgetPwLink>비밀번호가 생각나지 않으신가요?</u.ForgetPwLink>
-        <u.Btn marginTop="1%" onClick={handleLoginUser}>
+        <u.Btn marginTop="6%" onClick={handleLoginUser}>
           Log In
         </u.Btn>
         <AskSection title="아직 회원이 아니신가요?" subtitle="Sign up" />

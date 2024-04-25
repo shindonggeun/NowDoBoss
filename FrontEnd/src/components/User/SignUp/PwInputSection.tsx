@@ -3,7 +3,7 @@ import userStore from '@src/stores/userStore'
 import * as i from '@src/components/styles/UserStyle/InputStyle'
 
 const PwInputSection = () => {
-  const { setSignUpData } = userStore()
+  const { setSignUpData, signUpError } = userStore()
   const [pw, setPw] = useState<string>('')
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -14,13 +14,16 @@ const PwInputSection = () => {
 
   return (
     <i.Container>
-      <div>Password</div>
+      <i.InputTitle>Password</i.InputTitle>
       <i.HalfInput
         type="password"
         placeholder="Your password"
         value={pw}
         onChange={handleInputChange}
       />
+      {signUpError.passwordError && (
+        <i.ErrMsg>{signUpError.passwordError}</i.ErrMsg>
+      )}
     </i.Container>
   )
 }

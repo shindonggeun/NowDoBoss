@@ -1,7 +1,8 @@
 const SocialBtnSection = () => {
   return (
     <div>
-      <p>또는?</p>
+      <div>또는,</div>
+      <hr />
       <div>
         <button type="submit">구글구글구글</button>
         <button type="submit">네이버네이버</button>

@@ -36,6 +36,12 @@ export const InputWrap = styled.div`
   }
 `
 
+export const ForgetPwLink = styled.div`
+  margin-top: 7%;
+  font-size: 0.9rem;
+  font-weight: 600;
+`
+
 interface BtnProps {
   marginTop?: string
 }

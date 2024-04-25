@@ -1,0 +1,14 @@
+version: "3.8"  # Docker Compose 파일의 버전을 명시합니다. 여기서 "3.8"은 사용 가능한 최신 버전 중 하나로, 특정 기능과 호환성을 제공합니다.
+
+services:
+  talkydoki_redis:
+    image: redis  # 사용할 Docker 이미지. 이 경우 공식 Redis 이미지를 사용합니다.
+    container_name: nowdoboss_redis  # 생성될 Docker 컨테이너의 이름을 지정합니다.
+    restart: always  # 컨테이너가 실패하거나 Docker가 재시작될 때 자동으로 컨테이너를 재시작하도록 설정합니다.
+    ports:
+      - "6379:6379"  # Redis 서버의 기본 포트 6379를 호스트의 같은 포트에 바인딩합니다. 이 설정은 외부에서 Redis 서버에 접근할 수 있게 합니다.
+    networks:
+      - nowdoboss_sub_net  # 이 컨테이너가 연결될 네트워크. 이 네트워크 설정을 통해 다른 서비스와의 네트워크 분리 및 통신을 관리합니다.
+
+networks:
+  nowdoboss_sub_net:  # 네트워크 설정 섹션. 사용할 도커 내부 네트워크를 정의하고 이름을 지정합니다.

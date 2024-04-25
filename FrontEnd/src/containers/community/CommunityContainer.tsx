@@ -1,6 +1,6 @@
-import NavBar from '@src/components/community/NavBar'
-import PopularChatList from '@src/components/community/PopularChatList'
-import ArticleList from '@src/components/community/ArticleList'
+import NavBar from '@src/components/community/list/NavBar'
+import PopularChatList from '@src/components/community/list/PopularChatList'
+import ArticleList from '@src/components/community/list/ArticleList'
 import * as c from './CommunityContainerStyle'
 
 const CommunityContainer = () => {

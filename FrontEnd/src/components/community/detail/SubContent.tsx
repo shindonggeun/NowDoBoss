@@ -1,5 +1,4 @@
 import * as s from '@src/components/styles/community/CommunityDetailStyle'
-import send_message from '@src/assets/send_message.svg'
 import { useNavigate } from 'react-router-dom'
 import useCommunityStore from '@src/stores/communityStore'
 
@@ -29,18 +28,7 @@ const SubContent = () => {
     },
   ]
   return (
-    <s.SubContainer>
-      <s.TabName>작성자</s.TabName>
-      <s.WriterProfile>
-        <s.ProfileDiv>
-          <s.UserProfileImg />
-          <s.UserName>대박나자</s.UserName>
-        </s.ProfileDiv>
-        <s.ChatButton>
-          <s.ChatImg src={send_message} />
-          채팅하기
-        </s.ChatButton>
-      </s.WriterProfile>
+    <s.Container>
       <s.SameCategoryList>
         <s.TabName>비슷한 게시글</s.TabName>
         {ArticleDatas.map(article => {
@@ -103,7 +91,7 @@ const SubContent = () => {
           )
         })}
       </s.SameCategoryList>
-    </s.SubContainer>
+    </s.Container>
   )
 }
 

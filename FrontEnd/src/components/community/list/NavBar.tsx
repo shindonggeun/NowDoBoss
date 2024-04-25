@@ -1,12 +1,26 @@
 import * as n from '@src/components/styles/community/NavbarStyle'
 import { useState } from 'react'
-import useCommunityStore from '@src/stores/communityStore'
+import useCommunityStore, { Category } from '@src/stores/communityStore'
+import chatIcon from '@src/assets/chat_button.svg'
+import { useNavigate } from 'react-router-dom'
 
-const NavBar = () => {
-  const [isChoice, setIsChoice] = useState<string>('전체보기')
+export type NavBarPropsType = {
+  setCategory: (category: Category) => void
+}
+const NavBar = (props: NavBarPropsType) => {
+  const { setCategory } = props
+  const navigate = useNavigate()
 
-  const categories = useCommunityStore(state => state.categories)
+  // store에 저장해둔 카테고리 받아오기
+  const { categories, selectedCategory } = useCommunityStore(state => ({
+    categories: state.categories,
+    selectedCategory: state.selectedCategory,
+  }))
 
+  // 선택한 문자열 filter 해서 style prop 하기 위한 값
+  const [isChoice, setIsChoice] = useState<string>(
+    selectedCategory.name ? selectedCategory.name : '전체보기',
+  )
   const chatCards = [
     {
       id: 1,
@@ -38,7 +52,11 @@ const NavBar = () => {
           <n.Category
             key={category.name}
             $isChoice={isChoice === category.name}
-            onClick={() => setIsChoice(category.name)}
+            onClick={() => {
+              setIsChoice(category.name)
+              setCategory(category)
+              navigate('/community')
+            }}
           >
             <n.Icon
               src={
@@ -65,7 +83,7 @@ const NavBar = () => {
           </n.Category>
         ))}
       </n.Chatting>
-      <n.ChatButton src="src/assets/chat_button.svg" />
+      <n.ChatButton src={chatIcon} />
     </n.Container>
   )
 }

@@ -13,8 +13,9 @@ import chat from 'src/assets/chat.svg'
 import chat_gray from 'src/assets/chat_gray.svg'
 
 // 카테고리 타입 정의
-interface Category {
+export interface Category {
   name: string
+  value: string
   iconActive: string
   iconInactive: string
 }
@@ -22,45 +23,62 @@ interface Category {
 // 스토어 타입 정의
 interface CommunityStoreType {
   categories: Category[]
+  selectedCategory: Category
+  setSelectedCategory: (category: Category) => void
 }
 
 // 카테고리 데이터
 const initialCategories: Category[] = [
   {
     name: '전체보기',
+    value: '',
     iconActive: three_line,
     iconInactive: three_line_gray,
   },
   {
     name: '이모저모',
+    value: 'ETC',
     iconActive: fire,
     iconInactive: fire_gray,
   },
   {
     name: '인테리어',
+    value: 'INTERIOR',
     iconActive: shop,
     iconInactive: shop_gray,
   },
   {
     name: '상권공유',
+    value: 'COMMERCIAL_AREA',
     iconActive: map,
     iconInactive: map_gray,
   },
   {
     name: '동업제안',
+    value: 'PARTNERSHIP',
     iconActive: user_add,
     iconInactive: user_add_gray,
   },
   {
     name: '창업고민',
+    value: 'START_UP',
     iconActive: chat,
     iconInactive: chat_gray,
   },
 ]
 
+const initialSelectedCategory: Category = {
+  name: '',
+  value: '',
+  iconActive: '',
+  iconInactive: '',
+}
+
 // 스토어 생성
-const communityStore = create<CommunityStoreType>(() => ({
+const communityStore = create<CommunityStoreType>(set => ({
   categories: initialCategories,
+  selectedCategory: initialSelectedCategory,
+  setSelectedCategory: category => set({ selectedCategory: category }),
 }))
 
 export default communityStore

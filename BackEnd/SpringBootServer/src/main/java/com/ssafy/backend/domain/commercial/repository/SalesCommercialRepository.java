@@ -8,7 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface SalesCommercialRepository extends JpaRepository<SalesCommercial, Long> {
-    Optional<SalesCommercial> findByPeriodCodeAndCommercialCode(String periodCode, String commercialCode);
-
     Optional<SalesCommercial> findByPeriodCodeAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode);
 }

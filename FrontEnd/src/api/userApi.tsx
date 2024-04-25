@@ -7,10 +7,7 @@ import {
 
 // 이메일 인증코드 발송
 export const sendEmailVerificationCode = async (memberEmail: string) => {
-  return customAxios
-    .post(`/email/send/${memberEmail}`)
-    .then(res => res.data)
-    .catch(err => console.log(err))
+  return customAxios.post(`/email/send/${memberEmail}`).then(res => res.data)
 }
 
 // 이메일 인증코드 검증

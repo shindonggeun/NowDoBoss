@@ -30,17 +30,37 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube analysis') {
+
+        stage('SonarQube Analysis - FrontEnd') {
             steps {
-                withSonarQubeEnv('SonarQube Server') {  // 'SonarQube Server'는 Jenkins 시스템 설정에 소나큐브 서버 설정에서 정의된 이름입니다.
-                    sh 'sonar-scanner' +
-                        '-Dsonar.projectKey=nowdoboss' +
-                        '-Dsonar.sources=/'
+                dir('FrontEnd') {
+                    withSonarQubeEnv('SonarQube Server') {
+                        sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
+                    }
                 }
             }
-
-            
         }
+
+        stage('SonarQube Analysis - FastApiServer') {
+            steps {
+                dir('BackEnd/FastApiServer') {
+                    withSonarQubeEnv('SonarQube Server') {
+                        sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
+                    }
+                }
+            }
+        }
+
+        stage('SonarQube Analysis - SpringBootServer') {
+            steps {
+                dir('BackEnd/SpringBootServer') {
+                    withSonarQubeEnv('SonarQube Server') {
+                        sh './gradlew sonarqube -Dsonar.projectKey=nowdoboss'
+                    }
+                }
+            }
+        }
+
         stage('Deploy with Docker Compose') {  // 'Deploy with Docker Compose'라는 이름의 단계를 정의합니다. 이 단계에서는 Docker Compose를 사용한 배포가 이루어집니다.
             steps {
                 script {

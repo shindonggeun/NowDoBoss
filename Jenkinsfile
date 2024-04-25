@@ -32,7 +32,7 @@ pipeline {
         }
         stage('SonarQube analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('SonarQube Server') {  // 'SonarQube Server'는 Jenkins 시스템 설정에 소나큐브 서버 설정에서 정의된 이름입니다.
                     sh "mvn clean verify sonar:sonar"
                 }
             }

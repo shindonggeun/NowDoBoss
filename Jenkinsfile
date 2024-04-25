@@ -2,18 +2,6 @@ pipeline {
     agent any  // 이 파이프라인이 실행될 Jenkins 에이전트를 지정합니다. 'any'는 사용 가능한 임의의 에이전트에서 실행될 수 있음을 의미합니다.
 
     stages {
-        stage('Prepare Environment') {
-            steps {
-                script {
-                    // 파일 존재 여부 확인
-                    if (sh(script: "test -f CICD/docker-compose-redis.yml", returnStatus: true) != 0) {
-                        echo "docker-compose-redis.yml 파일이 존재하지 않습니다."
-                    } else {
-                        echo "docker-compose-redis.yml 파일이 존재합니다."
-                    }
-                }
-            }
-        }
         stage('Deploy Redis') {
             steps {
                 script {
@@ -25,6 +13,16 @@ pipeline {
                     if (isRedisRunning == "") {
                         sh "docker-compose -f CICD/docker-compose-redis.yml up -d"
                     }
+                }
+            }
+        }
+        stage('Start SonarQube') {
+            steps {
+                script {
+                    echo "SonarQube 컨테이너 실행 상태 확인 중..."
+                    def isSonarQubeRunning = sh(script: "docker ps --filter name=nowdoboss_sonarqube --filter status=running", returnStdout: true).trim()
+                    echo "SonarQube 실행 상태: ${isSonarQubeRunning}"
+                    sh "docker-compose -f CICD/docker-compose-sonarqube.yml up -d"
                 }
             }
         }

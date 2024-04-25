@@ -26,7 +26,7 @@ function App() {
           />
           <Route path="/community/edit" element={<CommunityEditPage />} />
           <Route
-            path="/community/:community_id"
+            path="/community/:communityId"
             element={<CommunityDetailPage />}
           />
           <Route path="/login" element={<LoginPage />} />

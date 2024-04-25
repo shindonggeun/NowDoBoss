@@ -1,15 +1,14 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  padding: 3vh 10vw;
+  padding: 0 10vw 3vh;
+  width: 100%;
+
   @media only screen and (min-width: 768px) {
-    padding: 3vh 12vw;
+    padding: 0 10vw 3vh;
   }
   @media only screen and (min-width: 992px) {
-    padding: 3vh 15vw;
-  }
-  @media only screen and (min-width: 1200px) {
-    padding: 3vh 20vw;
+    padding: 0 12vw 3vh;
   }
 `
 
@@ -18,6 +17,9 @@ export const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 3vh 0;
+  background-color: #ffffff;
+  top: 72px;
+  position: sticky;
 `
 export const SubmitButton = styled.div<{ $isValid: boolean }>`
   pointer-events: ${props => (props.$isValid ? '' : 'none')};
@@ -34,17 +36,18 @@ export const SubmitButton = styled.div<{ $isValid: boolean }>`
 export const TitleInput = styled.textarea<{ $isActive?: boolean }>`
   font-weight: 600;
   font-size: 2rem;
-  color: #626262;
   border: none;
   width: 100%;
   height: auto;
   resize: none;
+  padding: 3vh 0 0 0;
   &:hover {
     cursor: text;
   }
   &:focus {
     outline: none;
   }
+
   @media only screen and (max-width: 500px) {
     font-size: 1.7rem;
   }
@@ -116,29 +119,4 @@ export const ContentInput = styled.textarea<{ $isActive?: boolean }>`
     outline: none;
     border: none;
   }
-`
-// 이미지
-
-export const Images = styled.div`
-  display: flex;
-  div {
-    margin: 10px 10px 0 0;
-  }
-`
-export const PreviewImage = styled.div`
-  border-radius: 5px;
-  width: 100px;
-  height: 100px;
-  border: 2px solid #bababa;
-`
-export const AddImage = styled.div`
-  border: 2px solid #bababa;
-  border-radius: 5px;
-  width: 100px;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #bababa;
-  font-weight: 600;
 `

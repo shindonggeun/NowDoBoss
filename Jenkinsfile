@@ -26,6 +26,13 @@ pipeline {
                 }
             }
         }
+        stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh "mvn clean verify sonar:sonar"
+                }
+            }
+        }
         stage('Deploy with Docker Compose') {  // 'Deploy with Docker Compose'라는 이름의 단계를 정의합니다. 이 단계에서는 Docker Compose를 사용한 배포가 이루어집니다.
             steps {
                 script {

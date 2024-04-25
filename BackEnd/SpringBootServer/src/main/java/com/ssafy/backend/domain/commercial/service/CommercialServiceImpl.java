@@ -7,6 +7,7 @@ import com.ssafy.backend.domain.commercial.entity.SalesCommercial;
 import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.FootTrafficCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
+import com.ssafy.backend.domain.commercial.repository.ServiceCodeProjection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,18 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         return new CommercialFootTrafficResponse(timeSlotFootTraffic, dayOfWeekFootTraffic, ageGroupFootTraffic);
+    }
+
+    @Override
+    public List<CommercialServiceResponse> getServiceByCommercialCode(String commercialCode) {
+        List<ServiceCodeProjection> serviceCodeProjectionList = salesCommercialRepository.findDistinctServiceCodesByCommercialCode(commercialCode);
+
+        return serviceCodeProjectionList.stream()
+                .map(projection -> new CommercialServiceResponse(
+                        projection.getServiceCode(),
+                        projection.getServiceCodeName())
+                )
+                .collect(Collectors.toList());
     }
 
     @Override

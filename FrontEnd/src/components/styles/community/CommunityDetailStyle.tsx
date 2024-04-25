@@ -4,17 +4,11 @@ import styled from 'styled-components'
 export const Container = styled.div`
   padding: 3vh 10% 0;
 
-  @media only screen and (min-width: 768px) {
-    padding: 3vh 10%;
-    border-right: 2px solid #d9d9d9;
+  @media only screen and (max-width: 820px) {
+    padding: 3vh 5%;
   }
-  @media only screen and (min-width: 992px) {
-    padding: 3vh 12%;
-    border-right: 2px solid #d9d9d9;
-  }
-  @media only screen and (min-width: 1200px) {
-    padding: 3vh 15%;
-    border-right: 2px solid #d9d9d9;
+  @media only screen and (max-width: 768px) {
+    padding: 3vh 0;
   }
 `
 
@@ -25,16 +19,23 @@ export const Title = styled.div`
 `
 export const Category = styled.div`
   padding: 1vh 0;
+  display: flex;
+  font-weight: 500;
 `
 export const TimeAndCounting = styled.div`
   padding: 0 0 2vh;
   font-weight: 600;
 `
-export const ContentImg = styled.div`
-  width: 100%;
-  height: 20vh;
-  background-color: #d9d9d9;
+
+export const Slick = styled.div``
+export const CommunityImage = styled.img``
+export const SlickChild = styled.div`
+  &:hover {
+    margin: -10px 0 0 10px;
+    cursor: pointer;
+  }
 `
+
 export const Content = styled.div`
   padding: 2vh 0;
 `
@@ -43,10 +44,6 @@ export const Content = styled.div`
 
 export const SubContainer = styled.div`
   padding: 3vh 10%;
-
-  @media only screen and (min-width: 1200px) {
-    max-width: 400px;
-  }
 `
 export const TabName = styled.div`
   font-weight: 600;
@@ -68,13 +65,19 @@ export const ProfileDiv = styled.div`
   align-items: center;
 `
 
-export const UserProfileImg = styled.div`
+export const UserProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+`
+export const UserImgDefault = styled.div`
   background-color: #cacaca;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
 `
 export const UserName = styled.div`
+  font-size: 20px;
   font-weight: 600;
   margin: 0 0.5rem;
 `

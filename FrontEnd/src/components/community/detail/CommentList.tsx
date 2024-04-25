@@ -39,14 +39,20 @@ const CommentList = () => {
       </c.CommentBox>
       <c.CommentCard>
         <c.CommentContainer>
-          <c.CommentProfile />
-          <c.CommentUser>
-            <c.CommentName>최성호</c.CommentName>
-            {/* <m.CommentTime>2024-03-12 16:40</m.CommentTime> */}
-            <c.CommentTime>
-              {TimeCounting('2024-04-24 4:00:00', TimeOption)}
-            </c.CommentTime>
-          </c.CommentUser>
+          <c.CommentContainer>
+            <c.CommentProfile />
+            <c.CommentUser>
+              <c.CommentName>최성호</c.CommentName>
+              {/* <m.CommentTime>2024-03-12 16:40</m.CommentTime> */}
+              <c.CommentTime>
+                {TimeCounting('2024-04-24 4:00:00', TimeOption)}
+              </c.CommentTime>
+            </c.CommentUser>
+          </c.CommentContainer>
+          <c.ModDiv>
+            <c.ModButton>수정</c.ModButton>
+            <c.ModButton>삭제</c.ModButton>
+          </c.ModDiv>
         </c.CommentContainer>
         <c.CommentContent>좋은 글 잘 읽었습니다.</c.CommentContent>
       </c.CommentCard>

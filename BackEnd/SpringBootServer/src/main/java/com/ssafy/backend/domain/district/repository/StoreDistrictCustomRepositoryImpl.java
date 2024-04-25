@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.district.dto.ClosedStoreDistrictTopTenInfo;
 import com.ssafy.backend.domain.district.dto.OpenedStoreDistrictTopTenInfo;
+import com.ssafy.backend.domain.district.dto.StoreDistrictTotalTopEightInfo;
 import com.ssafy.backend.domain.district.entity.QStoreDistrict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -78,6 +79,26 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                 .orderBy(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.closedStore).otherwise(0L).sum()
                         .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum())
                         .desc())
+                .fetch();
+    }
+
+    @Override
+    public List<StoreDistrictTotalTopEightInfo> getTopEightTotalStoreByServiceCode(String periodCode, String districtCode) {
+        QStoreDistrict storeDistrict = QStoreDistrict.storeDistrict;
+
+        return queryFactory
+                .select(Projections.constructor(
+                        StoreDistrictTotalTopEightInfo.class,
+                        storeDistrict.serviceCode,
+                        storeDistrict.serviceCodeName,
+                        storeDistrict.totalStore
+                ))
+                .from(storeDistrict)
+                .where(storeDistrict.periodCode.eq(periodCode)
+                        .and(storeDistrict.districtCode.eq(districtCode))
+                        .and(storeDistrict.serviceType.isNotNull()))
+                .orderBy(storeDistrict.totalStore.desc())
+                .limit(8)
                 .fetch();
     }
 }

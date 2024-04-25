@@ -10,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface SalesDistrictRepository extends JpaRepository<SalesDistrict, Long>, SalesDistrictCustomRepository {
-    @Query("SELECT new com.ssafy.backend.domain.district.dto.SalesDistrictMonthSalesTopFiveInfo(" +
-            "s.serviceCode, s.serviceCodeName, s.monthSales) " +
-            "FROM SalesDistrict s WHERE s.periodCode = '20233' AND s.districtCode = :districtCode AND s.serviceType IS NOT NULL ORDER BY s.monthSales DESC")
-    Page<SalesDistrictMonthSalesTopFiveInfo> getTopFiveMonthSalesByServiceCode(@Param("districtCode")String districtCode, Pageable pageable);
+//    @Query("SELECT new com.ssafy.backend.domain.district.dto.SalesDistrictMonthSalesTopFiveInfo(" +
+//            "s.serviceCode, s.serviceCodeName, s.monthSales) " +
+//            "FROM SalesDistrict s WHERE s.periodCode = '20233' AND s.districtCode = :districtCode AND s.serviceType IS NOT NULL ORDER BY s.monthSales DESC")
+//    Page<SalesDistrictMonthSalesTopFiveInfo> getTopFiveMonthSalesByServiceCode(@Param("districtCode")String districtCode, Pageable pageable);
 
 }

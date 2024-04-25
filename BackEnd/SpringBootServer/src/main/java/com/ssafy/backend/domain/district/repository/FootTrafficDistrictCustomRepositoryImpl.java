@@ -1,10 +1,12 @@
 package com.ssafy.backend.domain.district.repository;
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.district.dto.FootTrafficDistrictTopTenInfo;
+import com.ssafy.backend.domain.district.dto.FootTrafficDistrictTopTenResponse;
 import com.ssafy.backend.domain.district.entity.QFootTrafficDistrict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -17,17 +19,20 @@ public class FootTrafficDistrictCustomRepositoryImpl implements FootTrafficDistr
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<FootTrafficDistrictTopTenInfo> getTopTenFootTrafficDistrictByPeriodCode() {
+    public List<FootTrafficDistrictTopTenResponse> getTopTenFootTrafficDistrictByPeriodCode() {
         QFootTrafficDistrict f = QFootTrafficDistrict.footTrafficDistrict;
         QFootTrafficDistrict f2 = new QFootTrafficDistrict("f2");
 
-        JPQLQuery<FootTrafficDistrictTopTenInfo> query = queryFactory
+        JPQLQuery<FootTrafficDistrictTopTenResponse> query = queryFactory
                 .select(Projections.constructor(
-                        FootTrafficDistrictTopTenInfo.class,
+                        FootTrafficDistrictTopTenResponse.class,
                         f.districtCode,
                         f.districtCodeName,
                         f2.totalFootTraffic,
-                        f.totalFootTraffic))
+                        (f2.totalFootTraffic.doubleValue().subtract(f.totalFootTraffic.doubleValue()))
+                                .divide(f.totalFootTraffic).multiply(100).as("totalFootTrafficChangeRate"),
+                        Expressions.numberTemplate(Integer.class, "(ROW_NUMBER() OVER(ORDER BY f2.totalFootTraffic DESC) - 1) / 5 + 1").as("level")
+                        ))
                 .from(f)
                 .join(f2)
                 .on(f.districtCodeName.eq(f2.districtCodeName))

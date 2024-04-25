@@ -1,11 +1,17 @@
 package com.ssafy.backend.domain.district.repository;
 
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.district.dto.ClosedStoreDistrictTopTenInfo;
 import com.ssafy.backend.domain.district.dto.OpenedStoreDistrictTopTenInfo;
 import com.ssafy.backend.domain.district.dto.StoreDistrictTotalTopEightInfo;
+import com.ssafy.backend.domain.district.entity.QFootTrafficDistrict;
 import com.ssafy.backend.domain.district.entity.QStoreDistrict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -85,21 +91,41 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
     @Override
     public List<StoreDistrictTotalTopEightInfo> getTopEightTotalStoreByServiceCode(String periodCode, String districtCode) {
         QStoreDistrict storeDistrict = QStoreDistrict.storeDistrict;
+        QStoreDistrict s = new QStoreDistrict("s");
+
+        SubQueryExpression<Long> periodCode20232Query = JPAExpressions
+                .select(s.totalStore)
+                .from(s)
+                .where(s.periodCode.eq("20224")
+                        .and(s.districtCode.eq(districtCode))
+                        .and(s.serviceType.isNotNull())
+                        .and(s.serviceCode.eq(storeDistrict.serviceCode))); // 서비스 코드 일치 조건 추가
 
         return queryFactory
                 .select(Projections.constructor(
                         StoreDistrictTotalTopEightInfo.class,
                         storeDistrict.serviceCode,
                         storeDistrict.serviceCodeName,
-                        storeDistrict.totalStore
+                        new CaseBuilder()
+                                .when(storeDistrict.periodCode.eq("20233"))
+                                .then(storeDistrict.totalStore)
+                                .otherwise(0L)
+                                .doubleValue()
+                                .subtract(periodCode20232Query)
+                                .divide(periodCode20232Query)
                 ))
                 .from(storeDistrict)
                 .where(storeDistrict.periodCode.eq(periodCode)
                         .and(storeDistrict.districtCode.eq(districtCode))
                         .and(storeDistrict.serviceType.isNotNull()))
-                .orderBy(storeDistrict.totalStore.desc())
+                .orderBy(new CaseBuilder().when(storeDistrict.periodCode.eq("20233")).then(storeDistrict.totalStore).otherwise(0L).desc())
                 .limit(8)
                 .fetch();
     }
+
+
+
+
+
 }
 

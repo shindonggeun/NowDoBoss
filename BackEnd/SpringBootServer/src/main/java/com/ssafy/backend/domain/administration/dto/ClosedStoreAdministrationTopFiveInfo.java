@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 public record ClosedStoreAdministrationTopFiveInfo(
         String administrationCode,
         String administrationCodeName,
-        Long curTotalStore,
-        Long curClosedStore
+        Double curClosedRateChange
 ) {
-    public ClosedStoreAdministrationTopFiveInfo(String administrationCode, String administrationCodeName, Long curTotalStore, Long curClosedStore) {
+    public ClosedStoreAdministrationTopFiveInfo(String administrationCode, String administrationCodeName, Double curClosedRateChange) {
         this.administrationCode = administrationCode;
         this.administrationCodeName = administrationCodeName;
-        this.curTotalStore = curTotalStore;
-        this.curClosedStore = curClosedStore;
+        this.curClosedRateChange = curClosedRateChange;
     }
 }

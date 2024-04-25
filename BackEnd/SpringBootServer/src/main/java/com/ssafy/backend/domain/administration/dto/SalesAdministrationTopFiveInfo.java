@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 public record SalesAdministrationTopFiveInfo(
         String administrationCode,
         String administrationCodeName,
-        Long monthSales
+        Double monthSalesChangeRate
 ) {
-    public SalesAdministrationTopFiveInfo(String administrationCode, String administrationCodeName, Long monthSales) {
+    public SalesAdministrationTopFiveInfo(String administrationCode, String administrationCodeName, Double monthSalesChangeRate) {
         this.administrationCode = administrationCode;
         this.administrationCodeName = administrationCodeName;
-        this.monthSales = monthSales;
+        this.monthSalesChangeRate = monthSalesChangeRate;
     }
 }

@@ -18,11 +18,13 @@ export const Item = styled.div`
   //justify-content: space-evenly;
   text-align: center;
   border-bottom: 1px solid lightgray;
-  margin: 0.7rem 10%;
+  font-size: 14px;
+  margin: 0.7rem 20%;
 `
 
 export const Name = styled.div`
   flex: 1;
+  font-weight: 500;
   text-align: left;
 `
 

@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 public record SalesDistrictMonthSalesTopFiveInfo(
         String serviceCode,
         String serviceCodeName,
-        Long monthSales
+        Double monthSalesChangeRate
 ) {
-    public SalesDistrictMonthSalesTopFiveInfo(String serviceCode, String serviceCodeName, Long monthSales) {
+    public SalesDistrictMonthSalesTopFiveInfo(String serviceCode, String serviceCodeName, Double monthSalesChangeRate) {
         this.serviceCode = serviceCode;
         this.serviceCodeName = serviceCodeName;
-        this.monthSales = monthSales;
+        this.monthSalesChangeRate = monthSalesChangeRate;
     }
 }

@@ -6,7 +6,7 @@ import arrow_up from '@src/assets/arrow_up.svg'
 import ImageUpload from '@src/components/community/register/ImageUpload'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { fetchCommunityCreate } from '@src/api/communityApi'
+import { communityCreate } from '@src/api/communityApi'
 
 const ContentRegister = () => {
   const navigate = useNavigate()
@@ -38,7 +38,7 @@ const ContentRegister = () => {
 
   const { mutate } = useMutation({
     mutationKey: ['communityCreateForm'],
-    mutationFn: fetchCommunityCreate,
+    mutationFn: communityCreate,
     onSuccess() {
       navigate(`/community`)
     },

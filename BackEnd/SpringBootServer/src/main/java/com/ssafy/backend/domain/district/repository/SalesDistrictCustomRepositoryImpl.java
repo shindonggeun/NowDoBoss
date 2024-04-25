@@ -2,7 +2,6 @@ package com.ssafy.backend.domain.district.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.district.dto.SalesDistrictTopTenInfo;
 import com.ssafy.backend.domain.district.entity.QSalesDistrict;

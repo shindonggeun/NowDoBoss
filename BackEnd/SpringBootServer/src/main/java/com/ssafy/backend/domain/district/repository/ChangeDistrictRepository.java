@@ -1,7 +1,6 @@
 package com.ssafy.backend.domain.district.repository;
 
 import com.ssafy.backend.domain.district.entity.ChangeDistrict;
-import io.swagger.v3.oas.annotations.Parameter;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -31,25 +31,25 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis - FrontEnd') {
-            steps {
-                dir('FrontEnd') {
-                    withSonarQubeEnv('SonarQube Server') {
-                        sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
-                    }
-                }
-            }
-        }
+        // stage('SonarQube Analysis - FrontEnd') {
+        //     steps {
+        //         dir('FrontEnd') {
+        //             withSonarQubeEnv('SonarQube Server') {
+        //                 sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
+        //             }
+        //         }
+        //     }
+        // }
 
-        stage('SonarQube Analysis - FastApiServer') {
-            steps {
-                dir('BackEnd/FastApiServer') {
-                    withSonarQubeEnv('SonarQube Server') {
-                        sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
-                    }
-                }
-            }
-        }
+        // stage('SonarQube Analysis - FastApiServer') {
+        //     steps {
+        //         dir('BackEnd/FastApiServer') {
+        //             withSonarQubeEnv('SonarQube Server') {
+        //                 sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('SonarQube Analysis - SpringBootServer') {
             steps {

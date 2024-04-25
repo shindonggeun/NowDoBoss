@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 public record StoreDistrictTotalTopEightInfo(
         String serviceCode,
         String serviceCodeName,
-        Long totalStore
+        Double totalStoreChangeRate
 ) {
-    public StoreDistrictTotalTopEightInfo(String serviceCode, String serviceCodeName, Long totalStore) {
+    public StoreDistrictTotalTopEightInfo(String serviceCode, String serviceCodeName, Double totalStoreChangeRate) {
         this.serviceCode = serviceCode;
         this.serviceCodeName = serviceCodeName;
-        this.totalStore = totalStore;
+        this.totalStoreChangeRate = totalStoreChangeRate;
     }
 }

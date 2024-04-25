@@ -40,25 +40,20 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Override
     public DistrictTopTenResponse getTopTenDistricts() {
-        List<FootTrafficDistrictTopTenResponse> footTrafficResponseList = new ArrayList<>();
-        List<FootTrafficDistrictTopTenInfo> footTrafficInfoList = footTrafficDistrictRepository.getTopTenFootTrafficDistrictByPeriodCode();
 
-        // 유동 인구 Top 10
-        for (int i = 0; i < 25; i++) {
-            FootTrafficDistrictTopTenInfo footTrafficDistrictTopTenInfo = footTrafficInfoList.get(i);
-            Long prevTotalFootTraffic = footTrafficDistrictTopTenInfo.prevTotalFootTraffic();
-            Long curTotalFootTraffic = footTrafficDistrictTopTenInfo.curTotalFootTraffic();
-            String districtCodeName = footTrafficDistrictTopTenInfo.districtCodeName();
-            String districtCode = footTrafficDistrictTopTenInfo.districtCode();
-
-            footTrafficResponseList.add(new FootTrafficDistrictTopTenResponse(districtCode,districtCodeName, curTotalFootTraffic, ((curTotalFootTraffic-prevTotalFootTraffic)/(float)prevTotalFootTraffic*100), i/5+1));
-        }
-
-        // 매출 Top 10
         List<SalesDistrictTopTenResponse> salesResponseList = new ArrayList<>();
-        //List<String> districtNames = getTopTenSalesDistrictCodeNameByPeriodCode();
+        List<OpenedStoreDistrictTopTenResponse> openedStoreResponseList = new ArrayList<>();
+        List<ClosedStoreDistrictTopTenResponse> closedStoreResponseList = new ArrayList<>();
+
+        // 유동 인구
+        List<FootTrafficDistrictTopTenResponse> footTrafficInfoList = footTrafficDistrictRepository.getTopTenFootTrafficDistrictByPeriodCode();
         List<SalesDistrictTopTenInfo> salesInfoList = salesDistrictRepository.getTopTenSalesDistrictByPeriodCode();
+        List<OpenedStoreDistrictTopTenInfo> openedStoreInfoList = storeDistrictRepository.getTopTenOpenedStoreDistrictByPeriodCode();
+        List<ClosedStoreDistrictTopTenInfo> closedStoreInfoList = storeDistrictRepository.getTopTenClosedStoreDistrictByPeriodCode();
+
+
         for (int i = 0; i < 25; i++) {
+            // 매출
             SalesDistrictTopTenInfo salesDistrictTopTenInfo = salesInfoList.get(i);
             Long prevTotalSales = salesDistrictTopTenInfo.prevTotalSales();
             Long curTotalSales = salesDistrictTopTenInfo.curTotalSales();
@@ -66,12 +61,8 @@ public class DistrictServiceImpl implements DistrictService {
             String districtCode = salesDistrictTopTenInfo.districtCode();
 
             salesResponseList.add(new SalesDistrictTopTenResponse(districtCode, districtCodeName, curTotalSales, ((curTotalSales-prevTotalSales)/(float)prevTotalSales*100), i/5+1));
-        }
 
-        // 개업률 Top 10
-        List<OpenedStoreDistrictTopTenResponse> openedStoreResponseList = new ArrayList<>();
-        List<OpenedStoreDistrictTopTenInfo> openedStoreInfoList = storeDistrictRepository.getTopTenOpenedStoreDistrictByPeriodCode();
-        for (int i = 0; i < 25; i++) {
+            // 개업률
             OpenedStoreDistrictTopTenInfo openedStoreDistrictTopTenInfo = openedStoreInfoList.get(i);
             Long prevTotalStore = openedStoreDistrictTopTenInfo.prevTotalStore();
             Long prevOpenedStore = openedStoreDistrictTopTenInfo.prevOpenedStore();
@@ -81,33 +72,27 @@ public class DistrictServiceImpl implements DistrictService {
             Long curOpenedStore = openedStoreDistrictTopTenInfo.curOpenedStore();
             Float curOpenedRate = ((float) curOpenedStore / curTotalStore * 100);
 
-            String districtCodeName = openedStoreDistrictTopTenInfo.districtCodeName();
-            String districtCode = openedStoreDistrictTopTenInfo.districtCode();
-            //System.out.println("자치구명: " + districtCodeName + "이번총점포수: " + curTotalStore + "이번개업점포수: " + curOpenedStore + "이전총점포수: " + prevTotalStore + "이전개업점포수: " + prevOpenedStore);
-            openedStoreResponseList.add(new OpenedStoreDistrictTopTenResponse(districtCode, districtCodeName, curOpenedRate, (curOpenedRate-prevOpenedRate)/prevOpenedRate*100, i/5+1));
-        }
+            districtCodeName = openedStoreDistrictTopTenInfo.districtCodeName();
+            districtCode = openedStoreDistrictTopTenInfo.districtCode();
 
-        // 폐업률 Top 5
-        List<ClosedStoreDistrictTopTenResponse> closedStoreResponseList = new ArrayList<>();
-        List<ClosedStoreDistrictTopTenInfo> closedStoreInfoList = storeDistrictRepository.getTopTenClosedStoreDistrictByPeriodCode();
-        for (int i = 0; i < 25; i++) {
+            openedStoreResponseList.add(new OpenedStoreDistrictTopTenResponse(districtCode, districtCodeName, curOpenedRate, (curOpenedRate-prevOpenedRate)/prevOpenedRate*100, i/5+1));
+
+            // 폐업률
             ClosedStoreDistrictTopTenInfo closedStoreDistrictTopTenInfo = closedStoreInfoList.get(i);
-            Long prevTotalStore = closedStoreDistrictTopTenInfo.prevTotalStore();
+            prevTotalStore = closedStoreDistrictTopTenInfo.prevTotalStore();
             Long prevClosedStore = closedStoreDistrictTopTenInfo.prevClosedStore();
             Float prevClosedRate = ((float) prevClosedStore / prevTotalStore * 100);
 
-            Long curTotalStore = closedStoreDistrictTopTenInfo.curTotalStore();
+            curTotalStore = closedStoreDistrictTopTenInfo.curTotalStore();
             Long curClosedStore = closedStoreDistrictTopTenInfo.curClosedStore();
             Float curClosedRate = ((float) curClosedStore / curTotalStore * 100);
 
-            String districtCodeName = closedStoreDistrictTopTenInfo.districtCodeName();
-            String districtCode = closedStoreDistrictTopTenInfo.districtCode();
-            //System.out.println("자치구명: " + districtCodeName + "이번총점포수: " + curTotalStore + "이번폐업점포수: " + curClosedStore + "이전총점포수: " + prevTotalStore + "이전폐업점포수: " + prevClosedStore);
+            districtCodeName = closedStoreDistrictTopTenInfo.districtCodeName();
+            districtCode = closedStoreDistrictTopTenInfo.districtCode();
+
             closedStoreResponseList.add(new ClosedStoreDistrictTopTenResponse(districtCode, districtCodeName, curClosedRate, (curClosedRate-prevClosedRate)/prevClosedRate*100, i/5+1));
         }
-
-        return new DistrictTopTenResponse(footTrafficResponseList, salesResponseList, openedStoreResponseList, closedStoreResponseList);
-    //    return null;
+        return new DistrictTopTenResponse(footTrafficInfoList, salesResponseList, openedStoreResponseList, closedStoreResponseList);
     }
 
     public DistrictDetailResponse getDistrictDetail(String districtCode) {
@@ -120,48 +105,107 @@ public class DistrictServiceImpl implements DistrictService {
         List<String> periodCodes = Arrays.asList("20224", "20231", "20232", "20233");
 
         List<FootTrafficDistrict> footTrafficDetailList = footTrafficDistrictRepository.findByPeriodCodeInAndDistrictCodeOrderByPeriodCode(periodCodes, districtCode);
-        List<Map<String, Long>> footTrafficDistrictListByPeriod = new ArrayList<>();
-        List<Map<String, Long>> footTrafficDistrictListByTime = new ArrayList<>();
-        List<Map<String, Long>> footTrafficDistrictListByGender = new ArrayList<>();
-        List<Map<String, Long>> footTrafficDistrictListByAge = new ArrayList<>();
-        List<Map<String, Long>> footTrafficDistrictListByDay = new ArrayList<>();
+
+        Map<String, Long> periodData = new LinkedHashMap<>();
+
+        FootTrafficDistrictListByTimeInfo time = null;
+        FootTrafficDistrictListByGenderInfo gender = null;
+        FootTrafficDistrictListByAgeInfo age = null;
+        FootTrafficDistrictListByDayInfo day = null;
 
         for (FootTrafficDistrict footTrafficDistrict: footTrafficDetailList){
             // 총 유동인구
-            footTrafficDistrictListByPeriod.add(Collections.singletonMap(footTrafficDistrict.getPeriodCode(), footTrafficDistrict.getTotalFootTraffic()));
+            periodData.put(footTrafficDistrict.getPeriodCode(), footTrafficDistrict.getTotalFootTraffic());
 
             if (footTrafficDistrict.getPeriodCode().equals(periodCode)){
+
                 // 시간대별
-                footTrafficDistrictListByTime.add(Collections.singletonMap("time0to6", footTrafficDistrict.getFootTraffic00()));
-                footTrafficDistrictListByTime.add(Collections.singletonMap("time6to11", footTrafficDistrict.getFootTraffic06()));
-                footTrafficDistrictListByTime.add(Collections.singletonMap("time11to14", footTrafficDistrict.getFootTraffic11()));
-                footTrafficDistrictListByTime.add(Collections.singletonMap("tim14to17", footTrafficDistrict.getFootTraffic14()));
-                footTrafficDistrictListByTime.add(Collections.singletonMap("time17to21", footTrafficDistrict.getFootTraffic17()));
-                footTrafficDistrictListByTime.add(Collections.singletonMap("time21to24", footTrafficDistrict.getFootTraffic21()));
+                Map<String, Long> timeData = new LinkedHashMap<>();
+                timeData.put("time0to6", footTrafficDistrict.getFootTraffic00());
+                timeData.put("time6to11", footTrafficDistrict.getFootTraffic06());
+                timeData.put("time11to14", footTrafficDistrict.getFootTraffic11());
+                timeData.put("tim14to17", footTrafficDistrict.getFootTraffic14());
+                timeData.put("time17to21", footTrafficDistrict.getFootTraffic17());
+                timeData.put("time21to24", footTrafficDistrict.getFootTraffic21());
+
+                String maxKey = null;
+                Long maxValue = Long.MIN_VALUE;
+
+                for (Map.Entry<String, Long> entry : timeData.entrySet()) {
+                    if (entry.getValue() > maxValue) {
+                        maxKey = entry.getKey();
+                        maxValue = entry.getValue();
+                    }
+                }
+
+                time = new FootTrafficDistrictListByTimeInfo(maxKey, timeData);
 
                 // 남녀
-                footTrafficDistrictListByGender.add(Collections.singletonMap("male", footTrafficDistrict.getMaleFootTraffic()));
-                footTrafficDistrictListByGender.add(Collections.singletonMap("female", footTrafficDistrict.getFemaleFootTraffic()));
+                Map<String, Long> genderData = new LinkedHashMap<>();
+                genderData.put("male", footTrafficDistrict.getMaleFootTraffic());
+                genderData.put("female", footTrafficDistrict.getFemaleFootTraffic());
+                maxKey = null;
+                if (genderData.get("male") > genderData.get("female")){
+                    maxKey = "male";
+                } else {
+                    maxKey = "female";
+                }
+                gender = new FootTrafficDistrictListByGenderInfo(maxKey, genderData);
 
                 // 연령대별
-                footTrafficDistrictListByAge.add(Collections.singletonMap("age10", footTrafficDistrict.getTeenFootTraffic()));
-                footTrafficDistrictListByAge.add(Collections.singletonMap("age20", footTrafficDistrict.getTwentyFootTraffic()));
-                footTrafficDistrictListByAge.add(Collections.singletonMap("age30", footTrafficDistrict.getThirtyFootTraffic()));
-                footTrafficDistrictListByAge.add(Collections.singletonMap("age40", footTrafficDistrict.getFortyFootTraffic()));
-                footTrafficDistrictListByAge.add(Collections.singletonMap("age50", footTrafficDistrict.getFiftyFootTraffic()));
-                footTrafficDistrictListByAge.add(Collections.singletonMap("age60", footTrafficDistrict.getSixtyFootTraffic()));
+                Map<String, Long> ageData = new LinkedHashMap<>();
+                ageData.put("age10", footTrafficDistrict.getTeenFootTraffic());
+                ageData.put("age20", footTrafficDistrict.getTwentyFootTraffic());
+                ageData.put("age30", footTrafficDistrict.getThirtyFootTraffic());
+                ageData.put("age40", footTrafficDistrict.getFortyFootTraffic());
+                ageData.put("age50", footTrafficDistrict.getFiftyFootTraffic());
+                ageData.put("age60", footTrafficDistrict.getSixtyFootTraffic());
+
+                maxKey = null;
+                maxValue = Long.MIN_VALUE;
+
+                for (Map.Entry<String, Long> entry : ageData.entrySet()) {
+                    if (entry.getValue() > maxValue) {
+                        maxKey = entry.getKey();
+                        maxValue = entry.getValue();
+                    }
+                }
+                age = new FootTrafficDistrictListByAgeInfo(maxKey, ageData);
 
                 // 요일별
-                footTrafficDistrictListByDay.add(Collections.singletonMap("monday", footTrafficDistrict.getMonFootTraffic()));
-                footTrafficDistrictListByDay.add(Collections.singletonMap("tuesday", footTrafficDistrict.getTueFootTraffic()));
-                footTrafficDistrictListByDay.add(Collections.singletonMap("wednesday", footTrafficDistrict.getWedFootTraffic()));
-                footTrafficDistrictListByDay.add(Collections.singletonMap("thursday", footTrafficDistrict.getThuFootTraffic()));
-                footTrafficDistrictListByDay.add(Collections.singletonMap("friday", footTrafficDistrict.getFriFootTraffic()));
-                footTrafficDistrictListByDay.add(Collections.singletonMap("saturday", footTrafficDistrict.getSatFootTraffic()));
-                footTrafficDistrictListByDay.add(Collections.singletonMap("sunday", footTrafficDistrict.getSunFootTraffic()));
+                Map<String, Long> dayData = new LinkedHashMap<>();
+                dayData.put("monday", footTrafficDistrict.getMonFootTraffic());
+                dayData.put("tuesday", footTrafficDistrict.getTueFootTraffic());
+                dayData.put("wednesday", footTrafficDistrict.getWedFootTraffic());
+                dayData.put("thursday", footTrafficDistrict.getThuFootTraffic());
+                dayData.put("friday", footTrafficDistrict.getFriFootTraffic());
+                dayData.put("saturday", footTrafficDistrict.getSatFootTraffic());
+                dayData.put("sunday", footTrafficDistrict.getSunFootTraffic());
+
+                maxKey = null;
+                maxValue = Long.MIN_VALUE;
+
+                for (Map.Entry<String, Long> entry : dayData.entrySet()) {
+                    if (entry.getValue() > maxValue) {
+                        maxKey = entry.getKey();
+                        maxValue = entry.getValue();
+                    }
+                }
+                day = new FootTrafficDistrictListByDayInfo(maxKey, dayData);
             }
         }
-        FootTrafficDistrictDetailResponse footTrafficDistrictDetailResponse = new FootTrafficDistrictDetailResponse(footTrafficDistrictListByPeriod, footTrafficDistrictListByTime, footTrafficDistrictListByGender, footTrafficDistrictListByAge, footTrafficDistrictListByDay);
+
+        String maxKey = null;
+        if (periodData.get("20232") > periodData.get("20233")){
+            maxKey = "감소";
+        } else if (periodData.get("20232") < periodData.get("20233")){
+            maxKey = "증가";
+        } else {
+            maxKey = "정체";
+        }
+        FootTrafficDistrictListByPeriodInfo period = new FootTrafficDistrictListByPeriodInfo(maxKey, periodData);
+
+        FootTrafficDistrictDetailResponse footTrafficDistrictDetailResponse = new FootTrafficDistrictDetailResponse(period, time, gender, age, day);
 
         // 점포 관련
         // 점포 수 Top 8 서비스 업종, 업종 코드명, 점포 개수
@@ -176,33 +220,10 @@ public class DistrictServiceImpl implements DistrictService {
 
         // 개업률 top 5 행정동
         List<OpenedStoreAdministrationTopFiveInfo> openedStoreAdministrationTopFiveList = storeAdministrationRepository.getTopFiveOpenedRateAdministration(allAdministrationCodes, periodCode);
-        List<OpenedStoreAdministrationTopFiveResponse> openedStoreAdministrationTopFive = new ArrayList<>();
-        for (OpenedStoreAdministrationTopFiveInfo openedStoreAdministrationTopFiveInfo: openedStoreAdministrationTopFiveList){
-            OpenedStoreAdministrationTopFiveResponse openedStoreAdministrationTopFiveResponse = new OpenedStoreAdministrationTopFiveResponse(
-                    openedStoreAdministrationTopFiveInfo.administrationCode(),
-                    openedStoreAdministrationTopFiveInfo.administrationCodeName(),
-                    openedStoreAdministrationTopFiveInfo.curTotalStore(),
-                    openedStoreAdministrationTopFiveInfo.curOpenedStore(),
-                    openedStoreAdministrationTopFiveInfo.curOpenedStore() / (float) openedStoreAdministrationTopFiveInfo.curTotalStore()*100
-            );
-            openedStoreAdministrationTopFive.add(openedStoreAdministrationTopFiveResponse);
-        }
-
         // 폐업률 top 5 행정동
         List<ClosedStoreAdministrationTopFiveInfo> closedStoreAdministrationTopFiveList = storeAdministrationRepository.getTopFiveClosedRateAdministration(allAdministrationCodes, periodCode);
-        List<ClosedStoreAdministrationTopFiveResponse> closedStoreAdministrationTopFive = new ArrayList<>();
-        for (ClosedStoreAdministrationTopFiveInfo closedStoreAdministrationTopFiveInfo: closedStoreAdministrationTopFiveList){
-            ClosedStoreAdministrationTopFiveResponse closedStoreAdministrationTopFiveResponse = new ClosedStoreAdministrationTopFiveResponse(
-                    closedStoreAdministrationTopFiveInfo.administrationCode(),
-                    closedStoreAdministrationTopFiveInfo.administrationCodeName(),
-                    closedStoreAdministrationTopFiveInfo.curTotalStore(),
-                    closedStoreAdministrationTopFiveInfo.curClosedStore(),
-                    closedStoreAdministrationTopFiveInfo.curClosedStore() / (float) closedStoreAdministrationTopFiveInfo.curTotalStore()*100
-            );
-            closedStoreAdministrationTopFive.add(closedStoreAdministrationTopFiveResponse);
-        }
 
-        StoreDistrictDetailResponse storeDistrictDetailResponse = new StoreDistrictDetailResponse(storeDistrictTotalTopEightList, openedStoreAdministrationTopFive, closedStoreAdministrationTopFive);
+        StoreDistrictDetailResponse storeDistrictDetailResponse = new StoreDistrictDetailResponse(storeDistrictTotalTopEightList, openedStoreAdministrationTopFiveList, closedStoreAdministrationTopFiveList);
 
         // 매출 관련 상세 분석
         // 서비스 업종별 매출 Top 5

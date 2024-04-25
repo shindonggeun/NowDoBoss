@@ -7,11 +7,11 @@ public record FootTrafficDistrictTopTenResponse(
         String districtCode,
         String districtCodeName,
         Long totalFootTraffic,
-        Float totalFootTrafficChangeRate,
+        Double totalFootTrafficChangeRate,
         int level
 
 ) {
-    public FootTrafficDistrictTopTenResponse(String districtCode, String districtCodeName, Long totalFootTraffic, Float totalFootTrafficChangeRate, int level){
+    public FootTrafficDistrictTopTenResponse(String districtCode, String districtCodeName, Long totalFootTraffic, Double totalFootTrafficChangeRate, int level){
         this.districtCode = districtCode;
         this.districtCodeName = districtCodeName;
         this.totalFootTraffic = totalFootTraffic;

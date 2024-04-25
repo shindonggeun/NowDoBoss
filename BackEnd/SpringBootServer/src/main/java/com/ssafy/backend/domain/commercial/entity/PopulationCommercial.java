@@ -41,7 +41,7 @@ public class PopulationCommercial {
 
     @Comment("총 상주인구 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long population;
+    private Long totalPopulation;
 
     @Comment("남성 상주인구 수")
     @Column(columnDefinition = "INT UNSIGNED")

@@ -5,8 +5,6 @@ import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.district.dto.ClosedStoreDistrictTopTenInfo;
 import com.ssafy.backend.domain.district.dto.OpenedStoreDistrictTopTenInfo;
-import com.ssafy.backend.domain.district.dto.SalesDistrictTopTenInfo;
-import com.ssafy.backend.domain.district.entity.QSalesDistrict;
 import com.ssafy.backend.domain.district.entity.QStoreDistrict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

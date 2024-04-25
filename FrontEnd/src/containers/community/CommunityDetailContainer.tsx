@@ -32,7 +32,7 @@ const CommunityDetailContainer = () => {
             <c.Context>
               <c.MainContentDiv>
                 <MainContent detailData={data.dataBody} />
-                <CommentList />
+                <CommentList communityId={communityId} />
                 <Divider />
                 <SubContent />
               </c.MainContentDiv>

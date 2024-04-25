@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import userStore from '@src/stores/userStore'
 import {
@@ -15,18 +17,25 @@ import RepeatPwInputSection from '@src/components/User/SignUp/RepeatPwInputSecti
 import AskSection from '@src/components/User/AskSection'
 import SocialBtnSection from '@src/components/User/SocialBtnSection'
 import * as u from '@src/containers/User/UserContainerStyle'
-import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 const SignUpContainer = () => {
-  const { signUpData, emailCode, setSignUpError } = userStore()
+  const { signUpData, emailCode, setEmailError, signUpError, setSignUpError } =
+    userStore()
   const navigate = useNavigate()
+  const [emailSuccessCode, setEmailSuccessCode] = useState(1)
+  const [codeSuccessCode, setCodeSuccessCode] = useState(1)
 
   // 이메일 인증코드 발송
   const { mutate: SendEmailVerificationCode } = useMutation({
     mutationKey: ['sendEmailVerificationCode'],
     mutationFn: sendEmailVerificationCode,
     onSuccess: res => {
-      setSignUpError('emailErr', res.dataHeader.resultMessage)
+      if (res.dataHeader.successCode === 0) {
+        setEmailSuccessCode(0)
+      } else {
+        setEmailError('emailErr', res.dataHeader.resultMessage)
+      }
     },
   })
   const handleSendEmailCode = () => {
@@ -38,7 +47,11 @@ const SignUpContainer = () => {
     mutationKey: ['verifyEmailVerificationCode'],
     mutationFn: verifyEmailVerificationCode,
     onSuccess: res => {
-      setSignUpError('codeErr', res.dataHeader.resultMessage)
+      if (res.dataHeader.successCode === 0) {
+        setCodeSuccessCode(0)
+      } else {
+        setEmailError('codeErr', res.dataHeader.resultMessage)
+      }
     },
   })
 
@@ -54,15 +67,68 @@ const SignUpContainer = () => {
   const { mutate: RegisterUser } = useMutation({
     mutationKey: ['registerUser'],
     mutationFn: registerUser,
-    onSuccess: () => {
-      console.log('회원가입성공! 로그인페이지로 리다이렉트합니다.')
+    onSuccess: res => {
+      // 성공했을 때
+      if (res.dataHeader.successCode === 0) {
+        navigate('/login')
+      }
+      // 실패 - 1. 중복된 이메일
+      else if (
+        res.dataHeader.successCode === 1 &&
+        res.dataHeader.resultCode === null
+      ) {
+        Swal.fire({
+          title: '이미 가입되어 있는 이메일입니다.',
+          text: '로그인하여 서비스를 이용하세요.',
+          icon: 'warning',
+          confirmButtonText: '확인',
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+      // 실패 - 2. 유효성 검사 관련 오류
+      else if (
+        res.dataHeader.successCode === 1 &&
+        res.dataHeader.resultCode === 'validError'
+      ) {
+        console.log('회원가입 실패 : 유효성 검사 오류')
+        if (res.dataHeader.resultMessage.emailError) {
+          setSignUpError('emailError', res.dataHeader.resultMessage.emailError)
+        } else {
+          setSignUpError('emailError', '')
+        }
 
-      navigate('/login')
+        if (res.dataHeader.resultMessage.passwordError) {
+          setSignUpError(
+            'passwordError',
+            res.dataHeader.resultMessage.passwordError,
+          )
+        } else {
+          setSignUpError('passwordError', '')
+        }
+
+        if (res.dataHeader.resultMessage.nameError) {
+          setSignUpError('nameError', res.dataHeader.resultMessage.nameError)
+        } else {
+          setSignUpError('nameError', '')
+        }
+
+        if (res.dataHeader.resultMessage.nicknameError) {
+          setSignUpError(
+            'nicknameError',
+            res.dataHeader.resultMessage.nicknameError,
+          )
+        } else {
+          setSignUpError('nicknameError', '')
+        }
+      }
     },
   })
-
+  console.log(signUpError)
   const handleRegisterUser = () => {
-    RegisterUser(signUpData)
+    if (codeSuccessCode === 0) {
+      RegisterUser(signUpData)
+    }
   }
 
   return (
@@ -72,17 +138,22 @@ const SignUpContainer = () => {
           title="Welecome!"
           subtitle="환영합니다! 회원가입 후 다양한 기능을 이용하세요."
         />
-        <u.InputWrap>
-          <NameInputSection />
-          <NicknameInputSection />
-        </u.InputWrap>
-        <EmailInputSection handleSendEmailCode={handleSendEmailCode} />
-        <CodeInputSection handleVerifyEmailCode={handleVerifyEmailCode} />
-        <u.InputWrap>
-          <PwInputSection />
-          <RepeatPwInputSection />
-        </u.InputWrap>
-        <u.Btn marginTop="7%" onClick={handleRegisterUser}>
+        <NameInputSection />
+        <NicknameInputSection />
+        <EmailInputSection
+          handleSendEmailCode={handleSendEmailCode}
+          codeSuccessCode={codeSuccessCode}
+        />
+        {emailSuccessCode === 0 && codeSuccessCode === 1 && (
+          <CodeInputSection handleVerifyEmailCode={handleVerifyEmailCode} />
+        )}
+        <PwInputSection />
+        <RepeatPwInputSection />
+        <u.Btn
+          marginTop="7%"
+          onClick={handleRegisterUser}
+          disabled={codeSuccessCode !== 0}
+        >
           Sign Up
         </u.Btn>
         <AskSection title="계정이 이미 있으신가요?" subtitle="Log In" />

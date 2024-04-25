@@ -1,9 +1,6 @@
 package com.ssafy.backend.domain.commercial.controller;
 
-import com.ssafy.backend.domain.commercial.dto.CommercialAdministrationAreaResponse;
-import com.ssafy.backend.domain.commercial.dto.CommercialAreaResponse;
-import com.ssafy.backend.domain.commercial.dto.CommercialFootTrafficResponse;
-import com.ssafy.backend.domain.commercial.dto.CommercialSalesResponse;
+import com.ssafy.backend.domain.commercial.dto.*;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
 import com.ssafy.backend.global.common.dto.Message;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,6 +55,18 @@ public class CommercialController {
             @RequestParam(defaultValue = "20233") String periodCode) {
         CommercialFootTrafficResponse footTrafficResponse = commercialService.getFootTrafficByPeriodAndCommercialCode(periodCode, commercialCode);
         return ResponseEntity.ok().body(Message.success(footTrafficResponse));
+    }
+
+    @Operation(
+            summary = "해당 상권의 존재하는 업종 목록 조회",
+            description = "주어진 상권코드에 대해 해당 상권의 존재하는 업종 목록 데이터를 조회합니다."
+    )
+    @GetMapping("/service/{commercialCode}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<List<CommercialServiceResponse>>> getCommercialServiceCodeAndServiceCodeName(
+            @PathVariable String commercialCode) {
+        List<CommercialServiceResponse> serviceResponseList = commercialService.getServiceByCommercialCode(commercialCode);
+        return ResponseEntity.ok().body(Message.success(serviceResponseList));
     }
 
     @Operation(

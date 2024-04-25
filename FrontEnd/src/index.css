@@ -94,3 +94,13 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+/* placeholder 스타일링 */
+input::placeholder {
+    color: grey;
+    font-family: 'Pretendard', sans-serif;
+}
+
+textarea::placeholder {
+    color: grey;
+    font-family: 'Pretendard', sans-serif;
+}

@@ -3,17 +3,11 @@ import styled from 'styled-components'
 export const Container = styled.div`
   padding: 3vh 10% 0;
 
-  @media only screen and (min-width: 768px) {
-    padding: 3vh 10%;
-    border-right: 2px solid #d9d9d9;
+  @media only screen and (max-width: 820px) {
+    padding: 3vh 5%;
   }
-  @media only screen and (min-width: 992px) {
-    padding: 3vh 12%;
-    border-right: 2px solid #d9d9d9;
-  }
-  @media only screen and (min-width: 1200px) {
-    padding: 3vh 15%;
-    border-right: 2px solid #d9d9d9;
+  @media only screen and (max-width: 768px) {
+    padding: 3vh 0;
   }
 `
 
@@ -30,6 +24,10 @@ export const CommentBox = styled.div`
   padding: 1.2rem;
   margin: 0 0 2vh;
   height: auto;
+
+  @media only screen and (max-width: 500px) {
+    padding: 1rem;
+  }
 `
 
 // 댓글 input창
@@ -64,6 +62,16 @@ export const CommentSubmit = styled.div<{ $isActive?: boolean }>`
   align-items: center;
   color: #ffffff;
   font-weight: 600;
+  width: 6%;
+
+  @media only screen and (max-width: 680px) {
+    font-size: 0.9rem;
+    width: 8%;
+  }
+  @media only screen and (max-width: 500px) {
+    font-size: 0.8rem;
+    width: 10%;
+  }
 `
 export const CommentTitle = styled.div`
   font-size: 2rem;
@@ -77,8 +85,23 @@ export const CommentCard = styled.div`
 export const CommentContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `
 export const CommentUser = styled.div``
+
+export const ModDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-weight: 500;
+  color: #646464;
+`
+export const ModButton = styled.div`
+  padding: 0 5px;
+  &:hover {
+    cursor: pointer;
+    font-weight: 600;
+  }
+`
 
 export const CommentProfile = styled.div`
   border-radius: 100%;

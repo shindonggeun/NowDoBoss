@@ -2,10 +2,10 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   position: fixed;
-  top: 61px;
+  top: 0px;
   left: 0;
   width: 35rem;
-  height: 92%;
+  height: 97%;
   z-index: 1000;
   //background-color: yellowgreen;
   background-color: white;
@@ -45,7 +45,7 @@ export const BarTopHeader = styled.div`
 `
 
 export const BarTopTitle = styled.div`
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 600;
   padding-left: 10px;
 `

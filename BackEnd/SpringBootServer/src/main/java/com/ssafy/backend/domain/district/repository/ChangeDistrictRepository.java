@@ -9,7 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ChangeDistrictRepository extends JpaRepository<ChangeDistrict, Long> {
-    @Query("SELECT cd FROM ChangeDistrict cd WHERE cd.periodCode = '20233' AND cd.districtCode = :districtCode")
-    ChangeDistrict getChangeIndicatorDistrictByDistrictCodeAndPeriodCode(@Param("districtCode") String districtCode);
-
+    ChangeDistrict findByPeriodCodeAndDistrictCode(String periodCode, String districtCode);
 }

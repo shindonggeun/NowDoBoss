@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import {
+  EmailErrorType,
   LoginDataType,
   MemberInfoType,
   SignUpDataType,
@@ -21,13 +22,16 @@ const initialLoginData: LoginDataType = {
   password: '',
 }
 
-const initialSignUpError: SignUpErrorType = {
-  nameErr: '',
-  nicknameErr: '',
+const initialEmailError: EmailErrorType = {
   emailErr: '',
   codeErr: '',
-  passwordErr: '',
-  repeatErr: '',
+}
+
+const initialSignUpError: SignUpErrorType = {
+  emailError: '',
+  passwordError: '',
+  nameError: '',
+  nicknameError: '',
 }
 
 const initialMemberInfo: MemberInfoType = {
@@ -45,6 +49,7 @@ const userStore = create<UserStoreType>(set => ({
   signUpData: initialSignUpData,
   emailCode: '',
   loginData: initialLoginData,
+  emailError: initialEmailError,
   signUpError: initialSignUpError,
   memberInfo: initialMemberInfo,
   setSignUpData: (fieldName: keyof SignUpDataType, value: string) => {
@@ -62,6 +67,14 @@ const userStore = create<UserStoreType>(set => ({
     set(state => ({
       loginData: {
         ...state.loginData,
+        [fieldName]: value,
+      },
+    }))
+  },
+  setEmailError: (fieldName: keyof EmailErrorType, value: string) => {
+    set(state => ({
+      emailError: {
+        ...state.emailError,
         [fieldName]: value,
       },
     }))

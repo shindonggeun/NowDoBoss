@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 
-export const AnalysisLayout = styled.div`
+export const StatusContainer = styled.div`
   display: flex;
   flex-direction: row;
-  height: 91vh;
+  // 너비 어떻게??
+  width: window.innerWidth;
+  height: 90.5vh;
   overflow: hidden;
 
   @media (max-width: 768px) {
@@ -12,8 +14,10 @@ export const AnalysisLayout = styled.div`
 `
 
 export const Sidebar = styled.div`
-  width: 18rem;
+  //flex: 1;
+  width: 30vw;
   border-right: 1px solid #dce5f2;
+  box-shadow: 10px 0 10px -5px rgba(130, 130, 130, 0.2);
 
   @media (max-width: 768px) {
     display: none;
@@ -21,6 +25,7 @@ export const Sidebar = styled.div`
 `
 
 export const Content = styled.div`
+  flex: 1;
   @media (max-width: 768px) {
     //width: 100%;
     flex: 1;
@@ -36,7 +41,7 @@ export const SeparateLine = styled.div`
 `
 
 export const Container = styled.div`
-  margin: 1rem 10%;
+  margin: 10px 10%;
 `
 
 export const Title = styled.div`

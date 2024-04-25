@@ -14,7 +14,7 @@ const EmailInputSection = () => {
 
   return (
     <i.LoginContainer>
-      <div>Email</div>
+      <i.InputTitle>Email</i.InputTitle>
       <i.EmailFlex1Input
         type="email"
         placeholder="example@example.com"

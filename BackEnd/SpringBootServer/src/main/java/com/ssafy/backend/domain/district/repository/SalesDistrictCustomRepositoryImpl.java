@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.district.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.backend.domain.district.dto.SalesDistrictMonthSalesTopFiveInfo;
 import com.ssafy.backend.domain.district.dto.SalesDistrictTopTenInfo;
 import com.ssafy.backend.domain.district.entity.QSalesDistrict;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,25 @@ public class SalesDistrictCustomRepositoryImpl implements SalesDistrictCustomRep
                 .where(sd.districtCodeName.in(topDistrictNames))
                 .groupBy(sd.districtCode, sd.districtCodeName)
                 .orderBy(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.monthSales).otherwise(0L).sum().desc())
+                .fetch();
+    }
+
+    @Override
+    public List<SalesDistrictMonthSalesTopFiveInfo> getTopFiveMonthSalesByServiceCode(String districtCode, String periodCode) {
+        QSalesDistrict sd = QSalesDistrict.salesDistrict;
+
+        return queryFactory
+                .select(Projections.constructor(
+                        SalesDistrictMonthSalesTopFiveInfo.class,
+                        sd.serviceCode,
+                        sd.serviceCodeName,
+                        sd.monthSales
+                ))
+                .from(sd)
+                .where(sd.districtCode.eq(districtCode), sd.periodCode.eq(periodCode),
+                        sd.serviceType.isNotNull())
+                .orderBy(sd.monthSales.desc())
+                .limit(5)
                 .fetch();
     }
 

@@ -1,3 +1,4 @@
+import * as c from '@src/components/styles/status/StatusPolygonStyle'
 import seoul from '@src/components/status/sig_seoul_geojson.json'
 import * as d3 from 'd3'
 
@@ -17,16 +18,16 @@ const StatusPolygonComponent = ({
   // console.log(`선택된 탭 index : ${tab}`)
 
   const mapData = seoul.features // 서울시 행정구역 json data
-  const width = 1000
-  const height = 600
-  const scale = 100000
+  const width = 660
+  const height = 550
+  const scale = 90000
 
   // 데카르트 투영법을 이용하여 만든 프로젝션
   const projection = d3
     .geoMercator()
     .center([127.023136826325427, 37.57196080977203])
     .scale(scale)
-    .translate([width / 2 + 200, height / 2])
+    .translate([width / 2 + 75, height / 2 - 10])
 
   // projection을 이용하여 만든 경로 생성 함수
   const pathGenerator = d3.geoPath().projection(projection)
@@ -122,10 +123,12 @@ const StatusPolygonComponent = ({
   ))
 
   return (
-    <svg width={width} height={height}>
-      {countries}
-      {countryTexts}
-    </svg>
+    <c.PolygonContainer>
+      <svg width={width} height={height}>
+        {countries}
+        {countryTexts}
+      </svg>
+    </c.PolygonContainer>
   )
 }
 

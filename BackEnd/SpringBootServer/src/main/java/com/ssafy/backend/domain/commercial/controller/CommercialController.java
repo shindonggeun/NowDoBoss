@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.commercial.controller;
 import com.ssafy.backend.domain.commercial.dto.CommercialAdministrationAreaResponse;
 import com.ssafy.backend.domain.commercial.dto.CommercialAreaResponse;
 import com.ssafy.backend.domain.commercial.dto.CommercialFootTrafficResponse;
+import com.ssafy.backend.domain.commercial.dto.CommercialSalesResponse;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
 import com.ssafy.backend.global.common.dto.Message;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,5 +58,19 @@ public class CommercialController {
             @RequestParam(defaultValue = "20233") String periodCode) {
         CommercialFootTrafficResponse footTrafficResponse = commercialService.getFootTrafficByPeriodAndCommercialCode(periodCode, commercialCode);
         return ResponseEntity.ok().body(Message.success(footTrafficResponse));
+    }
+
+    @Operation(
+            summary = "해당 상권&업종의 분기별 매출 분석 조회",
+            description = "주어진 상권코드 및 서비스코드에 대해 해당 분기의 매출분석 데이터를 조회합니다. 기준년분기코드가 주어지지 않으면 2023년 3분기의 데이터를 사용합니다."
+    )
+    @GetMapping("/sales/{commercialCode}/{serviceCode}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<CommercialSalesResponse>> getSalesByPeriodAndCommercialCode(
+            @PathVariable String commercialCode,
+            @PathVariable String serviceCode,
+            @RequestParam(defaultValue = "20233") String periodCode) {
+        CommercialSalesResponse salesResponse = commercialService.getSalesByPeriodAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode);
+        return ResponseEntity.ok().body(Message.success(salesResponse));
     }
 }

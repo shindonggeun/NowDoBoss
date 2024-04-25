@@ -21,9 +21,8 @@ const StatusSidebarTopComponent = () => {
       <h.Container>매출 높은 동네 Top10</h.Container>
       {data.map((item, i) => (
         <h.Item key={i}>
-          <h.Name>
-            {i + 1}. {item.name}
-          </h.Name>
+          <span>{i + 1}.</span>
+          <h.Name>{item.name}</h.Name>
           <h.Num>{item.num.toLocaleString()}천</h.Num>
           <h.Percent>{item.percent}%</h.Percent>
         </h.Item>

@@ -3,6 +3,9 @@ package com.ssafy.backend.domain.district.service;
 import com.ssafy.backend.domain.administration.dto.*;
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.administration.repository.StoreAdministrationRepository;
+import com.ssafy.backend.domain.commercial.dto.CommercialAdministrationAreaResponse;
+import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
+import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
 import com.ssafy.backend.domain.district.dto.*;
 import com.ssafy.backend.domain.district.repository.*;
 import com.ssafy.backend.domain.district.entity.ChangeDistrict;
@@ -17,9 +20,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +36,7 @@ public class DistrictServiceImpl implements DistrictService {
     private final AreaDistrictRepository areaDistrictRepository;
     private final StoreAdministrationRepository storeAdministrationRepository;
     private final SalesAdministrationRepository salesAdministrationRepository;
+    private final AreaCommercialRepository areaCommercialRepository;
 
     @Override
     public DistrictTopTenResponse getTopTenDistricts() {
@@ -107,96 +111,93 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     public DistrictDetailResponse getDistrictDetail(String districtCode) {
+        String periodCode = "20233";
         // 상권 변화 지표 관련
-        ChangeDistrict changeDistrict = changeDistrictRepository.getChangeIndicatorDistrictByDistrictCodeAndPeriodCode(districtCode);
+        ChangeDistrict changeDistrict = changeDistrictRepository.findByPeriodCodeAndDistrictCode(periodCode, districtCode);
         ChangeIndicatorDistrictResponse changeIndicatorDistrictResponse = new ChangeIndicatorDistrictResponse(changeDistrict.getChangeIndicator(), changeDistrict.getChangeIndicatorName(), changeDistrict.getOpenedMonths(), changeDistrict.getClosedMonths());
 
         // 유동인구 관련
-        List<FootTrafficDistrict> footTrafficDetailList = footTrafficDistrictRepository.getFootTrafficDistrictDetail(districtCode);
-        List<Long> footTrafficDistrictListByPeriod = new ArrayList<>();
-        List<Long> footTrafficDistrictListByTime = new ArrayList<>();
-        List<Long> footTrafficDistrictListByGender = new ArrayList<>();
-        List<Long> footTrafficDistrictListByAge = new ArrayList<>();
-        List<Long> footTrafficDistrictListByDay = new ArrayList<>();
+        List<String> periodCodes = Arrays.asList("20224", "20231", "20232", "20233");
+
+        List<FootTrafficDistrict> footTrafficDetailList = footTrafficDistrictRepository.findByPeriodCodeInAndDistrictCodeOrderByPeriodCode(periodCodes, districtCode);
+        List<Map<String, Long>> footTrafficDistrictListByPeriod = new ArrayList<>();
+        List<Map<String, Long>> footTrafficDistrictListByTime = new ArrayList<>();
+        List<Map<String, Long>> footTrafficDistrictListByGender = new ArrayList<>();
+        List<Map<String, Long>> footTrafficDistrictListByAge = new ArrayList<>();
+        List<Map<String, Long>> footTrafficDistrictListByDay = new ArrayList<>();
 
         for (FootTrafficDistrict footTrafficDistrict: footTrafficDetailList){
             // 총 유동인구
-            footTrafficDistrictListByPeriod.add(footTrafficDistrict.getTotalFootTraffic());
+            footTrafficDistrictListByPeriod.add(Collections.singletonMap(footTrafficDistrict.getPeriodCode(), footTrafficDistrict.getTotalFootTraffic()));
 
-            if (footTrafficDistrict.getPeriodCode().equals("20233")){
+            if (footTrafficDistrict.getPeriodCode().equals(periodCode)){
                 // 시간대별
-                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic00());
-                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic06());
-                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic11());
-                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic14());
-                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic17());
-                footTrafficDistrictListByTime.add(footTrafficDistrict.getFootTraffic21());
+                footTrafficDistrictListByTime.add(Collections.singletonMap("time0to6", footTrafficDistrict.getFootTraffic00()));
+                footTrafficDistrictListByTime.add(Collections.singletonMap("time6to11", footTrafficDistrict.getFootTraffic06()));
+                footTrafficDistrictListByTime.add(Collections.singletonMap("time11to14", footTrafficDistrict.getFootTraffic11()));
+                footTrafficDistrictListByTime.add(Collections.singletonMap("tim14to17", footTrafficDistrict.getFootTraffic14()));
+                footTrafficDistrictListByTime.add(Collections.singletonMap("time17to21", footTrafficDistrict.getFootTraffic17()));
+                footTrafficDistrictListByTime.add(Collections.singletonMap("time21to24", footTrafficDistrict.getFootTraffic21()));
 
                 // 남녀
-                footTrafficDistrictListByGender.add(footTrafficDistrict.getMaleFootTraffic());
-                footTrafficDistrictListByGender.add(footTrafficDistrict.getFemaleFootTraffic());
+                footTrafficDistrictListByGender.add(Collections.singletonMap("male", footTrafficDistrict.getMaleFootTraffic()));
+                footTrafficDistrictListByGender.add(Collections.singletonMap("female", footTrafficDistrict.getFemaleFootTraffic()));
 
                 // 연령대별
-                footTrafficDistrictListByAge.add(footTrafficDistrict.getTeenFootTraffic());
-                footTrafficDistrictListByAge.add(footTrafficDistrict.getTwentyFootTraffic());
-                footTrafficDistrictListByAge.add(footTrafficDistrict.getThirtyFootTraffic());
-                footTrafficDistrictListByAge.add(footTrafficDistrict.getFortyFootTraffic());
-                footTrafficDistrictListByAge.add(footTrafficDistrict.getFiftyFootTraffic());
-                footTrafficDistrictListByAge.add(footTrafficDistrict.getSixtyFootTraffic());
+                footTrafficDistrictListByAge.add(Collections.singletonMap("age10", footTrafficDistrict.getTeenFootTraffic()));
+                footTrafficDistrictListByAge.add(Collections.singletonMap("age20", footTrafficDistrict.getTwentyFootTraffic()));
+                footTrafficDistrictListByAge.add(Collections.singletonMap("age30", footTrafficDistrict.getThirtyFootTraffic()));
+                footTrafficDistrictListByAge.add(Collections.singletonMap("age40", footTrafficDistrict.getFortyFootTraffic()));
+                footTrafficDistrictListByAge.add(Collections.singletonMap("age50", footTrafficDistrict.getFiftyFootTraffic()));
+                footTrafficDistrictListByAge.add(Collections.singletonMap("age60", footTrafficDistrict.getSixtyFootTraffic()));
 
                 // 요일별
-                footTrafficDistrictListByDay.add(footTrafficDistrict.getMonFootTraffic());
-                footTrafficDistrictListByDay.add(footTrafficDistrict.getTueFootTraffic());
-                footTrafficDistrictListByDay.add(footTrafficDistrict.getWedFootTraffic());
-                footTrafficDistrictListByDay.add(footTrafficDistrict.getThuFootTraffic());
-                footTrafficDistrictListByDay.add(footTrafficDistrict.getFriFootTraffic());
-                footTrafficDistrictListByDay.add(footTrafficDistrict.getSatFootTraffic());
-                footTrafficDistrictListByDay.add(footTrafficDistrict.getSunFootTraffic());
+                footTrafficDistrictListByDay.add(Collections.singletonMap("monday", footTrafficDistrict.getMonFootTraffic()));
+                footTrafficDistrictListByDay.add(Collections.singletonMap("tuesday", footTrafficDistrict.getTueFootTraffic()));
+                footTrafficDistrictListByDay.add(Collections.singletonMap("wednesday", footTrafficDistrict.getWedFootTraffic()));
+                footTrafficDistrictListByDay.add(Collections.singletonMap("thursday", footTrafficDistrict.getThuFootTraffic()));
+                footTrafficDistrictListByDay.add(Collections.singletonMap("friday", footTrafficDistrict.getFriFootTraffic()));
+                footTrafficDistrictListByDay.add(Collections.singletonMap("saturday", footTrafficDistrict.getSatFootTraffic()));
+                footTrafficDistrictListByDay.add(Collections.singletonMap("sunday", footTrafficDistrict.getSunFootTraffic()));
             }
         }
         FootTrafficDistrictDetailResponse footTrafficDistrictDetailResponse = new FootTrafficDistrictDetailResponse(footTrafficDistrictListByPeriod, footTrafficDistrictListByTime, footTrafficDistrictListByGender, footTrafficDistrictListByAge, footTrafficDistrictListByDay);
 
         // 점포 관련
-        // 매출 Top 8 서비스 업종, 업종 코드명, 점포 개수
-        List<StoreDistrictTotalTopEightInfo> storeDistrictTotalTopEightList = getTopEightTotalStoreByServiceCode(districtCode);
+        // 점포 수 Top 8 서비스 업종, 업종 코드명, 점포 개수
+        List<StoreDistrictTotalTopEightInfo> storeDistrictTotalTopEightList = storeDistrictRepository.getTopEightTotalStoreByServiceCode(periodCode, districtCode);
 
-        // 지역구 코드로 해당 지역구에 속하는 행정동 코드 리스트 가져오기 - 지금은 우선 강서구 행정동들 직접 입력함
+        // 지역구 코드로 해당 지역구에 속하는 행정동 코드 리스트 가져오기
         List<String> allAdministrationCodes = new ArrayList<>();
-        allAdministrationCodes.add("11500591");
-        allAdministrationCodes.add("11500550");
-        allAdministrationCodes.add("11500535");
-        allAdministrationCodes.add("11500605");
-        allAdministrationCodes.add("11500540");
-        allAdministrationCodes.add("11500560");
-        allAdministrationCodes.add("11500570");
-
-        List<String> topFiveOpenedAdministrations = getTopFiveOpenedStoreAdministrationCodeByDistrictCode(allAdministrationCodes);
-        List<String> topFiveClosedAdministrations = getTopFiveClosedStoreAdministrationCodeByDistrictCode(allAdministrationCodes);
+        List<CommercialAdministrationAreaResponse> adminResponses = getAdministrativeAreasByDistrict(districtCode);
+        for (CommercialAdministrationAreaResponse dto: adminResponses){
+            allAdministrationCodes.add(dto.administrationCode());
+        }
 
         // 개업률 top 5 행정동
-        List<OpenedStoreAdministrationTopFiveInfo> openedStoreAdministrationTopFiveList = storeAdministrationRepository.getTopFiveOpenedRateAdministration(topFiveOpenedAdministrations);
+        List<OpenedStoreAdministrationTopFiveInfo> openedStoreAdministrationTopFiveList = storeAdministrationRepository.getTopFiveOpenedRateAdministration(allAdministrationCodes, periodCode);
         List<OpenedStoreAdministrationTopFiveResponse> openedStoreAdministrationTopFive = new ArrayList<>();
         for (OpenedStoreAdministrationTopFiveInfo openedStoreAdministrationTopFiveInfo: openedStoreAdministrationTopFiveList){
             OpenedStoreAdministrationTopFiveResponse openedStoreAdministrationTopFiveResponse = new OpenedStoreAdministrationTopFiveResponse(
-                    openedStoreAdministrationTopFiveInfo.getAdministrationCode(),
-                    openedStoreAdministrationTopFiveInfo.getAdministrationCodeName(),
-                    openedStoreAdministrationTopFiveInfo.getCurTotalStore(),
-                    openedStoreAdministrationTopFiveInfo.getCurOpenedStore(),
-                    openedStoreAdministrationTopFiveInfo.getCurOpenedStore() / (float) openedStoreAdministrationTopFiveInfo.getCurTotalStore()*100
+                    openedStoreAdministrationTopFiveInfo.administrationCode(),
+                    openedStoreAdministrationTopFiveInfo.administrationCodeName(),
+                    openedStoreAdministrationTopFiveInfo.curTotalStore(),
+                    openedStoreAdministrationTopFiveInfo.curOpenedStore(),
+                    openedStoreAdministrationTopFiveInfo.curOpenedStore() / (float) openedStoreAdministrationTopFiveInfo.curTotalStore()*100
             );
             openedStoreAdministrationTopFive.add(openedStoreAdministrationTopFiveResponse);
         }
 
         // 폐업률 top 5 행정동
-        List<ClosedStoreAdministrationTopFiveInfo> closedStoreAdministrationTopFiveList = storeAdministrationRepository.getTopFiveClosedRateAdministration(topFiveClosedAdministrations);
+        List<ClosedStoreAdministrationTopFiveInfo> closedStoreAdministrationTopFiveList = storeAdministrationRepository.getTopFiveClosedRateAdministration(allAdministrationCodes, periodCode);
         List<ClosedStoreAdministrationTopFiveResponse> closedStoreAdministrationTopFive = new ArrayList<>();
         for (ClosedStoreAdministrationTopFiveInfo closedStoreAdministrationTopFiveInfo: closedStoreAdministrationTopFiveList){
             ClosedStoreAdministrationTopFiveResponse closedStoreAdministrationTopFiveResponse = new ClosedStoreAdministrationTopFiveResponse(
-                    closedStoreAdministrationTopFiveInfo.getAdministrationCode(),
-                    closedStoreAdministrationTopFiveInfo.getAdministrationCodeName(),
-                    closedStoreAdministrationTopFiveInfo.getCurTotalStore(),
-                    closedStoreAdministrationTopFiveInfo.getCurClosedStore(),
-                    closedStoreAdministrationTopFiveInfo.getCurClosedStore() / (float) closedStoreAdministrationTopFiveInfo.getCurTotalStore()*100
+                    closedStoreAdministrationTopFiveInfo.administrationCode(),
+                    closedStoreAdministrationTopFiveInfo.administrationCodeName(),
+                    closedStoreAdministrationTopFiveInfo.curTotalStore(),
+                    closedStoreAdministrationTopFiveInfo.curClosedStore(),
+                    closedStoreAdministrationTopFiveInfo.curClosedStore() / (float) closedStoreAdministrationTopFiveInfo.curTotalStore()*100
             );
             closedStoreAdministrationTopFive.add(closedStoreAdministrationTopFiveResponse);
         }
@@ -205,51 +206,30 @@ public class DistrictServiceImpl implements DistrictService {
 
         // 매출 관련 상세 분석
         // 서비스 업종별 매출 Top 5
-        List<SalesDistrictMonthSalesTopFiveInfo> salesDistrictMonthSalesTopFiveInfoList = getTopFiveMonthSalesByServiceCode(districtCode);
+        List<SalesDistrictMonthSalesTopFiveInfo> salesDistrictMonthSalesTopFiveInfoList = salesDistrictRepository.getTopFiveMonthSalesByServiceCode(districtCode, periodCode);
         // 해당 자치구 행정동 매출 Top 5
-        List<String> topFiveSalesAdministrations = getTopFiveSalesAdministrationByAdministrationCode(allAdministrationCodes);
-        List<SalesAdministrationTopFiveInfo> salesAdministrationTopFiveList = salesAdministrationRepository.getTopFiveSalesAdministrationByAdministrationCode(topFiveSalesAdministrations);
-
+        List<SalesAdministrationTopFiveInfo> salesAdministrationTopFiveList = salesAdministrationRepository.getTopFiveSalesAdministrationByAdministrationCode(allAdministrationCodes, periodCode);
         SalesDistrictDetailResponse salesDistrictDetailResponse = new SalesDistrictDetailResponse(salesDistrictMonthSalesTopFiveInfoList, salesAdministrationTopFiveList);
 
-
         return new DistrictDetailResponse(changeIndicatorDistrictResponse, footTrafficDistrictDetailResponse, storeDistrictDetailResponse, salesDistrictDetailResponse);
-    }
-
-    public List<StoreDistrictTotalTopEightInfo> getTopEightTotalStoreByServiceCode(String districtCode) {
-        Pageable pageable = PageRequest.of(0, 8); // 첫 번째 페이지에서 5개의 결과만 가져옴
-        Page<StoreDistrictTotalTopEightInfo> page = storeDistrictRepository.getTopEightTotalStoreByServiceCode(districtCode, pageable);
-        return new ArrayList<>(page.getContent());
-    }
-
-    public List<String> getTopFiveOpenedStoreAdministrationCodeByDistrictCode(List<String> allAdministrationCodes) {
-        Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
-        Page<String> page = storeAdministrationRepository.getTopFiveOpenedStoreAdministrationByAdministrationCode(allAdministrationCodes, pageable);
-        return new ArrayList<>(page.getContent());
-    }
-
-    public List<String> getTopFiveClosedStoreAdministrationCodeByDistrictCode(List<String> allAdministrationCodes) {
-        Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
-        Page<String> page = storeAdministrationRepository.getTopFiveClosedStoreAdministrationByAdministrationCode(allAdministrationCodes, pageable);
-        return new ArrayList<>(page.getContent());
-    }
-
-    public List<SalesDistrictMonthSalesTopFiveInfo> getTopFiveMonthSalesByServiceCode(String districtCode) {
-        Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
-        Page<SalesDistrictMonthSalesTopFiveInfo> page = salesDistrictRepository.getTopFiveMonthSalesByServiceCode(districtCode, pageable);
-        return new ArrayList<>(page.getContent());
-    }
-
-    public List<String> getTopFiveSalesAdministrationByAdministrationCode(List<String> allAdministrationCodes) {
-        Pageable pageable = PageRequest.of(0, 5); // 첫 번째 페이지에서 5개의 결과만 가져옴
-        Page<String> page = salesAdministrationRepository.getTopFiveSalesAdministrations(allAdministrationCodes, pageable);
-        return new ArrayList<>(page.getContent());
     }
 
     @Override
     public List<DistrictAreaResponse> getAllDistricts() {
         return areaDistrictRepository.findAll().stream()
                 .map(ad -> new DistrictAreaResponse(ad.getDistrictCode(), ad.getDistrictCodeName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CommercialAdministrationAreaResponse> getAdministrativeAreasByDistrict(String districtCode) {
+        List<AreaCommercial> areaCommercialList = areaCommercialRepository.findAllByDistrictCode(districtCode);
+        return areaCommercialList.stream()
+                .map(ac -> new CommercialAdministrationAreaResponse(
+                        ac.getAdministrationCodeName(),
+                        ac.getAdministrationCode())
+                )
+                .distinct() // 중복 제거
                 .collect(Collectors.toList());
     }
 }

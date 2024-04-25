@@ -1,6 +1,6 @@
 import * as m from '@src/components/styles/community/CommunityDetailStyle'
-import { useNavigate } from 'react-router-dom'
 import TimeCounting from 'time-counting'
+import GoBackButton from '@src/common/GoBackButton'
 
 interface TimeCountingOption {
   objectTime: Date
@@ -11,8 +11,6 @@ interface TimeCountingOption {
 }
 
 const MainContent = () => {
-  const navigate = useNavigate()
-
   const detailData = {
     communityId: 1,
     category: '상권분석',
@@ -42,16 +40,8 @@ const MainContent = () => {
 
   return (
     <m.Container>
-      <m.BackButton>
-        <m.BackIcon src="/src/assets/arrow_left.svg" />
-        <m.BackText
-          onClick={() => {
-            navigate('/community')
-          }}
-        >
-          목록으로 돌아가기
-        </m.BackText>
-      </m.BackButton>
+      <GoBackButton />
+
       <m.Title>{detailData.title}</m.Title>
       <m.Category>창업고민</m.Category>
       <m.TimeAndCounting>

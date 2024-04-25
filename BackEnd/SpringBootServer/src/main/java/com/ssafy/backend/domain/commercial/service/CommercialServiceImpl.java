@@ -3,8 +3,10 @@ package com.ssafy.backend.domain.commercial.service;
 import com.ssafy.backend.domain.commercial.dto.*;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
 import com.ssafy.backend.domain.commercial.entity.FootTrafficCommercial;
+import com.ssafy.backend.domain.commercial.entity.SalesCommercial;
 import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.FootTrafficCommercialRepository;
+import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class CommercialServiceImpl implements CommercialService {
     private final AreaCommercialRepository areaCommercialRepository;
     private final FootTrafficCommercialRepository footTrafficCommercialRepository;
+    private final SalesCommercialRepository salesCommercialRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -83,6 +86,43 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         return new CommercialFootTrafficResponse(timeSlotFootTraffic, dayOfWeekFootTraffic, ageGroupFootTraffic);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CommercialSalesResponse getSalesByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode) {
+        SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
+                .orElseThrow(() -> new RuntimeException("매출분석 데이터가 없습니다."));
+
+        CommercialTimeSalesInfo timeSales = new CommercialTimeSalesInfo(
+                salesCommercial.getSales00(),
+                salesCommercial.getSales06(),
+                salesCommercial.getSales11(),
+                salesCommercial.getSales14(),
+                salesCommercial.getSales17(),
+                salesCommercial.getSales21()
+        );
+
+        CommercialDaySalesInfo daySales = new CommercialDaySalesInfo(
+                salesCommercial.getMonSales(),
+                salesCommercial.getTueSales(),
+                salesCommercial.getWedSales(),
+                salesCommercial.getThuSales(),
+                salesCommercial.getFriSales(),
+                salesCommercial.getSatSales(),
+                salesCommercial.getSunSales()
+        );
+
+        CommercialAgeSalesInfo ageSales = new CommercialAgeSalesInfo(
+                salesCommercial.getTeenSales(),
+                salesCommercial.getTwentySales(),
+                salesCommercial.getThirtySales(),
+                salesCommercial.getFortySales(),
+                salesCommercial.getFiftySales(),
+                salesCommercial.getSixtySales()
+        );
+
+        return new CommercialSalesResponse(timeSales, daySales, ageSales);
     }
 
 

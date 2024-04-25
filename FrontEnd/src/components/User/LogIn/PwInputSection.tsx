@@ -14,7 +14,7 @@ const PwInputSection = () => {
 
   return (
     <i.Container>
-      <div>Password</div>
+      <i.InputTitle>Password</i.InputTitle>
       <i.HalfInput
         type="password"
         placeholder="Your password"

@@ -27,7 +27,7 @@ const StatusContainer = () => {
   }
 
   return (
-    <c.AnalysisLayout>
+    <c.StatusContainer>
       {selectedRegion && (
         <StatusDetailbarComponent
           selectedRegion={selectedRegion}
@@ -62,7 +62,7 @@ const StatusContainer = () => {
           onClickRegionCodeHandler={onClickRegionCodeHandler}
         />
       </c.Content>
-    </c.AnalysisLayout>
+    </c.StatusContainer>
   )
 }
 

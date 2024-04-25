@@ -2,18 +2,6 @@ pipeline {
     agent any  // 이 파이프라인이 실행될 Jenkins 에이전트를 지정합니다. 'any'는 사용 가능한 임의의 에이전트에서 실행될 수 있음을 의미합니다.
 
     stages {
-        stage('Prepare Environment') {
-            steps {
-                script {
-                    // 파일 존재 여부 확인
-                    if (sh(script: "test -f CICD/docker-compose-redis.yml", returnStatus: true) != 0) {
-                        echo "docker-compose-redis.yml 파일이 존재하지 않습니다."
-                    } else {
-                        echo "docker-compose-redis.yml 파일이 존재합니다."
-                    }
-                }
-            }
-        }
         stage('Deploy Redis') {
             steps {
                 script {
@@ -28,6 +16,52 @@ pipeline {
                 }
             }
         }
+        stage('Start SonarQube') {
+            steps {
+                script {
+                    echo "SonarQube 컨테이너 실행 상태 확인 중..."
+                    def isSonarQubeRunning = sh(script: "docker ps --filter name=nowdoboss_sonarqube --filter status=running", returnStdout: true).trim()
+                    echo "SonarQube 실행 상태: ${isSonarQubeRunning}"
+
+                    // SonarQube가 실행 중이지 않으면 실행
+                    if (isSonarQubeRunning == "") {
+                        sh "docker-compose -f CICD/docker-compose-sonarqube.yml up -d"
+                    }
+                }
+            }
+        }
+
+        // stage('SonarQube Analysis - FrontEnd') {
+        //     steps {
+        //         dir('FrontEnd') {
+        //             withSonarQubeEnv('SonarQube Server') {
+        //                 sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
+        //             }
+        //         }
+        //     }
+        // }
+
+        // stage('SonarQube Analysis - FastApiServer') {
+        //     steps {
+        //         dir('BackEnd/FastApiServer') {
+        //             withSonarQubeEnv('SonarQube Server') {
+        //                 sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('SonarQube Analysis - SpringBootServer') {
+            steps {
+                dir('BackEnd/SpringBootServer') {
+                    withSonarQubeEnv('SonarQube Server') {
+                        sh 'chmod +x ./gradlew'
+                        sh './gradlew sonar -Dsonar.projectKey=nowdoboss'
+                    }
+                }
+            }
+        }
+
         stage('Deploy with Docker Compose') {  // 'Deploy with Docker Compose'라는 이름의 단계를 정의합니다. 이 단계에서는 Docker Compose를 사용한 배포가 이루어집니다.
             steps {
                 script {

@@ -17,20 +17,9 @@ export const Container = styled.div`
     border-right: 2px solid #d9d9d9;
   }
 `
-export const BackButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0 0 2vh;
-  cursor: pointer;
-`
-export const BackIcon = styled.img`
-  scale: 0.8;
-`
-export const BackText = styled.div`
-  font-weight: 500;
-`
+
 export const Title = styled.div`
+  margin-top: 2vh;
   font-size: 2rem;
   font-weight: 600;
 `

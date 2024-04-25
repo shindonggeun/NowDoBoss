@@ -12,13 +12,16 @@ export type LoginDataType = {
   password: string
 }
 
-export type SignUpErrorType = {
-  nameErr: string
-  nicknameErr: string
+export type EmailErrorType = {
   emailErr: string
   codeErr: string
-  passwordErr: string
-  repeatErr: string
+}
+
+export type SignUpErrorType = {
+  emailError: string
+  passwordError: string
+  nameError: string
+  nicknameError: string
 }
 
 export type MemberInfoType = {
@@ -44,11 +47,13 @@ export type UserStoreType = {
   signUpData: SignUpDataType
   emailCode: string
   loginData: LoginDataType
+  emailError: EmailErrorType
   signUpError: SignUpErrorType
   memberInfo: MemberInfoType
   setSignUpData: (fieldName: keyof SignUpDataType, value: string) => void
   setEmailCode: (code: string) => void
   setLoginData: (fieldName: keyof LoginDataType, value: string) => void
+  setEmailError: (fieldName: keyof EmailErrorType, value: string) => void
   setSignUpError: (fieldName: keyof SignUpErrorType, value: string) => void
   setMemberInfo: (fieldName: keyof MemberInfoType, value: string) => void
 }
@@ -66,6 +71,7 @@ export type AskSectionPropsType = {
 
 export type EmailInputSectionPropsType = {
   handleSendEmailCode: () => void
+  codeSuccessCode: number
 }
 
 export type CodeInputSectionPropsType = {

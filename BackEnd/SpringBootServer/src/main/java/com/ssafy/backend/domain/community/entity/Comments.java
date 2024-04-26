@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.community.entity;
 
 import com.ssafy.backend.domain.community.entity.Community;
 import com.ssafy.backend.domain.member.entity.Member;
+import com.ssafy.backend.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -12,7 +13,7 @@ import org.hibernate.annotations.Comment;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "comment")
-public class Comments {
+public class Comments extends BaseEntity {
     @Id
     @Comment("댓글 아이디")
     @Column(columnDefinition = "INT UNSIGNED")

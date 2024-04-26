@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.district.repository;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.SubQueryExpression;
@@ -8,14 +9,13 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.backend.domain.district.dto.ClosedStoreDistrictTopTenInfo;
-import com.ssafy.backend.domain.district.dto.OpenedStoreDistrictTopTenInfo;
-import com.ssafy.backend.domain.district.dto.StoreDistrictTotalTopEightInfo;
+import com.ssafy.backend.domain.district.dto.*;
 import com.ssafy.backend.domain.district.entity.QFootTrafficDistrict;
 import com.ssafy.backend.domain.district.entity.QStoreDistrict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -25,7 +25,7 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
 
 
     @Override
-    public List<OpenedStoreDistrictTopTenInfo> getTopTenOpenedStoreDistrictByPeriodCode() {
+    public List<OpenedStoreDistrictTopTenResponse> getTopTenOpenedStoreDistrictByPeriodCode() {
         QStoreDistrict sd = QStoreDistrict.storeDistrict;
 
         // 서브쿼리를 이용하여 top district 목록을 가져옴
@@ -37,16 +37,22 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                 .orderBy(sd.openedStore.sum().divide(sd.totalStore.sum()).desc())
                 .fetch();
 
-        return queryFactory
-                .select(Projections.constructor(
-                        OpenedStoreDistrictTopTenInfo.class,
-                        sd.districtCode,
+        List<Tuple> districtData = queryFactory
+                .select(sd.districtCode,
                         sd.districtCodeName,
-                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum().as("curTotalStore"),
-                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.openedStore).otherwise(0L).sum().as("curOpenedStore"),
-                        new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.totalStore).otherwise(0L).sum().as("prevTotalStore"),
-                        new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.openedStore).otherwise(0L).sum().as("prevOpenedStore")
-                ))
+                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.openedStore).otherwise(0L).sum().doubleValue()
+                                .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
+                                .multiply(100).as("curOpenedRate"),
+                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.openedStore).otherwise(0L).sum().doubleValue()
+                                .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
+                                .multiply(100)
+                                .subtract(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.openedStore).otherwise(0L).sum().doubleValue()
+                                    .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
+                                    .multiply(100))
+                                .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.openedStore).otherwise(0L).sum().doubleValue()
+                                        .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
+                                        .multiply(100)).multiply(100).as("openedRateChangeRate")
+                )
                 .from(sd)
                 .where(sd.districtCodeName.in(topDistrictNames))
                 .groupBy(sd.districtCode, sd.districtCodeName)
@@ -54,10 +60,27 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                         .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum())
                         .desc())
                 .fetch();
+
+        List<OpenedStoreDistrictTopTenResponse> responses = new ArrayList<>();
+        int level = 0;
+        for (int i = 0; i < districtData.size(); i++) {
+            if (i % 5 == 0) {
+                level++; // 10개 단위로 level 증가
+            }
+            OpenedStoreDistrictTopTenResponse response = new OpenedStoreDistrictTopTenResponse(
+                    districtData.get(i).get(sd.districtCode),
+                    districtData.get(i).get(sd.districtCodeName),
+                    districtData.get(i).get(Expressions.numberPath(Double.class, "curOpenedRate")),
+                    districtData.get(i).get(Expressions.numberPath(Double.class, "openedRateChangeRate")),
+                    level
+            );
+            responses.add(response);
         }
+        return responses;
+    }
 
     @Override
-    public List<ClosedStoreDistrictTopTenInfo> getTopTenClosedStoreDistrictByPeriodCode(){
+    public List<ClosedStoreDistrictTopTenResponse> getTopTenClosedStoreDistrictByPeriodCode(){
         QStoreDistrict sd = QStoreDistrict.storeDistrict;
 
         // 서브쿼리를 이용하여 top district 목록을 가져옴
@@ -69,16 +92,22 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                 .orderBy(sd.closedStore.sum().divide(sd.totalStore.sum()).desc())
                 .fetch();
 
-        return queryFactory
-                .select(Projections.constructor(
-                        ClosedStoreDistrictTopTenInfo.class,
-                        sd.districtCode,
+        List<Tuple> districtData = queryFactory
+                .select(sd.districtCode,
                         sd.districtCodeName,
-                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum().as("curTotalStore"),
-                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.closedStore).otherwise(0L).sum().as("curClosedStore"),
-                        new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.totalStore).otherwise(0L).sum().as("prevTotalStore"),
-                        new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.closedStore).otherwise(0L).sum().as("prevClosedStore")
-                ))
+                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.closedStore).otherwise(0L).sum().doubleValue()
+                                .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
+                                .multiply(100).as("curClosedRate"),
+                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.closedStore).otherwise(0L).sum().doubleValue()
+                                .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
+                                .multiply(100)
+                                .subtract(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.closedStore).otherwise(0L).sum().doubleValue()
+                                        .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
+                                        .multiply(100))
+                                .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.closedStore).otherwise(0L).sum().doubleValue()
+                                        .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
+                                        .multiply(100)).multiply(100).as("closedRateChangeRate")
+                )
                 .from(sd)
                 .where(sd.districtCodeName.in(topDistrictNames))
                 .groupBy(sd.districtCode, sd.districtCodeName)
@@ -86,7 +115,24 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                         .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum())
                         .desc())
                 .fetch();
-    }
+
+        List<ClosedStoreDistrictTopTenResponse> responses = new ArrayList<>();
+        int level = 0;
+        for (int i = 0; i < districtData.size(); i++) {
+            if (i % 5 == 0) {
+                level++; // 10개 단위로 level 증가
+            }
+            ClosedStoreDistrictTopTenResponse response = new ClosedStoreDistrictTopTenResponse(
+                    districtData.get(i).get(sd.districtCode),
+                    districtData.get(i).get(sd.districtCodeName),
+                    districtData.get(i).get(Expressions.numberPath(Double.class, "curClosedRate")),
+                    districtData.get(i).get(Expressions.numberPath(Double.class, "closedRateChangeRate")),
+                    level
+            );
+            responses.add(response);
+        }
+        return responses;
+     }
 
     @Override
     public List<StoreDistrictTotalTopEightInfo> getTopEightTotalStoreByServiceCode(String periodCode, String districtCode) {

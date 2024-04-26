@@ -7,9 +7,10 @@ import InfoSection from '@src/components/User/InfoSection'
 import EmailInputSection from '@src/components/User/LogIn/EmailInputSection'
 import PwInputSection from '@src/components/User/LogIn/PwInputSection'
 import AskSection from '@src/components/User/AskSection'
-import SocialBtnSection from '@src/components/User/SocialBtnSection'
+import SocialLoginContainer from '@src/containers/User/SocialLoginContainer'
 import LogoutContainer from '@src/containers/User/LogoutContainer'
 import * as u from '@src/containers/User/UserContainerStyle'
+import Swal from 'sweetalert2'
 
 const LoginContainer = () => {
   const { loginData } = userStore()
@@ -23,6 +24,7 @@ const LoginContainer = () => {
     onSuccess: res => {
       if (res.dataHeader.successCode === 1) {
         console.log('로그인실패 : ', res.dataHeader.resultMessage)
+        alert(`로그인 실패 ${res.dataHeader.resultMessage}`)
       } else {
         // 쿠키에 accessToken 저장 (7일 동안 유지)
         const { accessToken } = res.dataBody.tokenInfo
@@ -31,11 +33,28 @@ const LoginContainer = () => {
           path: '/',
         })
 
-        // 로컬 스토리지에 memberInfo 저장
+        // 로컬 스토리지에 memberInfo 및 로그인 여부 저장
         const { memberInfo } = res.dataBody
         localStorage.setItem('memberInfo', JSON.stringify(memberInfo))
+        localStorage.setItem('isLogIn', 'true')
 
-        console.log('로그인성공! 메인페이지로 리다이렉트합니다.')
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: toast => {
+            const toastElement = toast
+            toastElement.onmouseenter = Swal.stopTimer
+            toastElement.onmouseleave = Swal.resumeTimer
+          },
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: '성공적으로 로그인되었습니다.',
+        })
 
         navigate('/')
       }
@@ -59,7 +78,7 @@ const LoginContainer = () => {
           Log In
         </u.Btn>
         <AskSection title="아직 회원이 아니신가요?" subtitle="Sign up" />
-        <SocialBtnSection />
+        <SocialLoginContainer state="login" />
         <LogoutContainer />
       </u.LeftWrap>
       <u.RightWrap />

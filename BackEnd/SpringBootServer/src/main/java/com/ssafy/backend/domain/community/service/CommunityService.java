@@ -9,7 +9,7 @@ public interface CommunityService {
 
     List<CommunityListResponse> selectCommunityList(CommunityListRequest request);
 
-    CommunityResponse selectCommunity(Long communityId);
+    CommunityDetailResponse selectCommunity(Long communityId);
 
     void updateCommunity(Long communityId, UpdateCommunityRequest request);
 

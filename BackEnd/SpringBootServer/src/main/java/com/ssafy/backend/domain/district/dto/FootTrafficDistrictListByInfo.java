@@ -2,7 +2,7 @@ package com.ssafy.backend.domain.district.dto;
 
 import java.util.Map;
 
-public record FootTrafficDistrictListByAgeInfo(
+public record FootTrafficDistrictListByInfo(
         String summary,
         Map<String, Long> data
 ) {

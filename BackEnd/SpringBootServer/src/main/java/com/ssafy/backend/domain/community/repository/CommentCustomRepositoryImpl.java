@@ -28,8 +28,9 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository {
                         comments.content,
                         comments.writer.id,
                         comments.writer.nickname,
-                        comments.writer.profileImage
-                        ))
+                        comments.writer.profileImage,
+                        comments.createdAt
+                ))
                 .from(comments)
                 .join(comments.writer, member)
                 .where(equalsCommunityId(communityId), isLowerThan(lastId))

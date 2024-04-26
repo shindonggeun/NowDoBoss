@@ -13,7 +13,6 @@ import com.ssafy.backend.domain.member.exception.MemberErrorCode;
 import com.ssafy.backend.domain.member.exception.MemberException;
 import com.ssafy.backend.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,7 +59,7 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public CommunityResponse selectCommunity(Long communityId) {
+    public CommunityDetailResponse selectCommunity(Long communityId) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
 

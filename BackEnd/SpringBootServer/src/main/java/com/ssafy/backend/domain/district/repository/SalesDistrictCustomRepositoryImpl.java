@@ -1,17 +1,19 @@
 package com.ssafy.backend.domain.district.repository;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.backend.domain.administration.entity.QStoreAdministration;
 import com.ssafy.backend.domain.district.dto.SalesDistrictMonthSalesTopFiveInfo;
-import com.ssafy.backend.domain.district.dto.SalesDistrictTopTenInfo;
+import com.ssafy.backend.domain.district.dto.SalesDistrictTopTenResponse;
 import com.ssafy.backend.domain.district.entity.QSalesDistrict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -20,10 +22,10 @@ public class SalesDistrictCustomRepositoryImpl implements SalesDistrictCustomRep
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<SalesDistrictTopTenInfo> getTopTenSalesDistrictByPeriodCode() {
+    public List<SalesDistrictTopTenResponse> getTopTenSalesDistrictByPeriodCode() {
         QSalesDistrict sd = QSalesDistrict.salesDistrict;
 
-        // 서브쿼리를 이용하여 top district 목록을 가져옴
+        // 상위 판매 구역 이름을 가져오는 쿼리
         List<String> topDistrictNames = queryFactory
                 .select(sd.districtCodeName)
                 .from(sd)
@@ -32,20 +34,40 @@ public class SalesDistrictCustomRepositoryImpl implements SalesDistrictCustomRep
                 .orderBy(sd.monthSales.sum().desc())
                 .fetch();
 
-        return queryFactory
-                .select(Projections.constructor(
-                        SalesDistrictTopTenInfo.class,
-                        sd.districtCode,
+        // 상위 판매 구역 정보와 추가 계산을 포함하여 가져오는 쿼리
+        List<Tuple> districtData = queryFactory
+                .select(sd.districtCode,
                         sd.districtCodeName,
-                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.monthSales).otherwise(0L).sum().as("curQuarterTotalSales"),
-                        new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.monthSales).otherwise(0L).sum().as("prevQuarterTotalSales")
-                ))
+                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.monthSales).otherwise(0L).sum().as("totalMonthSales"),
+                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.monthSales).otherwise(0L).sum().doubleValue()
+                                .subtract(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.monthSales).otherwise(0L).sum().doubleValue())
+                                .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.monthSales).otherwise(0L).sum().doubleValue())
+                                .multiply(100).as("totalMonthSalesChangeRate")
+                )
                 .from(sd)
                 .where(sd.districtCodeName.in(topDistrictNames))
                 .groupBy(sd.districtCode, sd.districtCodeName)
                 .orderBy(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.monthSales).otherwise(0L).sum().desc())
                 .fetch();
+
+        List<SalesDistrictTopTenResponse> responses = new ArrayList<>();
+        int level = 0;
+        for (int i = 0; i < districtData.size(); i++) {
+            if (i % 5 == 0) {
+                level++; // 10개 단위로 level 증가
+            }
+            SalesDistrictTopTenResponse response = new SalesDistrictTopTenResponse(
+                    districtData.get(i).get(sd.districtCode),
+                    districtData.get(i).get(sd.districtCodeName),
+                    districtData.get(i).get(Expressions.numberPath(Long.class, "totalMonthSales")),
+                    districtData.get(i).get(Expressions.numberPath(Double.class, "totalMonthSalesChangeRate")),
+                    level
+            );
+            responses.add(response);
+        }
+        return responses;
     }
+
 
     @Override
     public List<SalesDistrictMonthSalesTopFiveInfo> getTopFiveMonthSalesByServiceCode(String districtCode, String periodCode) {

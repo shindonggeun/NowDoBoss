@@ -8,7 +8,6 @@ import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.angus.mail.iap.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -52,7 +51,7 @@ public class CommunityController {
             description = "커뮤니티 게시글을 상세 조회하는 기능입니다."
     )
     @GetMapping("/{communityId}")
-    public ResponseEntity<Message<CommunityResponse>> selectCommunity(@PathVariable Long communityId) {
+    public ResponseEntity<Message<CommunityDetailResponse>> selectCommunity(@PathVariable Long communityId) {
         return ResponseEntity.ok().body(Message.success(communityService.selectCommunity(communityId)));
     }
 
@@ -95,7 +94,7 @@ public class CommunityController {
             description = "커뮤니티 댓글 목록을 조회하는 기능입니다."
     )
     @GetMapping("/{communityId}/comment")
-    public ResponseEntity selectCommentList(@PathVariable Long communityId, Long lastId) {
+    public ResponseEntity<Message<List<CommentListResponse>>> selectCommentList(@PathVariable Long communityId, Long lastId) {
         return ResponseEntity.ok().body(Message.success(commentService.selectCommentList(communityId, lastId)));
     }
 
@@ -105,7 +104,7 @@ public class CommunityController {
     )
     @DeleteMapping("/{communityId}/comment/{commentId}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity deleteComment(@PathVariable Long commentId) {
+    public ResponseEntity<Message<Void>> deleteComment(@PathVariable Long communityId, @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
         return ResponseEntity.ok().body(Message.success());
     }
@@ -116,7 +115,7 @@ public class CommunityController {
     )
     @PatchMapping("/{communityId}/comment/{commentId}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity updateComment(@PathVariable Long commentId,
+    public ResponseEntity<Message<Void>> updateComment(@PathVariable Long commentId,
                                         @RequestBody UpdateCommentRequest request) {
         commentService.updateComment(commentId, request);
         return ResponseEntity.ok().body(Message.success());

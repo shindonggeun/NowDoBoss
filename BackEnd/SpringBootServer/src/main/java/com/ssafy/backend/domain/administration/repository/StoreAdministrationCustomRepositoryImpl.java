@@ -8,8 +8,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.administration.dto.ClosedStoreAdministrationTopFiveInfo;
 import com.ssafy.backend.domain.administration.dto.OpenedStoreAdministrationTopFiveInfo;
 import com.ssafy.backend.domain.administration.entity.QStoreAdministration;
-import com.ssafy.backend.domain.district.dto.SalesDistrictTopTenInfo;
-import com.ssafy.backend.domain.district.entity.QStoreDistrict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -15,16 +15,16 @@ import CodeInputSection from '@src/components/User/SignUp/CodeInputSection'
 import PwInputSection from '@src/components/User/SignUp/PwInputSection'
 import RepeatPwInputSection from '@src/components/User/SignUp/RepeatPwInputSection'
 import AskSection from '@src/components/User/AskSection'
-import SocialBtnSection from '@src/components/User/SocialBtnSection'
+import SocialLoginContainer from '@src/containers/User/SocialLoginContainer'
 import * as u from '@src/containers/User/UserContainerStyle'
 import Swal from 'sweetalert2'
 
 const SignUpContainer = () => {
-  const { signUpData, emailCode, setEmailError, signUpError, setSignUpError } =
-    userStore()
+  const { signUpData, emailCode, setEmailError, setSignUpError } = userStore()
   const navigate = useNavigate()
   const [emailSuccessCode, setEmailSuccessCode] = useState(1)
   const [codeSuccessCode, setCodeSuccessCode] = useState(1)
+  const [step, setStep] = useState(0)
 
   // 이메일 인증코드 발송
   const { mutate: SendEmailVerificationCode } = useMutation({
@@ -124,7 +124,7 @@ const SignUpContainer = () => {
       }
     },
   })
-  console.log(signUpError)
+
   const handleRegisterUser = () => {
     if (codeSuccessCode === 0) {
       RegisterUser(signUpData)
@@ -138,26 +138,46 @@ const SignUpContainer = () => {
           title="Welecome!"
           subtitle="환영합니다! 회원가입 후 다양한 기능을 이용하세요."
         />
-        <NameInputSection />
-        <NicknameInputSection />
-        <EmailInputSection
-          handleSendEmailCode={handleSendEmailCode}
-          codeSuccessCode={codeSuccessCode}
-        />
-        {emailSuccessCode === 0 && codeSuccessCode === 1 && (
-          <CodeInputSection handleVerifyEmailCode={handleVerifyEmailCode} />
+        {step === 0 ? (
+          <>
+            <SocialLoginContainer state="register" />
+            <button
+              type="submit"
+              style={{
+                width: '60%',
+                height: 'auto',
+                alignItems: 'center',
+                alignSelf: 'center',
+              }}
+              onClick={() => setStep(1)}
+            >
+              ID/PW 회원가입
+            </button>
+            <AskSection title="계정이 이미 있으신가요?" subtitle="Log In" />
+          </>
+        ) : (
+          <>
+            <NameInputSection />
+            <NicknameInputSection />
+            <EmailInputSection
+              handleSendEmailCode={handleSendEmailCode}
+              codeSuccessCode={codeSuccessCode}
+            />
+            {emailSuccessCode === 0 && codeSuccessCode === 1 && (
+              <CodeInputSection handleVerifyEmailCode={handleVerifyEmailCode} />
+            )}
+            <PwInputSection />
+            <RepeatPwInputSection />
+            <u.Btn
+              marginTop="7%"
+              onClick={handleRegisterUser}
+              disabled={codeSuccessCode !== 0}
+            >
+              Sign Up
+            </u.Btn>
+            <AskSection title="계정이 이미 있으신가요?" subtitle="Log In" />
+          </>
         )}
-        <PwInputSection />
-        <RepeatPwInputSection />
-        <u.Btn
-          marginTop="7%"
-          onClick={handleRegisterUser}
-          disabled={codeSuccessCode !== 0}
-        >
-          Sign Up
-        </u.Btn>
-        <AskSection title="계정이 이미 있으신가요?" subtitle="Log In" />
-        <SocialBtnSection />
       </u.LeftWrap>
       <u.RightWrap />
     </u.Container>

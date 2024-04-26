@@ -28,7 +28,7 @@ export const Name = styled.div`
   text-align: left;
 `
 
-export const Num = styled.div`
+export const Traffic = styled.div`
   flex: 1;
   text-align: right;
 `

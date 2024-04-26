@@ -7,11 +7,11 @@ import DetailAnalysisComponent from '@src/components/status/DetailAnalysisCompon
 import DetailCommercialComponent from '@src/components/status/DetailCommercialComponent'
 import Xmark from 'src/assets/xmark_solid_nomal.svg'
 import bookmark from 'src/assets/bookmark.svg'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 
 interface StatusDetailbarProps {
   selectedRegion: string | null
-  onClickRegionHandler: any
+  onClickRegionHandler: (region: string | null) => void
   regionCode: number | null
 }
 
@@ -24,24 +24,26 @@ const StatusDetailbarComponent = ({
   const [activeTab, setActiveTab] = useState<string>('유동인구')
   const scrollRef = useRef<HTMLDivElement[]>([])
 
-  const categories = [
-    { name: '유동인구', component: DetailPopulationComponent, props: {} },
-    { name: '점포수', component: DetailStoreNumberComponent, props: {} },
-    { name: '개업률', component: DetailOpenRateComponent, props: {} },
-    { name: '폐업률', component: DetailCloseRateComponent, props: {} },
-    { name: '매출분석', component: DetailAnalysisComponent, props: {} },
-    { name: '상권변화', component: DetailCommercialComponent, props: {} },
-  ]
+  const categories = useMemo(
+    () => [
+      { name: '유동인구', component: DetailPopulationComponent, props: {} },
+      { name: '점포수', component: DetailStoreNumberComponent, props: {} },
+      { name: '개업률', component: DetailOpenRateComponent, props: {} },
+      { name: '폐업률', component: DetailCloseRateComponent, props: {} },
+      { name: '매출분석', component: DetailAnalysisComponent, props: {} },
+      { name: '상권변화', component: DetailCommercialComponent, props: {} },
+    ],
+    [],
+  )
 
   const onClickActiveTab = (tab: string) => {
     setActiveTab(tab)
   }
 
-  const handleScrollView = event => {
-    const name = event.target.innerText
-    const index = categories.findIndex(category => category.name === name)
-    scrollRef.current[index].scrollIntoView({ behavior: 'smooth' })
-  }
+  useEffect(() => {
+    const index = categories.findIndex(category => category.name === activeTab)
+    scrollRef.current[index]?.scrollIntoView({ behavior: 'smooth' })
+  }, [activeTab, categories])
 
   // <Todo> : useRef 정복해서 스크롤 이동시에도 탭 상태 변화시키기!
   useEffect(() => {
@@ -69,11 +71,11 @@ const StatusDetailbarComponent = ({
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [activeTab, scrollRef]) // 의존성 배열에 scrollRef 추가
+  }, [activeTab, categories])
 
   return (
     <c.Container>
-      <c.FixedCategoryBar onClick={handleScrollView}>
+      <c.FixedCategoryBar>
         <c.BarTopHeader>
           <c.BookMarkIcon src={bookmark} alt="bookmark" />
           <c.BarTopTitle>{selectedRegion}</c.BarTopTitle>

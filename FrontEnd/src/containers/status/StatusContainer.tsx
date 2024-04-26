@@ -21,7 +21,7 @@ const StatusContainer = () => {
     },
   }))
 
-  const onClickRegionHandler = (region: string) => {
+  const onClickRegionHandler = (region: string | null) => {
     setSelectedRegion(region)
   }
 

@@ -4,15 +4,14 @@ pipeline {
         nodejs 'nodeJs'  // 'node'는 글로벌 도구 구성에서 설정한 Node.js의 이름
     }
 
-    stage("Build") {
-        steps {
-            sh "npm install"
-            sh "npm run build"
-        }
-    }
-
-
     stages {
+        stage("Build") {
+            steps {
+                sh "npm install"
+                sh "npm run build"
+            }
+        }
+        
         stage('Deploy Redis') {
             steps {
                 script {

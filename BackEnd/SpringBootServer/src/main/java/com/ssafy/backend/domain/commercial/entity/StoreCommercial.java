@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.commercial.entity;
 
+import com.ssafy.backend.domain.district.entity.enums.ServiceType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -11,11 +12,12 @@ import org.hibernate.annotations.Comment;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = {
         @Index(name = "idx_period_code", columnList = "periodCode"),
-        @Index(name = "idx_commercial_code", columnList = "commercialCode")
+        @Index(name = "idx_commercial_code", columnList = "commercialCode"),
+        @Index(name = "idx_service_code", columnList = "serviceCode")
 })
-public class PopulationCommercial {
+public class StoreCommercial {
     @Id
-    @Comment("상주인구_상권 아이디")
+    @Comment("점포_상권 아이디")
     @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,39 +42,35 @@ public class PopulationCommercial {
     @Column(columnDefinition = "VARCHAR(80)", nullable = false)
     private String commercialCodeName;
 
-    @Comment("총 상주인구 수")
-    @Column(columnDefinition = "INT UNSIGNED")
-    private Long totalPopulation;
+    @Comment("서비스 업종 코드")
+    @Column(columnDefinition = "VARCHAR(8)", nullable = false)
+    private String serviceCode;
 
-    @Comment("남성 상주인구 수")
-    @Column(columnDefinition = "INT UNSIGNED")
-    private Long malePopulation;
+    @Comment("서비스 업종 코드명")
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    private String serviceCodeName;
 
-    @Comment("여성 상주인구 수")
-    @Column(columnDefinition = "INT UNSIGNED")
-    private Long femalePopulation;
+    @Comment("서비스 업종 타입")
+    @Enumerated(EnumType.STRING)
+    private ServiceType serviceType;
 
-    @Comment("연령대 10 상주인구 수")
+    @Comment("점포 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long teenPopulation;
+    private Long totalStore;
 
-    @Comment("연령대 20 상주인구 수")
+    @Comment("유사 업종 점포 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long twentyPopulation;
+    private Long similarStore;
 
-    @Comment("연령대 30 상주인구 수")
-    @Column(columnDefinition = "INT UNSIGNED")
-    private Long thirtyPopulation;
+    @Comment("개업률")
+    @Column(columnDefinition = "FLOAT")
+    private Float openedRate;
 
-    @Comment("연령대 40 상주인구 수")
-    @Column(columnDefinition = "INT UNSIGNED")
-    private Long fortyPopulation;
+    @Comment("폐업률")
+    @Column(columnDefinition = "FLOAT")
+    private Float closedRate;
 
-    @Comment("연령대 50 상주인구 수")
+    @Comment("프렌차이즈 점포 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long fiftyPopulation;
-
-    @Comment("연령대 60 이상 상주인구 수")
-    @Column(columnDefinition = "INT UNSIGNED")
-    private Long sixtyPopulation;
+    private Long franchiseStore;
 }

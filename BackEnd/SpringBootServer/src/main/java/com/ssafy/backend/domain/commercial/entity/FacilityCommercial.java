@@ -15,7 +15,7 @@ import org.hibernate.annotations.Comment;
 })
 public class FacilityCommercial {
     @Id
-    @Comment("집객시설 상권 아이디")
+    @Comment("집객시설_상권 아이디")
     @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,7 +46,7 @@ public class FacilityCommercial {
 
     @Comment("초등학교 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private String elementarySchoolCnt;
+    private Long elementarySchoolCnt;
 
     @Comment("중학교 수")
     @Column(columnDefinition = "INT UNSIGNED")

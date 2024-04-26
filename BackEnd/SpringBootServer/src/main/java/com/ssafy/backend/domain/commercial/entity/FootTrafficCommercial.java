@@ -16,7 +16,7 @@ import org.hibernate.annotations.Comment;
 public class FootTrafficCommercial {
 
     @Id
-    @Comment("유동인구_상권_아이디")
+    @Comment("유동인구_상권 아이디")
     @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

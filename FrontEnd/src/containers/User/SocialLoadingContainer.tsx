@@ -3,6 +3,7 @@ import { socialLoginUser } from '@src/api/userApi'
 import { useQuery } from '@tanstack/react-query'
 import { useCookies } from 'react-cookie'
 import { useEffect } from 'react'
+import Swal from 'sweetalert2'
 
 const SocialLoadingContainer = () => {
   const [, setCookie] = useCookies(['accessToken'])
@@ -27,11 +28,29 @@ const SocialLoadingContainer = () => {
           path: '/',
         })
 
-        // 로컬 스토리지에 memberInfo 저장
+        // 로컬 스토리지에 memberInfo 및 로그인 여부 저장
         const { memberInfo } = data.dataBody
         localStorage.setItem('memberInfo', JSON.stringify(memberInfo))
+        localStorage.setItem('isLogIn', 'true')
 
-        console.log('로그인성공! 메인페이지로 리다이렉트합니다.')
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: toast => {
+            const toastElement = toast
+            toastElement.onmouseenter = Swal.stopTimer
+            toastElement.onmouseleave = Swal.resumeTimer
+          },
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: '성공적으로 로그인되었습니다.',
+        })
+
         navigate('/')
       }
     }

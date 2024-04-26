@@ -24,6 +24,17 @@ public class ServiceType {
     @Column(nullable = false)
     private String serviceCodeName;
 
+    @Comment("권리금 유 비율")
+    @Column(columnDefinition = "decimal(10,2)")
+    private double keyMoneyRatio;
+
+    @Comment("권리금 수준 평균, 단위: 만원")
+    private int keyMoney;
+
+    @Comment("권리금 수준 ㎡당 평균")
+    @Column(columnDefinition = "decimal(10,2)")
+    private double keyMoneyLevel;
+
     @Comment("소형 크기(m²)")
     private int smallSize;
 
@@ -32,5 +43,4 @@ public class ServiceType {
 
     @Comment("대형 크기(m²)")
     private int largeSize;
-
 }

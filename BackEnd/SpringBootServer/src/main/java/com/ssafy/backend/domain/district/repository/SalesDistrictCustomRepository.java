@@ -1,7 +1,6 @@
 package com.ssafy.backend.domain.district.repository;
 
 import com.ssafy.backend.domain.district.dto.SalesDistrictMonthSalesTopFiveInfo;
-import com.ssafy.backend.domain.district.dto.SalesDistrictTopTenInfo;
 import com.ssafy.backend.domain.district.dto.SalesDistrictTopTenResponse;
 
 import java.util.List;

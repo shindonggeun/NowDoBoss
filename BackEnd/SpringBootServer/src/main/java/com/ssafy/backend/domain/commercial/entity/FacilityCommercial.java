@@ -13,9 +13,9 @@ import org.hibernate.annotations.Comment;
         @Index(name = "idx_period_code", columnList = "periodCode"),
         @Index(name = "idx_commercial_code", columnList = "commercialCode")
 })
-public class PopulationCommercial {
+public class FacilityCommercial {
     @Id
-    @Comment("상주인구_상권_아이디")
+    @Comment("집객시설 상권 아이디")
     @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,40 +39,32 @@ public class PopulationCommercial {
     @Comment("상권 코드 명")
     @Column(columnDefinition = "VARCHAR(80)", nullable = false)
     private String commercialCodeName;
-
-    @Comment("총 상주인구 수")
+    
+    @Comment("집객 시설 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long totalPopulation;
+    private Long facilityCnt;
 
-    @Comment("남성 상주인구 수")
+    @Comment("초등학교 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long malePopulation;
+    private String elementarySchoolCnt;
 
-    @Comment("여성 상주인구 수")
+    @Comment("중학교 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long femalePopulation;
+    private Long middleSchoolCnt;
 
-    @Comment("연령대 10 상주인구 수")
+    @Comment("고등학교 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long teenPopulation;
+    private Long highSchoolCnt;
 
-    @Comment("연령대 20 상주인구 수")
+    @Comment("대학교 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long twentyPopulation;
+    private Long universityCnt;
 
-    @Comment("연령대 30 상주인구 수")
+    @Comment("지하철 역 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long thirtyPopulation;
+    private Long subwayStationCnt;
 
-    @Comment("연령대 40 상주인구 수")
+    @Comment("버스 정거장 수")
     @Column(columnDefinition = "INT UNSIGNED")
-    private Long fortyPopulation;
-
-    @Comment("연령대 50 상주인구 수")
-    @Column(columnDefinition = "INT UNSIGNED")
-    private Long fiftyPopulation;
-
-    @Comment("연령대 60 이상 상주인구 수")
-    @Column(columnDefinition = "INT UNSIGNED")
-    private Long sixtyPopulation;
+    private Long busStopCnt;
 }

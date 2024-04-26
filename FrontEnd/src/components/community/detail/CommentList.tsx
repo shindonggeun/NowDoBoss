@@ -1,5 +1,5 @@
 import * as c from '@src/components/styles/community/CommentListStyle'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TimeCounting, { TimeCountingOption } from 'time-counting'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import {
@@ -21,6 +21,15 @@ interface CommentPropsType {
 
 const CommentList = (props: CommentPropsType) => {
   const { communityId } = props
+  const [userId, setUserId] = useState(0)
+  useEffect(() => {
+    const userInfo = window.localStorage.getItem('memberInfo')
+    if (userInfo) {
+      const user = JSON.parse(userInfo)
+      setUserId(user.id)
+    }
+  }, [])
+
   // 댓글 작성창에 들어가는 데이터
   const [commentValue, setComment] = useState<string>('')
   const [isMod, setIsMod] = useState<boolean>(false)
@@ -149,23 +158,28 @@ const CommentList = (props: CommentPropsType) => {
                     </c.CommentTime>
                   </c.CommentUser>
                 </c.CommentContainer>
-                <c.ModDiv>
-                  <c.ModButton
-                    onClick={() => {
-                      setModCommentId(commentData.commentId)
-                      onModify()
-                    }}
-                  >
-                    {!isMod ? '수정' : '취소'}
-                  </c.ModButton>
-                  <c.ModButton
-                    onClick={() => {
-                      onDelete(commentData.commentId)
-                    }}
-                  >
-                    삭제
-                  </c.ModButton>
-                </c.ModDiv>
+
+                {commentData.writerId === userId ? (
+                  <c.ModDiv>
+                    <c.ModButton
+                      onClick={() => {
+                        setModCommentId(commentData.commentId)
+                        onModify()
+                      }}
+                    >
+                      {!isMod ? '수정' : '취소'}
+                    </c.ModButton>
+                    <c.ModButton
+                      onClick={() => {
+                        onDelete(commentData.commentId)
+                      }}
+                    >
+                      삭제
+                    </c.ModButton>
+                  </c.ModDiv>
+                ) : (
+                  ''
+                )}
               </c.CommentContainer>
               {/* 수정 버튼 눌렀을 때 */}
               {isMod ? (

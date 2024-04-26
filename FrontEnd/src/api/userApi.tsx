@@ -43,3 +43,19 @@ export const logoutUser = async () => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 소셜 도메인을 통한 인증코드 가져오기
+export const getSocialAuthUrl = async (oAuthDomain: string) => {
+  return customAxios
+    .get(`/oauth/${oAuthDomain}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 소셜 로그인 (회원가입)
+export const socialLoginUser = async (oAuthDomain: string, code: string) => {
+  return customAxios
+    .get(`/oauth/${oAuthDomain}/login?code=${code}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

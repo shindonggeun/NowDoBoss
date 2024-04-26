@@ -3,11 +3,9 @@ package com.ssafy.backend.domain.commercial.service;
 import com.ssafy.backend.domain.commercial.dto.*;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
 import com.ssafy.backend.domain.commercial.entity.FootTrafficCommercial;
+import com.ssafy.backend.domain.commercial.entity.PopulationCommercial;
 import com.ssafy.backend.domain.commercial.entity.SalesCommercial;
-import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
-import com.ssafy.backend.domain.commercial.repository.FootTrafficCommercialRepository;
-import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
-import com.ssafy.backend.domain.commercial.repository.ServiceCodeProjection;
+import com.ssafy.backend.domain.commercial.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final AreaCommercialRepository areaCommercialRepository;
     private final FootTrafficCommercialRepository footTrafficCommercialRepository;
     private final SalesCommercialRepository salesCommercialRepository;
+    private final PopulationCommercialRepository populationCommercialRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -136,6 +135,29 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         return new CommercialSalesResponse(timeSales, daySales, ageSales);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CommercialPopulationResponse getPopulationByPeriodAndCommercialCode(String periodCode, String commercialCode) {
+        PopulationCommercial populationCommercial = populationCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
+                .orElseThrow(() -> new RuntimeException("상주인구 분석 데이터가 없습니다."));
+
+        CommercialPopulationInfo population = new CommercialPopulationInfo(
+                populationCommercial.getTotalPopulation(),
+                populationCommercial.getTeenPopulation(),
+                populationCommercial.getTwentyPopulation(),
+                populationCommercial.getThirtyPopulation(),
+                populationCommercial.getFortyPopulation(),
+                populationCommercial.getFiftyPopulation(),
+                populationCommercial.getSixtyPopulation()
+        );
+
+        // 남자 여자 인구 비율 소수점 첫째자리까지
+        Double malePercentage = Math.round((double) populationCommercial.getMalePopulation() / populationCommercial.getTotalPopulation() * 1000) / 10.0;
+        Double femalePercentage = Math.round((double) populationCommercial.getFemalePopulation() / populationCommercial.getTotalPopulation() * 1000) / 10.0;
+
+        return new CommercialPopulationResponse(population, malePercentage, femalePercentage);
     }
 
 

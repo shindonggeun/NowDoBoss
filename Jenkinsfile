@@ -62,17 +62,6 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis - ReactServer') {
-            steps {
-                dir('FrontEnd') {
-                    withSonarQubeEnv('SonarQube Server') {
-                        sh 'npm install'
-                        sh 'npm run sonarqube'
-                    }
-                }
-            }
-        }
-
         stage('Deploy with Docker Compose') {  // 'Deploy with Docker Compose'라는 이름의 단계를 정의합니다. 이 단계에서는 Docker Compose를 사용한 배포가 이루어집니다.
             steps {
                 script {
@@ -81,6 +70,16 @@ pipeline {
 
                     // 새로운 푸시에 대한 스크립트 실행
                     sh "docker-compose up --build -d"  // 'docker-compose up --build -d' 명령을 실행하여, Docker Compose 파일에 정의된 모든 서비스를 빌드하고 백그라운드 모드로 실행합니다. '--build' 옵션은 이미지가 새로운 코드로 재빌드되도록 합니다.
+                }
+            }
+        }
+
+        stage('SonarQube Analysis - ReactServer') {
+            steps {
+                dir('FrontEnd') {
+                    withSonarQubeEnv('SonarQube Server') {
+                        sh 'npm run sonarqube'
+                    }
                 }
             }
         }

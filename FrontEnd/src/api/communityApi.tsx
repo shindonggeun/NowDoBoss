@@ -1,7 +1,9 @@
 import { customAxios } from '@src/util/auth/customAxios'
 import {
   CommentCreateType,
+  CommentDeleteDataType,
   CommentListDataType,
+  CommentModifyDataType,
   CommunityCreateDataType,
 } from '@src/types/CommunityType'
 
@@ -45,6 +47,30 @@ export const commentCreate = async (
 export const fetchCommentList = async (communityId: number) => {
   return customAxios
     .get(`/community/${communityId}/comment`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+// 커뮤니티 댓글 조회 get api
+export const commentModify = async (
+  commentModifyData: CommentModifyDataType,
+) => {
+  return customAxios
+    .patch(
+      `/community/${commentModifyData.communityId}/comment/${commentModifyData.commentId}`,
+      commentModifyData.data,
+    )
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 댓글 삭제 delete api
+export const commentDelete = async (
+  commentDeleteData: CommentDeleteDataType,
+) => {
+  return customAxios
+    .delete(
+      `/community/${commentDeleteData.communityId}/comment/${commentDeleteData.commentId}`,
+    )
     .then(res => res.data)
     .catch(err => console.log(err))
 }

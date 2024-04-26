@@ -30,6 +30,10 @@ export const CommentBox = styled.div`
   }
 `
 
+export const CommentMod = styled.div`
+  padding: 1rem 0;
+  margin: 0 0 2vh;
+`
 // 댓글 input창
 export const CommentInput = styled.textarea<{ $isActive?: boolean }>`
   width: 80%;

@@ -2,8 +2,18 @@ import * as c from '@src/components/styles/community/CommentListStyle'
 import React, { useState } from 'react'
 import TimeCounting, { TimeCountingOption } from 'time-counting'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { commentCreate, fetchCommentList } from '@src/api/communityApi.tsx'
-import { CommentCreateType, CommentDataType } from '@src/types/CommunityType'
+import {
+  commentCreate,
+  commentDelete,
+  commentModify,
+  fetchCommentList,
+} from '@src/api/communityApi'
+import {
+  CommentCreateType,
+  CommentDataType,
+  CommentModifyDataType,
+} from '@src/types/CommunityType'
+import Swal from 'sweetalert2'
 
 interface CommentPropsType {
   communityId: string | undefined
@@ -11,7 +21,13 @@ interface CommentPropsType {
 
 const CommentList = (props: CommentPropsType) => {
   const { communityId } = props
-  const [comment, setComment] = useState<string>('')
+  // 댓글 작성창에 들어가는 데이터
+  const [commentValue, setComment] = useState<string>('')
+  const [isMod, setIsMod] = useState<boolean>(false)
+  // 댓글 수정창에 들어가는 데이터
+  const [modCommentValue, setModComment] = useState<string>('')
+  const [modCommentIdValue, setModCommentId] = useState<number>(0)
+
   // 생성 시간 보여주는 라이브러리 사용
   const TimeOption: TimeCountingOption = {
     // 기준이 되는 현재 시간
@@ -28,9 +44,10 @@ const CommentList = (props: CommentPropsType) => {
   })
 
   // 댓글 생성
-  const { mutate } = useMutation({
+  const { mutate: mutateCreateComment } = useMutation({
     mutationFn: commentCreate,
     onSuccess: () => {
+      // 댓글 생성 성공 시 댓글 목록 재호출
       refetch()
     },
   })
@@ -38,10 +55,62 @@ const CommentList = (props: CommentPropsType) => {
   const onSubmit = () => {
     const commentCreateData: CommentCreateType = {
       communityId: Number(communityId),
-      data: { content: comment },
+      data: { content: commentValue },
     }
-    mutate(commentCreateData)
+    mutateCreateComment(commentCreateData)
     setComment('')
+  }
+
+  // 댓글 수정
+  const { mutate: mutateModifyComment } = useMutation({
+    mutationFn: commentModify,
+    onSuccess: () => {
+      // 댓글 수정 성공 시 댓글 목록 재호출
+      refetch()
+      setIsMod(false)
+    },
+  })
+
+  const onModify = () => {
+    setIsMod(!isMod)
+  }
+
+  const onSubmitMod = () => {
+    const commentModifyData: CommentModifyDataType = {
+      communityId: Number(communityId),
+      commentId: modCommentIdValue,
+      data: { content: modCommentValue },
+    }
+    mutateModifyComment(commentModifyData)
+  }
+
+  // 댓글 삭제
+  const { mutate: mutateDeleteComment } = useMutation({
+    mutationFn: commentDelete,
+    onSuccess: () => {
+      // 댓글 삭제 성공 시 댓글 목록 재호출
+      refetch()
+    },
+  })
+
+  const onDelete = (commentId: number) => {
+    Swal.fire({
+      title: '댓글을 삭제하시겠습니까?',
+      showDenyButton: true,
+      icon: 'warning',
+      confirmButtonText: '네',
+      denyButtonText: '아니요',
+      confirmButtonColor: '#429f50',
+      cancelButtonColor: '#d33',
+    }).then(result => {
+      if (result.isConfirmed) {
+        const CommentData = {
+          communityId: Number(communityId),
+          commentId,
+        }
+        mutateDeleteComment(CommentData)
+      }
+    })
   }
 
   return (
@@ -51,15 +120,15 @@ const CommentList = (props: CommentPropsType) => {
           <c.CommentTitle>댓글 {data.dataBody.length}</c.CommentTitle>
           <c.CommentBox>
             <c.CommentInput
-              $isActive={comment.length > 0}
+              $isActive={commentValue.length > 0}
               placeholder="댓글을 작성하세요."
-              value={comment}
+              value={commentValue}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 setComment(e.target.value)
               }}
             />
             <c.CommentSubmit
-              $isActive={comment.length > 0}
+              $isActive={commentValue.length > 0}
               onClick={() => {
                 onSubmit()
               }}
@@ -67,13 +136,13 @@ const CommentList = (props: CommentPropsType) => {
               작성
             </c.CommentSubmit>
           </c.CommentBox>
-          {data.dataBody.map((comment: CommentDataType) => (
-            <c.CommentCard key={comment.commentId}>
+          {data.dataBody.map((commentData: CommentDataType) => (
+            <c.CommentCard key={commentData.commentId}>
               <c.CommentContainer>
                 <c.CommentContainer>
                   <c.CommentProfile />
                   <c.CommentUser>
-                    <c.CommentName>{comment.writerNickname}</c.CommentName>
+                    <c.CommentName>{commentData.writerNickname}</c.CommentName>
                     {/* <m.CommentTime>2024-03-12 16:40</m.CommentTime> */}
                     <c.CommentTime>
                       {TimeCounting('2024-04-24 4:00:00', TimeOption)}
@@ -81,11 +150,48 @@ const CommentList = (props: CommentPropsType) => {
                   </c.CommentUser>
                 </c.CommentContainer>
                 <c.ModDiv>
-                  <c.ModButton>수정</c.ModButton>
-                  <c.ModButton>삭제</c.ModButton>
+                  <c.ModButton
+                    onClick={() => {
+                      setModCommentId(commentData.commentId)
+                      onModify()
+                    }}
+                  >
+                    {!isMod ? '수정' : '취소'}
+                  </c.ModButton>
+                  <c.ModButton
+                    onClick={() => {
+                      onDelete(commentData.commentId)
+                    }}
+                  >
+                    삭제
+                  </c.ModButton>
                 </c.ModDiv>
               </c.CommentContainer>
-              <c.CommentContent>{comment.content}</c.CommentContent>
+              {/* 수정 버튼 눌렀을 때 */}
+              {isMod ? (
+                <c.CommentMod>
+                  <c.CommentBox>
+                    <c.CommentInput
+                      $isActive={modCommentValue.length > 0}
+                      placeholder="댓글을 작성하세요."
+                      defaultValue={commentData.content}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                        setModComment(e.target.value)
+                      }}
+                    />
+                    <c.CommentSubmit
+                      $isActive={modCommentValue.length > 0}
+                      onClick={() => {
+                        onSubmitMod()
+                      }}
+                    >
+                      작성
+                    </c.CommentSubmit>
+                  </c.CommentBox>
+                </c.CommentMod>
+              ) : (
+                <c.CommentContent>{commentData.content}</c.CommentContent>
+              )}
             </c.CommentCard>
           ))}
         </c.Container>

@@ -5,15 +5,8 @@ import {
   CommentListDataType,
   CommentModifyDataType,
   CommunityCreateDataType,
+  CommunityModifyDataType,
 } from '@src/types/CommunityType'
-
-// 커뮤니티 게시글 생성 post api
-export const communityCreate = async (data: CommunityCreateDataType) => {
-  return customAxios
-    .post(`/community`, data)
-    .then(res => res.data)
-    .catch(err => console.log(err))
-}
 
 // 커뮤니티 목록 get api
 export const fetchCommunityList = async (category: string) => {
@@ -27,6 +20,30 @@ export const fetchCommunityList = async (category: string) => {
 export const fetchCommunityDetail = async (communityId: number) => {
   return customAxios
     .get(`/community/${communityId}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 커뮤니티 게시글 생성 post api
+export const communityCreate = async (data: CommunityCreateDataType) => {
+  return customAxios
+    .post(`/community`, data)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 커뮤니티 게시글 수정 patch api
+export const communityModify = async (data: CommunityModifyDataType) => {
+  return customAxios
+    .patch(`/community/${data.communityId}`, data.data)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 게시글 삭제 delete api
+export const articleDelete = async (communityId: number) => {
+  return customAxios
+    .delete(`/community/${communityId}`)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

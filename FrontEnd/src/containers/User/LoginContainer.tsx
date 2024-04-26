@@ -7,9 +7,9 @@ import InfoSection from '@src/components/User/InfoSection'
 import EmailInputSection from '@src/components/User/LogIn/EmailInputSection'
 import PwInputSection from '@src/components/User/LogIn/PwInputSection'
 import AskSection from '@src/components/User/AskSection'
-import SocialBtnSection from '@src/components/User/SocialBtnSection'
 import LogoutContainer from '@src/containers/User/LogoutContainer'
 import * as u from '@src/containers/User/UserContainerStyle'
+import SocialLoginContainer from '@src/containers/User/SocialLoginContainer'
 
 const LoginContainer = () => {
   const { loginData } = userStore()
@@ -59,7 +59,7 @@ const LoginContainer = () => {
           Log In
         </u.Btn>
         <AskSection title="아직 회원이 아니신가요?" subtitle="Sign up" />
-        <SocialBtnSection />
+        <SocialLoginContainer />
         <LogoutContainer />
       </u.LeftWrap>
       <u.RightWrap />

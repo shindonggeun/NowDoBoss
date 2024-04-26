@@ -15,13 +15,12 @@ import CodeInputSection from '@src/components/User/SignUp/CodeInputSection'
 import PwInputSection from '@src/components/User/SignUp/PwInputSection'
 import RepeatPwInputSection from '@src/components/User/SignUp/RepeatPwInputSection'
 import AskSection from '@src/components/User/AskSection'
-import SocialBtnSection from '@src/components/User/SocialBtnSection'
 import * as u from '@src/containers/User/UserContainerStyle'
 import Swal from 'sweetalert2'
+import SocialLoginContainer from '@src/containers/User/SocialLoginContainer'
 
 const SignUpContainer = () => {
-  const { signUpData, emailCode, setEmailError, signUpError, setSignUpError } =
-    userStore()
+  const { signUpData, emailCode, setEmailError, setSignUpError } = userStore()
   const navigate = useNavigate()
   const [emailSuccessCode, setEmailSuccessCode] = useState(1)
   const [codeSuccessCode, setCodeSuccessCode] = useState(1)
@@ -124,7 +123,7 @@ const SignUpContainer = () => {
       }
     },
   })
-  console.log(signUpError)
+
   const handleRegisterUser = () => {
     if (codeSuccessCode === 0) {
       RegisterUser(signUpData)
@@ -157,7 +156,7 @@ const SignUpContainer = () => {
           Sign Up
         </u.Btn>
         <AskSection title="계정이 이미 있으신가요?" subtitle="Log In" />
-        <SocialBtnSection />
+        <SocialLoginContainer />
       </u.LeftWrap>
       <u.RightWrap />
     </u.Container>

@@ -54,3 +54,16 @@ export type CommentListDataType = {
   dataBody: CommentDataType[]
   dataHeader: { successCode: number; resultCode: number; resultMessage: string }
 }
+
+// 댓글 리스트 type
+export type CommentDeleteDataType = {
+  communityId: number
+  commentId: number
+}
+
+// 댓글 리스트 type
+export type CommentModifyDataType = {
+  communityId: number
+  commentId: number
+  data: { content: string }
+}

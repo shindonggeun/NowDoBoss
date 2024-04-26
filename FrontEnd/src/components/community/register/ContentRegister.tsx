@@ -4,11 +4,21 @@ import React, { useEffect, useState } from 'react'
 import arrow_down from '@src/assets/arrow_down.svg'
 import arrow_up from '@src/assets/arrow_up.svg'
 import ImageUpload from '@src/components/community/register/ImageUpload'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { communityCreate } from '@src/api/communityApi'
+import {
+  communityCreate,
+  communityModify,
+  fetchCommunityDetail,
+} from '@src/api/communityApi'
+import Swal from 'sweetalert2'
 
-const ContentRegister = () => {
+interface ContentRegisterPropsType {
+  modifyCommunityId: number
+}
+
+const ContentRegister = (props: ContentRegisterPropsType) => {
+  const { modifyCommunityId } = props
   const navigate = useNavigate()
   const [titleValue, setTitle] = useState<string>('')
   const [contentValue, setContent] = useState<string>('')
@@ -36,7 +46,23 @@ const ContentRegister = () => {
     }
   }, [titleValue, contentValue, selectedCategoryValue])
 
-  const { mutate } = useMutation({
+  // 수정 페이지에서 쓸 데이터 요청
+  const { data } = useQuery({
+    queryKey: ['communityDetail', modifyCommunityId],
+    queryFn: () => fetchCommunityDetail(modifyCommunityId),
+    enabled: !!modifyCommunityId,
+  })
+
+  useEffect(() => {
+    if (data && modifyCommunityId) {
+      setTitle(data.dataBody.title)
+      setContent(data.dataBody.content)
+      setSelectedCategory(data.dataBody.category)
+    }
+  }, [modifyCommunityId, data])
+
+  // 게시글 생성
+  const { mutate: mutateCreateForm } = useMutation({
     mutationKey: ['communityCreateForm'],
     mutationFn: communityCreate,
     onSuccess() {
@@ -47,14 +73,59 @@ const ContentRegister = () => {
     },
   })
 
+  // 게시글 수정
+  const { mutate: mutateModifyForm } = useMutation({
+    mutationKey: ['communityModify'],
+    mutationFn: communityModify,
+    onSuccess() {
+      navigate(`/community/${modifyCommunityId}`)
+
+      // 수정 완료 모달
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: toast => {
+          // eslint-disable-next-line no-param-reassign
+          toast.onmouseenter = Swal.stopTimer
+          // eslint-disable-next-line no-param-reassign
+          toast.onmouseleave = Swal.resumeTimer
+        },
+      })
+      Toast.fire({
+        icon: 'success',
+        title: '게시글이 수정되었습니다.',
+      })
+    },
+    onError() {
+      console.log('에러남')
+    },
+  })
+
   const handleSubmit = () => {
-    const ArticleData = {
-      title: titleValue,
-      content: contentValue,
-      category: selectedCategoryValue,
-      images: imageViewValue,
+    // 수정하는 상황이 아니라면
+    if (modifyCommunityId === 0) {
+      const ArticleData = {
+        title: titleValue,
+        content: contentValue,
+        category: selectedCategoryValue,
+        images: imageViewValue,
+      }
+      mutateCreateForm(ArticleData)
+    } else {
+      // 수정하는 상황이라면
+      const ArticleData = {
+        communityId: modifyCommunityId,
+        data: {
+          title: titleValue,
+          content: contentValue,
+          images: imageViewValue,
+        },
+      }
+      mutateModifyForm(ArticleData)
     }
-    mutate(ArticleData)
   }
 
   return (
@@ -76,7 +147,7 @@ const ContentRegister = () => {
       <c.TitleInput
         $isActive={titleValue.length > 0}
         placeholder="제목을 입력해주세요."
-        value={titleValue}
+        defaultValue={titleValue}
         maxLength={19}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
           setTitle(e.target.value)
@@ -87,7 +158,7 @@ const ContentRegister = () => {
       <c.ContentInput
         $isActive={contentValue.length > 0}
         placeholder="내용을 입력해주세요."
-        value={contentValue}
+        defaultValue={contentValue}
         maxLength={499}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
           setContent(e.target.value)

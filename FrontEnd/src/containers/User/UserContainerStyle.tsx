@@ -12,7 +12,7 @@ export const Container = styled.div`
 
 export const LeftWrap = styled.div`
   flex: 2;
-  padding: 5%;
+  padding: 0 5%;
   display: flex;
   flex-direction: column;
   gap: 10px;

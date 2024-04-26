@@ -14,4 +14,6 @@ public interface CommercialService {
     List<CommercialServiceResponse> getServiceByCommercialCode(String commercialCode);
 
     CommercialSalesResponse getSalesByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode);
+
+    CommercialPopulationResponse getPopulationByPeriodAndCommercialCode(String periodCode, String commercialCode);
 }

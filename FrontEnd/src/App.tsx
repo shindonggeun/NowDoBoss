@@ -9,6 +9,7 @@ import CommunityEditPage from '@src/pages/CommunityEditPage'
 import CommunityDetailPage from '@src/pages/CommunityDetailPage'
 import LoginPage from '@src/pages/LoginPage'
 import StatusPage from '@src/pages/StatusPage'
+import SocialLoadingPage from '@src/pages/SocialLoadingPage'
 
 function App() {
   return (
@@ -30,6 +31,10 @@ function App() {
             element={<CommunityDetailPage />}
           />
           <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/member/loading/:provider"
+            element={<SocialLoadingPage />}
+          />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

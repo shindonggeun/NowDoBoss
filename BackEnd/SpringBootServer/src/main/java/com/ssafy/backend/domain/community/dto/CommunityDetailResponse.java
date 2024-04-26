@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommunityResponse {
+public class CommunityDetailResponse {
     private Long communityId;
     private Category category;
     private String title;
@@ -24,7 +24,7 @@ public class CommunityResponse {
     private List<ImageInfo> images;
 
 
-    public CommunityResponse(Long communityId, Category category, String title, String content, int readCount, Long writerId, String writerNickname, String writerProfileImage, LocalDateTime createdAt) {
+    public CommunityDetailResponse(Long communityId, Category category, String title, String content, int readCount, Long writerId, String writerNickname, String writerProfileImage, LocalDateTime createdAt) {
         this.communityId = communityId;
         this.category = category;
         this.title = title;

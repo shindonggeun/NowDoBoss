@@ -6,7 +6,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.community.dto.CommunityListResponse;
-import com.ssafy.backend.domain.community.dto.CommunityResponse;
+import com.ssafy.backend.domain.community.dto.CommunityDetailResponse;
 import com.ssafy.backend.domain.community.dto.ImageInfo;
 import com.ssafy.backend.domain.community.entity.enums.Category;
 import com.ssafy.backend.global.util.NullSafeBuilder;
@@ -64,9 +64,9 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
     }
 
     @Override
-    public CommunityResponse selectCommunity(Long communityId) {
-        CommunityResponse communityResponse = queryFactory
-                .select(Projections.constructor(CommunityResponse.class,
+    public CommunityDetailResponse selectCommunity(Long communityId) {
+        CommunityDetailResponse communityDetailResponse = queryFactory
+                .select(Projections.constructor(CommunityDetailResponse.class,
                         community.id,
                         community.category,
                         community.title,
@@ -91,9 +91,9 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
 //                .where(image.community.id.eq(communityId))
                 .fetch();
 
-        communityResponse.setImages(images);
+        communityDetailResponse.setImages(images);
 
-        return communityResponse;
+        return communityDetailResponse;
     }
 
     private BooleanBuilder equalsCommunityId(final Long communityId) {

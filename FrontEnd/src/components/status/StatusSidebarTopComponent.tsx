@@ -5,10 +5,11 @@ export type ArticleListPropsType = {
   TopLists: TopList
 }
 
+// <Todo> Top 10으로 수정하기~~
 const StatusSidebarTopComponent = ({ TopLists }: ArticleListPropsType) => {
   const footTrafficTop: TopListItem[] = TopLists.footTrafficTopTenList.slice(
     0,
-    10,
+    5,
   )
 
   // const openedRateTop: TopListItem[] = TopLists.openedRateTopTenList.slice(

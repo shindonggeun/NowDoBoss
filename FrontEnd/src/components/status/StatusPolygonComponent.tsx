@@ -1,10 +1,12 @@
 import * as c from '@src/components/styles/status/StatusPolygonStyle'
 import seoul from '@src/components/status/sig_seoul_geojson.json'
 import * as d3 from 'd3'
+import { TopList, TopListItem } from '@src/types/StatusType'
 
 type StatusPolygonProps = {
   tab: number | null
   selectedRegion: string | null
+  TopLists: TopList
   onClickRegionHandler: any
   onClickRegionCodeHandler: any
 }
@@ -12,11 +14,13 @@ type StatusPolygonProps = {
 const StatusPolygonComponent = ({
   tab,
   selectedRegion,
+  TopLists,
   onClickRegionHandler,
   onClickRegionCodeHandler,
 }: StatusPolygonProps) => {
-  // console.log(`선택된 탭 index : ${tab}`)
+  console.log(`선택된 탭 index : ${tab}`)
 
+  // 폴리곤 그리기
   const mapData = seoul.features // 서울시 행정구역 json data
   const width = 660
   const height = 550
@@ -48,26 +52,24 @@ const StatusPolygonComponent = ({
       onClickRegionHandler(regionName)
     }
   }
-  interface TempDataItem {
-    districtCode: string
-    level: number
-  }
 
-  const tempData: TempDataItem[] = [
-    { districtCode: '11680', level: 5 },
-    { districtCode: '11620', level: 4 },
-    { districtCode: '11710', level: 3 },
-    { districtCode: '11290', level: 2 },
-    { districtCode: '11440', level: 5 },
-  ]
+  // 받아온 데이터 탭별 정리
+  const footTrafficTop: TopListItem[] = TopLists.footTrafficTopTenList
+  const openedRateTop: TopListItem[] = TopLists.openedRateTopTenList
+  const salesTop: TopListItem[] = TopLists.salesTopTenList
+  const closedRateTop: TopListItem[] = TopLists.closedRateTopTenList
+  const StatusTopData = [footTrafficTop, openedRateTop, salesTop, closedRateTop]
 
   // 행정구 폴리곤
   const countries = mapData.map((d: any, i) => {
     const isSelected = selectedRegion === d.properties.SIG_KOR_NM
-    const tempItem = tempData.find(
-      sig => sig.districtCode === d.properties.SIG_CD,
-    )
-    const colorIndex = tempItem ? tempItem.level - 1 : 0 // tempItem이 없는 경우 기본 색상 사용
+    const tempItem =
+      tab != null
+        ? StatusTopData[tab].find(
+            sig => sig.districtCode === d.properties.SIG_CD,
+          )
+        : null
+    const colorIndex = tempItem ? tempItem.level - 1 : 0
 
     const style = isSelected
       ? {
@@ -83,6 +85,7 @@ const StatusPolygonComponent = ({
           fill: tab === null ? '#009FA9' : mapColor[tab][colorIndex],
           stroke: 'white',
           strokeWidth: '2px',
+          transition: 'transform 0.5s ease-out, fill 0.3s ease-out',
           cursor: 'pointer',
         }
 

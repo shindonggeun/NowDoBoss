@@ -45,33 +45,19 @@ const StatusDetailbarComponent = ({
     scrollRef.current[index]?.scrollIntoView({ behavior: 'smooth' })
   }, [activeTab, categories])
 
-  // <Todo> : useRef 정복해서 스크롤 이동시에도 탭 상태 변화시키기!
   useEffect(() => {
-    console.log('------------------------')
-    console.log(scrollRef.current)
+    // console.log('------------------------')
+    // console.log(scrollRef.current)
     const handleScroll = () => {
-      const currentScrollPosition = window.scrollY + window.innerHeight / 2
-      console.log('///////////////////////')
-      console.log(scrollRef.current)
-      const activeIndex = scrollRef.current.findIndex((ref, idx) => {
-        const nextRef = scrollRef.current[idx + 1]
-        return (
-          ref.offsetTop <= currentScrollPosition &&
-          (!nextRef || nextRef.offsetTop > currentScrollPosition)
-        )
-      })
-
-      if (activeIndex !== -1 && categories[activeIndex]) {
-        setActiveTab(categories[activeIndex].name)
-      }
+      console.log('스크롤중~~~')
     }
 
-    window.addEventListener('scroll', handleScroll)
+    document.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('scroll', handleScroll)
     }
-  }, [activeTab, categories])
+  }, [])
 
   return (
     <c.Container>

@@ -73,6 +73,7 @@ const StatusContainer = () => {
             <StatusPolygonComponent
               tab={tab}
               selectedRegion={selectedRegion}
+              TopLists={data.dataBody}
               onClickRegionHandler={onClickRegionHandler}
               onClickRegionCodeHandler={onClickRegionCodeHandler}
             />

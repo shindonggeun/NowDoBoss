@@ -16,7 +16,7 @@ import org.hibernate.annotations.Comment;
 })
 public class SalesCommercial {
     @Id
-    @Comment("추정매출_상권_아이디")
+    @Comment("추정매출_상권 아이디")
     @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -94,4 +94,17 @@ public class CommercialController {
         CommercialPopulationResponse populationResponse = commercialService.getPopulationByPeriodAndCommercialCode(periodCode, commercialCode);
         return ResponseEntity.ok().body(Message.success(populationResponse));
     }
+
+    @Operation(
+            summary = "해당 상권의 분기별 집객 시설 조회",
+            description = "주어진 상권코드에 대해 해당 분기의 집객 시설 데이터를 조회합니다. 기준년분기코드가 주어지지 않으면 2023년 3분기의 데이터를 사용합니다."
+    )
+    @GetMapping("/facility/{commercialCode}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<CommercialFacilityResponse>> getFacilityByPeriodAndCommercialCode(
+            @PathVariable String commercialCode,
+            @RequestParam(defaultValue = "20233") String periodCode) {
+        CommercialFacilityResponse facilityResponse = commercialService.getFacilityByPeriodAndCommercialCode(periodCode, commercialCode);
+        return ResponseEntity.ok().body(Message.success(facilityResponse));
+    }
 }

@@ -159,8 +159,20 @@ public class CommercialServiceImpl implements CommercialService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CommercialFacilityResponse getFacilityByPeriodAndCommercialCode(String periodCode, String commercialCode) {
-        return null;
+        FacilityCommercial facilityCommercial = facilityCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
+                .orElseThrow(() -> new RuntimeException("집객시설 분석 데이터가 없습니다."));
+
+        CommercialSchoolInfo school = new CommercialSchoolInfo(
+                facilityCommercial.getElementarySchoolCnt() + facilityCommercial.getMiddleSchoolCnt() + facilityCommercial.getHighSchoolCnt(),
+                facilityCommercial.getUniversityCnt()
+        );
+
+        Long facilityCnt = facilityCommercial.getFacilityCnt();
+        Long totalTransportCnt = facilityCommercial.getSubwayStationCnt() + facilityCommercial.getBusStopCnt();
+
+        return new CommercialFacilityResponse(facilityCnt, school, totalTransportCnt);
     }
 
 

@@ -20,7 +20,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final FootTrafficCommercialRepository footTrafficCommercialRepository;
     private final SalesCommercialRepository salesCommercialRepository;
     private final PopulationCommercialRepository populationCommercialRepository;
-    private final FacilityCommercial facilityCommercial;
+    private final FacilityCommercialRepository facilityCommercialRepository;
 
     @Override
     @Transactional(readOnly = true)

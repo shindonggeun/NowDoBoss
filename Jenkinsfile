@@ -4,6 +4,13 @@ pipeline {
         nodejs 'nodeJs'  // 'node'는 글로벌 도구 구성에서 설정한 Node.js의 이름
     }
 
+    stage("Build") {
+        steps {
+            sh "npm install"
+            sh "npm run build"
+        }
+    }
+
 
     stages {
         stage('Deploy Redis') {
@@ -78,16 +85,14 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis - ReactServer') {
-            steps {
-                dir('FrontEnd') {
-                    withSonarQubeEnv('SonarQube Server') {
-                        sh 'npm run install'
-                        sh 'npm run build'
-                        sh 'npm run sonarqube'
-                    }
-                }
-            }
-        }
+        // stage('SonarQube Analysis - ReactServer') {
+        //     steps {
+        //         dir('FrontEnd') {
+        //             withSonarQubeEnv('SonarQube Server') {
+        //                 sh 'npm run sonarqube'
+        //             }
+        //         }
+        //     }
+        // }
     }
 }

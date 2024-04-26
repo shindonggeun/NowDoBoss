@@ -9,16 +9,23 @@ export type ArticleListPropsType = {
 
 const ArticleList = (props: ArticleListPropsType) => {
   const { articleList } = props
-  const categories = useCommunityStore(state => state.categories)
+  const { categories, setModifyCommunityId } = useCommunityStore(state => ({
+    categories: state.categories,
+    setModifyCommunityId: state.setModifyCommunityId,
+  }))
   const navigate = useNavigate()
-
   return (
     <a.Container>
       {/* 상단 */}
       <a.Context>
         <a.LeftGrid>
           <a.Title>커뮤니티 목록</a.Title>
-          <a.CreateButton onClick={() => navigate('/community/register')}>
+          <a.CreateButton
+            onClick={() => {
+              setModifyCommunityId(Number(0))
+              navigate('/community/register')
+            }}
+          >
             게시글 작성하기
           </a.CreateButton>
         </a.LeftGrid>

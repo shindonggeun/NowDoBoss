@@ -12,6 +12,69 @@ export const Container = styled.div`
   }
 `
 
+export const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  position: relative;
+`
+export const MoreModal = styled.div`
+  position: absolute;
+  right: 0;
+  top: 30px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: flex-end;
+`
+export const More = styled.div`
+  padding: 2px 3px;
+  border-radius: 5px;
+  &:hover {
+    cursor: pointer;
+    background-color: #d9d9d9;
+  }
+  &:active {
+    background-color: #bababa;
+  }
+`
+export const ModalTriangle = styled.div`
+  width: 15px;
+  height: 15px;
+  background-color: #d9d9d9;
+  border-radius: 2px;
+  transform: rotate(135deg);
+  z-index: 0;
+  margin: 0 6px 0 0;
+`
+
+export const ModalDiv = styled.div`
+  border-radius: 5px;
+  border: 2px solid #dadada;
+  background-color: #dadada;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: -10px 0 0 0;
+  z-index: 2;
+`
+
+export const ModalContent = styled.div`
+  padding: 5px;
+  cursor: pointer;
+  z-index: 2;
+  &:hover {
+    font-weight: 600;
+  }
+  &:active {
+    font-weight: 700;
+  }
+`
 export const Title = styled.div`
   margin-top: 2vh;
   font-size: 2rem;

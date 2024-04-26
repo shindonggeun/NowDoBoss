@@ -78,6 +78,8 @@ pipeline {
             steps {
                 dir('FrontEnd') {
                     withSonarQubeEnv('SonarQube Server') {
+                        sh 'npm run install'
+                        sh 'npm run build'
                         sh 'npm run sonarqube'
                     }
                 }

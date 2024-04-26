@@ -16,8 +16,9 @@ const LogoutContainer = () => {
       // 쿠키에서 accessToken 삭제
       removeCookie('accessToken')
 
-      // 로컬 스토리지에서 memberInfo 삭제
+      // 로컬 스토리지에서 memberInfo 및 로그인 여부 삭제
       localStorage.removeItem('memberInfo')
+      localStorage.removeItem('isLogIn')
 
       console.log('로그아웃성공! 메인페이지로 리다이렉트합니다.')
 

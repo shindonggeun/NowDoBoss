@@ -25,6 +25,8 @@ interface CommunityStoreType {
   categories: Category[]
   selectedCategory: Category
   setSelectedCategory: (category: Category) => void
+  modifyCommunityId: number
+  setModifyCommunityId: (id: number) => void
 }
 
 // 카테고리 데이터
@@ -79,6 +81,8 @@ const communityStore = create<CommunityStoreType>(set => ({
   categories: initialCategories,
   selectedCategory: initialSelectedCategory,
   setSelectedCategory: category => set({ selectedCategory: category }),
+  modifyCommunityId: 0,
+  setModifyCommunityId: id => set({ modifyCommunityId: id }),
 }))
 
 export default communityStore

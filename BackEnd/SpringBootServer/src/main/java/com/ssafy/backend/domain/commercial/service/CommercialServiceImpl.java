@@ -1,10 +1,7 @@
 package com.ssafy.backend.domain.commercial.service;
 
 import com.ssafy.backend.domain.commercial.dto.*;
-import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
-import com.ssafy.backend.domain.commercial.entity.FootTrafficCommercial;
-import com.ssafy.backend.domain.commercial.entity.PopulationCommercial;
-import com.ssafy.backend.domain.commercial.entity.SalesCommercial;
+import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +20,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final FootTrafficCommercialRepository footTrafficCommercialRepository;
     private final SalesCommercialRepository salesCommercialRepository;
     private final PopulationCommercialRepository populationCommercialRepository;
+    private final FacilityCommercial facilityCommercial;
 
     @Override
     @Transactional(readOnly = true)
@@ -158,6 +156,11 @@ public class CommercialServiceImpl implements CommercialService {
         Double femalePercentage = Math.round((double) populationCommercial.getFemalePopulation() / populationCommercial.getTotalPopulation() * 1000) / 10.0;
 
         return new CommercialPopulationResponse(population, malePercentage, femalePercentage);
+    }
+
+    @Override
+    public CommercialFacilityResponse getFacilityByPeriodAndCommercialCode(String periodCode, String commercialCode) {
+        return null;
     }
 
 

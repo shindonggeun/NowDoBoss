@@ -7,7 +7,8 @@ public record SimulationResponse(
         // 전체 비용
         Long totalPrice,
 
-        // 권리금 발생 비율, 권리금 수준 평균, 권리금 m² 평균
+        // 권리금 관련 데이터
+        KeyMoneyInfo keyMoneyInfo,
 
         // 상세 내용
         DetailInfo detail,

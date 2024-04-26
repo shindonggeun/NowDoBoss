@@ -97,6 +97,12 @@ public class SimulationServiceImpl implements SimulationService {
             totalLevy = null;
         }
 
+        KeyMoneyInfo keyMoneyInfo = KeyMoneyInfo.builder()
+                .keyMoneyRatio(serviceType.getKeyMoneyRatio())
+                .keyMoney(serviceType.getKeyMoney())
+                .keyMoneyLevel(serviceType.getKeyMoneyLevel())
+                .build();
+
         //////////////////////////////////////////////////////////// 분석
 
         // 성별, 연령대 분석
@@ -129,6 +135,7 @@ public class SimulationServiceImpl implements SimulationService {
 
         return SimulationResponse.builder()
                 .totalPrice(totalPrice)
+                .keyMoneyInfo(keyMoneyInfo)
                 .detail(DetailInfo.builder()
                         .rentPrice(rentPrice)
                         .deposit(deposit)

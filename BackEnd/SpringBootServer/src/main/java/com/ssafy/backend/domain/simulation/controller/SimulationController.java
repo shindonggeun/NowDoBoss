@@ -26,7 +26,7 @@ public class SimulationController {
     }
 
     @PostMapping
-    public ResponseEntity simulation(@RequestBody CreateSimulationRequest request) {
+    public ResponseEntity<Message<SimulationResponse>> simulation(@RequestBody CreateSimulationRequest request) {
         return ResponseEntity.ok().body(Message.success(simulationService.simulate(request)));
     }
 }

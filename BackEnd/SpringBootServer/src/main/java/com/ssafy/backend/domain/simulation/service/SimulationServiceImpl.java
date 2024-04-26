@@ -21,6 +21,9 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class SimulationServiceImpl implements SimulationService {
+    private static final double SQUARE_METER_CONVERSION = 3.3;
+    private static final int THOUSAND_MULTIPLIER = 1000;
+
     private final FranchiseeRepository franchiseeRepository;
     private final ServiceRepository serviceRepository;
     private final RentRepository rentRepository;
@@ -43,29 +46,76 @@ public class SimulationServiceImpl implements SimulationService {
                 .build();
     }
 
+
+    private Long calculateFranchisee(Long totalPrice, String brandName) {
+        Franchisee franchisee = franchiseeRepository.findByBrandName(brandName)
+                .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_BRAND));
+
+        // 가맹 사업자 부담금
+        Long levy = franchisee.getLevy();
+
+        // 인테리어 비용
+        Long interior = franchisee.getTotalInterior();
+
+        System.out.println("=========================== 가맹 사업자 부담금 : " + levy);
+        System.out.println("=========================== 인테리어 비용 : " + interior);
+
+//        totalPrice += (levy + interior);
+
+        return totalPrice + levy + interior;
+    }
+
+    private long calculateTotalRentalCosts(Rent rent, int storeSize, String floor) {
+        // 임대료
+        int rentPrice = rent.calculateRent(storeSize, floor);
+        
+        // 보증금
+        int deposit = rent.calculateDeposit(rentPrice);
+
+        System.out.println("=========================== 임대료 : " + rentPrice);
+        System.out.println("=========================== 보증금 : " + deposit);
+
+        return rentPrice + deposit;
+    }
+
+    private long calculateFranchiseeCosts(String brandName) {
+        Franchisee franchisee = franchiseeRepository.findByBrandName(brandName)
+                .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_BRAND));
+
+        long totalLevy = franchisee.getLevy();
+        long totalInterior = franchisee.getTotalInterior();
+
+        System.out.println("=========================== 가맹 사업자 부담금 : " + totalLevy);
+        System.out.println("=========================== 인테리어 비용 : " + totalInterior);
+
+        return totalLevy + totalInterior;
+    }
+
+    private long calculateNonFranchiseeInteriorCost(String serviceCode, int storeSize) {
+        double unitArea = franchiseeRepository.findAvgByService(serviceCode);
+
+        System.out.println("=========================== 단위면적당 인테리어비용 평균값 : " + unitArea);
+
+        long interiorCost = (long) (storeSize / SQUARE_METER_CONVERSION * unitArea * THOUSAND_MULTIPLIER);
+
+        System.out.println("=========================== 인테리어 비용 : " + interiorCost);
+
+        return interiorCost;
+    }
+
     @Override
     public SimulationResponse simulate(CreateSimulationRequest request) {
         //////////////////////////////////////////////////////////// 전체 비용 계산
-        // 임대료, 보증금 계산 >> ServiceType, Rent 이용
         ServiceType serviceType = serviceRepository.findByServiceCode(request.serviceCode())
                 .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_SERVICE));
 
         Rent rent = rentRepository.findByDistrictCodeName(request.location().gugun())
                 .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_SERVICE));
 
-        Long totalPrice = 0L;
+        long totalPrice = calculateTotalRentalCosts(rent, request.storeSize(), request.floor());
 
-        // 임대료
         int rentPrice = rent.calculateRent(request.storeSize(), request.floor());
-        
-        // 보증금
-        int deposit = calculateDeposit(rentPrice);
-
-        System.out.println("=========================== 임대료 : " + rentPrice);
-        System.out.println("=========================== 보증금 : " + deposit);
-
-        totalPrice += rentPrice;
-        totalPrice += deposit;
+        int deposit = rent.calculateDeposit(rentPrice);
 
         Long totalLevy = 0L;
         Long totalInterior = 0L;
@@ -75,24 +125,13 @@ public class SimulationServiceImpl implements SimulationService {
             Franchisee franchisee = franchiseeRepository.findByBrandName(request.brandName())
                     .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_BRAND));
 
-            // 가맹 사업자 부담금
             totalLevy = franchisee.getLevy();
-
-            // 인테리어 비용
             totalInterior = franchisee.getTotalInterior();
-
-            System.out.println("=========================== 가맹 사업자 부담금 : " + totalLevy);
-            System.out.println("=========================== 인테리어 비용 : " + totalInterior);
-
             totalPrice += (totalLevy + totalInterior);
-
         } else {    // 프랜차이즈X
             // 인테리어 비용
             // avg(해당 업종의 프랜차이즈 단위면적 인테리어 비용) * (입력한 면적 / 3.3)
-            Double unitArea = franchiseeRepository.findAvgByService(request.serviceCode());
-            System.out.println("=========================== 단위면적당 인테리어비용 중앙값 : " + unitArea);
-            totalInterior = (long) (request.storeSize() / 3.3 * unitArea * 1000L);
-            System.out.println("=========================== 인테리어 비용 : " + totalInterior);
+            totalInterior = calculateNonFranchiseeInteriorCost(request.serviceCode(), request.storeSize());
             totalPrice += totalInterior;
             totalLevy = null;
         }
@@ -103,53 +142,61 @@ public class SimulationServiceImpl implements SimulationService {
                 .keyMoneyLevel(serviceType.getKeyMoneyLevel())
                 .build();
 
+        DetailInfo detailInfo = DetailInfo.builder()
+                .rentPrice(rentPrice)
+                .deposit(deposit)
+                .interior(totalInterior)
+                .levy(totalLevy)
+                .build();
+
         //////////////////////////////////////////////////////////// 분석
 
         // 성별, 연령대 분석
-        SalesDistrict salesDistrict = salesDistrictRepository.findSalesDistrictByOption("20233", request.location().gugun(), request.serviceCode())
-                .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_SALES));
-
-        GenderAndAgeAnalysisInfo analysisInfo = GenderAndAgeAnalysisInfo.create(salesDistrict);
+        GenderAndAgeAnalysisInfo analysisInfo = analyzeGenderAndAge(request.location().gugun(), request.serviceCode());
 
         // 성수기, 비성수기 분석
-        List<QuarterSalesInfo> quarterSales = salesDistrictRepository.findMonthSalesByOption("2022", request.location().gugun(), request.serviceCode());
-
-        int size = quarterSales.size();
-
-        // 비성수기
-        String offSeasonPeriodCode = quarterSales.get(0).periodCode();
-        int offPeakQuarter = offSeasonPeriodCode.charAt(offSeasonPeriodCode.length() - 1) - '0';
-
-        System.out.println("============== 비성수기 : " + offPeakQuarter);
-
-        // 성수기
-        String seasonPeriodCode = quarterSales.get(size - 1).periodCode();
-        int peakQuarter = seasonPeriodCode.charAt(seasonPeriodCode.length() - 1) - '0';
-
-        System.out.println("============== 성수기 : " + peakQuarter);
-        MonthAnalysisInfo monthAnalysisInfo = MonthAnalysisInfo.builder()
-                .peak(peakQuarter)
-                .offPeak(offPeakQuarter)
-                .build();
+        MonthAnalysisInfo monthAnalysisInfo = analyzePeakAndOffPeak(request.location().gugun(), request.serviceCode());
 
 
         return SimulationResponse.builder()
                 .totalPrice(totalPrice)
                 .keyMoneyInfo(keyMoneyInfo)
-                .detail(DetailInfo.builder()
-                        .rentPrice(rentPrice)
-                        .deposit(deposit)
-                        .interior(totalInterior)
-                        .levy(totalLevy)
-                        .build()
-                )
+                .detail(detailInfo)
                 .genderAndAgeAnalysisInfo(analysisInfo)
                 .monthAnalysisInfo(monthAnalysisInfo)
                 .build();
     }
 
-    private int calculateDeposit(int rentPrice) {
-        return rentPrice * 10;
+    private MonthAnalysisInfo analyzePeakAndOffPeak(String district, String serviceCode) {
+        List<QuarterSalesInfo> quarterSales = salesDistrictRepository.findMonthSalesByOption("2022", district, serviceCode);
+
+        int size = quarterSales.size();
+
+        // 비성수기
+        int offPeakQuarter = getQuarter(quarterSales, 0);
+        System.out.println("============== 비성수기 : " + offPeakQuarter);
+
+        // 성수기
+        int peakQuarter = getQuarter(quarterSales, size - 1);
+        System.out.println("============== 성수기 : " + peakQuarter);
+
+        return MonthAnalysisInfo.builder()
+                .peak(peakQuarter)
+                .offPeak(offPeakQuarter)
+                .build();
+    }
+
+    private static int getQuarter(List<QuarterSalesInfo> quarterSales, int index) {
+        String seasonPeriodCode = quarterSales.get(index).periodCode();
+        return seasonPeriodCode.charAt(seasonPeriodCode.length() - 1) - '0';
+    }
+
+
+    private GenderAndAgeAnalysisInfo analyzeGenderAndAge(String district, String serviceCode) {
+        SalesDistrict salesDistrict = salesDistrictRepository.findSalesDistrictByOption("20233", district, serviceCode)
+                .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_SALES));
+
+        return GenderAndAgeAnalysisInfo.create(salesDistrict);
     }
 
 }

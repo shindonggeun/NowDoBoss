@@ -43,4 +43,7 @@ public class Rent {
         return (int) (area / 3.3 * otherFloor);
     }
 
+    public int calculateDeposit(int rentPrice) {
+        return rentPrice * 10;
+    }
 }

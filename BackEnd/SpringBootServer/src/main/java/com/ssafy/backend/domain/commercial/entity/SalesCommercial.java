@@ -10,11 +10,13 @@ import org.hibernate.annotations.Comment;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = {
-        @Index(name = "idx_period_code", columnList = "periodCode")
+        @Index(name = "idx_period_code", columnList = "periodCode"),
+        @Index(name = "idx_commercial_code", columnList = "commercialCode"),
+        @Index(name = "idx_service_code", columnList = "serviceCode")
 })
 public class SalesCommercial {
     @Id
-    @Comment("추정매출_상권_아이디")
+    @Comment("추정매출_상권 아이디")
     @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

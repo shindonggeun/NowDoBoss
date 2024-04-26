@@ -3,13 +3,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Header from '@src/common/Header'
 import MainPage from '@src/pages/MainPage'
 import SignUpPage from '@src/pages/SignUpPage'
+import LoginPage from '@src/pages/LoginPage'
+import SocialLoadingPage from '@src/pages/SocialLoadingPage'
 import CommunityPage from '@src/pages/CommunityPage'
 import CommunityRegisterPage from '@src/pages/CommunityRegisterPage'
 import CommunityEditPage from '@src/pages/CommunityEditPage'
 import CommunityDetailPage from '@src/pages/CommunityDetailPage'
-import LoginPage from '@src/pages/LoginPage'
 import StatusPage from '@src/pages/StatusPage'
-import SocialLoadingPage from '@src/pages/SocialLoadingPage'
+import AnalysisPage from '@src/pages/AnalysisPage'
 
 function App() {
   return (
@@ -19,7 +20,11 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/register" element={<SignUpPage />} />
-          <Route path="/status" element={<StatusPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/member/loading/:provider"
+            element={<SocialLoadingPage />}
+          />
           <Route path="/community" element={<CommunityPage />} />
           <Route
             path="/community/register"
@@ -30,11 +35,8 @@ function App() {
             path="/community/:communityId"
             element={<CommunityDetailPage />}
           />
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/member/loading/:provider"
-            element={<SocialLoadingPage />}
-          />
+          <Route path="/status" element={<StatusPage />} />
+          <Route path="/analysis" element={<AnalysisPage />} />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

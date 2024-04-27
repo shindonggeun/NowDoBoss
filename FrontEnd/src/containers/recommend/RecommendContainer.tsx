@@ -54,7 +54,7 @@ const RecommendContainer = () => {
           $isSubmit={isSubmit}
           onAnimationEnd={handleAnimationEnd} // 애니메이션 종료 이벤트 핸들러 추가
         >
-          <RecommendReport />
+          <RecommendReport setIsSubmit={setIsSubmit} />
         </r.Report>
       )}
     </r.Container>

@@ -7,10 +7,10 @@ import LoginPage from '@src/pages/LoginPage'
 import SocialLoadingPage from '@src/pages/SocialLoadingPage'
 import CommunityPage from '@src/pages/CommunityPage'
 import CommunityRegisterPage from '@src/pages/CommunityRegisterPage'
-import CommunityEditPage from '@src/pages/CommunityEditPage'
 import CommunityDetailPage from '@src/pages/CommunityDetailPage'
 import StatusPage from '@src/pages/StatusPage'
 import AnalysisPage from '@src/pages/AnalysisPage'
+import RecommendPage from '@src/pages/RecommendPage'
 
 function App() {
   return (
@@ -30,13 +30,13 @@ function App() {
             path="/community/register"
             element={<CommunityRegisterPage />}
           />
-          <Route path="/community/edit" element={<CommunityEditPage />} />
           <Route
             path="/community/:communityId"
             element={<CommunityDetailPage />}
           />
           <Route path="/status" element={<StatusPage />} />
           <Route path="/analysis" element={<AnalysisPage />} />
+          <Route path="/recommend" element={<RecommendPage />} />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Hr = styled.hr`
   border-top: 10px solid #efefef;
-  width: 80%;
+  width: 99%;
 `
 
 const Divider = () => {

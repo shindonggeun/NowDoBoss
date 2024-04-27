@@ -5,7 +5,7 @@ import LogoImg from '@src/assets/logo.svg'
 import styled from 'styled-components'
 
 const Container = styled.header`
-  height: 61px;
+  height: 75px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,7 +41,7 @@ const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
   }
 `
 const Menu = styled.div<{ $isActive?: boolean }>`
-  height: 57px;
+  height: 70px;
   padding: 0 10px;
   font-size: 16px;
   display: flex;

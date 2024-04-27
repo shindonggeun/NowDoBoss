@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 500px;
-  height: 91vh;
+  height: auto;
   border: 2px solid #d9d9d9;
   background-color: white;
   border-top-right-radius: 15px;
@@ -60,7 +60,7 @@ export const ComparisonBox = styled.div`
   margin: 5px 0;
   font-size: 0.8rem;
   font-weight: 600;
-  width: 21vw;
+  width: 125px;
 `
 export const ComparisonData = styled.div`
   display: flex;
@@ -86,7 +86,7 @@ export const BlueOcean = styled.div`
 export const SubContent = styled.div`
   font-weight: 500;
   font-size: 0.8rem;
-  margin-right: 10vw;
+  margin-right: 20px;
 `
 
 export const Chart = styled.div`

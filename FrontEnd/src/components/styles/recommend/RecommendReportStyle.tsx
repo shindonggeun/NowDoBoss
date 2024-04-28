@@ -46,12 +46,12 @@ export const Tab = styled.div<{ $selectedTab: boolean }>`
   font-weight: 600;
   display: flex;
   justify-content: center;
-  border-bottom: 2px solid
-    ${props => (props.$selectedTab ? '#236cff' : '#999999')};
+  border-bottom: 4px solid
+    ${props => (props.$selectedTab ? '#236cff' : '#d9d9d9')};
   color: ${props => (props.$selectedTab ? '#236cff' : '#999999')};
 
   &:hover {
-    border-bottom: 2px solid #236cff;
+    border-bottom: 4px solid #236cff;
     color: #236cff;
     cursor: pointer;
   }
@@ -102,7 +102,7 @@ export const SubContent = styled.div`
 
 export const Chart = styled.div`
   width: auto;
-  height: 15vh;
-  background-color: #d9d9d9;
+  height: auto;
+
   margin: 20px;
 `

@@ -18,7 +18,7 @@ const StatusPolygonComponent = ({
   onClickRegionHandler,
   onClickRegionCodeHandler,
 }: StatusPolygonProps) => {
-  console.log(`선택된 탭 index : ${tab}`)
+  // console.log(`선택된 탭 index : ${tab}`)
 
   // 폴리곤 그리기
   const mapData = seoul.features // 서울시 행정구역 json data
@@ -40,7 +40,7 @@ const StatusPolygonComponent = ({
   const mapColor = [
     ['#E7E0F9', '#D3C0F7', '#A78DED', '#8C63E5', '#5E28C9'], // 유동인구
     ['#D8EEFF', '#A4D7FC', '#60AEEE', '#0095E5', '#007ECE'], // 매출평균
-    ['#FDEAEC', '#FFCCD1', '#F3A6AF', '#E97F8D', '#CC4E5D'], // 입점률
+    ['#FDEAEC', '#FFCCD1', '#F3A6AF', '#E97F8D', '#CC4E5D'], // 개업률
     ['#C3FFEA', '#92ECCD', '#5DD0A7', '#00BF7A', '#009E65'], // 폐점률
     ['#F3FFDA', '#FAF0C3', '#F8DB6D', '#FFDE3C', '#E8C500'],
     ['#D6FFFD', '#BBFBF7', '#68E1D9', '#10C1CC', '#009FA9'],

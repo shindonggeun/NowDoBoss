@@ -6,20 +6,42 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 3rem;
+  height: 8vh;
   color: white;
   text-align: center;
   font-weight: 600;
   font-size: 1.2rem;
 `
 
-export const Item = styled.div`
+export const TopListContainer = styled.div`
+  margin: 3vh 5vw 1vh 5vw;
+`
+
+interface ItemProps {
+  isLast: boolean
+}
+
+export const Item = styled.div<ItemProps>`
   display: flex;
-  //justify-content: space-evenly;
+  flex-direction: row;
   text-align: center;
-  border-bottom: 1px solid lightgray;
-  font-size: 14px;
-  margin: 0.7rem 20%;
+  margin: 1vh 0;
+  padding-bottom: 5px;
+  border-bottom: ${props => (props.isLast ? 'none' : '1px solid #ABC4E9')};
+  font-size: 0.9rem;
+`
+
+export const ItemLeft = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+`
+
+export const ItemRight = styled.div`
+  flex: 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 `
 
 export const NarrowIcon = styled.img`
@@ -28,18 +50,36 @@ export const NarrowIcon = styled.img`
   cursor: 'pointer';
 `
 
+export const Rank = styled.div`
+  flex: 3;
+`
+
 export const Name = styled.div`
-  flex: 1;
-  font-weight: 500;
+  flex: 5;
+  font-weight: 600;
   text-align: left;
 `
 
 export const Traffic = styled.div`
-  flex: 1;
   text-align: right;
 `
 
-export const Percent = styled.div`
-  flex: 1;
-  text-align: right;
+interface RateType {
+  isUp: boolean
+}
+
+export const Percent = styled.div<RateType>`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 6vw;
+  color: ${props => (props.isUp ? '#FF0000' : '#0066FF')};
+`
+
+export const UpIcon = styled.img`
+  width: 1rem;
+`
+
+export const DownIcon = styled.img`
+  width: 1rem;
 `

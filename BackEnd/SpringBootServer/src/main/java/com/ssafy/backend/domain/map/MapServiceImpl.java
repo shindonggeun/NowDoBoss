@@ -13,10 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Slf4j
@@ -35,35 +32,42 @@ public class MapServiceImpl implements MapService{
         for (int i = 0; i < dataArray.size(); i++) {
             JSONObject commercial = (JSONObject) dataArray.get(i);
             JSONArray areaCoords = (JSONArray) commercial.get("area_coords");
-            List<List<Double>> list = new ArrayList<>();
+            List<List<Double>> coords = new ArrayList<>();
 
+            // 좌표를 List에 추가
             for (Object coordObject : areaCoords) {
                 JSONArray coordArray = (JSONArray) coordObject;
                 double x = ((Number) coordArray.get(0)).doubleValue();
                 double y = ((Number) coordArray.get(1)).doubleValue();
-
-                if ((x >= ax && x <= bx) && (y >= ay && y <= by)) {
-                    List<Double> coordList = new ArrayList<>();
-                    coordList.add(x);
-                    coordList.add(y);
-                    list.add(coordList);
-                }
+                coords.add(Arrays.asList(x, y));
             }
 
-            if (!list.isEmpty()) {
+            // 경도 기준으로 정렬
+            Collections.sort(coords, Comparator.comparingDouble(a -> a.get(0)));
+            // 이진 탐색으로 경도 범위 내 좌표 필터링
+            int lowIndex = Collections.binarySearch(coords, Arrays.asList(ax, Double.MIN_VALUE), Comparator.comparingDouble(a -> a.get(0)));
+            int highIndex = Collections.binarySearch(coords, Arrays.asList(bx, Double.MAX_VALUE), Comparator.comparingDouble(a -> a.get(0)));
+            lowIndex = lowIndex < 0 ? -lowIndex - 1 : lowIndex;
+            highIndex = highIndex < 0 ? -highIndex - 1 : highIndex;
+
+            List<List<Double>> filteredCoords = new ArrayList<>();
+            // 위도 기준으로 다시 정렬
+            List<List<Double>> longitudeFiltered = coords.subList(lowIndex, highIndex);
+            Collections.sort(longitudeFiltered, Comparator.comparingDouble(a -> a.get(1)));
+
+            // 이진 탐색으로 위도 범위 내 좌표 필터링
+            int lowYIndex = Collections.binarySearch(longitudeFiltered, Arrays.asList(Double.MIN_VALUE, ay), Comparator.comparingDouble(a -> a.get(1)));
+            int highYIndex = Collections.binarySearch(longitudeFiltered, Arrays.asList(Double.MAX_VALUE, by), Comparator.comparingDouble(a -> a.get(1)));
+            lowYIndex = lowYIndex < 0 ? -lowYIndex - 1 : lowYIndex;
+            highYIndex = highYIndex < 0 ? -highYIndex - 1 : highYIndex;
+
+            filteredCoords.addAll(longitudeFiltered.subList(lowYIndex, highYIndex));
+
+            if (!filteredCoords.isEmpty()) {
                 String commercialCode = (String) commercial.get("commercial_code");
-                res.put(commercialCode, list);
+                res.put(commercialCode, filteredCoords);
             }
         }
-
-//        for (Map.Entry<String, List<List<Double>>> entry : res.entrySet()) {
-//            System.out.println("Commercial Code: " + entry.getKey());
-//            System.out.println("Coordinates:");
-//            for (List<Double> coords : entry.getValue()) {
-//                System.out.println("  - [" + coords.get(0) + ", " + coords.get(1) + "]");
-//            }
-//            System.out.println();
-//        }
         return res;
     }
 
@@ -75,29 +79,44 @@ public class MapServiceImpl implements MapService{
 
         Map<String, List<List<Double>>> res = new LinkedHashMap<>();
         for (int i = 0; i < dataArray.size(); i++) {
-            JSONObject commercial = (JSONObject) dataArray.get(i);
-            JSONArray areaCoords = (JSONArray) commercial.get("area_coords");
-            List<List<Double>> list = new ArrayList<>();
+            JSONObject administration = (JSONObject) dataArray.get(i);
+            JSONArray areaCoords = (JSONArray) administration.get("area_coords");
+            List<List<Double>> coords = new ArrayList<>();
 
+            // 좌표를 List에 추가
             for (Object coordObject : areaCoords) {
                 JSONArray coordArray = (JSONArray) coordObject;
                 double x = ((Number) coordArray.get(0)).doubleValue();
                 double y = ((Number) coordArray.get(1)).doubleValue();
-
-                if ((x >= ax && x <= bx) && (y >= ay && y <= by)) {
-                    List<Double> coordList = new ArrayList<>();
-                    coordList.add(x);
-                    coordList.add(y);
-                    list.add(coordList);
-                }
+                coords.add(Arrays.asList(x, y));
             }
 
-            if (!list.isEmpty()) {
-                String commercialCode = (String) commercial.get("administration_code");
-                res.put(commercialCode, list);
+            // 경도 기준으로 정렬
+            Collections.sort(coords, Comparator.comparingDouble(a -> a.get(0)));
+            // 이진 탐색으로 경도 범위 내 좌표 필터링
+            int lowIndex = Collections.binarySearch(coords, Arrays.asList(ax, Double.MIN_VALUE), Comparator.comparingDouble(a -> a.get(0)));
+            int highIndex = Collections.binarySearch(coords, Arrays.asList(bx, Double.MAX_VALUE), Comparator.comparingDouble(a -> a.get(0)));
+            lowIndex = lowIndex < 0 ? -lowIndex - 1 : lowIndex;
+            highIndex = highIndex < 0 ? -highIndex - 1 : highIndex;
+
+            List<List<Double>> filteredCoords = new ArrayList<>();
+            // 위도 기준으로 다시 정렬
+            List<List<Double>> longitudeFiltered = coords.subList(lowIndex, highIndex);
+            Collections.sort(longitudeFiltered, Comparator.comparingDouble(a -> a.get(1)));
+
+            // 이진 탐색으로 위도 범위 내 좌표 필터링
+            int lowYIndex = Collections.binarySearch(longitudeFiltered, Arrays.asList(Double.MIN_VALUE, ay), Comparator.comparingDouble(a -> a.get(1)));
+            int highYIndex = Collections.binarySearch(longitudeFiltered, Arrays.asList(Double.MAX_VALUE, by), Comparator.comparingDouble(a -> a.get(1)));
+            lowYIndex = lowYIndex < 0 ? -lowYIndex - 1 : lowYIndex;
+            highYIndex = highYIndex < 0 ? -highYIndex - 1 : highYIndex;
+
+            filteredCoords.addAll(longitudeFiltered.subList(lowYIndex, highYIndex));
+
+            if (!filteredCoords.isEmpty()) {
+                String administrationCode = (String) administration.get("administration_code");
+                res.put(administrationCode, filteredCoords);
             }
         }
-
         return res;
     }
 
@@ -109,29 +128,44 @@ public class MapServiceImpl implements MapService{
 
         Map<String, List<List<Double>>> res = new LinkedHashMap<>();
         for (int i = 0; i < dataArray.size(); i++) {
-            JSONObject commercial = (JSONObject) dataArray.get(i);
-            JSONArray areaCoords = (JSONArray) commercial.get("area_coords");
-            List<List<Double>> list = new ArrayList<>();
+            JSONObject district = (JSONObject) dataArray.get(i);
+            JSONArray areaCoords = (JSONArray) district.get("area_coords");
+            List<List<Double>> coords = new ArrayList<>();
 
+            // 좌표를 List에 추가
             for (Object coordObject : areaCoords) {
                 JSONArray coordArray = (JSONArray) coordObject;
                 double x = ((Number) coordArray.get(0)).doubleValue();
                 double y = ((Number) coordArray.get(1)).doubleValue();
-
-                if ((x >= ax && x <= bx) && (y >= ay && y <= by)) {
-                    List<Double> coordList = new ArrayList<>();
-                    coordList.add(x);
-                    coordList.add(y);
-                    list.add(coordList);
-                }
+                coords.add(Arrays.asList(x, y));
             }
 
-            if (!list.isEmpty()) {
-                String commercialCode = (String) commercial.get("district_code");
-                res.put(commercialCode, list);
+            // 경도 기준으로 정렬
+            Collections.sort(coords, Comparator.comparingDouble(a -> a.get(0)));
+            // 이진 탐색으로 경도 범위 내 좌표 필터링
+            int lowIndex = Collections.binarySearch(coords, Arrays.asList(ax, Double.MIN_VALUE), Comparator.comparingDouble(a -> a.get(0)));
+            int highIndex = Collections.binarySearch(coords, Arrays.asList(bx, Double.MAX_VALUE), Comparator.comparingDouble(a -> a.get(0)));
+            lowIndex = lowIndex < 0 ? -lowIndex - 1 : lowIndex;
+            highIndex = highIndex < 0 ? -highIndex - 1 : highIndex;
+
+            List<List<Double>> filteredCoords = new ArrayList<>();
+            // 위도 기준으로 다시 정렬
+            List<List<Double>> longitudeFiltered = coords.subList(lowIndex, highIndex);
+            Collections.sort(longitudeFiltered, Comparator.comparingDouble(a -> a.get(1)));
+
+            // 이진 탐색으로 위도 범위 내 좌표 필터링
+            int lowYIndex = Collections.binarySearch(longitudeFiltered, Arrays.asList(Double.MIN_VALUE, ay), Comparator.comparingDouble(a -> a.get(1)));
+            int highYIndex = Collections.binarySearch(longitudeFiltered, Arrays.asList(Double.MAX_VALUE, by), Comparator.comparingDouble(a -> a.get(1)));
+            lowYIndex = lowYIndex < 0 ? -lowYIndex - 1 : lowYIndex;
+            highYIndex = highYIndex < 0 ? -highYIndex - 1 : highYIndex;
+
+            filteredCoords.addAll(longitudeFiltered.subList(lowYIndex, highYIndex));
+
+            if (!filteredCoords.isEmpty()) {
+                String districtCode = (String) district.get("district_code");
+                res.put(districtCode, filteredCoords);
             }
         }
-
         return res;
     }
 }

@@ -9,7 +9,7 @@ const KakaoMap = () => {
     <div>
       <Map
         center={{ lat: 35.204342820549066, lng: 126.80835860434433 }}
-        style={{ width: '100%', height: '91.5vh' }}
+        style={{ width: '100%', height: 'calc(100vh - 75px) ' }}
       >
         <Polygon
           path={[

@@ -31,7 +31,7 @@ public class MapController {
     )
     @GetMapping("/commercial/{ax}/{ay}/{bx}/{by}")
     public ResponseEntity<Message<Map<String, List<List<Double>>>>> getCommercialAreaCoords (
-            @PathVariable Double ax, @PathVariable Double ay, @PathVariable Double bx, @PathVariable Double by) throws IOException, ParseException {
+            @PathVariable Double ax, @PathVariable Double ay, @PathVariable Double bx, @PathVariable Double by) throws Exception {
         return ResponseEntity.ok().body(Message.success(mapservice.getCommercialAreaCoords(ax, ay, bx, by)));
     }
 
@@ -41,7 +41,7 @@ public class MapController {
     )
     @GetMapping("/administration/{ax}/{ay}/{bx}/{by}")
     public ResponseEntity<Message<?>> getAdministrationAreaCoords (
-            @PathVariable Double ax, @PathVariable Double ay, @PathVariable Double bx, @PathVariable Double by) throws IOException, ParseException {
+            @PathVariable Double ax, @PathVariable Double ay, @PathVariable Double bx, @PathVariable Double by) throws Exception {
         return ResponseEntity.ok().body(Message.success(mapservice.getAdministrationAreaCoords(ax, ay, bx, by)));
     }
 
@@ -51,7 +51,7 @@ public class MapController {
     )
     @GetMapping("/district/{ax}/{ay}/{bx}/{by}")
     public ResponseEntity<Message<?>> getDistrictAreaCoords (
-            @PathVariable Double ax, @PathVariable Double ay, @PathVariable Double bx, @PathVariable Double by) throws IOException, ParseException {
+            @PathVariable Double ax, @PathVariable Double ay, @PathVariable Double bx, @PathVariable Double by) throws Exception {
         return ResponseEntity.ok().body(Message.success(mapservice.getDistrictAreaCoords(ax, ay, bx, by)));
     }
 }

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { NavigateType } from '@src/types/GlobalType'
 // import LogoImg from '@src/assets/logo.svg'
-import BlueLogoImg from '@src/assets/logo_blue.svg'
+import SlimLogoImg from '@src/assets/logo_slim.svg'
+// import BlueLogoImg from '@src/assets/logo_blue.svg'
 import styled from 'styled-components'
+import HeaderDropdown from '@src/common/HeaderDropdown'
 
 const Container = styled.header`
   height: 75px;
@@ -22,7 +24,6 @@ const Container = styled.header`
 
 const MenuListLeft = styled.div<{ isMenuOpen?: boolean }>`
   display: flex;
-  margin: 0 0.5rem;
 
   @media (max-width: 992px) {
     flex-direction: column;
@@ -31,7 +32,7 @@ const MenuListLeft = styled.div<{ isMenuOpen?: boolean }>`
 `
 
 const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
-  width: 420px;
+  width: auto;
   display: flex;
   justify-content: right;
   margin: 0 0.5rem;
@@ -43,7 +44,7 @@ const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
 `
 const Menu = styled.div<{ $isActive?: boolean }>`
   height: 70px;
-  padding: 0 10px;
+  padding: 0 20px;
   font-size: 16px;
   display: flex;
   align-items: center;
@@ -65,18 +66,16 @@ const Menu = styled.div<{ $isActive?: boolean }>`
 const LogoDiv = styled.div``
 
 const Logo = styled.img`
-  width: 110px;
-  height: 55px;
+  scale: 0.7;
   margin: 7px 0 0 0;
   cursor: pointer;
-  @media (max-width: 1200px) {
-    scale: 0.9;
-  }
 `
 
 const HamburgerMenu = styled.div`
   font-size: 60px;
   display: none;
+  position: absolute;
+  right: 0;
 
   @media (max-width: 992px) {
     display: block; // 화면 너비가 1200px 이하일 경우 햄버거 메뉴 표시
@@ -85,62 +84,113 @@ const HamburgerMenu = styled.div`
     margin-right: 2vw;
   }
 `
+const DropdownMenu = styled.div`
+  position: relative;
+  top: 0;
+  right: 0;
+
+  margin-top: 176px;
+  border-radius: 5px;
+  width: 200px;
+  height: 100px;
+`
+
+const BlankDiv = styled.div`
+  flex-grow: 1;
+`
 
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const navigate = useNavigate()
   const location = useLocation()
+  const [isMenuOpen, setMenuOpen] = useState<boolean>(false)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const LocationData = [
+    {
+      name: '상권현황',
+      location: '/status',
+    },
+    {
+      name: '상권분석',
+      location: '/analysis',
+    },
+    {
+      name: '상권추천',
+      location: '/recommend',
+    },
+    {
+      name: '창업시뮬레이션',
+      location: '/simulation',
+    },
+    {
+      name: '커뮤니티',
+      location: '/community',
+    },
+    {
+      name: '마이페이지',
+      location: '/mypage',
+    },
+    {
+      name: '로그인',
+      location: '/login',
+    },
+    {
+      name: '회원가입',
+      location: '/register',
+    },
+  ]
 
   useEffect(() => {
     // 경로에 따라 activeMenu 설정
     switch (location.pathname) {
-      case '/status':
-        setActiveMenu('상권현황')
+      case LocationData[0].location:
+        setActiveMenu(LocationData[0].name)
         break
-      case '/analysis':
-        setActiveMenu('상권분석')
+      case LocationData[1].location:
+        setActiveMenu(LocationData[1].name)
         break
-      case '/recommend':
-        setActiveMenu('상권추천')
+      case LocationData[2].location:
+        setActiveMenu(LocationData[2].name)
         break
-      case '/simulation':
-        setActiveMenu('창업시뮬레이션')
+      case LocationData[3].location:
+        setActiveMenu(LocationData[3].name)
         break
-      case '/community':
-        setActiveMenu('커뮤니티')
+      case LocationData[4].location:
+        setActiveMenu(LocationData[4].name)
         break
-      case '/mypage':
-        setActiveMenu('마이페이지')
+      case LocationData[5].location:
+        setActiveMenu(LocationData[5].name)
         break
-      case '/login':
-        setActiveMenu('로그인')
+      case LocationData[6].location:
+        setActiveMenu(LocationData[6].name)
         break
-      case '/register':
-        setActiveMenu('회원가입')
+      case LocationData[7].location:
+        setActiveMenu(LocationData[7].name)
         break
       default:
         setActiveMenu(null)
     }
-  }, [location.pathname])
+  }, [LocationData, location.pathname])
 
   const handleMenuClick = (menuName: string) => {
     setActiveMenu(menuName)
-    if (menuName === '상권현황') {
-      navigate('/status')
-    } else if (menuName === '상권분석') {
-      navigate('/')
-    } else if (menuName === '상권추천') {
-      navigate('/recommend')
-    } else if (menuName === '창업시뮬레이션') {
-      navigate('/')
-    } else if (menuName === '커뮤니티') {
-      navigate('/community')
-    } else if (menuName === '마이페이지') {
-      navigate('/mypage')
-    } else if (menuName === '로그인') {
-      navigate('/login')
-    } else if (menuName === '회원가입') {
-      navigate('/register')
+    if (menuName === LocationData[0].name) {
+      navigate(LocationData[0].location)
+    } else if (menuName === LocationData[1].name) {
+      navigate(LocationData[1].location)
+    } else if (menuName === LocationData[2].name) {
+      navigate(LocationData[2].location)
+    } else if (menuName === LocationData[3].name) {
+      navigate(LocationData[3].location)
+    } else if (menuName === LocationData[4].name) {
+      navigate(LocationData[4].location)
+    } else if (menuName === LocationData[5].name) {
+      navigate(LocationData[5].location)
+    } else if (menuName === LocationData[6].name) {
+      navigate(LocationData[6].location)
+    } else if (menuName === LocationData[7].name) {
+      navigate(LocationData[7].location)
     }
   }
 
@@ -150,6 +200,12 @@ const Header = () => {
 
   return (
     <Container>
+      <LogoDiv onClick={() => goNavigate({ url: '/' })}>
+        <Logo src={SlimLogoImg} alt="logo" />
+      </LogoDiv>
+
+      <BlankDiv />
+
       <MenuListLeft>
         {['상권현황', '상권분석', '상권추천', '창업시뮬레이션', '커뮤니티'].map(
           menuName => (
@@ -163,9 +219,8 @@ const Header = () => {
           ),
         )}
       </MenuListLeft>
-      <LogoDiv onClick={() => goNavigate({ url: '/' })}>
-        <Logo src={BlueLogoImg} alt="logo" />
-      </LogoDiv>
+
+      <BlankDiv />
       <MenuListRight>
         {['마이페이지', '로그인', '회원가입'].map(menuName => (
           <Menu
@@ -177,7 +232,16 @@ const Header = () => {
           </Menu>
         ))}
       </MenuListRight>
-      <HamburgerMenu>≡</HamburgerMenu>
+      <HamburgerMenu onClick={() => setMenuOpen(!isMenuOpen)}>≡</HamburgerMenu>
+      {isMenuOpen && (
+        <DropdownMenu>
+          <HeaderDropdown
+            menuData={LocationData}
+            isMenuOpen={isMenuOpen}
+            setMenuOpen={setMenuOpen}
+          />
+        </DropdownMenu>
+      )}
     </Container>
   )
 }

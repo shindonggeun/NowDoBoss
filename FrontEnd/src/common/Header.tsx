@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { NavigateType } from '@src/types/GlobalType'
-import LogoImg from '@src/assets/logo.svg'
+// import LogoImg from '@src/assets/logo.svg'
+import BlueLogoImg from '@src/assets/logo_blue.svg'
 import styled from 'styled-components'
 
 const Container = styled.header`
@@ -163,7 +164,7 @@ const Header = () => {
         )}
       </MenuListLeft>
       <LogoDiv onClick={() => goNavigate({ url: '/' })}>
-        <Logo src={LogoImg} alt="logo" />
+        <Logo src={BlueLogoImg} alt="logo" />
       </LogoDiv>
       <MenuListRight>
         {['마이페이지', '로그인', '회원가입'].map(menuName => (

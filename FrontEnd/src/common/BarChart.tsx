@@ -66,7 +66,7 @@ const centerTextPlugin = {
   },
 }
 
-export const options = {
+const options = {
   responsive: true,
   plugins: {
     legend: {
@@ -93,7 +93,7 @@ export const options = {
 
 const labels = ['Top1', 'Top2', 'Top3', 'Top4', 'Top5']
 
-export const data = {
+const data = {
   labels,
   datasets: [
     {

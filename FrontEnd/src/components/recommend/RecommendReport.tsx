@@ -4,6 +4,7 @@ import Divider from '@src/common/Divider'
 import { useState } from 'react'
 import MainButton from '@src/common/MainButton'
 import ThreeBox from '@src/common/ThreeBox'
+import BarChart from '@src/common/BarChart'
 
 const DistrictData = [
   {
@@ -111,7 +112,9 @@ const RecommendReport = (props: RecommendReportPropsType) => {
           주변 상권에는 많지만 해당 상권에 적은 업종을 제안합니다.
         </r.SubContent>
       </r.BlueOcean>
-      <r.Chart>표</r.Chart>
+      <r.Chart>
+        <BarChart />
+      </r.Chart>
       <MainButton buttonContent="해당 상권 분석 결과 보러가기" />
     </r.Container>
   )

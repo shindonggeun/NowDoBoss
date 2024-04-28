@@ -1,5 +1,7 @@
 import * as h from '@src/components/styles/status/StatusSidebarTopStyle'
 import { TopList, TopListItem } from '@src/types/StatusType'
+import left from 'src/assets/angle_left.svg'
+import right from 'src/assets/angle_right.svg'
 
 export type ArticleListPropsType = {
   TopLists: TopList
@@ -9,7 +11,7 @@ export type ArticleListPropsType = {
 const StatusSidebarTopComponent = ({ TopLists }: ArticleListPropsType) => {
   const footTrafficTop: TopListItem[] = TopLists.footTrafficTopTenList.slice(
     0,
-    5,
+    8,
   )
 
   // const openedRateTop: TopListItem[] = TopLists.openedRateTopTenList.slice(
@@ -17,6 +19,7 @@ const StatusSidebarTopComponent = ({ TopLists }: ArticleListPropsType) => {
   //   10,
   // )
   // const salesTop: TopListItem[] = TopLists.salesTopTenList.slice(0, 10)
+  //
   // const closedRateTop: TopListItem[] = TopLists.closedRateTopTenList.slice(
   //   0,
   //   10,
@@ -24,7 +27,11 @@ const StatusSidebarTopComponent = ({ TopLists }: ArticleListPropsType) => {
 
   return (
     <>
-      <h.Container>매출 높은 동네 Top10</h.Container>
+      <h.Container>
+        <h.NarrowIcon src={left} alt="left" onClick={() => {}} />
+        매출 높은 동네 Top10
+        <h.NarrowIcon src={right} alt="right" onClick={() => {}} />
+      </h.Container>
       {footTrafficTop.map((item, i) => {
         const name = item.districtCodeName
         const traffic = item.totalFootTraffic.toLocaleString().slice(0, -4)

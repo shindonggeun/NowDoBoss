@@ -22,6 +22,12 @@ export const Item = styled.div`
   margin: 0.7rem 20%;
 `
 
+export const NarrowIcon = styled.img`
+  width: 1rem;
+  margin: 5px 10px;
+  cursor: 'pointer';
+`
+
 export const Name = styled.div`
   flex: 1;
   font-weight: 500;

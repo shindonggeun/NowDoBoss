@@ -23,6 +23,7 @@ const StatusDetailbarComponent = ({
   // console.log(`선택한 지역구 코드: ${regionCode}`)
   const [activeTab, setActiveTab] = useState<string>('유동인구')
   const scrollRef = useRef<HTMLDivElement[]>([])
+  const detailbarRef = useRef<HTMLDivElement>(null)
 
   const categories = useMemo(
     () => [
@@ -39,6 +40,23 @@ const StatusDetailbarComponent = ({
   const onClickActiveTab = (tab: string) => {
     setActiveTab(tab)
   }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        detailbarRef.current &&
+        !detailbarRef.current.contains(event.target as Node)
+      ) {
+        onClickRegionHandler(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [onClickRegionHandler])
 
   useEffect(() => {
     const index = categories.findIndex(category => category.name === activeTab)
@@ -60,7 +78,7 @@ const StatusDetailbarComponent = ({
   }, [])
 
   return (
-    <c.Container>
+    <c.Container ref={detailbarRef}>
       <c.FixedCategoryBar>
         <c.BarTopHeader>
           <c.BookMarkIcon src={bookmark} alt="bookmark" />

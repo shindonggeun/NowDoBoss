@@ -98,6 +98,9 @@ const StatusPolygonComponent = ({
           handleRegionClick(d.properties.SIG_KOR_NM)
           onClickRegionCodeHandler(d.properties.SIG_CD)
         }}
+        // onMouseEnter={() => {
+        //   console.log(`${d.properties.SIG_KOR_NM}에 마우스 올림!`)
+        // }}
         style={style}
       />
     )

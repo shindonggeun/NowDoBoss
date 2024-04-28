@@ -1,20 +1,14 @@
 package com.ssafy.backend.domain.map;
 
-import com.ssafy.backend.domain.commercial.dto.CommercialAdministrationAreaResponse;
-import com.ssafy.backend.domain.commercial.service.CommercialService;
 import com.ssafy.backend.global.common.dto.Message;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 

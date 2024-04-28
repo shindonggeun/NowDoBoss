@@ -29,12 +29,16 @@ const StatusDetailbarComponent = ({
   const detailbarRef = useRef<HTMLDivElement>(null)
 
   // API 호출
-  const { data, isLoading } = useQuery<StatusResponse>({
+  const { data, isLoading, refetch } = useQuery<StatusResponse>({
     queryKey: ['StatusDetailAnalysis'],
     queryFn: () => fetchStatusDetail(Number(regionCode)),
+    enabled: !!regionCode,
   })
+  useEffect(() => {
+    refetch()
+  }, [refetch, regionCode])
 
-  // console.log(data?.dataBody)
+  console.log(regionCode)
   const DeatilData = data?.dataBody
   const categories = useMemo(
     () => [
@@ -64,7 +68,7 @@ const StatusDetailbarComponent = ({
         component: DetailCommercialComponent,
       },
     ],
-    [],
+    [regionCode],
   )
 
   const onClickActiveTab = (tab: string) => {

@@ -18,18 +18,13 @@ interface DetailPopulationProps {
 }
 
 const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
-  console.log(props)
-  const footTrafficDistrictListByPeriod = {
-    summary: '증가',
-    data: [
-      { '20224': 114441017 },
-      { '20231': 115242542 },
-      { '20232': 112643302 },
-      { '20233': 113105133 },
-    ],
-  }
+  console.log(props?.footTrafficDistrictDetail.footTrafficDistrictListByPeriod)
+  const Data = props!.footTrafficDistrictDetail.footTrafficDistrictListByPeriod
+  const dataArray = Object.entries(Data.data).map(([key, value]) => ({
+    [key]: value,
+  }))
 
-  const labels = footTrafficDistrictListByPeriod.data.map(item => {
+  const labels = dataArray.map(item => {
     const key = Object.keys(item)[0]
     const year = key.substring(0, 4)
     const quarter = key.substring(4)
@@ -41,12 +36,8 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
     datasets: [
       {
         label: '유동인구',
-        data: Object.values(footTrafficDistrictListByPeriod.data).map(
-          item => Object.values(item)[0],
-        ),
+        data: dataArray.map(item => Object.values(item)[0]),
         backgroundColor: '#415FEB',
-        // borderColor: '#415FEB',
-        // borderWidth: 1,
       },
     ],
   }
@@ -67,9 +58,7 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
       <c.AnalysisTitle>분기별 평균 유동인구</c.AnalysisTitle>
       <c.AnalysisSubTitle>
         유동인구가 이전분기에 비해
-        <c.AnalysiEemphasis>
-          {footTrafficDistrictListByPeriod.summary}
-        </c.AnalysiEemphasis>
+        <c.AnalysiEemphasis>{Data.summary}</c.AnalysiEemphasis>
         하고 있습니다.
       </c.AnalysisSubTitle>
       <c.ChartDataContainer>

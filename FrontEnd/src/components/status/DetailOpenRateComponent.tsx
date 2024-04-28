@@ -5,7 +5,7 @@ interface DetailOpenRateProps {
 }
 
 const DetailOpenRateComponent = ({ props }: DetailOpenRateProps) => {
-  console.log(props)
+  // console.log(props)
   return (
     <>
       <h1>개업률 페이지</h1>

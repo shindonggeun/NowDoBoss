@@ -4,7 +4,7 @@ interface DetailAnalysisProps {
   props: DetailDataBody | undefined
 }
 const DetailAnalysisComponent = ({ props }: DetailAnalysisProps) => {
-  console.log(props)
+  // console.log(props)
   return (
     <>
       <h1>매출분석 페이지</h1>

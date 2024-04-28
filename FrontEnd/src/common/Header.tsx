@@ -21,7 +21,7 @@ const Container = styled.header`
 
 const MenuListLeft = styled.div<{ isMenuOpen?: boolean }>`
   display: flex;
-  margin: 0 1rem;
+  margin: 0 0.5rem;
 
   @media (max-width: 992px) {
     flex-direction: column;
@@ -33,7 +33,7 @@ const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
   width: 420px;
   display: flex;
   justify-content: right;
-  margin: 0 1rem;
+  margin: 0 0.5rem;
 
   @media (max-width: 992px) {
     flex-direction: column;
@@ -48,11 +48,11 @@ const Menu = styled.div<{ $isActive?: boolean }>`
   align-items: center;
   cursor: pointer;
   font-weight: bold;
-  border-bottom: 4px solid ${props => (props.$isActive ? 'blue' : 'white')};
-  color: ${props => (props.$isActive ? 'blue' : 'black')};
+  border-bottom: 4px solid ${props => (props.$isActive ? '#236cff' : 'white')};
+  color: ${props => (props.$isActive ? '#236cff' : 'black')};
   &:hover {
-    color: blue;
-    border-bottom: 4px solid blue;
+    color: #236cff;
+    border-bottom: 4px solid #236cff;
   }
 
   @media (max-width: 1200px) {
@@ -93,17 +93,29 @@ const Header = () => {
   useEffect(() => {
     // 경로에 따라 activeMenu 설정
     switch (location.pathname) {
+      case '/status':
+        setActiveMenu('상권현황')
+        break
+      case '/analysis':
+        setActiveMenu('상권분석')
+        break
+      case '/recommend':
+        setActiveMenu('상권추천')
+        break
+      case '/simulation':
+        setActiveMenu('창업시뮬레이션')
+        break
       case '/community':
         setActiveMenu('커뮤니티')
         break
-      case '/register':
-        setActiveMenu('회원가입')
+      case '/mypage':
+        setActiveMenu('마이페이지')
         break
       case '/login':
         setActiveMenu('로그인')
         break
-      case '/mypage':
-        setActiveMenu('마이페이지')
+      case '/register':
+        setActiveMenu('회원가입')
         break
       default:
         setActiveMenu(null)
@@ -112,9 +124,7 @@ const Header = () => {
 
   const handleMenuClick = (menuName: string) => {
     setActiveMenu(menuName)
-    if (menuName === '커뮤니티') {
-      navigate('/community')
-    } else if (menuName === '상권현황') {
+    if (menuName === '상권현황') {
       navigate('/status')
     } else if (menuName === '상권분석') {
       navigate('/')
@@ -122,12 +132,14 @@ const Header = () => {
       navigate('/recommend')
     } else if (menuName === '창업시뮬레이션') {
       navigate('/')
-    } else if (menuName === '회원가입') {
-      navigate('/register')
-    } else if (menuName === '로그인') {
-      navigate('/login')
+    } else if (menuName === '커뮤니티') {
+      navigate('/community')
     } else if (menuName === '마이페이지') {
       navigate('/mypage')
+    } else if (menuName === '로그인') {
+      navigate('/login')
+    } else if (menuName === '회원가입') {
+      navigate('/register')
     }
   }
 

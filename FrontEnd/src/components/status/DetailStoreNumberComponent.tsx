@@ -1,4 +1,4 @@
-import { DetailDataBody } from '@src/types/StatusType.ts'
+import { DetailDataBody } from '@src/types/StatusType'
 
 interface DetailStoreNumberProps {
   props: DetailDataBody | undefined

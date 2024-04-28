@@ -5,19 +5,43 @@ export const Container = styled.div`
   height: auto;
   border: 2px solid #d9d9d9;
   background-color: white;
-  border-top-right-radius: 15px;
+  border-top-right-radius: 20px;
   border-bottom-right-radius: 15px;
   box-shadow: 10px 15px 15px -5px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-height: calc(100vh - 75px);
+
+  @media only screen and (max-width: 680px) {
+    font-size: 0.9rem;
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    max-height: 60vh;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 20px;
+    box-shadow: none;
+  }
 `
 
+export const FixedHeader = styled.div`
+  position: fixed;
+  width: 99.3%;
+  top: 2px;
+  z-index: 1;
+  background-color: white;
+  border-top-right-radius: 20px;
+`
 export const TabBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  //border-bottom: 2px solid #999999;
 `
 export const Tab = styled.div<{ $selectedTab: boolean }>`
   padding: 10px 20px;
-  width: 5rem;
+  width: 100%;
   font-size: 1.2rem;
   font-weight: 600;
   display: flex;
@@ -33,6 +57,7 @@ export const Tab = styled.div<{ $selectedTab: boolean }>`
   }
 `
 export const Notice = styled.div`
+  margin-top: 115px;
   background-color: #fdffc7;
   padding: 10px 40px;
   font-weight: 500;
@@ -47,34 +72,20 @@ export const Title = styled.div`
   font-weight: 600;
   font-size: 1.5rem;
   margin: 15px 0 0 15px;
+  width: auto;
+  @media only screen and (max-width: 680px) {
+    font-size: 1.3rem;
+  }
 `
-export const ComparisonContainer = styled.div``
-export const ComparisonBox = styled.div`
-  background-color: #d9d9d9;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 5px 10px;
-  margin: 5px 0;
-  font-size: 0.8rem;
+export const BlueOceanTitle = styled.div`
   font-weight: 600;
-  width: 125px;
-`
-export const ComparisonData = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`
-export const ComparisonTitle = styled.div`
-  font-weight: 600;
-  font-size: 1.1rem;
-`
-export const Content = styled.div`
-  font-size: 1.2rem;
-  font-weight: 700;
-  padding-right: 2px;
+  font-size: 1.5rem;
+  margin: 15px 0 0 15px;
+  width: auto;
+  @media only screen and (max-width: 680px) {
+    font-size: 1.3rem;
+    width: 75px;
+  }
 `
 export const BlueOcean = styled.div`
   display: flex;
@@ -86,7 +97,7 @@ export const BlueOcean = styled.div`
 export const SubContent = styled.div`
   font-weight: 500;
   font-size: 0.8rem;
-  margin-right: 20px;
+  margin: 0 20px 0 0;
 `
 
 export const Chart = styled.div`

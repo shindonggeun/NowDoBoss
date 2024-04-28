@@ -11,11 +11,4 @@ public record SalesDistrictTopTenResponse(
         int level
 
 ) {
-    public SalesDistrictTopTenResponse(String districtCode, String districtCodeName, Long totalMonthSales, Double totalMonthSalesChangeRate, int level) {
-        this.districtCode = districtCode;
-        this.districtCodeName = districtCodeName;
-        this.totalMonthSales = totalMonthSales;
-        this.totalMonthSalesChangeRate = totalMonthSalesChangeRate;
-        this.level = level;
-    }
 }

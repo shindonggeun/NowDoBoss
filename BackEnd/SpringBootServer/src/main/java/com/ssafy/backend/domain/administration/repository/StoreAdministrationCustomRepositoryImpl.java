@@ -10,7 +10,6 @@ import com.ssafy.backend.domain.administration.dto.OpenedStoreAdministrationTopF
 import com.ssafy.backend.domain.administration.entity.QStoreAdministration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository

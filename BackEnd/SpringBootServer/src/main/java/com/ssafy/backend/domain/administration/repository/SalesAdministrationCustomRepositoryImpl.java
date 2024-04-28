@@ -5,15 +5,10 @@ import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.backend.domain.administration.dto.ClosedStoreAdministrationTopFiveInfo;
-import com.ssafy.backend.domain.administration.dto.OpenedStoreAdministrationTopFiveInfo;
 import com.ssafy.backend.domain.administration.dto.SalesAdministrationTopFiveInfo;
 import com.ssafy.backend.domain.administration.entity.QSalesAdministration;
-import com.ssafy.backend.domain.administration.entity.QStoreAdministration;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository

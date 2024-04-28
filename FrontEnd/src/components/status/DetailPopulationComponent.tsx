@@ -9,10 +9,16 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+import { DetailDataBody } from '@src/types/StatusType.ts'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-const DetailPopulationComponent = () => {
+interface DetailPopulationProps {
+  props: DetailDataBody | undefined
+}
+
+const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
+  console.log(props)
   const footTrafficDistrictListByPeriod = {
     summary: '증가',
     data: [

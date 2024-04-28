@@ -1,4 +1,11 @@
-const DetailOpenRateComponent = () => {
+import { DetailDataBody } from '@src/types/StatusType.ts'
+
+interface DetailOpenRateProps {
+  props: DetailDataBody | undefined
+}
+
+const DetailOpenRateComponent = ({ props }: DetailOpenRateProps) => {
+  console.log(props)
   return (
     <>
       <h1>개업률 페이지</h1>

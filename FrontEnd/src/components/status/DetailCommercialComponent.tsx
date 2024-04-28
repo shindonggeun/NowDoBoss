@@ -1,4 +1,10 @@
-const DetailCommercialComponent = () => {
+import { DetailDataBody } from '@src/types/StatusType.ts'
+
+interface DetailCommercialProps {
+  props: DetailDataBody | undefined
+}
+const DetailCommercialComponent = ({ props }: DetailCommercialProps) => {
+  console.log(props)
   return (
     <>
       <h1>상권변화 페이지</h1>

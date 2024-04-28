@@ -15,6 +15,7 @@ const SearchBar = (props: SearchBarPropsType) => {
         title="상권 추천받기"
         subTitle="원하시는 위치의 상권을 추천받을 수 있습니다."
         close={false}
+        icon={false}
       />
       <ChoicePlace />
       <s.Content

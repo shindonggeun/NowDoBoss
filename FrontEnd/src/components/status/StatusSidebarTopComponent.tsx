@@ -67,7 +67,7 @@ const StatusSidebarTopComponent = ({ TopLists }: ArticleListPropsType) => {
           const traffic = item.totalFootTraffic.toLocaleString().slice(0, -4)
           const rate = item.totalFootTrafficChangeRate.toFixed(2)
           const isUp = item.totalFootTrafficChangeRate >= 0
-          const isLast = TopBarListInfos[infosTab].data.length - 1 === i
+          const isLast = TopBarListInfos[infosTab].data.length === i + 1
           return (
             <h.Item key={i} isLast={isLast}>
               <h.ItemLeft>

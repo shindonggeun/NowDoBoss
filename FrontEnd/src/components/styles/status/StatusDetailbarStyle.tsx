@@ -4,12 +4,10 @@ export const Container = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 35rem;
-  height: 97%;
+  width: 40vw;
+  height: 97vh;
   z-index: 1000;
-  //background-color: yellowgreen;
   background-color: white;
-  : 50px 100px;
 
   border: 10px solid white;
   border-left: none;
@@ -25,6 +23,10 @@ export const Container = styled.div`
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `
 
@@ -42,6 +44,7 @@ export const BarTopHeader = styled.div`
   padding: 10px 20px 5px 10px;
   background-color: #236cff;
   color: white;
+  white-space: nowrap;
 `
 
 export const BarTopTitle = styled.div`
@@ -59,6 +62,9 @@ export const BarTopSubtitle = styled.div`
 export const BarTopSeason = styled.div`
   font-size: 12px;
   padding-left: 15px;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 export const BookMarkIcon = styled.img`

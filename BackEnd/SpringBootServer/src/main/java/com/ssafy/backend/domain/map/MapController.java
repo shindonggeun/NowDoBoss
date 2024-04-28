@@ -5,10 +5,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -23,29 +21,29 @@ public class MapController {
             summary = "상권 영역 좌표",
             description = "주어진 지도 영역 내에 포함된 상권의 테두리 좌표를 조회하는 기능입니다."
     )
-    @GetMapping("/commercial/{ax}/{ay}/{bx}/{by}")
+    @GetMapping("/commercial")
     public ResponseEntity<Message<Map<String, List<List<Double>>>>> getCommercialAreaCoords (
-            @PathVariable Double ax, @PathVariable Double ay, @PathVariable Double bx, @PathVariable Double by) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getCommercialAreaCoords(ax, ay, bx, by)));
+            @RequestParam Double lngNW, @RequestParam Double latNW, @RequestParam Double lngSE, @RequestParam Double latSE) throws Exception {
+        return ResponseEntity.ok().body(Message.success(mapservice.getCommercialAreaCoords(lngNW, latSE, lngSE, latNW)));
     }
 
     @Operation(
             summary = "행정동 영역 좌표",
             description = "주어진 지도 영역 내에 포함된 행정동의 테두리 좌표를 조회하는 기능입니다."
     )
-    @GetMapping("/administration/{ax}/{ay}/{bx}/{by}")
-    public ResponseEntity<Message<?>> getAdministrationAreaCoords (
-            @PathVariable Double ax, @PathVariable Double ay, @PathVariable Double bx, @PathVariable Double by) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getAdministrationAreaCoords(ax, ay, bx, by)));
+    @GetMapping("/administration")
+    public ResponseEntity<Message<Map<String, List<List<Double>>>>> getAdministrationAreaCoords (
+            @RequestParam Double lngNW, @RequestParam Double latNW, @RequestParam Double lngSE, @RequestParam Double latSE) throws Exception {
+        return ResponseEntity.ok().body(Message.success(mapservice.getAdministrationAreaCoords(lngNW, latSE, lngSE, latNW)));
     }
 
     @Operation(
             summary = "자치구 영역 좌표",
             description = "주어진 지도 영역 내에 포함된 자치구의 테두리 좌표를 조회하는 기능입니다."
     )
-    @GetMapping("/district/{ax}/{ay}/{bx}/{by}")
-    public ResponseEntity<Message<?>> getDistrictAreaCoords (
-            @PathVariable Double ax, @PathVariable Double ay, @PathVariable Double bx, @PathVariable Double by) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getDistrictAreaCoords(ax, ay, bx, by)));
+    @GetMapping("/district")
+    public ResponseEntity<Message<Map<String, List<List<Double>>>>> getDistrictAreaCoords (
+            @RequestParam Double lngNW, @RequestParam Double latNW, @RequestParam Double lngSE, @RequestParam Double latSE) throws Exception {
+        return ResponseEntity.ok().body(Message.success(mapservice.getDistrictAreaCoords(lngNW, latSE, lngSE, latNW)));
     }
 }

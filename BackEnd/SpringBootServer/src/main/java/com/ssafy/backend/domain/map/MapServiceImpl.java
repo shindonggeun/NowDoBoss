@@ -37,11 +37,13 @@ public class MapServiceImpl implements MapService{
 
             List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
 
+            if (filteredCoords == null){
+                return null;
+            }
             if (!filteredCoords.isEmpty()) {
                 res.put(commercialCode, filteredCoords);
             }
         }
-
         return res;
     }
 
@@ -62,11 +64,13 @@ public class MapServiceImpl implements MapService{
 
             List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
 
+            if (filteredCoords == null){
+                return null;
+            }
             if (!filteredCoords.isEmpty()) {
                 res.put(administrationCode, filteredCoords);
             }
         }
-
         return res;
     }
 
@@ -87,11 +91,13 @@ public class MapServiceImpl implements MapService{
 
             List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
 
+            if (filteredCoords == null){
+                return null;
+            }
             if (!filteredCoords.isEmpty()) {
                 res.put(districtCode, filteredCoords);
             }
         }
-
         return res;
     }
 
@@ -124,6 +130,9 @@ public class MapServiceImpl implements MapService{
     }
 
     private List<List<Double>> filterCoordsByRange(List<List<Double>> coords, double minLng, double maxLng, double minLat, double maxLat) {
+        if ((minLng > maxLng) || (minLat > maxLat)){
+            return null;
+        }
         // 경도 기준으로 필터링 (이미 정렬되어 있음)
         int lowIndex = Collections.binarySearch(coords, Arrays.asList(minLng, Double.MIN_VALUE), Comparator.comparingDouble(a -> a.get(0)));
         int highIndex = Collections.binarySearch(coords, Arrays.asList(maxLng, Double.MAX_VALUE), Comparator.comparingDouble(a -> a.get(0)));

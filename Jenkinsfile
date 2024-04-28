@@ -5,12 +5,16 @@ pipeline {
     }
 
     stages {
-        stage("Build") {
+        stage("Check Environment Variables") {
             steps {
-                sh 'node --version'
-                sh 'npm --version'
-                // sh "npm install"
-                // sh "npm run build"
+                script {
+                    // 환경변수 확인
+                    sh 'env'
+                    // Node.js 버전 확인
+                    sh 'node --version'
+                    // npm 버전 확인
+                    sh 'npm --version'
+                }
             }
         }
         

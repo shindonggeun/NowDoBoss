@@ -20,9 +20,10 @@ public class MapServiceImpl implements MapService{
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public Map<String, List<List<Double>>> getCommercialAreaCoords(double ax, double ay, double bx, double by) throws Exception {
+    public MapResponse getCommercialAreaCoords(double ax, double ay, double bx, double by) throws Exception {
         //redisTemplate.delete("commercial");
         System.out.println("서비스임플안!");
+        List<String> commercialCodes = new ArrayList<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("commercial");
         if (coordsMap == null) {
             //throw new IllegalStateException("Coordinates not found in Redis, please load data first.");
@@ -42,14 +43,16 @@ public class MapServiceImpl implements MapService{
             }
             if (!filteredCoords.isEmpty()) {
                 res.put(commercialCode, filteredCoords);
+                commercialCodes.add(commercialCode);
             }
         }
-        return res;
+        return new MapResponse(commercialCodes, res);
     }
 
     @Override
-    public Map<String, List<List<Double>>> getAdministrationAreaCoords(double ax, double ay, double bx, double by) throws Exception {
+    public MapResponse getAdministrationAreaCoords(double ax, double ay, double bx, double by) throws Exception {
         System.out.println("서비스임플안!");
+        List<String> administrationCodes = new ArrayList<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("administration");
         if (coordsMap == null) {
             //throw new IllegalStateException("Coordinates not found in Redis, please load data first.");
@@ -69,14 +72,16 @@ public class MapServiceImpl implements MapService{
             }
             if (!filteredCoords.isEmpty()) {
                 res.put(administrationCode, filteredCoords);
+                administrationCodes.add(administrationCode);
             }
         }
-        return res;
+        return new MapResponse(administrationCodes, res);
     }
 
     @Override
-    public Map<String, List<List<Double>>> getDistrictAreaCoords(double ax, double ay, double bx, double by) throws Exception {
+    public MapResponse getDistrictAreaCoords(double ax, double ay, double bx, double by) throws Exception {
         System.out.println("서비스임플안!");
+        List<String> districtCodes= new ArrayList<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("district");
         if (coordsMap == null) {
             //throw new IllegalStateException("Coordinates not found in Redis, please load data first.");
@@ -96,9 +101,10 @@ public class MapServiceImpl implements MapService{
             }
             if (!filteredCoords.isEmpty()) {
                 res.put(districtCode, filteredCoords);
+                districtCodes.add(districtCode);
             }
         }
-        return res;
+        return new MapResponse(districtCodes, res);
     }
 
     public void loadAndCacheCoords(String type) throws Exception {

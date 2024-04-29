@@ -6,8 +6,8 @@ import lombok.Builder;
 public record FootTrafficDistrictTopTenResponse(
         String districtCode,
         String districtCodeName,
-        Long totalFootTraffic,
-        Double totalFootTrafficChangeRate,
+        Long total,
+        Double totalRate,
         int level
 
 ) {

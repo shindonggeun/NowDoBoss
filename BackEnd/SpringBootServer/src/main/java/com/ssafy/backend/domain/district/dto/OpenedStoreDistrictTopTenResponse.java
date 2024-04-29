@@ -6,8 +6,8 @@ import lombok.Builder;
 public record OpenedStoreDistrictTopTenResponse(
         String districtCode,
         String districtCodeName,
-        Double curOpenedRate,
-        Double openedRateChangeRate,
+        Double total,
+        Double totalRate,
         int level
 ) {
 }

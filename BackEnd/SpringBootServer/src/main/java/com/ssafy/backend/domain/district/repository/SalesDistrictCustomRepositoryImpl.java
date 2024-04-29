@@ -38,11 +38,11 @@ public class SalesDistrictCustomRepositoryImpl implements SalesDistrictCustomRep
         List<Tuple> districtData = queryFactory
                 .select(sd.districtCode,
                         sd.districtCodeName,
-                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.monthSales).otherwise(0L).sum().as("totalMonthSales"),
+                        new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.monthSales).otherwise(0L).sum().as("total"),
                         new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.monthSales).otherwise(0L).sum().doubleValue()
                                 .subtract(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.monthSales).otherwise(0L).sum().doubleValue())
                                 .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.monthSales).otherwise(0L).sum().doubleValue())
-                                .multiply(100).as("totalMonthSalesChangeRate")
+                                .multiply(100).as("totalRate")
                 )
                 .from(sd)
                 .where(sd.districtCodeName.in(topDistrictNames))
@@ -59,8 +59,8 @@ public class SalesDistrictCustomRepositoryImpl implements SalesDistrictCustomRep
             SalesDistrictTopTenResponse response = new SalesDistrictTopTenResponse(
                     districtData.get(i).get(sd.districtCode),
                     districtData.get(i).get(sd.districtCodeName),
-                    districtData.get(i).get(Expressions.numberPath(Long.class, "totalMonthSales")),
-                    districtData.get(i).get(Expressions.numberPath(Double.class, "totalMonthSalesChangeRate")),
+                    districtData.get(i).get(Expressions.numberPath(Long.class, "total")),
+                    districtData.get(i).get(Expressions.numberPath(Double.class, "totalRate")),
                     level
             );
             responses.add(response);

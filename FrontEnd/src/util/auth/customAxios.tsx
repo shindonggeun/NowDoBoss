@@ -11,7 +11,7 @@ const createAxiosInstance = (baseURL?: string) => {
 
   const instance = axios.create({
     withCredentials: true,
-    baseURL: baseURL || '',
+    baseURL: baseURL ?? '',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
     },

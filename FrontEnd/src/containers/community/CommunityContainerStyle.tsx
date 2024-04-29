@@ -42,10 +42,3 @@ export const Context = styled.div`
 export const MainContentDiv = styled.div`
   width: 100%;
 `
-//
-// export const SubContentDiv = styled.div`
-//   width: 33.3vw;
-//   @media only screen and (max-width: 768px) {
-//     width: 100vw;
-//   }
-// `

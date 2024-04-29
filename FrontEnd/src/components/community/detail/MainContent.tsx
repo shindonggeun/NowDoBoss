@@ -36,7 +36,7 @@ const MainContent = (props: MainContentPropsType) => {
   )
   const iconSrc = matchedCategory ? matchedCategory.iconInactive : ''
   const categoryKorean = matchedCategory ? matchedCategory.name : ''
-  const [moreModalValue, setMoreModal] = useState<boolean>(false)
+  const [moreModal, setMoreModal] = useState<boolean>(false)
   // 생성 시간 보여주는 라이브러리 사용
   const TimeOption: TimeCountingOption = {
     // 기준이 되는 현재 시간
@@ -109,12 +109,12 @@ const MainContent = (props: MainContentPropsType) => {
         <GoBackButton />
         <m.More
           onClick={() => {
-            setMoreModal(!moreModalValue)
+            setMoreModal(!moreModal)
           }}
         >
           ∘∘∘
         </m.More>
-        {moreModalValue ? (
+        {moreModal ? (
           <m.MoreModal>
             <m.ModalTriangle />
             <m.ModalDiv>

@@ -103,7 +103,7 @@ const Header = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const navigate = useNavigate()
   const location = useLocation()
-  const [isMenuOpen, setMenuOpen] = useState<boolean>(false)
+  const [menuOpen, setMenuOpen] = useState<boolean>(false)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const LocationData = [
@@ -232,12 +232,12 @@ const Header = () => {
           </Menu>
         ))}
       </MenuListRight>
-      <HamburgerMenu onClick={() => setMenuOpen(!isMenuOpen)}>≡</HamburgerMenu>
-      {isMenuOpen && (
+      <HamburgerMenu onClick={() => setMenuOpen(!menuOpen)}>≡</HamburgerMenu>
+      {menuOpen && (
         <DropdownMenu>
           <HeaderDropdown
             menuData={LocationData}
-            isMenuOpen={isMenuOpen}
+            isMenuOpen={menuOpen}
             setMenuOpen={setMenuOpen}
           />
         </DropdownMenu>

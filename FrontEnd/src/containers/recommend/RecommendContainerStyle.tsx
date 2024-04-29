@@ -44,7 +44,7 @@ const EndBottomSlide = keyframes`
 export const Container = styled.div`
   position: relative;
 `
-export const Map = styled.div`
+export const MapDiv = styled.div`
   width: 100%;
 `
 export const Search = styled.div`

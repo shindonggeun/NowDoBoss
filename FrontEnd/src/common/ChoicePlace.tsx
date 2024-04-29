@@ -37,7 +37,6 @@ const SelectPlace = styled.div`
   justify-content: center;
   text-align: center;
   margin-top: 10px;
-  position: relative;
 `
 
 const Dropdown = styled.div`
@@ -47,6 +46,7 @@ const Dropdown = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 5px 0 0 20px;
+  position: relative;
 `
 const SelectedContent = styled.div`
   text-align: right;

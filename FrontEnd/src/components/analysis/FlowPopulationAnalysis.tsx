@@ -1,5 +1,20 @@
+import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
+import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
+
 const FlowPopulationAnalysis = () => {
-  return <div>유동인구</div>
+  return (
+    <>
+      <CategoryTitleCard title="유동인구" />
+      <f.FirstLowContainer>
+        <f.TodayChart>일일 평균 유동인구 차트 카드</f.TodayChart>
+        <f.WeekChart>요일별 유동인구 차트 카드</f.WeekChart>
+      </f.FirstLowContainer>
+      <f.SecondLowContainer>
+        <f.AgeChart>연령별 유동인구 차트 카드</f.AgeChart>
+        <f.TimeChart>시간대별 유동인구 차트 카드</f.TimeChart>
+      </f.SecondLowContainer>
+    </>
+  )
 }
 
 export default FlowPopulationAnalysis

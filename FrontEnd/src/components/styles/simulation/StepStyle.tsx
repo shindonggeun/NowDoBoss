@@ -14,12 +14,14 @@ export const Emphasis = styled.span`
 
 interface ButtonProps {
   size: string
+  selected: boolean
 }
 
 export const SelectButton = styled.button<ButtonProps>`
   border-radius: 8px;
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: ${(props) => (props.selected ? '#2e83f2' : 'white')};
+  border: 1px solid ${(props) => (props.selected ? '#2e83f2' : '#ccc')};
+  color: ${(props) => (props.selected ? 'white' : '#222')};
   text-align: center;
   cursor: pointer;
   transition:

@@ -5,6 +5,7 @@ import Xmark from '@src/assets/xmark_solid_nomal.svg'
 import SelectionStep1 from '@src/components/simulation/SelectionStep1'
 import SelectionStep2 from '@src/components/simulation/SelectionStep2'
 import SelectionStep3 from '@src/components/simulation/SelectionStep3'
+import SelectionStep4 from '@src/components/simulation/SelectionStep4'
 
 interface SimulSelctionProps {
   open: boolean
@@ -13,10 +14,11 @@ interface SimulSelctionProps {
 
 const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
   const [step, setStep] = useState<number>(1)
-  const [category, setCategory] = useState('')
   const [isFranchise, setIsFranchise] = useState(false)
+  const [category, setCategory] = useState('')
+  const [subCategory, setSubCategory] = useState('')
   const modalRef = useRef<HTMLDivElement>(null)
-  console.log(category, isFranchise, setCategory, setIsFranchise)
+
   const nextStep = () => {
     setStep(prev => prev + 1)
   }
@@ -42,6 +44,18 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
     }
   }, [onClose, open])
 
+  const onSelectedkFranchise = (choice: boolean) => {
+    setIsFranchise(choice)
+  }
+
+  const onSelectedCategory = (choice: string) => {
+    setCategory(choice)
+  }
+  
+  const onSelectedSubCategory = (choice: string) => {
+    setCategory(choice)
+  }
+
   return (
     <c.Overlay>
       <c.Container ref={modalRef}>
@@ -54,9 +68,10 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
         </c.SelctionHeader>
         <c.Contants>
           <div>시뮬레이션 선택페이지</div>
-          {step === 1 && <SelectionStep1 nextStep={nextStep} />}
+          {step === 1 && <SelectionStep1 nextStep={nextStep} isFranchise={isFranchise} onSelectedkFranchise={onSelectedkFranchise}/>}
           {step === 2 && <SelectionStep2 nextStep={nextStep} />}
-          {step === 3 && <SelectionStep3 nextStep={nextStep} />}
+          {step === 3 && <SelectionStep3 nextStep={nextStep} category={category} onSelectedCategory={onSelectedCategory} />}
+          {step === 4 && <SelectionStep4 nextStep={nextStep} category={category} subCategory={subCategory} onSelectedSubCategory={onSelectedSubCategory}/>}
         </c.Contants>
       </c.Container>
     </c.Overlay>

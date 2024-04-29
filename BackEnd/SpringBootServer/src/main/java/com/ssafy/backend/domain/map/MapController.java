@@ -24,7 +24,7 @@ public class MapController {
     @GetMapping("/commercial")
     public ResponseEntity<Message<MapResponse>> getCommercialAreaCoords (
             @RequestParam Double lngSW, @RequestParam Double latSW, @RequestParam Double lngNE, @RequestParam Double latNE) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getCommercials(lngSW, latSW, lngNE, latNE)));
+        return ResponseEntity.ok().body(Message.success(mapservice.getCommercialAreaCoords(lngSW, latSW, lngNE, latNE)));
     }
 
     @Operation(
@@ -34,7 +34,7 @@ public class MapController {
     @GetMapping("/administration")
     public ResponseEntity<Message<MapResponse>> getAdministrationAreaCoords (
             @RequestParam Double lngSW, @RequestParam Double latSW, @RequestParam Double lngNE, @RequestParam Double latNE) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getAdministrations(lngSW, latSW, lngNE, latNE)));
+        return ResponseEntity.ok().body(Message.success(mapservice.getAdministrationAreaCoords(lngSW, latSW, lngNE, latNE)));
     }
 
     @Operation(
@@ -44,6 +44,6 @@ public class MapController {
     @GetMapping("/district")
     public ResponseEntity<Message<MapResponse>> getDistrictAreaCoords (
             @RequestParam Double lngSW, @RequestParam Double latSW, @RequestParam Double lngNE, @RequestParam Double latNE) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getDistricts(lngSW, latSW, lngNE, latNE)));
+        return ResponseEntity.ok().body(Message.success(mapservice.getDistrictAreaCoords(lngSW, latSW, lngNE, latNE)));
     }
 }

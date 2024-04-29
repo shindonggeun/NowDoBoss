@@ -1,20 +1,16 @@
 package com.ssafy.backend.domain.district.repository;
 
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.district.dto.*;
-import com.ssafy.backend.domain.district.entity.QFootTrafficDistrict;
 import com.ssafy.backend.domain.district.entity.QStoreDistrict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +38,7 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                         sd.districtCodeName,
                         new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.openedStore).otherwise(0L).sum().doubleValue()
                                 .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
-                                .multiply(100).as("curOpenedRate"),
+                                .multiply(100).as("total"),
                         new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.openedStore).otherwise(0L).sum().doubleValue()
                                 .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
                                 .multiply(100)
@@ -51,7 +47,7 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                                     .multiply(100))
                                 .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.openedStore).otherwise(0L).sum().doubleValue()
                                         .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
-                                        .multiply(100)).multiply(100).as("openedRateChangeRate")
+                                        .multiply(100)).multiply(100).as("totalRate")
                 )
                 .from(sd)
                 .where(sd.districtCodeName.in(topDistrictNames))
@@ -70,8 +66,8 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
             OpenedStoreDistrictTopTenResponse response = new OpenedStoreDistrictTopTenResponse(
                     districtData.get(i).get(sd.districtCode),
                     districtData.get(i).get(sd.districtCodeName),
-                    districtData.get(i).get(Expressions.numberPath(Double.class, "curOpenedRate")),
-                    districtData.get(i).get(Expressions.numberPath(Double.class, "openedRateChangeRate")),
+                    districtData.get(i).get(Expressions.numberPath(Double.class, "total")),
+                    districtData.get(i).get(Expressions.numberPath(Double.class, "totalRate")),
                     level
             );
             responses.add(response);
@@ -97,7 +93,7 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                         sd.districtCodeName,
                         new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.closedStore).otherwise(0L).sum().doubleValue()
                                 .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
-                                .multiply(100).as("curClosedRate"),
+                                .multiply(100).as("total"),
                         new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.closedStore).otherwise(0L).sum().doubleValue()
                                 .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
                                 .multiply(100)
@@ -106,7 +102,7 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                                         .multiply(100))
                                 .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.closedStore).otherwise(0L).sum().doubleValue()
                                         .divide(new CaseBuilder().when(sd.periodCode.eq("20232")).then(sd.totalStore).otherwise(0L).sum().doubleValue())
-                                        .multiply(100)).multiply(100).as("closedRateChangeRate")
+                                        .multiply(100)).multiply(100).as("totalRate")
                 )
                 .from(sd)
                 .where(sd.districtCodeName.in(topDistrictNames))
@@ -125,8 +121,8 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
             ClosedStoreDistrictTopTenResponse response = new ClosedStoreDistrictTopTenResponse(
                     districtData.get(i).get(sd.districtCode),
                     districtData.get(i).get(sd.districtCodeName),
-                    districtData.get(i).get(Expressions.numberPath(Double.class, "curClosedRate")),
-                    districtData.get(i).get(Expressions.numberPath(Double.class, "closedRateChangeRate")),
+                    districtData.get(i).get(Expressions.numberPath(Double.class, "total")),
+                    districtData.get(i).get(Expressions.numberPath(Double.class, "totalRate")),
                     level
             );
             responses.add(response);

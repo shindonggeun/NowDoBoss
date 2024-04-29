@@ -1,17 +1,10 @@
 pipeline {
     agent any  // 이 파이프라인이 실행될 Jenkins 에이전트를 지정합니다. 'any'는 사용 가능한 임의의 에이전트에서 실행될 수 있음을 의미합니다.
-    tools { 
-        nodejs 'nodeJs'  // 'node'는 글로벌 도구 구성에서 설정한 Node.js의 이름
+    tools {
+        nodejs '20.11.1'
     }
 
     stages {
-        stage("Build") {
-            steps {
-                sh "npm install"
-                sh "npm run build"
-            }
-        }
-        
         stage('Deploy Redis') {
             steps {
                 script {
@@ -41,32 +34,23 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis - FrontEnd') {
-        //     steps {
-        //         dir('FrontEnd') {
-        //             withSonarQubeEnv('SonarQube Server') {
-        //                 sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
-        //             }
-        //         }
-        //     }
-        // }
-
-        // stage('SonarQube Analysis - FastApiServer') {
-        //     steps {
-        //         dir('BackEnd/FastApiServer') {
-        //             withSonarQubeEnv('SonarQube Server') {
-        //                 sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
-        //             }
-        //         }
-        //     }
-        // }
-
         stage('SonarQube Analysis - SpringBootServer') {
             steps {
                 dir('BackEnd/SpringBootServer') {
                     withSonarQubeEnv('SonarQube Server') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew sonar -Dsonar.projectKey=nowdoboss'
+                    }
+                }
+            }
+        }
+
+        stage('SonarQube Analysis - FrontEnd') {
+            steps {
+                dir('FrontEnd') {
+                    withSonarQubeEnv('SonarQube Server') {
+                        sh 'npm install'
+                        sh 'npm run sonarqube'
                     }
                 }
             }
@@ -84,14 +68,5 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis - ReactServer') {
-        //     steps {
-        //         dir('FrontEnd') {
-        //             withSonarQubeEnv('SonarQube Server') {
-        //                 sh 'npm run sonarqube'
-        //             }
-        //         }
-        //     }
-        // }
     }
 }

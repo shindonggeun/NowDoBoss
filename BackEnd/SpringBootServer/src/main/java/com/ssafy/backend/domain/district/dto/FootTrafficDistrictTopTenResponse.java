@@ -6,16 +6,9 @@ import lombok.Builder;
 public record FootTrafficDistrictTopTenResponse(
         String districtCode,
         String districtCodeName,
-        Long totalFootTraffic,
-        Double totalFootTrafficChangeRate,
+        Long total,
+        Double totalRate,
         int level
 
 ) {
-    public FootTrafficDistrictTopTenResponse(String districtCode, String districtCodeName, Long totalFootTraffic, Double totalFootTrafficChangeRate, int level){
-        this.districtCode = districtCode;
-        this.districtCodeName = districtCodeName;
-        this.totalFootTraffic = totalFootTraffic;
-        this.totalFootTrafficChangeRate = totalFootTrafficChangeRate;
-        this.level = level;
-    }
 }

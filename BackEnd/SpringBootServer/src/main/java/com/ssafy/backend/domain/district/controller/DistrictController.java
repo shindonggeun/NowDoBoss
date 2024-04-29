@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
@@ -28,7 +27,6 @@ public class DistrictController {
             description = "유동인구, 매출, 개업률, 폐업률 Top 5 리스트를 제공하는 기능입니다."
     )
     @GetMapping("/top/ten")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<DistrictTopTenResponse>> getTopTenDistricts() {
         System.out.println("top10 가져오기!");
         return ResponseEntity.ok().body(Message.success(districtService.getTopTenDistricts()));
@@ -39,7 +37,6 @@ public class DistrictController {
             description = "상권변화지표 상세, 유동인구 상세, 점포 상세 분석을 제공하는 기능입니다."
     )
     @GetMapping("/detail/{districtCode}")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<DistrictDetailResponse>> getDistrictDetail(@PathVariable String districtCode) {
         System.out.println("해당 자치구 상세 분석 가져오기!");
         return ResponseEntity.ok().body(Message.success(districtService.getDistrictDetail(districtCode)));
@@ -50,7 +47,6 @@ public class DistrictController {
             description = "모든 자치구의 코드와 이름을 반환하는 기능입니다."
     )
     @GetMapping("/areas")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<List<DistrictAreaResponse>>> getAllDistricts() {
         List<DistrictAreaResponse> areaResponseList = districtService.getAllDistricts();
         return ResponseEntity.ok().body(Message.success(areaResponseList));

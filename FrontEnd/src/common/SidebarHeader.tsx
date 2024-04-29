@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import bookMark from '@src/assets/bookmark.svg'
 
 const Header = styled.div`
   background-color: #236cff;
@@ -10,8 +11,21 @@ const Header = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media only screen and (max-width: 680px) {
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 0;
+    box-shadow: none;
+  }
 `
 
+const Icon = styled.img``
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+`
 const Content = styled.div``
 
 const Title = styled.div`
@@ -25,6 +39,7 @@ const SubTitle = styled.div`
 const CloseButton = styled.div`
   background-color: #e2ebf7;
   border-radius: 100%;
+
   color: #236cff;
   font-weight: 600;
   width: 2.2rem;
@@ -53,17 +68,21 @@ type SidebarHeaderPropsType = {
   close: boolean
   // eslint-disable-next-line react/require-default-props
   setOpen?: (open: boolean) => void
+  icon: boolean
 }
 
 const SidebarHeader = (props: SidebarHeaderPropsType) => {
-  const { title, subTitle, close, setOpen } = props
+  const { title, subTitle, close, setOpen, icon = '' } = props
 
   return (
     <Header>
-      <Content>
-        <Title>{title}</Title>
-        <SubTitle>{subTitle}</SubTitle>
-      </Content>
+      <Container>
+        {icon && <Icon src={bookMark} />}
+        <Content>
+          <Title>{title}</Title>
+          <SubTitle>{subTitle}</SubTitle>
+        </Content>
+      </Container>
       {close && (
         <CloseButton onClick={() => setOpen && setOpen(false)}>Ⅹ</CloseButton>
       )}

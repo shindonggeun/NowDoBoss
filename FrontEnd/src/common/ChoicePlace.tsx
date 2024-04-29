@@ -24,23 +24,26 @@ const Content = styled.div`
 `
 const ChoiceContent = styled.div`
   font-weight: 500;
-  width: 150px;
+  width: 40%;
   text-align: center;
   padding-top: 5px;
+  @media only screen and (max-width: 680px) {
+    width: 38%;
+  }
 `
 const SelectPlace = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: right;
+  justify-content: center;
   text-align: center;
   margin-top: 10px;
+  position: relative;
 `
 
 const Dropdown = styled.div`
   border-bottom: 1px solid black;
-  width: 130px;
+  width: 30%;
   cursor: pointer;
-  position: relative;
   display: flex;
   justify-content: space-between;
   margin: 5px 0 0 20px;
@@ -62,14 +65,39 @@ const DropdownBox = styled.div<{ $place: string }>`
   right: ${({ $place }) => {
     const placeToRight: { [key: string]: string } = {
       goo: '65%',
-      dong: '36%',
-      district: '7%',
+      dong: '36.7%',
+      district: '6.5%',
     }
     return placeToRight[$place] || placeToRight.default
   }};
   width: 24%;
   border: 0.15rem solid #d9d9d9;
   border-radius: 5px;
+
+  @media only screen and (max-width: 680px) {
+    right: ${({ $place }) => {
+      const placeToRight: { [key: string]: string } = {
+        goo: '65%',
+        dong: '35%',
+        district: '5%',
+      }
+      return placeToRight[$place] || placeToRight.default
+    }};
+    width: 26%;
+    height: 15vh;
+    overflow-y: scroll;
+  }
+  @media only screen and (max-width: 500px) {
+    right: ${({ $place }) => {
+      const placeToRight: { [key: string]: string } = {
+        goo: '64%',
+        dong: '36%',
+        district: '7%',
+      }
+      return placeToRight[$place] || placeToRight.default
+    }};
+    width: 23%;
+  }
 `
 const DropdownContent = styled.div`
   width: 100%;

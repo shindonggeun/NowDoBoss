@@ -15,9 +15,6 @@ services:
       - "9000:9000" # HDFS 서비스
     volumes:
       - hadoop_data:/hadoop # 데이터를 저장할 볼륨 (영구 데이터 저장)
-    environment:
-      HADOOP_HOME: /usr/local/hadoop
-      PATH: $PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin
     networks:
       - nowdoboss_data_processing_net
 

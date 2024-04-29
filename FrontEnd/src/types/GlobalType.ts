@@ -1,3 +1,3 @@
-export interface NavigateType {
+export type NavigateType = {
   url: string
 }

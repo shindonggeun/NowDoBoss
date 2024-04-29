@@ -33,7 +33,7 @@ public class MapServiceImpl implements MapService{
         }
         Map<String, List<List<Double>>> res = new LinkedHashMap<>();
         for (Map.Entry<String, List<List<Double>>> entry : coordsMap.entrySet()) {
-            String commercialCode = entry.getKey();
+            String commercialCodeName = entry.getKey();
             List<List<Double>> coords = entry.getValue();
 
             List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
@@ -42,8 +42,8 @@ public class MapServiceImpl implements MapService{
                 return null;
             }
             if (!filteredCoords.isEmpty()) {
-                res.put(commercialCode, filteredCoords);
-                commercialCodes.add(commercialCode);
+                res.put(commercialCodeName, filteredCoords);
+                commercialCodes.add(commercialCodeName);
             }
         }
         return new MapResponse(commercialCodes, res);
@@ -51,6 +51,7 @@ public class MapServiceImpl implements MapService{
 
     @Override
     public MapResponse getAdministrationAreaCoords(double ax, double ay, double bx, double by) throws Exception {
+        redisTemplate.delete("administration");
         System.out.println("서비스임플안!");
         List<String> administrationCodes = new ArrayList<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("administration");
@@ -62,7 +63,7 @@ public class MapServiceImpl implements MapService{
         }
         Map<String, List<List<Double>>> res = new LinkedHashMap<>();
         for (Map.Entry<String, List<List<Double>>> entry : coordsMap.entrySet()) {
-            String administrationCode = entry.getKey();
+            String administrationCodeName = entry.getKey();
             List<List<Double>> coords = entry.getValue();
 
             List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
@@ -71,8 +72,8 @@ public class MapServiceImpl implements MapService{
                 return null;
             }
             if (!filteredCoords.isEmpty()) {
-                res.put(administrationCode, filteredCoords);
-                administrationCodes.add(administrationCode);
+                res.put(administrationCodeName, filteredCoords);
+                administrationCodes.add(administrationCodeName);
             }
         }
         return new MapResponse(administrationCodes, res);
@@ -80,6 +81,7 @@ public class MapServiceImpl implements MapService{
 
     @Override
     public MapResponse getDistrictAreaCoords(double ax, double ay, double bx, double by) throws Exception {
+        redisTemplate.delete("district");
         System.out.println("서비스임플안!");
         List<String> districtCodes= new ArrayList<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("district");
@@ -91,7 +93,7 @@ public class MapServiceImpl implements MapService{
         }
         Map<String, List<List<Double>>> res = new LinkedHashMap<>();
         for (Map.Entry<String, List<List<Double>>> entry : coordsMap.entrySet()) {
-            String districtCode = entry.getKey();
+            String districtCodeName = entry.getKey();
             List<List<Double>> coords = entry.getValue();
 
             List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
@@ -100,8 +102,8 @@ public class MapServiceImpl implements MapService{
                 return null;
             }
             if (!filteredCoords.isEmpty()) {
-                res.put(districtCode, filteredCoords);
-                districtCodes.add(districtCode);
+                res.put(districtCodeName, filteredCoords);
+                districtCodes.add(districtCodeName);
             }
         }
         return new MapResponse(districtCodes, res);
@@ -115,7 +117,7 @@ public class MapServiceImpl implements MapService{
 
         for (Object element : dataArray) {
             JSONObject dto = (JSONObject) element;
-            String dtoCode = (String) dto.get(type + "_code");
+            String dtoCodeName = (String) dto.get(type + "_code_name");
             JSONArray areaCoords = (JSONArray) dto.get("area_coords");
             List<List<Double>> coords = new ArrayList<>();
 
@@ -128,7 +130,7 @@ public class MapServiceImpl implements MapService{
 
             // 경도 기준으로 정렬
             coords.sort(Comparator.comparingDouble(a -> a.get(0)));
-            allCoords.put(dtoCode, coords);
+            allCoords.put(dtoCodeName, coords);
         }
 
         // Redis에 상권 코드별로 정렬된 좌표 저장

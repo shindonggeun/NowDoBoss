@@ -1,78 +1,150 @@
 import useKakaoLoader from '@src/hooks/useKakaoLoader'
 import { Map, Polygon } from 'react-kakao-maps-sdk'
-import { useEffect, useRef, useState } from 'react'
-import { LatLngDataType } from '@src/types/MapType.tsx'
-import { fetchDistrict } from '@src/api/mapApi.tsx'
+import { useRef, useState } from 'react'
+import {
+  DataBodyType,
+  LatLngDataType,
+  PromiseDataType,
+} from '@src/types/MapType'
+import {
+  fetchAdministration,
+  fetchCommercial,
+  fetchDistrict,
+} from '@src/api/mapApi'
 import { useQuery } from '@tanstack/react-query'
 
 const KakaoMap = () => {
+  // 카카오 지도 호출 코드
   useKakaoLoader()
   const mapRef = useRef<kakao.maps.Map>(null)
-  const [isMouseOver, setIsMouseOver] = useState<boolean>(false)
+
+  // 마우스 올렸을 때
+  const [isMouseOver, setIsMouseOver] = useState<string>('')
+  // const [mouseOverLat, setMouseOverLat] = useState<number>(0)
+  // const [mouseOverLng, setMouseOverLng] = useState<number>(0)
+
+  // 현재 지도 level 저장한 값
+  const [level, setLevel] = useState<number>(9)
+
+  // 현재 화면 우상단, 좌하단 좌표 값
   const [latLngData, setLatLngData] = useState<LatLngDataType>({
-    lngNE: 0,
-    latNE: 0,
-    lngSW: 0,
-    latSW: 0,
+    lngNE: 127.32720115811232,
+    latNE: 37.76084867208698,
+    lngSW: 126.56752739824054,
+    latSW: 37.377625138871835,
   })
 
-  useEffect(() => {
-    const map = mapRef.current
-    if (!map) return
-
-    // const center = map.getCenter()
-    //
-    // // 지도의 현재 레벨을 얻어옵니다
-    // const level = map.getLevel()
-
-    // 지도의 현재 영역을 얻어옵니다
+  // 지도 움직일 때 좌표 갱신하는 코드
+  const updateMapBounds = (map: kakao.maps.Map) => {
     const bounds = map.getBounds()
-    // 영역의 남서쪽 좌표를 얻어옵니다
-    const swLatLng: kakao.maps.LatLng = bounds.getSouthWest()
-    // 영역의 북동쪽 좌표를 얻어옵니다
-    const neLatLng: kakao.maps.LatLng = bounds.getNorthEast()
-    // 북서쪽
-    setLatLngData({
-      lngNE: Object.values(neLatLng)[0],
-      latNE: Object.values(neLatLng)[1],
-      lngSW: Object.values(swLatLng)[0],
-      latSW: Object.values(swLatLng)[1],
-    })
-  }, [])
+    const swLatLng = bounds.getSouthWest()
+    const neLatLng = bounds.getNorthEast()
+    setLevel(map.getLevel())
 
-  const { data } = useQuery({
+    setLatLngData({
+      lngNE: neLatLng.getLng(),
+      latNE: neLatLng.getLat(),
+      lngSW: swLatLng.getLng(),
+      latSW: swLatLng.getLat(),
+    })
+  }
+
+  // 좌표 갱신될 때마다 get 요청 보내는 코드
+  const { data, isLoading } = useQuery<PromiseDataType>({
     queryKey: ['fetchPoligonPath', latLngData],
-    queryFn: () => fetchDistrict(latLngData),
+    queryFn: async () => {
+      console.log(`level : ${level}`)
+      if (level > 7) {
+        return fetchDistrict(latLngData)
+      }
+      if (level > 4) {
+        return fetchAdministration(latLngData)
+      }
+      return fetchCommercial(latLngData)
+    },
   })
-  console.log(data)
+
+  // 데이터를 폴리곤 path 형식으로 변환하는 함수
+  const parsePolygonData = (dataBody: DataBodyType) => {
+    return Object.keys(dataBody.coords).map(key => ({
+      code: key,
+      path: dataBody.coords[key].map(([lng, lat]) => ({
+        lng,
+        lat,
+      })),
+    }))
+  }
+
   return (
     <div>
-      <Map
-        center={{ lat: 37.57023786206844, lng: 126.94665085220238 }}
-        style={{ width: '100%', height: 'calc(100vh - 75px)' }}
-        ref={mapRef}
-        level={9}
-      >
-        <Polygon
-          path={[
-            { lat: 35.206063423761435, lng: 126.81350507492236 },
-            { lat: 35.202516316361475, lng: 126.81041642183014 },
-            { lat: 35.202421136259495, lng: 126.80722105178819 },
-            { lat: 35.20609861830582, lng: 126.80720137893576 },
-          ]}
-          strokeWeight={3} // 선의 두께입니다
-          strokeColor="#39DE2A" // 선의 색깔입니다
-          strokeOpacity={0.8} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle="longdash" // 선의 스타일입니다
-          fillColor={isMouseOver ? '#70ff5c' : '#A2FF99'} // 채우기 색깔입니다
-          fillOpacity={isMouseOver ? 0.8 : 0.7} // 채우기 불투명도입니다
-          onMouseover={() => setIsMouseOver(true)}
-          onMouseout={() => setIsMouseOver(false)}
-          onMousedown={() => {
-            console.log('클릭')
-          }}
-        />
-      </Map>
+      <div>
+        <Map
+          center={{ lat: 37.57023786206844, lng: 126.94665085220238 }}
+          style={{ width: '100%', height: 'calc(100vh - 75px)' }}
+          ref={mapRef}
+          level={level}
+          onDragEnd={map => updateMapBounds(map)}
+          onZoomChanged={map => updateMapBounds(map)}
+          // minLevel={9}
+        >
+          {!isLoading && data
+            ? parsePolygonData(data.dataBody).map((code, index) => {
+                // 색상 배열 정의
+                const colors = [
+                  '#FF6347',
+                  '#4682B4',
+                  '#32CD32',
+                  '#FFD700',
+                  '#6A5ACD',
+                  '#FF69B4',
+                  '#20B2AA',
+                ]
+                // index에 따라 색상을 순환시키기 위한 계산
+                const colorIndex = index % colors.length
+                // 현재 폴리곤의 색상
+                const fillColor = colors[colorIndex]
+
+                return (
+                  <Polygon
+                    key={index}
+                    path={code.path}
+                    strokeWeight={3} // 선의 두께입니다
+                    // strokeColor="#39DE2A" // 선의 색깔입니다
+                    strokeColor={fillColor} // 선의 색깔입니다
+                    strokeOpacity={0.8} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                    strokeStyle="longdash" // 선의 스타일입니다
+                    // fillColor={isMouseOver ? '#70ff5c' : '#A2FF99'} // 채우기 색깔입니다
+                    fillColor={fillColor} // 채우기 색깔입니다
+                    fillOpacity={isMouseOver === code.code ? 0.8 : 0.6} // 채우기 불투명도입니다
+                    onMouseover={() => {
+                      return setIsMouseOver(code.code)
+                      // ,setMouseOverLat(code.code(lat)),
+                      // setMouseOverLng(code.code(lng))
+                    }}
+                    onMouseout={() => setIsMouseOver('')}
+                    onMousedown={() => {
+                      console.log(code.code)
+                    }}
+                  />
+                )
+              })
+            : ''}
+          {/* {mouseOverLat ? ( */}
+          {/*  <MapInfoWindow // 인포윈도우를 생성하고 지도에 표시합니다 */}
+          {/*    position={{ */}
+          {/*      // 인포윈도우가 표시될 위치입니다 */}
+          {/*      lat: mouseOverLat, */}
+          {/*      lng: mouseOverLng, */}
+          {/*    }} */}
+          {/*    removable // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다 */}
+          {/*  > */}
+          {/*    <div style={{ padding: '5px', color: '#000' }}>Hello World!</div> */}
+          {/*  </MapInfoWindow> */}
+          {/* ) : ( */}
+          {/*  '' */}
+          {/* )} */}
+        </Map>
+      </div>
     </div>
   )
 }

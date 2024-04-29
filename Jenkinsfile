@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     echo "Redis 컨테이너 실행 상태 확인 중..."
-                    def isRedisRunning = sh(script: "docker ps --filter name=nowdoboss_redis --filter status=running", returnStdout: true).trim()
+                    def isRedisRunning = sh(script: "docker ps --filter name=nowdoboss_redis --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
                     echo "Redis 실행 상태: ${isRedisRunning}"
 
                     // Redis가 실행 중이지 않으면 실행
@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     echo "SonarQube 컨테이너 실행 상태 확인 중..."
-                    def isSonarQubeRunning = sh(script: "docker ps --filter name=nowdoboss_sonarqube --filter status=running", returnStdout: true).trim()
+                    def isSonarQubeRunning = sh(script: "docker ps --filter name=nowdoboss_sonarqube --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
                     echo "SonarQube 실행 상태: ${isSonarQubeRunning}"
 
                     // SonarQube가 실행 중이지 않으면 실행

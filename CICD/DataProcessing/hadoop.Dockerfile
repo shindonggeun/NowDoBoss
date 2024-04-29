@@ -29,7 +29,7 @@ RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
     chmod 0600 ~/.ssh/authorized_keys
 
 # 하둡 데몬 실행 스크립트 추가
-COPY start-hadoop.sh /usr/local/bin/
+COPY start-all.sh /usr/local/bin/
 
 # 하둡 데몬 실행 스크립트 실행
-CMD ["start-hadoop.sh"]
+CMD ["start-all.sh"]

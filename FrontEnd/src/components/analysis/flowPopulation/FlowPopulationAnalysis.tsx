@@ -1,4 +1,5 @@
 import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
+import TimeChart from '@src/components/analysis/flowPopulation/TimeChart'
 import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
 
 const FlowPopulationAnalysis = () => {
@@ -11,7 +12,9 @@ const FlowPopulationAnalysis = () => {
       </f.FirstLowContainer>
       <f.SecondLowContainer>
         <f.AgeChart>연령별 유동인구 차트 카드</f.AgeChart>
-        <f.TimeChart>시간대별 유동인구 차트 카드</f.TimeChart>
+        <f.TimeChart>
+          <TimeChart />
+        </f.TimeChart>
       </f.SecondLowContainer>
     </>
   )

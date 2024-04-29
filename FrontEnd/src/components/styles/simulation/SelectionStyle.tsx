@@ -16,7 +16,9 @@ export const Overlay = styled.div`
 `
 
 export const Container = styled.div`
-  width: 45vw;
+  // 반응형으로?? 아니면 고정??
+  //  width: 45vw;
+  width: 45rem;
   height: fit-content;
   border-radius: 15px;
   background-color: #fff;
@@ -24,12 +26,16 @@ export const Container = styled.div`
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
+
+  @media (max-width: 768px) {
+    width: 80vw;
+  }
 `
 
 export const SelctionHeader = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: blue;
+  background-color: #2e83f2;
   padding: 2vh 1vw;
 `
 

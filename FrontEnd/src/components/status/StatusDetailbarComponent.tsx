@@ -8,6 +8,9 @@ import DetailCommercialComponent from '@src/components/status/DetailCommercialCo
 import Xmark from 'src/assets/xmark_solid_nomal.svg'
 import bookmark from 'src/assets/bookmark.svg'
 import { useRef, useState, useEffect, useMemo } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { fetchStatusDetail } from '@src/api/statusApi'
+import { StatusResponse } from '@src/types/StatusType'
 
 interface StatusDetailbarProps {
   selectedRegion: string | null
@@ -23,22 +26,71 @@ const StatusDetailbarComponent = ({
   // console.log(`선택한 지역구 코드: ${regionCode}`)
   const [activeTab, setActiveTab] = useState<string>('유동인구')
   const scrollRef = useRef<HTMLDivElement[]>([])
+  const detailbarRef = useRef<HTMLDivElement>(null)
 
+  // API 호출
+  const { data, isLoading, refetch } = useQuery<StatusResponse>({
+    queryKey: ['StatusDetailAnalysis'],
+    queryFn: () => fetchStatusDetail(Number(regionCode)),
+    enabled: !!regionCode,
+  })
+  useEffect(() => {
+    refetch()
+  }, [refetch, regionCode])
+
+  console.log(regionCode)
+  const DeatilData = data?.dataBody
   const categories = useMemo(
     () => [
-      { name: '유동인구', component: DetailPopulationComponent, props: {} },
-      { name: '점포수', component: DetailStoreNumberComponent, props: {} },
-      { name: '개업률', component: DetailOpenRateComponent, props: {} },
-      { name: '폐업률', component: DetailCloseRateComponent, props: {} },
-      { name: '매출분석', component: DetailAnalysisComponent, props: {} },
-      { name: '상권변화', component: DetailCommercialComponent, props: {} },
+      {
+        name: '유동인구',
+        component: DetailPopulationComponent,
+      },
+      {
+        // <todo> % 비율말고 data 값 받아오기
+        name: '점포수',
+        component: DetailStoreNumberComponent,
+      },
+      {
+        name: '개업률',
+        component: DetailOpenRateComponent,
+      },
+      {
+        name: '폐업률',
+        component: DetailCloseRateComponent,
+      },
+      {
+        name: '매출분석',
+        component: DetailAnalysisComponent,
+      },
+      {
+        name: '상권변화',
+        component: DetailCommercialComponent,
+      },
     ],
-    [],
+    [regionCode],
   )
 
   const onClickActiveTab = (tab: string) => {
     setActiveTab(tab)
   }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        detailbarRef.current &&
+        !detailbarRef.current.contains(event.target as Node)
+      ) {
+        onClickRegionHandler(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [onClickRegionHandler])
 
   useEffect(() => {
     const index = categories.findIndex(category => category.name === activeTab)
@@ -60,7 +112,7 @@ const StatusDetailbarComponent = ({
   }, [])
 
   return (
-    <c.Container>
+    <c.Container ref={detailbarRef}>
       <c.FixedCategoryBar>
         <c.BarTopHeader>
           <c.BookMarkIcon src={bookmark} alt="bookmark" />
@@ -85,22 +137,26 @@ const StatusDetailbarComponent = ({
           ))}
         </c.BarInnerContainer>
       </c.FixedCategoryBar>
-
-      <p>선택한 지역구 코드: {regionCode} </p>
-
-      {categories.map((category, index) => (
-        <div key={index}>
-          <c.SeparateLine />
-          <c.TabBarContainer
-            ref={el => {
-              if (el) scrollRef.current[index] = el
-            }}
-          >
-            {/* <category.component props={category.props} /> */}
-            <category.component />
-          </c.TabBarContainer>
-        </div>
-      ))}
+      {!isLoading && data ? (
+        <>
+          <p>선택한 지역구 코드: {regionCode} </p>
+          {categories.map((category, index) => (
+            <div key={index}>
+              <c.SeparateLine />
+              <c.TabBarContainer
+                ref={el => {
+                  if (el) scrollRef.current[index] = el
+                }}
+              >
+                <category.component props={DeatilData} />
+                {/* <category.component /> */}
+              </c.TabBarContainer>
+            </div>
+          ))}
+        </>
+      ) : (
+        <div>로딩중 입니당</div>
+      )}
     </c.Container>
   )
 }

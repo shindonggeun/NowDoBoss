@@ -1,4 +1,11 @@
-const DetailStoreNumberComponent = () => {
+import { DetailDataBody } from '@src/types/StatusType'
+
+interface DetailStoreNumberProps {
+  props: DetailDataBody | undefined
+}
+
+const DetailStoreNumberComponent = ({ props }: DetailStoreNumberProps) => {
+  // console.log(props)
   return (
     <>
       <h1>점포수 페이지</h1>

@@ -1,23 +1,10 @@
 pipeline {
     agent any  // 이 파이프라인이 실행될 Jenkins 에이전트를 지정합니다. 'any'는 사용 가능한 임의의 에이전트에서 실행될 수 있음을 의미합니다.
     tools {
-        nodejs 'NodeJS 20.11.1'
+        nodejs '20.11.1'
     }
 
     stages {
-        stage("Check Environment Variables") {
-            steps {
-                script {
-                    // 환경변수 확인
-                    sh 'env'
-                    // Node.js 버전 확인
-                    sh 'node --version'
-                    // npm 버전 확인
-                    sh 'npm --version'
-                }
-            }
-        }
-        
         stage('Deploy Redis') {
             steps {
                 script {
@@ -47,22 +34,23 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis - FrontEnd') {
-        //     steps {
-        //         dir('FrontEnd') {
-        //             withSonarQubeEnv('SonarQube Server') {
-        //                 sh 'sonar-scanner -Dsonar.projectKey=nowdoboss'
-        //             }
-        //         }
-        //     }
-        // }
-
         stage('SonarQube Analysis - SpringBootServer') {
             steps {
                 dir('BackEnd/SpringBootServer') {
                     withSonarQubeEnv('SonarQube Server') {
                         sh 'chmod +x ./gradlew'
                         sh './gradlew sonar -Dsonar.projectKey=nowdoboss'
+                    }
+                }
+            }
+        }
+
+        stage('SonarQube Analysis - FrontEnd') {
+            steps {
+                dir('FrontEnd') {
+                    withSonarQubeEnv('SonarQube Server') {
+                        sh 'npm install'
+                        sh 'npm run sonarqube'
                     }
                 }
             }
@@ -80,14 +68,5 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis - ReactServer') {
-        //     steps {
-        //         dir('FrontEnd') {
-        //             withSonarQubeEnv('SonarQube Server') {
-        //                 sh 'npm run sonarqube'
-        //             }
-        //         }
-        //     }
-        // }
     }
 }

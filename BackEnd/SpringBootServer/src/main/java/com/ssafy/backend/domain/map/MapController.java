@@ -22,9 +22,9 @@ public class MapController {
             description = "주어진 지도 영역 내에 포함된 상권의 테두리 좌표를 조회하는 기능입니다."
     )
     @GetMapping("/commercial")
-    public ResponseEntity<Message<Map<String, List<List<Double>>>>> getCommercialAreaCoords (
-            @RequestParam Double lngNW, @RequestParam Double latNW, @RequestParam Double lngSE, @RequestParam Double latSE) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getCommercialAreaCoords(lngNW, latSE, lngSE, latNW)));
+    public ResponseEntity<Message<MapResponse>> getCommercialAreaCoords (
+            @RequestParam Double lngSW, @RequestParam Double latSW, @RequestParam Double lngNE, @RequestParam Double latNE) throws Exception {
+        return ResponseEntity.ok().body(Message.success(mapservice.getCommercialAreaCoords(lngSW, latSW, lngNE, latNE)));
     }
 
     @Operation(
@@ -32,9 +32,9 @@ public class MapController {
             description = "주어진 지도 영역 내에 포함된 행정동의 테두리 좌표를 조회하는 기능입니다."
     )
     @GetMapping("/administration")
-    public ResponseEntity<Message<Map<String, List<List<Double>>>>> getAdministrationAreaCoords (
-            @RequestParam Double lngNW, @RequestParam Double latNW, @RequestParam Double lngSE, @RequestParam Double latSE) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getAdministrationAreaCoords(lngNW, latSE, lngSE, latNW)));
+    public ResponseEntity<Message<MapResponse>> getAdministrationAreaCoords (
+            @RequestParam Double lngSW, @RequestParam Double latSW, @RequestParam Double lngNE, @RequestParam Double latNE) throws Exception {
+        return ResponseEntity.ok().body(Message.success(mapservice.getAdministrationAreaCoords(lngSW, latSW, lngNE, latNE)));
     }
 
     @Operation(
@@ -42,8 +42,8 @@ public class MapController {
             description = "주어진 지도 영역 내에 포함된 자치구의 테두리 좌표를 조회하는 기능입니다."
     )
     @GetMapping("/district")
-    public ResponseEntity<Message<Map<String, List<List<Double>>>>> getDistrictAreaCoords (
-            @RequestParam Double lngNW, @RequestParam Double latNW, @RequestParam Double lngSE, @RequestParam Double latSE) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getDistrictAreaCoords(lngNW, latSE, lngSE, latNW)));
+    public ResponseEntity<Message<MapResponse>> getDistrictAreaCoords (
+            @RequestParam Double lngSW, @RequestParam Double latSW, @RequestParam Double lngNE, @RequestParam Double latNE) throws Exception {
+        return ResponseEntity.ok().body(Message.success(mapservice.getDistrictAreaCoords(lngSW, latSW, lngNE, latNE)));
     }
 }

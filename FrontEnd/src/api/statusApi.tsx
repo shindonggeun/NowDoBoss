@@ -7,3 +7,11 @@ export const fetchTopList = async () => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 상권현황 자치구 상세분석
+export const fetchStatusDetail = async (districtCode: number) => {
+  return customAxios
+    .get(`/district/detail/${districtCode}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

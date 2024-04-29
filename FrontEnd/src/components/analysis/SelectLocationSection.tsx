@@ -1,7 +1,7 @@
 import SelectionPanel from '@src/components/analysis/SelectionPanel'
 import KakaoMap from '@src/common/KakaoMap'
 
-const SelectLocation = () => {
+const SelectLocationSection = () => {
   return (
     <div>
       <SelectionPanel />
@@ -10,4 +10,4 @@ const SelectLocation = () => {
   )
 }
 
-export default SelectLocation
+export default SelectLocationSection

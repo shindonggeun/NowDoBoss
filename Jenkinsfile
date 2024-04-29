@@ -14,6 +14,7 @@ pipeline {
 
                     // Redis가 실행 중이지 않으면 실행
                     if (isRedisRunning == "") {
+                        echo "Redis dockerfile 빌드..."
                         sh "docker-compose -f CICD/docker-compose-redis.yml up -d"
                     }
                 }

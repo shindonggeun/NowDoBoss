@@ -11,7 +11,8 @@ pipeline {
 
                     // 하둡이 실행 중이지 않으면 실행
                     if (isHadoopRunning == "") {
-                        sh "docker-compose -f up -d"
+                        echo "Hadoop dockerfile 빌드..."
+                        sh "docker-compose -f CICD/DataProcessing/docker-compose.yml up -d"
                     }
                 }
             }

@@ -6,7 +6,7 @@ export type LatLngDataType = {
 }
 
 export type DataBodyType = {
-  codes: string[]
+  names: { [key: string]: [number, number] }
   coords: { [key: string]: Coord[] }
 }
 
@@ -21,4 +21,6 @@ export type PromiseDataType = {
   dataHeader: DataHeaderType
 }
 
-type Coord = [number, number]
+export type Coord = [number, number]
+
+export type LatLng = { lat: number; lng: number }

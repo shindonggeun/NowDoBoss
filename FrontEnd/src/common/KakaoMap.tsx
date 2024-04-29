@@ -20,8 +20,10 @@ const KakaoMap = () => {
 
   // 마우스 올렸을 때
   const [isMouseOver, setIsMouseOver] = useState<string>('')
-  // const [mouseOverLat, setMouseOverLat] = useState<number>(0)
-  // const [mouseOverLng, setMouseOverLng] = useState<number>(0)
+  // const [mouseOverLatLng, setMouseOverLatLng] = useState<LatLng>({
+  //   lat: 0,
+  //   lng: 0,
+  // })
 
   // 현재 지도 level 저장한 값
   const [level, setLevel] = useState<number>(9)
@@ -65,14 +67,44 @@ const KakaoMap = () => {
   })
 
   // 데이터를 폴리곤 path 형식으로 변환하는 함수
+  // const parsePolygonData = (dataBody: DataBodyType) => {
+  //   return Object.keys(dataBody.coords).map(key => ({
+  //     code: key,
+  //     center: dataBody.codes[key]
+  //       ? {
+  //           // 중심 좌표 추가
+  //           lng: dataBody.codes[key][0],
+  //           lat: dataBody.codes[key][1],
+  //         }
+  //       : undefined,
+  //     path: dataBody.coords[key].map(([lng, lat]) => ({
+  //       lng,
+  //       lat,
+  //     })),
+  //   }))
+  // }
+  if (data) {
+    console.log(data.dataBody)
+  }
   const parsePolygonData = (dataBody: DataBodyType) => {
-    return Object.keys(dataBody.coords).map(key => ({
-      code: key,
-      path: dataBody.coords[key].map(([lng, lat]) => ({
-        lng,
-        lat,
-      })),
-    }))
+    return Object.keys(dataBody.coords)
+      .map(key => {
+        // codes에서 key에 해당하는 중심 좌표 데이터가 존재하는지 확인
+        const centerCoords = dataBody.names[key]
+
+        return {
+          code: key,
+          center: {
+            lng: centerCoords[0],
+            lat: centerCoords[1],
+          },
+          path: dataBody.coords[key].map(([lng, lat]) => ({
+            lng,
+            lat,
+          })),
+        }
+      })
+      .filter(item => item !== null) // 중심 좌표가 없어서 null로 처리된 항목들을 제거
   }
 
   return (
@@ -89,6 +121,7 @@ const KakaoMap = () => {
         >
           {!isLoading && data
             ? parsePolygonData(data.dataBody).map((code, index) => {
+                console.log(code)
                 // 색상 배열 정의
                 const colors = [
                   '#FF6347',
@@ -117,9 +150,10 @@ const KakaoMap = () => {
                     fillColor={fillColor} // 채우기 색깔입니다
                     fillOpacity={isMouseOver === code.code ? 0.8 : 0.6} // 채우기 불투명도입니다
                     onMouseover={() => {
+                      // if (code.center) {
+                      //   setMouseOverLatLng(code.center)
+                      // }
                       return setIsMouseOver(code.code)
-                      // ,setMouseOverLat(code.code(lat)),
-                      // setMouseOverLng(code.code(lng))
                     }}
                     onMouseout={() => setIsMouseOver('')}
                     onMousedown={() => {
@@ -129,12 +163,12 @@ const KakaoMap = () => {
                 )
               })
             : ''}
-          {/* {mouseOverLat ? ( */}
+          {/* {mouseOverLatLng ? ( */}
           {/*  <MapInfoWindow // 인포윈도우를 생성하고 지도에 표시합니다 */}
           {/*    position={{ */}
           {/*      // 인포윈도우가 표시될 위치입니다 */}
-          {/*      lat: mouseOverLat, */}
-          {/*      lng: mouseOverLng, */}
+          {/*      lat: mouseOverLatLng.lat, */}
+          {/*      lng: mouseOverLatLng.lng, */}
           {/*    }} */}
           {/*    removable // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다 */}
           {/*  > */}

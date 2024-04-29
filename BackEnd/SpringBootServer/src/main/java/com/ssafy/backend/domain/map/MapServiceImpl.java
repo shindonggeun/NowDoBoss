@@ -19,94 +19,205 @@ public class MapServiceImpl implements MapService{
 
     private final RedisTemplate<String, Object> redisTemplate;
 
+//    @Override
+//    public MapResponse getCommercialAreaCoords(double ax, double ay, double bx, double by) throws Exception {
+//        //redisTemplate.delete("commercial");
+//        System.out.println("서비스임플안!");
+//        List<String> commercialCodes = new ArrayList<>();
+//        Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("commercial");
+//        if (coordsMap == null) {
+//            //throw new IllegalStateException("Coordinates not found in Redis, please load data first.");
+//            log.info("첫 상권 영역 요청!");
+//            loadAndCacheCoords("commercial");
+//            coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("commercial");
+//        }
+//        Map<String, List<List<Double>>> res = new LinkedHashMap<>();
+//        for (Map.Entry<String, List<List<Double>>> entry : coordsMap.entrySet()) {
+//            String commercialCodeName = entry.getKey();
+//            List<List<Double>> coords = entry.getValue();
+//
+//            List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
+//
+//            if (filteredCoords == null){
+//                return null;
+//            }
+//            if (!filteredCoords.isEmpty()) {
+//                res.put(commercialCodeName, filteredCoords);
+//                commercialCodes.add(commercialCodeName);
+//            }
+//        }
+//        return new MapResponse(commercialCodes, res);
+//    }
+//
+//    @Override
+//    public MapResponse getAdministrationAreaCoords(double ax, double ay, double bx, double by) throws Exception {
+//        redisTemplate.delete("administration");
+//        System.out.println("서비스임플안!");
+//        List<String> administrationCodes = new ArrayList<>();
+//        Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("administration");
+//        if (coordsMap == null) {
+//            //throw new IllegalStateException("Coordinates not found in Redis, please load data first.");
+//            log.info("첫 행정구 영역 요청!");
+//            loadAndCacheCoords("administration");
+//            coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("administration");
+//        }
+//        Map<String, List<List<Double>>> res = new LinkedHashMap<>();
+//        for (Map.Entry<String, List<List<Double>>> entry : coordsMap.entrySet()) {
+//            String administrationCodeName = entry.getKey();
+//            List<List<Double>> coords = entry.getValue();
+//
+//            List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
+//
+//            if (filteredCoords == null){
+//                return null;
+//            }
+//            if (!filteredCoords.isEmpty()) {
+//                res.put(administrationCodeName, filteredCoords);
+//                administrationCodes.add(administrationCodeName);
+//            }
+//        }
+//        return new MapResponse(administrationCodes, res);
+//    }
+//
+//    @Override
+//    public MapResponse getDistrictAreaCoords(double ax, double ay, double bx, double by) throws Exception {
+//        redisTemplate.delete("district");
+//        System.out.println("서비스임플안!");
+//        List<String> districtCodes= new ArrayList<>();
+//        Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("district");
+//        if (coordsMap == null) {
+//            //throw new IllegalStateException("Coordinates not found in Redis, please load data first.");
+//            log.info("첫 자치구 영역 요청!");
+//            loadAndCacheCoords("district");
+//            coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("district");
+//        }
+//        Map<String, List<List<Double>>> res = new LinkedHashMap<>();
+//        for (Map.Entry<String, List<List<Double>>> entry : coordsMap.entrySet()) {
+//            String districtCodeName = entry.getKey();
+//            List<List<Double>> coords = entry.getValue();
+//
+//            List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
+//
+//            if (filteredCoords == null){
+//                return null;
+//            }
+//            if (!filteredCoords.isEmpty()) {
+//                res.put(districtCodeName, filteredCoords);
+//                districtCodes.add(districtCodeName);
+//            }
+//        }
+//        return new MapResponse(districtCodes, res);
+//    }
+
     @Override
-    public MapResponse getCommercialAreaCoords(double ax, double ay, double bx, double by) throws Exception {
-        //redisTemplate.delete("commercial");
-        System.out.println("서비스임플안!");
-        List<String> commercialCodes = new ArrayList<>();
-        Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("commercial");
-        if (coordsMap == null) {
-            //throw new IllegalStateException("Coordinates not found in Redis, please load data first.");
-            log.info("첫 상권 영역 요청!");
-            loadAndCacheCoords("commercial");
-            coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("commercial");
-        }
-        Map<String, List<List<Double>>> res = new LinkedHashMap<>();
-        for (Map.Entry<String, List<List<Double>>> entry : coordsMap.entrySet()) {
-            String commercialCodeName = entry.getKey();
-            List<List<Double>> coords = entry.getValue();
+    public MapResponse getDistricts(double ax, double ay, double bx, double by) throws Exception {
+        JSONParser parser = new JSONParser();
+        Reader reader = new FileReader("src/main/resources/area/district.json");
+        Map<String, List<Double>> map = new LinkedHashMap<>();
+        List<String> list = new ArrayList<>();
+        JSONArray dataArray = (JSONArray) parser.parse(reader);
+        Map<String, List<List<Double>>> allCoords = new LinkedHashMap<>();
 
-            List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
+        for (Object element : dataArray) {
+            JSONObject dto = (JSONObject) element;
+            String dtoCodeName = (String) dto.get("district_code_name");
+            JSONArray areaCoords = (JSONArray) dto.get("area_coords");
+            List<List<Double>> coords = new ArrayList<>();
 
-            if (filteredCoords == null){
-                return null;
+            for (Object coordObject : areaCoords) {
+                JSONArray coordArray = (JSONArray) coordObject;
+                double x = ((Number) coordArray.get(0)).doubleValue();
+                double y = ((Number) coordArray.get(1)).doubleValue();
+                coords.add(Arrays.asList(x, y));
             }
-            if (!filteredCoords.isEmpty()) {
-                res.put(commercialCodeName, filteredCoords);
-                commercialCodes.add(commercialCodeName);
+            JSONArray center = (JSONArray) dto.get("center_coords");
+            double x = ((Number) center.get(0)).doubleValue();
+            double y = ((Number) center.get(1)).doubleValue();
+            System.out.println(x + " " + y);
+            if (x >= ax && x <= bx && y >= ay && y <= by){
+                allCoords.put(dtoCodeName, coords);
+                list.add(dtoCodeName);
+                List<Double> l = new ArrayList<>();
+                l.add(x);
+                l.add(y);
+                map.put(dtoCodeName, l);
             }
         }
-        return new MapResponse(commercialCodes, res);
+        return new MapResponse(map, allCoords);
     }
 
     @Override
-    public MapResponse getAdministrationAreaCoords(double ax, double ay, double bx, double by) throws Exception {
-        redisTemplate.delete("administration");
-        System.out.println("서비스임플안!");
-        List<String> administrationCodes = new ArrayList<>();
-        Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("administration");
-        if (coordsMap == null) {
-            //throw new IllegalStateException("Coordinates not found in Redis, please load data first.");
-            log.info("첫 행정구 영역 요청!");
-            loadAndCacheCoords("administration");
-            coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("administration");
-        }
-        Map<String, List<List<Double>>> res = new LinkedHashMap<>();
-        for (Map.Entry<String, List<List<Double>>> entry : coordsMap.entrySet()) {
-            String administrationCodeName = entry.getKey();
-            List<List<Double>> coords = entry.getValue();
+    public MapResponse getAdministrations(double ax, double ay, double bx, double by) throws Exception {
+        JSONParser parser = new JSONParser();
+        Reader reader = new FileReader("src/main/resources/area/administration.json");
+        Map<String, List<Double>> map = new LinkedHashMap<>();
+        List<String> list = new ArrayList<>();
+        JSONArray dataArray = (JSONArray) parser.parse(reader);
+        Map<String, List<List<Double>>> allCoords = new LinkedHashMap<>();
 
-            List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
+        for (Object element : dataArray) {
+            JSONObject dto = (JSONObject) element;
+            String dtoCodeName = (String) dto.get("administration_code_name");
+            JSONArray areaCoords = (JSONArray) dto.get("area_coords");
+            List<List<Double>> coords = new ArrayList<>();
 
-            if (filteredCoords == null){
-                return null;
+            for (Object coordObject : areaCoords) {
+                JSONArray coordArray = (JSONArray) coordObject;
+                double x = ((Number) coordArray.get(0)).doubleValue();
+                double y = ((Number) coordArray.get(1)).doubleValue();
+                coords.add(Arrays.asList(x, y));
             }
-            if (!filteredCoords.isEmpty()) {
-                res.put(administrationCodeName, filteredCoords);
-                administrationCodes.add(administrationCodeName);
+            JSONArray center = (JSONArray) dto.get("center_coords");
+            double x = ((Number) center.get(0)).doubleValue();
+            double y = ((Number) center.get(1)).doubleValue();
+            System.out.println(x + " " + y);
+            if (x >= ax && x <= bx && y >= ay && y <= by){
+                allCoords.put(dtoCodeName, coords);
+                list.add(dtoCodeName);
+                List<Double> l = new ArrayList<>();
+                l.add(x);
+                l.add(y);
+                map.put(dtoCodeName, l);
             }
         }
-        return new MapResponse(administrationCodes, res);
+        return new MapResponse(map, allCoords);
     }
 
     @Override
-    public MapResponse getDistrictAreaCoords(double ax, double ay, double bx, double by) throws Exception {
-        redisTemplate.delete("district");
-        System.out.println("서비스임플안!");
-        List<String> districtCodes= new ArrayList<>();
-        Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("district");
-        if (coordsMap == null) {
-            //throw new IllegalStateException("Coordinates not found in Redis, please load data first.");
-            log.info("첫 자치구 영역 요청!");
-            loadAndCacheCoords("district");
-            coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("district");
-        }
-        Map<String, List<List<Double>>> res = new LinkedHashMap<>();
-        for (Map.Entry<String, List<List<Double>>> entry : coordsMap.entrySet()) {
-            String districtCodeName = entry.getKey();
-            List<List<Double>> coords = entry.getValue();
+    public MapResponse getCommercials(double ax, double ay, double bx, double by) throws Exception {
+        JSONParser parser = new JSONParser();
+        Reader reader = new FileReader("src/main/resources/area/commercial.json");
+        Map<String, List<Double>> map = new LinkedHashMap<>();
+        List<String> list = new ArrayList<>();
+        JSONArray dataArray = (JSONArray) parser.parse(reader);
+        Map<String, List<List<Double>>> allCoords = new LinkedHashMap<>();
 
-            List<List<Double>> filteredCoords = filterCoordsByRange(coords, ax, bx, ay, by);
+        for (Object element : dataArray) {
+            JSONObject dto = (JSONObject) element;
+            String dtoCodeName = (String) dto.get("commercial_code_name");
+            JSONArray areaCoords = (JSONArray) dto.get("area_coords");
+            List<List<Double>> coords = new ArrayList<>();
 
-            if (filteredCoords == null){
-                return null;
+            for (Object coordObject : areaCoords) {
+                JSONArray coordArray = (JSONArray) coordObject;
+                double x = ((Number) coordArray.get(0)).doubleValue();
+                double y = ((Number) coordArray.get(1)).doubleValue();
+                coords.add(Arrays.asList(x, y));
             }
-            if (!filteredCoords.isEmpty()) {
-                res.put(districtCodeName, filteredCoords);
-                districtCodes.add(districtCodeName);
+            JSONArray center = (JSONArray) dto.get("center_coords");
+            double x = ((Number) center.get(0)).doubleValue();
+            double y = ((Number) center.get(1)).doubleValue();
+            System.out.println(x + " " + y);
+            if (x >= ax && x <= bx && y >= ay && y <= by){
+                allCoords.put(dtoCodeName, coords);
+                list.add(dtoCodeName);
+                List<Double> l = new ArrayList<>();
+                l.add(x);
+                l.add(y);
+                map.put(dtoCodeName, l);
             }
         }
-        return new MapResponse(districtCodes, res);
+        return new MapResponse(map, allCoords);
     }
 
     public void loadAndCacheCoords(String type) throws Exception {

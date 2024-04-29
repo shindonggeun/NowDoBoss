@@ -2,8 +2,8 @@
 export interface TopListItem {
   districtCode: string
   districtCodeName: string
-  totalFootTraffic: number
-  totalFootTrafficChangeRate: number
+  total: number
+  totalRate: number
   level: number
 }
 

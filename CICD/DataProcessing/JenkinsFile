@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Build and Deploy Hadoop') {
             steps {
-                echo "하둡 컨테이너 실행 상태 확인 중..."
+                script {
+                    echo "하둡 컨테이너 실행 상태 확인 중..."
                     def isHadoopRunning = sh(script: "docker ps --filter name=nowdoboss_hadoop --filter status=running", returnStdout: true).trim()
                     echo "하둡 실행 상태: ${isHadoopRunning}"
 
@@ -12,6 +13,7 @@ pipeline {
                     if (isHadoopRunning == "") {
                         sh "docker-compose -f up -d"
                     }
+                }
             }
         }
 

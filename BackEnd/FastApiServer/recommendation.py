@@ -16,7 +16,7 @@ model_path = "hdfs://namenode:8020/user/hadoop/model/als_model"
 
 # Spark 세션 초기화 - 추후 설정에 맞게 변경
 spark = SparkSession.builder \
-    .appName("HadoopDataLoad") \
+    .appName("Recommendation") \
     .config("spark.hadoop.fs.defaultFS", "hdfs://namenode:8020") \
     .getOrCreate()
 

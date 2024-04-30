@@ -9,8 +9,8 @@ services:
     image: nowdoboss_hadoop_img # 빌드된 이미지의 이름을 설정합니다.
     restart: always  # 컨테이너가 어떤 이유로 종료되더라도 항상 재시작을 시도합니다.
     ports:
-      - "50070:50070" # NameNode 웹 UI
-      - "9000:9000" # HDFS 서비스
+      - "9870:9870" # NameNode 웹 UI (Hadoop 3.X에서 변경됨)
+      - "9000:9000" # HDFS 서비스 (NameNode IPC)
     volumes:
       - hadoop_namenode_data:/hadoop/dfs/name # 데이터를 저장할 볼륨 (영구 데이터 저장)
     networks:
@@ -18,12 +18,15 @@ services:
 
   nowdoboss_hadoop_datanode:
     container_name: nowdoboss_hadoop_datanode
+    build:
+      context: . # 현재 디렉토리에 있는 Dockerfile을 사용합니다.
+      dockerfile: hadoop.Dockerfile # 빌드할 Dockerfile의 이름입니다.
     image: nowdoboss_hadoop_img
     restart: always
     ports:
-    - "50010:50010" # 데이터 블록 전송
-    - "50020:50020" # 데이터노드 간 통신
-    - "50075:50075" # DataNode 웹 UI
+    - "9864:9864" # DataNode 웹 UI (Hadoop 3.x에서 변경됨)
+    - "9866:9866" # 데이터노드 데이터 블록 전송 (Hadoop 3.x에서 변경됨)
+    - "9867:9867" # 데이터노드 데이터 전송 (IPC) (Hadoop 3.x에서 변경됨)
     volumes:
       - hadoop_datanode_data:/hadoop/dfs/data
     networks:

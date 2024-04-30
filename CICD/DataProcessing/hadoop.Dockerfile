@@ -31,16 +31,27 @@ RUN tar -xzvf /tmp/hadoop-$HADOOP_VERSION.tar.gz -C /usr/local && \
     mv /usr/local/hadoop-$HADOOP_VERSION $HADOOP_HOME && \
     rm /tmp/hadoop-$HADOOP_VERSION.tar.gz
 
-# SSH 설정을 합니다. 비밀번호 없는 SSH 로그인을 설정하여 하둡 노드 간 통신을 용이하게 합니다.
+# Hadoop 사용자 생성 및 설정
+RUN groupadd -r hadoop && \
+    useradd -r -m -g hadoop -d $HADOOP_HOME -s /bin/bash hdfs && \
+    useradd -r -m -g hadoop -d $HADOOP_HOME -s /bin/bash yarn && \
+    useradd -r -m -g hadoop -d $HADOOP_HOME -s /bin/bash mapred
+
+# 하둡 및 SSH 설정 (비밀번호 없는 SSH 로그인을 설정하여 하둡 노드 간 통신을 용이하게 합니다.)
 RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
-    chmod 0600 ~/.ssh/authorized_keys
+    chmod 0600 ~/.ssh/authorized_keys && \
+    echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
+    echo "export HADOOP_HOME=$HADOOP_HOME" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
+    echo "export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
+    chown -R hdfs:hadoop $HADOOP_HOME && \
+    chown -R yarn:hadoop $HADOOP_HOME
 
 # 하둡 설정 파일 복사 (호스트 머신에서 컨테이너로)
-# COPY core-site.xml $HADOOP_HOME/etc/hadoop/
-# COPY hdfs-site.xml $HADOOP_HOME/etc/hadoop/
-# COPY mapred-site.xml $HADOOP_HOME/etc/hadoop/
-# COPY yarn-site.xml $HADOOP_HOME/etc/hadoop/
+COPY core-site.xml $HADOOP_HOME/etc/hadoop/
+COPY hdfs-site.xml $HADOOP_HOME/etc/hadoop/
+COPY mapred-site.xml $HADOOP_HOME/etc/hadoop/
+COPY yarn-site.xml $HADOOP_HOME/etc/hadoop/
 
 # 하둡 데몬 실행 스크립트를 복사하고 실행 권한을 부여합니다.
 COPY start_hadoop.sh /usr/local/bin/

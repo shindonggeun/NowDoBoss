@@ -153,3 +153,16 @@ export const FloorContainer = styled.div`
   gap: 2rem;
   margin: 2rem 4rem;
 `
+
+export const GoReportButton = styled.button`
+  border-radius: 8px;
+  background-color: #2e83f2;
+  border: 2px solid #2e83f2;
+  color: #222;
+  text-align: center;
+  cursor: pointer;
+  width: 12rem;
+  height: 3rem;
+
+  font-size: 14px;
+`

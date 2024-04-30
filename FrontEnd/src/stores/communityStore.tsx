@@ -13,7 +13,7 @@ import chat from 'src/assets/chat.svg'
 import chat_gray from 'src/assets/chat_gray.svg'
 
 // 카테고리 타입 정의
-export interface Category {
+export type Category = {
   name: string
   value: string
   iconActive: string
@@ -21,7 +21,7 @@ export interface Category {
 }
 
 // 스토어 타입 정의
-interface CommunityStoreType {
+type CommunityStoreType = {
   categories: Category[]
   selectedCategory: Category
   setSelectedCategory: (category: Category) => void

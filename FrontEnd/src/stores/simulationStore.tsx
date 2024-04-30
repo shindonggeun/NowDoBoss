@@ -19,8 +19,8 @@ export const subCategories: SubCategoryType = {
     { name: '패스트푸드점', code: 'CS100006' },
     { name: '치킨전문점', code: 'CS100007' },
     { name: '분식전문점', code: 'CS100008' },
-    { name: '호프-간이주점', code: 'CS100009' },
-    { name: '커피-음료', code: 'CS100010' },
+    { name: '호프/간이주점', code: 'CS100009' },
+    { name: '커피/음료', code: 'CS100010' },
   ],
   학원: [
     { name: '일반교습학원', code: 'CS200001' },
@@ -65,8 +65,8 @@ export const subCategories: SubCategoryType = {
     { name: '안경', code: 'CS300016' },
     { name: '시계및귀금속', code: 'CS300017' },
     { name: '의약품', code: 'CS300018' },
-    { name: '의료기기', code: 'CS300019' },
     { name: '컴퓨터및주변장치판매', code: 'CS300003' },
+    { name: '의료기기', code: 'CS300019' },
   ],
   생활용품: [
     { name: '서적', code: 'CS300020' },
@@ -86,13 +86,11 @@ export const subCategories: SubCategoryType = {
     { name: '자전거 및 기타운송장비', code: 'CS300025' },
   ],
 }
-//
-// // 스토어의 상태 타입 정의
+
 // interface SubCategoryStore {
 //   subCategories: SubCategoryType
 // }
 //
-// // 스토어 생성
 // export const useSubCategoryStore = create<SubCategoryStore>(set => ({
 //   subCategories,
 // }))

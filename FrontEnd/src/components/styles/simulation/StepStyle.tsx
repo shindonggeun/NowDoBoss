@@ -19,13 +19,12 @@ interface ButtonProps {
   selected: boolean
 }
 
+// 선택버튼 sm, m 사이즈
 export const SelectButton = styled.button<ButtonProps>`
   border-radius: 8px;
-  background-color: ${props =>
-    props.selected ? (props.size === 'lg' ? 'white' : '#2e83f2') : 'white'};
+  background-color: ${props => (props.selected ? '#2e83f2' : 'white')};
   border: 2px solid ${props => (props.selected ? '#2e83f2' : '#ccc')};
-  color: ${props =>
-    props.selected ? (props.size === 'lg' ? 'black' : 'white') : '#222'};
+  color: ${props => (props.selected ? 'white' : '#222')};
   text-align: center;
   cursor: pointer;
   //overflow: hidden;
@@ -40,9 +39,9 @@ export const SelectButton = styled.button<ButtonProps>`
 
   &:hover,
   &:active {
-    background-color: ${props => (props.size === 'lg' ? 'white' : '#2e83f2')};
+    background-color: #2e83f2;
     border: 2px solid #2e83f2;
-    color: ${props => (props.size === 'lg' ? 'black' : 'white')};
+    color: white;
   }
 
   ${props =>
@@ -66,15 +65,32 @@ export const SelectButton = styled.button<ButtonProps>`
       @media (max-width: 768px) {
         margin: 0 1rem;
     `}
+`
 
-    ${props =>
-    props.size === 'lg' &&
-    css`
-      width: 9rem;
-      height: 10rem;
-      padding: 10px 20px;
-      font-size: 18px;
-    `}
+// 선택버튼 lg 사이즈 -> 리팩필요
+export const SelectButtonLarge = styled.button<ButtonProps>`
+  border-radius: 8px;
+  background-color: white;
+  border: 2px solid ${props => (props.selected ? '#2e83f2' : '#ccc')};
+  color: #222;
+  text-align: center;
+  cursor: pointer;
+  width: 9rem;
+  height: 10rem;
+  padding: 10px 20px;
+  font-size: 18px;
+
+  transition:
+    background-color 0.2s,
+    color 0.3s,
+    border 0.1s;
+
+  &:hover,
+  &:active {
+    background-color: white;
+    border: 2px solid #2e83f2;
+    color: black;
+  }
 `
 
 export const FranchiseContainer = styled.div`

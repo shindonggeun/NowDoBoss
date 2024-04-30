@@ -47,4 +47,4 @@ COPY start_hadoop.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start_hadoop.sh
 
 # 컨테이너 실행 시 하둡 데몬을 시작합니다.
-CMD ["start_hadoop.sh"]
+CMD ["/bin/bash", "-c", "source /etc/environment && /usr/local/bin/start_hadoop.sh"]

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 export const Overlay = styled.div`
   position: fixed;
@@ -13,6 +13,21 @@ export const Overlay = styled.div`
   .scroll-locked {
     overflow: hidden;
   }
+`
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    //transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    //transform: translateX(0);
+  }
+`
+
+export const FadeInContainer = styled.div`
+  animation: ${fadeIn} 0.4s ease-in-out;
 `
 
 export const Container = styled.div`

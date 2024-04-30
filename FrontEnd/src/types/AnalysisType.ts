@@ -55,3 +55,8 @@ export type AreaChartPropsType = {
   labels: string[]
   values: number[]
 }
+
+export type BarChartPropsType = {
+  labels: string[]
+  values: number[]
+}

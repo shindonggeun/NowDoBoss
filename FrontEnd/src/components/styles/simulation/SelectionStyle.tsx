@@ -43,15 +43,27 @@ export const Container = styled.div`
   transform: translate(-50%, 0);
 
   @media (max-width: 768px) {
-    width: 80vw;
+    width: 100vw;
   }
 `
 
 export const SelctionHeader = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   background-color: #2e83f2;
-  padding: 2vh 1vw;
+  padding: 1rem 2rem;
+`
+
+export const HeaderLeft = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+export const HeaderRignt = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 export const PrevIcon = styled.img`
@@ -69,7 +81,7 @@ export const HeaderTitle = styled.div`
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
-  margin-left: 1vw;
+  margin-left: 1rem;
 `
 
 export const Contants = styled.div`

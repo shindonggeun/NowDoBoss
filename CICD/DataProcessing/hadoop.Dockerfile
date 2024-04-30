@@ -25,6 +25,12 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
+# 하둡 설치 파일을 다운로드하고 압축을 해제한 다음 지정된 위치로 이동시킵니다.
+ADD http://apache.mirrors.pair.com/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz /tmp
+RUN tar -xzvf /tmp/hadoop-$HADOOP_VERSION.tar.gz -C /usr/local && \
+    mv /usr/local/hadoop-$HADOOP_VERSION $HADOOP_HOME && \
+    rm /tmp/hadoop-$HADOOP_VERSION.tar.gz
+    
 # 하둡 환경 설정 파일에 root 사용자 설정 추가
 RUN echo "export HDFS_NAMENODE_USER=root" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
     echo "export HDFS_DATANODE_USER=root" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \

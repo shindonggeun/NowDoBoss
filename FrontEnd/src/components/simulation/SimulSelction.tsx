@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import * as c from '@src/components/styles/simulation/SelectionStyle'
-import LeftArrow from '@src/assets/angle_left.svg'
-import Xmark from '@src/assets/xmark_solid_nomal.svg'
 import SelectionStep1 from '@src/components/simulation/SelectionStep1'
 import SelectionStep2 from '@src/components/simulation/SelectionStep2'
 import SelectionStep3 from '@src/components/simulation/SelectionStep3'
 import SelectionStep4 from '@src/components/simulation/SelectionStep4'
+import LeftArrow from '@src/assets/angle_left.svg'
+import Xmark from '@src/assets/xmark_solid_nomal.svg'
 
 interface SimulSelctionProps {
   open: boolean
@@ -14,7 +14,7 @@ interface SimulSelctionProps {
 
 const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
   const [step, setStep] = useState<number>(1)
-  const [isFranchise, setIsFranchise] = useState(false)
+  const [isFranchise, setIsFranchise] = useState<boolean | null>(null)
   const [category, setCategory] = useState('')
   const [subCategory, setSubCategory] = useState('')
   const modalRef = useRef<HTMLDivElement>(null)
@@ -51,9 +51,9 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
   const onSelectedCategory = (choice: string) => {
     setCategory(choice)
   }
-  
+
   const onSelectedSubCategory = (choice: string) => {
-    setCategory(choice)
+    setSubCategory(choice)
   }
 
   return (
@@ -67,11 +67,40 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
           <c.CloseIcon src={Xmark} alt="close" onClick={onClose} />
         </c.SelctionHeader>
         <c.Contants>
-          <div>시뮬레이션 선택페이지</div>
-          {step === 1 && <SelectionStep1 nextStep={nextStep} isFranchise={isFranchise} onSelectedkFranchise={onSelectedkFranchise}/>}
-          {step === 2 && <SelectionStep2 nextStep={nextStep} />}
-          {step === 3 && <SelectionStep3 nextStep={nextStep} category={category} onSelectedCategory={onSelectedCategory} />}
-          {step === 4 && <SelectionStep4 nextStep={nextStep} category={category} subCategory={subCategory} onSelectedSubCategory={onSelectedSubCategory}/>}
+          {/* <div>시뮬레이션 선택페이지</div> */}
+          {step === 1 && (
+            <c.FadeInContainer>
+              <SelectionStep1
+                nextStep={nextStep}
+                isFranchise={isFranchise}
+                onSelectedkFranchise={onSelectedkFranchise}
+              />
+            </c.FadeInContainer>
+          )}
+          {step === 2 && (
+            <c.FadeInContainer>
+              <SelectionStep2 nextStep={nextStep} />
+            </c.FadeInContainer>
+          )}
+          {step === 3 && (
+            <c.FadeInContainer>
+              <SelectionStep3
+                nextStep={nextStep}
+                category={category}
+                onSelectedCategory={onSelectedCategory}
+              />
+            </c.FadeInContainer>
+          )}
+          {step === 4 && (
+            <c.FadeInContainer>
+              <SelectionStep4
+                nextStep={nextStep}
+                category={category}
+                subCategory={subCategory}
+                onSelectedSubCategory={onSelectedSubCategory}
+              />
+            </c.FadeInContainer>
+          )}
         </c.Contants>
       </c.Container>
     </c.Overlay>

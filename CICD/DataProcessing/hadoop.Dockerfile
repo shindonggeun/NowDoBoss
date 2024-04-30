@@ -42,7 +42,7 @@ RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
 
 # 하둡 데몬 실행 스크립트를 복사하고 실행 권한을 부여합니다.
 COPY start_hadoop.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/start-all.sh
+RUN chmod +x /usr/local/bin/start_hadoop.sh
 
 # 컨테이너 실행 시 하둡 데몬을 시작합니다.
 CMD ["start_hadoop.sh"]

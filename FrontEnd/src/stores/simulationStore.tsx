@@ -1,5 +1,9 @@
 // import { create } from 'zustand'
 
+import buildingSmall from '@src/assets/building_small.svg'
+import buildingMedium from '@src/assets/building_medium.svg'
+import buildingLarge from '@src/assets/building_large.svg'
+
 interface SubCategoryItem {
   name: string
   code: string
@@ -85,6 +89,28 @@ export const subCategories: SubCategoryType = {
     { name: '가전제품', code: 'CS300032' },
     { name: '자전거 및 기타운송장비', code: 'CS300025' },
   ],
+}
+
+interface BuildingType {
+  [key: string]: {
+    name: string
+    img: string
+  }
+}
+
+export const BuildingData: BuildingType = {
+  small: {
+    name: '소형',
+    img: buildingSmall,
+  },
+  medium: {
+    name: '중형',
+    img: buildingMedium,
+  },
+  large: {
+    name: '대형',
+    img: buildingLarge,
+  },
 }
 
 // interface SubCategoryStore {

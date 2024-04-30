@@ -24,4 +24,5 @@ export const MainContainer = styled.div`
   flex: 6;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 `

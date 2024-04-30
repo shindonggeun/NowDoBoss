@@ -21,6 +21,26 @@ export type PromiseDataType = {
   dataHeader: DataHeaderType
 }
 
-export type Coord = [number, number]
+export type Coord = [number, number, number]
 
 export type LatLng = { lat: number; lng: number }
+
+// 구 데이터 전달 후 동 목록 받아왔을 때의 promise type
+export type PromiseDongDataType = {
+  dataHeader: DataHeaderType
+  dataBody: {
+    administrationCodeName: string
+    administrationCode: number
+  }[]
+}
+
+// 구 데이터 전달 후 동 목록 받아왔을 때의 promise type
+export type PromiseCommercialDataType = {
+  dataHeader: DataHeaderType
+  dataBody: {
+    commercialCode: number
+    commercialCodeName: string
+    commercialClassificationCode: string
+    commercialClassificationCodeName: string
+  }[]
+}

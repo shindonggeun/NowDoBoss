@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property>
+    <name>yarn.resourcemanager.hostname</name>
+    <value>43.203.214.129:8030</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.auxiliary-services.dirs</name>
+    <value>/hadoop/yarn/local/nodemanager/auxiliary/services</value>
+  </property>
+</configuration>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property>
+    <name>mapred.jobtracker.host</name>
+    <value>43.203.214.129:50030</value>
+  </property>
+</configuration>

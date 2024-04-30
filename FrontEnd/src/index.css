@@ -84,7 +84,7 @@ body {
     margin: 0;
     padding-top: 75px;
     width: 100vw;
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
 
 :root {
@@ -94,6 +94,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
 /* placeholder 스타일링 */
 input::placeholder {
     color: grey;
@@ -103,4 +104,26 @@ input::placeholder {
 textarea::placeholder {
     color: grey;
     font-family: 'Pretendard', sans-serif;
+}
+
+/* 전체 문서에 대한 스크롤바 스타일 */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* 스크롤바 트랙 (바탕) 스타일 */
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+/* 스크롤바 핸들 (가로지르는 부분) 스타일 */
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+/* 스크롤바 핸들을 호버 시 스타일 */
+::-webkit-scrollbar-thumb:hover {
+    background: #999;
 }

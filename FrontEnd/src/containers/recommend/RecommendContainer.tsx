@@ -42,9 +42,9 @@ const RecommendContainer = () => {
 
   return (
     <r.Container>
-      <r.Map>
+      <r.MapDiv>
         <KakaoMap />
-      </r.Map>
+      </r.MapDiv>
       <r.Search>
         <SearchBar setIsSubmit={setIsSubmit} />
       </r.Search>

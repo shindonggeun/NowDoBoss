@@ -20,15 +20,15 @@ interface ContentRegisterPropsType {
 const ContentRegister = (props: ContentRegisterPropsType) => {
   const { modifyCommunityId } = props
   const navigate = useNavigate()
-  const [titleValue, setTitle] = useState<string>('')
-  const [contentValue, setContent] = useState<string>('')
-  const [selectedCategoryValue, setSelectedCategory] = useState<string>('')
+  const [titleValue, setTitleValue] = useState<string>('')
+  const [contentValue, setContentValue] = useState<string>('')
+  const [selectedCategoryValue, setSelectedCategoryValue] = useState<string>('')
   // 보여주기 위한 값
-  const [outputCategoryValue, setOutputCategory] =
+  const [outputCategoryValue, setOutputCategoryValue] =
     useState<string>('카테고리를 선택해주세요.')
   // const [imageFilesValue, setImageFiles] = useState<File[]>([])
 
-  const [imageViewValue, setImageView] = useState<string[]>([])
+  const [imageViewValue, setImageViewValue] = useState<string[]>([])
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const categories = [
     { name: '이모저모', value: 'ETC' },
@@ -55,9 +55,9 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
 
   useEffect(() => {
     if (data && modifyCommunityId) {
-      setTitle(data.dataBody.title)
-      setContent(data.dataBody.content)
-      setSelectedCategory(data.dataBody.category)
+      setTitleValue(data.dataBody.title)
+      setContentValue(data.dataBody.content)
+      setSelectedCategoryValue(data.dataBody.category)
     }
   }, [modifyCommunityId, data])
 
@@ -150,7 +150,7 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
         defaultValue={titleValue}
         maxLength={19}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-          setTitle(e.target.value)
+          setTitleValue(e.target.value)
         }}
       />
       <c.ContentCount>{titleValue.length} / 20</c.ContentCount>
@@ -161,7 +161,7 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
         defaultValue={contentValue}
         maxLength={499}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-          setContent(e.target.value)
+          setContentValue(e.target.value)
         }}
       />
       <c.ContentCount>{contentValue.length} / 500</c.ContentCount>
@@ -181,8 +181,8 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
               <c.DropdownContent
                 key={category.name}
                 onClick={() => {
-                  setOutputCategory(category.name)
-                  setSelectedCategory(category.value)
+                  setOutputCategoryValue(category.name)
+                  setSelectedCategoryValue(category.value)
                   setIsDropdownOpen(false)
                 }}
               >
@@ -196,7 +196,7 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
       {/* 사진 추가 */}
       <ImageUpload
         imageViewValue={imageViewValue}
-        setImageView={setImageView}
+        setImageView={setImageViewValue}
       />
     </c.Container>
   )

@@ -23,8 +23,8 @@ public class MapController {
     )
     @GetMapping("/commercial")
     public ResponseEntity<Message<MapResponse>> getCommercialAreaCoords (
-            @RequestParam Double lngNW, @RequestParam Double latNW, @RequestParam Double lngSE, @RequestParam Double latSE) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getCommercialAreaCoords(lngNW, latSE, lngSE, latNW)));
+            @RequestParam Double lngSW, @RequestParam Double latSW, @RequestParam Double lngNE, @RequestParam Double latNE) throws Exception {
+        return ResponseEntity.ok().body(Message.success(mapservice.getCommercialAreaCoords(lngSW, latSW, lngNE, latNE)));
     }
 
     @Operation(
@@ -33,8 +33,8 @@ public class MapController {
     )
     @GetMapping("/administration")
     public ResponseEntity<Message<MapResponse>> getAdministrationAreaCoords (
-            @RequestParam Double lngNW, @RequestParam Double latNW, @RequestParam Double lngSE, @RequestParam Double latSE) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getAdministrationAreaCoords(lngNW, latSE, lngSE, latNW)));
+            @RequestParam Double lngSW, @RequestParam Double latSW, @RequestParam Double lngNE, @RequestParam Double latNE) throws Exception {
+        return ResponseEntity.ok().body(Message.success(mapservice.getAdministrationAreaCoords(lngSW, latSW, lngNE, latNE)));
     }
 
     @Operation(
@@ -43,7 +43,7 @@ public class MapController {
     )
     @GetMapping("/district")
     public ResponseEntity<Message<MapResponse>> getDistrictAreaCoords (
-            @RequestParam Double lngNW, @RequestParam Double latNW, @RequestParam Double lngSE, @RequestParam Double latSE) throws Exception {
-        return ResponseEntity.ok().body(Message.success(mapservice.getDistrictAreaCoords(lngNW, latSE, lngSE, latNW)));
+            @RequestParam Double lngSW, @RequestParam Double latSW, @RequestParam Double lngNE, @RequestParam Double latNE) throws Exception {
+        return ResponseEntity.ok().body(Message.success(mapservice.getDistrictAreaCoords(lngSW, latSW, lngNE, latNE)));
     }
 }

@@ -1,7 +1,28 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  display: flex; /* Flexbox를 사용하여 내부 요소들을 가로로 배치합니다. */
-  width: 100vw; /* 화면 전체 너비를 차지합니다. */
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`
+
+export const ResultContainer = styled.div`
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+`
+
+export const SidebarContainer = styled.div`
+  flex: 1;
+
+  @media (max-width: 992px) {
+    display: none;
+  }
+`
+
+export const MainContainer = styled.div`
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 `

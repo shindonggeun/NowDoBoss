@@ -31,11 +31,11 @@ const CommentList = (props: CommentPropsType) => {
   }, [])
 
   // 댓글 작성창에 들어가는 데이터
-  const [commentValue, setComment] = useState<string>('')
+  const [commentValue, setCommentValue] = useState<string>('')
   const [isMod, setIsMod] = useState<boolean>(false)
   // 댓글 수정창에 들어가는 데이터
-  const [modCommentValue, setModComment] = useState<string>('')
-  const [modCommentIdValue, setModCommentId] = useState<number>(0)
+  const [modCommentValue, setModCommentValue] = useState<string>('')
+  const [modCommentIdValue, setModCommentIdValue] = useState<number>(0)
 
   // 생성 시간 보여주는 라이브러리 사용
   const TimeOption: TimeCountingOption = {
@@ -67,7 +67,7 @@ const CommentList = (props: CommentPropsType) => {
       data: { content: commentValue },
     }
     mutateCreateComment(commentCreateData)
-    setComment('')
+    setCommentValue('')
   }
 
   // 댓글 수정
@@ -133,7 +133,7 @@ const CommentList = (props: CommentPropsType) => {
               placeholder="댓글을 작성하세요."
               value={commentValue}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                setComment(e.target.value)
+                setCommentValue(e.target.value)
               }}
             />
             <c.CommentSubmit
@@ -163,7 +163,7 @@ const CommentList = (props: CommentPropsType) => {
                   <c.ModDiv>
                     <c.ModButton
                       onClick={() => {
-                        setModCommentId(commentData.commentId)
+                        setModCommentIdValue(commentData.commentId)
                         onModify()
                       }}
                     >
@@ -190,7 +190,7 @@ const CommentList = (props: CommentPropsType) => {
                       placeholder="댓글을 작성하세요."
                       defaultValue={commentData.content}
                       onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                        setModComment(e.target.value)
+                        setModCommentValue(e.target.value)
                       }}
                     />
                     <c.CommentSubmit

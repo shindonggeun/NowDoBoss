@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import down_arrow from '@src/assets/arrow_down.svg'
 import location_icon from '@src/assets/location_icon.svg'
-import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
+import useSelectPlaceStore from '@src/stores/selectPlaceStore'
+import { useQuery } from '@tanstack/react-query'
+import { fetchAdministrationList, fetchDongList } from '@src/api/mapApi'
 
 const Place = styled.div`
   //border-bottom: 2px solid #d9d9d9;
@@ -22,22 +24,21 @@ const TitleIcon = styled.img``
 const Content = styled.div`
   font-weight: 500;
 `
-const ChoiceContent = styled.div`
-  font-weight: 500;
-  width: 40%;
-  text-align: center;
-  padding-top: 5px;
-  @media only screen and (max-width: 680px) {
-    width: 38%;
-  }
-`
+// const ChoiceContent = styled.div`
+//   font-weight: 500;
+//   width: 40%;
+//   text-align: center;
+//   padding-top: 5px;
+//   @media only screen and (max-width: 680px) {
+//     width: 38%;
+//   }
+// `
 const SelectPlace = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   text-align: center;
   margin-top: 10px;
-  position: relative;
 `
 
 const Dropdown = styled.div`
@@ -47,6 +48,7 @@ const Dropdown = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 5px 0 0 20px;
+  position: relative;
 `
 const SelectedContent = styled.div`
   text-align: right;
@@ -62,6 +64,9 @@ const SelectedDistrict = styled.div`
 const ArrowIcon = styled.img``
 const DropdownBox = styled.div<{ $place: string }>`
   position: absolute;
+  overflow-y: auto;
+  height: 60%;
+  background-color: #ffffff;
   right: ${({ $place }) => {
     const placeToRight: { [key: string]: string } = {
       goo: '65%',
@@ -116,7 +121,7 @@ const DropdownContent = styled.div`
 `
 
 const ChoicePlace = () => {
-  const location = useLocation()
+  // const location = useLocation()
 
   // 드롭다운 열렸는지 여부
   const [dropdownGooOpen, setDropdownGooOpen] = useState<boolean>(false)
@@ -132,76 +137,34 @@ const ChoicePlace = () => {
   // 드롭다운 열었을 때 다른 곳 눌러도 드롭다운 닫히게 하는 ref
   const dropdownRef = useRef<HTMLDivElement | null>(null)
 
-  // 임시 더미데이터
-  const goos = [
-    {
-      name: '강동구',
-    },
-    {
-      name: '송파구',
-    },
-    {
-      name: '강남구',
-    },
-    {
-      name: '성북구',
-    },
-    {
-      name: '강서구',
-    },
-    {
-      name: '노원구',
-    },
-    {
-      name: '은평구',
-    },
-  ]
-  const dongs = [
-    {
-      name: '장덕동',
-    },
-    {
-      name: '하남동',
-    },
-    {
-      name: '남천동',
-    },
-    {
-      name: '둔촌동',
-    },
-    {
-      name: '명일동',
-    },
-    {
-      name: '이런동',
-    },
-    {
-      name: '저런동',
-    },
-  ]
-  const districts = [
-    {
-      name: '어디앞',
-    },
-    {
-      name: '저기앞',
-    },
-    {
-      name: '어디골목',
-    },
-    {
-      name: '저기골목',
-    },
-    {
-      name: '여기',
-    },
-    {
-      name: '저기',
-    },
-    {
-      name: '조기',
-    },
-  ]
+  // store에 저장된 구 데이터와 선택한 구, 동, 상권 값 가져올 store
+  const {
+    districtData,
+    selectedDistrictData,
+    setSelectedDistrictData,
+    selectedAdministration,
+    setSelectedAdministration,
+    setSelectedCommercial,
+  } = useSelectPlaceStore(state => ({
+    districtData: state.districtData,
+    selectedDistrictData: state.selectedDistrict,
+    setSelectedDistrictData: state.setSelectedDistrict,
+    selectedAdministration: state.selectedAdministration,
+    setSelectedAdministration: state.setSelectedAdministration,
+    setSelectedCommercial: state.setSelectedCommercial,
+  }))
+
+  // 구 선택 시 동 목록 조회하는 useQuery
+  const { data: dongData } = useQuery({
+    queryKey: ['fetchDongList', selectedDistrictData],
+    queryFn: () => fetchDongList(selectedDistrictData.code),
+  })
+
+  // 구 선택 시 동 목록 조회하는 useQuery
+  const { data: administrationData } = useQuery({
+    queryKey: ['fetchAdministrationList', selectedAdministration],
+    queryFn: () => fetchAdministrationList(selectedAdministration.code),
+  })
 
   // 드롭다운 열었을 때 외부 클릭 시 드롭다운 닫히게 하는 로직
   useEffect(() => {
@@ -249,39 +212,62 @@ const ChoicePlace = () => {
         {/* 행정동 드롭다운 */}
         <Dropdown
           onClick={() => {
-            setDropdownDongOpen(!dropdownDongOpen)
+            if (selectedDistrictData.name) {
+              setDropdownDongOpen(!dropdownDongOpen)
+            } else {
+              console.log(' 구를 먼저 선택해주세요')
+            }
           }}
         >
           <SelectedContent>{selectedDong}</SelectedContent>{' '}
           <ArrowIcon src={down_arrow} />
         </Dropdown>
 
-        {location.pathname === '/recommend' ? (
-          <ChoiceContent>가 선택되었습니다.</ChoiceContent>
-        ) : (
-          <Dropdown
-            onClick={() => {
+        {/* {location.pathname === '/recommend' ? ( */}
+        {/*  <ChoiceContent>가 선택되었습니다.</ChoiceContent> */}
+        {/* ) : ( */}
+        {/*  <Dropdown */}
+        {/*    onClick={() => { */}
+        {/*      setDropdownDistrictOpen(!dropdownDistrictOpen) */}
+        {/*    }} */}
+        {/*  > */}
+        {/*    /!* 상권 드롭다운 *!/ */}
+        {/*    <SelectedDistrict>{selectedDistrict} </SelectedDistrict>{' '} */}
+        {/*    <ArrowIcon src={down_arrow} /> */}
+        {/*  </Dropdown> */}
+        {/* )}    */}
+
+        {/* 상권 드롭다운 */}
+        <Dropdown
+          onClick={() => {
+            if (selectedAdministration.name) {
               setDropdownDistrictOpen(!dropdownDistrictOpen)
-            }}
-          >
-            {/* 상권 드롭다운 */}
-            <SelectedDistrict>{selectedDistrict} </SelectedDistrict>{' '}
-            <ArrowIcon src={down_arrow} />
-          </Dropdown>
-        )}
+            } else {
+              console.log(' 구를 먼저 선택해주세요')
+            }
+          }}
+        >
+          <SelectedDistrict>{selectedDistrict} </SelectedDistrict>{' '}
+          <ArrowIcon src={down_arrow} />
+        </Dropdown>
       </SelectPlace>
       {/* 행정구 드롭다운 내용 */}
       {dropdownGooOpen && (
         <DropdownBox ref={dropdownRef} $place="goo">
-          {goos.map(district => (
+          {districtData.map(district => (
             <DropdownContent
-              key={district.name}
+              key={district.districtName}
               onClick={() => {
-                setSelectedGoo(district.name)
+                setSelectedGoo(district.districtName)
+                // store에 선택 값 저장
+                setSelectedDistrictData({
+                  name: district.districtName,
+                  code: district.districtCode,
+                })
                 setDropdownGooOpen(false)
               }}
             >
-              {district.name}
+              {district.districtName}
             </DropdownContent>
           ))}
         </DropdownBox>
@@ -290,15 +276,21 @@ const ChoicePlace = () => {
       {/* 행정동 드롭다운 내용 */}
       {dropdownDongOpen && (
         <DropdownBox ref={dropdownRef} $place="dong">
-          {dongs.map(district => (
+          {dongData?.dataBody.map(district => (
             <DropdownContent
-              key={district.name}
+              key={district.administrationCode}
               onClick={() => {
-                setSelectedDong(district.name)
+                setSelectedDong(district.administrationCodeName)
+
+                // store에 선택 값 저장
+                setSelectedAdministration({
+                  name: district.administrationCodeName,
+                  code: district.administrationCode,
+                })
                 setDropdownDongOpen(false)
               }}
             >
-              {district.name}
+              {district.administrationCodeName}
             </DropdownContent>
           ))}
         </DropdownBox>
@@ -307,15 +299,20 @@ const ChoicePlace = () => {
       {/* 상권 드롭다운 내용 */}
       {dropdownDistrictOpen && (
         <DropdownBox ref={dropdownRef} $place="district">
-          {districts.map(district => (
+          {administrationData?.dataBody.map(district => (
             <DropdownContent
-              key={district.name}
+              key={district.commercialCode}
               onClick={() => {
-                setSelectedDistrict(district.name)
+                setSelectedDistrict(district.commercialCodeName)
+                // store에 선택 값 저장
+                setSelectedCommercial({
+                  name: district.commercialCodeName,
+                  code: district.commercialCode,
+                })
                 setDropdownDistrictOpen(false)
               }}
             >
-              {district.name}
+              {district.commercialCodeName}
             </DropdownContent>
           ))}
         </DropdownBox>

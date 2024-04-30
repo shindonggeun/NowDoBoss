@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.commercial.controller;
 
 import com.ssafy.backend.domain.commercial.dto.*;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
+import com.ssafy.backend.domain.district.dto.DistrictAreaResponse;
 import com.ssafy.backend.global.common.dto.Message;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -107,4 +108,15 @@ public class CommercialController {
         CommercialFacilityResponse facilityResponse = commercialService.getFacilityByPeriodAndCommercialCode(periodCode, commercialCode);
         return ResponseEntity.ok().body(Message.success(facilityResponse));
     }
+
+    @Operation(
+            summary = "해당 상권이 속한 행정동 정보 조회",
+            description = "해당 상권이 속한 행정동의 코드와 이름을 반환하는 기능입니다."
+    )
+    @GetMapping("/{commercialCode}")
+    public ResponseEntity<Message<CommercialAdministrationAreaResponse>> getAdministration() {
+        CommercialAdministrationAreaResponse administrationResponse = commercialService.getAdministrationInfo();
+        return ResponseEntity.ok().body(Message.success(administrationResponse));
+    }
 }
+`

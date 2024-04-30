@@ -4,10 +4,12 @@ FROM ubuntu:20.04
 # 환경변수를 설정합니다.
 # HADOOP_VERSION은 설치할 하둡의 버전을 지정합니다.
 # HADOOP_HOME은 하둡 설치 경로를 지정합니다.
-# PATH 환경변수에 하둡 실행 파일 경로를 추가합니다.
+# JAVA_HOME은 Java 설치 경로를 지정합니다.
+# PATH 환경변수에 하둡 및 Java 실행 파일 경로를 추가합니다.
 ENV HADOOP_VERSION 3.4.0
 ENV HADOOP_HOME /usr/local/hadoop
-ENV PATH $PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV PATH $PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
 
 # 기본적인 운영체제 설정을 합니다.
 # DEBIAN_FRONTEND는 비대화식 설치를 위해 noninteractive로 설정됩니다.

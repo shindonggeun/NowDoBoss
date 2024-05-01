@@ -1,10 +1,15 @@
 package com.ssafy.backend.domain.simulation.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.backend.domain.simulation.dto.FranchiseeInfo;
 import com.ssafy.backend.domain.simulation.dto.SearchFranchiseeRequest;
 import com.ssafy.backend.domain.simulation.dto.SearchFranchiseeResponse;
+import com.ssafy.backend.domain.simulation.entity.Franchisee;
 import com.ssafy.backend.domain.simulation.entity.QFranchisee;
 import com.ssafy.backend.domain.simulation.entity.QServiceType;
 import com.ssafy.backend.domain.simulation.entity.ServiceType;
@@ -120,4 +125,34 @@ public class FranchiseeCustomRepositoryImpl implements FranchiseeCustomRepositor
     private BooleanBuilder equalsServiceCode(final String serviceCode) {
         return NullSafeBuilder.build(() -> serviceType.serviceCode.eq(serviceCode));
     }
+
+    @Override
+    public List<FranchiseeInfo> findByServiceCode(int franchiseePrice, long totalPrice, String serviceCode) {
+        // 합계를 계산하는 표현식
+        NumberExpression<Integer> totalCost = franchisee.subscription
+                .add(franchisee.education)
+                .add(franchisee.deposit)
+                .add(franchisee.etc)
+                .add(franchisee.interior)
+                .add(ConstantImpl.create(franchiseePrice));
+
+        // 합계와 주어진 totalPrice의 차이의 절대값을 계산하는 표현식
+        NumberExpression<Integer> difference = totalCost.subtract(totalPrice).abs();
+
+        return queryFactory
+                .select(Projections.constructor(FranchiseeInfo.class,
+                        totalCost,
+                        franchisee.brandName,
+                        franchisee.subscription,
+                        franchisee.education,
+                        franchisee.deposit,
+                        franchisee.etc,
+                        franchisee.interior))
+                .from(franchisee)
+                .orderBy(difference.asc())
+                .limit(5)
+                .fetch();
+    }
+
+
 }

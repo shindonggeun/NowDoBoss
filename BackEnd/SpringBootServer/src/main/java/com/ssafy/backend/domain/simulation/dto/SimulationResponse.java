@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor
@@ -18,6 +20,9 @@ public class SimulationResponse {
 
     // 상세 내용
     private DetailInfo detail;
+
+    // 유사 가격 5개 프랜차이즈 비교
+    private List<FranchiseeInfo> franchisees;
 
     // 고객 남녀, 연령대별 분석
     private GenderAndAgeAnalysisInfo genderAndAgeAnalysisInfo;

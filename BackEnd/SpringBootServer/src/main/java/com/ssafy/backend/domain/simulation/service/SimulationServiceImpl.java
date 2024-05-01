@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -157,11 +158,17 @@ public class SimulationServiceImpl implements SimulationService {
         // 성수기, 비성수기 분석
         MonthAnalysisInfo monthAnalysisInfo = analyzePeakAndOffPeak(request.location().gugun(), request.serviceCode());
 
+        //////////////////////////////////////////////////////////// 프랜차이즈 상위 5개 비교
+        // 비용 >> 보증금 + 임대료 + 아래 내용
+        int franchiseePrice = rentPrice + deposit;
+
+        List<FranchiseeInfo> franchisees = franchiseeRepository.findByServiceCode(franchiseePrice, totalPrice, request.serviceCode());
 
         return SimulationResponse.builder()
                 .totalPrice(totalPrice)
                 .keyMoneyInfo(keyMoneyInfo)
                 .detail(detailInfo)
+                .franchisees(franchisees)
                 .genderAndAgeAnalysisInfo(analysisInfo)
                 .monthAnalysisInfo(monthAnalysisInfo)
                 .build();

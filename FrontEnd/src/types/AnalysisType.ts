@@ -83,3 +83,9 @@ export type ComboChartPropsType = {
   value1: number[]
   value2: number[]
 }
+
+export type DoughnutChartPropsType = {
+  labels: string[]
+  value: number[]
+  textCenter: string
+}

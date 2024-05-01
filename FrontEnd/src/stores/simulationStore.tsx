@@ -4,7 +4,7 @@ import buildingSmall from '@src/assets/building_small.svg'
 import buildingMedium from '@src/assets/building_medium.svg'
 import buildingLarge from '@src/assets/building_large.svg'
 
-interface SubCategoryItem {
+export interface SubCategoryItem {
   name: string
   code: string
 }

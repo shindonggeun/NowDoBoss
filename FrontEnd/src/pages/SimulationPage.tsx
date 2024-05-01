@@ -2,7 +2,7 @@ import SimulSelction from '@src/components/simulation/SimulSelction'
 import { useState } from 'react'
 
 const StatusPage = () => {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   const onClickClose = () => setIsOpen(false)
 

@@ -23,7 +23,9 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
   const modalRef = useRef<HTMLDivElement>(null)
 
   const nextStep = () => {
-    setStep(prev => prev + 1)
+    setTimeout(() => {
+      setStep(prev => prev + 1)
+    }, 100)
   }
 
   const prevStep = () => {
@@ -127,6 +129,8 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
                 onSelectedBulidingSize={onSelectedBulidingSize}
                 floor={floor}
                 onSelectedFloor={onSelectedFloor}
+                category={category}
+                subCategory={subCategory}
               />
             </c.FadeInContainer>
           )}

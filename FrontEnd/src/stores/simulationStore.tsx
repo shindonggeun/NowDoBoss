@@ -69,8 +69,8 @@ export const subCategories: SubCategoryType = {
     { name: '안경', code: 'CS300016' },
     { name: '시계및귀금속', code: 'CS300017' },
     { name: '의약품', code: 'CS300018' },
-    { name: '컴퓨터및주변장치판매', code: 'CS300003' },
     { name: '의료기기', code: 'CS300019' },
+    { name: '컴퓨터및주변장치판매', code: 'CS300003' },
   ],
   생활용품: [
     { name: '서적', code: 'CS300020' },
@@ -86,8 +86,8 @@ export const subCategories: SubCategoryType = {
     { name: '인테리어', code: 'CS300035' },
     { name: '조명용품', code: 'CS300036' },
     { name: '전자상거래업', code: 'CS300043' },
-    { name: '가전제품', code: 'CS300032' },
     { name: '자전거 및 기타운송장비', code: 'CS300025' },
+    { name: '가전제품', code: 'CS300032' },
   ],
 }
 

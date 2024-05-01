@@ -33,14 +33,21 @@ export const FadeInContainer = styled.div`
 export const Container = styled.div`
   // 반응형으로?? 아니면 고정??
   //  width: 45vw;
-  width: 45rem;
-  height: fit-content;
-  border-radius: 15px;
+  width: 40rem;
+  height: 100vh;
+  //border-radius: 15px;
   background-color: #fff;
   position: absolute;
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
   @media (max-width: 768px) {
     width: 100vw;
@@ -52,8 +59,14 @@ export const SelctionHeader = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: #2e83f2;
+  background-color: #236cff;
   padding: 1rem 2rem;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 `
 
 export const HeaderLeft = styled.div`
@@ -85,6 +98,5 @@ export const HeaderTitle = styled.div`
 `
 
 export const Contants = styled.div`
-  height: 100vh;
-  margin: 3vh 2vw;
+  margin: 6rem 2vw;
 `

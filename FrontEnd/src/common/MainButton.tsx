@@ -5,10 +5,10 @@ const Container = styled.div`
   height: auto;
 `
 const Content = styled.div`
-  padding: 10px;
+  padding: 8px;
   color: white;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
   border-radius: 10px;
   margin: 20px;

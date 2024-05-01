@@ -13,7 +13,8 @@ const SearchBar = (props: SearchBarPropsType) => {
     <s.Container>
       <SidebarHeader
         title="상권 추천받기"
-        subTitle="원하시는 위치의 상권을 추천받을 수 있습니다."
+        // subTitle="원하시는 위치의 상권을 추천받을 수 있습니다."
+        subTitle=""
         close={false}
         icon={false}
       />

@@ -28,11 +28,12 @@ const AreaChart = (props: AreaChartPropsType) => {
     labels,
     datasets: [
       {
-        label: '시간대별 유동 인구',
+        label: '유동인구(명)',
         data: values,
         fill: true, // 면적 차트를 위한 설정
         backgroundColor: 'rgba(75,192,192,0.2)', // 차트 색상
         borderColor: 'rgba(75,192,192,1)', // 선 색상
+        tension: 0.4, // 선 곡률 (0에서 1 사이의 값)
       },
     ],
   }
@@ -40,8 +41,13 @@ const AreaChart = (props: AreaChartPropsType) => {
   const options = {
     responsive: true, // 차트가 반응형으로 동작하도록 설정
     // maintainAspectRatio: true, // 종횡비 유지 설정
+    // hover했을 때 데이터 값이 보이도록 설정
+    interaction: {
+      intersect: false,
+    },
     plugins: {
       legend: {
+        display: false,
         position: 'top' as const,
       },
     },

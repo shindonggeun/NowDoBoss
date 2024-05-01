@@ -1,4 +1,7 @@
 import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
+import TodayChart from '@src/components/analysis/flowPopulation/TodayChart'
+import WeekChart from '@src/components/analysis/flowPopulation/WeekChart'
+import AgeChart from '@src/components/analysis/flowPopulation/AgeChart'
 import TimeChart from '@src/components/analysis/flowPopulation/TimeChart'
 import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
 
@@ -7,11 +10,17 @@ const FlowPopulationAnalysis = () => {
     <>
       <CategoryTitleCard title="유동인구" />
       <f.FirstLowContainer>
-        <f.TodayChart>일일 평균 유동인구 차트 카드</f.TodayChart>
-        <f.WeekChart>요일별 유동인구 차트 카드</f.WeekChart>
+        <f.TodayChart>
+          <TodayChart />
+        </f.TodayChart>
+        <f.WeekChart>
+          <WeekChart />
+        </f.WeekChart>
       </f.FirstLowContainer>
       <f.SecondLowContainer>
-        <f.AgeChart>연령별 유동인구 차트 카드</f.AgeChart>
+        <f.AgeChart>
+          <AgeChart />
+        </f.AgeChart>
         <f.TimeChart>
           <TimeChart />
         </f.TimeChart>

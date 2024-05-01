@@ -1,6 +1,3 @@
-// paths type
-// params type
-
 // data type
 export type TimeSlotFootTrafficType = {
   footTraffic00: number
@@ -36,14 +33,34 @@ export type FlowPopulationDataBodyType = {
   ageGroupFootTraffic: AgeGroupFootTrafficType
 }
 
+export type PopulationInfoType = {
+  totalPopulation: number
+  teenPopulation: number
+  twentyPopulation: number
+  thirtyPopulation: number
+  fortyPopulation: number
+  fiftyPopulation: number
+  sixtyPopulation: number
+}
+
+export type ResidentPopulationDataBodyType = {
+  populationInfo: PopulationInfoType
+  malePercentage: number
+  femalePercentage: number
+}
+
 // store type
 export type AnalysisStoreType = {
   selectedCommercialCode: string
   selectedServiceCode: string
   flowPopulationDataBody: FlowPopulationDataBodyType
+  residentPopulationDataBody: ResidentPopulationDataBodyType
   setSelectedCommercialCode: (commercialCode: string) => void
   setSelectedServiceCode: (serviceCode: string) => void
   setFlowPopulationDataBody: (dataBody: FlowPopulationDataBodyType) => void
+  setResidentPopulationDataBody: (
+    dataBody: ResidentPopulationDataBodyType,
+  ) => void
 }
 
 // prop type
@@ -59,4 +76,10 @@ export type AreaChartPropsType = {
 export type BarChartPropsType = {
   labels: string[]
   values: number[]
+}
+
+export type ComboChartPropsType = {
+  labels: string[]
+  value1: number[]
+  value2: number[]
 }

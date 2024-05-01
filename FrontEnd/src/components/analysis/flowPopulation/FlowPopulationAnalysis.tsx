@@ -10,20 +10,12 @@ const FlowPopulationAnalysis = () => {
     <>
       <CategoryTitleCard title="유동인구" />
       <f.FirstLowContainer>
-        <f.TodayChart>
-          <TodayChart />
-        </f.TodayChart>
-        <f.WeekChart>
-          <WeekChart />
-        </f.WeekChart>
+        <TodayChart />
+        <WeekChart />
       </f.FirstLowContainer>
       <f.SecondLowContainer>
-        <f.AgeChart>
-          <AgeChart />
-        </f.AgeChart>
-        <f.TimeChart>
-          <TimeChart />
-        </f.TimeChart>
+        <AgeChart />
+        <TimeChart />
       </f.SecondLowContainer>
     </>
   )

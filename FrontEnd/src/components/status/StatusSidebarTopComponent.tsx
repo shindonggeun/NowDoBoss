@@ -64,9 +64,9 @@ const StatusSidebarTopComponent = ({ TopLists }: ArticleListPropsType) => {
       <h.TopListContainer>
         {TopBarListInfos[infosTab].data.map((item, i) => {
           const name = item.districtCodeName
-          const traffic = item.totalFootTraffic.toLocaleString().slice(0, -4)
-          const rate = item.totalFootTrafficChangeRate.toFixed(2)
-          const isUp = item.totalFootTrafficChangeRate >= 0
+          const total = item.total.toLocaleString()
+          const totalRate = item.totalRate.toFixed(2)
+          const isUp = item.totalRate >= 0
           const isLast = TopBarListInfos[infosTab].data.length === i + 1
           return (
             <h.Item key={i} isLast={isLast}>
@@ -75,9 +75,24 @@ const StatusSidebarTopComponent = ({ TopLists }: ArticleListPropsType) => {
                 <h.Name>{name}</h.Name>
               </h.ItemLeft>
               <h.ItemRight>
-                <h.Traffic>{traffic} 천</h.Traffic>
+                <h.Traffic>
+                  {(() => {
+                    switch (infosTab) {
+                      case 0:
+                        return `${total.slice(0, -5)} 만명`
+                      case 1:
+                        return `${item.total.toString().slice(0, 1)} 조 ${item.total.toString().slice(2, 6)} 억`
+                      case 2:
+                        return `${total.slice(0, 4)} 개`
+                      case 3:
+                        return `${total.slice(0, 4)} 개`
+                      default:
+                        return `${total} 개`
+                    }
+                  })()}
+                </h.Traffic>
                 <h.Percent isUp={isUp}>
-                  {rate}%
+                  {totalRate}%
                   {isUp ? (
                     <h.UpIcon src={up} alt="up" />
                   ) : (

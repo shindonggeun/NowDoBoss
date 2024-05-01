@@ -1,11 +1,12 @@
 import useKakaoLoader from '@src/hooks/useKakaoLoader'
 import { CustomOverlayMap, Map, Polygon } from 'react-kakao-maps-sdk'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   DataBodyType,
   LatLng,
   LatLngDataType,
   PromiseDataType,
+  RemakeType,
 } from '@src/types/MapType'
 import {
   fetchAdministration,
@@ -14,6 +15,7 @@ import {
 } from '@src/api/mapApi'
 import { useQuery } from '@tanstack/react-query'
 import styled from 'styled-components'
+import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 
 // 마우스 호버 시 뜨는 지역 명
 const PlaceBox = styled.div`
@@ -61,6 +63,16 @@ const KakaoMap = () => {
     latSW: 37.377625138871835,
   })
 
+  // 재가공한 구 데이터 저장
+  const [loadData, setLoadData] = useState<RemakeType>([
+    {
+      name: '',
+      center: { lat: 0, lng: 0 },
+      code: 0,
+      path: [{ lat: 0, lng: 0 }],
+    },
+  ])
+
   // 지도 움직일 때 좌표 갱신하는 코드
   const updateMapBounds = (map: kakao.maps.Map) => {
     const bounds = map.getBounds()
@@ -77,7 +89,7 @@ const KakaoMap = () => {
   }
 
   // 좌표 갱신될 때마다 get 요청 보내는 코드
-  const { data, isLoading } = useQuery<PromiseDataType>({
+  const { data, isLoading, refetch } = useQuery<PromiseDataType>({
     queryKey: ['fetchPoligonPath', latLngData],
     queryFn: async () => {
       if (level > 6) {
@@ -95,14 +107,15 @@ const KakaoMap = () => {
     return Object.keys(dataBody.coords)
       .map(key => {
         // codes에서 key에 해당하는 중심 좌표 데이터가 존재하는지 확인
-        const centerCoords = dataBody.names[key]
+        const names = dataBody.names[key]
 
         return {
           name: key,
           center: {
-            lng: centerCoords[0],
-            lat: centerCoords[1],
+            lng: names.center[0],
+            lat: names.center[1],
           },
+          code: names.code,
           path: dataBody.coords[key].map(([lng, lat]) => ({
             lng,
             lat,
@@ -112,44 +125,173 @@ const KakaoMap = () => {
       .filter(item => item !== null) // 중심 좌표가 없어서 null로 처리된 항목들을 제거
   }
 
-  // // store에 저장된 구 데이터와 선택한 구, 동, 상권 값 가져올 store
-  // const {
-  //   districtData,
-  //   selectedDistrict,
-  //   setSelectedDistrict,
-  //   selectedAdministration,
-  //   setSelectedAdministration,
-  //   setSelectedCommercial,
-  // } = useSelectPlaceStore(state => ({
-  //   districtData: state.districtData,
-  //   selectedDistrict: state.selectedDistrict,
-  //   setSelectedDistrict: state.setSelectedDistrict,
-  //   selectedAdministration: state.selectedAdministration,
-  //   setSelectedAdministration: state.setSelectedAdministration,
-  //   setSelectedCommercial: state.setSelectedCommercial,
-  // }))
-  //
-  // useEffect(() => {
-  //   if (data) {
-  //     parsePolygonData(data.dataBody).map(code => {
-  //       return <div key={code.name} />
-  //     })
-  //   }
-  // }, [data, selectedDistrict])
+  // store에 저장된 구 데이터와 선택한 구, 동, 상권 값 가져올 store
+  const {
+    districtData,
+    selectedDistrict,
+    selectedAdministration,
+    selectedCommercial,
+    setSelectedDistrict,
+    setSelectedAdministration,
+    setSelectedCommercial,
+    loadSelectedAdministration,
+    loadSelectedCommercial,
+  } = useSelectPlaceStore(state => ({
+    districtData: state.districtData,
+    selectedDistrict: state.selectedDistrict,
+    setSelectedDistrict: state.setSelectedDistrict,
+    selectedAdministration: state.selectedAdministration,
+    setSelectedAdministration: state.setSelectedAdministration,
+    selectedCommercial: state.selectedCommercial,
+    setSelectedCommercial: state.setSelectedCommercial,
+    loadSelectedAdministration: state.loadSelectedAdministration,
+    loadSelectedCommercial: state.loadSelectedCommercial,
+  }))
+
+  // 불러온 데이터 재가공한 값을 loadData에 저장시키는 로직
+  useEffect(() => {
+    if (data) {
+      const newData = parsePolygonData(data.dataBody)
+      setLoadData(newData)
+    }
+  }, [data, selectedDistrict, selectedAdministration, selectedCommercial])
+
+  // 코드길이 5 : 구, 8 : 동, 7 : 상권
+  // 행정구의 상태가 변했을 때만 실행되는 useEffect
+  useEffect(() => {
+    // 코드길이 5인 경우만 처리 (행정구)
+    if (String(districtData[0]?.districtCode).length === 5) {
+      districtData.forEach(district => {
+        // 선택한 행정구를 받아온 데이터와 비교해서 일치하는 값 찾기
+        if (district.districtName === selectedDistrict.name && mapRef.current) {
+          const mapData = mapRef.current
+          // 현재 지도 level 6으로 만들어, 줌인
+          mapData.setLevel(6)
+
+          // 중심좌표 LatLng 타입으로 생성
+          const moveLatLng = new kakao.maps.LatLng(
+            district.districtCenter[1],
+            district.districtCenter[0],
+          )
+          // 현재 중심좌표로 할당
+          mapData.setCenter(moveLatLng)
+          // 현재 화면 좌상단, 우하단 설정
+          const bounds = mapData.getBounds()
+          const swLatLng = bounds.getSouthWest()
+          const neLatLng = bounds.getNorthEast()
+          // setLevel(map.getLevel())
+
+          setLatLngData({
+            lngNE: neLatLng.getLng(),
+            latNE: neLatLng.getLat(),
+            lngSW: swLatLng.getLng(),
+            latSW: swLatLng.getLat(),
+          })
+        }
+      })
+    }
+  }, [districtData, selectedDistrict])
+
+  // 동, 상권 목록 받을 때 중심좌표도 받아오게 되면 함께 띄우도록 수정하겠습니다.
+
+  // 행정동의 상태가 변했을 때만 실행되는 useEffect
+  useEffect(() => {
+    // 코드길이 5인 경우만 처리 (행정구)
+    if (
+      String(loadSelectedAdministration[0]?.administrationCode).length === 8
+    ) {
+      loadSelectedAdministration.forEach(district => {
+        // 선택한 행정동을 받아온 데이터와 비교해서 일치하는 값 찾기
+        if (
+          district.administrationCodeName === selectedAdministration.name &&
+          mapRef.current
+        ) {
+          const mapData = mapRef.current
+          // 현재 지도 level 5으로 만들어, 줌인
+          mapData.setLevel(5)
+
+          // 중심좌표 LatLng 타입으로 생성
+          // const moveLatLng = new kakao.maps.LatLng(
+          //   district.districtCenter[1],
+          //   district.districtCenter[0],
+          // )
+          // 현재 중심좌표로 할당
+          // mapData.setCenter(moveLatLng)
+          // 현재 화면 좌상단, 우하단 설정
+          const bounds = mapData.getBounds()
+          const swLatLng = bounds.getSouthWest()
+          const neLatLng = bounds.getNorthEast()
+
+          setLatLngData({
+            lngNE: neLatLng.getLng(),
+            latNE: neLatLng.getLat(),
+            lngSW: swLatLng.getLng(),
+            latSW: swLatLng.getLat(),
+          })
+        }
+      })
+    }
+  }, [districtData, loadSelectedAdministration, selectedAdministration])
+
+  // 행정구의 상태가 변했을 때만 실행되는 useEffect
+  useEffect(() => {
+    // 코드길이 5인 경우만 처리 (행정구)
+    if (String(loadSelectedCommercial[0]?.commercialCode).length === 7) {
+      loadSelectedCommercial.forEach(district => {
+        // 선택한 행정구를 받아온 데이터와 비교해서 일치하는 값 찾기
+        if (
+          district.commercialCodeName === selectedCommercial.name &&
+          mapRef.current
+        ) {
+          const mapData = mapRef.current
+          // 현재 지도 level 4으로 만들어, 줌인
+          mapData.setLevel(4)
+
+          // 중심좌표 LatLng 타입으로 생성
+          // const moveLatLng = new kakao.maps.LatLng(
+          //   district.center.lat,
+          //   district.center.lng,
+          // )
+          // // 현재 중심좌표로 할당
+          // mapData.setCenter(moveLatLng)
+          // 현재 화면 좌상단, 우하단 설정
+          const bounds = mapData.getBounds()
+          const swLatLng = bounds.getSouthWest()
+          const neLatLng = bounds.getNorthEast()
+          // setLevel(map.getLevel())
+
+          setLatLngData({
+            lngNE: neLatLng.getLng(),
+            latNE: neLatLng.getLat(),
+            lngSW: swLatLng.getLng(),
+            latSW: swLatLng.getLat(),
+          })
+        }
+      })
+    }
+  }, [loadData, loadSelectedCommercial, selectedCommercial.name])
+
+  useEffect(() => {
+    refetch()
+  }, [
+    loadData,
+    selectedDistrict,
+    selectedAdministration,
+    selectedCommercial,
+    refetch,
+  ])
 
   return (
     <div>
       <div>
         <Map
           center={centerLatLng}
-          style={{ width: '100%', height: 'calc(100vh - 75px)' }}
+          style={{ width: '100%', height: 'calc(100vh - 68px)' }}
           ref={mapRef}
           level={level}
           onDragEnd={map => updateMapBounds(map)}
           onZoomChanged={map => updateMapBounds(map)}
-          onClick={map => {
-            updateMapBounds(map)
-          }}
+          onClick={map => updateMapBounds(map)}
           minLevel={9}
           // 마우스가 움직일 때 위치를 위경도로 저장
           onMouseMove={(_map, mouseEvent) =>
@@ -160,7 +302,7 @@ const KakaoMap = () => {
           }
         >
           {!isLoading && data
-            ? parsePolygonData(data.dataBody).map((code, index) => {
+            ? loadData.map((code, index) => {
                 // 색상 배열 정의
                 const colors = [
                   '#FF6347',
@@ -199,6 +341,23 @@ const KakaoMap = () => {
                       if (level > 4) {
                         setLevel(level - 1)
                       }
+                      if (level > 6) {
+                        setSelectedDistrict({
+                          name: code.name,
+                          code: code.code,
+                        })
+                      } else if (level > 4) {
+                        setSelectedAdministration({
+                          name: code.name,
+                          code: code.code,
+                        })
+                      } else {
+                        setSelectedCommercial({
+                          name: code.name,
+                          code: code.code,
+                        })
+                      }
+
                       setCenterLatLng(code.center)
                     }}
                   />

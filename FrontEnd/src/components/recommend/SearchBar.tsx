@@ -18,14 +18,16 @@ const SearchBar = (props: SearchBarPropsType) => {
         close={false}
         icon={false}
       />
-      <ChoicePlace />
-      <s.Content
-        onClick={() => {
-          setIsSubmit(true)
-        }}
-      >
-        <MainButton buttonContent="상권 추천받기" />
-      </s.Content>
+      <s.ContentSlide>
+        <ChoicePlace />
+        <s.Content
+          onClick={() => {
+            setIsSubmit(true)
+          }}
+        >
+          <MainButton buttonContent="상권 추천받기" />
+        </s.Content>
+      </s.ContentSlide>
     </s.Container>
   )
 }

@@ -43,7 +43,7 @@ const SelectPlace = styled.div`
 `
 
 const Dropdown = styled.div`
-  border-bottom: 1.5px solid black;
+  border-bottom: 0.1rem solid #626262;
   width: 30%;
   cursor: pointer;
   display: flex;
@@ -61,6 +61,9 @@ const SelectedDistrict = styled.div`
   font-weight: 500;
   width: 60%;
   margin-left: 20%;
+  white-space: nowrap; /* 내용을 한 줄로 표시 */
+  overflow: hidden; /* 내용이 너비를 넘어가면 숨김 처리 */
+  text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
 `
 const ArrowIcon = styled.img``
 const DropdownBox = styled.div<{ $place: string }>`

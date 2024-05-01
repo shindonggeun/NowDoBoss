@@ -13,5 +13,9 @@ export const Container = styled.div`
     box-shadow: none;
   }
 `
+export const ContentSlide = styled.div`
+  @media only screen and (max-width: 680px) {
+  }
+`
 
 export const Content = styled.div``

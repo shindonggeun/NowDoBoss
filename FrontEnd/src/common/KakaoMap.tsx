@@ -305,13 +305,12 @@ const KakaoMap = () => {
             ? loadData.map((code, index) => {
                 // 색상 배열 정의
                 const colors = [
-                  '#FF6347',
-                  '#4682B4',
-                  '#32CD32',
-                  '#FFD700',
-                  '#6A5ACD',
-                  '#FF69B4',
-                  '#20B2AA',
+                  '#80c5ff',
+                  '#2E83F2',
+                  '#236CFF',
+                  '#559ef2',
+                  '#2E83F2',
+                  '#415FEB',
                 ]
                 // index에 따라 색상을 순환시키기 위한 계산
                 const colorIndex = index % colors.length

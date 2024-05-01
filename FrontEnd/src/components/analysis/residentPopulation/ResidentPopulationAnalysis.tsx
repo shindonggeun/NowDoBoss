@@ -1,4 +1,6 @@
 import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
+import AgeChart from '@src/components/analysis/residentPopulation/AgeChart'
+import GenderChart from '@src/components/analysis/residentPopulation/GenderChart'
 import * as r from '@src/components/styles/analysis/ResidentPopulationAnalysisStyle'
 
 const ResidentPopulationAnalysis = () => {
@@ -6,8 +8,8 @@ const ResidentPopulationAnalysis = () => {
     <>
       <CategoryTitleCard title="상주인구" />
       <r.FirstLowContainer>
-        <r.TotalChart>고민고민</r.TotalChart>
-        <r.CategoryChart>고민고민</r.CategoryChart>
+        <AgeChart />
+        <GenderChart />
       </r.FirstLowContainer>
     </>
   )

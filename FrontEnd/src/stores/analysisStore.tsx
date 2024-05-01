@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import {
   AnalysisStoreType,
   FlowPopulationDataBodyType,
+  ResidentPopulationDataBodyType,
 } from '@src/types/AnalysisType'
 
 // 초기 상태를 위한 객체
@@ -33,11 +34,26 @@ const initialFlowPopulationDataBody: FlowPopulationDataBodyType = {
   },
 }
 
+const initialResidentPopulationDataBody: ResidentPopulationDataBodyType = {
+  populationInfo: {
+    totalPopulation: 0,
+    teenPopulation: 0,
+    twentyPopulation: 0,
+    thirtyPopulation: 0,
+    fortyPopulation: 0,
+    fiftyPopulation: 0,
+    sixtyPopulation: 0,
+  },
+  malePercentage: 0,
+  femalePercentage: 0,
+}
+
 // store
 const analysisStore = create<AnalysisStoreType>(set => ({
   selectedCommercialCode: '3110008',
   selectedServiceCode: '',
   flowPopulationDataBody: initialFlowPopulationDataBody,
+  residentPopulationDataBody: initialResidentPopulationDataBody,
 
   setSelectedCommercialCode: commercialCode =>
     set(() => ({ selectedCommercialCode: commercialCode })),
@@ -45,6 +61,8 @@ const analysisStore = create<AnalysisStoreType>(set => ({
     set(() => ({ selectedServiceCode: serviceCode })),
   setFlowPopulationDataBody: dataBody =>
     set({ flowPopulationDataBody: dataBody }),
+  setResidentPopulationDataBody: dataBody =>
+    set({ residentPopulationDataBody: dataBody }),
 }))
 
 export default analysisStore

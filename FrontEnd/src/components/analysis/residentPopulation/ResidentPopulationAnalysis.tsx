@@ -8,8 +8,8 @@ const ResidentPopulationAnalysis = () => {
     <>
       <CategoryTitleCard title="상주인구" />
       <r.FirstLowContainer>
-        <AgeChart />
         <GenderChart />
+        <AgeChart />
       </r.FirstLowContainer>
     </>
   )

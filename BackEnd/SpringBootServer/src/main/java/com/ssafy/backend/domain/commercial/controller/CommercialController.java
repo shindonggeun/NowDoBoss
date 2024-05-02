@@ -2,7 +2,6 @@ package com.ssafy.backend.domain.commercial.controller;
 
 import com.ssafy.backend.domain.commercial.dto.*;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
-import com.ssafy.backend.domain.district.dto.DistrictAreaResponse;
 import com.ssafy.backend.global.common.dto.Message;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,9 +25,9 @@ public class CommercialController {
     )
     @GetMapping("/administration/district/{districtCode}/areas")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<CommercialAdministrationAreaResponse>>> getAdministrativeAreasByDistrict(
+    public ResponseEntity<Message<List<CommercialAdministrationResponse>>> getAdministrativeAreasByDistrict(
             @PathVariable String districtCode) {
-        List<CommercialAdministrationAreaResponse> administrationAreaResponseList = commercialService.getAdministrativeAreasByDistrict(districtCode);
+        List<CommercialAdministrationResponse> administrationAreaResponseList = commercialService.getAdministrativeAreasByDistrict(districtCode);
         return ResponseEntity.ok().body(Message.success(administrationAreaResponseList));
     }
 

@@ -3,12 +3,17 @@ package com.ssafy.backend.domain.commercial.service;
 import com.ssafy.backend.domain.commercial.dto.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.repository.*;
+import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,28 +29,57 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CommercialAdministrationAreaResponse> getAdministrativeAreasByDistrict(String districtCode) {
+    public List<CommercialAdministrationResponse> getAdministrativeAreasByDistrict(String districtCode) {
         List<AreaCommercial> areaCommercialList = areaCommercialRepository.findAllByDistrictCode(districtCode);
-        return areaCommercialList.stream()
-                .map(ac -> new CommercialAdministrationAreaResponse(
+
+        Set<String> seenAdministrationCodes = new HashSet<>();
+        List<CommercialAdministrationResponse> result = new ArrayList<>();
+
+        for (AreaCommercial ac : areaCommercialList) {
+            if (!seenAdministrationCodes.contains(ac.getAdministrationCode())) {
+                Point transformedPoint = null;
+                try {
+                    transformedPoint = CoordinateConverter.transform(ac.getX(), ac.getY());
+                } catch (Exception e) {
+                    e.printStackTrace(); // 변환 실패시 로그 출력
+                }
+                result.add(new CommercialAdministrationResponse(
                         ac.getAdministrationCodeName(),
-                        ac.getAdministrationCode())
-                )
-                .distinct() // 중복 제거
-                .collect(Collectors.toList());
+                        ac.getAdministrationCode(),
+                        transformedPoint != null ? transformedPoint.getX() : 0,
+                        transformedPoint != null ? transformedPoint.getY() : 0
+                ));
+                seenAdministrationCodes.add(ac.getAdministrationCode());
+            }
+        }
+
+        return result; // 중복 제거된 결과를 반환
     }
+
 
     @Override
     @Transactional(readOnly = true)
     public List<CommercialAreaResponse> getCommercialAreasByAdministrationCode(String administrationCode) {
         List<AreaCommercial> areaCommercialList = areaCommercialRepository.findByAdministrationCode(administrationCode);
         return areaCommercialList.stream()
-                .map(ac -> new CommercialAreaResponse(
-                        ac.getCommercialCode(),
-                        ac.getCommercialCodeName(),
-                        ac.getCommercialClassificationCode(),
-                        ac.getCommercialClassificationCodeName())
-                )
+                .map(ac -> {
+                    Point transformedPoint = null;
+                    try {
+                        transformedPoint = CoordinateConverter.transform(ac.getX().doubleValue(), ac.getY().doubleValue());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        // 실패한 변환 처리 로직
+                    }
+                    // 변환된 좌표를 사용하여 CommercialAreaResponse 생성
+                    return new CommercialAreaResponse(
+                            ac.getCommercialCode(),
+                            ac.getCommercialCodeName(),
+                            ac.getCommercialClassificationCode(),
+                            ac.getCommercialClassificationCodeName(),
+                            transformedPoint != null ? transformedPoint.getX() : 0,
+                            transformedPoint != null ? transformedPoint.getY() : 0
+                    );
+                })
                 .collect(Collectors.toList());
     }
 
@@ -179,6 +213,7 @@ public class CommercialServiceImpl implements CommercialService {
     public CommercialAdministrationAreaResponse getAdministrationInfoByCommercialCode(String commercialCode) {
         return areaCommercialRepository.findByCommercialCode(commercialCode);
     }
+
 
 
 }

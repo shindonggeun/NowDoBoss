@@ -79,8 +79,12 @@ export const ChartTitle = styled.div`
   font-size: 0.8rem;
 `
 
-export const ChartSubTitle = styled.div`
+export const ChartSubTitleWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const ChartSubTitle = styled.span`
   font-size: 1.2rem;
   font-weight: 500;
-  margin-bottom: 10px;
 `

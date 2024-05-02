@@ -1,4 +1,4 @@
-import { HalfDoughnutChartPropsType } from '@src/types/AnalysisType'
+import { HalfDoughnutChartPropsType } from '@src/types/ChartPropType'
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 

@@ -45,7 +45,7 @@ export const selectPlaceStore = create<SelectedPlaceStoreType>(set => ({
   setLoadSelectedAdministration: list =>
     set({ loadSelectedAdministration: list }),
   // 선택한 상권
-  selectedCommercial: { name: '', code: 0 },
+  selectedCommercial: { name: '배화여자대학교(박노수미술관)', code: 3110008 },
   setSelectedCommercial: place => set({ selectedCommercial: place }),
   // 선택한 행정동에 속해있는 상권 목록
   loadSelectedCommercial: [

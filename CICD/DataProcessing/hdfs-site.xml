@@ -1,14 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <!-- 네임노드용 디렉토리 설정 -->
-  <property>
-    <name>dfs.namenode.name.dir</name>
-    <value>file:///hadoop/dfs/name</value>
-  </property>
-  
-  <!-- 데이터노드용 디렉토리 설정 -->
-  <property>
-    <name>dfs.datanode.data.dir</name>
-    <value>file:///hadoop/dfs/data</value>
-  </property>
+    <property>
+        <name>dfs.replication</name>
+        <value>2</value>
+    </property>
+    <property>
+        <name>dfs.permissions</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>/usr/local/hadoop_tmp/hdfs/namenode</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>/usr/local/hadoop_tmp/hdfs/datanode</value>
+    </property>
 </configuration>

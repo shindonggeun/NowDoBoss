@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <property>
-    <name>fs.defaultFS</name>
-    <value>hdfs://43.203.214.129:9000</value>
-  </property>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://master1:9000</value>
+    </property>
 </configuration>

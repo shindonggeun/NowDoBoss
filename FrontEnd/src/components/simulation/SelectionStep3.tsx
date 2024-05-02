@@ -1,16 +1,13 @@
 import * as c from '@src/components/styles/simulation/StepStyle'
+import useSimulationStore from '@src/stores/simulationStore'
 
 interface Step3Props {
   nextStep: () => void
-  category: string
-  onSelectedCategory: (value: string) => void
 }
 
-const SelectionStep3 = ({
-  nextStep,
-  category,
-  onSelectedCategory,
-}: Step3Props) => {
+const SelectionStep3 = ({ nextStep }: Step3Props) => {
+  const { category, setCategory } = useSimulationStore()
+
   const categories = [
     '음식점',
     '학원',
@@ -22,7 +19,6 @@ const SelectionStep3 = ({
 
   return (
     <c.Container>
-      {/* <h1>setp3 페이지 입니다</h1> */}
       <c.Title>
         <c.Emphasis>어떤 업종</c.Emphasis>
         으로 창업을 생각하고 계신가요?
@@ -34,7 +30,7 @@ const SelectionStep3 = ({
             size="sm"
             type="button"
             onClick={() => {
-              onSelectedCategory(cat)
+              setCategory(cat)
               nextStep()
             }}
             selected={category === cat}

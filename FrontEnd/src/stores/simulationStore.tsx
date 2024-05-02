@@ -1,10 +1,10 @@
-// import { create } from 'zustand'
+import { create } from 'zustand'
 
 import buildingSmall from '@src/assets/building_small.svg'
 import buildingMedium from '@src/assets/building_medium.svg'
 import buildingLarge from '@src/assets/building_large.svg'
 
-interface SubCategoryItem {
+export interface SubCategoryItem {
   name: string
   code: string
 }
@@ -69,8 +69,8 @@ export const subCategories: SubCategoryType = {
     { name: '안경', code: 'CS300016' },
     { name: '시계및귀금속', code: 'CS300017' },
     { name: '의약품', code: 'CS300018' },
-    { name: '컴퓨터및주변장치판매', code: 'CS300003' },
     { name: '의료기기', code: 'CS300019' },
+    { name: '컴퓨터및주변장치판매', code: 'CS300003' },
   ],
   생활용품: [
     { name: '서적', code: 'CS300020' },
@@ -86,8 +86,8 @@ export const subCategories: SubCategoryType = {
     { name: '인테리어', code: 'CS300035' },
     { name: '조명용품', code: 'CS300036' },
     { name: '전자상거래업', code: 'CS300043' },
-    { name: '가전제품', code: 'CS300032' },
     { name: '자전거 및 기타운송장비', code: 'CS300025' },
+    { name: '가전제품', code: 'CS300032' },
   ],
 }
 
@@ -113,12 +113,69 @@ export const BuildingData: BuildingType = {
   },
 }
 
-// interface SubCategoryStore {
-//   subCategories: SubCategoryType
-// }
-//
-// export const useSubCategoryStore = create<SubCategoryStore>(set => ({
-//   subCategories,
-// }))
-//
-// export default useSubCategoryStore
+interface StoreSizeState {
+  small: {
+    squareMeter: number
+    pyeong: number
+  }
+  medium: {
+    squareMeter: number
+    pyeong: number
+  }
+  large: {
+    squareMeter: number
+    pyeong: number
+  }
+}
+
+interface SimulationState {
+  step: number
+  isFranchise: boolean | null
+  category: string
+  subCategory: string
+  bulidingSize: number
+  floor: string
+  setStep: (step: number) => void
+  setIsFranchise: (isFranchise: boolean | null) => void
+  setCategory: (category: string) => void
+  setSubCategory: (subCategory: string) => void
+  setBulidingSize: (bulidingSize: number) => void
+  setFloor: (floor: string) => void
+  updateStoreSize: StoreSizeState
+  setUpdateStoreSize: (updateStoreSize: StoreSizeState) => void
+}
+
+// 가게 정보 입력 저장
+const useSimulationStore = create<SimulationState>(set => ({
+  step: 1,
+  setStep: step => set({ step }),
+  isFranchise: null,
+  setIsFranchise: isFranchise => set({ isFranchise }),
+  category: '',
+  setCategory: category => set({ category }),
+  subCategory: '',
+  setSubCategory: subCategory => set({ subCategory }),
+  bulidingSize: 0,
+  setBulidingSize: bulidingSize => set({ bulidingSize }),
+  floor: '',
+  setFloor: floor => set({ floor }),
+
+  // 가게 사이즈 저장
+  updateStoreSize: {
+    small: {
+      squareMeter: 0,
+      pyeong: 0,
+    },
+    medium: {
+      squareMeter: 0,
+      pyeong: 0,
+    },
+    large: {
+      squareMeter: 0,
+      pyeong: 0,
+    },
+  },
+  setUpdateStoreSize: data => set({ updateStoreSize: data }),
+}))
+
+export default useSimulationStore

@@ -3,6 +3,7 @@ import * as r from '@src/containers/recommend/RecommendContainerStyle'
 import KakaoMap from '@src/common/KakaoMap'
 import SearchBar from '@src/components/recommend/SearchBar'
 import RecommendReport from '@src/components/recommend/RecommendReport'
+import ReduceButton from '@src/common/ReduceButton'
 
 const RecommendContainer = () => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
@@ -40,14 +41,25 @@ const RecommendContainer = () => {
     }
   }
 
+  const [isOpen, setIsOpen] = useState<boolean>(true)
+
   return (
     <r.Container>
       <r.MapDiv>
         <KakaoMap />
       </r.MapDiv>
-      <r.Search>
-        <SearchBar setIsSubmit={setIsSubmit} />
-      </r.Search>
+      <r.SearchDiv>
+        <r.Search>
+          <SearchBar
+            setIsSubmit={setIsSubmit}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+          />
+        </r.Search>
+        <r.ReduceButton>
+          <ReduceButton isOpen={isOpen} setIsOpen={setIsOpen} />
+        </r.ReduceButton>
+      </r.SearchDiv>
       {shouldRender && (
         <r.Report
           ref={reportRef}

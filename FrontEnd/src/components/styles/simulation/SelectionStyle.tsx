@@ -35,7 +35,6 @@ export const Container = styled.div`
   //  width: 45vw;
   width: 40rem;
   height: 100vh;
-  //border-radius: 15px;
   background-color: #fff;
   position: absolute;
   top: 0;
@@ -103,4 +102,11 @@ export const HeaderTitle = styled.div`
 
 export const Contants = styled.div`
   margin: 6rem 2vw;
+`
+
+export const SplitLine = styled.div`
+  width: 90%;
+  height: 1px;
+  margin: 0 auto;
+  background-color: #e0e0e0;
 `

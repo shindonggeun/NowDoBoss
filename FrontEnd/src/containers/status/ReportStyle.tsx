@@ -12,7 +12,7 @@ export const Container = styled.div`
 
 export const SummaryContainer = styled.div`
   width: 36rem;
-  height: 23rem;
+  min-height: 23rem;
   border-radius: 10px;
   background: white;
   @media (max-width: 768px) {

@@ -54,13 +54,12 @@ const KakaoMap = () => {
     lat: 37.57023786206844,
     lng: 126.94665085220238,
   })
-
   // 현재 화면 우상단, 좌하단 좌표 값
   const [latLngData, setLatLngData] = useState<LatLngDataType>({
-    lngNE: 127.32720115811232,
-    latNE: 37.76084867208698,
-    lngSW: 126.56752739824054,
-    latSW: 37.377625138871835,
+    lngNE: 127.22560147553521,
+    latNE: 37.668539165787855,
+    lngSW: 126.75076041880565,
+    latSW: 37.46984057457333,
   })
 
   // 재가공한 구 데이터 저장
@@ -201,17 +200,18 @@ const KakaoMap = () => {
           mapData.setLevel(5)
 
           // 중심좌표 LatLng 타입으로 생성
-          // const moveLatLng = new kakao.maps.LatLng(
-          //   district.districtCenter[1],
-          //   district.districtCenter[0],
-          // )
+          const moveLatLng = new kakao.maps.LatLng(
+            district.centerLat,
+            district.centerLng,
+          )
           // 현재 중심좌표로 할당
-          // mapData.setCenter(moveLatLng)
+          mapData.setCenter(moveLatLng)
           // 현재 화면 좌상단, 우하단 설정
           const bounds = mapData.getBounds()
           const swLatLng = bounds.getSouthWest()
           const neLatLng = bounds.getNorthEast()
-
+          // console.log(district.centerLat)
+          // console.log(district.centerLng)
           setLatLngData({
             lngNE: neLatLng.getLng(),
             latNE: neLatLng.getLat(),
@@ -236,14 +236,16 @@ const KakaoMap = () => {
           const mapData = mapRef.current
           // 현재 지도 level 4으로 만들어, 줌인
           mapData.setLevel(4)
-
+          console.log()
           // 중심좌표 LatLng 타입으로 생성
-          // const moveLatLng = new kakao.maps.LatLng(
-          //   district.center.lat,
-          //   district.center.lng,
-          // )
+          const moveLatLng = new kakao.maps.LatLng(
+            district.centerLat,
+            district.centerLng,
+          )
+          // console.log(district.centerLat)
+          // console.log(district.centerLng)
           // // 현재 중심좌표로 할당
-          // mapData.setCenter(moveLatLng)
+          mapData.setCenter(moveLatLng)
           // 현재 화면 좌상단, 우하단 설정
           const bounds = mapData.getBounds()
           const swLatLng = bounds.getSouthWest()
@@ -259,7 +261,12 @@ const KakaoMap = () => {
         }
       })
     }
-  }, [loadData, loadSelectedCommercial, selectedCommercial.name])
+  }, [
+    loadData,
+    loadSelectedAdministration,
+    loadSelectedCommercial,
+    selectedCommercial,
+  ])
 
   useEffect(() => {
     refetch()

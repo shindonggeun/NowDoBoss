@@ -216,7 +216,8 @@ const ChoicePlace = () => {
   useEffect(() => {
     if (dongData) {
       setLoadSelectedAdministration(dongData?.dataBody)
-    } else if (administrationData) {
+    }
+    if (administrationData) {
       setLoadSelectedCommercial(administrationData?.dataBody)
     }
   }, [
@@ -295,23 +296,28 @@ const ChoicePlace = () => {
           <ArrowIcon src={down_arrow} />
         </Dropdown>
 
-        {location.pathname === '/recommend' ? (
-          ''
-        ) : (
-          <Dropdown
-            onClick={() => {
-              if (selectedAdministration.name !== '행정동') {
-                setDropdownDistrictOpen(!dropdownDistrictOpen)
-              } else {
-                console.log(' 동을 먼저 선택해주세요')
-              }
-            }}
-          >
-            {/* 상권 드롭다운 */}
-            <SelectedDistrict>{selectedDistrict} </SelectedDistrict>{' '}
-            <ArrowIcon src={down_arrow} />
-          </Dropdown>
-        )}
+        {
+          isRecommendPage ? (
+            ''
+          ) : (
+            <Dropdown
+              onClick={() => {
+                if (selectedAdministration.name !== '행정동') {
+                  setDropdownDistrictOpen(!dropdownDistrictOpen)
+                } else {
+                  console.log(' 동을 먼저 선택해주세요')
+                }
+              }}
+            >
+              {/* 상권 드롭다운 */}
+              <SelectedDistrict>{selectedDistrict} </SelectedDistrict>{' '}
+              <ArrowIcon src={down_arrow} />
+            </Dropdown>
+          )
+          //   : (
+          //   ''
+          // )
+        }
       </SelectPlace>
       {/* 행정구 드롭다운 내용 */}
       {dropdownGooOpen && (

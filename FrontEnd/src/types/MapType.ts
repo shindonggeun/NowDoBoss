@@ -65,3 +65,14 @@ export type PromiseCommercialDataType = {
   dataHeader: DataHeaderType
   dataBody: CommercialBody
 }
+
+export type PromiseAdministrationBody = {
+  administrationCodeName: string
+  administrationCode: number
+}
+
+//  상권 코드 보내면 역으로 동 정보 받아왔을 때의 promise type
+export type PromiseAdministrationType = {
+  dataHeader: DataHeaderType
+  dataBody: PromiseAdministrationBody
+}

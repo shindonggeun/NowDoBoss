@@ -5,6 +5,7 @@ import SelectionStep2 from '@src/components/simulation/SelectionStep2'
 import SelectionStep3 from '@src/components/simulation/SelectionStep3'
 import SelectionStep4 from '@src/components/simulation/SelectionStep4'
 import SelectionStep5 from '@src/components/simulation/SelectionStep5'
+import useSimulationStore from '@src/stores/simulationStore'
 import LeftArrow from '@src/assets/angle_left.svg'
 import Xmark from '@src/assets/xmark_solid_nomal.svg'
 
@@ -14,14 +15,23 @@ interface SimulSelctionProps {
 }
 
 const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
+  const {
+    setIsFranchise,
+    setCategory,
+    setSubCategory,
+    setBulidingSize,
+    setFloor,
+  } = useSimulationStore()
   const [step, setStep] = useState<number>(1)
-  const [isFranchise, setIsFranchise] = useState<boolean | null>(null)
-  const [category, setCategory] = useState('')
-  const [subCategory, setSubCategory] = useState('')
-  const [bulidingSize, setBulidingSize] = useState<number>(0)
-  const [floor, setFloor] = useState<string>('')
   const modalRef = useRef<HTMLDivElement>(null)
 
+  const resetButton = () => {
+    setIsFranchise(null)
+    setCategory('')
+    setSubCategory('')
+    setBulidingSize(0)
+    setFloor('')
+  }
   const nextStep = () => {
     setTimeout(() => {
       setStep(prev => prev + 1)
@@ -49,26 +59,6 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
     }
   }, [onClose, open])
 
-  const onSelectedkFranchise = (choice: boolean) => {
-    setIsFranchise(choice)
-  }
-
-  const onSelectedCategory = (choice: string) => {
-    setCategory(choice)
-  }
-
-  const onSelectedSubCategory = (choice: string) => {
-    setSubCategory(choice)
-  }
-
-  const onSelectedBulidingSize = (choice: number) => {
-    setBulidingSize(choice)
-  }
-
-  const onSelectedFloor = (choice: string) => {
-    setFloor(choice)
-  }
-
   return (
     <c.Overlay>
       <c.Container ref={modalRef}>
@@ -84,17 +74,20 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
             <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
           </c.HeaderLeft>
           <c.HeaderRignt>
-            <c.CloseIcon src={Xmark} alt="close" onClick={onClose} />
+            <c.CloseIcon
+              src={Xmark}
+              alt="close"
+              onClick={() => {
+                onClose()
+                resetButton()
+              }}
+            />
           </c.HeaderRignt>
         </c.SelctionHeader>
         <c.Contants>
           {step === 1 && (
             <c.FadeInContainer>
-              <SelectionStep1
-                nextStep={nextStep}
-                isFranchise={isFranchise}
-                onSelectedkFranchise={onSelectedkFranchise}
-              />
+              <SelectionStep1 nextStep={nextStep} />
             </c.FadeInContainer>
           )}
           {step === 2 && (
@@ -104,34 +97,17 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
           )}
           {step === 3 && (
             <c.FadeInContainer>
-              <SelectionStep3
-                nextStep={nextStep}
-                category={category}
-                onSelectedCategory={onSelectedCategory}
-              />
+              <SelectionStep3 nextStep={nextStep} />
             </c.FadeInContainer>
           )}
           {step === 4 && (
             <c.FadeInContainer>
-              <SelectionStep4
-                nextStep={nextStep}
-                category={category}
-                subCategory={subCategory}
-                onSelectedSubCategory={onSelectedSubCategory}
-              />
+              <SelectionStep4 nextStep={nextStep} />
             </c.FadeInContainer>
           )}
           {step === 5 && (
             <c.FadeInContainer>
-              <SelectionStep5
-                nextStep={nextStep}
-                bulidingSize={bulidingSize}
-                onSelectedBulidingSize={onSelectedBulidingSize}
-                floor={floor}
-                onSelectedFloor={onSelectedFloor}
-                category={category}
-                subCategory={subCategory}
-              />
+              <SelectionStep5 nextStep={nextStep} />
             </c.FadeInContainer>
           )}
         </c.Contants>

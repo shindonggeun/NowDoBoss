@@ -88,7 +88,7 @@ export const BodyTopTitle = styled.div`
 `
 
 export const BodyTopSubTitle = styled.div`
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: #808080;
 `
 

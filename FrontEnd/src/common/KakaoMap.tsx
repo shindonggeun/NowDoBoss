@@ -181,8 +181,6 @@ const KakaoMap = () => {
     }
   }, [districtData, selectedDistrict])
 
-  // TODO 동, 상권 목록 받을 때 중심좌표도 받아오게 되면 함께 띄우도록 수정하겠습니다.
-
   // 행정동의 상태가 변했을 때만 실행되는 useEffect
   useEffect(() => {
     // 코드길이 5인 경우만 처리 (행정구)
@@ -197,7 +195,7 @@ const KakaoMap = () => {
         ) {
           const mapData = mapRef.current
           // 현재 지도 level 5으로 만들어, 줌인
-          mapData.setLevel(5)
+          mapData.setLevel(4)
 
           // 중심좌표 LatLng 타입으로 생성
           const moveLatLng = new kakao.maps.LatLng(
@@ -235,8 +233,7 @@ const KakaoMap = () => {
         ) {
           const mapData = mapRef.current
           // 현재 지도 level 4으로 만들어, 줌인
-          mapData.setLevel(4)
-          console.log()
+          mapData.setLevel(3)
           // 중심좌표 LatLng 타입으로 생성
           const moveLatLng = new kakao.maps.LatLng(
             district.centerLat,
@@ -261,12 +258,7 @@ const KakaoMap = () => {
         }
       })
     }
-  }, [
-    loadData,
-    loadSelectedAdministration,
-    loadSelectedCommercial,
-    selectedCommercial,
-  ])
+  }, [loadSelectedAdministration, loadSelectedCommercial])
 
   useEffect(() => {
     refetch()

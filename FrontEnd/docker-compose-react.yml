@@ -28,7 +28,13 @@ services:
 
 volumes:
   certs:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/etc/letsencrypt'
   web-root:
+    driver: local
 
 networks:
   nowdoboss_net:  # 사용할 네트워크를 정의합니다. 여기서는 기본 설정을 사용합니다.

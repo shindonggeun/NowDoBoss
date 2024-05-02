@@ -104,7 +104,15 @@ export const AddBox = styled.div`
   box-sizing: border-box;
   font-size: 0.9rem;
   padding: 10px 15px;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 576px) {
+    margin-bottom: 10px;
+  }
 `
 
 export const Wrap = styled.div`
@@ -136,7 +144,7 @@ export const ChartBox = styled.div`
   justify-content: center;
   font-size: 1rem;
   font-weight: 500;
-  color: #ffffff;
+  //color: #ffffff;
 
   @media (max-width: 768px) {
     height: 40px; /* 화면이 768px 이하일 때 높이 조정 */

@@ -2,12 +2,13 @@ version: "3.8"  # Docker Compose 파일 버전을 지정합니다. "3.8"은 사�
 
 services:
   nowdoboss_frontend:
-    image: nginx:latest
     container_name: nowdoboss_frontend
-    volumes:
-      # - ../CICD/Nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+    build:
+      context: ../CICD/Nginx
+      dockerfile: Nginx.Dockerfile
+    # volumes:
+    #   - ./certbot/conf:/etc/letsencrypt
+    #   - ./certbot/www:/var/www/certbot
     ports:
       - "80:80"
       - "443:443"

@@ -69,9 +69,9 @@ dependencies {
 
 
 //	implementation fileTree(dir: 'libs', include: ['*.jar']) // libs 폴더의 모든 JAR를 포함
-	implementation 'org.geotools:gt-main:22.1'
-	implementation 'org.geotools:gt-referencing:22.1'
-	implementation 'org.geotools:gt-epsg-hsql:22.1'
+	implementation 'org.geotools:gt-main:29.2'
+	implementation 'org.geotools:gt-referencing:29.2'
+	implementation 'org.geotools:gt-epsg-hsql:29.2'
 
 
 	compileOnly 'org.projectlombok:lombok'

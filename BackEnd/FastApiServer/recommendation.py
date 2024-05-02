@@ -8,16 +8,17 @@ import datetime
 from pyspark.sql.functions import explode
 import os
 from pyspark.sql.functions import when
+import subprocess
 
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
 filename = 'model_update_time.json'
 
-model_path = "hdfs://namenode:8020/user/hadoop/model/als_model"
+model_path = "hdfs://master1:9000/user/hadoop/model/als_model"
 
 # Spark 세션 초기화 - 추후 설정에 맞게 변경
 spark = SparkSession.builder \
     .appName("Recommendation") \
-    .config("spark.hadoop.fs.defaultFS", "hdfs://namenode:8020") \
+    .config("spark.hadoop.fs.defaultFS", "hdfs://master1:9000") \
     .getOrCreate()
 
 # 마지막 업데이트 시간을 불러오는 함수
@@ -36,7 +37,7 @@ def action_weight(action):
 
 # 사용자 별 상권 특징에 대한 가중치 정보
 def load_user_weights(userId):
-    weights_path = f"hdfs://namenode:8020/user/hadoop/weight/{userId}/user_weights.json"
+    weights_path = f"hdfs://master1:9000/user/hadoop/weight/{userId}/user_weights.json"
     if spark._jsparkSession.catalog().tableExists(weights_path):
         return spark.read.json(weights_path)
     return spark.createDataFrame([], schema="weightValue double")
@@ -64,7 +65,7 @@ def recommendCommercials(userId):
     print("Previous update time:", last_update_time)
 
     # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
-    df_actions = spark.read.csv("hdfs://namenode:8020/user/hadoop/user_behavior_logs.csv")
+    df_actions = spark.read.csv("hdfs://master1:9000/user/hadoop/user_behavior_logs.csv")
  
     # 문자열 타입의 timestamp를 datetime으로 변환
     df_actions = df_actions.withColumn("timestamp", col("timestamp").cast("timestamp"))
@@ -110,15 +111,22 @@ def recommendCommercials(userId):
     df_actions = df_actions.withColumn("weight", action_weight_udf(col("action")))
 
     # 상권 데이터 예시 - 나중에 실제 데이터로
-    commercial_data = [
-        (1, 1000, 100, 5, 2, 80),
-        (2, 500, 85, 8, 7, 75),
-        (3, 1220, 110, 4, 5, 95),
-        (4, 750, 50, 2, 2, 45)
-    ]
+    # commercial_data = [
+    #     (1, 1000, 100, 5, 2, 80),
+    #     (2, 500, 85, 8, 7, 75),
+    #     (3, 1220, 110, 4, 5, 95),
+    #     (4, 750, 50, 2, 2, 45)
+    # ]
 
-    # 상권 코드, 유동 인구, 추정 매출, 개업률, 폐업률, 소비
-    commercial_columns = ["commercialCode", "trafficFoot", "sales", "openedRate", "closedRate", "consumption"]
+    commercial_data_path = "hdfs://master1:9000/user/hadoop/data/commercial_data.csv"
+
+    commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
+
+    # 상권 코드, 총_유동인구_수	활동시간_유동인구_비율 야간시간_유동인구_비율 심야시간_유동인구_비율 유동인구_평균연령 당월_매출_금액 점포_수 개업_점포_수 폐업_점포_수	프랜차이즈_점포_수 개업율 폐업율 프랜차이즈율 지출_총금액
+    # commercial_columns = ["commercialCode", "totalTrafficFoot", "activeTrafficFoot", "eveningTrafficFoot", "nightTrafficFoot", "ageTrafficFoot", 
+    #                       "totalSales", "totalStores", "openedStores", "closedStores", "franchiseStores", "openedRate", "closedRate", "franchiseRate",
+    #                       "totalConsumption"]
+    commercial_columns = ["commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption"]
     df_commercials = spark.createDataFrame(commercial_data, schema=commercial_columns)
 
     # HDFS에서 모델 불러오기 + 학습 + 저장
@@ -150,7 +158,7 @@ def recommendCommercials(userId):
 
     # 가중치가 있는 경우와 없는 경우를 처리
     final_recommendations = df_recommendations_with_weights.select(
-        "commercialCode", "trafficFoot", "sales", "openedRate", "closedRate", "consumption",
+        "commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption",
         when(col("weightValue").isNull(), col("rating")).otherwise(col("rating") + col("rating") * col("weightValue")).alias("finalRating")
     )
     # 반환할 결과
@@ -158,11 +166,11 @@ def recommendCommercials(userId):
 
     # 추천 점수와 각 특성 간의 상관관계 계산
     correlations = final_recommendations.select(
-        corr("rating", "trafficFoot").alias("corr_population"),
-        corr("rating", "sales").alias("corr_sales"),
+        corr("rating", "totalTrafficFoot").alias("corr_population"),
+        corr("rating", "totalSales").alias("corr_sales"),
         corr("rating", "openedRate").alias("corr_openedRate"),
         corr("rating", "closedRate").alias("corr_closedRate"),
-        corr("rating", "consumption").alias("corr_consumption")
+        corr("rating", "totalConsumption").alias("corr_consumption")
     )
 
     # 새로운 가중치와 이전 가중치 점진적 업데이트 (50%만 반영) + 하둡에 저장
@@ -170,17 +178,17 @@ def recommendCommercials(userId):
     new_weights = {}
 
     # correlations 데이터프레임의 각 열에 대해 반복하여 상관관계 값을 new_weights에 저장
-    new_weights["trafficFoot"] = correlations["corr_population"]  
-    new_weights["sales"] = correlations["corr_sales"]  
+    new_weights["totalTrafficFoot"] = correlations["corr_population"]  
+    new_weights["totalSales"] = correlations["corr_sales"]  
     new_weights["openedRate"] = correlations["corr_openedRate"]  
     new_weights["closedRate"] = correlations["corr_closedRate"]  
-    new_weights["consumption"] = correlations["corr_consumption"]
+    new_weights["totalConsumption"] = correlations["corr_consumption"]
 
     update_ratio = 0.5  # 새 가중치를 50% 반영
     updated_weights = {k: user_weights[k] * (1 - update_ratio) + new_weights[k] * update_ratio for k in user_weights} 
 
     # 저장 옵션 설정 및 실행
-    weights_path = f"hdfs://namenode:8020/user/hadoop/weight/{userId}/user_weights.json"
+    weights_path = f"hdfs://master1:9000/user/hadoop/weight/{userId}/user_weights.json"
     updated_weights.write.mode('overwrite').json(weights_path)
 
     return res

@@ -1,8 +1,10 @@
 package com.ssafy.backend.global.util;
 
 import org.geotools.geometry.jts.JTS;
+import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.geotools.referencing.CRS;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -13,18 +15,20 @@ public class CoordinateConverter {
     private static final GeometryFactory geometryFactory = new GeometryFactory();
 
     public static Point transform(double x, double y) throws Exception {
-        // 입력 좌표계와 출력 좌표계 설정
-        CoordinateReferenceSystem sourceCRS = CRS.decode("EPSG:5181");
-        CoordinateReferenceSystem targetCRS = CRS.decode("EPSG:4326");
+        CoordinateReferenceSystem sourceCrs = CRS.decode("EPSG:5181");
+        CoordinateReferenceSystem targetCrs = CRS.decode("EPSG:4326");
 
-        // 좌표 변환 객체 생성
-        MathTransform transform = CRS.findMathTransform(sourceCRS, targetCRS, true);
+        GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
+        Coordinate coordinate = new Coordinate(y, x);
+        Geometry point = geometryFactory.createPoint(coordinate);
 
-        // 변환할 좌표 생성
-        Point sourcePoint = geometryFactory.createPoint(new Coordinate(x, y));
-        Point targetPoint = (Point) JTS.transform(sourcePoint, transform);
+        MathTransform transform = CRS.findMathTransform(sourceCrs, targetCrs, true);
+        Geometry transFormedPoint = JTS.transform(point, transform);
 
-        return targetPoint;
+//        System.out.println("좌표변경 전(EPSG:4326) Point = " + point);
+//        System.out.println("좌표변경 후(EPSG:5179) Point = " + transFormedPoint);
+
+        return (Point) transFormedPoint;
     }
 }
 

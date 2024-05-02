@@ -173,12 +173,13 @@ const ChoicePlace = () => {
     queryFn: () => fetchDongList(selectedDistrictData.code),
   })
 
-  // 구 선택 시 동 목록 조회하는 useQuery
+  // 동 선택 시 상권 목록 조회하는 useQuery
   const { data: administrationData } = useQuery({
     queryKey: ['fetchAdministrationList', selectedAdministration],
     queryFn: () => fetchAdministrationList(selectedAdministration.code),
   })
 
+  // 동, 상권 목록 불러오면 store에 저장해서 map에서 재사용할 수 있도록 설정
   useEffect(() => {
     if (dongData) {
       setLoadSelectedAdministration(dongData?.dataBody)
@@ -218,17 +219,10 @@ const ChoicePlace = () => {
 
   // 지도 선택 시 선택된 값 바뀌었을 때 드롭다운에도 갱신
   useEffect(() => {
-    if (selectedDistrictData.name) {
-      setSelectedGoo(selectedDistrictData.name)
-    }
-    if (selectedCommercial.name) {
-      setSelectedDistrict(selectedCommercial.name)
-    }
-    if (selectedAdministration.name) {
-      setSelectedDong(selectedAdministration.name)
-    }
+    setSelectedGoo(selectedDistrictData.name)
+    setSelectedDistrict(selectedCommercial.name)
+    setSelectedDong(selectedAdministration.name)
   }, [selectedDistrictData, selectedAdministration, selectedCommercial])
-
   return (
     <Place>
       {location.pathname === '/recommend' ? (

@@ -1,15 +1,23 @@
 import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import analysisStore from '@src/stores/analysisStore'
+import selectPlaceStore from '@src/stores/selectPlaceStore'
 import {
   getFlowPopulationData,
   getResidentPopulationData,
 } from '@src/api/analysisApi'
-import ResultSection from '@src/components/analysis/ResultSection'
-import * as a from '@src/containers/analysis/AnalysisContainerStyle'
-import selectPlaceStore from '@src/stores/selectPlaceStore'
+import FlowPopulationAnalysis from '@src/components/analysis/flowPopulation/FlowPopulationAnalysis'
+import FacilitiesAnalysis from '@src/components/analysis/facilities/FacilitiesAnalysis'
+import StoreCountAnalysis from '@src/components/analysis/storeCount/StoreCountAnalysis'
+import SalesAnalysis from '@src/components/analysis/sales/SalesAnalysis'
+import RentalCostAnalysis from '@src/components/analysis/rentalCost/RentalCostAnalysis'
+import ResidentPopulationAnalysis from '@src/components/analysis/residentPopulation/ResidentPopulationAnalysis'
+import ExpenditureAnalysis from '@src/components/analysis/expenditure/ExpenditureAnalysis'
+import SideBarMenu from '@src/components/analysis/SideBarMenu'
+import ResultIntro from '@src/components/analysis/ResultIntro'
+import * as a from '@src/containers/analysis/ResultContainerStyle'
 
-const AnalysisContainer = () => {
+const ResultContainer = () => {
   const { setFlowPopulationDataBody, setResidentPopulationDataBody } =
     analysisStore()
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
@@ -46,14 +54,23 @@ const AnalysisContainer = () => {
 
   return (
     <a.Container>
-      <a.SelectLocationContainer>
-        {/* <SelectLocationSection /> */}
-      </a.SelectLocationContainer>
-      <a.ResultSectionContainer>
-        <ResultSection />
-      </a.ResultSectionContainer>
+      <ResultIntro />
+      <a.Wrap>
+        <a.Sidebar>
+          <SideBarMenu />
+        </a.Sidebar>
+        <a.Main>
+          <FlowPopulationAnalysis />
+          <FacilitiesAnalysis />
+          <StoreCountAnalysis />
+          <SalesAnalysis />
+          <RentalCostAnalysis />
+          <ResidentPopulationAnalysis />
+          <ExpenditureAnalysis />
+        </a.Main>
+      </a.Wrap>
     </a.Container>
   )
 }
 
-export default AnalysisContainer
+export default ResultContainer

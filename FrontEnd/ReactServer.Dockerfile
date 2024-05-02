@@ -18,21 +18,3 @@ COPY .env-dev .env
 
 # 프론트엔드 코드 빌드
 RUN npm run build
-
-# NGINX 이미지 생성
-FROM nginx:latest
-
-# NGINX에서 작업 디렉토리 설정
-WORKDIR /usr/share/nginx/html
-
-# 기본 NGINX 정적 콘텐츠 제거
-RUN rm -rf ./*
-
-# Node.js 빌드 단계에서 빌드된 프론트엔드 코드 복사
-COPY --from=build /usr/src/app/dist/ .
-
-# 추가 NGINX 구성 파일 복사
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# NGINX를 시작
-CMD ["nginx", "-g", "daemon off;"]

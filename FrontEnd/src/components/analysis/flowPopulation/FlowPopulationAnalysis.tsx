@@ -7,7 +7,7 @@ import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
 
 const FlowPopulationAnalysis = () => {
   return (
-    <>
+    <div>
       <CategoryTitleCard title="유동인구" />
       <f.FirstLowContainer>
         <TodayChart />
@@ -17,7 +17,7 @@ const FlowPopulationAnalysis = () => {
         <AgeChart />
         <TimeChart />
       </f.SecondLowContainer>
-    </>
+    </div>
   )
 }
 

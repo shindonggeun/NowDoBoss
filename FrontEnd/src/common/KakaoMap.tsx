@@ -111,18 +111,9 @@ const KakaoMap = () => {
     queryFn: async () => {
       return fetchDongInfo(commercialCode)
     },
+    // enabled: !!commercialCode,
   })
 
-  // 동 데이터 갱신되면 구, 동 정보 저장
-  useEffect(() => {
-    if (commercialCode !== 0 && DongData) {
-      ReCallBeforeData(DongData.dataBody.administrationCode)
-      setSelectedAdministration({
-        name: DongData.dataBody.administrationCodeName,
-        code: DongData.dataBody.administrationCode,
-      })
-    }
-  }, [DongData])
   // 호출받은 데이터 재가공
   const parsePolygonData = (dataBody: DataBodyType) => {
     return Object.keys(dataBody.coords)
@@ -284,13 +275,7 @@ const KakaoMap = () => {
 
   useEffect(() => {
     refetch()
-  }, [
-    loadData,
-    selectedDistrict,
-    selectedAdministration,
-    selectedCommercial,
-    refetch,
-  ])
+  }, [selectedDistrict, selectedAdministration, selectedCommercial, refetch])
 
   // 행정동 코드 입력 시 행정구 코드, 이름 찾아서 저장
   const ReCallBeforeData = (code: number) => {
@@ -308,6 +293,18 @@ const KakaoMap = () => {
       })
     }
   }
+
+  // 동 데이터 갱신되면 구, 동 정보 저장
+  useEffect(() => {
+    if (commercialCode !== 0 && DongData) {
+      ReCallBeforeData(DongData.dataBody.administrationCode)
+      setSelectedAdministration({
+        name: DongData.dataBody.administrationCodeName,
+        code: DongData.dataBody.administrationCode,
+      })
+    }
+  }, [DongData, commercialCode])
+
   return (
     <div>
       <div>

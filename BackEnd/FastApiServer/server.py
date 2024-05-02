@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import recommendation
-
+import recommend
 app = FastAPI()
 
 class UserRequest(BaseModel):
@@ -15,7 +15,7 @@ async def recommend_commercial_areas(request: UserRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.on_event("/shutdown")
+@app.on_event("shutdown")
 def shutdown_event():
     recommendation.stop_spark()  # Spark 세션 종료 처리
 

@@ -59,7 +59,7 @@ def load_model(spark, model_path, df_actions):
         print("New model trained and saved.")
     return model
 
-def recommendCommercials(userId):
+def recommend_commercials(userId):
     # 이전 업데이트 시간 불러오기
     last_update_time = load_last_update_time(filename)
     print("Previous update time:", last_update_time)
@@ -78,31 +78,31 @@ def recommendCommercials(userId):
     with open('model_update_time.json', 'w') as f:
         json.dump({'last_update_time': last_update_time}, f)
 
-    # 이전 업데이트 시간 이후의 사용자 행동 데이터 가져오기 예시
-    action_data = [
-        (1, "click", 1),
-        (1, "search", 2),
-        (2, "search", 3),
-        (2, "search", 4),
-        (1, "save", 2),
-        (3, "save", 1),
-        (3, "click", 1),
-        (4, "search", 2),
-        (2, "search", 4),
-        (1, "simulation", 2),
-        (1, "simulation", 1),
-        (1, "save", 1),
-        (3, "save", 1),
-        (3, "click", 1),
-        (4, "search", 2),
-        (2, "search", 3),
-        (2, "search", 4),
-        (1, "save", 2),
-        (1, "simulation", 2),
-        (5, "click", 1),
-        (5, "click", 1),
-        (2, "save", 1)
-    ]
+    # # 이전 업데이트 시간 이후의 사용자 행동 데이터 가져오기 예시
+    # action_data = [
+    #     (1, "click", 1),
+    #     (1, "search", 2),
+    #     (2, "search", 3),
+    #     (2, "search", 4),
+    #     (1, "save", 2),
+    #     (3, "save", 1),
+    #     (3, "click", 1),
+    #     (4, "search", 2),
+    #     (2, "search", 4),
+    #     (1, "simulation", 2),
+    #     (1, "simulation", 1),
+    #     (1, "save", 1),
+    #     (3, "save", 1),
+    #     (3, "click", 1),
+    #     (4, "search", 2),
+    #     (2, "search", 3),
+    #     (2, "search", 4),
+    #     (1, "save", 2),
+    #     (1, "simulation", 2),
+    #     (5, "click", 1),
+    #     (5, "click", 1),
+    #     (2, "save", 1)
+    # ]
     action_columns = ["userId", "action", "commercialCode"]
     df_actions = spark.createDataFrame(action_data, schema=action_columns)
 

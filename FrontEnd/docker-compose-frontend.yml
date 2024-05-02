@@ -8,7 +8,7 @@ services:
       dockerfile: ReactServer.Dockerfile  # 사용할 Dockerfile의 이름입니다.
     image: nowdoboss_frontend_img  # 빌드된 이미지의 이름을 설정합니다.
     volumes:
-      - react_build:/usr/src/app/build  # 빌드 결과물을 볼륨에 저장
+      - react_build:/usr/src/app/dist  # 빌드 결과물을 볼륨에 저장
     restart: always  # 컨테이너가 항상 재시작되도록 설정합니다.
     networks:
       - nowdoboss_net  # 사용할 네트워크를 지정합니다.
@@ -20,9 +20,9 @@ services:
       dockerfile: Nginx.Dockerfile
     volumes:
       - react_build:/usr/share/nginx/html  # Nginx가 빌드된 정적 파일을 서빙
-    # volumes:
-    #   - ./certbot/conf:/etc/letsencrypt
-    #   - ./certbot/www:/var/www/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     ports:
       - "80:80"
       - "443:443"

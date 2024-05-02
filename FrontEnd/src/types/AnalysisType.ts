@@ -50,13 +50,16 @@ export type ResidentPopulationDataBodyType = {
 }
 
 // store type
+export type SelectedServiceType = {
+  serviceCode: string
+  serviceCodeName: string
+}
+
 export type AnalysisStoreType = {
-  selectedCommercialCode: string
-  selectedServiceCode: string
+  selectedService: SelectedServiceType
   flowPopulationDataBody: FlowPopulationDataBodyType
   residentPopulationDataBody: ResidentPopulationDataBodyType
-  setSelectedCommercialCode: (commercialCode: string) => void
-  setSelectedServiceCode: (serviceCode: string) => void
+  setSelectedService: (service: SelectedServiceType) => void
   setFlowPopulationDataBody: (dataBody: FlowPopulationDataBodyType) => void
   setResidentPopulationDataBody: (
     dataBody: ResidentPopulationDataBodyType,
@@ -88,4 +91,9 @@ export type DoughnutChartPropsType = {
   labels: string[]
   value: number[]
   textCenter: string
+}
+
+export type HalfDoughnutChartPropsType = {
+  labels: string[]
+  values: number[]
 }

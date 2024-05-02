@@ -28,25 +28,29 @@ export type SelectedPlaceStoreType = {
 }
 
 export const selectPlaceStore = create<SelectedPlaceStoreType>(set => ({
-  districtData: data,
   // 선택한 행정구
-  selectedDistrict: { name: '', code: 0 },
+  selectedDistrict: { name: '행정구', code: 0 },
   setSelectedDistrict: place => set({ selectedDistrict: place }),
   // 선택한 행정동
-  selectedAdministration: { name: '', code: 0 },
+  selectedAdministration: { name: '행정동', code: 0 },
   setSelectedAdministration: place => set({ selectedAdministration: place }),
+  // 선택한 상권
+  selectedCommercial: { name: '상권', code: 0 },
+  // selectedCommercial: { name: '배화여자대학교(박노수미술관)', code: 3110008 },
+  setSelectedCommercial: place => set({ selectedCommercial: place }),
+  // 행정구 데이터 목록
+  districtData: data,
   // 선택한 행정구에 속해있는 행정동 목록
   loadSelectedAdministration: [
     {
       administrationCodeName: '',
       administrationCode: 0,
+      centerLat: 0,
+      centerLng: 0,
     },
   ],
   setLoadSelectedAdministration: list =>
     set({ loadSelectedAdministration: list }),
-  // 선택한 상권
-  selectedCommercial: { name: '배화여자대학교(박노수미술관)', code: 3110008 },
-  setSelectedCommercial: place => set({ selectedCommercial: place }),
   // 선택한 행정동에 속해있는 상권 목록
   loadSelectedCommercial: [
     {
@@ -54,6 +58,8 @@ export const selectPlaceStore = create<SelectedPlaceStoreType>(set => ({
       commercialCodeName: '',
       commercialClassificationCode: '',
       commercialClassificationCodeName: '',
+      centerLat: 0,
+      centerLng: 0,
     },
   ],
   setLoadSelectedCommercial: list => set({ loadSelectedCommercial: list }),

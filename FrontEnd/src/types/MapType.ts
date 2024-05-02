@@ -40,6 +40,8 @@ export type LatLng = { lat: number; lng: number }
 export type AdministrationBody = {
   administrationCodeName: string
   administrationCode: number
+  centerLat: number
+  centerLng: number
 }[]
 
 // 상권 목록 데이터 body
@@ -48,6 +50,8 @@ export type CommercialBody = {
   commercialCodeName: string
   commercialClassificationCode: string
   commercialClassificationCodeName: string
+  centerLat: number
+  centerLng: number
 }[]
 
 // 구 데이터 전달 후 동 목록 받아왔을 때의 promise type

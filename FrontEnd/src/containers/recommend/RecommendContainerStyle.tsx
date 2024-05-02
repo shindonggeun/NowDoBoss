@@ -47,14 +47,18 @@ export const Container = styled.div`
 export const MapDiv = styled.div`
   width: 100%;
 `
+export const SearchDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 export const Search = styled.div`
   position: absolute;
   z-index: 1;
   top: 0;
-  width: 500px;
+  width: 300px;
   height: 45vh;
 
-  @media only screen and (max-width: 680px) {
+  @media only screen and (max-width: 400px) {
     font-size: 0.9rem;
     top: auto;
     bottom: 0;
@@ -62,6 +66,18 @@ export const Search = styled.div`
     height: auto;
   }
 `
+export const ReduceButton = styled.div`
+  position: absolute;
+  z-index: 1;
+  left: 300px;
+  top: 0;
+  height: 45vh;
+
+  @media only screen and (max-width: 400px) {
+    display: none;
+  }
+`
+
 export const Report = styled.div<{ $isSubmit: boolean }>`
   position: absolute;
   height: auto;

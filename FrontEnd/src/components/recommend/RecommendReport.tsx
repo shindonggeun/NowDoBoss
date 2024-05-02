@@ -65,6 +65,7 @@ const RecommendReport = (props: RecommendReportPropsType) => {
           close
           setOpen={setIsSubmit}
           icon
+          isOpen
         />
         <r.TabBox>
           {DistrictData.map(district => (

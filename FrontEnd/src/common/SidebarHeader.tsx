@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import bookMark from '@src/assets/bookmark.svg'
 
-const Header = styled.div`
+const Header = styled.div<{ $isOpen: boolean }>`
   //background-color: #236cff;
   background-color: #f2f2f2;
   color: #000000;
@@ -10,15 +10,14 @@ const Header = styled.div`
   padding: 10px 10px 5px 20px;
   border-top-right-radius: 14px;
   border-top-left-radius: 14px;
+  border-bottom-left-radius: ${props => (props.$isOpen ? '' : '14px')};
+  border-bottom-right-radius: ${props => (props.$isOpen ? '' : '14px')};
+  border-bottom: ${props => (props.$isOpen ? '2px solid #d9d9d9' : '')};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 2px solid #d9d9d9;
 
-  @media only screen and (max-width: 680px) {
-    border-top-left-radius: 15px;
-    border-bottom-right-radius: 0;
-    box-shadow: none;
+  @media only screen and (max-width: 400px) {
   }
 `
 
@@ -72,13 +71,14 @@ type SidebarHeaderPropsType = {
   // eslint-disable-next-line react/require-default-props
   setOpen?: (open: boolean) => void
   icon: boolean
+  isOpen: boolean
 }
 
 const SidebarHeader = (props: SidebarHeaderPropsType) => {
-  const { title, subTitle, close, setOpen, icon = '' } = props
+  const { title, subTitle, close, setOpen, icon, isOpen = true } = props
 
   return (
-    <Header>
+    <Header $isOpen={isOpen}>
       <Container>
         {icon && <Icon src={bookMark} />}
         <Content>

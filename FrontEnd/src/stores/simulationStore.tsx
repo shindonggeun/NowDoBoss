@@ -1,4 +1,4 @@
-// import { create } from 'zustand'
+import { create } from 'zustand'
 
 import buildingSmall from '@src/assets/building_small.svg'
 import buildingMedium from '@src/assets/building_medium.svg'
@@ -113,12 +113,69 @@ export const BuildingData: BuildingType = {
   },
 }
 
-// interface SubCategoryStore {
-//   subCategories: SubCategoryType
-// }
-//
-// export const useSubCategoryStore = create<SubCategoryStore>(set => ({
-//   subCategories,
-// }))
-//
-// export default useSubCategoryStore
+interface StoreSizeState {
+  small: {
+    squareMeter: number
+    pyeong: number
+  }
+  medium: {
+    squareMeter: number
+    pyeong: number
+  }
+  large: {
+    squareMeter: number
+    pyeong: number
+  }
+}
+
+interface SimulationState {
+  step: number
+  isFranchise: boolean | null
+  category: string
+  subCategory: string
+  bulidingSize: number
+  floor: string
+  setStep: (step: number) => void
+  setIsFranchise: (isFranchise: boolean | null) => void
+  setCategory: (category: string) => void
+  setSubCategory: (subCategory: string) => void
+  setBulidingSize: (bulidingSize: number) => void
+  setFloor: (floor: string) => void
+  updateStoreSize: StoreSizeState
+  setUpdateStoreSize: (updateStoreSize: StoreSizeState) => void
+}
+
+// 가게 정보 입력 저장
+const useSimulationStore = create<SimulationState>(set => ({
+  step: 1,
+  setStep: step => set({ step }),
+  isFranchise: null,
+  setIsFranchise: isFranchise => set({ isFranchise }),
+  category: '',
+  setCategory: category => set({ category }),
+  subCategory: '',
+  setSubCategory: subCategory => set({ subCategory }),
+  bulidingSize: 0,
+  setBulidingSize: bulidingSize => set({ bulidingSize }),
+  floor: '',
+  setFloor: floor => set({ floor }),
+
+  // 가게 사이즈 저장
+  updateStoreSize: {
+    small: {
+      squareMeter: 0,
+      pyeong: 0,
+    },
+    medium: {
+      squareMeter: 0,
+      pyeong: 0,
+    },
+    large: {
+      squareMeter: 0,
+      pyeong: 0,
+    },
+  },
+  setUpdateStoreSize: data => set({ updateStoreSize: data }),
+}))
+
+export default useSimulationStore

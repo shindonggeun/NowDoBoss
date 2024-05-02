@@ -1,19 +1,14 @@
 import * as c from '@src/components/styles/simulation/StepStyle'
+import useSimulationStore from '@src/stores/simulationStore'
 
 interface Step1Props {
   nextStep: () => void
-  isFranchise: boolean | null
-  onSelectedkFranchise: (value: boolean) => void
 }
 
-const SelectionStep1 = ({
-  nextStep,
-  isFranchise,
-  onSelectedkFranchise,
-}: Step1Props) => {
+const SelectionStep1 = ({ nextStep }: Step1Props) => {
+  const { isFranchise, setIsFranchise } = useSimulationStore()
   return (
     <c.Container>
-      {/* <h2>setp1 페이지 입니다</h2> */}
       <c.Title>
         <c.Emphasis>프렌차이즈</c.Emphasis>창업을 생각하고 계신가요?
       </c.Title>
@@ -23,7 +18,7 @@ const SelectionStep1 = ({
           selected={isFranchise === true}
           type="button"
           onClick={() => {
-            onSelectedkFranchise(true)
+            setIsFranchise(true)
             nextStep()
           }}
         >
@@ -34,7 +29,7 @@ const SelectionStep1 = ({
           selected={isFranchise === false}
           type="button"
           onClick={() => {
-            onSelectedkFranchise(false)
+            setIsFranchise(false)
             nextStep()
           }}
         >

@@ -22,7 +22,7 @@ services:
     volumes:
       - certs:/etc/letsencrypt
       - web-root:/usr/share/nginx/html
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot --webroot-path=/usr/share/nginx/html -d k10C208.p.ssafy.io; sleep 12h & wait $${!}; done;'"
     networks:
       - nowdoboss_net
 

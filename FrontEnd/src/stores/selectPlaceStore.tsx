@@ -30,10 +30,10 @@ export type SelectedPlaceStoreType = {
 export const selectPlaceStore = create<SelectedPlaceStoreType>(set => ({
   districtData: data,
   // 선택한 행정구
-  selectedDistrict: { name: '', code: 0 },
+  selectedDistrict: { name: '행정구', code: 0 },
   setSelectedDistrict: place => set({ selectedDistrict: place }),
   // 선택한 행정동
-  selectedAdministration: { name: '', code: 0 },
+  selectedAdministration: { name: '행정동', code: 0 },
   setSelectedAdministration: place => set({ selectedAdministration: place }),
   // 선택한 행정구에 속해있는 행정동 목록
   loadSelectedAdministration: [
@@ -45,7 +45,7 @@ export const selectPlaceStore = create<SelectedPlaceStoreType>(set => ({
   setLoadSelectedAdministration: list =>
     set({ loadSelectedAdministration: list }),
   // 선택한 상권
-  selectedCommercial: { name: '', code: 0 },
+  selectedCommercial: { name: '상권', code: 0 },
   setSelectedCommercial: place => set({ selectedCommercial: place }),
   // 선택한 행정동에 속해있는 상권 목록
   loadSelectedCommercial: [

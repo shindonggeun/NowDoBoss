@@ -6,11 +6,6 @@ export const Container = styled.div<{ $isOpen: boolean }>`
   box-shadow: 10px 10px 15px -5px rgba(0, 0, 0, 0.2);
   margin: 10px;
   border-radius: 15px;
-
-  @media only screen and (max-width: 680px) {
-    border-top-left-radius: 15px;
-    box-shadow: none;
-  }
 `
 export const Header = styled.div``
 export const ContentSlide = styled.div`

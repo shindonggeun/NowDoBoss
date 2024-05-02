@@ -17,10 +17,7 @@ const Header = styled.div<{ $isOpen: boolean }>`
   flex-direction: row;
   justify-content: space-between;
 
-  @media only screen and (max-width: 680px) {
-    border-top-left-radius: 15px;
-    border-bottom-right-radius: 0;
-    box-shadow: none;
+  @media only screen and (max-width: 400px) {
   }
 `
 

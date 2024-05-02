@@ -50,7 +50,7 @@ export const Chatting = styled.div`
 
 export const ChatButton = styled.img`
   display: none;
-  margin-right: 40px;
+  margin-right: 1rem;
 
   @media only screen and (max-width: 992px) {
     display: flow;
@@ -59,11 +59,11 @@ export const ChatButton = styled.img`
   @media only screen and (max-width: 800px) {
     display: flow;
     cursor: pointer;
-    margin-right: 5%;
+    margin-right: 0.5rem;
   }
   @media only screen and (max-width: 586px) {
     padding: 10px 5px;
-    margin-right: 6%;
+    margin-right: 0.2rem;
     scale: 0.8;
   }
 `

@@ -88,3 +88,30 @@ export const ChartSubTitle = styled.span`
   font-size: 1.2rem;
   font-weight: 500;
 `
+
+export const HorizontalChart = styled.div`
+  width: 90%;
+  align-self: center;
+`
+export const Bar = styled.div`
+  background-color: #4caf50;
+  height: 20px;
+  border-radius: 5px;
+`
+
+export const BarContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+  gap: 2%;
+`
+
+export const Label = styled.div`
+  width: 20%;
+  font-size: 1rem;
+  text-align: right;
+`
+
+export const BarWrapper = styled.div`
+  width: 80%;
+`

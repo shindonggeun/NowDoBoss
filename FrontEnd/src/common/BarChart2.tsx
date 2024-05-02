@@ -5,12 +5,21 @@ import {
   Chart as ChartJS,
   Legend,
   LinearScale,
+  LogarithmicScale,
   Title,
   Tooltip,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  LogarithmicScale,
+)
 
 const BarChart2 = (props: BarChartPropsType) => {
   const { labels, values } = props
@@ -21,8 +30,9 @@ const BarChart2 = (props: BarChartPropsType) => {
       {
         label: '유동 인구(명)',
         data: values,
-        backgroundColor: 'rgba(75,192,192,0.2)', // 차트 색상
-        borderColor: 'rgba(75,192,192,1)', // 선 색상
+        backgroundColor: 'rgba(75, 192, 192, 0.2)', // 차트 색상
+        borderColor: 'rgba(75, 192, 192, 1)', // 선 색상
+        borderWidth: 0.5,
       },
     ],
   }

@@ -27,6 +27,7 @@ export const MainContent = styled.div`
   justify-content: center;
 
   @media only screen and (max-width: 992px) {
+    margin-top: 68px;
     margin-left: 0;
     width: 100vw;
   }

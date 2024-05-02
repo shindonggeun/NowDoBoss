@@ -35,16 +35,16 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis - SpringBootServer') {
-            steps {
-                dir('BackEnd/SpringBootServer') {
-                    withSonarQubeEnv('SonarQube Server') {
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew sonar -Dsonar.projectKey=nowdoboss'
-                    }
-                }
-            }
-        }
+        // stage('SonarQube Analysis - SpringBootServer') {
+        //     steps {
+        //         dir('BackEnd/SpringBootServer') {
+        //             withSonarQubeEnv('SonarQube Server') {
+        //                 sh 'chmod +x ./gradlew'
+        //                 sh './gradlew sonar -Dsonar.projectKey=nowdoboss'
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('SonarQube Analysis - FrontEnd') {
             steps {

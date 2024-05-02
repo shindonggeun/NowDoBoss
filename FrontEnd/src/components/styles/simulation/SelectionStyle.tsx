@@ -95,6 +95,10 @@ export const HeaderTitle = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
   margin-left: 1rem;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
 `
 
 export const Contants = styled.div`

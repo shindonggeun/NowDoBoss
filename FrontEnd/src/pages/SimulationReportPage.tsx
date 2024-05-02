@@ -1,9 +1,9 @@
-import SimulReport from '@src/components/simulation/SimulReport'
+import SimulReportContainer from '@src/containers/status/SimulReportContainer.tsx'
 
 const SimulationReportPage = () => {
   return (
     <div>
-      <SimulReport />
+      <SimulReportContainer />
     </div>
   )
 }

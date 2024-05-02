@@ -7,7 +7,7 @@ services:
       context: .  # Dockerfile이 위치한 디렉토리 경로입니다.
       dockerfile: ReactServer.Dockerfile  # 사용할 Dockerfile의 이름입니다.
     image: nowdoboss_frontend_img  # 빌드된 이미지의 이름을 설정합니다.
-    volums:
+    volumes:
       - react_build:/usr/src/app/dist  # 빌드 결과물을 볼륨에 저장
     restart: always  # 컨테이너가 항상 재시작되도록 설정합니다.
     networks:
@@ -19,7 +19,7 @@ services:
       context: ../CICD/Nginx
       dockerfile: Nginx.Dockerfile
     volumes:
-      - react_build:/usr/share/nginx/html # 같은 볼륨을 Nginx가 사용하여 정적 파일을 서빙
+      - react_build:/usr/share/nginx/html  # Nginx가 빌드된 정적 파일을 서빙
     # volumes:
     #   - ./certbot/conf:/etc/letsencrypt
     #   - ./certbot/www:/var/www/certbot

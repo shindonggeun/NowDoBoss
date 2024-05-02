@@ -65,7 +65,7 @@ def recommend_commercials(userId):
     print("Previous update time:", last_update_time)
 
     # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
-    df_actions = spark.read.csv("hdfs://master1:9000/user/hadoop/user_behavior_logs.csv")
+    df_actions = spark.read.csv("hdfs://master1:9000/user/hadoop/action_data.csv")
  
     # 문자열 타입의 timestamp를 datetime으로 변환
     df_actions = df_actions.withColumn("timestamp", col("timestamp").cast("timestamp"))
@@ -118,7 +118,7 @@ def recommend_commercials(userId):
     #     (4, 750, 50, 2, 2, 45)
     # ]
 
-    commercial_data_path = "hdfs://master1:9000/user/hadoop/data/commercial_data.csv"
+    commercial_data_path = "hdfs://master1:9000/user/hadoop/commercial_data.csv"
 
     commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
 

@@ -5,7 +5,7 @@ interface DetailCloseRate {
 }
 
 const DetailCloseRateComponent = ({ props }: DetailCloseRate) => {
-  // console.log(props)
+  console.log(props)
   return (
     <>
       <h1>폐업률 페이지</h1>

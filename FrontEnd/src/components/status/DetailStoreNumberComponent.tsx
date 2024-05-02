@@ -5,7 +5,7 @@ interface DetailStoreNumberProps {
 }
 
 const DetailStoreNumberComponent = ({ props }: DetailStoreNumberProps) => {
-  // console.log(props)
+  console.log(props)
   return (
     <>
       <h1>점포수 페이지</h1>

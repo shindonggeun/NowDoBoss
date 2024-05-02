@@ -192,7 +192,7 @@ const KakaoMap = () => {
     }
   }, [districtData, selectedDistrict])
 
-  // 동, 상권 목록 받을 때 중심좌표도 받아오게 되면 함께 띄우도록 수정하겠습니다.
+  // TODO 동, 상권 목록 받을 때 중심좌표도 받아오게 되면 함께 띄우도록 수정하겠습니다.
 
   // 행정동의 상태가 변했을 때만 실행되는 useEffect
   useEffect(() => {
@@ -233,12 +233,12 @@ const KakaoMap = () => {
     }
   }, [districtData, loadSelectedAdministration, selectedAdministration])
 
-  // 행정구의 상태가 변했을 때만 실행되는 useEffect
+  // 상권의 상태가 변했을 때만 실행되는 useEffect
   useEffect(() => {
-    // 코드길이 5인 경우만 처리 (행정구)
+    // 코드길이 7인 경우만 처리 (상권)
     if (String(loadSelectedCommercial[0]?.commercialCode).length === 7) {
       loadSelectedCommercial.forEach(district => {
-        // 선택한 행정구를 받아온 데이터와 비교해서 일치하는 값 찾기
+        // 선택한 상권을 받아온 데이터와 비교해서 일치하는 값 찾기
         if (
           district.commercialCodeName === selectedCommercial.name &&
           mapRef.current
@@ -305,12 +305,12 @@ const KakaoMap = () => {
             ? loadData.map((code, index) => {
                 // 색상 배열 정의
                 const colors = [
-                  '#80c5ff',
-                  '#2E83F2',
-                  '#236CFF',
-                  '#559ef2',
-                  '#2E83F2',
-                  '#415FEB',
+                  '#bbe0ff',
+                  '#98c6ff',
+                  '#7ca4ff',
+                  '#b6d4fd',
+                  '#679cff',
+                  '#8296ff',
                 ]
                 // index에 따라 색상을 순환시키기 위한 계산
                 const colorIndex = index % colors.length
@@ -323,13 +323,13 @@ const KakaoMap = () => {
                     path={code.path}
                     strokeWeight={3} // 선의 두께입니다
                     strokeColor={fillColor} // 선의 색깔입니다
-                    strokeOpacity={0.8} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                    strokeOpacity={0.5} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
                     strokeStyle="longdash" // 선의 스타일입니다
                     // strokeColor="#39DE2A" // 선의 색깔입니다
                     // fillColor={isMouseOver ? '#70ff5c' : '#A2FF99'} // 채우기 색깔입니다
                     fillColor={fillColor} // 채우기 색깔입니다
                     zIndex={100}
-                    fillOpacity={isMouseOver === code.name ? 0.8 : 0.6} // 채우기 불투명도입니다
+                    fillOpacity={isMouseOver === code.name ? 0.8 : 0.2} // 채우기 불투명도입니다
                     onMouseover={() => {
                       // setMouseOverLatLng(code.center)
                       return setIsMouseOver(code.name)
@@ -340,16 +340,49 @@ const KakaoMap = () => {
                       if (level > 4) {
                         setLevel(level - 1)
                       }
+                      // level이 6보다 크면 행정구 선택하는 화면이 뜹니다.
+                      // 행정구 선택 시 선택한 이름, 코드를 저장해서 드롭다운에 띄우는 로직입니다.
                       if (level > 6) {
                         setSelectedDistrict({
                           name: code.name,
                           code: code.code,
                         })
+                        // 구 다시 선택하면 동, 상권은 초기화시키는 로직
+                        setSelectedAdministration({
+                          name: '행정동',
+                          code: 0,
+                        })
+                        setSelectedCommercial({
+                          name: '상권',
+                          code: 0,
+                        })
+                        // level 6,5이면 행정동 선택하는 화면
+                        // 선택한 행정동 store에 저장해서 드롭다운 갱신
                       } else if (level > 4) {
                         setSelectedAdministration({
                           name: code.name,
                           code: code.code,
                         })
+                        // 동의 하위인 상권은 초기화
+                        setSelectedCommercial({
+                          name: '상권',
+                          code: 0,
+                        })
+                        // 행정동의 8자리 코드 중 5자리 추출
+                        const slicedCode = String(code.code).slice(0, 5)
+                        // districtData 배열에서 조건에 맞는 항목 찾기
+                        const foundDistrict = districtData.find(
+                          district =>
+                            district.districtCode === Number(slicedCode),
+                        )
+                        // 행정동 8코드의 앞 5자리는 속한 행정구라서, 행정구 정보 찾아서 store에 저장해서 드롭다운 갱신
+                        if (foundDistrict) {
+                          setSelectedDistrict({
+                            name: foundDistrict.districtName,
+                            code: foundDistrict.districtCode,
+                          })
+                        }
+                        // TODO 상권 선택 시 동 정보 받아와 구, 동 갱신시키는 로직 추가예정
                       } else {
                         setSelectedCommercial({
                           name: code.name,

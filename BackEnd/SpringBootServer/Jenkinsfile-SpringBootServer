@@ -29,7 +29,7 @@ pipeline {
                 dir('BackEnd/SpringBootServer') {    
                     withSonarQubeEnv('SonarQube Server') {
                         sh 'chmod +x ./gradlew'
-                        sh './gradlew sonar'
+                        sh './gradlew sonar -Dsonar.projectKey=nowdoboss'
                     }
                 }
             }

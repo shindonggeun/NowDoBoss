@@ -13,6 +13,7 @@ import AnalysisPage from '@src/pages/AnalysisPage'
 import RecommendPage from '@src/pages/RecommendPage'
 import SimulationPage from '@src/pages/SimulationPage'
 import SimulationReportPage from '@src/pages/SimulationReportPage'
+import ChattingPage from '@src/pages/ChattingPage'
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/recommend" element={<RecommendPage />} />
           <Route path="/simulation" element={<SimulationPage />} />
           <Route path="/simulation/report" element={<SimulationReportPage />} />
+          <Route path="/chatting" element={<ChattingPage />} />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

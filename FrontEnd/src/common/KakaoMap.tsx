@@ -136,17 +136,7 @@ const KakaoMap = () => {
     setSelectedCommercial,
     loadSelectedAdministration,
     loadSelectedCommercial,
-  } = useSelectPlaceStore(state => ({
-    districtData: state.districtData,
-    selectedDistrict: state.selectedDistrict,
-    setSelectedDistrict: state.setSelectedDistrict,
-    selectedAdministration: state.selectedAdministration,
-    setSelectedAdministration: state.setSelectedAdministration,
-    selectedCommercial: state.selectedCommercial,
-    setSelectedCommercial: state.setSelectedCommercial,
-    loadSelectedAdministration: state.loadSelectedAdministration,
-    loadSelectedCommercial: state.loadSelectedCommercial,
-  }))
+  } = useSelectPlaceStore()
 
   // 불러온 데이터 재가공한 값을 loadData에 저장시키는 로직
   useEffect(() => {

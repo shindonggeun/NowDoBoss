@@ -44,7 +44,7 @@ const SelectPlace = styled.div`
 
 const Dropdown = styled.div`
   border-bottom: 0.1rem solid #626262;
-  width: 30%;
+  width: 100px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -54,7 +54,10 @@ const Dropdown = styled.div`
 const SelectedContent = styled.div`
   text-align: right;
   font-weight: 500;
-  width: 60%;
+  width: 65%;
+  white-space: nowrap; /* 내용을 한 줄로 표시 */
+  overflow: hidden; /* 내용이 너비를 넘어가면 숨김 처리 */
+  text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
 `
 const SelectedDistrict = styled.div`
   text-align: center;
@@ -66,47 +69,68 @@ const SelectedDistrict = styled.div`
   text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
 `
 const ArrowIcon = styled.img``
-const DropdownBox = styled.div<{ $place: string }>`
+const DropdownBox = styled.div<{ $place: string; $recommend: boolean }>`
   position: absolute;
   overflow-y: auto;
   height: 60%;
   background-color: #ffffff;
-  right: ${({ $place }) => {
-    const placeToRight: { [key: string]: string } = {
-      goo: '65%',
-      dong: '36.7%',
-      district: '6.5%',
-    }
-    return placeToRight[$place] || placeToRight.default
+  right: ${({ $place, $recommend }) => {
+    const placeToRight: { [key: string]: string } = $recommend
+      ? {
+          goo: '52%',
+          dong: '12%',
+        }
+      : {
+          goo: '65%',
+          dong: '36.7%',
+          district: '6.5%',
+        }
+    return placeToRight[$place] || 'default'
   }};
-  width: 24%;
+  width: 100px;
   border: 0.15rem solid #d9d9d9;
   border-radius: 5px;
 
-  @media only screen and (max-width: 680px) {
-    right: ${({ $place }) => {
-      const placeToRight: { [key: string]: string } = {
-        goo: '65%',
-        dong: '35%',
-        district: '5%',
-      }
-      return placeToRight[$place] || placeToRight.default
+  @media only screen and (max-width: 400px) {
+    right: ${({
+      $place,
+      $recommend,
+    }: {
+      $place: string
+      $recommend: boolean
+    }) => {
+      const placeToRight: { [key: string]: string } = $recommend
+        ? {
+            goo: '51%',
+            dong: '22%',
+          }
+        : {
+            goo: '64%',
+            dong: '36%',
+            district: '7%',
+          }
+      return placeToRight[$place] || 'default'
     }};
-    width: 26%;
+    width: 100px;
     height: 15vh;
     overflow-y: scroll;
   }
-  @media only screen and (max-width: 500px) {
-    right: ${({ $place }) => {
-      const placeToRight: { [key: string]: string } = {
-        goo: '64%',
-        dong: '36%',
-        district: '7%',
-      }
-      return placeToRight[$place] || placeToRight.default
-    }};
-    width: 23%;
-  }
+
+  ${({ $recommend }) =>
+    !$recommend &&
+    `
+  @media only screen and (max-width: 680px) {
+  right: ${({ $place }: { $place: string }) => {
+    const placeToRight: { [key: string]: string } = {
+      goo: '65%',
+      dong: '35%',
+      district: '5%',
+    }
+    return placeToRight[$place] || 'default'
+  }};
+  width: 23%;
+}
+`}
 `
 const DropdownContent = styled.div`
   width: 100%;
@@ -126,6 +150,15 @@ const DropdownContent = styled.div`
 
 const ChoicePlace = () => {
   const location = useLocation()
+  const [isRecommendPage, setIsRecommendPage] = useState(false)
+
+  useEffect(() => {
+    if (location.pathname === '/recommend') {
+      setIsRecommendPage(true)
+    } else {
+      setIsRecommendPage(false)
+    }
+  }, [location])
 
   // 드롭다운 열렸는지 여부
   const [dropdownGooOpen, setDropdownGooOpen] = useState<boolean>(false)
@@ -225,7 +258,7 @@ const ChoicePlace = () => {
   }, [selectedDistrictData, selectedAdministration, selectedCommercial])
   return (
     <Place>
-      {location.pathname === '/recommend' ? (
+      {isRecommendPage ? (
         ''
       ) : (
         <>
@@ -251,7 +284,7 @@ const ChoicePlace = () => {
         {/* 행정동 드롭다운 */}
         <Dropdown
           onClick={() => {
-            if (selectedDistrictData.name) {
+            if (selectedDistrictData.name !== '행정구') {
               setDropdownDongOpen(!dropdownDongOpen)
             } else {
               console.log(' 구를 먼저 선택해주세요')
@@ -262,37 +295,31 @@ const ChoicePlace = () => {
           <ArrowIcon src={down_arrow} />
         </Dropdown>
 
-        {/* {location.pathname === '/recommend' ? ( */}
-        {/*  <ChoiceContent>가 선택되었습니다.</ChoiceContent> */}
-        {/* ) : ( */}
-        {/*  <Dropdown */}
-        {/*    onClick={() => { */}
-        {/*      setDropdownDistrictOpen(!dropdownDistrictOpen) */}
-        {/*    }} */}
-        {/*  > */}
-        {/*    /!* 상권 드롭다운 *!/ */}
-        {/*    <SelectedDistrict>{selectedDistrict} </SelectedDistrict>{' '} */}
-        {/*    <ArrowIcon src={down_arrow} /> */}
-        {/*  </Dropdown> */}
-        {/* )}    */}
-
-        {/* 상권 드롭다운 */}
-        <Dropdown
-          onClick={() => {
-            if (selectedAdministration.name) {
-              setDropdownDistrictOpen(!dropdownDistrictOpen)
-            } else {
-              console.log(' 구를 먼저 선택해주세요')
-            }
-          }}
-        >
-          <SelectedDistrict>{selectedDistrict} </SelectedDistrict>{' '}
-          <ArrowIcon src={down_arrow} />
-        </Dropdown>
+        {location.pathname === '/recommend' ? (
+          ''
+        ) : (
+          <Dropdown
+            onClick={() => {
+              if (selectedAdministration.name !== '행정동') {
+                setDropdownDistrictOpen(!dropdownDistrictOpen)
+              } else {
+                console.log(' 동을 먼저 선택해주세요')
+              }
+            }}
+          >
+            {/* 상권 드롭다운 */}
+            <SelectedDistrict>{selectedDistrict} </SelectedDistrict>{' '}
+            <ArrowIcon src={down_arrow} />
+          </Dropdown>
+        )}
       </SelectPlace>
       {/* 행정구 드롭다운 내용 */}
       {dropdownGooOpen && (
-        <DropdownBox ref={dropdownRef} $place="goo">
+        <DropdownBox
+          ref={dropdownRef}
+          $place="goo"
+          $recommend={isRecommendPage}
+        >
           {districtData.map(district => (
             <DropdownContent
               key={district.districtName}
@@ -314,7 +341,11 @@ const ChoicePlace = () => {
 
       {/* 행정동 드롭다운 내용 */}
       {dropdownDongOpen && (
-        <DropdownBox ref={dropdownRef} $place="dong">
+        <DropdownBox
+          ref={dropdownRef}
+          $place="dong"
+          $recommend={isRecommendPage}
+        >
           {dongData?.dataBody.map(district => (
             <DropdownContent
               key={district.administrationCode}
@@ -337,7 +368,11 @@ const ChoicePlace = () => {
 
       {/* 상권 드롭다운 내용 */}
       {dropdownDistrictOpen && (
-        <DropdownBox ref={dropdownRef} $place="district">
+        <DropdownBox
+          ref={dropdownRef}
+          $place="district"
+          $recommend={isRecommendPage}
+        >
           {administrationData?.dataBody.map(district => (
             <DropdownContent
               key={district.commercialCode}

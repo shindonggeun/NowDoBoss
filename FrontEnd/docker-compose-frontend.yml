@@ -18,8 +18,8 @@ services:
     build:
       context: ../CICD/Nginx
       dockerfile: Nginx.Dockerfile
-      volumes:
-        - react_build:/usr/share/nginx/html # 같은 볼륨을 Nginx가 사용하여 정적 파일을 서빙
+    volumes:
+      - react_build:/usr/share/nginx/html # 같은 볼륨을 Nginx가 사용하여 정적 파일을 서빙
     # volumes:
     #   - ./certbot/conf:/etc/letsencrypt
     #   - ./certbot/www:/var/www/certbot

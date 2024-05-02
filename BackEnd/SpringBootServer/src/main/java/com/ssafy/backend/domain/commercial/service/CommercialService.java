@@ -18,4 +18,6 @@ public interface CommercialService {
     CommercialPopulationResponse getPopulationByPeriodAndCommercialCode(String periodCode, String commercialCode);
 
     CommercialFacilityResponse getFacilityByPeriodAndCommercialCode(String periodCode, String commercialCode);
+
+    CommercialAdministrationAreaResponse getAdministrationInfoByCommercialCode(String commercialCode);
 }

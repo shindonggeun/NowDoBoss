@@ -114,9 +114,8 @@ public class CommercialController {
             description = "해당 상권이 속한 행정동의 코드와 이름을 반환하는 기능입니다."
     )
     @GetMapping("/{commercialCode}")
-    public ResponseEntity<Message<CommercialAdministrationAreaResponse>> getAdministration() {
-        CommercialAdministrationAreaResponse administrationResponse = commercialService.getAdministrationInfo();
+    public ResponseEntity<Message<CommercialAdministrationAreaResponse>> getAdministration(@PathVariable String commercialCode) {
+        CommercialAdministrationAreaResponse administrationResponse = commercialService.getAdministrationInfoByCommercialCode(commercialCode);
         return ResponseEntity.ok().body(Message.success(administrationResponse));
     }
 }
-`

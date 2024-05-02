@@ -175,5 +175,10 @@ public class CommercialServiceImpl implements CommercialService {
         return new CommercialFacilityResponse(facilityCnt, school, totalTransportCnt);
     }
 
+    @Override
+    public CommercialAdministrationAreaResponse getAdministrationInfoByCommercialCode(String commercialCode) {
+        return areaCommercialRepository.findByCommercialCode(commercialCode);
+    }
+
 
 }

@@ -52,8 +52,6 @@ const SelectionStep5 = ({ nextStep }: Step5Props) => {
     navigate('/simulation/report')
   }
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <div>
       {!isLoading && data ? (

@@ -1,21 +1,20 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
+export const Container = styled.div<{ $isOpen: boolean }>`
   border: 2px solid #d9d9d9;
   background-color: white;
-  border-radius: 15px;
   box-shadow: 10px 10px 15px -5px rgba(0, 0, 0, 0.2);
   margin: 10px;
+  border-radius: 15px;
 
   @media only screen and (max-width: 680px) {
     border-top-left-radius: 15px;
-    border-bottom-right-radius: 0;
     box-shadow: none;
   }
 `
+export const Header = styled.div``
 export const ContentSlide = styled.div`
-  @media only screen and (max-width: 680px) {
-  }
+  background-color: white;
 `
 
 export const Content = styled.div``

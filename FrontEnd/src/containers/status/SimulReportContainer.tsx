@@ -2,6 +2,7 @@ import * as c from '@src/components/styles/simulation/SelectionStyle'
 import ReportSummary from '@src/components/simulation/report/ReportSummary'
 import ReportHeader from '@src/components/simulation/report/ReportHeader'
 import { useState } from 'react'
+import ReportDetail from '@src/components/simulation/report/ReportDetail.tsx'
 
 const SimulReportContainer = () => {
   const [isOpen, setIsOpen] = useState(true)
@@ -15,10 +16,7 @@ const SimulReportContainer = () => {
           <c.Container>
             <ReportHeader onClose={onClose} />
             <ReportSummary />
-            <div>
-              <div>예상비용 상세</div>
-              <div>아래의 비용들을 더해 계산했어요</div>
-            </div>
+            <ReportDetail />
           </c.Container>
         </c.Overlay>
       )}

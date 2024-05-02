@@ -5,7 +5,7 @@ import com.ssafy.backend.domain.commercial.dto.*;
 import java.util.List;
 
 public interface CommercialService {
-    List<CommercialAdministrationAreaResponse> getAdministrativeAreasByDistrict(String districtCode);
+    List<CommercialAdministrationResponse> getAdministrativeAreasByDistrict(String districtCode);
 
     List<CommercialAreaResponse> getCommercialAreasByAdministrationCode(String administrationCode);
 
@@ -18,4 +18,6 @@ public interface CommercialService {
     CommercialPopulationResponse getPopulationByPeriodAndCommercialCode(String periodCode, String commercialCode);
 
     CommercialFacilityResponse getFacilityByPeriodAndCommercialCode(String periodCode, String commercialCode);
+
+    CommercialAdministrationAreaResponse getAdministrationInfoByCommercialCode(String commercialCode);
 }

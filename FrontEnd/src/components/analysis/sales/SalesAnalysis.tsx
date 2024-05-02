@@ -1,4 +1,10 @@
 import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
+import ExpectChart from '@src/components/analysis/sales/ExpectChart'
+import AgeChart from '@src/components/analysis/sales/AgeChart'
+import TodaySalesChart from '@src/components/analysis/sales/TodaySalesChart'
+import TodayNumberChart from '@src/components/analysis/sales/TodayNumberChart'
+import WeekSalesChart from '@src/components/analysis/sales/WeekSalesChart'
+import WeekNumberChart from '@src/components/analysis/sales/WeekNumberChart'
 import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 
 const SalesAnalysis = () => {
@@ -6,16 +12,16 @@ const SalesAnalysis = () => {
     <>
       <CategoryTitleCard title="매출분석" />
       <s.FirstLowContainer>
-        <s.ExpectChart>추정 매출액</s.ExpectChart>
-        <s.AgeChart>연령별 매출액</s.AgeChart>
+        <ExpectChart />
+        <AgeChart />
       </s.FirstLowContainer>
       <s.SecondLowContainer>
-        <s.TodaySalesChart>일일 평균 매출액</s.TodaySalesChart>
-        <s.TodayNumberChart>일일 평균 매출 건수</s.TodayNumberChart>
+        <TodaySalesChart />
+        <TodayNumberChart />
       </s.SecondLowContainer>
       <s.ThirdLowContainer>
-        <s.WeekSalesChart>요일별 매출액</s.WeekSalesChart>
-        <s.WeekSalesChart>요일별 매출건수</s.WeekSalesChart>
+        <WeekSalesChart />
+        <WeekNumberChart />
       </s.ThirdLowContainer>
     </>
   )

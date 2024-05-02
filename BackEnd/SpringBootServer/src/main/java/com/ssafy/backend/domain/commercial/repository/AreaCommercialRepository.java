@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.commercial.repository;
 
+import com.ssafy.backend.domain.commercial.dto.CommercialAdministrationAreaResponse;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,4 +12,6 @@ public interface AreaCommercialRepository extends JpaRepository<AreaCommercial, 
     List<AreaCommercial> findAllByDistrictCode(String districtCode);
 
     List<AreaCommercial> findByAdministrationCode(String administrationCode);
+
+    CommercialAdministrationAreaResponse findByCommercialCode(String commercialCode);
 }

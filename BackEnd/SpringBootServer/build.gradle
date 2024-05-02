@@ -19,7 +19,9 @@ configurations {
 }
 
 repositories {
+	maven { url "https://repo.osgeo.org/repository/release/"}
 	mavenCentral()
+
 }
 
 dependencies {
@@ -64,6 +66,13 @@ dependencies {
 	implementation 'org.springframework.kafka:spring-kafka'
 
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+
+//	implementation fileTree(dir: 'libs', include: ['*.jar']) // libs 폴더의 모든 JAR를 포함
+	implementation 'org.geotools:gt-main:22.1'
+	implementation 'org.geotools:gt-referencing:22.1'
+	implementation 'org.geotools:gt-epsg-hsql:22.1'
+
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

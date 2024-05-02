@@ -13,7 +13,13 @@ export const FirstLowContainer = styled.div`
 
 export const TotalChart = styled.div`
   width: 55%;
-  background-color: #cccccc;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  box-sizing: border-box;
 
   @media (max-width: 576px) {
     width: 100%;
@@ -32,8 +38,14 @@ export const FirstRightWrap = styled.div`
 `
 
 export const FranchiseChart = styled.div`
-  background-color: #cccccc;
   width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  box-sizing: border-box;
 `
 
 export const StatusWrap = styled.div`
@@ -43,10 +55,36 @@ export const StatusWrap = styled.div`
 
 export const OpenChart = styled.div`
   width: 50%;
-  background-color: #cccccc;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  box-sizing: border-box;
 `
 
 export const CloseChart = styled.div`
   width: 50%;
-  background-color: #cccccc;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  box-sizing: border-box;
+`
+
+export const ChartTitle = styled.div`
+  font-size: 0.8rem;
+`
+
+export const ChartSubTitleWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const ChartSubTitle = styled.span`
+  font-size: 1.2rem;
+  font-weight: 500;
 `

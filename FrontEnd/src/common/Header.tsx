@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import HeaderDropdown from '@src/common/HeaderDropdown'
 
 const Container = styled.header`
-  height: 75px;
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -43,18 +43,18 @@ const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
   }
 `
 const Menu = styled.div<{ $isActive?: boolean }>`
-  height: 70px;
+  height: 66px;
   padding: 0 20px;
   font-size: 16px;
   display: flex;
   align-items: center;
   cursor: pointer;
   font-weight: bold;
-  border-bottom: 4px solid ${props => (props.$isActive ? '#236cff' : 'white')};
+  border-bottom: 3px solid ${props => (props.$isActive ? '#236cff' : 'white')};
   color: ${props => (props.$isActive ? '#236cff' : 'black')};
   &:hover {
     color: #236cff;
-    border-bottom: 4px solid #236cff;
+    border-bottom: 3px solid #236cff;
   }
 
   @media (max-width: 1200px) {

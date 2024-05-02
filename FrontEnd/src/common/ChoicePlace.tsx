@@ -5,11 +5,12 @@ import styled from 'styled-components'
 import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 import { useQuery } from '@tanstack/react-query'
 import { fetchAdministrationList, fetchDongList } from '@src/api/mapApi'
+import { useLocation } from 'react-router-dom'
 
 const Place = styled.div`
   //border-bottom: 2px solid #d9d9d9;
   margin: 10px 10px;
-  padding: 20px;
+  //padding: 20px;
   text-align: right;
 `
 
@@ -38,11 +39,11 @@ const SelectPlace = styled.div`
   flex-direction: row;
   justify-content: center;
   text-align: center;
-  margin-top: 10px;
+  margin: 10px 20px 0 0;
 `
 
 const Dropdown = styled.div`
-  border-bottom: 1px solid black;
+  border-bottom: 0.1rem solid #626262;
   width: 30%;
   cursor: pointer;
   display: flex;
@@ -60,6 +61,9 @@ const SelectedDistrict = styled.div`
   font-weight: 500;
   width: 60%;
   margin-left: 20%;
+  white-space: nowrap; /* 내용을 한 줄로 표시 */
+  overflow: hidden; /* 내용이 너비를 넘어가면 숨김 처리 */
+  text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
 `
 const ArrowIcon = styled.img``
 const DropdownBox = styled.div<{ $place: string }>`
@@ -121,7 +125,7 @@ const DropdownContent = styled.div`
 `
 
 const ChoicePlace = () => {
-  // const location = useLocation()
+  const location = useLocation()
 
   // 드롭다운 열렸는지 여부
   const [dropdownGooOpen, setDropdownGooOpen] = useState<boolean>(false)
@@ -140,18 +144,27 @@ const ChoicePlace = () => {
   // store에 저장된 구 데이터와 선택한 구, 동, 상권 값 가져올 store
   const {
     districtData,
+    // 선택한 구, 동, 상권
     selectedDistrictData,
-    setSelectedDistrictData,
     selectedAdministration,
+    selectedCommercial,
+    // 구, 동, 상권 데이터 set
+    setSelectedDistrictData,
     setSelectedAdministration,
+    setLoadSelectedAdministration,
+    // 동, 상권 데이터 목록
     setSelectedCommercial,
+    setLoadSelectedCommercial,
   } = useSelectPlaceStore(state => ({
     districtData: state.districtData,
     selectedDistrictData: state.selectedDistrict,
     setSelectedDistrictData: state.setSelectedDistrict,
+    selectedCommercial: state.selectedCommercial,
     selectedAdministration: state.selectedAdministration,
     setSelectedAdministration: state.setSelectedAdministration,
+    setLoadSelectedAdministration: state.setLoadSelectedAdministration,
     setSelectedCommercial: state.setSelectedCommercial,
+    setLoadSelectedCommercial: state.setLoadSelectedCommercial,
   }))
 
   // 구 선택 시 동 목록 조회하는 useQuery
@@ -165,6 +178,19 @@ const ChoicePlace = () => {
     queryKey: ['fetchAdministrationList', selectedAdministration],
     queryFn: () => fetchAdministrationList(selectedAdministration.code),
   })
+
+  useEffect(() => {
+    if (dongData) {
+      setLoadSelectedAdministration(dongData?.dataBody)
+    } else if (administrationData) {
+      setLoadSelectedCommercial(administrationData?.dataBody)
+    }
+  }, [
+    administrationData,
+    dongData,
+    setLoadSelectedAdministration,
+    setLoadSelectedCommercial,
+  ])
 
   // 드롭다운 열었을 때 외부 클릭 시 드롭다운 닫히게 하는 로직
   useEffect(() => {
@@ -190,13 +216,32 @@ const ChoicePlace = () => {
     }
   }, [dropdownGooOpen, dropdownDongOpen, dropdownDistrictOpen]) // 드롭다운 상태 변경 시 useEffect 재실행
 
+  // 지도 선택 시 선택된 값 바뀌었을 때 드롭다운에도 갱신
+  useEffect(() => {
+    if (selectedDistrictData.name) {
+      setSelectedGoo(selectedDistrictData.name)
+    }
+    if (selectedCommercial.name) {
+      setSelectedDistrict(selectedCommercial.name)
+    }
+    if (selectedAdministration.name) {
+      setSelectedDong(selectedAdministration.name)
+    }
+  }, [selectedDistrictData, selectedAdministration, selectedCommercial])
+
   return (
     <Place>
-      <Title>
-        <TitleIcon src={location_icon} />
-        위치선택
-      </Title>
-      <Content>분석하고 싶은 상권을 선택해주세요.</Content>
+      {location.pathname === '/recommend' ? (
+        ''
+      ) : (
+        <>
+          <Title>
+            <TitleIcon src={location_icon} />
+            위치선택
+          </Title>
+          <Content>분석하고 싶은 상권을 선택해주세요.</Content>
+        </>
+      )}
 
       <SelectPlace ref={dropdownRef}>
         {/* 행정구 드롭다운 */}

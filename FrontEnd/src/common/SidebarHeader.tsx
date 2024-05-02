@@ -2,15 +2,18 @@ import styled from 'styled-components'
 import bookMark from '@src/assets/bookmark.svg'
 
 const Header = styled.div`
-  background-color: #236cff;
-  color: white;
+  //background-color: #236cff;
+  background-color: #f2f2f2;
+  color: #000000;
   font-size: 1.5rem;
   font-weight: 500;
-  padding: 10px 10px 5px 10px;
+  padding: 10px 10px 5px 20px;
   border-top-right-radius: 14px;
+  border-top-left-radius: 14px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  border-bottom: 2px solid #d9d9d9;
 
   @media only screen and (max-width: 680px) {
     border-top-left-radius: 15px;

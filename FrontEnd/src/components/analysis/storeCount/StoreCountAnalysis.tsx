@@ -1,4 +1,8 @@
 import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
+import TotalChart from '@src/components/analysis/storeCount/TotalChart'
+import FranchiseChart from '@src/components/analysis/storeCount/FranchiseChart'
+import OpenChart from '@src/components/analysis/storeCount/OpenChart'
+import CloseChart from '@src/components/analysis/storeCount/CloseChart'
 import * as s from '@src/components/styles/analysis/StoreCountAnalysisStyle'
 
 const StoreCountAnalysis = () => {
@@ -6,12 +10,12 @@ const StoreCountAnalysis = () => {
     <>
       <CategoryTitleCard title="점포 수" />
       <s.FirstLowContainer>
-        <s.TotalChart>선택 상권 총 점포 수</s.TotalChart>
+        <TotalChart />
         <s.FirstRightWrap>
-          <s.FranchiseChart>프랜차이즈 점포 수</s.FranchiseChart>
+          <FranchiseChart />
           <s.StatusWrap>
-            <s.OpenChart>개업률</s.OpenChart>
-            <s.CloseChart>폐업률</s.CloseChart>
+            <OpenChart />
+            <CloseChart />
           </s.StatusWrap>
         </s.FirstRightWrap>
       </s.FirstLowContainer>

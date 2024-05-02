@@ -4,6 +4,8 @@ public record CommercialAreaResponse(
         String commercialCode,
         String commercialCodeName,
         String commercialClassificationCode,
-        String commercialClassificationCodeName
+        String commercialClassificationCodeName,
+        Double centerLat,
+        Double centerLng
 ) {
 }

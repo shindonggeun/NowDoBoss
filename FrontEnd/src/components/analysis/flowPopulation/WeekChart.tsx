@@ -16,11 +16,11 @@ const WeekChart = () => {
   const maxLabel: string = labels[values.indexOf(maxValue)]
 
   return (
-    <>
+    <f.WeekChart>
       <f.ChartTitle>요일별 유동인구</f.ChartTitle>
       <f.ChartSubTitle>{maxLabel}요일 유동인구가 가장 높아요.</f.ChartSubTitle>
       <BarChart2 labels={labels} values={values} />
-    </>
+    </f.WeekChart>
   )
 }
 

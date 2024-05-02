@@ -25,9 +25,9 @@ public class CommercialController {
     )
     @GetMapping("/administration/district/{districtCode}/areas")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<CommercialAdministrationAreaResponse>>> getAdministrativeAreasByDistrict(
+    public ResponseEntity<Message<List<CommercialAdministrationResponse>>> getAdministrativeAreasByDistrict(
             @PathVariable String districtCode) {
-        List<CommercialAdministrationAreaResponse> administrationAreaResponseList = commercialService.getAdministrativeAreasByDistrict(districtCode);
+        List<CommercialAdministrationResponse> administrationAreaResponseList = commercialService.getAdministrativeAreasByDistrict(districtCode);
         return ResponseEntity.ok().body(Message.success(administrationAreaResponseList));
     }
 
@@ -106,5 +106,15 @@ public class CommercialController {
             @RequestParam(defaultValue = "20233") String periodCode) {
         CommercialFacilityResponse facilityResponse = commercialService.getFacilityByPeriodAndCommercialCode(periodCode, commercialCode);
         return ResponseEntity.ok().body(Message.success(facilityResponse));
+    }
+
+    @Operation(
+            summary = "해당 상권이 속한 행정동 정보 조회",
+            description = "해당 상권이 속한 행정동의 코드와 이름을 반환하는 기능입니다."
+    )
+    @GetMapping("/{commercialCode}")
+    public ResponseEntity<Message<CommercialAdministrationAreaResponse>> getAdministration(@PathVariable String commercialCode) {
+        CommercialAdministrationAreaResponse administrationResponse = commercialService.getAdministrationInfoByCommercialCode(commercialCode);
+        return ResponseEntity.ok().body(Message.success(administrationResponse));
     }
 }

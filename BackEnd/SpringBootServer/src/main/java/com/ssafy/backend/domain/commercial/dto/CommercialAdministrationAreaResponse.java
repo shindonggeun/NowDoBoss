@@ -7,5 +7,6 @@ package com.ssafy.backend.domain.commercial.dto;
 public record CommercialAdministrationAreaResponse(
         String administrationCodeName,
         String administrationCode
+
 ) {
 }

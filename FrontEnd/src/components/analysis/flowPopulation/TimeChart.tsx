@@ -49,14 +49,14 @@ const TimeChart = () => {
   }
 
   return (
-    <>
+    <f.TimeChart>
       <f.ChartTitle>시간대별 유동인구</f.ChartTitle>
       <f.ChartSubTitle>{maxLabel} 유동인구가 가장 높아요.</f.ChartSubTitle>
       <f.AddBox>
         {maxLabel} 유동인구가 가장 높습니다. {dynamicMessage}
       </f.AddBox>
       <AreaChart labels={labels} values={values} />
-    </>
+    </f.TimeChart>
   )
 }
 

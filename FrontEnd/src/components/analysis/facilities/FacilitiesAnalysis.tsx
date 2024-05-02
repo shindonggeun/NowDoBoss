@@ -1,4 +1,6 @@
 import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
+import TransChart from '@src/components/analysis/facilities/TransChart'
+import EduChart from '@src/components/analysis/facilities/EduChart'
 import * as f from '@src/components/styles/analysis/FacilitiesAnalysisStyle'
 
 const FacilitiesAnalysis = () => {
@@ -6,8 +8,8 @@ const FacilitiesAnalysis = () => {
     <>
       <CategoryTitleCard title="집객시설" />
       <f.FirstLowContainer>
-        <f.TransChart>집객시설 - 교통수단</f.TransChart>
-        <f.EduChart>집객시설 - 교육시설</f.EduChart>
+        <TransChart />
+        <EduChart />
       </f.FirstLowContainer>
     </>
   )

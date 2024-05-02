@@ -5,8 +5,9 @@ export type LatLngDataType = {
   latSW: number
 }
 
+// 받아온 데이터 타입
 export type DataBodyType = {
-  names: { [key: string]: [number, number] }
+  names: { [key: string]: { center: [number, number]; code: number } }
   coords: { [key: string]: Coord[] }
 }
 
@@ -21,26 +22,42 @@ export type PromiseDataType = {
   dataHeader: DataHeaderType
 }
 
+// 재가공한 데이터 타입
+export type RemakeType = {
+  name: string
+  center: LatLng
+  code: number
+  path: LatLng[]
+}[]
+
+// 경도, 위도, 순서
 export type Coord = [number, number, number]
 
+// lat: 위도, lng: 경도
 export type LatLng = { lat: number; lng: number }
+
+// 동 목록 데이터 body
+export type AdministrationBody = {
+  administrationCodeName: string
+  administrationCode: number
+}[]
+
+// 상권 목록 데이터 body
+export type CommercialBody = {
+  commercialCode: number
+  commercialCodeName: string
+  commercialClassificationCode: string
+  commercialClassificationCodeName: string
+}[]
 
 // 구 데이터 전달 후 동 목록 받아왔을 때의 promise type
 export type PromiseDongDataType = {
   dataHeader: DataHeaderType
-  dataBody: {
-    administrationCodeName: string
-    administrationCode: number
-  }[]
+  dataBody: AdministrationBody
 }
 
 // 구 데이터 전달 후 동 목록 받아왔을 때의 promise type
 export type PromiseCommercialDataType = {
   dataHeader: DataHeaderType
-  dataBody: {
-    commercialCode: number
-    commercialCodeName: string
-    commercialClassificationCode: string
-    commercialClassificationCodeName: string
-  }[]
+  dataBody: CommercialBody
 }

@@ -1,25 +1,20 @@
 version: '3.8'  # Docker Compose 파일 버전을 지정합니다. "3.8"은 사용 가능한 최신 버전 중 하나입니다.
 
 services:
-  nowdoboss_hadoop:
-    container_name: nowdoboss_hadoop  # 컨테이너의 이름을 설정합니다.
-    build:
-      context: . # 현재 디렉토리에 있는 Dockerfile을 사용합니다.
-      dockerfile: hadoop.Dockerfile # 빌드할 Dockerfile의 이름입니다.
-    image: nowdoboss_hadoop_img # 빌드된 이미지의 이름을 설정합니다.
+  nowdoboss_spark:
+    container_name: nowdoboss_spark  # 컨테이너의 이름을 설정합니다.
+    image: bitnami/spark:latest  # 사용할 이미지
     restart: always  # 컨테이너가 어떤 이유로 종료되더라도 항상 재시작을 시도합니다.
     ports:
-      - "50070:50070" # NameNode 웹 UI
-      - "8088:8088" # ResourceManager 웹 UI
-      - "9864:9864" # DataNode 웤 UI
-      - "9000:9000" # HDFS 서비스
-    volumes:
-      - hadoop_data:/hadoop # 데이터를 저장할 볼륨 (영구 데이터 저장)
-    networks:
-      - nowdoboss_data_processing_net
+      - "18080:8080"  # Spark Web UI
+      - "7077:7077"  # Spark Master 서비스
+    environment:
+      - SPARK_MODE=master  # 스파크 마스터 모드 설정
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no  # RPC 인증 비활성화
+      - SPARK_RPC_ENCRYPTION_ENABLED=no  # RPC 암호화 비활성화
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no  # 로컬 스토리지 암호화 비활성화
+      - SPARK_SSL_ENABLED=no  # SSL 비활성화
 
-volumes:
-  hadoop_data: # 데이터 볼륨을 정의합니다.
 
 networks:
-  nowdoboss_data_processing_net:  # 사용할 네트워크를 정의합니다.
+  nowdoboss_spark_net:  # 사용할 네트워크를 정의합니다.

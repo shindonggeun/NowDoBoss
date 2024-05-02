@@ -5,7 +5,7 @@ services:
     image: nginx:latest
     container_name: nowdoboss_frontend
     volumes:
-      - ./CICD/Nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ../CICD/Nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     ports:

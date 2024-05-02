@@ -6,6 +6,7 @@ import {
   Legend,
   LinearScale,
   LineElement,
+  LogarithmicScale,
   PointElement,
   Tooltip,
 } from 'chart.js'
@@ -19,6 +20,7 @@ ChartJS.register(
   Filler,
   Tooltip,
   Legend,
+  LogarithmicScale,
 )
 
 const AreaChart = (props: AreaChartPropsType) => {
@@ -31,8 +33,9 @@ const AreaChart = (props: AreaChartPropsType) => {
         label: '유동인구(명)',
         data: values,
         fill: true, // 면적 차트를 위한 설정
-        backgroundColor: 'rgba(75,192,192,0.2)', // 차트 색상
-        borderColor: 'rgba(75,192,192,1)', // 선 색상
+        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+        borderColor: 'rgba(255, 159, 64, 1)',
+        borderWidth: 1,
         tension: 0.4, // 선 곡률 (0에서 1 사이의 값)
       },
     ],
@@ -58,7 +61,8 @@ const AreaChart = (props: AreaChartPropsType) => {
         },
       },
       y: {
-        beginAtZero: true,
+        beginAtZero: false,
+        type: 'logarithmic' as const,
         grid: {
           display: false,
         },

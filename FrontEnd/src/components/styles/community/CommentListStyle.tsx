@@ -1,13 +1,9 @@
 import styled from 'styled-components'
 // 댓글 관련 style
 export const Container = styled.div`
-  padding: 3vh 10% 0;
-
+  padding: 3vh 0;
   @media only screen and (max-width: 820px) {
     padding: 3vh 5%;
-  }
-  @media only screen and (max-width: 768px) {
-    padding: 3vh 0;
   }
 `
 
@@ -68,7 +64,7 @@ export const CommentSubmit = styled.div<{ $isActive?: boolean }>`
   font-weight: 600;
   width: 6%;
 
-  @media only screen and (max-width: 680px) {
+  @media only screen and (max-width: 700px) {
     font-size: 0.9rem;
     width: 8%;
   }

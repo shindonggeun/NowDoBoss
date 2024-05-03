@@ -12,28 +12,24 @@ import { Bar } from 'react-chartjs-2'
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const HorizontalBarChart = () => {
-  // const labels = [
-  //   '한식음식점',
-  //   '중식음식점',
-  //   '일식음식점',
-  //   '양식음식점',
-  //   '치킨전문점',
-  //   '분식전문점',
-  //   '호프-간이주점',
-  //   '커피-음료',
-  //   '제과점',
-  //   '패스트푸드점',
-  // ]
-  // const values = ['12', '23', '124', '63', '103', '0', '26', '70', '2', '400']
-
-  const labels = ['한식음식점', '중식음식점']
-  const values = ['12', '23']
+  const labels = [
+    '식료품',
+    '의류',
+    '생활용품',
+    '의료비',
+    '교통',
+    '여가',
+    '문화',
+    '교육',
+    '유흥',
+  ]
+  const values = ['12', '23', '500', '302', '101', '69', '99', '350', '200']
 
   const data = {
     labels,
     datasets: [
       {
-        label: '점포 수',
+        label: '유형별 지출금액',
         data: values,
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
         borderColor: 'rgb(255, 99, 132)',
@@ -44,7 +40,7 @@ const HorizontalBarChart = () => {
   const options = {
     indexAxis: 'y' as const,
     responsive: true,
-    aspectRatio: 3,
+    // aspectRatio: 3,
     interaction: {
       intersect: false,
     },

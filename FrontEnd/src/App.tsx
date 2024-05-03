@@ -14,6 +14,7 @@ import RecommendPage from '@src/pages/RecommendPage'
 import SimulationPage from '@src/pages/SimulationPage'
 import SimulationReportPage from '@src/pages/SimulationReportPage'
 import ChattingPage from '@src/pages/ChattingPage'
+import CommunityListPage from '@src/pages/CommunityListPage'
 
 function App() {
   return (
@@ -28,21 +29,18 @@ function App() {
             path="/member/loading/:provider"
             element={<SocialLoadingPage />}
           />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route
-            path="/community/register"
-            element={<CommunityRegisterPage />}
-          />
-          <Route
-            path="/community/:communityId"
-            element={<CommunityDetailPage />}
-          />
+          {/* 커뮤니티 */}
+          <Route path="/community/*" element={<CommunityPage />}>
+            <Route path="list" element={<CommunityListPage />} />
+            <Route path="register" element={<CommunityRegisterPage />} />
+            <Route path=":communityId" element={<CommunityDetailPage />} />
+            <Route path="chatting/:chatId" element={<ChattingPage />} />
+          </Route>
           <Route path="/status" element={<StatusPage />} />
           <Route path="/analysis" element={<AnalysisPage />} />
           <Route path="/recommend" element={<RecommendPage />} />
           <Route path="/simulation" element={<SimulationPage />} />
           <Route path="/simulation/report" element={<SimulationReportPage />} />
-          <Route path="/chatting" element={<ChattingPage />} />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

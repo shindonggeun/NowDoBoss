@@ -32,8 +32,10 @@ export const ImgBox = styled.div`
   }
 `
 
+export const ImgIcon = styled.img``
+
 export const Plus = styled.div`
-  margin: 20px 0 0;
+  //margin: 20px 0 0;
 `
 
 export const ImageInput = styled.input`

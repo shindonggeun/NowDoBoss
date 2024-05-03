@@ -87,13 +87,12 @@ export const TimeAndCounting = styled.div`
   font-weight: 600;
 `
 
-export const Slick = styled.div``
-export const CommunityImage = styled.img``
-export const SlickChild = styled.div`
-  &:hover {
-    margin: -10px 0 0 10px;
-    cursor: pointer;
-  }
+export const ImgDiv = styled.div`
+  display: flex;
+  justify-content: center;
+`
+export const CommunityImage = styled.img`
+  max-height: 400px;
 `
 
 export const Content = styled.div`

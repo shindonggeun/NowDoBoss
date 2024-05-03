@@ -1,4 +1,4 @@
-import SimulReportContainer from '@src/containers/status/SimulReportContainer.tsx'
+import SimulReportContainer from '@src/containers/simulation/SimulReportContainer.tsx'
 
 const SimulationReportPage = () => {
   return (

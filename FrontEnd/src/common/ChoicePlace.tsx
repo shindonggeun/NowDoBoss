@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import down_arrow from '@src/assets/arrow_down.svg'
-import location_icon from '@src/assets/location_icon.svg'
 import styled from 'styled-components'
 import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 import { useQuery } from '@tanstack/react-query'
@@ -13,14 +12,6 @@ const Place = styled.div`
   //padding: 20px;
   text-align: right;
 `
-
-const Title = styled.div`
-  font-weight: 600;
-  font-size: 1.5rem;
-  display: flex;
-  justify-content: right;
-`
-const TitleIcon = styled.img``
 
 const Content = styled.div`
   font-weight: 500;
@@ -262,13 +253,7 @@ const ChoicePlace = () => {
       {isRecommendPage ? (
         ''
       ) : (
-        <>
-          <Title>
-            <TitleIcon src={location_icon} />
-            위치선택
-          </Title>
-          <Content>분석하고 싶은 상권을 선택해주세요.</Content>
-        </>
+        <Content>분석하고 싶은 상권을 선택해주세요.</Content>
       )}
 
       <SelectPlace ref={dropdownRef}>

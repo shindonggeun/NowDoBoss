@@ -1,3 +1,5 @@
+import React from 'react'
+
 // data type
 export type TimeSlotFootTrafficType = {
   footTraffic00: number
@@ -69,4 +71,9 @@ export type AnalysisStoreType = {
 // prop type
 export type CategoryTitleCardProps = {
   title: string
+}
+
+export type SearchSectionPropsType = {
+  isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }

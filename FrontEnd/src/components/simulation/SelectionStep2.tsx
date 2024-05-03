@@ -11,10 +11,6 @@ interface Step2Props {
 
 const SelectionStep2 = ({ nextStep }: Step2Props) => {
   const [showPostcode, setShowPostcode] = useState(false)
-  // const [address, setAddress] = useState('')
-  // const [query, setQuery] = useState('')
-  // const [sido, setSido] = useState('')
-  // const [sigungu, setSigungu] = useState('')
   const [infoText, setInfoText] = useState('')
   const { address, setAddress, setQuery, sido, setSido, setSigungu } =
     useReportStore()

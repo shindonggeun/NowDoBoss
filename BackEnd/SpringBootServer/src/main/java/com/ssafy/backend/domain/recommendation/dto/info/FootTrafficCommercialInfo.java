@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.recommendation.dto;
+package com.ssafy.backend.domain.recommendation.dto.info;
 
 public record FootTrafficCommercialInfo (
         Long myFootTraffic,

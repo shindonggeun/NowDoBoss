@@ -5,9 +5,9 @@ import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministration
 import com.ssafy.backend.domain.commercial.repository.FootTrafficCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
-import com.ssafy.backend.domain.recommendation.dto.FootTrafficCommercialInfo;
-import com.ssafy.backend.domain.recommendation.dto.UserRequest;
-import com.ssafy.backend.domain.recommendation.dto.UserResponse;
+import com.ssafy.backend.domain.recommendation.dto.request.UserRequest;
+import com.ssafy.backend.domain.recommendation.dto.response.RecommendationResponse;
+import com.ssafy.backend.domain.recommendation.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,6 +15,9 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.*;
 
@@ -29,8 +32,12 @@ public class RecommendationServiceImpl implements RecommendationService{
     private FootTrafficCommercialRepository footTrafficCommercialRepository;
     //private StoreCommercialRepository storeCommercialRepository;
     @Override
-    public List<CommercialAdministrationResponse> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
-        List<UserResponse> commercialData = sendToFastAPIServer(id);
+    public List<RecommendationResponse> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
+        // FastAPI 서버로부터 데이터를 비동기로 받아옵니다.
+        Mono<List<UserResponse>> commercialDataMono = sendToFastAPIServer(id);
+
+        // 비동기로 받아온 데이터를 동기적으로 처리하기 위해 blockOptional() 메서드를 사용합니다.
+        List<UserResponse> commercialData = commercialDataMono.blockOptional().orElse(Collections.emptyList());
         List<UserResponse> responses = new ArrayList<>();
         int cnt = 0;
 
@@ -126,30 +133,29 @@ public class RecommendationServiceImpl implements RecommendationService{
         return null;
     }
 
-    private List<UserResponse> sendToFastAPIServer(Long id){
+    public Mono<List<UserResponse>> sendToFastAPIServer(Long id) {
         // FastAPI 서버 URL 설정 - 로컬버전
         String fastApiUrl = "http://localhost:8000/recommend";
 
         // 요청에 필요한 데이터 구성
         UserRequest userRequest = new UserRequest(id);
 
-        // HTTP 요청 헤더 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        // WebClient 생성
+        WebClient webClient = WebClient.create();
 
-        // HTTP 요청 엔티티 구성
-        HttpEntity<UserRequest> requestEntity = new HttpEntity<>(userRequest, headers);
+        // HTTP 요청 보내기
+        Mono<List<UserResponse>> responseMono = webClient.post()
+                .uri(fastApiUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(userRequest))
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<UserResponse>>() {
+                });
 
-        RestTemplate restTemplate = new RestTemplate();
-        ParameterizedTypeReference<List<UserResponse>> responseType = new ParameterizedTypeReference<List<UserResponse>>() {};
-        ResponseEntity<List<UserResponse>> responseEntity = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity, responseType);
-
-        log.info("응답 결과: ", responseEntity.getBody());
         // 요청 결과 반환
-        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            return responseEntity.getBody();
-        } else {
-            throw new RuntimeException("Failed to retrieve recommendations from FastAPI server");
-        }
+        return responseMono.doOnError(throwable -> {
+            // 에러 처리
+            throw new RuntimeException("Failed to retrieve recommendations from FastAPI server", throwable);
+        });
     }
 }

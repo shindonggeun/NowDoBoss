@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.recommendation.controller;
 
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationResponse;
+import com.ssafy.backend.domain.recommendation.dto.response.RecommendationResponse;
 import com.ssafy.backend.domain.recommendation.service.RecommendationService;
 import com.ssafy.backend.global.common.dto.Message;
 import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
@@ -33,7 +34,7 @@ public class RecommendationController {
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<?>> getCommercialRecommendation(
             @AuthenticationPrincipal MemberLoginActive loginActive, @PathVariable String districtCode, @PathVariable String administrationCode) {
-        List<CommercialAdministrationResponse> administrationAreaResponseList = recommendationService.getTopThreeRecommendations(districtCode, administrationCode, loginActive.id());
+        List<RecommendationResponse> administrationAreaResponseList = recommendationService.getTopThreeRecommendations(districtCode, administrationCode, loginActive.id());
         return ResponseEntity.ok().body(Message.success(administrationAreaResponseList));
     }
 }

@@ -6,12 +6,11 @@ app = FastAPI()
 
 class UserRequest(BaseModel):
     userId: int
-    type: str
-    code: int
+
 @app.post("/recommend")
 async def recommend_commercial_areas(request: UserRequest):
     try:
-        recommendations = recommendation.recommend_commercials(request)
+        recommendations = recommendation.recommend_commercials(request.userId)
         return recommendations
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

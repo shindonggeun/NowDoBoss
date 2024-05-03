@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.commercial.dto;
+package com.ssafy.backend.domain.commercial.dto.response;
 
 public record CommercialAreaResponse(
         String commercialCode,

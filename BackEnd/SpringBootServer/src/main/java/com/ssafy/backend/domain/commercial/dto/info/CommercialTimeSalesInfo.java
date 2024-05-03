@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.commercial.dto;
+package com.ssafy.backend.domain.commercial.dto.info;
 
 public record CommercialTimeSalesInfo(
         Long sales00, // 새벽 시간대 (00:00 ~ 06:00) 매출액

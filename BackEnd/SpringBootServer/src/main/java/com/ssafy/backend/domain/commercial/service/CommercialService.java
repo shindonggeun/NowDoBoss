@@ -1,6 +1,6 @@
 package com.ssafy.backend.domain.commercial.service;
 
-import com.ssafy.backend.domain.commercial.dto.*;
+import com.ssafy.backend.domain.commercial.dto.response.*;
 
 import java.util.List;
 

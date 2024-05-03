@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.commercial.dto;
+package com.ssafy.backend.domain.commercial.dto.info;
 
 public record CommercialAgeSalesInfo(
         Long teenSales,   // 10대 매출액

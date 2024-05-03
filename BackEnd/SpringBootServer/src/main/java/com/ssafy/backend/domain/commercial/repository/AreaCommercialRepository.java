@@ -1,6 +1,6 @@
 package com.ssafy.backend.domain.commercial.repository;
 
-import com.ssafy.backend.domain.commercial.dto.CommercialAdministrationAreaResponse;
+import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationAreaResponse;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

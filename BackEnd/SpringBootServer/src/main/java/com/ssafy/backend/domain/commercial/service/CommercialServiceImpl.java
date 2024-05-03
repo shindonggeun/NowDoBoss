@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.commercial.service;
 
-import com.ssafy.backend.domain.commercial.dto.*;
+import com.ssafy.backend.domain.commercial.dto.info.*;
+import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.global.util.CoordinateConverter;
@@ -117,7 +118,9 @@ public class CommercialServiceImpl implements CommercialService {
                 footTrafficCommercial.getSixtyFootTraffic()
         );
 
-        return new CommercialFootTrafficResponse(timeSlotFootTraffic, dayOfWeekFootTraffic, ageGroupFootTraffic);
+        CommercialAgeGenderFootTrafficInfo ageGenderFootTraffic = calculateAgeGenderFootTraffic(footTrafficCommercial);
+
+        return new CommercialFootTrafficResponse(timeSlotFootTraffic, dayOfWeekFootTraffic, ageGroupFootTraffic, ageGenderFootTraffic);
     }
 
     @Override
@@ -214,6 +217,30 @@ public class CommercialServiceImpl implements CommercialService {
         return areaCommercialRepository.findByCommercialCode(commercialCode);
     }
 
+    private CommercialAgeGenderFootTrafficInfo calculateAgeGenderFootTraffic(FootTrafficCommercial trafficCommercial) {
+        double total = trafficCommercial.getTotalFootTraffic().doubleValue();
+
+        return new CommercialAgeGenderFootTrafficInfo(
+                calculatePercent(trafficCommercial.getTeenFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getTeenFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getTwentyFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getTwentyFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getThirtyFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getThirtyFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getFortyFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getFortyFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getFiftyFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getFiftyFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getSixtyFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getSixtyFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total)
+        );
+    }
+
+    private double calculatePercent(Long ageGroupTraffic, Long genderTraffic, double total) {
+        if (total == 0) return 0.0;
+        double percent = 100.0 * (ageGroupTraffic.doubleValue() * (genderTraffic.doubleValue() / total)) / total;
+        return Math.round(percent * 100.0) / 100.0;
+    }
 
 
 }

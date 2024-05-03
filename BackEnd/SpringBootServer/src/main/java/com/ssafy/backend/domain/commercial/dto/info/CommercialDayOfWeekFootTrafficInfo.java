@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.commercial.dto;
+package com.ssafy.backend.domain.commercial.dto.info;
 
 /**
  * 요일별 유동 인구 정보를 나타내는 record입니다.

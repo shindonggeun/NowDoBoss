@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.commercial.dto;
+package com.ssafy.backend.domain.commercial.dto.info;
 
 /**
  * 해당 상권 내의 학교 수 정보를 담는 DTO.

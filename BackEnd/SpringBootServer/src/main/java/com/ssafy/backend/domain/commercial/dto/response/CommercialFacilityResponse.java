@@ -1,4 +1,6 @@
-package com.ssafy.backend.domain.commercial.dto;
+package com.ssafy.backend.domain.commercial.dto.response;
+
+import com.ssafy.backend.domain.commercial.dto.info.CommercialSchoolInfo;
 
 public record CommercialFacilityResponse(
         Long facilityCnt,   // 총 집객 시설 수

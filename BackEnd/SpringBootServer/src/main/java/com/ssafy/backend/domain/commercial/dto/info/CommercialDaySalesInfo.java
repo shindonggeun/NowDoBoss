@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.commercial.dto;
+package com.ssafy.backend.domain.commercial.dto.info;
 
 public record CommercialDaySalesInfo(
         Long monSales,    // 월요일 매출액

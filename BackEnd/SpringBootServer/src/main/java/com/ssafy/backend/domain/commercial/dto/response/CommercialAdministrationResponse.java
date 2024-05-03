@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.commercial.dto;
+package com.ssafy.backend.domain.commercial.dto.response;
 
 /**
  * 자치구에 따른 행정동 정보를 나타내는 DTO입니다.

@@ -1,4 +1,6 @@
-package com.ssafy.backend.domain.commercial.dto;
+package com.ssafy.backend.domain.commercial.dto.response;
+
+import com.ssafy.backend.domain.commercial.dto.info.CommercialPopulationInfo;
 
 /**
  * 최종 사용자에게 반환될 상주 인구 응답 DTO입니다.

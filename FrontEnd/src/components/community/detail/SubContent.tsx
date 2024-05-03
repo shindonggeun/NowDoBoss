@@ -29,68 +29,70 @@ const SubContent = () => {
   ]
   return (
     <s.Container>
-      <s.SameCategoryList>
-        <s.TabName>비슷한 게시글</s.TabName>
-        {ArticleDatas.map(article => {
-          // 카테고리 이미지를 find 함수를 사용해 category name 과 일치하는 이미지 불러오기
-          const matchedCategory = categories.find(
-            category => category.name === article.category,
-          )
+      <s.SubContainer>
+        <s.SameCategoryList>
+          <s.TabName>비슷한 게시글</s.TabName>
+          {ArticleDatas.map(article => {
+            // 카테고리 이미지를 find 함수를 사용해 category name 과 일치하는 이미지 불러오기
+            const matchedCategory = categories.find(
+              category => category.name === article.category,
+            )
 
-          const iconSrc = matchedCategory ? matchedCategory.iconInactive : ''
-          return (
-            <s.AnotherCard
-              key={article.id}
-              onClick={() => navigate(`/community/${article.id}`)}
-            >
-              <s.ProfileDiv>
-                <s.UserProfileImg />
-                <s.UserName>{article.userName}</s.UserName>
-                <s.SubContent>
-                  ∙ <s.Icon src={iconSrc} />
-                  {article.category}
-                </s.SubContent>
-              </s.ProfileDiv>
-              <s.SubCardContent>
-                <s.SubCardTitle>{article.title}</s.SubCardTitle>
-                <s.GotoCard>게시글 보러가기 -{'>'}</s.GotoCard>
-              </s.SubCardContent>
-            </s.AnotherCard>
-          )
-        })}
-      </s.SameCategoryList>
+            const iconSrc = matchedCategory ? matchedCategory.iconInactive : ''
+            return (
+              <s.AnotherCard
+                key={article.id}
+                onClick={() => navigate(`/community/${article.id}`)}
+              >
+                <s.ProfileDiv>
+                  <s.UserProfileImg />
+                  <s.UserName>{article.userName}</s.UserName>
+                  <s.SubContent>
+                    ∙ <s.Icon src={iconSrc} />
+                    {article.category}
+                  </s.SubContent>
+                </s.ProfileDiv>
+                <s.SubCardContent>
+                  <s.SubCardTitle>{article.title}</s.SubCardTitle>
+                  <s.GotoCard>게시글 보러가기 -{'>'}</s.GotoCard>
+                </s.SubCardContent>
+              </s.AnotherCard>
+            )
+          })}
+        </s.SameCategoryList>
 
-      {/* 인기 게시글 Top3 */}
-      <s.SameCategoryList>
-        <s.TabName>인기 게시글 Top 3</s.TabName>
-        {ArticleDatas.map(article => {
-          // 카테고리 이미지를 find 함수를 사용해 category name 과 일치하는 이미지 불러오기
-          const matchedCategory = categories.find(
-            category => category.name === article.category,
-          )
+        {/* 인기 게시글 Top3 */}
+        <s.SameCategoryList>
+          <s.TabName>인기 게시글 Top 3</s.TabName>
+          {ArticleDatas.map(article => {
+            // 카테고리 이미지를 find 함수를 사용해 category name 과 일치하는 이미지 불러오기
+            const matchedCategory = categories.find(
+              category => category.name === article.category,
+            )
 
-          const iconSrc = matchedCategory ? matchedCategory.iconInactive : ''
-          return (
-            <s.AnotherCard
-              key={article.id}
-              onClick={() => navigate(`/community/${article.id}`)}
-            >
-              <s.ProfileDiv>
-                <s.UserProfileImg />
-                <s.UserName>{article.userName}</s.UserName>
-                <s.SubContent>
-                  ∙ <s.Icon src={iconSrc} />
-                  {article.category}
-                </s.SubContent>
-              </s.ProfileDiv>
-              <s.SubCardContent>
-                <s.SubCardTitle>{article.title}</s.SubCardTitle>
-                <s.GotoCard>게시글 보러가기 -{'>'}</s.GotoCard>
-              </s.SubCardContent>
-            </s.AnotherCard>
-          )
-        })}
-      </s.SameCategoryList>
+            const iconSrc = matchedCategory ? matchedCategory.iconInactive : ''
+            return (
+              <s.AnotherCard
+                key={article.id}
+                onClick={() => navigate(`/community/${article.id}`)}
+              >
+                <s.ProfileDiv>
+                  <s.UserProfileImg />
+                  <s.UserName>{article.userName}</s.UserName>
+                  <s.SubContent>
+                    ∙ <s.Icon src={iconSrc} />
+                    {article.category}
+                  </s.SubContent>
+                </s.ProfileDiv>
+                <s.SubCardContent>
+                  <s.SubCardTitle>{article.title}</s.SubCardTitle>
+                  <s.GotoCard>게시글 보러가기 -{'>'}</s.GotoCard>
+                </s.SubCardContent>
+              </s.AnotherCard>
+            )
+          })}
+        </s.SameCategoryList>
+      </s.SubContainer>
     </s.Container>
   )
 }

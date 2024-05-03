@@ -55,7 +55,7 @@ const NavBar = (props: NavBarPropsType) => {
             onClick={() => {
               setIsChoice(category.name)
               setCategory(category)
-              navigate('/community')
+              navigate('/community/list')
             }}
           >
             <n.Icon
@@ -76,7 +76,10 @@ const NavBar = (props: NavBarPropsType) => {
           <n.Category
             key={chatCard.id}
             $isChoice={isChoice === chatCard.name}
-            onClick={() => setIsChoice(chatCard.name)}
+            onClick={() => {
+              setIsChoice(chatCard.name)
+              navigate(`/community/chatting/${chatCard.id}`)
+            }}
           >
             <n.ProfileImg>{chatCard.img}</n.ProfileImg>
             <n.Text>{chatCard.name}</n.Text>

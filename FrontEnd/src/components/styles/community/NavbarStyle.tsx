@@ -9,15 +9,20 @@ export const Container = styled.div`
   //  왼쪽에 띄울 크기
   width: 250px;
   position: absolute;
-  //width: 220px;
-  height: calc(100vh - 68px);
+  height: calc(100vh - 65px);
+
   @media only screen and (max-width: 992px) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100vw;
+    width: calc(100vw - 40px);
     height: 8vh;
-    padding: 5px;
+    padding: 5px 20px;
+  }
+
+  @media only screen and (max-width: 400px) {
+    padding: 5px 10px;
+    width: calc(100vw - 20px);
   }
 `
 export const Community = styled.div`
@@ -26,7 +31,7 @@ export const Community = styled.div`
   @media only screen and (max-width: 992px) {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     width: 95vw;
     height: 10vh;
     margin: 0;
@@ -34,7 +39,6 @@ export const Community = styled.div`
   @media only screen and (max-width: 500px) {
     display: flex;
     align-items: center;
-    justify-content: center;
     width: 100vw;
     height: 10vh;
     margin: 0;
@@ -50,7 +54,6 @@ export const Chatting = styled.div`
 
 export const ChatButton = styled.img`
   display: none;
-  margin-right: 1rem;
 
   @media only screen and (max-width: 992px) {
     display: flow;
@@ -59,12 +62,13 @@ export const ChatButton = styled.img`
   @media only screen and (max-width: 800px) {
     display: flow;
     cursor: pointer;
-    margin-right: 0.5rem;
   }
   @media only screen and (max-width: 586px) {
-    padding: 10px 5px;
-    margin-right: 0.2rem;
     scale: 0.8;
+  }
+  @media only screen and (max-width: 500px) {
+    scale: 0.6;
+    margin-right: -10px;
   }
 `
 
@@ -77,8 +81,8 @@ export const Title = styled.div`
     padding: 10px 15px;
     font-size: 1.5rem;
   }
-  @media only screen and (max-width: 520px) {
-    padding: 10px 5px;
+  @media only screen and (max-width: 540px) {
+    //padding: 10px 1px;
     font-size: 1.2rem;
   }
 `
@@ -105,12 +109,12 @@ export const Category = styled.div<CategoryType>`
   //@media only screen and (max-width: 768px) {
   //  padding: 5px;
   //}
-  @media only screen and (max-width: 520px) {
+  @media only screen and (max-width: 540px) {
     padding: 3px;
   }
 `
 export const Icon = styled.img`
-  @media only screen and (max-width: 820px) {
+  @media only screen and (max-width: 830px) {
     scale: 1.5;
     padding: 0.25rem 0.5rem;
   }
@@ -118,7 +122,7 @@ export const Icon = styled.img`
     scale: 1.2;
     padding: 0.25rem;
   }
-  @media only screen and (max-width: 450px) {
+  @media only screen and (max-width: 455px) {
     scale: 1;
     padding: 0;
   }
@@ -130,7 +134,7 @@ export const Text = styled.div`
   @media only screen and (max-width: 992px) {
     margin: 0 0 0 2px;
   }
-  @media only screen and (max-width: 820px) {
+  @media only screen and (max-width: 830px) {
     //font-size: 0.8rem;
     display: none;
   }

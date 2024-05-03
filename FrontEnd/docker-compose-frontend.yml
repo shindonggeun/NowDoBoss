@@ -9,8 +9,6 @@ services:
     image: nowdoboss_frontend_img  # 빌드된 이미지의 이름을 설정합니다.
     volumes:
       - react_build:/usr/src/app/dist  # 빌드 결과물을 볼륨에 저장
-    networks:
-      - nowdoboss_net  # 사용할 네트워크를 지정합니다.
 
   nowdoboss_frontend:
     container_name: nowdoboss_frontend

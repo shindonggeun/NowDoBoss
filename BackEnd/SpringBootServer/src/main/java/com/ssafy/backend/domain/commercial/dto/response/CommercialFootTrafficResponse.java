@@ -7,6 +7,6 @@ public record CommercialFootTrafficResponse(
     CommercialTimeSlotFootTrafficInfo timeSlotFootTraffic,
     CommercialDayOfWeekFootTrafficInfo dayOfWeekFootTraffic,
     CommercialAgeGroupFootTrafficInfo ageGroupFootTraffic,
-    CommercialAgeGenderFootTrafficInfo ageGenderFootTraffic
+    CommercialAgeGenderPercentFootTrafficInfo ageGenderPercentFootTraffic
 ) {
 }

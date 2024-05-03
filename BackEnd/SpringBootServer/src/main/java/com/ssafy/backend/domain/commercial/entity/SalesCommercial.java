@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.commercial.entity;
 
+import com.ssafy.backend.domain.district.entity.enums.ServiceType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -48,6 +49,10 @@ public class SalesCommercial {
     @Comment("서비스 업종 코드명")
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String serviceCodeName;
+
+    @Comment("서비스 업종 타입")
+    @Enumerated(EnumType.STRING)
+    private ServiceType serviceType;
 
     @Comment("당월 매출 금액")
     @Column(columnDefinition = "BIGINT UNSIGNED")
@@ -105,6 +110,14 @@ public class SalesCommercial {
     @Column(name = "sales_21", columnDefinition = "BIGINT UNSIGNED")
     private Long sales21;
 
+    @Comment("남성 매출 금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long maleSales;
+
+    @Comment("여성 매출 금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long femaleSales;
+
     @Comment("연령대 10 매출 금액")
     @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long teenSales;
@@ -128,4 +141,64 @@ public class SalesCommercial {
     @Comment("연령대 60 이상 매출 금액")
     @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long sixtySales;
+
+    @Comment("월요일 매출 건수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long monSalesCount;
+
+    @Comment("화요일 매출 건수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long tueSalesCount;
+
+    @Comment("수요일 매출 건수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long wedSalesCount;
+
+    @Comment("목요일 매출 건수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long thuSalesCount;
+
+    @Comment("금요일 매출 건수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long friSalesCount;
+
+    @Comment("토요일 매출 건수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long satSalesCount;
+
+    @Comment("일요일 매출 건수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long sunSalesCount;
+
+    @Comment("시간대 00 ~ 06 매출 건수")
+    @Column(name = "sales_count_00", columnDefinition = "INT UNSIGNED")
+    private Long salesCount00;
+
+    @Comment("시간대 06 ~ 11 매출 건수")
+    @Column(name = "sales_count_06", columnDefinition = "INT UNSIGNED")
+    private Long salesCount06;
+
+    @Comment("시간대 11 ~ 14 매출 건수")
+    @Column(name = "sales_count_11", columnDefinition = "INT UNSIGNED")
+    private Long salesCount11;
+
+    @Comment("시간대 14 ~ 17 매출 건수")
+    @Column(name = "sales_count_14", columnDefinition = "INT UNSIGNED")
+    private Long salesCount14;
+
+    @Comment("시간대 17 ~ 21 매출 건수")
+    @Column(name = "sales_count_17", columnDefinition = "INT UNSIGNED")
+    private Long salesCount17;
+
+    @Comment("시간대 21 ~ 24 매출 건수")
+    @Column(name = "sales_count_21", columnDefinition = "INT UNSIGNED")
+    private Long salesCount21;
+
+    @Comment("남성 매출 건수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long maleSalesCount;
+
+    @Comment("여성 매출 건수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long femaleSalesCount;
 }

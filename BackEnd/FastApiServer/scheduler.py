@@ -6,7 +6,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, udf
 from pyspark.sql.types import IntegerType
 
-model_path = "hdfs://master1:9000/user/hadoop/model/als_model"
+model_path = "hdfs://master1:9000/user/hadoop/model"
 filename = 'model_update_time.json'
 
 # Spark 세션 초기화 - 추후 설정에 맞게 변경
@@ -24,7 +24,7 @@ def update_spark_model():
     print("Previous update time:", last_update_time)
 
     # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
-    df_actions = spark.read.csv("hdfs://master1:9000//user/hadoop/user_behavior_logs.csv")
+    df_actions = spark.read.csv("hdfs://master1:9000//user/hadoop/data/action_data.csv")
  
     # 문자열 타입의 timestamp를 datetime으로 변환
     df_actions = df_actions.withColumn("timestamp", col("timestamp").cast("timestamp"))

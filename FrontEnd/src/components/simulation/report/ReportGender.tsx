@@ -1,4 +1,4 @@
-import * as c from '@src/components/styles/simulation/ReportGenderStyle'
+import * as c from '@src/components/styles/simulation/ReportAnalysisStyle'
 import Woman from '@src/assets/womanIcon.svg'
 import Man from '@src/assets/manIcon.svg'
 

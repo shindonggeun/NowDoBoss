@@ -1,5 +1,6 @@
-package com.ssafy.backend.domain.district.dto;
+package com.ssafy.backend.domain.district.dto.response;
 
+import com.ssafy.backend.domain.district.dto.info.FootTrafficDistrictListByInfo;
 import lombok.Builder;
 
 @Builder

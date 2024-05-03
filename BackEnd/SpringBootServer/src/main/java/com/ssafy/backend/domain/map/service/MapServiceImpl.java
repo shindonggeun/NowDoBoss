@@ -1,5 +1,6 @@
-package com.ssafy.backend.domain.map;
+package com.ssafy.backend.domain.map.service;
 
+import com.ssafy.backend.domain.map.dto.response.MapResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;

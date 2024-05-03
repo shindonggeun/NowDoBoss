@@ -1,6 +1,6 @@
 package com.ssafy.backend.domain.administration.repository;
 
-import com.ssafy.backend.domain.administration.dto.SalesAdministrationTopFiveInfo;
+import com.ssafy.backend.domain.administration.dto.info.SalesAdministrationTopFiveInfo;
 
 import java.util.List;
 

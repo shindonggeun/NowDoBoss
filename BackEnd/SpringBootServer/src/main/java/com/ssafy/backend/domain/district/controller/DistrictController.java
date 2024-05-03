@@ -1,14 +1,13 @@
 package com.ssafy.backend.domain.district.controller;
 
-import com.ssafy.backend.domain.district.dto.DistrictAreaResponse;
-import com.ssafy.backend.domain.district.dto.DistrictDetailResponse;
-import com.ssafy.backend.domain.district.dto.DistrictTopTenResponse;
+import com.ssafy.backend.domain.district.dto.response.DistrictAreaResponse;
+import com.ssafy.backend.domain.district.dto.response.DistrictDetailResponse;
+import com.ssafy.backend.domain.district.dto.response.DistrictTopTenResponse;
 import com.ssafy.backend.domain.district.service.DistrictService;
 import com.ssafy.backend.global.common.dto.Message;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

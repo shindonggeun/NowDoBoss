@@ -8,7 +8,7 @@ import datetime
 from pyspark.sql.functions import explode
 import os
 from pyspark.sql.functions import when
-import subprocess
+import requests
 
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
 filename = 'model_update_time.json'
@@ -138,7 +138,7 @@ def recommend_commercials(userId):
     model = load_model(spark, model_path, df_actions)
 
     # 사용자별 상권 추천 - 추천 상권 개수는 추후 조정
-    user_recommendations = model.recommendForAllUsers(10)
+    user_recommendations = model.recommendForAllUsers(20)
     user_recommendations.show(truncate=False)
 
     # 'recommendations' 배열의 구조를 분해하여 'commercialCode'와 'rating'을 별도의 컬럼으로 생성
@@ -166,8 +166,12 @@ def recommend_commercials(userId):
         "commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption",
         when(col("weightValue").isNull(), col("rating")).otherwise(col("rating") + col("rating") * col("weightValue")).alias("finalRating")
     )
+
+    # finalRating 열을 기준으로 내림차순 정렬
+    final_recommendations_sorted = final_recommendations.sort_values(by='finalRating', ascending=False)
+
     # 반환할 결과
-    res = final_recommendations.toPandas().to_dict(orient="records")
+    res = final_recommendations_sorted.toPandas().to_dict(orient="records")
 
     # 추천 점수와 각 특성 간의 상관관계 계산
     correlations = final_recommendations.select(

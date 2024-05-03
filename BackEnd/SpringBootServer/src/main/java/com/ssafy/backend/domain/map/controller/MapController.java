@@ -1,14 +1,13 @@
-package com.ssafy.backend.domain.map;
+package com.ssafy.backend.domain.map.controller;
 
+import com.ssafy.backend.domain.map.dto.response.MapResponse;
+import com.ssafy.backend.domain.map.service.MapService;
 import com.ssafy.backend.global.common.dto.Message;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @Tag(name = "지도", description = "지도 테두리 좌표 관련 API 입니다.")
 @RestController

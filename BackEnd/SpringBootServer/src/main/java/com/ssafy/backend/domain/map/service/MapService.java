@@ -1,7 +1,6 @@
-package com.ssafy.backend.domain.map;
+package com.ssafy.backend.domain.map.service;
 
-import java.util.List;
-import java.util.Map;
+import com.ssafy.backend.domain.map.dto.response.MapResponse;
 
 public interface MapService {
     MapResponse getCommercialAreaCoords(double ax, double ay, double bx, double by) throws Exception;

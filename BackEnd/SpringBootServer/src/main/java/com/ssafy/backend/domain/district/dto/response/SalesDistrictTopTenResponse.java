@@ -1,13 +1,14 @@
-package com.ssafy.backend.domain.district.dto;
+package com.ssafy.backend.domain.district.dto.response;
 
 import lombok.Builder;
 
 @Builder
-public record OpenedStoreDistrictTopTenResponse(
+public record SalesDistrictTopTenResponse(
         String districtCode,
         String districtCodeName,
-        Double total,
+        Long total,
         Double totalRate,
         int level
+
 ) {
 }

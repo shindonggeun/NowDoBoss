@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.district.dto;
+package com.ssafy.backend.domain.district.dto.info;
 
 import java.util.Map;
 

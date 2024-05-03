@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.map;
+package com.ssafy.backend.domain.map.dto.response;
 
 import java.util.List;
 import java.util.Map;

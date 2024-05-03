@@ -5,7 +5,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.backend.domain.district.dto.FootTrafficDistrictTopTenResponse;
+import com.ssafy.backend.domain.district.dto.response.FootTrafficDistrictTopTenResponse;
 import com.ssafy.backend.domain.district.entity.QFootTrafficDistrict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

@@ -2,6 +2,8 @@ import * as c from '@src/components/styles/simulation/StepStyle'
 import serchIcon from '@src/assets/SearchIcon.svg'
 import DaumPostcode from 'react-daum-postcode'
 import { useState } from 'react'
+import useReportStore from '@src/stores/reportStore'
+// import { DaumDataType } from '@src/types/SimulationType'
 
 interface Step2Props {
   nextStep: () => void
@@ -9,11 +11,13 @@ interface Step2Props {
 
 const SelectionStep2 = ({ nextStep }: Step2Props) => {
   const [showPostcode, setShowPostcode] = useState(false)
-  const [address, setAddress] = useState('')
-  const [query, setQuery] = useState('')
-  const [sido, setSido] = useState('')
-  const [sigungu, setSigungu] = useState('')
+  // const [address, setAddress] = useState('')
+  // const [query, setQuery] = useState('')
+  // const [sido, setSido] = useState('')
+  // const [sigungu, setSigungu] = useState('')
   const [infoText, setInfoText] = useState('')
+  const { address, setAddress, setQuery, sido, setSido, setSigungu } =
+    useReportStore()
 
   const completeHandler = (data: any) => {
     // console.log(data)
@@ -52,12 +56,12 @@ const SelectionStep2 = ({ nextStep }: Step2Props) => {
           <c.SearchIcon src={serchIcon} alt="serchIcon" />
           <c.StyledInput
             type="text"
-            placeholder={address != '' ? `${address}` : '시/군/구 검색하기'}
+            placeholder={address !== '' ? `${address}` : '시/군/구 검색하기'}
           />
         </c.InputContainer>
       )}
 
-      {sido != '' && !showPostcode && (
+      {sido !== '' && !showPostcode && (
         <c.ButtonContainer>
           <c.NextButton type="button" onClick={nextStep}>
             다음

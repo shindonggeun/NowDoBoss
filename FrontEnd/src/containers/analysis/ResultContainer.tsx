@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import analysisStore from '@src/stores/analysisStore'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
@@ -21,6 +21,30 @@ const ResultContainer = () => {
   const { setFlowPopulationDataBody, setResidentPopulationDataBody } =
     analysisStore()
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
+
+  const flowRef = useRef<HTMLDivElement>(null)
+  const facilitiesRef = useRef<HTMLDivElement>(null)
+  const storeRef = useRef<HTMLDivElement>(null)
+  const salesRef = useRef<HTMLDivElement>(null)
+  const rentalRef = useRef<HTMLDivElement>(null)
+  const residentRef = useRef<HTMLDivElement>(null)
+  const expenditureRef = useRef<HTMLDivElement>(null)
+  const refArr = [
+    flowRef,
+    facilitiesRef,
+    storeRef,
+    salesRef,
+    rentalRef,
+    residentRef,
+    expenditureRef,
+  ]
+  const moveTo = (index: number) => {
+    refArr[index]?.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
+
   // 유동인구
   const { data: FlowPopulationData, status: flowPopulationStatus } = useQuery({
     queryKey: ['GetFlowPopulationData', selectedCommercial.code],
@@ -57,16 +81,16 @@ const ResultContainer = () => {
       <ResultIntro />
       <a.Wrap>
         <a.Sidebar>
-          <SideBarMenu />
+          <SideBarMenu moveTo={moveTo} />
         </a.Sidebar>
         <a.Main>
-          <FlowPopulationAnalysis />
-          <FacilitiesAnalysis />
-          <StoreCountAnalysis />
-          <SalesAnalysis />
-          <RentalCostAnalysis />
-          <ResidentPopulationAnalysis />
-          <ExpenditureAnalysis />
+          <FlowPopulationAnalysis ref={flowRef} />
+          <FacilitiesAnalysis ref={facilitiesRef} />
+          <StoreCountAnalysis ref={storeRef} />
+          <SalesAnalysis ref={salesRef} />
+          <RentalCostAnalysis ref={rentalRef} />
+          <ResidentPopulationAnalysis ref={residentRef} />
+          <ExpenditureAnalysis ref={expenditureRef} />
         </a.Main>
       </a.Wrap>
     </a.Container>

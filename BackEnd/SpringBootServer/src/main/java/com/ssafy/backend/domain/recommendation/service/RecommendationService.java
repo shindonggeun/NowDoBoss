@@ -1,7 +1,7 @@
 package com.ssafy.backend.domain.recommendation.service;
 
-import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationResponse;
 
+import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationResponse;
 import java.util.List;
 
 public interface RecommendationService {

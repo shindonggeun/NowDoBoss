@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.recommendation.service;
 
+
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationResponse;
 import com.ssafy.backend.domain.commercial.repository.FootTrafficCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;

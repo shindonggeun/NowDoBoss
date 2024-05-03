@@ -7,30 +7,21 @@ import { fetchAdministrationList, fetchDongList } from '@src/api/mapApi'
 import { useLocation } from 'react-router-dom'
 
 const Place = styled.div`
-  //border-bottom: 2px solid #d9d9d9;
   margin: 10px 10px;
-  //padding: 20px;
-  text-align: right;
+  text-align: left;
 `
 
 const Content = styled.div`
   font-weight: 500;
+  font-size: 0.9rem;
 `
-// const ChoiceContent = styled.div`
-//   font-weight: 500;
-//   width: 40%;
-//   text-align: center;
-//   padding-top: 5px;
-//   @media only screen and (max-width: 680px) {
-//     width: 38%;
-//   }
-// `
+
 const SelectPlace = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   text-align: center;
-  margin: 10px 20px 0 0;
+  margin-top: 10px;
 `
 
 const Dropdown = styled.div`
@@ -42,6 +33,7 @@ const Dropdown = styled.div`
   margin: 5px 0 0 20px;
   position: relative;
 `
+
 const SelectedContent = styled.div`
   text-align: right;
   font-weight: 500;

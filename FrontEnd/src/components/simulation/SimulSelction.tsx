@@ -50,6 +50,7 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
         !modalRef.current.contains(e.target as Node)
       ) {
         onClose()
+        resetButton()
       }
     }
 

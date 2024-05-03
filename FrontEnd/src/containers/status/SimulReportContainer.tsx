@@ -1,8 +1,10 @@
 import * as c from '@src/components/styles/simulation/SelectionStyle'
+import { useState } from 'react'
 import ReportSummary from '@src/components/simulation/report/ReportSummary'
 import ReportHeader from '@src/components/simulation/report/ReportHeader'
-import { useState } from 'react'
-import ReportDetail from '@src/components/simulation/report/ReportDetail.tsx'
+import ReportDetail from '@src/components/simulation/report/ReportDetail'
+import ReportGender from '@src/components/simulation/report/ReportGender'
+import ReportMonthAnalysis from '@src/components/simulation/report/ReportMonthAnalysis'
 
 const SimulReportContainer = () => {
   const [isOpen, setIsOpen] = useState(true)
@@ -17,6 +19,10 @@ const SimulReportContainer = () => {
             <ReportHeader onClose={onClose} />
             <ReportSummary />
             <ReportDetail />
+            <c.SplitLine />
+            <ReportGender />
+            <c.SplitLine />
+            <ReportMonthAnalysis />
           </c.Container>
         </c.Overlay>
       )}

@@ -161,9 +161,11 @@ export const GoReportContainer = styled.div`
 `
 
 export const GoReportButton = styled.button`
-  /* 기존 스타일 */
-  transition: background-color 0.2s; /* 애니메이션 효과 추가 */
+  transition: background-color 0.2s;
   border-radius: 8px;
+  background-color: #2e83f2;
+  color: white;
+  border: 2px solid #2e83f2;
 
   font-size: 14px;
   font-weight: 600;
@@ -172,19 +174,11 @@ export const GoReportButton = styled.button`
   width: 15rem;
   height: 3rem;
 
-  &:disabled {
-    background-color: white; /* disabled 시 배경색 */
-    color: #666; /* disabled 시 텍스트 색상 */
-    border: 2px solid #ccc; /* disabled 시 테두리 색상 */
-    cursor: not-allowed;
-  }
-
-  &:not(:disabled) {
-    &:hover,
-    &:active {
-      background-color: #2e83f2; /* hover 및 active 시 배경색 변경 */
-      color: white; /* hover 및 active 시 텍스트 색상 변경 */
-      border: 2px solid #2e83f2; /* hover 및 active 시 테두리 색상 변경 */
-    }
+  &:hover,
+  &:active {
+    background-color: #2e83f2;
+    color: white;
+    border: 2px solid #2e83f2;
+    transform: scale(1.09);
   }
 `

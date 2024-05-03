@@ -1,4 +1,4 @@
-import { BarChartPropsType } from '@src/types/ChartPropType'
+import { BarChartPropsType } from '@src/types/CommonPropsType'
 import {
   BarElement,
   CategoryScale,

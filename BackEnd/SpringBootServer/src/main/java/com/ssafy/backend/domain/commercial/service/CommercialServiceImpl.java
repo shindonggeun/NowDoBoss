@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.commercial.service;
 
-import com.ssafy.backend.domain.commercial.dto.*;
+import com.ssafy.backend.domain.commercial.dto.info.*;
+import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.global.util.CoordinateConverter;
@@ -117,7 +118,9 @@ public class CommercialServiceImpl implements CommercialService {
                 footTrafficCommercial.getSixtyFootTraffic()
         );
 
-        return new CommercialFootTrafficResponse(timeSlotFootTraffic, dayOfWeekFootTraffic, ageGroupFootTraffic);
+        CommercialAgeGenderPercentFootTrafficInfo ageGenderPercentFootTraffic = calculateAgeGenderPercentFootTraffic(footTrafficCommercial);
+
+        return new CommercialFootTrafficResponse(timeSlotFootTraffic, dayOfWeekFootTraffic, ageGroupFootTraffic, ageGenderPercentFootTraffic);
     }
 
     @Override
@@ -166,7 +169,10 @@ public class CommercialServiceImpl implements CommercialService {
                 salesCommercial.getSixtySales()
         );
 
-        return new CommercialSalesResponse(timeSales, daySales, ageSales);
+        CommercialAgeGenderPercentSalesInfo ageGenderPercentSales;
+
+//        return new CommercialSalesResponse(timeSales, daySales, ageSales, ageGenderPercentSales);
+        return null;
     }
 
     @Override
@@ -214,6 +220,39 @@ public class CommercialServiceImpl implements CommercialService {
         return areaCommercialRepository.findByCommercialCode(commercialCode);
     }
 
+    private CommercialAgeGenderPercentFootTrafficInfo calculateAgeGenderPercentFootTraffic(FootTrafficCommercial trafficCommercial) {
+        double total = trafficCommercial.getTotalFootTraffic().doubleValue();
+
+        return new CommercialAgeGenderPercentFootTrafficInfo(
+                calculatePercent(trafficCommercial.getTeenFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getTeenFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getTwentyFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getTwentyFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getThirtyFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getThirtyFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getFortyFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getFortyFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getFiftyFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getFiftyFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getSixtyFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
+                calculatePercent(trafficCommercial.getSixtyFootTraffic(), trafficCommercial.getFemaleFootTraffic(), total)
+        );
+    }
+
+    private CommercialAgeGenderPercentSalesInfo calculateAgeGenderPercentSales(SalesCommercial salesCommercial) {
+        double total = salesCommercial.getMonthSales().doubleValue();
+
+//        return new CommercialAgeGenderPercentSalesInfo(
+//                calculatePercent(salesCommercial.getTeenSales(), salesCommercial.get)
+//        )
+        return null;
+    }
+
+    private double calculatePercent(Long ageGroupCount, Long genderCount, double total) {
+        if (total == 0) return 0.0;
+        double percent = 100.0 * (ageGroupCount.doubleValue() * (genderCount.doubleValue() / total)) / total;
+        return Math.round(percent * 100.0) / 100.0;
+    }
 
 
 }

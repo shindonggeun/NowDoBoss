@@ -1,4 +1,4 @@
-import { ComboChartPropsType } from '@src/types/ChartPropType'
+import { ComboChartPropsType } from '@src/types/CommonPropsType'
 import {
   BarElement,
   CategoryScale,

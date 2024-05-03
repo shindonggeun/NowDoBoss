@@ -1,16 +1,20 @@
 import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
+import TotalCard from '@src/components/analysis/expenditure/TotalCard'
+import CategoryCard from '@src/components/analysis/expenditure/CategoryCard'
 import * as e from '@src/components/styles/analysis/ExpenditureAnalysisStyle'
+import { forwardRef, Ref } from 'react'
 
-const ExpenditureAnalysis = () => {
+const ExpenditureAnalysis = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
-    <>
+    <div ref={ref}>
       <CategoryTitleCard title="지출내역" />
       <e.FirstLowContainer>
-        <e.TotalChart>총 지출 금액</e.TotalChart>
-        <e.CategoryChart>유형별 지출내역</e.CategoryChart>
+        <TotalCard />
+        <CategoryCard />
       </e.FirstLowContainer>
-    </>
+    </div>
   )
-}
+})
 
+ExpenditureAnalysis.displayName = 'ExpenditureAnalysis'
 export default ExpenditureAnalysis

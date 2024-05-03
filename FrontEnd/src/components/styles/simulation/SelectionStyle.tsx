@@ -35,13 +35,13 @@ export const Container = styled.div`
   //  width: 45vw;
   width: 40rem;
   height: 100vh;
-  //border-radius: 15px;
   background-color: #fff;
   position: absolute;
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
   overflow-y: auto;
+  //padding-top: 80px; // 헤더 높이 조절용
 
   ::-webkit-scrollbar {
     display: none;
@@ -62,7 +62,7 @@ export const SelctionHeader = styled.div`
   background-color: #236cff;
   padding: 1rem 2rem;
 
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -102,5 +102,12 @@ export const HeaderTitle = styled.div`
 `
 
 export const Contants = styled.div`
-  margin: 6rem 2vw;
+  margin: 3rem 2vw;
+`
+
+export const SplitLine = styled.div`
+  width: 90%;
+  height: 1px;
+  margin: 0 auto;
+  background-color: #e0e0e0;
 `

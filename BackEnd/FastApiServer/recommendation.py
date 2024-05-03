@@ -13,7 +13,8 @@ import subprocess
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
 filename = 'model_update_time.json'
 
-model_path = "hdfs://master1:9000/user/hadoop/model/als_model"
+model_path = "hdfs://master1:9000/user/hadoop/model"
+#model_path = "hdfs://c09a4a0a1fec:8020/user/hadoop/model/als_model"
 
 # Spark 세션 초기화 - 추후 설정에 맞게 변경
 spark = SparkSession.builder \
@@ -21,6 +22,7 @@ spark = SparkSession.builder \
     .config("spark.hadoop.fs.defaultFS", "hdfs://master1:9000") \
     .getOrCreate()
 
+#.config("spark.hadoop.fs.defaultFS", "hdfs://c09a4a0a1fec:8020") \
 # 마지막 업데이트 시간을 불러오는 함수
 def load_last_update_time(file_path):
     if os.path.exists(file_path):
@@ -37,7 +39,8 @@ def action_weight(action):
 
 # 사용자 별 상권 특징에 대한 가중치 정보
 def load_user_weights(userId):
-    weights_path = f"hdfs://master1:9000/user/hadoop/weight/{userId}/user_weights.json"
+    weights_path = f"hdfs://master1:9000/user/hadoop/weight/user_weights.json"
+    #weights_path = f"hdfs://c09a4a0a1fec:8020/user/hadoop/weight/{userId}/user_weights.json"
     if spark._jsparkSession.catalog().tableExists(weights_path):
         return spark.read.json(weights_path)
     return spark.createDataFrame([], schema="weightValue double")
@@ -59,14 +62,15 @@ def load_model(spark, model_path, df_actions):
         print("New model trained and saved.")
     return model
 
-def recommendCommercials(userId):
+def recommend_commercials(userId):
     # 이전 업데이트 시간 불러오기
     last_update_time = load_last_update_time(filename)
     print("Previous update time:", last_update_time)
 
     # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
-    df_actions = spark.read.csv("hdfs://master1:9000/user/hadoop/user_behavior_logs.csv")
- 
+    df_actions = spark.read.csv("hdfs://master1:9000/user/hadoop/data/action_data.csv")
+    #df_actions = spark.read.csv("hdfs://c09a4a0a1fec:8020/user/hadoop/action_data.csv")
+
     # 문자열 타입의 timestamp를 datetime으로 변환
     df_actions = df_actions.withColumn("timestamp", col("timestamp").cast("timestamp"))
 
@@ -78,31 +82,31 @@ def recommendCommercials(userId):
     with open('model_update_time.json', 'w') as f:
         json.dump({'last_update_time': last_update_time}, f)
 
-    # 이전 업데이트 시간 이후의 사용자 행동 데이터 가져오기 예시
-    action_data = [
-        (1, "click", 1),
-        (1, "search", 2),
-        (2, "search", 3),
-        (2, "search", 4),
-        (1, "save", 2),
-        (3, "save", 1),
-        (3, "click", 1),
-        (4, "search", 2),
-        (2, "search", 4),
-        (1, "simulation", 2),
-        (1, "simulation", 1),
-        (1, "save", 1),
-        (3, "save", 1),
-        (3, "click", 1),
-        (4, "search", 2),
-        (2, "search", 3),
-        (2, "search", 4),
-        (1, "save", 2),
-        (1, "simulation", 2),
-        (5, "click", 1),
-        (5, "click", 1),
-        (2, "save", 1)
-    ]
+    # # 이전 업데이트 시간 이후의 사용자 행동 데이터 가져오기 예시
+    # action_data = [
+    #     (1, "click", 1),
+    #     (1, "search", 2),
+    #     (2, "search", 3),
+    #     (2, "search", 4),
+    #     (1, "save", 2),
+    #     (3, "save", 1),
+    #     (3, "click", 1),
+    #     (4, "search", 2),
+    #     (2, "search", 4),
+    #     (1, "simulation", 2),
+    #     (1, "simulation", 1),
+    #     (1, "save", 1),
+    #     (3, "save", 1),
+    #     (3, "click", 1),
+    #     (4, "search", 2),
+    #     (2, "search", 3),
+    #     (2, "search", 4),
+    #     (1, "save", 2),
+    #     (1, "simulation", 2),
+    #     (5, "click", 1),
+    #     (5, "click", 1),
+    #     (2, "save", 1)
+    # ]
     action_columns = ["userId", "action", "commercialCode"]
     df_actions = spark.createDataFrame(action_data, schema=action_columns)
 
@@ -119,6 +123,7 @@ def recommendCommercials(userId):
     # ]
 
     commercial_data_path = "hdfs://master1:9000/user/hadoop/data/commercial_data.csv"
+    #commercial_data_path = "hdfs://c09a4a0a1fec:8020/user/hadoop/commercial_data.csv"
 
     commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
 
@@ -188,7 +193,8 @@ def recommendCommercials(userId):
     updated_weights = {k: user_weights[k] * (1 - update_ratio) + new_weights[k] * update_ratio for k in user_weights} 
 
     # 저장 옵션 설정 및 실행
-    weights_path = f"hdfs://master1:9000/user/hadoop/weight/{userId}/user_weights.json"
+    weights_path = f"hdfs://master1:9000/user/hadoop/weight/user_weights.json"
+    #weights_path = f"hdfs://c09a4a0a1fec:8020/user/hadoop/weight/{userId}/user_weights.json"
     updated_weights.write.mode('overwrite').json(weights_path)
 
     return res

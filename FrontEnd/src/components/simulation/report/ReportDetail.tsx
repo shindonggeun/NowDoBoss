@@ -23,7 +23,7 @@ const ReportDetail = () => {
         <c.SummarySubTitle>아래의 비용들을 더해 계산했어요</c.SummarySubTitle>
       </c.SummaryHeader>
       {DetailInfos.map((detailInfo: DetailType, i) => (
-        <c.Body>
+        <c.Body key={detailInfo.name}>
           <c.BodyText>
             <c.TextTitle>{detailInfo.name}</c.TextTitle>
             <c.TextSubtitle>{detailInfo.detail}</c.TextSubtitle>

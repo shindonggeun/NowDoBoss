@@ -37,39 +37,15 @@ const SelectionStep5 = ({ nextStep }: Step5Props) => {
     queryFn: () => fetchStoreSize(categoryCode),
   })
 
+  let respons = data ? data.dataBody : updateStoreSize
+
   useEffect(() => {
     refetch()
     if (!isLoading && data) {
       setUpdateStoreSize(data?.dataBody)
+      respons = data.dataBody
     }
   }, [refetch, subCategory])
-
-  if (data) {
-    console.log(data.dataBody)
-    console.log(updateStoreSize)
-  }
-
-  interface BuildingType {
-    [key: string]: {
-      squareMeter: number
-      pyeong: number
-    }
-  }
-
-  const Buildings: BuildingType = {
-    small: {
-      squareMeter: 35,
-      pyeong: 10,
-    },
-    medium: {
-      squareMeter: 61,
-      pyeong: 18,
-    },
-    large: {
-      squareMeter: 86,
-      pyeong: 26,
-    },
-  }
 
   const goReportPage = () => {
     nextStep()
@@ -84,19 +60,30 @@ const SelectionStep5 = ({ nextStep }: Step5Props) => {
             <c.Emphasis>매장크기</c.Emphasis>를 선택해 주세요
           </c.Title>
           <c.BuildingContainer>
-            {Object.keys(updateStoreSize).map(size => (
+            {Object.keys(respons!).map(size => (
               <c.SelectButtonLarge
                 key={size}
                 size="lg"
                 type="button"
                 onClick={() => {
-                  setBulidingSize(Buildings[size].squareMeter)
+                  // @ts-ignore
+                  setBulidingSize(respons[size].squareMeter)
                 }}
-                selected={bulidingSize === Buildings[size].squareMeter}
+                // @ts-ignore
+                selected={bulidingSize === respons[size].squareMeter}
               >
                 <c.BuildingImg src={BuildingData[size].img} alt="building" />
                 <c.BuildingSize>
-                  {Buildings[size].pyeong}㎡ ({Buildings[size].squareMeter})평
+                  {
+                    // @ts-ignore
+                    respons[size].pyeong
+                  }
+                  ㎡ (
+                  {
+                    // @ts-ignore
+                    respons[size].squareMeter
+                  }
+                  )평
                 </c.BuildingSize>
                 <c.BuildingSizeTitle>
                   {BuildingData[size].name}
@@ -126,13 +113,11 @@ const SelectionStep5 = ({ nextStep }: Step5Props) => {
           </c.FloorContainer>
 
           <c.GoReportContainer>
-            <c.GoReportButton
-              type="button"
-              onClick={goReportPage}
-              disabled={bulidingSize === 0 || floor === ''}
-            >
-              분석 레포트 받아보기
-            </c.GoReportButton>
+            {bulidingSize === 0 || floor === '' ? null : (
+              <c.GoReportButton type="button" onClick={goReportPage}>
+                분석 레포트 받아보기
+              </c.GoReportButton>
+            )}
           </c.GoReportContainer>
         </c.Container>
       ) : (

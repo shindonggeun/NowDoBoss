@@ -3,7 +3,7 @@ package com.ssafy.backend.domain.district.service;
 import com.ssafy.backend.domain.administration.dto.*;
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.administration.repository.StoreAdministrationRepository;
-import com.ssafy.backend.domain.commercial.dto.CommercialAdministrationAreaResponse;
+import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationAreaResponse;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
 import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
 import com.ssafy.backend.domain.district.dto.*;

@@ -6,13 +6,12 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 3rem;
   background: linear-gradient(to bottom, #236cff 10%, #92b1ff 90%);
 `
 
 export const SummaryContainer = styled.div`
   width: 36rem;
-  height: 23rem;
+  min-height: 23rem;
   border-radius: 10px;
   background: white;
   @media (max-width: 768px) {

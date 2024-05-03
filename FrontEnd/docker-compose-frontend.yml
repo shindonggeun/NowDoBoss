@@ -9,7 +9,6 @@ services:
     image: nowdoboss_frontend_img  # 빌드된 이미지의 이름을 설정합니다.
     volumes:
       - react_build:/usr/src/app/dist  # 빌드 결과물을 볼륨에 저장
-    restart: always  # 컨테이너가 항상 재시작되도록 설정합니다.
     networks:
       - nowdoboss_net  # 사용할 네트워크를 지정합니다.
 
@@ -29,6 +28,7 @@ services:
       - nowdoboss_net
     depends_on:
       - nowdoboss_react
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   nowdoboss_certbot:
     container_name: nowdoboss_certbot
@@ -36,13 +36,7 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    entrypoint: >
-      /bin/sh -c '
-      if [ ! -d "/etc/letsencrypt/live" ]; then
-        echo "Initializing Certbot directories and configuration...";
-        mkdir -p /etc/letsencrypt/live /etc/letsencrypt/archive /etc/letsencrypt/renewal;
-      fi;
-      trap exit TERM; while :; do certbot renew; sleep 12h & wait $$!; done;'
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     depends_on:
       - nowdoboss_frontend
 

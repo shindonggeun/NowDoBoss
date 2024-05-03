@@ -1,6 +1,9 @@
 import * as c from '@src/components/styles/simulation/ReportAnalysisStyle'
 
 const ReportMonthAnalysis = () => {
+  const peakSeasons: number[] = [12, 1, 2]
+  const offPeakSeasons: number[] = [3, 4, 5]
+
   const Months: string[] = [
     '1월',
     '2월',
@@ -19,11 +22,26 @@ const ReportMonthAnalysis = () => {
     <c.Container>
       <c.Title>성수기 비성수기 분석</c.Title>
       <c.SubTitle>
-        창업 성공을 위해 도움이 될 만한 데이터를 분석해 왔어요.
+        000구 000동의
+        <c.Emphasis> 성수기는 {peakSeasons.join(',')}월</c.Emphasis> 이고
+        <c.Emphasis> 비성수기는 {offPeakSeasons.join(',')}월</c.Emphasis>입니다.
       </c.SubTitle>
-      {Months.map(month => (
-        <div key={month}>{month}</div>
-      ))}
+      <c.CircleContainer>
+        {Months.map((month, i) => {
+          let season = ''
+          if (peakSeasons.includes(i + 1)) {
+            season = 'peak'
+          }
+          if (offPeakSeasons.includes(i + 1)) {
+            season = 'offpeak'
+          }
+          return (
+            <c.CircleMonth key={month} season={season || null}>
+              {month}
+            </c.CircleMonth>
+          )
+        })}
+      </c.CircleContainer>
     </c.Container>
   )
 }

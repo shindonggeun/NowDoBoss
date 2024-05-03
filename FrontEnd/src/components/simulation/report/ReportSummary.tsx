@@ -1,7 +1,11 @@
-import * as c from '@src/containers/status/ReportStyle'
+import * as c from '@src/containers/simulation/ReportStyle.tsx'
 import LightIcon from '@src/assets/lightBulbIcon.svg'
+import useSimulationStore from '@src/stores/simulationStore'
 
 const reportSummary = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { subCategory, bulidingSize, floor } = useSimulationStore()
+
   return (
     <c.Container>
       <c.SummaryContainer>
@@ -20,16 +24,15 @@ const reportSummary = () => {
           <c.SplitLine />
           <c.BodyBottom>
             <c.BodyBottomLeft>
-              <c.BottomText>지역</c.BottomText>
-              <c.BottomText>업종</c.BottomText>
-              <c.BottomText>면적</c.BottomText>
-              <c.BottomText>층</c.BottomText>
+              {['지역', '업종', '면적', '층'].map(data => (
+                <c.BottomText key={data}>{data}</c.BottomText>
+              ))}
             </c.BodyBottomLeft>
             <c.BodyBottomRight>
               <c.BottomText>종로구 부암동</c.BottomText>
-              <c.BottomText>베이커리</c.BottomText>
-              <c.BottomText>중형(47)</c.BottomText>
-              <c.BottomText>1층</c.BottomText>
+              <c.BottomText>{subCategory}</c.BottomText>
+              <c.BottomText>{bulidingSize}㎡</c.BottomText>
+              <c.BottomText>{floor}</c.BottomText>
             </c.BodyBottomRight>
           </c.BodyBottom>
         </c.SummaryBody>

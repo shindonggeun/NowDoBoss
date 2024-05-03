@@ -1,5 +1,5 @@
 import * as c from '@src/components/styles/simulation/SelectionStyle'
-import * as h from '@src/containers/status/ReportStyle'
+import * as h from '@src/containers/simulation/ReportStyle'
 import SaveCheckIcon from '@src/assets/saveCheckMark.svg'
 import SaveIcon from '@src/assets/saveMark.svg'
 import CompareIcon from '@src/assets/compare.svg'

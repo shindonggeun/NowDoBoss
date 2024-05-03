@@ -1,3 +1,4 @@
+// Chart
 export type AreaChartPropsType = {
   labels: string[]
   values: number[]

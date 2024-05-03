@@ -34,12 +34,13 @@ pipeline {
                         echo "Certbot dockerfile 빌드..."
                         sh "docker-compose -f ./FrontEnd/docker-compose-frontend.yml up --build -d nowdoboss_certbot"
                     }
-
-                    // 특정 서비스(nginx, react)만 종료
-                    sh "docker-compose -f ./FrontEnd/docker-compose-frontend.yml down --volumes nowdoboss_react nowdoboss_frontend"
-
-                    // 특정 서비스(nginx, react)만 재시작
-                    sh "docker-compose -f ./FrontEnd/docker-compose-frontend.yml up --build -d nowdoboss_react nowdoboss_frontend"
+                    
+                    // React 애플리케이션을 빌드하는 명령입니다. `--no-start` 옵션은 컨테이너를 생성하지만 실행하지는 않습니다.
+                    sh "docker-compose -f ./FrontEnd/docker-compose-frontend.yml run --no-start nowdoboss_react"
+                    // Nginx 컨테이너를 종료하고 관련 볼륨을 삭제합니다. 이 단계는 이전에 생성된 데이터를 클리어하고 새로운 정적 파일을 적용하기 위해 필요합니다.
+                    sh "docker-compose -f ./FrontEnd/docker-compose-frontend.yml down --volumes nowdoboss_frontend"
+                    // Nginx 컨테이너를 재빌드하고 백그라운드에서 실행합니다. `--build` 옵션은 이미지를 다시 빌드하고, `-d`는 백그라운드 모드에서 실행합니다.
+                    sh "docker-compose -f ./FrontEnd/docker-compose-frontend.yml up --build -d nowdoboss_frontend"
                 }
             }
         }

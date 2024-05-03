@@ -1,4 +1,4 @@
-import { AreaChartPropsType } from '@src/types/ChartPropType'
+import { AreaChartPropsType } from '@src/types/CommonPropsType'
 import {
   CategoryScale,
   Chart as ChartJS,

@@ -1,22 +1,31 @@
 import * as i from '@src/components/styles/community/ImageUploadStyle'
 import React from 'react'
+import plusIcon from '@src/assets/plus.svg'
 
 interface ImageUploadPropsType {
   imageViewValue: string[]
   setImageView: React.Dispatch<React.SetStateAction<string[]>>
+  imageFileValue: File[]
+  setImageFile: React.Dispatch<React.SetStateAction<File[]>>
+  setClickAddImg: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const ImageUpload = (props: ImageUploadPropsType) => {
-  // const { imageFilesValue, setImageFiles } = props
   // const [imageViewValue, setImageView] = useState<string[]>([])
-  const { imageViewValue, setImageView } = props
+  const {
+    imageFileValue,
+    setImageFile,
+    imageViewValue,
+    setImageView,
+    setClickAddImg,
+  } = props
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target
     let imageUrlLists: string[] = [...imageViewValue]
     if (files) {
-      // const fileArray = Array.from(files, f => f as File)
-      // setImageFiles(fileArray)
+      const fileArray = Array.from(files, f => f as File)
+      setImageFile(fileArray)
       for (let k = 0; k < files.length; k += 1) {
         const currentImageUrl = URL.createObjectURL(files[k])
         imageUrlLists.push(currentImageUrl)
@@ -33,15 +42,16 @@ const ImageUpload = (props: ImageUploadPropsType) => {
   // X버튼 클릭 시 이미지 삭제
   const handleDeleteImage = (id: number) => {
     setImageView(imageViewValue.filter((_, index) => index !== id))
-    // setImageFiles(imageFilesValue.filter((_, index) => index !== id))
+    setImageFile(imageFileValue.filter((_, index) => index !== id))
   }
 
   return (
     <i.ImgContainer>
       <i.ImgLabel htmlFor="image">
         <i.ImgBox>
+          <i.ImgIcon src={plusIcon} />
           <i.Plus>사진 추가</i.Plus>
-          <p className="p">{imageViewValue.length}/10</p>
+          {/* <p className="p">{imageViewValue.length}/10</p> */}
         </i.ImgBox>
       </i.ImgLabel>
       {imageViewValue.map((imageFile, id) => (
@@ -61,6 +71,9 @@ const ImageUpload = (props: ImageUploadPropsType) => {
         accept="image/*"
         multiple
         onChange={handleFileUpload}
+        onClick={() => {
+          setClickAddImg(true)
+        }}
       />
     </i.ImgContainer>
   )

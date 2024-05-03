@@ -1,14 +1,12 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  padding: 0 10vw 3vh;
-  width: 100%;
+  padding: 0 0 3vh;
 
-  @media only screen and (min-width: 768px) {
-    padding: 0 10vw 3vh;
-  }
-  @media only screen and (min-width: 992px) {
-    padding: 0 12vw 3vh;
+  @media only screen and (max-width: 992px) {
+    //padding: 75px 10vw 0;
+    width: 100%;
+    //margin-left: -12%;
   }
 `
 

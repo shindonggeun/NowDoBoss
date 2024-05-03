@@ -18,6 +18,15 @@ pipeline {
     }
 
     stages {
+        stage('Setup') {
+            steps {
+                script {
+                    // 빌드 설명 설정
+                    currentBuild.description = "Merge requested by: ${env.USER_NAME}"
+                }
+            }
+        }
+
         stage('Redis And SonarQube Deploy with Docker Compose') {
             steps {
                 script {

@@ -12,7 +12,7 @@ export const NabBar = styled.div`
   position: fixed;
   z-index: 90;
   //top: 0; // 상단에 고정
-  width: 16.5vw;
+  width: 250px;
 
   @media only screen and (max-width: 992px) {
     position: static; // 화면 너비가 992px 이하일 때는 고정 위치 해제
@@ -22,23 +22,30 @@ export const NabBar = styled.div`
 
 export const MarginLeft = styled.div`
   display: flex;
-  margin-left: 20%; // 기본 왼쪽 여백 설정
-  width: 80%;
+  margin-left: 250px; // 기본 왼쪽 여백 설정
+  width: calc(100vw - 250px);
   justify-content: center;
 
   @media only screen and (max-width: 992px) {
     margin-left: 0;
     width: 100vw;
+    margin-top: 75px;
   }
 `
 
 export const Context = styled.div`
-  margin: 3% 10%;
-  width: 80%;
+  width: 100%;
 `
 
 // detail style
 
 export const MainContentDiv = styled.div`
   width: 100%;
+`
+
+export const Div = styled.div``
+
+export const Mid = styled.div`
+  margin: 3% 10%;
+  width: 80%;
 `

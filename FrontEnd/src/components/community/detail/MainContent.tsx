@@ -4,7 +4,6 @@ import GoBackButton from '@src/common/GoBackButton'
 import send_message from '@src/assets/send_message.svg'
 import { CommunityData } from '@src/types/CommunityType'
 import useCommunityStore from '@src/stores/communityStore'
-import Slider from 'react-slick'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 import { useMutation } from '@tanstack/react-query'
@@ -48,18 +47,6 @@ const MainContent = (props: MainContentPropsType) => {
   }
   // test console
   // console.log(TimeCounting('2024-04-24 4:00:00', TimeOption))
-
-  // 이미지 캐러셀 스타일
-  const settings = {
-    dots: false,
-    infinite: true,
-    arrows: false,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    centerMode: true,
-    centerPadding: '0px',
-  }
 
   // 게시글 삭제
   const { mutate: mutateDeleteArticle } = useMutation({
@@ -151,20 +138,16 @@ const MainContent = (props: MainContentPropsType) => {
         {TimeCounting(detailData.createdAt, TimeOption)} ∙ 조회수{' '}
         {detailData.readCount}
       </m.TimeAndCounting>
-      <m.Slick>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        <Slider {...settings}>
-          {detailData.images
-            ? detailData.images.map(image => {
-                return (
-                  <m.SlickChild key={image.imageId}>
-                    <m.CommunityImage src={image.url} />
-                  </m.SlickChild>
-                )
-              })
-            : ''}
-        </Slider>
-      </m.Slick>
+
+      {detailData.images
+        ? detailData.images.map(image => {
+            return (
+              <m.ImgDiv key={image.imageId}>
+                <m.CommunityImage src={image.url} />
+              </m.ImgDiv>
+            )
+          })
+        : ''}
 
       <m.Content>{detailData.content}</m.Content>
 

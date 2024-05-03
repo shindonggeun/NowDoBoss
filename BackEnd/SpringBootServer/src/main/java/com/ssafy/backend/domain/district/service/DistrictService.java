@@ -1,9 +1,10 @@
 package com.ssafy.backend.domain.district.service;
 
-import com.ssafy.backend.domain.commercial.dto.CommercialAdministrationAreaResponse;
-import com.ssafy.backend.domain.district.dto.DistrictAreaResponse;
-import com.ssafy.backend.domain.district.dto.DistrictDetailResponse;
-import com.ssafy.backend.domain.district.dto.DistrictTopTenResponse;
+import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationAreaResponse;
+import com.ssafy.backend.domain.district.dto.response.DistrictAreaResponse;
+import com.ssafy.backend.domain.district.dto.response.DistrictDetailResponse;
+import com.ssafy.backend.domain.district.dto.response.DistrictTopTenResponse;
+
 
 import java.util.List;
 

@@ -2,13 +2,10 @@ import styled from 'styled-components'
 
 // MainContent
 export const Container = styled.div`
-  padding: 3vh 10% 0;
+  padding: 3vh 0;
 
   @media only screen and (max-width: 820px) {
     padding: 3vh 5%;
-  }
-  @media only screen and (max-width: 768px) {
-    padding: 3vh 0;
   }
 `
 
@@ -90,13 +87,12 @@ export const TimeAndCounting = styled.div`
   font-weight: 600;
 `
 
-export const Slick = styled.div``
-export const CommunityImage = styled.img``
-export const SlickChild = styled.div`
-  &:hover {
-    margin: -10px 0 0 10px;
-    cursor: pointer;
-  }
+export const ImgDiv = styled.div`
+  display: flex;
+  justify-content: center;
+`
+export const CommunityImage = styled.img`
+  max-height: 400px;
 `
 
 export const Content = styled.div`
@@ -106,7 +102,15 @@ export const Content = styled.div`
 // SubContent
 
 export const SubContainer = styled.div`
-  padding: 3vh 10%;
+  padding: 3vh 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @media only screen and (max-width: 825px) {
+    flex-direction: column;
+    justify-content: center;
+  }
 `
 export const TabName = styled.div`
   font-weight: 600;

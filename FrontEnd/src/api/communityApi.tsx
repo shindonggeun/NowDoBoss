@@ -6,6 +6,7 @@ import {
   CommentModifyDataType,
   CommunityCreateDataType,
   CommunityModifyDataType,
+  ImageUploadPromiseType,
 } from '@src/types/CommunityType'
 
 // 커뮤니티 목록 get api
@@ -28,6 +29,18 @@ export const fetchCommunityDetail = async (communityId: number) => {
 export const communityCreate = async (data: CommunityCreateDataType) => {
   return customAxios
     .post(`/community`, data)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 커뮤니티 게시글 생성 post api
+export const imageUpload = async (
+  data: FormData,
+): Promise<ImageUploadPromiseType> => {
+  return customAxios
+    .post(`/firebase/upload`, data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
     .then(res => res.data)
     .catch(err => console.log(err))
 }

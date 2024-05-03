@@ -125,7 +125,7 @@ const Header = () => {
     },
     {
       name: '커뮤니티',
-      location: '/community',
+      location: '/community/list',
     },
     {
       name: '마이페이지',

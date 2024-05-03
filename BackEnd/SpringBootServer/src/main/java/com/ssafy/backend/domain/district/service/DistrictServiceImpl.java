@@ -1,12 +1,17 @@
 package com.ssafy.backend.domain.district.service;
 
-import com.ssafy.backend.domain.administration.dto.*;
+import com.ssafy.backend.domain.administration.dto.info.ClosedStoreAdministrationTopFiveInfo;
+import com.ssafy.backend.domain.administration.dto.info.OpenedStoreAdministrationTopFiveInfo;
+import com.ssafy.backend.domain.administration.dto.info.SalesAdministrationTopFiveInfo;
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.administration.repository.StoreAdministrationRepository;
-import com.ssafy.backend.domain.commercial.dto.CommercialAdministrationAreaResponse;
+import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationAreaResponse;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
 import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
-import com.ssafy.backend.domain.district.dto.*;
+import com.ssafy.backend.domain.district.dto.info.FootTrafficDistrictListByInfo;
+import com.ssafy.backend.domain.district.dto.info.SalesDistrictMonthSalesTopFiveInfo;
+import com.ssafy.backend.domain.district.dto.info.StoreDistrictTotalTopEightInfo;
+import com.ssafy.backend.domain.district.dto.response.*;
 import com.ssafy.backend.domain.district.repository.*;
 import com.ssafy.backend.domain.district.entity.ChangeDistrict;
 import com.ssafy.backend.domain.district.entity.FootTrafficDistrict;

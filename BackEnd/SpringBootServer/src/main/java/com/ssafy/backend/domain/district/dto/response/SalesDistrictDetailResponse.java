@@ -1,6 +1,7 @@
-package com.ssafy.backend.domain.district.dto;
+package com.ssafy.backend.domain.district.dto.response;
 
-import com.ssafy.backend.domain.administration.dto.SalesAdministrationTopFiveInfo;
+import com.ssafy.backend.domain.administration.dto.info.SalesAdministrationTopFiveInfo;
+import com.ssafy.backend.domain.district.dto.info.SalesDistrictMonthSalesTopFiveInfo;
 
 import java.util.List;
 

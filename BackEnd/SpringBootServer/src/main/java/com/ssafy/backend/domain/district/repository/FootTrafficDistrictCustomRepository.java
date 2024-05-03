@@ -1,6 +1,6 @@
 package com.ssafy.backend.domain.district.repository;
 
-import com.ssafy.backend.domain.district.dto.FootTrafficDistrictTopTenResponse;
+import com.ssafy.backend.domain.district.dto.response.FootTrafficDistrictTopTenResponse;
 
 import java.util.List;
 

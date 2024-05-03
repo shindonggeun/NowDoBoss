@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.administration.dto;
+package com.ssafy.backend.domain.administration.dto.info;
 
 import lombok.Builder;
 

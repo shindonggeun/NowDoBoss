@@ -1,5 +1,5 @@
 import ChattingBody from '@src/components/chatting/ChattingBody'
-import * as c from '@src/containers/community/CommunityContainerStyle'
+import * as c from '@src/containers/chatting/ChattingContainerStyle'
 
 const ChattingContainer = () => {
   return (

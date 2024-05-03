@@ -7,6 +7,7 @@ const ChattingBody = () => {
 
   return (
     <c.Container>
+      {/* 헤더 */}
       <c.Header>
         <c.ChatInfo>
           <c.ChatImg />
@@ -17,6 +18,10 @@ const ChattingBody = () => {
         </c.ChatInfo>
         <c.More>⋯</c.More>
       </c.Header>
+      {/* <c.Content> */}
+      {/*    <c.User */}
+      {/* </c.Content> */}
+      {/* 입력창 */}
       <c.Input
         placeholder="내용을 입력해주세요."
         defaultValue={contentValue}

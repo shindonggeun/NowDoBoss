@@ -52,7 +52,7 @@ const ComboChart = (props: ComboChartPropsType) => {
         data: value1,
         backgroundColor: value1.map((_, index) => backgroundColors[index]),
         borderColor: value1.map((_, index) => borderColors[index]),
-        borderWidth: 1,
+        borderWidth: 0.5,
       },
       {
         type: 'line' as const,
@@ -60,7 +60,7 @@ const ComboChart = (props: ComboChartPropsType) => {
         data: value2,
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 2,
+        borderWidth: 1.5,
         fill: false,
         yAxisID: 'y-axis-2',
       },

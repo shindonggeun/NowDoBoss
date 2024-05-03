@@ -3,11 +3,17 @@ pipeline {
     triggers {
         GenericTrigger(
             genericVariables: [
-                [key: 'USER_NAME', value: '$.user.name', expressionType: 'JSONPath']
+                [key: 'USER_NAME', value: '$.user.name', expressionType: 'JSONPath'],
+                [key: 'IF_MERGED', value: '$.object_attributes.state', expressionType: 'JSONPath'],
+                [key: 'BASE_BRANCH', value: '$.object_attributes.target_branch', expressionType: 'JSONPath'],
+                [key: 'LABEL', value: '$.labels[*].title', expressionType: 'JSONPath']
             ],
             causeString: 'Triggered by GitLab Merge Request by ${USER_NAME}',
+            token: 'frontend',
             printContributedVariables: true,
-            printPostContent: true
+            printPostContent: true,
+            regexpFilterText: '$IF_MERGED $BASE_BRANCH $LABEL',
+            regexpFilterExpression: '(?=.*merged)(?=.*develop)(?=.*FrontEnd)'
         )
     }
     tools {
@@ -27,11 +33,21 @@ pipeline {
         stage('Deploy with Docker Compose') {  // 'Deploy with Docker Compose'라는 이름의 단계를 정의합니다. 이 단계에서는 Docker Compose를 사용한 배포가 이루어집니다.
             steps {
                 script {
-                    // 이전 실행에서 사용된 컨테이너 및 네트워크 정리
-                    sh "docker-compose -f ./FrontEnd/docker-compose-react.yml down --volumes"  // 'docker-compose down --volumes' 명령을 실행하여, 이전에 실행되었던 모든 컨테이너를 종료하고 관련된 볼륨을 삭제합니다. 이는 환경을 깨끗하게 정리하여 다음 배포가 깔끔한 상태에서 이루어질 수 있도록 합니다.
+                    echo "certbot 컨테이너 실행 상태 확인 중..."
+                    def isCertBotRunning = sh(script: "docker ps --filter name=nowdoboss_certbot --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
+                    echo "certbot 실행 상태: ${isCertBotRunning}"
+                    if (isCertBotRunning == "") {
+                        echo "Certbot dockerfile 빌드..."
+                        sh "docker-compose -f ./FrontEnd/docker-compose-frontend.yml up --build -d nowdoboss_certbot"
+                    }
+                    
+                    // React Nginx 컨테이너를 종료하고 관련 볼륨을 삭제합니다. 이 단계는 이전에 생성된 데이터를 클리어하고 새로운 정적 파일을 적용하기 위해 필요합니다.
+                    sh "docker-compose -f ./FrontEnd/docker-compose-frontend.yml down --volumes nowdoboss_react nowdoboss_frontend"
+                    // React Nginx 컨테이너를 재빌드하고 백그라운드에서 실행합니다. `--build` 옵션은 이미지를 다시 빌드하고, `-d`는 백그라운드 모드에서 실행합니다.
+                    sh "docker-compose -f ./FrontEnd/docker-compose-frontend.yml up --build -d nowdoboss_react nowdoboss_frontend"
 
-                    // 새로운 푸시에 대한 스크립트 실행
-                    sh "docker-compose -f ./FrontEnd/docker-compose-react.yml up --build -d"  // 'docker-compose up --build -d' 명령을 실행하여, Docker Compose 파일에 정의된 모든 서비스를 빌드하고 백그라운드 모드로 실행합니다. '--build' 옵션은 이미지가 새로운 코드로 재빌드되도록 합니다.
+                    // React 컨테이너가 빌드 작업을 완료한 후에는 종료해야 합니다. 
+                    sh "docker-compose -f ./FrontEnd/docker-compose-frontend.yml stop nowdoboss_react"
                 }
             }
         }

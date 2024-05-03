@@ -1,0 +1,42 @@
+pipeline {
+    agent any  // 이 파이프라인이 실행될 Jenkins 에이전트를 지정합니다. 'any'는 사용 가능한 임의의 에이전트에서 실행될 수 있음을 의미합니다.
+    triggers {
+        GenericTrigger(
+            genericVariables: [
+                [key: 'USER_NAME', value: '$.user.name', expressionType: 'JSONPath'],
+                [key: 'IF_MERGED', value: '$.object_attributes.state', expressionType: 'JSONPath'],
+                [key: 'BASE_BRANCH', value: '$.object_attributes.target_branch', expressionType: 'JSONPath'],
+                [key: 'LABEL', value: '$.labels[*].title', expressionType: 'JSONPath']
+            ],
+            causeString: 'Triggered by GitLab Merge Request by ${USER_NAME}',
+            token: 'util',
+            printContributedVariables: true,
+            printPostContent: true,
+            regexpFilterText: '$IF_MERGED $BASE_BRANCH $LABEL',
+            regexpFilterExpression: '(?=.*merged)(?=.*develop)(?=.*CICD-Util)'
+        )
+    }
+
+    stages {
+        stage('Redis And SonarQube Deploy with Docker Compose') {
+            steps {
+                script {
+                    echo "Redis 컨테이너 실행 상태 확인 중..."
+                    def isRedisRunning = sh(script: "docker ps --filter name=nowdoboss_redis --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
+                    echo "Redis 실행 상태: ${isRedisRunning}"
+
+                    echo "SonarQube 컨테이너 실행 상태 확인 중..."
+                    def isSonarQubeRunning = sh(script: "docker ps --filter name=nowdoboss_sonarqube --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
+                    echo "SonarQube 실행 상태: ${isSonarQubeRunning}"
+
+                    // Redis가 실행 중이지 않으면 실행
+                    if (isRedisRunning == "" || isSonarQubeRunning == "") {
+                        echo "Redis And SonarQube dockerfile 빌드..."
+                        sh "docker-compose -f CICD/docker-compose.yml up -d"
+                    }
+                }
+            }
+        }
+
+    }
+}

@@ -12,7 +12,8 @@ const TodayChart = () => {
   const weekendSum = values.slice(5, 7).reduce((acc, curr) => acc + curr, 0) // 주말(토일) 합계
   const totalSum = weekdaySum + weekendSum // 총 합계
   const dailyAverage = Math.round(totalSum / 7).toLocaleString('ko-KR') // 일일 평균
-  const weekdayMultiplier = (weekdaySum / weekendSum).toFixed(1) // 주중 주말 비율
+  const weekdayMultiplier = (weekdaySum / weekendSum).toFixed(1) // 주중/주말 비율
+
   // 백분율로 변환
   const weekdayPercentage = Math.round((weekdaySum / totalSum) * 100)
   const weekendPercentage = Math.round((weekendSum / totalSum) * 100)
@@ -60,14 +61,18 @@ const TodayChart = () => {
       <f.Divider />
       <f.ChartTitle>주중/주말 유동인구</f.ChartTitle>
       <f.ChartSubTitle>
-        주말보다 주중의 유동인구가 약 {weekdayMultiplier}배 더 많아요.
+        {parseFloat(weekdayMultiplier) > 1
+          ? `주중의 유동인구가 주말보다 약 ${weekdayMultiplier}배 더 많아요.`
+          : `주말의 유동인구가 주중보다 약 ${(1 / parseFloat(weekdayMultiplier)).toFixed(1)}배 더 많아요.`}
       </f.ChartSubTitle>
+
       <f.Wrap>
         <f.BoxContainer>
           <f.ChartBox
             style={{
               width: `${weekdayPercentage}%`,
-              backgroundColor: '#7ED321',
+              backgroundColor: 'rgba(75,192,192,0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
             }}
           >
             주중 ({weekdayPercentage}%)
@@ -75,7 +80,8 @@ const TodayChart = () => {
           <f.ChartBox
             style={{
               width: `${weekendPercentage}%`,
-              backgroundColor: '#FFA84A',
+              backgroundColor: 'rgba(255, 159, 64, 0.2)',
+              borderColor: 'rgba(255, 159, 64, 1)',
             }}
           >
             주말 ({weekendPercentage}%)

@@ -28,6 +28,9 @@ const DoughnutChart = (props: DoughnutChartPropsType) => {
     interaction: {
       intersect: false,
     },
+    layout: {
+      padding: 20,
+    },
     plugins: {
       legend: {
         display: true,

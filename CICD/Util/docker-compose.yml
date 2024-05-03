@@ -1,6 +1,7 @@
 version: "3.8"  # Docker Compose 파일의 버전을 명시합니다. 여기서 "3.8"은 사용 가능한 최신 버전 중 하나로, 특정 기능과 호환성을 제공합니다.
 
 services:
+  # Redis 설정
   nowdoboss_redis:
     image: redis  # 사용할 Docker 이미지. 이 경우 공식 Redis 이미지를 사용합니다.
     container_name: nowdoboss_redis  # 생성될 Docker 컨테이너의 이름을 지정합니다.
@@ -10,5 +11,16 @@ services:
     networks:
       - nowdoboss_redis_net  # 이 컨테이너가 연결될 네트워크. 이 네트워크 설정을 통해 다른 서비스와의 네트워크 분리 및 통신을 관리합니다.
 
+  # SonarQube 설정
+  nowdoboss_sonarqube:
+    image: image: sonarqube:latest  
+    container_name: nowdoboss_sonarqube  
+    restart: always  
+    ports:
+      - "9000:9000"  
+    networks:
+      - nowdoboss_sonarqube_net  # 이 컨테이너가 연결될 네트워크. 이 네트워크 설정을 통해 다른 서비스와의 네트워크 분리 및 통신을 관리합니다.
+
 networks:
-  nowdoboss_redis_net:  # 네트워크 설정 섹션. 사용할 도커 내부 네트워크를 정의하고 이름을 지정합니다.
+  nowdoboss_redis_net:
+  nowdoboss_sonarqube_net: 

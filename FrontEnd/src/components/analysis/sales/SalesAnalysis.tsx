@@ -1,3 +1,4 @@
+import { forwardRef, Ref } from 'react'
 import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
 import ExpectChart from '@src/components/analysis/sales/ExpectChart'
 import AgeChart from '@src/components/analysis/sales/AgeChart'
@@ -7,9 +8,9 @@ import WeekSalesChart from '@src/components/analysis/sales/WeekSalesChart'
 import WeekNumberChart from '@src/components/analysis/sales/WeekNumberChart'
 import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 
-const SalesAnalysis = () => {
+const SalesAnalysis = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
-    <>
+    <div ref={ref}>
       <CategoryTitleCard title="매출분석" />
       <s.FirstLowContainer>
         <ExpectChart />
@@ -23,8 +24,9 @@ const SalesAnalysis = () => {
         <WeekSalesChart />
         <WeekNumberChart />
       </s.ThirdLowContainer>
-    </>
+    </div>
   )
-}
+})
 
+SalesAnalysis.displayName = 'SalesAnalysis'
 export default SalesAnalysis

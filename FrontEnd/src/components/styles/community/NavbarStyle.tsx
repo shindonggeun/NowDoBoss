@@ -8,9 +8,9 @@ export const Container = styled.div`
   background-color: #f1f1f1;
   //  왼쪽에 띄울 크기
   width: 250px;
+  position: absolute;
   //width: 220px;
-  height: 120vh;
-  padding: 10px;
+  height: calc(100vh - 68px);
   @media only screen and (max-width: 992px) {
     display: flex;
     align-items: center;

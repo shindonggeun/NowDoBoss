@@ -28,8 +28,10 @@ export const CardContainer = styled.div`
   box-sizing: border-box;
   padding: 10px 20px;
   background: #ffffff;
-  border: 1px solid #d8d8d8;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  //border: 1px solid #d8d8d8;
+  //box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  border: 2px solid #2a65f0; /* 파란색 테두리 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 파란색 계열의 그림자 */
   border-radius: 8px;
 `
 export const IconImg = styled.img`

@@ -1,6 +1,7 @@
 import { customAxios } from '@src/util/auth/customAxios'
 import {
   LatLngDataType,
+  PromiseAdministrationType,
   PromiseCommercialDataType,
   PromiseDongDataType,
 } from '@src/types/MapType'
@@ -43,6 +44,16 @@ export const fetchAdministrationList = async (
 ): Promise<PromiseCommercialDataType> => {
   return customAxios
     .get(`/commercial/administration/${administrationCode}/areas`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 상권 코드 보내면 역으로 동 정보 받아오는 get api
+export const fetchDongInfo = async (
+  commercialCode: number,
+): Promise<PromiseAdministrationType> => {
+  return customAxios
+    .get(`/commercial/${commercialCode}`)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

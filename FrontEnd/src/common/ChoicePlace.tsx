@@ -336,6 +336,15 @@ const ChoicePlace = () => {
                   name: district.districtName,
                   code: district.districtCode,
                 })
+                // 하위 선택값 초기화
+                setSelectedAdministration({
+                  name: '행정동',
+                  code: 0,
+                })
+                setSelectedCommercial({
+                  name: '상권',
+                  code: 0,
+                })
                 setDropdownGooOpen(false)
               }}
             >
@@ -362,6 +371,11 @@ const ChoicePlace = () => {
                 setSelectedAdministration({
                   name: district.administrationCodeName,
                   code: district.administrationCode,
+                })
+                // 하위 선택값 초기화
+                setSelectedCommercial({
+                  name: '상권',
+                  code: 0,
                 })
                 setDropdownDongOpen(false)
               }}

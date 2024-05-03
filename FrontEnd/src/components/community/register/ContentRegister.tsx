@@ -10,8 +10,10 @@ import {
   communityCreate,
   communityModify,
   fetchCommunityDetail,
+  imageUpload,
 } from '@src/api/communityApi'
 import Swal from 'sweetalert2'
+import { ImageType } from '@src/types/CommunityType'
 
 interface ContentRegisterPropsType {
   modifyCommunityId: number
@@ -26,9 +28,13 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
   // 보여주기 위한 값
   const [outputCategoryValue, setOutputCategoryValue] =
     useState<string>('카테고리를 선택해주세요.')
-  // const [imageFilesValue, setImageFiles] = useState<File[]>([])
-
+  const [imageFileValue, setImageFile] = useState<File[]>([])
   const [imageViewValue, setImageViewValue] = useState<string[]>([])
+  const [imageUrl, setImageUrl] = useState<ImageType>({
+    imageId: null,
+    url: '',
+  })
+  const [clickAddImg, setClickAddImg] = useState<boolean>(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const categories = [
     { name: '이모저모', value: 'ETC' },
@@ -37,7 +43,9 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
     { name: '동업제안', value: 'PARTNERSHIP' },
     { name: '창업고민', value: 'START_UP' },
   ]
+
   const [isValid, setIsValid] = useState<boolean>(false)
+
   useEffect(() => {
     if (titleValue && contentValue && selectedCategoryValue) {
       setIsValid(true)
@@ -46,18 +54,30 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
     }
   }, [titleValue, contentValue, selectedCategoryValue])
 
+  // 사용자 이름 불러오는 로직
+  const [userId, setUserId] = useState(0)
+  useEffect(() => {
+    const userInfo = window.localStorage.getItem('memberInfo')
+    if (userInfo) {
+      const user = JSON.parse(userInfo)
+      setUserId(user.id)
+    }
+  }, [])
   // 수정 페이지에서 쓸 데이터 요청
   const { data } = useQuery({
     queryKey: ['communityDetail', modifyCommunityId],
     queryFn: () => fetchCommunityDetail(modifyCommunityId),
     enabled: !!modifyCommunityId,
   })
-
   useEffect(() => {
     if (data && modifyCommunityId) {
       setTitleValue(data.dataBody.title)
       setContentValue(data.dataBody.content)
       setSelectedCategoryValue(data.dataBody.category)
+      setImageUrl({
+        imageId: data.dataBody.images[0].imageId,
+        url: data.dataBody.images[0].url,
+      })
     }
   }, [modifyCommunityId, data])
 
@@ -66,10 +86,7 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
     mutationKey: ['communityCreateForm'],
     mutationFn: communityCreate,
     onSuccess() {
-      navigate(`/community`)
-    },
-    onError() {
-      console.log('에러남')
+      navigate(`/community/list`)
     },
   })
 
@@ -99,19 +116,81 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
         title: '게시글이 수정되었습니다.',
       })
     },
-    onError() {
-      console.log('에러남')
+  })
+
+  // 이미지 업로드 후 url 받아오는 로직
+  const { mutate: mutateImageUpload } = useMutation({
+    mutationKey: ['mutateImageUpload'],
+    mutationFn: imageUpload,
+    onSuccess: res => {
+      if (!res.dataBody) {
+        throw new Error('No dataBody returned from the response')
+      }
+      setImageUrl({
+        imageId: null,
+        url: res.dataBody,
+      })
+
+      try {
+        if (modifyCommunityId === 0) {
+          const ArticleData = {
+            title: titleValue,
+            content: contentValue,
+            category: selectedCategoryValue,
+            images: [res.dataBody],
+          }
+          mutateCreateForm(ArticleData)
+        } else {
+          const ModifyData = {
+            communityId: modifyCommunityId,
+            data: {
+              title: titleValue,
+              content: contentValue,
+              images: [{ imageId: null, url: res.dataBody }],
+              // images: [res.dataBody],
+            },
+          }
+          mutateModifyForm(ModifyData)
+        }
+      } catch {
+        /* empty */
+      }
     },
   })
 
+  const handleUploadImg = () => {
+    const today = new Date()
+    // ISO 문자열을 원하는 형식으로 변환
+    const formattedDate = today
+      .toISOString()
+      .replace(/-|:|\..*|T/g, '')
+      .slice(2, 14)
+    const formData: FormData = new FormData()
+    const fileName = `${userId}-${formattedDate}`
+    formData.append('file', imageFileValue[0])
+    formData.append('fileName', fileName)
+
+    // 이미지 업로드중일 때
+    Swal.fire({
+      title: '게시글을 업로드중입니다.',
+      didOpen: () => {
+        Swal.showLoading()
+      },
+    })
+    mutateImageUpload(formData)
+  }
   const handleSubmit = () => {
+    // 이미지 업로드 하는 상황이라면
+    if (clickAddImg) {
+      handleUploadImg()
+    }
     // 수정하는 상황이 아니라면
-    if (modifyCommunityId === 0) {
+    else if (modifyCommunityId === 0) {
       const ArticleData = {
         title: titleValue,
         content: contentValue,
         category: selectedCategoryValue,
-        images: imageViewValue,
+        images: [imageUrl.url],
       }
       mutateCreateForm(ArticleData)
     } else {
@@ -121,7 +200,7 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
         data: {
           title: titleValue,
           content: contentValue,
-          images: imageViewValue,
+          images: [{ imageId: imageUrl.imageId, url: imageUrl.url }],
         },
       }
       mutateModifyForm(ArticleData)
@@ -197,6 +276,9 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
       <ImageUpload
         imageViewValue={imageViewValue}
         setImageView={setImageViewValue}
+        imageFileValue={imageFileValue}
+        setImageFile={setImageFile}
+        setClickAddImg={setClickAddImg}
       />
     </c.Container>
   )

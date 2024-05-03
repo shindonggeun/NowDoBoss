@@ -5,13 +5,16 @@ export type CommunityCreateDataType = {
   content: string
   images: string[]
 }
+
+export type ImageType = { imageId: number | null; url: string }
+
 // 게시글 수정 시 보내는 데이터 type
 export type CommunityModifyDataType = {
   communityId: number
   data: {
     title: string
     content: string
-    images: string[]
+    images: ImageType[]
   }
 }
 
@@ -75,4 +78,10 @@ export type CommentModifyDataType = {
   communityId: number
   commentId: number
   data: { content: string }
+}
+
+// 이미지 url promise type
+export type ImageUploadPromiseType = {
+  dataHeader: { successCode: number; resultCode: number; resultMessage: string }
+  dataBody: string
 }

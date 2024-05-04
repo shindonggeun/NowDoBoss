@@ -61,3 +61,20 @@ export interface DaumDataType {
   userSelectedType: string
   zonecode: string
 }
+
+// 프렌차이즈 검색 응답 type
+export interface FranchiseListType {
+  brandName: string
+  franchiseeId: number
+  serviceCode: string
+  serviceCodeName: string
+}
+
+export interface FranchiseDataBody {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: FranchiseListType[]
+}

@@ -131,12 +131,14 @@ interface StoreSizeState {
 interface SimulationState {
   step: number
   isFranchise: boolean | null
+  brandName: string | null
   category: string
   subCategory: string
   bulidingSize: number
   floor: string
   setStep: (step: number) => void
   setIsFranchise: (isFranchise: boolean | null) => void
+  setBrandName: (brandName: string | null) => void
   setCategory: (category: string) => void
   setSubCategory: (subCategory: string) => void
   setBulidingSize: (bulidingSize: number) => void
@@ -151,6 +153,8 @@ const useSimulationStore = create<SimulationState>(set => ({
   setStep: step => set({ step }),
   isFranchise: null,
   setIsFranchise: isFranchise => set({ isFranchise }),
+  brandName: null,
+  setBrandName: (brandName: string | null) => set({ brandName }),
   category: '',
   setCategory: category => set({ category }),
   subCategory: '',

@@ -23,7 +23,7 @@ public class MapServiceImpl implements MapService{
 
     @Override
     public MapResponse getCommercialAreaCoords(double ax, double ay, double bx, double by) throws Exception {
-        redisTemplate.delete("commercial");
+        //redisTemplate.delete("commercial");
         System.out.println("서비스임플안!");
         Map<String, Map<String, Object>> commercialCodes = new LinkedHashMap<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("commercial");
@@ -59,7 +59,7 @@ public class MapServiceImpl implements MapService{
 
     @Override
     public MapResponse getAdministrationAreaCoords(double ax, double ay, double bx, double by) throws Exception {
-        redisTemplate.delete("administration");
+        //redisTemplate.delete("administration");
         System.out.println("서비스임플안!");
         Map<String, Map<String, Object>> administrationCodes = new LinkedHashMap<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("administration");
@@ -95,7 +95,7 @@ public class MapServiceImpl implements MapService{
 
     @Override
     public MapResponse getDistrictAreaCoords(double ax, double ay, double bx, double by) throws Exception {
-        redisTemplate.delete("district");
+        //redisTemplate.delete("district");
         System.out.println("서비스임플안!");
         Map<String, Map<String, Object>> districtCodes= new LinkedHashMap<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("district");

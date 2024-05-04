@@ -1,4 +1,4 @@
-import * as c from '@src/containers/simulation/ReportStyle.tsx'
+import * as c from '@src/containers/simulation/ReportStyle'
 import LightIcon from '@src/assets/lightBulbIcon.svg'
 import useSimulationStore from '@src/stores/simulationStore'
 

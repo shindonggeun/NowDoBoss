@@ -101,4 +101,48 @@ public class StoreCommercialCustomRepositoryImpl implements StoreCommercialCusto
 
         return resultMap;
     }
+
+    @Override
+    public Map<String, Long> getAdministrationStoreByServiceCode(List<String> commercialCodes, String periodCode) {
+        // QStoreCommercial의 인스턴스 생성
+        QStoreCommercial storeCommercial = QStoreCommercial.storeCommercial;
+
+        // 쿼리 실행
+        List<Tuple> results = queryFactory
+                .select(storeCommercial.serviceCodeName, storeCommercial.totalStore.sum())
+                .from(storeCommercial)
+                .where(storeCommercial.periodCode.eq(periodCode)
+                        .and(storeCommercial.commercialCode.in(commercialCodes)))
+                .groupBy(storeCommercial.serviceCodeName)
+                .fetch();
+
+        // 결과를 Map으로 변환
+        Map<String, Long> resultMap = new HashMap<>();
+        for (Tuple result : results) {
+            resultMap.put(result.get(storeCommercial.serviceCodeName), result.get(storeCommercial.totalStore.sum()).longValue());
+        }
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, Long> getMyStoreByServiceCode(String commercialCode, String periodCode) {
+        // QStoreCommercial의 인스턴스 생성
+        QStoreCommercial storeCommercial = QStoreCommercial.storeCommercial;
+
+        // 쿼리 실행
+        List<Tuple> results = queryFactory
+                .select(storeCommercial.serviceCodeName, storeCommercial.totalStore.sum())
+                .from(storeCommercial)
+                .where(storeCommercial.periodCode.eq(periodCode)
+                        .and(storeCommercial.commercialCode.eq(commercialCode)))
+                .groupBy(storeCommercial.serviceCodeName)
+                .fetch();
+
+        // 결과를 Map으로 변환
+        Map<String, Long> resultMap = new HashMap<>();
+        for (Tuple result : results) {
+            resultMap.put(result.get(storeCommercial.serviceCodeName), result.get(storeCommercial.totalStore.sum()).longValue());
+        }
+        return resultMap;
+    }
 }

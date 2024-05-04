@@ -111,45 +111,49 @@ public class RecommendationServiceImpl implements RecommendationService{
                     StoreCommercialInfo storeCommercialInfo = new StoreCommercialInfo(myStores, (long) administrationStoresMap.get("administrationStores"), (long) otherStoresMap.get("otherStores"));
                     ClosedRateCommercialInfo closedRateCommercialInfo = new ClosedRateCommercialInfo(myClosedRate, (double) administrationStoresMap.get("administrationClosedRate"), (double) otherStoresMap.get("otherClosedRate"));
 
-                    RecommendationResponse recommendationResponse = new RecommendationResponse(dto.commercialCode(), areaCommercialRepository.findCommercialCodeNameByCommercialCode(dto.commercialCode()),salesCommercialInfo, footTrafficCommercialInfo, storeCommercialInfo, closedRateCommercialInfo);
-                    responses.add(recommendationResponse);
                     // 블루 오션
                     // 1. 해당 행정동의 상권들 리스트를 가지고 period_code가 20233이고 commercialCode가 저 리스트 안에 있는 serviceCode와 점포 개수 리스트 가져오기
                     // 2. 저 리스트 안에 있는 모든 serviceCode들에 대해 해당 commercialCode를 갖는 상권의 점포 수를 찾기. 만약 없으면 0으로
                     // 3. 각 서비스 업종에 대해 해당 상권이 차지하는 점포 수 비율을 구하고 비율이 낮은 top 5 가져오기
-//                    commercialCodes.add(dto.commercialCode());
-//                    Map<String, Long> totalMap = new LinkedHashMap<>();
-//                    Map<String, Long> myMap = new LinkedHashMap<>();
-//                    Map<String, Double> myRate = new LinkedHashMap<>();
-//                    for (String str: totalMap.keySet()){
-//                        if (myMap.containsKey(str)){
-//                            myRate.put(str, myMap.get(str).doubleValue() / totalMap.get(str) * 100);
-//                        } else {
-//                            myRate.put(str, 0.0);
-//                        }
-//                    }
-//                    // LinkedHashMap의 entrySet을 ArrayList로 변환
-//                    List<Map.Entry<String, Double>> list = new ArrayList<>(myRate.entrySet());
-//
-//                    // ArrayList를 값(value)을 기준으로 정렬
-//                    Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
-//                        public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
-//                            // 값(value)이 같은 경우 key를 기준으로 정렬
-//                            int valueComparison = o1.getValue().compareTo(o2.getValue());
-//                            if (valueComparison == 0) {
-//                                return o1.getKey().compareTo(o2.getKey());
-//                            }
-//                            return valueComparison;
-//                        }
-//                    });
-//
-//                    // 정렬된 ArrayList를 LinkedHashMap으로 다시 변환
-//                    Map<String, Double> sortedMyRate = new LinkedHashMap<>();
-//                    for (Map.Entry<String, Double> entry : list) {
-//                        sortedMyRate.put(entry.getKey(), entry.getValue());
-//                    }
+                    commercialCodes.add(dto.commercialCode());
+                    Map<String, Long> totalMap = storeCommercialRepository.getAdministrationStoreByServiceCode(commercialCodes, periodCode);
+                    Map<String, Long> myMap = storeCommercialRepository.getMyStoreByServiceCode(dto.commercialCode(), periodCode);
+                    Map<String, Double> myRate = new LinkedHashMap<>();
+                    for (String str: totalMap.keySet()){
+                        if (myMap.containsKey(str)){
+                            myRate.put(str, myMap.get(str).doubleValue() / totalMap.get(str) * 100);
+                        } else {
+                            myRate.put(str, 1.0 / (totalMap.get(str)+1.0) * 100);
+                        }
+                    }
+                    // LinkedHashMap의 entrySet을 ArrayList로 변환
+                    List<Map.Entry<String, Double>> list = new ArrayList<>(myRate.entrySet());
 
+                    // ArrayList를 값(value)을 기준으로 정렬
+                    Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
+                        public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
+                            // 값(value)이 같은 경우 key를 기준으로 정렬
+                            int valueComparison = o1.getValue().compareTo(o2.getValue());
+                            if (valueComparison == 0) {
+                                return o1.getKey().compareTo(o2.getKey());
+                            }
+                            return valueComparison;
+                        }
+                    });
 
+                    // 정렬된 ArrayList를 LinkedHashMap으로 다시 변환
+                    int c = 0;
+                    Map<String, Double> sortedMyRate = new LinkedHashMap<>();
+                    for (Map.Entry<String, Double> entry : list) {
+                        sortedMyRate.put(entry.getKey(), entry.getValue());
+                        c++;
+                        if (c == 10){
+                            break;
+                        }
+                    }
+
+                    RecommendationResponse recommendationResponse = new RecommendationResponse(dto.commercialCode(), areaCommercialRepository.findCommercialCodeNameByCommercialCode(dto.commercialCode()),salesCommercialInfo, footTrafficCommercialInfo, storeCommercialInfo, closedRateCommercialInfo, sortedMyRate);
+                    responses.add(recommendationResponse);
                 }
 
                 if (cnt == 3){

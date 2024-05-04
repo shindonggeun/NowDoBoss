@@ -33,7 +33,8 @@ export const FadeInContainer = styled.div`
 export const Container = styled.div`
   // 반응형으로?? 아니면 고정??
   //  width: 45vw;
-  width: 40rem;
+  width: 100%;
+  max-width: 40rem;
   height: 100vh;
   background-color: #fff;
   position: absolute;

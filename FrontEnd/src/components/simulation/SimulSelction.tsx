@@ -17,6 +17,7 @@ interface SimulSelctionProps {
 const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
   const {
     setIsFranchise,
+    setBrandName,
     setCategory,
     setSubCategory,
     setBulidingSize,
@@ -27,6 +28,7 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
 
   const resetButton = () => {
     setIsFranchise(null)
+    setBrandName(null)
     setCategory('')
     setSubCategory('')
     setBulidingSize(0)

@@ -37,7 +37,7 @@ export type Coord = [number, number, number]
 export type LatLng = { lat: number; lng: number }
 
 // 동 목록 데이터 body
-export type AdministrationBody = {
+export type DongBody = {
   administrationCodeName: string
   administrationCode: number
   centerLat: number
@@ -57,7 +57,7 @@ export type CommercialBody = {
 // 구 데이터 전달 후 동 목록 받아왔을 때의 promise type
 export type PromiseDongDataType = {
   dataHeader: DataHeaderType
-  dataBody: AdministrationBody
+  dataBody: DongBody
 }
 
 // 구 데이터 전달 후 동 목록 받아왔을 때의 promise type
@@ -66,13 +66,13 @@ export type PromiseCommercialDataType = {
   dataBody: CommercialBody
 }
 
-export type PromiseAdministrationBody = {
+export type PromiseDongBody = {
   administrationCodeName: string
   administrationCode: number
 }
 
 //  상권 코드 보내면 역으로 동 정보 받아왔을 때의 promise type
-export type PromiseAdministrationType = {
+export type PromiseDongType = {
   dataHeader: DataHeaderType
-  dataBody: PromiseAdministrationBody
+  dataBody: PromiseDongBody
 }

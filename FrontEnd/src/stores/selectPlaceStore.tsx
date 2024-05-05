@@ -1,47 +1,47 @@
-import districtData from '@src/datas/District.json'
+import dongsData from '@src/datas/District.json'
 import { create } from 'zustand'
-import { AdministrationBody, CommercialBody } from '@src/types/MapType'
+import { CommercialBody, DongBody } from '@src/types/MapType'
 
 // 행정구 코드, 이름 데이터 json 파일에서 불러오기
-const data = districtData
+const data = dongsData
 
 export type DistrictType = { name: string; code: number }
 
 export type SelectedPlaceStoreType = {
-  districtData: {
-    districtCode: number
-    districtName: string
-    districtCenter: number[]
+  goosData: {
+    gooCode: number
+    gooName: string
+    gooCenter: number[]
   }[]
-  selectedDistrict: DistrictType
-  setSelectedDistrict: (place: DistrictType) => void
-  selectedAdministration: DistrictType
-  setSelectedAdministration: (place: DistrictType) => void
+  selectedGoo: DistrictType
+  setSelectedGoo: (place: DistrictType) => void
+  selectedDong: DistrictType
+  setSelectedDong: (place: DistrictType) => void
   selectedCommercial: DistrictType
   setSelectedCommercial: (place: DistrictType) => void
   // 동 목록 저장
-  loadSelectedAdministration: AdministrationBody
-  setLoadSelectedAdministration: (list: AdministrationBody) => void
+  saveDongList: DongBody
+  setSaveDongList: (list: DongBody) => void
   // 상권 목록 저장
-  loadSelectedCommercial: CommercialBody
-  setLoadSelectedCommercial: (list: CommercialBody) => void
+  saveCommercialList: CommercialBody
+  setSaveCommercialList: (list: CommercialBody) => void
 }
 
 export const selectPlaceStore = create<SelectedPlaceStoreType>(set => ({
   // 선택한 행정구
-  selectedDistrict: { name: '행정구', code: 0 },
-  setSelectedDistrict: place => set({ selectedDistrict: place }),
+  selectedGoo: { name: '행정구', code: 0 },
+  setSelectedGoo: place => set({ selectedGoo: place }),
   // 선택한 행정동
-  selectedAdministration: { name: '행정동', code: 0 },
-  setSelectedAdministration: place => set({ selectedAdministration: place }),
+  selectedDong: { name: '행정동', code: 0 },
+  setSelectedDong: place => set({ selectedDong: place }),
   // 선택한 상권
   selectedCommercial: { name: '상권', code: 0 },
   // selectedCommercial: { name: '배화여자대학교(박노수미술관)', code: 3110008 },
   setSelectedCommercial: place => set({ selectedCommercial: place }),
   // 행정구 데이터 목록
-  districtData: data,
+  goosData: data,
   // 선택한 행정구에 속해있는 행정동 목록
-  loadSelectedAdministration: [
+  saveDongList: [
     {
       administrationCodeName: '',
       administrationCode: 0,
@@ -49,10 +49,9 @@ export const selectPlaceStore = create<SelectedPlaceStoreType>(set => ({
       centerLng: 0,
     },
   ],
-  setLoadSelectedAdministration: list =>
-    set({ loadSelectedAdministration: list }),
+  setSaveDongList: list => set({ saveDongList: list }),
   // 선택한 행정동에 속해있는 상권 목록
-  loadSelectedCommercial: [
+  saveCommercialList: [
     {
       commercialCode: 0,
       commercialCodeName: '',
@@ -62,7 +61,7 @@ export const selectPlaceStore = create<SelectedPlaceStoreType>(set => ({
       centerLng: 0,
     },
   ],
-  setLoadSelectedCommercial: list => set({ loadSelectedCommercial: list }),
+  setSaveCommercialList: list => set({ saveCommercialList: list }),
 }))
 
 export default selectPlaceStore

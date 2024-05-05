@@ -5,11 +5,13 @@ import SaveIcon from '@src/assets/saveMark.svg'
 import CompareIcon from '@src/assets/compare.svg'
 import Xmark from '@src/assets/xmark_solid_nomal.svg'
 import { useState } from 'react'
+import useSimulationStore from '@src/stores/simulationStore'
 
 interface HeaderType {
   onClose: () => void
 }
 const ReportHeader = ({ onClose }: HeaderType) => {
+  const { isFranchise, brandName } = useSimulationStore()
   const [isSaved, setIsSaved] = useState<boolean>(false)
 
   const onClickSave = () => {
@@ -19,7 +21,9 @@ const ReportHeader = ({ onClose }: HeaderType) => {
   return (
     <c.SelctionHeader>
       <c.HeaderLeft>
-        <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
+        <c.HeaderTitle>
+          {isFranchise ? brandName : ''} 창업 시뮬레이션
+        </c.HeaderTitle>
       </c.HeaderLeft>
       <c.HeaderRignt>
         <h.HeaderIcon onClick={onClickSave}>

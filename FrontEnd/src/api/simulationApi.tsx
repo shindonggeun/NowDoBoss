@@ -1,4 +1,5 @@
 import { customAxios } from '@src/util/auth/customAxios'
+import { SimulationDataType } from '@src/types/SimulationType'
 
 // export const fetchTopList = async () => {
 //   return customAxios
@@ -25,6 +26,17 @@ export const fetchFranchiseList = async (
   // console.log('==프렌차이즈 검색중==')
   return customAxios
     .get(`/simulation/franchisee?keyword=${keyword}&lastId=${lastId}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 시뮬레이션 레포트페이지 결과 받기
+export const reportCreate = async (data: SimulationDataType) => {
+  return customAxios
+    .post(`/simulation`, data, {
+      // headers: { 'Content-Type': 'multipart/form-data' },
+      headers: { 'Content-Type': 'application/json' },
+    })
     .then(res => res.data)
     .catch(err => console.log(err))
 }

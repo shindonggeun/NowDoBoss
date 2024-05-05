@@ -1,10 +1,12 @@
 import * as c from '@src/containers/simulation/ReportStyle'
 import LightIcon from '@src/assets/lightBulbIcon.svg'
 import useSimulationStore from '@src/stores/simulationStore'
+import ReportStore from '@src/stores/reportStore'
 
 const reportSummary = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { subCategory, bulidingSize, floor } = useSimulationStore()
+  const { subCategoryName, bulidingSize, floor } = useSimulationStore()
+  const { query } = ReportStore()
 
   return (
     <c.Container>
@@ -29,8 +31,8 @@ const reportSummary = () => {
               ))}
             </c.BodyBottomLeft>
             <c.BodyBottomRight>
-              <c.BottomText>종로구 부암동</c.BottomText>
-              <c.BottomText>{subCategory}</c.BottomText>
+              <c.BottomText>{query.split('서울특별시')}</c.BottomText>
+              <c.BottomText>{subCategoryName}</c.BottomText>
               <c.BottomText>{bulidingSize}㎡</c.BottomText>
               <c.BottomText>{floor}</c.BottomText>
             </c.BodyBottomRight>

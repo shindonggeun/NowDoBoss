@@ -6,7 +6,8 @@ interface Step4Props {
 }
 
 const SelectionStep4 = ({ nextStep }: Step4Props) => {
-  const { category, subCategory, setSubCategory } = useSimulationStore()
+  const { category, subCategoryName, setSubCategoryName, setSubCategoryCode } =
+    useSimulationStore()
 
   return (
     <c.Container>
@@ -20,10 +21,11 @@ const SelectionStep4 = ({ nextStep }: Step4Props) => {
             size="sm"
             type="button"
             onClick={() => {
-              setSubCategory(subCat.name)
+              setSubCategoryName(subCat.name)
+              setSubCategoryCode(subCat.code)
               nextStep()
             }}
-            selected={subCategory === subCat.name}
+            selected={subCategoryName === subCat.name}
           >
             {subCat.name}
           </c.SelectButton>

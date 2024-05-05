@@ -5,20 +5,24 @@ import useSimulationStore, {
   BuildingData,
   SubCategoryItem,
 } from '@src/stores/simulationStore'
-import { useQuery } from '@tanstack/react-query'
+import useReportStore from '@src/stores/reportStore'
+
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { StoreSizeDataBody } from '@src/types/SimulationType'
-import { fetchStoreSize } from '@src/api/simulationApi'
+import {
+  SimulationDataType,
+  StoreSizeDataBody,
+} from '@src/types/SimulationType'
+import { fetchStoreSize, reportCreate } from '@src/api/simulationApi'
 
-interface Step5Props {
-  nextStep: () => void
-}
-
-const SelectionStep5 = ({ nextStep }: Step5Props) => {
+const SelectionStep5 = () => {
   const navigate = useNavigate()
   const {
+    isFranchise,
+    brandName,
     category,
-    subCategory,
+    subCategoryName,
+    subCategoryCode,
     bulidingSize,
     setBulidingSize,
     floor,
@@ -26,9 +30,10 @@ const SelectionStep5 = ({ nextStep }: Step5Props) => {
     updateStoreSize,
     setUpdateStoreSize,
   } = useSimulationStore()
+  const { sigungu } = useReportStore()
 
   const categoryObj: SubCategoryItem | undefined = subCategories[category].find(
-    target => target.name === subCategory,
+    target => target.name === subCategoryName,
   )
   const categoryCode = categoryObj ? categoryObj.code : ''
 
@@ -45,11 +50,37 @@ const SelectionStep5 = ({ nextStep }: Step5Props) => {
       setUpdateStoreSize(data?.dataBody)
       respons = data.dataBody
     }
-  }, [refetch, subCategory])
+  }, [refetch, subCategoryName])
+
+  // 레포트 생성
+  const { mutate: mutateCreateReport } = useMutation({
+    mutationFn: reportCreate,
+    onSuccess: () => {
+      navigate('/simulation/report')
+    },
+    onError: error => {
+      console.error(error)
+    },
+  })
 
   const goReportPage = () => {
-    nextStep()
-    navigate('/simulation/report')
+    const location = {
+      sido: '',
+      gugun: sigungu,
+      dong: '',
+    }
+    const reportCreateData: SimulationDataType = {
+      isFranchisee: isFranchise,
+      brandName,
+      location,
+      serviceCode: subCategoryCode,
+      serviceCodeName: subCategoryName,
+      storeSize: bulidingSize,
+      floor,
+    }
+    console.log(reportCreateData)
+    // const requestData = JSON.stringify(reportCreateData)
+    mutateCreateReport(reportCreateData)
   }
 
   return (

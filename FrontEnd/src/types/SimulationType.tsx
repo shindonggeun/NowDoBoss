@@ -78,3 +78,18 @@ export interface FranchiseDataBody {
   }
   dataBody: FranchiseListType[]
 }
+
+// 시뮬레이션 레포트 요청 데이터 타입
+export interface SimulationDataType {
+  isFranchisee: boolean | null
+  brandName: string | null
+  location: {
+    sido: string
+    gugun: string
+    dong: string
+  }
+  serviceCode: string
+  serviceCodeName: string
+  storeSize: number
+  floor: string
+}

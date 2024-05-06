@@ -60,7 +60,7 @@ export const SelctionHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   background-color: #236cff;
   padding: 1rem 2rem;
 

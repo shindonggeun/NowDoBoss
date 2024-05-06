@@ -19,6 +19,7 @@ export const TopListContainer = styled.div`
 
 interface ItemProps {
   isLast: boolean
+  index: number
 }
 
 export const Item = styled.div<ItemProps>`
@@ -29,6 +30,18 @@ export const Item = styled.div<ItemProps>`
   padding-bottom: 5px;
   border-bottom: ${props => (props.isLast ? 'none' : '1px solid #ABC4E9')};
   font-size: 0.9rem;
+  animation: fadeInItem 0.2s ease-in-out ${props => props.index * 0.1}s forwards;
+
+  @keyframes fadeInItem {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `
 
 export const ItemLeft = styled.div`
@@ -47,7 +60,7 @@ export const ItemRight = styled.div`
 export const NarrowIcon = styled.img`
   width: 1rem;
   margin: 5px 10px;
-  cursor: 'pointer';
+  cursor: pointer;
 `
 
 export const Rank = styled.div`

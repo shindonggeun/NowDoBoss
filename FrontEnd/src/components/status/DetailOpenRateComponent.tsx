@@ -1,7 +1,7 @@
 import { DetailDataBody } from '@src/types/StatusType'
 
 interface DetailOpenRateProps {
-  props: DetailDataBody | undefined
+  props: DetailDataBody
 }
 
 const DetailOpenRateComponent = ({ props }: DetailOpenRateProps) => {

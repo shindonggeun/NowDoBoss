@@ -38,8 +38,11 @@ const StatusDetailbarComponent = ({
     refetch()
   }, [refetch, regionCode])
 
-  console.log(regionCode)
-  const DeatilData = data?.dataBody
+  let DeatilData: any = null
+  if (data) {
+    DeatilData = data.dataBody
+  }
+
   const categories = useMemo(
     () => [
       {
@@ -68,13 +71,14 @@ const StatusDetailbarComponent = ({
         component: DetailCommercialComponent,
       },
     ],
-    [regionCode],
+    [],
   )
 
   const onClickActiveTab = (tab: string) => {
     setActiveTab(tab)
   }
 
+  // 사이드바 바깥 클릭 시 닫힘
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -92,6 +96,7 @@ const StatusDetailbarComponent = ({
     }
   }, [onClickRegionHandler])
 
+  // 탭 클릭시 화면 부드럽게 내리기
   useEffect(() => {
     const index = categories.findIndex(category => category.name === activeTab)
     scrollRef.current[index]?.scrollIntoView({ behavior: 'smooth' })
@@ -139,7 +144,7 @@ const StatusDetailbarComponent = ({
       </c.FixedCategoryBar>
       {!isLoading && data ? (
         <>
-          <p>선택한 지역구 코드: {regionCode} </p>
+          {/* <p>선택한 지역구 코드: {regionCode} </p> */}
           {categories.map((category, index) => (
             <div key={index}>
               <c.SeparateLine />

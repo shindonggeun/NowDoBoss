@@ -7,8 +7,8 @@ type StatusPolygonProps = {
   tab: number | null
   selectedRegion: string | null
   TopLists: TopList
-  onClickRegionHandler: any
-  onClickRegionCodeHandler: any
+  onClickRegionHandler: (data: string | null) => void
+  onClickRegionCodeHandler: (data: number) => void
 }
 
 const StatusPolygonComponent = ({

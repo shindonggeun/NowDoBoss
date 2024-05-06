@@ -2,7 +2,7 @@ import * as c from '@src/components/styles/status/DeatilComponentStyle'
 import { DetailDataBody } from '@src/types/StatusType'
 import AreaChart from '@src/common/AreaChart'
 import BarChart2 from '@src/common/BarChart2'
-import DoughnutChart from '@src/common/DoughnutChart.tsx'
+import PieChart from '@src/common/PieChart'
 
 interface DetailPopulationProps {
   props: DetailDataBody
@@ -74,10 +74,10 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
         <c.AnalysiEemphasis>{}</c.AnalysiEemphasis>
         입니다
       </c.AnalysisSubTitle>
-      <DoughnutChart
-        labels={['여성', '남성']}
+      <PieChart
+        labels={['남성', '여성']}
         value={[GenderData.male, GenderData.female]}
-        textCenter="test"
+        // textCenter="test"
       />
 
       <c.AnalysisTitle>연령별 유동인구</c.AnalysisTitle>

@@ -46,7 +46,7 @@ export const ReduceBtnWrap = styled.div`
 
 export const ReduceBtn = styled.div`
   background-color: #f2f2f2;
-  border: 2px solid #d9d9d9;
+  border: 1px solid #d9d9d9;
   margin: 10px 0;
   border-radius: 5px;
   width: 50px;

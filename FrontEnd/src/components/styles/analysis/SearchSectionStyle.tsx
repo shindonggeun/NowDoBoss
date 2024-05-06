@@ -12,7 +12,6 @@ export const Header = styled.div``
 export const ContentSlide = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
   padding: 5px 10px;
   box-sizing: border-box;
   background-color: #ffffff;

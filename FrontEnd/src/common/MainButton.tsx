@@ -6,17 +6,18 @@ const Container = styled.div`
 `
 const Content = styled.div`
   padding: 8px;
-  color: white;
+  color: #ffffff;
   text-align: center;
-  font-size: 1.2rem;
-  font-weight: 600;
-  border-radius: 10px;
-  margin: 20px;
-  background-color: #236cff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 5px;
+  margin: 10px;
+  background-color: #2a65f0;
 
   &:active {
-    background-color: #0051ff;
+    background-color: #2a65f0;
   }
+
   &:hover {
     cursor: pointer;
   }

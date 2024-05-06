@@ -2,20 +2,15 @@ import styled from 'styled-components'
 import bookMark from '@src/assets/bookmark.svg'
 
 const Header = styled.div<{ $isOpen: boolean }>`
-  //background-color: #236cff;
-  background-color: #f2f2f2;
-  color: #000000;
-  font-size: 1.5rem;
-  font-weight: 500;
-  padding: 10px 10px 5px 20px;
-  border-top-right-radius: 14px;
-  border-top-left-radius: 14px;
-  border-bottom-left-radius: ${props => (props.$isOpen ? '' : '14px')};
-  border-bottom-right-radius: ${props => (props.$isOpen ? '' : '14px')};
-  border-bottom: ${props => (props.$isOpen ? '2px solid #d9d9d9' : '')};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 10px 10px 5px 20px;
+  border: ${props => (props.$isOpen ? '' : '2px solid #236cff')};
+  border-bottom: ${props => (props.$isOpen ? '2px solid #d9d9d9' : '')};
+  border-radius: ${props => (props.$isOpen ? '0' : '5px')};
+  background-color: ${props => (props.$isOpen ? '#f2f2f2' : '#236cff')};
+  color: ${props => (props.$isOpen ? '#000000' : '#ffffff')};
 
   @media only screen and (max-width: 400px) {
   }

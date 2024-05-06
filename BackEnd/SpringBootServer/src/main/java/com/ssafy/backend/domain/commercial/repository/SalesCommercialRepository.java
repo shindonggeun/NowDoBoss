@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface SalesCommercialRepository extends JpaRepository<SalesCommercial, Long> {
+
+public interface SalesCommercialRepository extends JpaRepository<SalesCommercial, Long>, SalesCommercialCustomRepository {
 
     @Query(value = "SELECT DISTINCT sc.service_code as serviceCode, sc.service_code_name as serviceCodeName " +
             "FROM sales_commercial sc " +

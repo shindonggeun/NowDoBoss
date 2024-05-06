@@ -1,7 +1,7 @@
 import { SearchSectionPropsType } from '@src/types/AnalysisType'
 import SidebarHeader from '@src/common/SidebarHeader'
 import ChoicePlace from '@src/common/ChoicePlace'
-import ChoiceService from '@src/components/ChoiceService'
+import ChoiceService from '@src/components/analysis/ChoiceService'
 import MainButton from '@src/common/MainButton'
 import * as s from '@src/components/styles/analysis/SearchSectionStyle'
 

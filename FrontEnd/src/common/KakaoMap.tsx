@@ -1,12 +1,12 @@
 import useKakaoLoader from '@src/hooks/useKakaoLoader'
 import { CustomOverlayMap, Map, Polygon } from 'react-kakao-maps-sdk'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   DataBodyType,
   LatLng,
   LatLngDataType,
-  PromiseAdministrationType,
   PromiseDataType,
+  PromiseDongType,
   RemakeType,
 } from '@src/types/MapType'
 import {
@@ -106,7 +106,7 @@ const KakaoMap = () => {
     },
   })
   // 상권 코드 보내고 해당하는 행정동 코드, 이름 받아오기
-  const { data: DongData } = useQuery<PromiseAdministrationType>({
+  const { data: DongData } = useQuery<PromiseDongType>({
     queryKey: ['fetchAdministration', commercialCode],
     queryFn: async () => {
       return fetchDongInfo(commercialCode)
@@ -139,15 +139,15 @@ const KakaoMap = () => {
 
   // store에 저장된 구 데이터와 선택한 구, 동, 상권 값 가져올 store
   const {
-    districtData,
-    selectedDistrict,
-    selectedAdministration,
+    goosData,
+    selectedGoo,
+    selectedDong,
     selectedCommercial,
-    setSelectedDistrict,
-    setSelectedAdministration,
+    setSelectedGoo,
+    setSelectedDong,
     setSelectedCommercial,
-    loadSelectedAdministration,
-    loadSelectedCommercial,
+    saveDongList,
+    saveCommercialList,
   } = useSelectPlaceStore()
 
   // 불러온 데이터 재가공한 값을 loadData에 저장시키는 로직
@@ -156,24 +156,24 @@ const KakaoMap = () => {
       const newData = parsePolygonData(data.dataBody)
       setLoadData(newData)
     }
-  }, [data, selectedDistrict, selectedAdministration, selectedCommercial])
+  }, [data, selectedGoo, selectedDong, selectedCommercial])
 
   // 코드길이 5 : 구, 8 : 동, 7 : 상권
   // 행정구의 상태가 변했을 때만 실행되는 useEffect
   useEffect(() => {
     // 코드길이 5인 경우만 처리 (행정구)
-    if (String(districtData[0]?.districtCode).length === 5) {
-      districtData.forEach(district => {
+    if (String(goosData[0]?.gooCode).length === 5) {
+      goosData.forEach(goo => {
         // 선택한 행정구를 받아온 데이터와 비교해서 일치하는 값 찾기
-        if (district.districtName === selectedDistrict.name && mapRef.current) {
+        if (goo.gooName === selectedGoo.name && mapRef.current) {
           const mapData = mapRef.current
           // 현재 지도 level 6으로 만들어, 줌인
           mapData.setLevel(6)
 
           // 중심좌표 LatLng 타입으로 생성
           const moveLatLng = new kakao.maps.LatLng(
-            district.districtCenter[1],
-            district.districtCenter[0],
+            goo.gooCenter[1],
+            goo.gooCenter[0],
           )
           // 현재 중심좌표로 할당
           mapData.setCenter(moveLatLng)
@@ -192,18 +192,16 @@ const KakaoMap = () => {
         }
       })
     }
-  }, [districtData, selectedDistrict])
+  }, [goosData, selectedGoo])
 
   // 행정동의 상태가 변했을 때만 실행되는 useEffect
   useEffect(() => {
     // 코드길이 5인 경우만 처리 (행정구)
-    if (
-      String(loadSelectedAdministration[0]?.administrationCode).length === 8
-    ) {
-      loadSelectedAdministration.forEach(district => {
+    if (String(saveDongList[0]?.administrationCode).length === 8) {
+      saveDongList.forEach(district => {
         // 선택한 행정동을 받아온 데이터와 비교해서 일치하는 값 찾기
         if (
-          district.administrationCodeName === selectedAdministration.name &&
+          district.administrationCodeName === selectedDong.name &&
           mapRef.current
         ) {
           const mapData = mapRef.current
@@ -232,13 +230,13 @@ const KakaoMap = () => {
         }
       })
     }
-  }, [districtData, loadSelectedAdministration, selectedAdministration])
+  }, [goosData, saveDongList, selectedDong])
 
   // 상권의 상태가 변했을 때만 실행되는 useEffect
   useEffect(() => {
     // 코드길이 7인 경우만 처리 (상권)
-    if (String(loadSelectedCommercial[0]?.commercialCode).length === 7) {
-      loadSelectedCommercial.forEach(district => {
+    if (String(saveCommercialList[0]?.commercialCode).length === 7) {
+      saveCommercialList.forEach(district => {
         // 선택한 상권을 받아온 데이터와 비교해서 일치하는 값 찾기
         if (
           district.commercialCodeName === selectedCommercial.name &&
@@ -271,39 +269,42 @@ const KakaoMap = () => {
         }
       })
     }
-  }, [loadSelectedAdministration, loadSelectedCommercial, selectedCommercial])
+  }, [saveDongList, saveCommercialList, selectedCommercial])
 
   useEffect(() => {
     refetch()
-  }, [selectedDistrict, selectedAdministration, selectedCommercial, refetch])
+  }, [selectedGoo, selectedDong, selectedCommercial, refetch])
 
   // 행정동 코드 입력 시 행정구 코드, 이름 찾아서 저장
-  const ReCallBeforeData = (code: number) => {
-    // 행정동의 8자리 코드 중 5자리 추출
-    const slicedCode = String(code).slice(0, 5)
-    // districtData 배열에서 조건에 맞는 항목 찾기
-    const foundDistrict = districtData.find(
-      district => district.districtCode === Number(slicedCode),
-    )
-    // 행정동 8코드의 앞 5자리는 속한 행정구라서, 행정구 정보 찾아서 store에 저장해서 드롭다운 갱신
-    if (foundDistrict) {
-      setSelectedDistrict({
-        name: foundDistrict.districtName,
-        code: foundDistrict.districtCode,
-      })
-    }
-  }
+  const ReCallBeforeData = useCallback(
+    (code: number) => {
+      // 행정동의 8자리 코드 중 5자리 추출
+      const slicedCode = String(code).slice(0, 5)
+      // districtData 배열에서 조건에 맞는 항목 찾기
+      const foundDistrict = goosData.find(
+        district => district.gooCode === Number(slicedCode),
+      )
+      // 행정동 8코드의 앞 5자리는 속한 행정구라서, 행정구 정보 찾아서 store에 저장해서 드롭다운 갱신
+      if (foundDistrict) {
+        setSelectedGoo({
+          name: foundDistrict.gooName,
+          code: foundDistrict.gooCode,
+        })
+      }
+    },
+    [goosData, setSelectedGoo],
+  )
 
   // 동 데이터 갱신되면 구, 동 정보 저장
   useEffect(() => {
     if (commercialCode !== 0 && DongData) {
       ReCallBeforeData(DongData.dataBody.administrationCode)
-      setSelectedAdministration({
+      setSelectedDong({
         name: DongData.dataBody.administrationCodeName,
         code: DongData.dataBody.administrationCode,
       })
     }
-  }, [DongData, commercialCode])
+  }, [DongData, ReCallBeforeData, commercialCode, setSelectedDong])
 
   return (
     <div>
@@ -367,12 +368,12 @@ const KakaoMap = () => {
                       // level이 6보다 크면 행정구 선택하는 화면이 뜹니다.
                       // 행정구 선택 시 선택한 이름, 코드를 저장해서 드롭다운에 띄우는 로직입니다.
                       if (level > 6) {
-                        setSelectedDistrict({
+                        setSelectedGoo({
                           name: code.name,
                           code: code.code,
                         })
                         // 구 다시 선택하면 동, 상권은 초기화시키는 로직
-                        setSelectedAdministration({
+                        setSelectedDong({
                           name: '행정동',
                           code: 0,
                         })
@@ -383,7 +384,7 @@ const KakaoMap = () => {
                         // level 6,5이면 행정동 선택하는 화면
                         // 선택한 행정동 store에 저장해서 드롭다운 갱신
                       } else if (level > 4) {
-                        setSelectedAdministration({
+                        setSelectedDong({
                           name: code.name,
                           code: code.code,
                         })

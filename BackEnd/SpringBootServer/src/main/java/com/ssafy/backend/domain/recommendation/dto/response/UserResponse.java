@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.recommendation.dto;
+package com.ssafy.backend.domain.recommendation.dto.response;
 
 public record UserResponse(
         String commercialCode,

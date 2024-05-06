@@ -17,16 +17,19 @@ public class GenderAndAgeAnalysisInfo {
     // 여성 매출 금액 비율
     private Float femaleSalesPercent;
     // 1위 연령대
-    private String first;
+//    private String first;
+    private Age first;
 
     // 2위 연령대
-    private String second;
+//    private String second;
+    private Age second;
 
     // 3위 연령대
-    private String third;
+//    private String third;
+    private Age third;
 
     @Builder
-    private GenderAndAgeAnalysisInfo(Float maleSalesPercent, Float femaleSalesPercent, String first, String second, String third) {
+    private GenderAndAgeAnalysisInfo(Float maleSalesPercent, Float femaleSalesPercent, Age first, Age second, Age third) {
         this.maleSalesPercent = maleSalesPercent;
         this.femaleSalesPercent = femaleSalesPercent;
         this.first = first;
@@ -42,9 +45,9 @@ public class GenderAndAgeAnalysisInfo {
         return GenderAndAgeAnalysisInfo.builder()
                 .maleSalesPercent((float) salesDistrict.getMaleSales() / totalSexSales * 100)
                 .femaleSalesPercent((float) salesDistrict.getFemaleSales() / totalSexSales * 100)
-                .first(ages.get(0).name)
-                .second(ages.get(1).name)
-                .third(ages.get(2).name)
+                .first(ages.get(0))
+                .second(ages.get(1))
+                .third(ages.get(2))
                 .build();
     }
 
@@ -59,6 +62,8 @@ public class GenderAndAgeAnalysisInfo {
         return ages;
     }
 
+    @Getter
+    @NoArgsConstructor
     private static class Age implements Comparable<Age> {
         private Long sales;
         private String name;

@@ -1,9 +1,9 @@
 import { customAxios } from '@src/util/auth/customAxios'
 import {
   LatLngDataType,
-  PromiseAdministrationType,
   PromiseCommercialDataType,
   PromiseDongDataType,
+  PromiseDongType,
 } from '@src/types/MapType'
 import queryString from 'query-string'
 
@@ -51,7 +51,7 @@ export const fetchAdministrationList = async (
 // 상권 코드 보내면 역으로 동 정보 받아오는 get api
 export const fetchDongInfo = async (
   commercialCode: number,
-): Promise<PromiseAdministrationType> => {
+): Promise<PromiseDongType> => {
   return customAxios
     .get(`/commercial/${commercialCode}`)
     .then(res => res.data)

@@ -110,7 +110,7 @@ public class SimulationServiceImpl implements SimulationService {
         ServiceType serviceType = serviceRepository.findByServiceCode(request.serviceCode())
                 .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_SERVICE));
 
-        Rent rent = rentRepository.findByDistrictCodeName(request.location().gugun())
+        Rent rent = rentRepository.findByDistrictCodeName(request.gugun())
                 .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_SERVICE));
 
         long totalPrice = calculateTotalRentalCosts(rent, request.storeSize(), request.floor());
@@ -153,10 +153,10 @@ public class SimulationServiceImpl implements SimulationService {
         //////////////////////////////////////////////////////////// 분석
 
         // 성별, 연령대 분석
-        GenderAndAgeAnalysisInfo analysisInfo = analyzeGenderAndAge(request.location().gugun(), request.serviceCode());
+        GenderAndAgeAnalysisInfo analysisInfo = analyzeGenderAndAge(request.gugun(), request.serviceCode());
 
         // 성수기, 비성수기 분석
-        MonthAnalysisInfo monthAnalysisInfo = analyzePeakAndOffPeak(request.location().gugun(), request.serviceCode());
+        MonthAnalysisInfo monthAnalysisInfo = analyzePeakAndOffPeak(request.gugun(), request.serviceCode());
 
         //////////////////////////////////////////////////////////// 프랜차이즈 상위 5개 비교
         // 비용 >> 보증금 + 임대료 + 아래 내용

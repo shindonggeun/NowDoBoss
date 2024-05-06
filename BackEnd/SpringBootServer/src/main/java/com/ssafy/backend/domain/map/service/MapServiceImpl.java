@@ -11,6 +11,7 @@ import org.json.simple.parser.JSONParser;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
@@ -22,7 +23,7 @@ public class MapServiceImpl implements MapService{
 
     @Override
     public MapResponse getCommercialAreaCoords(double ax, double ay, double bx, double by) throws Exception {
-        redisTemplate.delete("commercial");
+        //redisTemplate.delete("commercial");
         System.out.println("서비스임플안!");
         Map<String, Map<String, Object>> commercialCodes = new LinkedHashMap<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("commercial");
@@ -58,7 +59,7 @@ public class MapServiceImpl implements MapService{
 
     @Override
     public MapResponse getAdministrationAreaCoords(double ax, double ay, double bx, double by) throws Exception {
-        redisTemplate.delete("administration");
+        //redisTemplate.delete("administration");
         System.out.println("서비스임플안!");
         Map<String, Map<String, Object>> administrationCodes = new LinkedHashMap<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("administration");
@@ -94,7 +95,7 @@ public class MapServiceImpl implements MapService{
 
     @Override
     public MapResponse getDistrictAreaCoords(double ax, double ay, double bx, double by) throws Exception {
-        redisTemplate.delete("district");
+        //redisTemplate.delete("district");
         System.out.println("서비스임플안!");
         Map<String, Map<String, Object>> districtCodes= new LinkedHashMap<>();
         Map<String, List<List<Double>>> coordsMap = (Map<String, List<List<Double>>>) redisTemplate.opsForValue().get("district");
@@ -160,7 +161,7 @@ public class MapServiceImpl implements MapService{
         }
 
         // Redis에 상권 코드별로 정렬된 좌표 저장
-        redisTemplate.opsForValue().set(type, allCoords);
+        redisTemplate.opsForValue().set(type, allCoords, 7, TimeUnit.DAYS);
     }
 
     private List<List<Double>> filterCoordsByRange(List<List<Double>> coords, double minLng, double maxLng, double minLat, double maxLat) {
@@ -186,114 +187,4 @@ public class MapServiceImpl implements MapService{
 
         return longitudeFiltered.subList(lowYIndex, highYIndex);
     }
-
-//    @Override
-//    public MapResponse getAdministrations(double ax, double ay, double bx, double by) throws Exception {
-//        JSONParser parser = new JSONParser();
-//        Reader reader = new FileReader("src/main/resources/area/administration.json");
-//        Map<String, List<Double>> map = new LinkedHashMap<>();
-//        List<String> list = new ArrayList<>();
-//        JSONArray dataArray = (JSONArray) parser.parse(reader);
-//        Map<String, List<List<Double>>> allCoords = new LinkedHashMap<>();
-//
-//        for (Object element : dataArray) {
-//            JSONObject dto = (JSONObject) element;
-//            String dtoCodeName = (String) dto.get("administration_code_name");
-//            JSONArray areaCoords = (JSONArray) dto.get("area_coords");
-//            List<List<Double>> coords = new ArrayList<>();
-//
-//            for (Object coordObject : areaCoords) {
-//                JSONArray coordArray = (JSONArray) coordObject;
-//                double x = ((Number) coordArray.get(0)).doubleValue();
-//                double y = ((Number) coordArray.get(1)).doubleValue();
-//                coords.add(Arrays.asList(x, y));
-//            }
-//            JSONArray center = (JSONArray) dto.get("center_coords");
-//            double x = ((Number) center.get(0)).doubleValue();
-//            double y = ((Number) center.get(1)).doubleValue();
-//            System.out.println(x + " " + y);
-//            if (x >= ax && x <= bx && y >= ay && y <= by){
-//                allCoords.put(dtoCodeName, coords);
-//                list.add(dtoCodeName);
-//                List<Double> l = new ArrayList<>();
-//                l.add(x);
-//                l.add(y);
-//                map.put(dtoCodeName, l);
-//            }
-//        }
-//        return new MapResponse(map, allCoords);
-//    }
-//
-//    @Override
-//    public MapResponse getCommercials(double ax, double ay, double bx, double by) throws Exception {
-//        JSONParser parser = new JSONParser();
-//        Reader reader = new FileReader("src/main/resources/area/commercial.json");
-//        Map<String, List<Double>> map = new LinkedHashMap<>();
-//        List<String> list = new ArrayList<>();
-//        JSONArray dataArray = (JSONArray) parser.parse(reader);
-//        Map<String, List<List<Double>>> allCoords = new LinkedHashMap<>();
-//
-//        for (Object element : dataArray) {
-//            JSONObject dto = (JSONObject) element;
-//            String dtoCodeName = (String) dto.get("commercial_code_name");
-//            JSONArray areaCoords = (JSONArray) dto.get("area_coords");
-//            List<List<Double>> coords = new ArrayList<>();
-//
-//            for (Object coordObject : areaCoords) {
-//                JSONArray coordArray = (JSONArray) coordObject;
-//                double x = ((Number) coordArray.get(0)).doubleValue();
-//                double y = ((Number) coordArray.get(1)).doubleValue();
-//                coords.add(Arrays.asList(x, y));
-//            }
-//            JSONArray center = (JSONArray) dto.get("center_coords");
-//            double x = ((Number) center.get(0)).doubleValue();
-//            double y = ((Number) center.get(1)).doubleValue();
-//            System.out.println(x + " " + y);
-//            if (x >= ax && x <= bx && y >= ay && y <= by){
-//                allCoords.put(dtoCodeName, coords);
-//                list.add(dtoCodeName);
-//                List<Double> l = new ArrayList<>();
-//                l.add(x);
-//                l.add(y);
-//                map.put(dtoCodeName, l);
-//            }
-//        }
-//        return new MapResponse(map, allCoords);
-//    }
-//@Override
-//public MapResponse getDistricts(double ax, double ay, double bx, double by) throws Exception {
-//    JSONParser parser = new JSONParser();
-//    Reader reader = new FileReader("src/main/resources/area/district.json");
-//    Map<String, List<Double>> map = new LinkedHashMap<>();
-//    List<String> list = new ArrayList<>();
-//    JSONArray dataArray = (JSONArray) parser.parse(reader);
-//    Map<String, List<List<Double>>> allCoords = new LinkedHashMap<>();
-//
-//    for (Object element : dataArray) {
-//        JSONObject dto = (JSONObject) element;
-//        String dtoCodeName = (String) dto.get("district_code_name");
-//        JSONArray areaCoords = (JSONArray) dto.get("area_coords");
-//        List<List<Double>> coords = new ArrayList<>();
-//
-//        for (Object coordObject : areaCoords) {
-//            JSONArray coordArray = (JSONArray) coordObject;
-//            double x = ((Number) coordArray.get(0)).doubleValue();
-//            double y = ((Number) coordArray.get(1)).doubleValue();
-//            coords.add(Arrays.asList(x, y));
-//        }
-//        JSONArray center = (JSONArray) dto.get("center_coords");
-//        double x = ((Number) center.get(0)).doubleValue();
-//        double y = ((Number) center.get(1)).doubleValue();
-//        System.out.println(x + " " + y);
-//        if (x >= ax && x <= bx && y >= ay && y <= by){
-//            allCoords.put(dtoCodeName, coords);
-//            list.add(dtoCodeName);
-//            List<Double> l = new ArrayList<>();
-//            l.add(x);
-//            l.add(y);
-//            map.put(dtoCodeName, l);
-//        }
-//    }
-//    return new MapResponse(map, allCoords);
-//}
 }

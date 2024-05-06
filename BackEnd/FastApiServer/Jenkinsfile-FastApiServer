@@ -38,16 +38,6 @@ pipeline {
                 }
             }
         }
-
-        stage('SonarQube Analysis - FastApiServer') {
-            steps {
-                dir('BackEnd/FastApiServer') {    
-                    withSonarQubeEnv('SonarQube Server') {
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew sonar -Dsonar.projectKey=nowdoboss'
-                    }
-                }
-            }
-        }
+        
     }
 }

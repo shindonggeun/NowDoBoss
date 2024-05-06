@@ -3,6 +3,8 @@ import { DetailDataBody } from '@src/types/StatusType'
 import AreaChart from '@src/common/AreaChart'
 import BarChart2 from '@src/common/BarChart2'
 import PieChart from '@src/common/PieChart'
+import Radar2Chart from '@src/common/Radar2Chart'
+import BarChart3 from '@src/common/BarChart3'
 
 interface DetailPopulationProps {
   props: DetailDataBody
@@ -36,10 +38,17 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
   const EndTime = PeakTime[1]
 
   const GenderData =
-    props!.footTrafficDistrictDetail.footTrafficDistrictListByGender.data
-  // const totalPopulation = GenderData.male + GenderData.female
-  // const malePercentage = (GenderData.male / totalPopulation) * 100
-  // const femalePercentage = (GenderData.female / totalPopulation) * 100
+    props!.footTrafficDistrictDetail.footTrafficDistrictListByGender
+
+  const AgeData = props!.footTrafficDistrictDetail.footTrafficDistrictListByAge
+  const AgeDataArray = Object.entries(AgeData.data).map(([key, value]) => ({
+    [key]: value,
+  }))
+
+  const DayData = props!.footTrafficDistrictDetail.footTrafficDistrictListByDay
+  const DayDataArray = Object.entries(DayData.data).map(([key, value]) => ({
+    [key]: value,
+  }))
 
   return (
     <>
@@ -71,21 +80,38 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
       <c.AnalysisTitle>성별 유동인구</c.AnalysisTitle>
       <c.AnalysisSubTitle>
         유동인구가 가장 많은 성별은
-        <c.AnalysiEemphasis>{}</c.AnalysiEemphasis>
+        <c.AnalysiEemphasis>
+          {GenderData.summary === 'female' ? ' 여성' : ' 남성'}
+        </c.AnalysiEemphasis>
         입니다
       </c.AnalysisSubTitle>
       <PieChart
         labels={['남성', '여성']}
-        value={[GenderData.male, GenderData.female]}
-        // textCenter="test"
+        value={[GenderData.data.male, GenderData.data.female]}
       />
 
       <c.AnalysisTitle>연령별 유동인구</c.AnalysisTitle>
       <c.AnalysisSubTitle>
         유동인구가 가장 많은 연령대는
-        <c.AnalysiEemphasis>{}</c.AnalysiEemphasis>
+        <c.AnalysiEemphasis>
+          {AgeData.summary.split('age')}대
+        </c.AnalysiEemphasis>
         입니다
       </c.AnalysisSubTitle>
+      <Radar2Chart
+        value={AgeDataArray.map(item => Object.values(item)[0] / 500000)}
+      />
+
+      <c.AnalysisTitle>요일별 유동인구</c.AnalysisTitle>
+      <c.AnalysisSubTitle>
+        유동인구가 가장 높은 요일은
+        <c.AnalysiEemphasis>{PeriodData.summary}</c.AnalysiEemphasis>
+        입니다
+      </c.AnalysisSubTitle>
+      <BarChart3
+        labels={labels}
+        values={DayDataArray.map(item => Object.values(item)[0])}
+      />
     </>
   )
 }

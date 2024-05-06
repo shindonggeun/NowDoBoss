@@ -7,7 +7,8 @@ public record CreateSimulationRequest(
         Boolean isFranchisee,
         String brandName,
         // 위치 (시 구 동)
-        LocationInfo location,
+//        LocationInfo location,
+        String gugun,
 
         // 업종 코드
         String serviceCode,

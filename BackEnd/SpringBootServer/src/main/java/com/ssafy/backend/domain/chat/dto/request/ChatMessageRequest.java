@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.chat.dto;
+package com.ssafy.backend.domain.chat.dto.request;
 
 import com.ssafy.backend.domain.chat.entity.enums.MessageType;
 import lombok.Getter;

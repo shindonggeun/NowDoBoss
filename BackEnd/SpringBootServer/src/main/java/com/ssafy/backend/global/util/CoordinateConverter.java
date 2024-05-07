@@ -1,5 +1,6 @@
 package com.ssafy.backend.global.util;
 
+import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.geotools.referencing.CRS;
@@ -24,9 +25,6 @@ public class CoordinateConverter {
 
         MathTransform transform = CRS.findMathTransform(sourceCrs, targetCrs, true);
         Geometry transFormedPoint = JTS.transform(point, transform);
-
-//        System.out.println("좌표변경 전(EPSG:4326) Point = " + point);
-//        System.out.println("좌표변경 후(EPSG:5179) Point = " + transFormedPoint);
 
         return (Point) transFormedPoint;
     }

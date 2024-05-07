@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.commercial.service;
 import com.ssafy.backend.domain.commercial.dto.info.*;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
+import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +43,7 @@ public class CommercialServiceImpl implements CommercialService {
                 try {
                     transformedPoint = CoordinateConverter.transform(ac.getX(), ac.getY());
                 } catch (Exception e) {
-                    e.printStackTrace(); // 변환 실패시 로그 출력
+                    throw new CoordinateTransformationException("좌표 변환에 실패했습니다.", e);
                 }
                 result.add(new CommercialAdministrationResponse(
                         ac.getAdministrationCodeName(),
@@ -68,8 +69,7 @@ public class CommercialServiceImpl implements CommercialService {
                     try {
                         transformedPoint = CoordinateConverter.transform(ac.getX().doubleValue(), ac.getY().doubleValue());
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        // 실패한 변환 처리 로직
+                        throw new CoordinateTransformationException("좌표 변환에 실패했습니다.", e);
                     }
                     // 변환된 좌표를 사용하여 CommercialAreaResponse 생성
                     return new CommercialAreaResponse(

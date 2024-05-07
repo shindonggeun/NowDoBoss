@@ -5,6 +5,7 @@ import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import com.ssafy.backend.domain.commercial.repository.*;
+import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -139,7 +140,7 @@ public class CommercialServiceImpl implements CommercialService {
     @Override
     @Transactional(readOnly = true)
     public CommercialSalesResponse getSalesByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode) {
-        SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
+        com.ssafy.backend.domain.commercial.entity.SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
                 .orElseThrow(() -> new RuntimeException("매출분석 데이터가 없습니다."));
 
         CommercialTimeSalesInfo timeSales = new CommercialTimeSalesInfo(
@@ -199,7 +200,7 @@ public class CommercialServiceImpl implements CommercialService {
         // 최근 4분기의 기간 코드를 계산
         List<String> periodCodes = calculateLastFourQuarters(periodCode);
 
-        List<SalesCommercial> salesCommercials = salesCommercialRepository.findByCommercialCodeAndServiceCodeAndPeriodCodeIn(
+        List<com.ssafy.backend.domain.commercial.entity.SalesCommercial> salesCommercials = salesCommercialRepository.findByCommercialCodeAndServiceCodeAndPeriodCodeIn(
                 commercialCode, serviceCode, periodCodes);
 
         List<CommercialAnnualQuarterSalesInfo> annualQuarterSalesInfos = salesCommercials.stream()
@@ -284,7 +285,7 @@ public class CommercialServiceImpl implements CommercialService {
         );
     }
 
-    private CommercialAgeGenderPercentSalesInfo calculateAgeGenderPercentSales(SalesCommercial salesCommercial) {
+    private CommercialAgeGenderPercentSalesInfo calculateAgeGenderPercentSales(com.ssafy.backend.domain.commercial.entity.SalesCommercial salesCommercial) {
         Long total = salesCommercial.getMaleSales() + salesCommercial.getFemaleSales();
 
         return new CommercialAgeGenderPercentSalesInfo(

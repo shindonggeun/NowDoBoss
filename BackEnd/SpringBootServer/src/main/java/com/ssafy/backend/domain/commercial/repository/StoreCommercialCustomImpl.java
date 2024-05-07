@@ -2,9 +2,7 @@ package com.ssafy.backend.domain.commercial.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.backend.domain.commercial.entity.QSalesCommercial;
 import com.ssafy.backend.domain.commercial.entity.QStoreCommercial;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -15,7 +13,7 @@ import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
-public class StoreCommercialCustomRepositoryImpl implements StoreCommercialCustomRepository {
+public class StoreCommercialCustomImpl implements StoreCommercialCustom {
 
     private final JPAQueryFactory queryFactory;
 

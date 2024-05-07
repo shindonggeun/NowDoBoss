@@ -1,12 +1,8 @@
 package com.ssafy.backend.domain.commercial.repository;
 
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.backend.domain.administration.dto.info.SalesAdministrationTopFiveInfo;
 import com.ssafy.backend.domain.commercial.entity.QSalesCommercial;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -15,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class SalesCommercialCustomRepositoryImpl implements SalesCommercialCustomRepository {
+public class SalesCommercialCustomImpl implements SalesCommercialCustom {
 
     private final JPAQueryFactory queryFactory;
 

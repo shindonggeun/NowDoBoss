@@ -26,8 +26,8 @@ public class ChatRoomController {
     private final ChatRoomService chatRoomService;
 
     @Operation(
-            summary = "채팅방 목록 조회",
-            description = "채팅방 목록 조회에 필요한 정보를 입력하여 채팅방 목록을 조회하는 기능입니다."
+            summary = "내 채팅방 목록 조회",
+            description = "내 채팅방 목록 조회에 필요한 정보를 입력하여 내 채팅방 목록을 조회하는 기능입니다."
     )
     @GetMapping("/my-rooms")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
@@ -52,13 +52,26 @@ public class ChatRoomController {
     }
 
     @Operation(
-            summary = "채팅방 생성",
-            description = "채팅방에 필요한 정보를 입력하여 채팅방을 생성하는 기능입니다."
+            summary = "인기 채팅방 조회",
+            description = "인기 채팅방 조회에 필요한 정보를 입력하여 조회하는 기능입니다."
     )
     @GetMapping
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<List<PopularChatRoomResponse>>> selectPopularChatRoom(String category) {
         List<PopularChatRoomResponse> response = chatRoomService.selectPopularChatRoom(category);
         return ResponseEntity.ok().body(Message.success(response));
+    }
+
+    @Operation(
+            summary = "채팅방 나가기",
+            description = "채팅방을 나가는 기능입니다."
+    )
+    @DeleteMapping("/{chatRoomId}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<Void>> exitChatRoom(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                      @PathVariable Long chatRoomId) {
+
+        chatRoomService.exitChatRoom(loginActive.id(), chatRoomId);
+        return ResponseEntity.ok().body(Message.success());
     }
 }

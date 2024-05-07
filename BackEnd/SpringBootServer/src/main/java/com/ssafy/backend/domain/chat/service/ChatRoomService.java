@@ -11,4 +11,6 @@ public interface ChatRoomService {
     List<MyChatRoomListResponse> selectMyChatRooms(Long memberId, MyChatRoomListRequest request);
     Long createChatRoom(Long memberId, CreateChatRoomRequest request);
     List<PopularChatRoomResponse> selectPopularChatRoom(String category);
+
+    void exitChatRoom(Long memberId, Long chatRoomId);
 }

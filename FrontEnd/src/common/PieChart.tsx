@@ -15,7 +15,7 @@ const PieChart = (props: PieChartProps) => {
     labels,
     datasets: [
       {
-        label: '비율 (%)',
+        label: '인구수(명)',
         data: value,
         backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'],
         borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
@@ -33,7 +33,7 @@ const PieChart = (props: PieChartProps) => {
       intersect: false,
     },
     layout: {
-      padding: 20,
+      padding: 10,
     },
     plugins: {
       legend: {

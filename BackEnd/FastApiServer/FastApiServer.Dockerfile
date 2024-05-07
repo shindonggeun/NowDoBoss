@@ -1,8 +1,13 @@
 # 공식 Python 런타임 이미지를 사용합니다
 FROM python:3.10-slim
 
-# 필요한 패키지 설치
-RUN apt-get update && apt-get install -y openjdk-11-jdk procps
+# Java와 필요한 도구를 설치합니다
+RUN apt-get update && apt-get install -y \
+    openjdk-11-jdk \
+    procps \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
 
 # JAVA_HOME 환경 변수 설정
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64

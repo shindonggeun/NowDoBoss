@@ -24,7 +24,7 @@ const BarChart2 = (props: BarChartProps) => {
     labels,
     datasets: [
       {
-        label: '유동 인구(명)',
+        label: '인구(명)',
         data: values,
         backgroundColor: 'rgba(75, 192, 192, 0.2)', // 차트 색상
         borderColor: 'rgba(75, 192, 192, 1)', // 선 색상

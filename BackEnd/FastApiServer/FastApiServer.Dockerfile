@@ -1,9 +1,12 @@
 # 공식 Python 런타임 이미지를 사용합니다
 FROM python:3.10-slim
 
+# 설치할 수 있는 Java 버전 확인
+RUN apt-get update && apt-cache search openjdk
+
 # Java와 필요한 도구를 설치합니다
 RUN apt-get update && apt-get install -y \
-    openjdk-11-jdk \
+    openjdk-17-jdk \
     procps \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean

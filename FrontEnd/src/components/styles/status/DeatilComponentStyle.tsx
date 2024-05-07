@@ -1,19 +1,23 @@
 import styled from 'styled-components'
 
 export const MixConatiner = styled.div`
-  //display: flex;
-  //flex-direction: row;
-  //align-items: center;
-  //justify-content: center;
-  //flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  @media (max-width: 30rem) {
+    flex-direction: column;
+  }
 `
 
 export const MixInnerConatiner = styled.div`
-  //width: 15vw;
-  //padding: 1rem;
-  //@media (max-width: 5rem) {
-  //  width: 50vw;
-  //}
+  flex: 1;
+  width: 17rem;
+  margin: 0 auto;
+
+  @media (max-width: 30rem) {
+    flex: 1;
+    width: 90vw;
+  }
 `
 
 export const AnalysisTitle = styled.div`
@@ -32,8 +36,4 @@ export const AnalysisSubTitle = styled.div`
 
 export const AnalysiEemphasis = styled.span`
   color: blue;
-`
-
-export const ChartDataContainer = styled.span`
-  margin: 50px 100px;
 `

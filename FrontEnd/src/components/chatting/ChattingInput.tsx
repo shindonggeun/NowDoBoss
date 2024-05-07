@@ -2,8 +2,15 @@ import * as c from '@src/components/styles/chatting/ChattingInputStyle'
 import React, { useState } from 'react'
 import send_message from '@src/assets/send_message.svg'
 
-const ChattingInput = () => {
+const ChattingInput = ({ onSend }: { onSend: (content: string) => void }) => {
   const [contentValue, setContentValue] = useState<string>('')
+
+  const handleSend = () => {
+    if (contentValue.trim()) {
+      onSend(contentValue)
+      setContentValue('')
+    }
+  }
 
   return (
     <c.Container>
@@ -15,13 +22,7 @@ const ChattingInput = () => {
           setContentValue(e.target.value)
         }}
       />
-      <c.SubmitButton
-        $isActive={contentValue !== ''}
-        onClick={() => {
-          console.log('채팅 제출')
-          setContentValue('')
-        }}
-      >
+      <c.SubmitButton $isActive={contentValue !== ''} onClick={handleSend}>
         <c.SubmitImg src={send_message} />
       </c.SubmitButton>
     </c.Container>

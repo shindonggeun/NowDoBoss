@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 # ENV FASTAPI_ENV production
 
 # 애플리케이션을 실행하는 명령어를 정의합니다
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]

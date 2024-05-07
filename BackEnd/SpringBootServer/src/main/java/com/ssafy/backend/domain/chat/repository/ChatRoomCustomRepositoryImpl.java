@@ -20,7 +20,7 @@ public class ChatRoomCustomRepositoryImpl implements ChatRoomCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<MyChatRoomListResponse> selectChatRooms(Long memberId, MyChatRoomListRequest request) {
+    public List<MyChatRoomListResponse> selectMyChatRooms(Long memberId, MyChatRoomListRequest request) {
         return queryFactory
                 .select(Projections.constructor(MyChatRoomListResponse.class,
                         chatRoom.id,

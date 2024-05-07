@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.chat.controller;
 
 import com.ssafy.backend.domain.chat.dto.request.CreateChatRoomRequest;
 import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
+import com.ssafy.backend.domain.chat.dto.response.PopularChatRoomResponse;
 import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import com.ssafy.backend.domain.chat.dto.response.CreateChatRoomResponse;
 import com.ssafy.backend.domain.chat.service.ChatRoomService;
@@ -30,9 +31,9 @@ public class ChatRoomController {
     )
     @GetMapping("/my-rooms")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<MyChatRoomListResponse>>> selectChatRooms(@AuthenticationPrincipal MemberLoginActive loginActive,
-                                                                                 MyChatRoomListRequest request) {
-        List<MyChatRoomListResponse> response = chatRoomService.selectChatRooms(loginActive.id(), request);
+    public ResponseEntity<Message<List<MyChatRoomListResponse>>> selectMyChatRooms(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                                                   MyChatRoomListRequest request) {
+        List<MyChatRoomListResponse> response = chatRoomService.selectMyChatRooms(loginActive.id(), request);
         return ResponseEntity.ok().body(Message.success(response));
     }
 
@@ -47,6 +48,17 @@ public class ChatRoomController {
 
         Long chatRoomId = chatRoomService.createChatRoom(loginActive.id(), request);
         CreateChatRoomResponse response = new CreateChatRoomResponse(chatRoomId);
+        return ResponseEntity.ok().body(Message.success(response));
+    }
+
+    @Operation(
+            summary = "채팅방 생성",
+            description = "채팅방에 필요한 정보를 입력하여 채팅방을 생성하는 기능입니다."
+    )
+    @GetMapping
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<List<PopularChatRoomResponse>>> selectPopularChatRoom(String category) {
+        List<PopularChatRoomResponse> response = chatRoomService.selectPopularChatRoom(category);
         return ResponseEntity.ok().body(Message.success(response));
     }
 }

@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.chat.service;
 
 import com.ssafy.backend.domain.chat.dto.request.CreateChatRoomRequest;
 import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
+import com.ssafy.backend.domain.chat.dto.response.PopularChatRoomResponse;
 import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import com.ssafy.backend.domain.chat.entity.ChatRoom;
 import com.ssafy.backend.domain.chat.entity.ChatRoomMember;
@@ -27,8 +28,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<MyChatRoomListResponse> selectChatRooms(Long memberId, MyChatRoomListRequest request) {
-        return chatRoomRepository.selectChatRooms(memberId, request);
+    public List<MyChatRoomListResponse> selectMyChatRooms(Long memberId, MyChatRoomListRequest request) {
+        return chatRoomRepository.selectMyChatRooms(memberId, request);
     }
 
     @Override
@@ -49,5 +50,11 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .build());
 
         return chatRoom.getId();
+    }
+
+    @Override
+    public List<PopularChatRoomResponse> selectPopularChatRoom(String category) {
+        // 채팅방 인원 많은 순으로 조회
+        return chatRoomMemberRepository.selectPopularChatRoom(category);
     }
 }

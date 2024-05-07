@@ -172,7 +172,52 @@ public class CommercialServiceImpl implements CommercialService {
 
         CommercialAgeGenderPercentSalesInfo ageGenderPercentSales = calculateAgeGenderPercentSales(salesCommercial);
 
-        return new CommercialSalesResponse(timeSales, daySales, ageSales, ageGenderPercentSales);
+        CommercialDaySalesCountInfo daySalesCount = new CommercialDaySalesCountInfo(
+                salesCommercial.getMonSalesCount(),
+                salesCommercial.getTueSalesCount(),
+                salesCommercial.getWedSalesCount(),
+                salesCommercial.getThuSalesCount(),
+                salesCommercial.getFriSalesCount(),
+                salesCommercial.getSatSalesCount(),
+                salesCommercial.getSunSalesCount()
+        );
+
+        CommercialTimeSalesCountInfo timeSalesCount = new CommercialTimeSalesCountInfo(
+                salesCommercial.getSalesCount00(),
+                salesCommercial.getSalesCount06(),
+                salesCommercial.getSalesCount11(),
+                salesCommercial.getSalesCount14(),
+                salesCommercial.getSalesCount17(),
+                salesCommercial.getSalesCount21()
+        );
+
+        CommercialGenderSalesCountInfo genderSalesCount = new CommercialGenderSalesCountInfo(
+                salesCommercial.getMaleSalesCount(),
+                salesCommercial.getFemaleSalesCount()
+        );
+
+        // 최근 4분기의 기간 코드를 계산
+        List<String> periodCodes = calculateLastFourQuarters(periodCode);
+
+        List<SalesCommercial> salesCommercials = salesCommercialRepository.findByCommercialCodeAndServiceCodeAndPeriodCodeIn(
+                commercialCode, serviceCode, periodCodes);
+
+        List<CommercialAnnualQuarterSalesInfo> annualQuarterSalesInfos = salesCommercials.stream()
+                .map(sales -> new CommercialAnnualQuarterSalesInfo(
+                        sales.getPeriodCode(),
+                        salesCommercial.getMonthSales())
+                ).toList();
+
+        return new CommercialSalesResponse(
+                timeSales,
+                daySales,
+                ageSales,
+                ageGenderPercentSales,
+                daySalesCount,
+                timeSalesCount,
+                genderSalesCount,
+                annualQuarterSalesInfos
+        );
     }
 
     @Override
@@ -221,7 +266,7 @@ public class CommercialServiceImpl implements CommercialService {
     }
 
     private CommercialAgeGenderPercentFootTrafficInfo calculateAgeGenderPercentFootTraffic(FootTrafficCommercial trafficCommercial) {
-        double total = trafficCommercial.getTotalFootTraffic().doubleValue();
+        Long total = trafficCommercial.getTotalFootTraffic();
 
         return new CommercialAgeGenderPercentFootTrafficInfo(
                 calculatePercent(trafficCommercial.getTeenFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
@@ -240,7 +285,7 @@ public class CommercialServiceImpl implements CommercialService {
     }
 
     private CommercialAgeGenderPercentSalesInfo calculateAgeGenderPercentSales(SalesCommercial salesCommercial) {
-        double total = salesCommercial.getMonthSales().doubleValue();
+        Long total = salesCommercial.getMaleSales() + salesCommercial.getFemaleSales();
 
         return new CommercialAgeGenderPercentSalesInfo(
                 calculatePercent(salesCommercial.getTeenSales(), salesCommercial.getMaleSales(), total),
@@ -258,10 +303,27 @@ public class CommercialServiceImpl implements CommercialService {
         );
     }
 
-    private double calculatePercent(Long ageGroupCount, Long genderCount, double total) {
+    private double calculatePercent(Long ageGroupCount, Long genderCount, Long total) {
         if (total == 0) return 0.0;
         double percent = 100.0 * (ageGroupCount.doubleValue() * (genderCount.doubleValue() / total)) / total;
         return Math.round(percent * 100.0) / 100.0;
+    }
+
+    private List<String> calculateLastFourQuarters(String currentPeriod) {
+        List<String> periods = new ArrayList<>();
+        int year = Integer.parseInt(currentPeriod.substring(0, 4));
+        int quarter = Integer.parseInt(currentPeriod.substring(4));
+
+        for (int i = 0; i < 4; i++) {
+            periods.add(year + "" + quarter);
+            if (quarter == 1) {
+                quarter = 4;
+                year--;
+            } else {
+                quarter--;
+            }
+        }
+        return periods;
     }
 
 }

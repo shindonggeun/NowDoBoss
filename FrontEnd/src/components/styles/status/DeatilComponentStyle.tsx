@@ -4,6 +4,7 @@ export const MixConatiner = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
   @media (max-width: 30rem) {
     flex-direction: column;
   }

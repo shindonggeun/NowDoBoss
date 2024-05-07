@@ -43,7 +43,7 @@ function App() {
             <Route path="list" element={<CommunityListPage />} />
             <Route path="register" element={<CommunityRegisterPage />} />
             <Route path=":communityId" element={<CommunityDetailPage />} />
-            <Route path="chatting/:chatId" element={<ChattingPage />} />
+            <Route path="chatting/:roomId" element={<ChattingPage />} />
           </Route>
           <Route path="/status" element={<StatusPage />} />
           <Route path="/analysis" element={<AnalysisPage />} />

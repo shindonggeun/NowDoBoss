@@ -264,5 +264,4 @@ public class CommercialServiceImpl implements CommercialService {
         return Math.round(percent * 100.0) / 100.0;
     }
 
-
 }

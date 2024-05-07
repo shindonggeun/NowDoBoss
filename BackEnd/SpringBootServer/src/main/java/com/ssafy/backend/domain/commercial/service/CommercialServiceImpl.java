@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.commercial.service;
 import com.ssafy.backend.domain.commercial.dto.info.*;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
+import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +43,7 @@ public class CommercialServiceImpl implements CommercialService {
                 try {
                     transformedPoint = CoordinateConverter.transform(ac.getX(), ac.getY());
                 } catch (Exception e) {
-                    e.printStackTrace(); // 변환 실패시 로그 출력
+                    throw new CoordinateTransformationException("좌표 변환에 실패했습니다.", e);
                 }
                 result.add(new CommercialAdministrationResponse(
                         ac.getAdministrationCodeName(),
@@ -68,8 +69,7 @@ public class CommercialServiceImpl implements CommercialService {
                     try {
                         transformedPoint = CoordinateConverter.transform(ac.getX().doubleValue(), ac.getY().doubleValue());
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        // 실패한 변환 처리 로직
+                        throw new CoordinateTransformationException("좌표 변환에 실패했습니다.", e);
                     }
                     // 변환된 좌표를 사용하여 CommercialAreaResponse 생성
                     return new CommercialAreaResponse(
@@ -130,7 +130,8 @@ public class CommercialServiceImpl implements CommercialService {
         return serviceCodeProjectionList.stream()
                 .map(projection -> new CommercialServiceResponse(
                         projection.getServiceCode(),
-                        projection.getServiceCodeName())
+                        projection.getServiceCodeName(),
+                        projection.getServiceType())
                 )
                 .collect(Collectors.toList());
     }
@@ -169,10 +170,9 @@ public class CommercialServiceImpl implements CommercialService {
                 salesCommercial.getSixtySales()
         );
 
-        CommercialAgeGenderPercentSalesInfo ageGenderPercentSales;
+        CommercialAgeGenderPercentSalesInfo ageGenderPercentSales = calculateAgeGenderPercentSales(salesCommercial);
 
-//        return new CommercialSalesResponse(timeSales, daySales, ageSales, ageGenderPercentSales);
-        return null;
+        return new CommercialSalesResponse(timeSales, daySales, ageSales, ageGenderPercentSales);
     }
 
     @Override
@@ -242,10 +242,20 @@ public class CommercialServiceImpl implements CommercialService {
     private CommercialAgeGenderPercentSalesInfo calculateAgeGenderPercentSales(SalesCommercial salesCommercial) {
         double total = salesCommercial.getMonthSales().doubleValue();
 
-//        return new CommercialAgeGenderPercentSalesInfo(
-//                calculatePercent(salesCommercial.getTeenSales(), salesCommercial.get)
-//        )
-        return null;
+        return new CommercialAgeGenderPercentSalesInfo(
+                calculatePercent(salesCommercial.getTeenSales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getTeenSales(), salesCommercial.getFemaleSales(), total),
+                calculatePercent(salesCommercial.getTwentySales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getTwentySales(), salesCommercial.getFemaleSales(), total),
+                calculatePercent(salesCommercial.getThirtySales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getThirtySales(), salesCommercial.getFemaleSales(), total),
+                calculatePercent(salesCommercial.getFortySales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getFortySales(), salesCommercial.getFemaleSales(), total),
+                calculatePercent(salesCommercial.getFiftySales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getFiftySales(), salesCommercial.getFemaleSales(), total),
+                calculatePercent(salesCommercial.getSixtySales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getSixtySales(), salesCommercial.getFemaleSales(), total)
+        );
     }
 
     private double calculatePercent(Long ageGroupCount, Long genderCount, double total) {
@@ -253,6 +263,5 @@ public class CommercialServiceImpl implements CommercialService {
         double percent = 100.0 * (ageGroupCount.doubleValue() * (genderCount.doubleValue() / total)) / total;
         return Math.round(percent * 100.0) / 100.0;
     }
-
 
 }

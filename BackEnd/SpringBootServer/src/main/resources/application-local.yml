@@ -34,7 +34,7 @@ spring:
     init:
       mode: always
       data-locations:
-        - 'classpath:/db/*'
+        - 'classpath:/db/dummy/*'
   # NoSQL setting
   data:
     # Redis setting

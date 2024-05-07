@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,6 +33,13 @@ public class ChatMessageMessageServiceImpl implements ChatMessageService {
     private final MemberRepository memberRepository;
     private final KafkaProducer kafkaProducer;
     private final ObjectMapper objectMapper;
+
+    @Override
+    public List<ChatMessageResponse> selectChatMessages(Long chatRoomId, Long lastId) {
+        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId)
+                .orElseThrow(() -> new ChatException(ChatErrorCode.NOT_EXIST_CHAT_ROOM));
+        return chatMessageRepository.selectChatMessages(chatRoom, lastId);
+    }
 
     @Override
     public void send(String topic, ChatMessageRequest request) {

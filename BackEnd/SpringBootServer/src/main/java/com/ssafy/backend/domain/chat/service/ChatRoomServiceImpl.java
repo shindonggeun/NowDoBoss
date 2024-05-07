@@ -9,7 +9,6 @@ import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import com.ssafy.backend.domain.chat.entity.ChatMessage;
 import com.ssafy.backend.domain.chat.entity.ChatRoom;
 import com.ssafy.backend.domain.chat.entity.ChatRoomMember;
-import com.ssafy.backend.domain.chat.entity.enums.MessageType;
 import com.ssafy.backend.domain.chat.exception.ChatErrorCode;
 import com.ssafy.backend.domain.chat.exception.ChatException;
 import com.ssafy.backend.domain.chat.repository.ChatMessageRepository;

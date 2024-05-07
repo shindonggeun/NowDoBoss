@@ -2,9 +2,11 @@ package com.ssafy.backend.domain.chat.controller;
 
 import com.ssafy.backend.domain.chat.dto.request.CreateChatRoomRequest;
 import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
+import com.ssafy.backend.domain.chat.dto.response.ChatMessageResponse;
 import com.ssafy.backend.domain.chat.dto.response.PopularChatRoomResponse;
 import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import com.ssafy.backend.domain.chat.dto.response.CreateChatRoomResponse;
+import com.ssafy.backend.domain.chat.service.ChatMessageService;
 import com.ssafy.backend.domain.chat.service.ChatRoomService;
 import com.ssafy.backend.global.common.dto.Message;
 import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
@@ -24,6 +26,7 @@ import java.util.List;
 @RequestMapping("/api/v1/chat-rooms")
 public class ChatRoomController {
     private final ChatRoomService chatRoomService;
+    private final ChatMessageService chatMessageService;
 
     @Operation(
             summary = "내 채팅방 목록 조회",
@@ -72,5 +75,18 @@ public class ChatRoomController {
 
         chatRoomService.exitChatRoom(loginActive.id(), chatRoomId);
         return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "채팅 메시지 내역",
+            description = "채팅 메시지 내역을 불러오는 기능입니다."
+    )
+    @GetMapping("/{chatRoomId}/messages")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<List<ChatMessageResponse>>> selectChatMessages(@PathVariable Long chatRoomId,
+                                                                                 Long lastId) {
+
+        List<ChatMessageResponse> response = chatMessageService.selectChatMessages(chatRoomId, lastId);
+        return ResponseEntity.ok().body(Message.success(response));
     }
 }

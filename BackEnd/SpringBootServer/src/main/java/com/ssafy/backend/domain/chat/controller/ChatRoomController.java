@@ -1,7 +1,8 @@
 package com.ssafy.backend.domain.chat.controller;
 
-import com.ssafy.backend.domain.chat.dto.request.ChatRoomRequest;
-import com.ssafy.backend.domain.chat.dto.response.ChatRoomListResponse;
+import com.ssafy.backend.domain.chat.dto.request.CreateChatRoomRequest;
+import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
+import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import com.ssafy.backend.domain.chat.dto.response.CreateChatRoomResponse;
 import com.ssafy.backend.domain.chat.service.ChatRoomService;
 import com.ssafy.backend.global.common.dto.Message;
@@ -29,8 +30,9 @@ public class ChatRoomController {
     )
     @GetMapping("/my-rooms")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<ChatRoomListResponse>>> selectChatRooms(@AuthenticationPrincipal MemberLoginActive loginActive, Long lastId) {
-        List<ChatRoomListResponse> response = chatRoomService.selectChatRooms(loginActive.id(), lastId);
+    public ResponseEntity<Message<List<MyChatRoomListResponse>>> selectChatRooms(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                                                 MyChatRoomListRequest request) {
+        List<MyChatRoomListResponse> response = chatRoomService.selectChatRooms(loginActive.id(), request);
         return ResponseEntity.ok().body(Message.success(response));
     }
 
@@ -41,7 +43,7 @@ public class ChatRoomController {
     @PostMapping
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<CreateChatRoomResponse>> createChatRoom(@AuthenticationPrincipal MemberLoginActive loginActive,
-                                                        @RequestBody ChatRoomRequest request) {
+                                                        @RequestBody CreateChatRoomRequest request) {
 
         Long chatRoomId = chatRoomService.createChatRoom(loginActive.id(), request);
         CreateChatRoomResponse response = new CreateChatRoomResponse(chatRoomId);

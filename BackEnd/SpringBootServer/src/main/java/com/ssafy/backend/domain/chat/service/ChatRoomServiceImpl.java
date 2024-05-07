@@ -1,7 +1,8 @@
 package com.ssafy.backend.domain.chat.service;
 
-import com.ssafy.backend.domain.chat.dto.request.ChatRoomRequest;
-import com.ssafy.backend.domain.chat.dto.response.ChatRoomListResponse;
+import com.ssafy.backend.domain.chat.dto.request.CreateChatRoomRequest;
+import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
+import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import com.ssafy.backend.domain.chat.entity.ChatRoom;
 import com.ssafy.backend.domain.chat.entity.ChatRoomMember;
 import com.ssafy.backend.domain.chat.repository.ChatRoomMemberRepository;
@@ -26,12 +27,12 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<ChatRoomListResponse> selectChatRooms(Long memberId, Long lastId) {
-        return chatRoomRepository.selectChatRooms(memberId, lastId);
+    public List<MyChatRoomListResponse> selectChatRooms(Long memberId, MyChatRoomListRequest request) {
+        return chatRoomRepository.selectChatRooms(memberId, request);
     }
 
     @Override
-    public Long createChatRoom(Long memberId, ChatRoomRequest request) {
+    public Long createChatRoom(Long memberId, CreateChatRoomRequest request) {
         ChatRoom chatRoom = ChatRoom.builder()
                 .category(Category.valueOf(request.category()))
                 .name(request.name())

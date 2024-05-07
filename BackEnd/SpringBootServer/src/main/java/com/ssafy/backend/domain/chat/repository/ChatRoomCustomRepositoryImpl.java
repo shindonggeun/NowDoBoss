@@ -3,7 +3,8 @@ package com.ssafy.backend.domain.chat.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.backend.domain.chat.dto.response.ChatRoomListResponse;
+import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
+import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import com.ssafy.backend.global.util.NullSafeBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -19,18 +20,26 @@ public class ChatRoomCustomRepositoryImpl implements ChatRoomCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<ChatRoomListResponse> selectChatRooms(Long memberId, Long lastId) {
+    public List<MyChatRoomListResponse> selectChatRooms(Long memberId, MyChatRoomListRequest request) {
         return queryFactory
-                .select(Projections.constructor(ChatRoomListResponse.class,
+                .select(Projections.constructor(MyChatRoomListResponse.class,
                         chatRoom.id,
                         chatRoom.name
                 )).distinct()
                 .from(chatRoom)
                 .join(chatRoomMember).on(chatRoomMember.chatRoom.eq(chatRoom))
-                .where(equalsMemberId(memberId), isLowerThan(lastId))
+                .where(equalsMemberId(memberId), isLowerThan(request.lastId()), nameLikeKeyword(request.keyword()))
                 .orderBy(chatRoom.id.desc())
                 .limit(10)
                 .fetch();
+    }
+
+    private BooleanBuilder nameLikeKeyword(final String keyword) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (keyword != null) {
+            builder.and(chatRoom.name.like("%" + keyword + "%"));
+        }
+        return builder;
     }
 
     private BooleanBuilder equalsMemberId(final Long memberId) {

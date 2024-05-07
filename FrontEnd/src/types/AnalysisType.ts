@@ -1,6 +1,12 @@
 import React from 'react'
 
 // data type
+export type SelectedServiceType = {
+  serviceCode: string
+  serviceCodeName: string
+  serviceType: string
+}
+
 export type TimeSlotFootTrafficType = {
   footTraffic00: number
   footTraffic06: number
@@ -52,16 +58,13 @@ export type ResidentPopulationDataBodyType = {
 }
 
 // store type
-export type SelectedServiceType = {
-  serviceCode: string
-  serviceCodeName: string
-}
-
 export type AnalysisStoreType = {
   selectedService: SelectedServiceType
+  serviceDataBody: SelectedServiceType[]
   flowPopulationDataBody: FlowPopulationDataBodyType
   residentPopulationDataBody: ResidentPopulationDataBodyType
   setSelectedService: (service: SelectedServiceType) => void
+  setServiceDataBody: (dataBody: SelectedServiceType[]) => void
   setFlowPopulationDataBody: (dataBody: FlowPopulationDataBodyType) => void
   setResidentPopulationDataBody: (
     dataBody: ResidentPopulationDataBodyType,
@@ -76,4 +79,13 @@ export type CategoryTitleCardProps = {
 export type SearchSectionPropsType = {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type ChoiceServicePropsType = {
+  handleServiceTypeClick: (serviceType: string) => void
+  selectedType: string
+}
+
+export type ChoiceServiceDetailPropsType = {
+  serviceList: SelectedServiceType[]
 }

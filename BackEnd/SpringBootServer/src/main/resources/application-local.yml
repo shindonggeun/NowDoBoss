@@ -34,7 +34,7 @@ spring:
     init:
       mode: always
       data-locations:
-        - 'classpath:/db/*'
+        - 'classpath:/db/dummy/*'
   # NoSQL setting
   data:
     # Redis setting
@@ -63,9 +63,9 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      producer:
-        key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 # log 관리
 logging:
@@ -115,3 +115,7 @@ oauth:
     scope:
       - profile
       - email
+
+kafka:
+  topic: chat
+  broker: localhost:9092

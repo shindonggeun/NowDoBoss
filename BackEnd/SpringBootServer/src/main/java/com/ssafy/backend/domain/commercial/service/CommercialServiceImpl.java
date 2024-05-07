@@ -130,7 +130,8 @@ public class CommercialServiceImpl implements CommercialService {
         return serviceCodeProjectionList.stream()
                 .map(projection -> new CommercialServiceResponse(
                         projection.getServiceCode(),
-                        projection.getServiceCodeName())
+                        projection.getServiceCodeName(),
+                        projection.getServiceType())
                 )
                 .collect(Collectors.toList());
     }
@@ -169,10 +170,9 @@ public class CommercialServiceImpl implements CommercialService {
                 salesCommercial.getSixtySales()
         );
 
-        CommercialAgeGenderPercentSalesInfo ageGenderPercentSales;
+        CommercialAgeGenderPercentSalesInfo ageGenderPercentSales = calculateAgeGenderPercentSales(salesCommercial);
 
-//        return new CommercialSalesResponse(timeSales, daySales, ageSales, ageGenderPercentSales);
-        return null;
+        return new CommercialSalesResponse(timeSales, daySales, ageSales, ageGenderPercentSales);
     }
 
     @Override
@@ -242,10 +242,20 @@ public class CommercialServiceImpl implements CommercialService {
     private CommercialAgeGenderPercentSalesInfo calculateAgeGenderPercentSales(SalesCommercial salesCommercial) {
         double total = salesCommercial.getMonthSales().doubleValue();
 
-//        return new CommercialAgeGenderPercentSalesInfo(
-//                calculatePercent(salesCommercial.getTeenSales(), salesCommercial.get)
-//        )
-        return null;
+        return new CommercialAgeGenderPercentSalesInfo(
+                calculatePercent(salesCommercial.getTeenSales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getTeenSales(), salesCommercial.getFemaleSales(), total),
+                calculatePercent(salesCommercial.getTwentySales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getTwentySales(), salesCommercial.getFemaleSales(), total),
+                calculatePercent(salesCommercial.getThirtySales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getThirtySales(), salesCommercial.getFemaleSales(), total),
+                calculatePercent(salesCommercial.getFortySales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getFortySales(), salesCommercial.getFemaleSales(), total),
+                calculatePercent(salesCommercial.getFiftySales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getFiftySales(), salesCommercial.getFemaleSales(), total),
+                calculatePercent(salesCommercial.getSixtySales(), salesCommercial.getMaleSales(), total),
+                calculatePercent(salesCommercial.getSixtySales(), salesCommercial.getFemaleSales(), total)
+        );
     }
 
     private double calculatePercent(Long ageGroupCount, Long genderCount, double total) {

@@ -1,28 +1,24 @@
-import { BarChartPropsType } from '@src/types/CommonPropsType'
 import {
   BarElement,
   CategoryScale,
   Chart as ChartJS,
   Legend,
   LinearScale,
-  LogarithmicScale,
   Title,
   Tooltip,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  LogarithmicScale,
-)
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-const BarChart2 = (props: BarChartPropsType) => {
-  const { labels, values } = props
+interface BarChartProps {
+  labels: string[]
+  values: number[]
+  minvalue: number
+}
+
+const BarChart2 = (props: BarChartProps) => {
+  const { labels, values, minvalue } = props
 
   const data = {
     labels,
@@ -52,16 +48,17 @@ const BarChart2 = (props: BarChartPropsType) => {
         grid: {
           display: false,
         },
-        barThickness: 10, // 막대바 폭 조절 (고정값)
       },
       y: {
-        display: false, // 왼쪽 축 제거
-        beginAtZero: true,
+        display: false,
+        beginAtZero: false,
+        min: minvalue,
         grid: {
           display: false,
         },
       },
     },
+    categoryPercentage: 0.3,
   }
 
   return <Bar options={options} data={data} />

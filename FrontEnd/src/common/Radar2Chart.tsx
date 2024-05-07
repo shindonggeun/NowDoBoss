@@ -54,7 +54,7 @@ const RadarChart = (props: RaderChartProps) => {
       intersect: false,
     },
     layout: {
-      padding: 20,
+      padding: 10,
     },
     plugins: {
       legend: {

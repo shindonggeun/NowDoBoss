@@ -23,7 +23,6 @@ const StatusDetailbarComponent = ({
   onClickRegionHandler,
   regionCode,
 }: StatusDetailbarProps) => {
-  // console.log(`선택한 지역구 코드: ${regionCode}`)
   const [activeTab, setActiveTab] = useState<string>('유동인구')
   const scrollRef = useRef<HTMLDivElement[]>([])
   const detailbarRef = useRef<HTMLDivElement>(null)
@@ -48,6 +47,7 @@ const StatusDetailbarComponent = ({
       {
         name: '유동인구',
         component: DetailPopulationComponent,
+        // component: DetailCloseRateComponent,
       },
       {
         // <todo> % 비율말고 data 값 받아오기

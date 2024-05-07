@@ -6,9 +6,11 @@ import { DataBody } from '@src/types/StatusType'
 import StatusPolygonComponent from '@src/components/status/StatusPolygonComponent'
 import StatusSidebarTopComponent from '@src/components/status/StatusSidebarTopComponent'
 import StatusDetailbarComponent from '@src/components/status/StatusDetailbarComponent'
+import useStateStore from '@src/stores/statusStore'
 
 const StatusContainer = () => {
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null) // 지역 선택
+  const { selectedRegion, setSelectedRegion } = useStateStore()
+  // const [selectedRegion, setSelectedRegion] = useState<string | null>(null) // 지역 선택
   const [regionCode, setRegionCode] = useState<number | null>(null) // 지역 선택
   const [selectedOption, setSelectedOption] = useState<string | null>(null) // 옵션 선택
   const [tab, setTab] = useState<number | null>(null)

@@ -8,9 +8,12 @@ import {
 
 // 초기 상태를 위한 객체
 const initialSelectService: SelectedServiceType = {
-  serviceCode: 'CS100001',
-  serviceCodeName: '한식음식점',
+  serviceCode: '',
+  serviceCodeName: '',
+  serviceType: '',
 }
+
+const initialServiceDataBody: SelectedServiceType[] = []
 
 const initialFlowPopulationDataBody: FlowPopulationDataBodyType = {
   timeSlotFootTraffic: {
@@ -57,10 +60,12 @@ const initialResidentPopulationDataBody: ResidentPopulationDataBodyType = {
 // store
 const analysisStore = create<AnalysisStoreType>(set => ({
   selectedService: initialSelectService,
+  serviceDataBody: initialServiceDataBody,
   flowPopulationDataBody: initialFlowPopulationDataBody,
   residentPopulationDataBody: initialResidentPopulationDataBody,
 
   setSelectedService: service => set(() => ({ selectedService: service })),
+  setServiceDataBody: dataBody => set({ serviceDataBody: dataBody }),
   setFlowPopulationDataBody: dataBody =>
     set({ flowPopulationDataBody: dataBody }),
   setResidentPopulationDataBody: dataBody =>

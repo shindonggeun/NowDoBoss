@@ -6,13 +6,13 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, udf
 from pyspark.sql.types import IntegerType
 
-model_path = "hdfs://master1:9000/user/hadoop/model"
+model_path = "hdfs://172.17.0.2:9000/user/hadoop/model"
 filename = 'model_update_time.json'
 
 # Spark 세션 초기화 - 추후 설정에 맞게 변경
 spark = SparkSession.builder \
     .appName("DailyModelUpdate") \
-    .config("spark.hadoop.fs.defaultFS", "hdfs://master1:9000/") \
+    .config("spark.hadoop.fs.defaultFS", "hdfs://172.17.0.2:9000") \
     .getOrCreate()
 
 def update_spark_model():
@@ -24,7 +24,7 @@ def update_spark_model():
     print("Previous update time:", last_update_time)
 
     # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
-    df_actions = spark.read.csv("hdfs://master1:9000//user/hadoop/data/action_data.csv")
+    df_actions = spark.read.csv("hdfs://172.17.0.2:9000//user/hadoop/data/action_data.csv")
  
     # 문자열 타입의 timestamp를 datetime으로 변환
     df_actions = df_actions.withColumn("timestamp", col("timestamp").cast("timestamp"))
@@ -52,7 +52,7 @@ def update_spark_model():
     #     (4, 750, 50, 2, 2, 45)
     # ]
 
-    commercial_data_path = "hdfs://master1:9000/user/hadoop/data/commercial_data.csv"
+    commercial_data_path = "hdfs://172.17.0.2:9000/user/hadoop/data/commercial_data.csv"
 
     commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
 

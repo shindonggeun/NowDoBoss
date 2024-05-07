@@ -77,7 +77,7 @@ export const BodyTop = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-left: 19vw;
+  padding-left: 10vw;
 `
 
 export const BodyTopTitle = styled.div`

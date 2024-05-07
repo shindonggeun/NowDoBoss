@@ -61,3 +61,35 @@ export interface DaumDataType {
   userSelectedType: string
   zonecode: string
 }
+
+// 프렌차이즈 검색 응답 type
+export interface FranchiseListType {
+  brandName: string
+  franchiseeId: number
+  serviceCode: string
+  serviceCodeName: string
+}
+
+export interface FranchiseDataBody {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: FranchiseListType[]
+}
+
+// 시뮬레이션 레포트 요청 데이터 타입
+export interface SimulationDataType {
+  isFranchisee: boolean | null
+  brandName: string | null
+  location: {
+    sido: string
+    gugun: string
+    dong: string
+  }
+  serviceCode: string
+  serviceCodeName: string
+  storeSize: number
+  floor: string
+}

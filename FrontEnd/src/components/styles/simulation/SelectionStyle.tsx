@@ -33,7 +33,8 @@ export const FadeInContainer = styled.div`
 export const Container = styled.div`
   // 반응형으로?? 아니면 고정??
   //  width: 45vw;
-  width: 40rem;
+  width: 100%;
+  max-width: 40rem;
   height: 100vh;
   background-color: #fff;
   position: absolute;
@@ -41,6 +42,7 @@ export const Container = styled.div`
   left: 50%;
   transform: translate(-50%, 0);
   overflow-y: auto;
+  overflow-x: hidden;
   //padding-top: 80px; // 헤더 높이 조절용
 
   ::-webkit-scrollbar {
@@ -77,6 +79,7 @@ export const HeaderLeft = styled.div`
 export const HeaderRignt = styled.div`
   display: flex;
   align-items: center;
+  //width: 20rem;
 `
 
 export const PrevIcon = styled.img`
@@ -94,7 +97,9 @@ export const HeaderTitle = styled.div`
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
-  margin-left: 1rem;
+  margin: 0 1rem;
+  overflow-wrap: break-word;
+  flex-grow: 1;
 
   @media (max-width: 768px) {
     margin-left: 0;

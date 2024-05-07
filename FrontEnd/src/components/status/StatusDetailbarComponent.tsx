@@ -23,7 +23,6 @@ const StatusDetailbarComponent = ({
   onClickRegionHandler,
   regionCode,
 }: StatusDetailbarProps) => {
-  // console.log(`선택한 지역구 코드: ${regionCode}`)
   const [activeTab, setActiveTab] = useState<string>('유동인구')
   const scrollRef = useRef<HTMLDivElement[]>([])
   const detailbarRef = useRef<HTMLDivElement>(null)
@@ -38,13 +37,17 @@ const StatusDetailbarComponent = ({
     refetch()
   }, [refetch, regionCode])
 
-  console.log(regionCode)
-  const DeatilData = data?.dataBody
+  let DeatilData: any = null
+  if (data) {
+    DeatilData = data.dataBody
+  }
+
   const categories = useMemo(
     () => [
       {
         name: '유동인구',
-        component: DetailPopulationComponent,
+        // component: DetailPopulationComponent,
+        component: DetailAnalysisComponent,
       },
       {
         // <todo> % 비율말고 data 값 받아오기
@@ -61,20 +64,22 @@ const StatusDetailbarComponent = ({
       },
       {
         name: '매출분석',
-        component: DetailAnalysisComponent,
+        // component: DetailAnalysisComponent,
+        component: DetailPopulationComponent,
       },
       {
         name: '상권변화',
         component: DetailCommercialComponent,
       },
     ],
-    [regionCode],
+    [],
   )
 
   const onClickActiveTab = (tab: string) => {
     setActiveTab(tab)
   }
 
+  // 사이드바 바깥 클릭 시 닫힘
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -92,6 +97,7 @@ const StatusDetailbarComponent = ({
     }
   }, [onClickRegionHandler])
 
+  // 탭 클릭시 화면 부드럽게 내리기
   useEffect(() => {
     const index = categories.findIndex(category => category.name === activeTab)
     scrollRef.current[index]?.scrollIntoView({ behavior: 'smooth' })
@@ -139,7 +145,7 @@ const StatusDetailbarComponent = ({
       </c.FixedCategoryBar>
       {!isLoading && data ? (
         <>
-          <p>선택한 지역구 코드: {regionCode} </p>
+          {/* <p>선택한 지역구 코드: {regionCode} </p> */}
           {categories.map((category, index) => (
             <div key={index}>
               <c.SeparateLine />

@@ -6,6 +6,7 @@ import SelectionStep3 from '@src/components/simulation/SelectionStep3'
 import SelectionStep4 from '@src/components/simulation/SelectionStep4'
 import SelectionStep5 from '@src/components/simulation/SelectionStep5'
 import useSimulationStore from '@src/stores/simulationStore'
+import useReportStore from '@src/stores/reportStore'
 import LeftArrow from '@src/assets/angle_left.svg'
 import Xmark from '@src/assets/xmark_solid_nomal.svg'
 
@@ -17,21 +18,31 @@ interface SimulSelctionProps {
 const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
   const {
     setIsFranchise,
+    setBrandName,
     setCategory,
-    setSubCategory,
+    setSubCategoryName,
+    setSubCategoryCode,
     setBulidingSize,
     setFloor,
   } = useSimulationStore()
+  const { setAddress, setQuery, setSido, setSigungu } = useReportStore()
   const [step, setStep] = useState<number>(1)
   const modalRef = useRef<HTMLDivElement>(null)
 
   const resetButton = () => {
     setIsFranchise(null)
+    setBrandName(null)
     setCategory('')
-    setSubCategory('')
+    setSubCategoryName('')
+    setSubCategoryCode('')
     setBulidingSize(0)
     setFloor('')
+    setAddress('')
+    setQuery('')
+    setSido('')
+    setSigungu('')
   }
+
   const nextStep = () => {
     setTimeout(() => {
       setStep(prev => prev + 1)
@@ -108,7 +119,7 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
           )}
           {step === 5 && (
             <c.FadeInContainer>
-              <SelectionStep5 nextStep={nextStep} />
+              <SelectionStep5 />
             </c.FadeInContainer>
           )}
         </c.Contants>

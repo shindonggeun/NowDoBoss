@@ -15,8 +15,17 @@ import SimulationPage from '@src/pages/SimulationPage'
 import SimulationReportPage from '@src/pages/SimulationReportPage'
 import ChattingPage from '@src/pages/ChattingPage'
 import CommunityListPage from '@src/pages/CommunityListPage'
+import { useEffect } from 'react'
 
 function App() {
+  function setScreenSize() {
+    const vh = window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+  }
+  useEffect(() => {
+    setScreenSize()
+  })
+
   return (
     <CookiesProvider>
       <BrowserRouter>

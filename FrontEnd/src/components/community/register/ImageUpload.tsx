@@ -6,7 +6,7 @@ interface ImageUploadPropsType {
   imageViewValue: string[]
   setImageView: React.Dispatch<React.SetStateAction<string[]>>
   imageFileValue: File[]
-  setImageFile: React.Dispatch<React.SetStateAction<File[]>>
+  setImageFileValue: React.Dispatch<React.SetStateAction<File[]>>
   setClickAddImg: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -14,7 +14,7 @@ const ImageUpload = (props: ImageUploadPropsType) => {
   // const [imageViewValue, setImageView] = useState<string[]>([])
   const {
     imageFileValue,
-    setImageFile,
+    setImageFileValue,
     imageViewValue,
     setImageView,
     setClickAddImg,
@@ -22,17 +22,19 @@ const ImageUpload = (props: ImageUploadPropsType) => {
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target
-    let imageUrlLists: string[] = [...imageViewValue]
     if (files) {
-      const fileArray = Array.from(files, f => f as File)
-      setImageFile(fileArray)
-      for (let k = 0; k < files.length; k += 1) {
-        const currentImageUrl = URL.createObjectURL(files[k])
-        imageUrlLists.push(currentImageUrl)
-      }
+      const fileArray = Array.from(files, f => f)
+      setImageFileValue(fileArray)
+
+      const imageUrlLists = [
+        ...imageViewValue,
+        ...fileArray.map(file => URL.createObjectURL(file)),
+      ]
 
       if (imageUrlLists.length > 10) {
-        imageUrlLists = imageUrlLists.slice(0, 10)
+        setImageView(imageUrlLists.slice(0, 10))
+      } else {
+        setImageView(imageUrlLists)
       }
 
       setImageView(imageUrlLists)
@@ -42,7 +44,7 @@ const ImageUpload = (props: ImageUploadPropsType) => {
   // X버튼 클릭 시 이미지 삭제
   const handleDeleteImage = (id: number) => {
     setImageView(imageViewValue.filter((_, index) => index !== id))
-    setImageFile(imageFileValue.filter((_, index) => index !== id))
+    setImageFileValue(imageFileValue.filter((_, index) => index !== id))
   }
 
   return (

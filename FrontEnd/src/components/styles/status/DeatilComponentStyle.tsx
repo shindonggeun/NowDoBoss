@@ -37,3 +37,7 @@ export const AnalysisSubTitle = styled.div`
 export const AnalysiEemphasis = styled.span`
   color: blue;
 `
+
+export const BarChartContainer = styled.div`
+  height: 15rem;
+`

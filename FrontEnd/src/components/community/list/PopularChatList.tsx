@@ -4,10 +4,14 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { useEffect, useRef, useState } from 'react'
 import useCommunityStore from '@src/stores/communityStore'
+import leftArrow from '@src/assets/arrow_left.svg'
+import rightArrow from '@src/assets/arrow_right.svg'
+import CreateModal from '@src/components/chatting/CreateModal'
 
 const PopularChatList = () => {
   const categories = useCommunityStore(state => state.categories)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const [modalOpen, setModalOpen] = useState(false)
 
   // 화면 크기에 따라 slidesToShow 값을 설정하는 함수
   const getSlidesToShow = () => {
@@ -58,7 +62,6 @@ const PopularChatList = () => {
   const ChatCardDatas = [
     {
       id: 1,
-      badge: '채팅방',
       title: '강창모 (강동구 창업자들의 모임)',
       content:
         '강동구 사장님, 예비사장님들의 모임입니다. 부담 가지지 말고 들어오세요 :)',
@@ -67,7 +70,6 @@ const PopularChatList = () => {
     },
     {
       id: 2,
-      badge: '채팅방',
       title: '잡담수다방',
       content:
         '강동구 사장님, 예비사장님들의 모임입니다. 부담 가지지 말고 들어오세요 :)',
@@ -76,7 +78,6 @@ const PopularChatList = () => {
     },
     {
       id: 3,
-      badge: '채팅방',
       title: '강남모임',
       content: '강남 사장 모임입니다 ㅎㅎ 누구든 들오세유',
       category: '창업고민',
@@ -84,7 +85,6 @@ const PopularChatList = () => {
     },
     {
       id: 4,
-      badge: '채팅방',
       title: '논현 게주아',
       content: '논현동 사장님, 예비사장님들의 모임입니다. 일단 드루와!',
       category: '동업제안',
@@ -98,22 +98,19 @@ const PopularChatList = () => {
       <p.Context>
         <p.LeftGrid>
           <p.Title>인기 채팅방</p.Title>
-          <p.CreateButton>채팅방 생성하기</p.CreateButton>
+          <p.CreateButton onClick={() => setModalOpen(true)}>
+            채팅방 생성하기
+          </p.CreateButton>
         </p.LeftGrid>
         <p.Sub>창업에 관심있는 멤버들과 함께 이야기를 나눠보세요!</p.Sub>
         <p.ArrowDiv>
-          <p.ArrowButton
-            src="/src/assets/arrow_left.svg"
-            alt=""
-            onClick={prevSlide}
-          />
-          <p.ArrowButton
-            src="/src/assets/arrow_right.svg"
-            alt=""
-            onClick={nextSlide}
-          />
+          <p.ArrowButton src={leftArrow} alt="" onClick={prevSlide} />
+          <p.ArrowButton src={rightArrow} alt="" onClick={nextSlide} />
         </p.ArrowDiv>
       </p.Context>
+      <p.Modal>
+        <CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      </p.Modal>
       <p.Slick className="slider-container">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Slider {...settings} ref={sliderRef}>
@@ -127,7 +124,7 @@ const PopularChatList = () => {
             return (
               <p.SlickChild key={ChatCardData.id}>
                 <p.ChatCard>
-                  <p.CategoryBadge>{ChatCardData.badge}</p.CategoryBadge>
+                  <p.CategoryBadge>채팅방</p.CategoryBadge>
                   <p.CardTitle>{ChatCardData.title}</p.CardTitle>
                   <p.CardContent>{ChatCardData.content}</p.CardContent>
                   <p.CardCategory>

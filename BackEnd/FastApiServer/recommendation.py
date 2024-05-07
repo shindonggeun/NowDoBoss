@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, udf
+from pyspark.sql.functions import col, udf, to_timestamp
 from pyspark.sql.types import IntegerType
 from pyspark.ml.recommendation import ALS, ALSModel
 from pyspark.sql.functions import corr
@@ -7,22 +7,15 @@ import json
 import datetime
 from pyspark.sql.functions import explode
 import os
-from pyspark.sql.functions import when
-import requests
+from pyspark.sql.functions import when, desc
+from pyspark.sql import functions as F
+from pyspark.sql.functions import lit
 
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
 filename = 'model_update_time.json'
+hdfs_path = 'hdfs://172.17.0.2:9000'
+model_path = hdfs_path + "/user/hadoop/model"
 
-model_path = "hdfs://172.17.0.2:9000/user/hadoop/model"
-#model_path = "hdfs://c09a4a0a1fec:8020/user/hadoop/model/als_model"
-
-# Spark 세션 초기화 - 추후 설정에 맞게 변경
-spark = SparkSession.builder \
-    .appName("Recommendation") \
-    .config("spark.hadoop.fs.defaultFS", "hdfs://172.17.0.2:9000") \
-    .getOrCreate()
-
-#.config("spark.hadoop.fs.defaultFS", "hdfs://c09a4a0a1fec:8020") \
 # 마지막 업데이트 시간을 불러오는 함수
 def load_last_update_time(file_path):
     if os.path.exists(file_path):
@@ -38,41 +31,91 @@ def action_weight(action):
     return weights.get(action, 0)
 
 # 사용자 별 상권 특징에 대한 가중치 정보
-def load_user_weights(userId):
-    weights_path = f"hdfs://172.17.0.2:9000/user/hadoop/weight/user_weights.json"
-    #weights_path = f"hdfs://c09a4a0a1fec:8020/user/hadoop/weight/{userId}/user_weights.json"
-    if spark._jsparkSession.catalog().tableExists(weights_path):
-        return spark.read.json(weights_path)
-    return spark.createDataFrame([], schema="weightValue double")
-
-def load_model(spark, model_path, df_actions):
+def load_user_weights(spark, userId):
+    weights_path = hdfs_path + "/user/hadoop/weight/user_weights.json"
     try:
-        # HDFS에서 모델 로드 시도
+        # 파일이 존재하는지 확인
+        user_weights = spark.read.json(weights_path)
+        # userId 컬럼이 없는 경우 빈 DataFrame 반환
+        if "userId" not in user_weights.columns:
+            print("Error: userId column not found in user weights DataFrame.")
+            return spark.createDataFrame([(userId, 0.0, 0.0, 0.0, 0.0, 0.0)], schema="userId long, totalTrafficFootValue double, totalSalesValue double, openedRateValue double, closedRateValue double, totalConsumptionValue double")
+        # userId에 해당하는 레코드 필터링
+        if user_weights.filter(user_weights.userId == userId).count() == 0:
+            print(f"User {userId} not found in user weights DataFrame.")
+            return spark.createDataFrame([(userId, 0.0, 0.0, 0.0, 0.0, 0.0)], schema="userId long, totalTrafficFootValue double, totalSalesValue double, openedRateValue double, closedRateValue double, totalConsumptionValue double")
+        user_weights = user_weights.filter(user_weights.userId == userId)
+        return user_weights.fillna(0, subset=["totalTrafficFootValue", "totalSalesValue", "openedRateValue", "closedRateValue", "totalConsumptionValue"])
+    except Exception as e:
+        print(f"Error loading user weights: {e}")
+        # 파일이 존재하지 않는 경우 빈 DataFrame 반환
+        return spark.createDataFrame([(userId, 0.0, 0.0, 0.0, 0.0, 0.0)], schema="userId long, totalTrafficFootValue double, totalSalesValue double, openedRateValue double, closedRateValue double, totalConsumptionValue double")
+
+def update_user_weights(spark, userId, new_weights):
+    weights_path = hdfs_path + "/user/hadoop/weight/user_weights.json"
+    try:
+        # 파일이 존재하는지 확인
+        user_weights = spark.read.json(weights_path)
+        # userId 컬럼이 없는 경우 빈 DataFrame 반환
+        if "userId" not in user_weights.columns:
+            print("Error: userId column not found in user weights DataFrame.")
+            return
+        # userId에 해당하는 레코드 필터링
+        user_weights = user_weights.filter(user_weights.userId != userId)
+        # 새로운 가중치 레코드 추가
+        new_row = spark.createDataFrame([(*new_weights.values(),)], schema=list(new_weights.keys()))
+        new_row = new_row.withColumn("userId", lit(userId))
+        updated_weights = user_weights.union(new_row)
+        # 저장
+        updated_weights.write.mode('overwrite').json(weights_path)
+        print(f"Updated weights for user {userId} successfully.")
+    except Exception as e:
+        print(f"Error updating user weights: {e}")
+        # 파일이 존재하지 않는 경우 새로운 DataFrame 생성 후 가중치 추가
+        new_row = spark.createDataFrame([(*new_weights.values(),)], schema=list(new_weights.keys()))
+        new_row = new_row.withColumn("userId", lit(userId))
+        new_row.write.mode('overwrite').json(weights_path)
+        print(f"New weights for user {userId} added successfully.")
+
+def load_model(model_path, df_actions):
+    try:
+        # 모델 로드 시도
         model = ALSModel.load(model_path)
-        model = als.fit(df_actions)
-        model.save(model_path)
         print("Model loaded successfully.")
+        
+        # 추가된 데이터를 사용하여 모델을 더 학습
+        model = model.fit(df_actions)
+        print("Model retrained with additional data.")
+        
+        # 다시 훈련된 모델 저장
+        model.save(model_path)
+        print("Retrained model saved.")
     except Exception as e:
         print("Model not found, training a new one. Error:", e)
         # 모델이 존재하지 않을 경우 새로 훈련
         als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="commercialCode", ratingCol="weight", coldStartStrategy="drop")
         model = als.fit(df_actions)
-        # 새로 훈련된 모델 저장
+        # 훈련된 모델 저장
         model.save(model_path)
         print("New model trained and saved.")
     return model
 
 def recommend_commercials(userId):
+    # Spark 세션 초기화 - 추후 설정에 맞게 변경
+    spark = SparkSession.builder \
+        .appName("Recommendation") \
+        .config("spark.hadoop.fs.defaultFS", hdfs_path) \
+        .getOrCreate()
+    
     # 이전 업데이트 시간 불러오기
     last_update_time = load_last_update_time(filename)
     print("Previous update time:", last_update_time)
 
     # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
-    df_actions = spark.read.csv("hdfs://172.17.0.2:9000/user/hadoop/data/action_data.csv")
-    #df_actions = spark.read.csv("hdfs://c09a4a0a1fec:8020/user/hadoop/action_data.csv")
+    df_actions = spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
 
     # 문자열 타입의 timestamp를 datetime으로 변환
-    df_actions = df_actions.withColumn("timestamp", col("timestamp").cast("timestamp"))
+    df_actions = df_actions.withColumn("timestamp", to_timestamp(col("timestamp")))
 
     # 마지막 업데이트 시간 이후의 데이터만 필터링
     action_data = df_actions.filter(col("timestamp") > last_update_time)
@@ -82,59 +125,20 @@ def recommend_commercials(userId):
     with open('model_update_time.json', 'w') as f:
         json.dump({'last_update_time': last_update_time}, f)
 
-    # # 이전 업데이트 시간 이후의 사용자 행동 데이터 가져오기 예시
-    # action_data = [
-    #     (1, "click", 1),
-    #     (1, "search", 2),
-    #     (2, "search", 3),
-    #     (2, "search", 4),
-    #     (1, "save", 2),
-    #     (3, "save", 1),
-    #     (3, "click", 1),
-    #     (4, "search", 2),
-    #     (2, "search", 4),
-    #     (1, "simulation", 2),
-    #     (1, "simulation", 1),
-    #     (1, "save", 1),
-    #     (3, "save", 1),
-    #     (3, "click", 1),
-    #     (4, "search", 2),
-    #     (2, "search", 3),
-    #     (2, "search", 4),
-    #     (1, "save", 2),
-    #     (1, "simulation", 2),
-    #     (5, "click", 1),
-    #     (5, "click", 1),
-    #     (2, "save", 1)
-    # ]
     action_columns = ["userId", "action", "commercialCode"]
-    df_actions = spark.createDataFrame(action_data, schema=action_columns)
+    df_actions = df_actions.select(*action_columns)
 
     # UDF 등록 및 가중치 열 추가
     action_weight_udf = udf(action_weight, IntegerType())
     df_actions = df_actions.withColumn("weight", action_weight_udf(col("action")))
 
-    # 상권 데이터 예시 - 나중에 실제 데이터로
-    # commercial_data = [
-    #     (1, 1000, 100, 5, 2, 80),
-    #     (2, 500, 85, 8, 7, 75),
-    #     (3, 1220, 110, 4, 5, 95),
-    #     (4, 750, 50, 2, 2, 45)
-    # ]
-
-    commercial_data_path = "hdfs://172.17.0.2:9000/user/hadoop/data/commercial_data.csv"
-    #commercial_data_path = "hdfs://c09a4a0a1fec:8020/user/hadoop/commercial_data.csv"
+    commercial_data_path = hdfs_path + "/user/hadoop/data/commercial_data.csv"
 
     commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
-
-    # 상권 코드, 총_유동인구_수	활동시간_유동인구_비율 야간시간_유동인구_비율 심야시간_유동인구_비율 유동인구_평균연령 당월_매출_금액 점포_수 개업_점포_수 폐업_점포_수	프랜차이즈_점포_수 개업율 폐업율 프랜차이즈율 지출_총금액
-    # commercial_columns = ["commercialCode", "totalTrafficFoot", "activeTrafficFoot", "eveningTrafficFoot", "nightTrafficFoot", "ageTrafficFoot", 
-    #                       "totalSales", "totalStores", "openedStores", "closedStores", "franchiseStores", "openedRate", "closedRate", "franchiseRate",
-    #                       "totalConsumption"]
     commercial_columns = ["commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption"]
-    df_commercials = spark.createDataFrame(commercial_data, schema=commercial_columns)
+    df_commercials = commercial_data.select(*commercial_columns)
 
-    # HDFS에서 모델 불러오기 + 학습 + 저장
+    # 모델 로드 및 학습
     model = load_model(spark, model_path, df_actions)
 
     # 사용자별 상권 추천 - 추천 상권 개수는 추후 조정
@@ -152,56 +156,87 @@ def recommend_commercials(userId):
     # df_commercials의 'commercialCode' 컬럼 타입이 문자열인지 확인하고 필요하면 타입을 조정
     df_integrated_with_recommendations = recommendations_df.join(df_commercials, recommendations_df.commercialCode == df_commercials.commercialCode, "inner")
 
-    # userId가 유저의 아이디와 같은 경우만 가져오기 ***** 나중에 요청한 userId 변수로 바꾸기 **********
+    # userId가 유저의 아이디와 같은 경우만 가져오기 
     df_integrated_with_recommendations = df_integrated_with_recommendations[df_integrated_with_recommendations['userId'] == userId]
 
     # JSON 파일 로드
-    user_weights = load_user_weights(userId)
+    user_weights = load_user_weights(spark, userId)
 
-    # 추천 결과 DataFrame과 가중치 DataFrame 조인
-    df_recommendations_with_weights = recommendations_df.join(user_weights, "userId", "left_outer")
+    # df_integrated_with_recommendations와 user_weights를 userId 컬럼을 기준으로 조인합니다.
+    joined_df = df_integrated_with_recommendations.join(user_weights, on='userId', how='inner')
 
-    # 가중치가 있는 경우와 없는 경우를 처리
-    final_recommendations = df_recommendations_with_weights.select(
-        "commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption",
-        when(col("weightValue").isNull(), col("rating")).otherwise(col("rating") + col("rating") * col("weightValue")).alias("finalRating")
+
+    # 각 항목에 대해 가중 평가 값을 계산합니다.
+    weighted_df = joined_df.withColumn('weighted_totalTrafficFoot', col('totalTrafficFoot') * col('totalTrafficFootValue')) \
+                        .withColumn('weighted_totalSales', col('totalSales') * col('totalSalesValue')) \
+                        .withColumn('weighted_openedRate', col('openedRate') * col('openedRateValue')) \
+                        .withColumn('weighted_closedRate', col('closedRate') * col('closedRateValue')) \
+                        .withColumn('weighted_totalConsumption', col('totalConsumption') * col('totalConsumptionValue'))
+
+    # 각 레코드의 rating을 계산하여 새로운 열인 'new_rating'에 저장
+    df_updated = weighted_df.withColumn(
+        "final_rating",
+        F.col("rating") + 
+        F.col("weighted_totalTrafficFoot") +
+        F.col("weighted_totalSales") +
+        F.col("weighted_openedRate") +
+        F.col("weighted_closedRate") +
+        F.col("weighted_totalConsumption")
     )
 
+    # 삭제할 컬럼 이름 지정 (예시: "column_to_drop")
+    columns_to_drop = ["totalTrafficFootValue", "totalSalesValue",
+                    "openedRateValue", "closedRateValue", "totalConsumptionValue", "weighted_totalTrafficFoot", "weighted_totalSales", "weighted_openedRate", "weighted_closedRate",
+                    "weighted_totalConsumption", "rating"]  # 삭제할 컬럼 이름들을 리스트로 지정
+
+    # 컬럼 삭제
+    df_cleaned = df_updated.drop(*columns_to_drop)
+
     # finalRating 열을 기준으로 내림차순 정렬
-    final_recommendations_sorted = final_recommendations.sort_values(by='finalRating', ascending=False)
+    final_recommendations_sorted = df_cleaned.orderBy(desc('final_rating'))
+
+    # 반환할 결과
+    final_recommendations_sorted.show(truncate=False)
+
 
     # 반환할 결과
     res = final_recommendations_sorted.toPandas().to_dict(orient="records")
 
     # 추천 점수와 각 특성 간의 상관관계 계산
-    correlations = final_recommendations.select(
-        corr("rating", "totalTrafficFoot").alias("corr_population"),
-        corr("rating", "totalSales").alias("corr_sales"),
-        corr("rating", "openedRate").alias("corr_openedRate"),
-        corr("rating", "closedRate").alias("corr_closedRate"),
-        corr("rating", "totalConsumption").alias("corr_consumption")
+    correlations = final_recommendations_sorted.select(
+        corr("final_rating", "totalTrafficFoot").alias("corr_population"),
+        corr("final_rating", "totalSales").alias("corr_sales"),
+        corr("final_rating", "openedRate").alias("corr_openedRate"),
+        corr("final_rating", "closedRate").alias("corr_closedRate"),
+        corr("final_rating", "totalConsumption").alias("corr_consumption")
     )
 
-    # 새로운 가중치와 이전 가중치 점진적 업데이트 (50%만 반영) + 하둡에 저장
-    # 새로운 가중치 정보를 저장할 딕셔너리
-    new_weights = {}
+    # correlations DataFrame의 각 열의 값을 수집하여 딕셔너리에 저장
+    new_weights = {
+        "userId": userId,
+        "totalTrafficFootValue": correlations.select("corr_population").collect()[0][0],
+        "totalSalesValue": correlations.select("corr_sales").collect()[0][0],
+        "openedRateValue": correlations.select("corr_openedRate").collect()[0][0],
+        "closedRateValue": correlations.select("corr_closedRate").collect()[0][0],
+        "totalConsumptionValue": correlations.select("corr_consumption").collect()[0][0]
+    }
 
-    # correlations 데이터프레임의 각 열에 대해 반복하여 상관관계 값을 new_weights에 저장
-    new_weights["totalTrafficFoot"] = correlations["corr_population"]  
-    new_weights["totalSales"] = correlations["corr_sales"]  
-    new_weights["openedRate"] = correlations["corr_openedRate"]  
-    new_weights["closedRate"] = correlations["corr_closedRate"]  
-    new_weights["totalConsumption"] = correlations["corr_consumption"]
-
+    # 새로운 가중치와 이전 가중치 점진적 업데이트 (50%만 반영)
     update_ratio = 0.5  # 새 가중치를 50% 반영
-    updated_weights = {k: user_weights[k] * (1 - update_ratio) + new_weights[k] * update_ratio for k in user_weights} 
+    updated_weights = {
+        "userId": new_weights["userId"],
+        "totalTrafficFootValue": float(user_weights.select("totalTrafficFootValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalTrafficFootValue"]) * update_ratio,
+        "totalSalesValue": float(user_weights.select("totalSalesValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalSalesValue"]) * update_ratio,
+        "openedRateValue": float(user_weights.select("openedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["openedRateValue"]) * update_ratio,
+        "closedRateValue": float(user_weights.select("closedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["closedRateValue"]) * update_ratio,
+        "totalConsumptionValue": float(user_weights.select("totalConsumptionValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalConsumptionValue"]) * update_ratio
+    }
 
-    # 저장 옵션 설정 및 실행
-    weights_path = f"hdfs://172.17.0.2:9000/user/hadoop/weight/user_weights.json"
-    #weights_path = f"hdfs://c09a4a0a1fec:8020/user/hadoop/weight/{userId}/user_weights.json"
-    updated_weights.write.mode('overwrite').json(weights_path)
+    update_user_weights(userId, updated_weights)
 
-    return res
+    stop_spark(spark)
+    
+    return res  
 
-def stop_spark():
+def stop_spark(spark):
     spark.stop()

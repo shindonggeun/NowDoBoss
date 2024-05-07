@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 
 
 # JAVA_HOME 환경 변수 설정
-ENV JAVA_HOME /usr/lib/jvm/java-11=-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
 
 # 컨테이너 내에서 작업 디렉토리를 설정합니다
 WORKDIR /app

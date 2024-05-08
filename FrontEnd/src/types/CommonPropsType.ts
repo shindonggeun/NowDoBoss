@@ -31,3 +31,11 @@ export type RadarChartPropsType = {
   value1: number[]
   value2: number[]
 }
+
+export type HorizontalBarChartPropsType = {
+  labels: string[]
+  values: number[]
+  datasetsLabel: string
+  aspectRatio: number
+  xDisplay: boolean
+}

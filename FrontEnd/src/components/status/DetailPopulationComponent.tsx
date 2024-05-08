@@ -1,7 +1,7 @@
 import * as c from '@src/components/styles/status/DeatilComponentStyle'
 import { DetailDataBody } from '@src/types/StatusType'
 import AreaChart from '@src/common/AreaChart'
-import BarChart2 from '@src/common/BarChart2'
+// import BarChart2 from '@src/common/BarChart2'
 import PieChart from '@src/common/PieChart'
 import Radar2Chart from '@src/common/Radar2Chart'
 import BarChart3 from '@src/common/BarChart3'
@@ -13,8 +13,7 @@ interface DetailPopulationProps {
 }
 
 const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
-  console.log(props!.footTrafficDistrictDetail.footTrafficDistrictListByTime)
-
+  // 분기별 평균 유동인구
   const PeriodData =
     props!.footTrafficDistrictDetail.footTrafficDistrictListByPeriod
   const PeriodDataArray = Object.entries(PeriodData.data).map(
@@ -23,13 +22,17 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
     }),
   )
 
-  const labels = PeriodDataArray.map(item => {
+  const PeriodValues = Object.values(PeriodData.data)
+  const PeriodMinValue = Math.min(...PeriodValues) * 0.99
+
+  const PeriodLabels = PeriodDataArray.map(item => {
     const key = Object.keys(item)[0]
     const year = key.substring(0, 4)
     const quarter = key.substring(4)
     return `${year}-${quarter}분기`
   })
 
+  // 시간대별 유동인구
   const TimeData =
     props!.footTrafficDistrictDetail.footTrafficDistrictListByTime
   const TimeDataArray = Object.entries(TimeData.data).map(([key, value]) => ({
@@ -39,6 +42,7 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
   const StartTime = PeakTime[0].split('time')
   const EndTime = PeakTime[1]
 
+  // 성별, 연령별 유동인구
   const GenderData =
     props!.footTrafficDistrictDetail.footTrafficDistrictListByGender
 
@@ -47,6 +51,7 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
     [key]: value,
   }))
 
+  // 요일별 유동인구
   const DayData = props!.footTrafficDistrictDetail.footTrafficDistrictListByDay
   const DayDataArray = Object.entries(DayData.data).map(([key, value]) => ({
     [key]: value,
@@ -56,7 +61,6 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
 
   return (
     <div>
-      {/* <h1>유동인구 페이지</h1> */}
       <div>
         <c.AnalysisTitle>분기별 평균 유동인구</c.AnalysisTitle>
         <c.AnalysisSubTitle>
@@ -64,9 +68,10 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
           <c.AnalysiEemphasis>{PeriodData.summary}</c.AnalysiEemphasis>
           하고 있습니다.
         </c.AnalysisSubTitle>
-        <BarChart2
-          labels={labels}
+        <BarChart3
+          labels={PeriodLabels}
           values={PeriodDataArray.map(item => Object.values(item)[0])}
+          minvalue={PeriodMinValue}
         />
         <ContainerBox height={30} />
       </div>

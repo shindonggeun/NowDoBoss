@@ -10,6 +10,8 @@ import os
 from pyspark.sql.functions import when, desc
 from pyspark.sql import functions as F
 from pyspark.sql.functions import lit
+from pyspark.sql.utils import AnalysisException
+import concurrent.futures
 
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
 filename = 'model_update_time.json'
@@ -100,6 +102,20 @@ def load_model(model_path, df_actions):
         print("New model trained and saved.")
     return model
 
+def load_csv(spark):
+    return spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
+try:
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(load_csv)
+        df_actions = future.result(timeout=60)  # 5분으로 설정
+
+except concurrent.futures.TimeoutError:
+    future.cancel()
+    print("작업이 시간 초과되었습니다.")
+
+except AnalysisException as e:
+    print("파일을 찾을 수 없습니다:", e)
+
 def recommend_commercials(userId):
     print("추천 메서드 안!")
     
@@ -114,11 +130,13 @@ def recommend_commercials(userId):
     last_update_time = load_last_update_time(filename)
     print("Previous update time:", last_update_time)
 
-    # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
-    df_actions = spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
+    load_csv(spark)
 
-    # 문자열 타입의 timestamp를 datetime으로 변환
-    df_actions = df_actions.withColumn("timestamp", to_timestamp(col("timestamp")))
+    # # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
+    # df_actions = spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
+
+    # # 문자열 타입의 timestamp를 datetime으로 변환
+    # df_actions = df_actions.withColumn("timestamp", to_timestamp(col("timestamp")))
 
     # # 마지막 업데이트 시간 이후의 데이터만 필터링
     # action_data = df_actions.filter(col("timestamp") > last_update_time)

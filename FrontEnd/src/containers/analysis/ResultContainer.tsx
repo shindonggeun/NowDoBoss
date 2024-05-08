@@ -49,6 +49,7 @@ const ResultContainer = () => {
   const { data: FlowPopulationData, status: flowPopulationStatus } = useQuery({
     queryKey: ['GetFlowPopulationData', selectedCommercial.code],
     queryFn: () => getFlowPopulationData(String(selectedCommercial.code)),
+    enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
   })
 
   useEffect(() => {
@@ -65,6 +66,7 @@ const ResultContainer = () => {
     useQuery({
       queryKey: ['GetResidentPopulationData', selectedCommercial.code],
       queryFn: () => getResidentPopulationData(String(selectedCommercial.code)),
+      enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
     })
 
   useEffect(() => {

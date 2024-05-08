@@ -3,10 +3,11 @@ import {
   AnalysisStoreType,
   FlowPopulationDataBodyType,
   ResidentPopulationDataBodyType,
+  SalesDataBodyType,
   SelectedServiceType,
 } from '@src/types/AnalysisType'
 
-// 초기 상태를 위한 객체
+// 초기 상태 - 업종
 const initialSelectService: SelectedServiceType = {
   serviceCode: '',
   serviceCodeName: '',
@@ -15,6 +16,7 @@ const initialSelectService: SelectedServiceType = {
 
 const initialServiceDataBody: SelectedServiceType[] = []
 
+// 초기 상태 - 유동인구
 const initialFlowPopulationDataBody: FlowPopulationDataBodyType = {
   timeSlotFootTraffic: {
     footTraffic00: 0,
@@ -57,6 +59,7 @@ const initialFlowPopulationDataBody: FlowPopulationDataBodyType = {
   },
 }
 
+// 초기 상태 - 상주인구
 const initialResidentPopulationDataBody: ResidentPopulationDataBodyType = {
   populationInfo: {
     totalPopulation: 0,
@@ -71,6 +74,71 @@ const initialResidentPopulationDataBody: ResidentPopulationDataBodyType = {
   femalePercentage: 0,
 }
 
+// 초기 상태 - 매출분석
+const initialSalesDataBody: SalesDataBodyType = {
+  timeSalesInfo: {
+    sales00: 0,
+    sales06: 0,
+    sales11: 0,
+    sales14: 0,
+    sales17: 0,
+    sales21: 0,
+  },
+  daySalesInfo: {
+    monSales: 0,
+    tueSales: 0,
+    wedSales: 0,
+    thuSales: 0,
+    friSales: 0,
+    satSales: 0,
+    sunSales: 0,
+  },
+  ageSalesInfo: {
+    teenSales: 0,
+    twentySales: 0,
+    thirtySales: 0,
+    fortySales: 0,
+    fiftySales: 0,
+    sixtySales: 0,
+  },
+  ageGenderPercentSales: {
+    maleTeenSalesPercent: 0,
+    femaleTeenSalesPercent: 0,
+    maleTwentySalesPercent: 0,
+    femaleTwentySalesPercent: 0,
+    maleThirtySalesPercent: 0,
+    femaleThirtySalesPercent: 0,
+    maleFortySalesPercent: 0,
+    femaleFortySalesPercent: 0,
+    maleFiftySalesPercent: 0,
+    femaleFiftySalesPercent: 0,
+    maleSixtySalesPercent: 0,
+    femaleSixtySalesPercent: 0,
+  },
+  daySalesCountInfo: {
+    monSalesCount: 0,
+    tueSalesCount: 0,
+    wedSalesCount: 0,
+    thuSalesCount: 0,
+    friSalesCount: 0,
+    satSalesCount: 0,
+    sunSalesCount: 0,
+  },
+  timeSalesCountInfo: {
+    salesCount00: 0,
+    salesCount06: 0,
+    salesCount11: 0,
+    salesCount14: 0,
+    salesCount17: 0,
+    salesCount21: 0,
+  },
+  genderSalesCountInfo: {
+    maleSalesCount: 0,
+    femaleSalesCount: 0,
+  },
+  annualQuarterSalesInfos: [],
+}
+
 // store
 const analysisStore = create<AnalysisStoreType>(set => ({
   selectedServiceType: '', // 선택한 업종 대분류
@@ -78,6 +146,7 @@ const analysisStore = create<AnalysisStoreType>(set => ({
   serviceDataBody: initialServiceDataBody, // 업종 API 반환 데이터
   flowPopulationDataBody: initialFlowPopulationDataBody, // 유동인구 API 반환 데이터
   residentPopulationDataBody: initialResidentPopulationDataBody, // 상주인구 API 반환 데이터
+  salesDataBody: initialSalesDataBody, // 매출분석 API 반환 데이터
 
   setSelectedServiceType: serviceType =>
     set({ selectedServiceType: serviceType }),
@@ -87,6 +156,7 @@ const analysisStore = create<AnalysisStoreType>(set => ({
     set({ flowPopulationDataBody: dataBody }),
   setResidentPopulationDataBody: dataBody =>
     set({ residentPopulationDataBody: dataBody }),
+  setSalesDataBody: dataBody => set({ salesDataBody: dataBody }),
 }))
 
 export default analysisStore

@@ -18,6 +18,12 @@ filename = 'model_update_time.json'
 hdfs_path = 'hdfs://172.17.0.2:9000'
 model_path = hdfs_path + "/user/hadoop/model"
 
+# Spark 세션 초기화 - 추후 설정에 맞게 변경
+spark = SparkSession.builder \
+    .appName("Recommendation") \
+    .config("spark.hadoop.fs.defaultFS", hdfs_path) \
+    .getOrCreate()
+
 # 마지막 업데이트 시간을 불러오는 함수
 def load_last_update_time(file_path):
     if os.path.exists(file_path):
@@ -102,7 +108,7 @@ def load_model(model_path, df_actions):
         print("New model trained and saved.")
     return model
 
-def to_load_csv(spark):
+def to_load_csv():
     return spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
 try:
     with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -119,11 +125,7 @@ except AnalysisException as e:
 def recommend_commercials(userId):
     print("추천 메서드 안!")
     
-    # Spark 세션 초기화 - 추후 설정에 맞게 변경
-    spark = SparkSession.builder \
-        .appName("Recommendation") \
-        .config("spark.hadoop.fs.defaultFS", hdfs_path) \
-        .getOrCreate()
+    
     print("spark 설정 이후!")
 
     # 이전 업데이트 시간 불러오기

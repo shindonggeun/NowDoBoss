@@ -20,6 +20,11 @@ import java.util.List;
 public class ChatMessageController {
     private final ChatMessageService chatMessageService;
 
+    @MessageMapping("/enter/{roomId}")
+    public void enter(@DestinationVariable Long roomId, @Payload ChatMessageRequest request) {
+        chatMessageService.enter(KafkaChatConstants.KAFKA_TOPIC, request);
+    }
+
     @MessageMapping("/message/{roomId}")
     public void sendMessage(@DestinationVariable Long roomId, @Payload ChatMessageRequest request) {
         chatMessageService.send(KafkaChatConstants.KAFKA_TOPIC, request);

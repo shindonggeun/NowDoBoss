@@ -34,5 +34,9 @@ public class ChatRoom extends BaseEntity {
     @Comment("채팅방 제한 인원수")
     @Column(name = "chat_room_limit", columnDefinition = "INT UNSIGNED")
     private int limit;
+
+    public boolean isFull(int memberCount) {
+        return limit <= memberCount;
+    }
 }
 

@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.chat.dto.response;
 
 import com.ssafy.backend.domain.chat.entity.ChatMessage;
+import com.ssafy.backend.domain.chat.entity.ChatRoom;
 import com.ssafy.backend.domain.chat.entity.enums.MessageType;
 import com.ssafy.backend.domain.member.entity.Member;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,9 @@ public class ChatMessageResponse {
     private String senderNickname;
     private String senderProfileImage;
 
-    public static ChatMessageResponse of(ChatMessage message, Member sender, Long chatRoomId) {
+    public static ChatMessageResponse of(ChatMessage message) {
+        Member sender = message.getSender();
+        ChatRoom chatRoom = message.getChatRoom();
         return ChatMessageResponse.builder()
                 .chatMessageId(message.getId())
                 .type(message.getType())
@@ -33,7 +36,7 @@ public class ChatMessageResponse {
                 .senderId(sender.getId())
                 .senderNickname(sender.getNickname())
                 .senderProfileImage(sender.getProfileImage())
-                .chatRoomId(chatRoomId)
+                .chatRoomId(chatRoom.getId())
                 .build();
     }
 }

@@ -8,15 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChatMessageRequest {
     private Long chatRoomId;
-    private String type;
+//    private String type;
     private String content;
     private Long senderId;
 
-    public MessageType getMessageType() {
-        return MessageType.valueOf(type);
-    }
-
-    public void enter(String nickname) {
-        this.content = nickname + "님이 입장하셨습니다.";
-    }
+//    public MessageType getMessageType() {
+//        return MessageType.valueOf(type);
+//    }
 }

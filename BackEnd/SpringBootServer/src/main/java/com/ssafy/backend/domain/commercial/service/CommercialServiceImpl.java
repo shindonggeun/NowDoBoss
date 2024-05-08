@@ -7,6 +7,9 @@ import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationExc
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
 import com.ssafy.backend.domain.district.entity.enums.ServiceType;
+import com.ssafy.backend.domain.simulation.entity.Rent;
+import com.ssafy.backend.domain.simulation.exception.SimulationErrorCode;
+import com.ssafy.backend.domain.simulation.exception.SimulationException;
 import com.ssafy.backend.domain.simulation.repository.RentRepository;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
@@ -304,6 +307,18 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         return new CommercialStoreResponse(sameStores, sameTotalStore, franchiseeStore, openAndCloseStore);
+    }
+
+    @Override
+    public CommercialRentResponse getRentByDistrictCode(String districtCode) {
+        Rent rent = rentRepository.findByDistrictCode(districtCode)
+                .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_DISTRICT));
+
+        return new CommercialRentResponse(
+                rent.getTotal(),
+                rent.getFirstFloor(),
+                rent.getOtherFloor()
+        );
     }
 
 

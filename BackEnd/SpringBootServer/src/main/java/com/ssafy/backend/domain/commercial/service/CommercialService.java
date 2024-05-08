@@ -22,4 +22,6 @@ public interface CommercialService {
     CommercialAdministrationAreaResponse getAdministrationInfoByCommercialCode(String commercialCode);
 
     CommercialStoreResponse getStoreByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode);
+
+//    CommercialRentResponse getRentByDistrictCode()
 }

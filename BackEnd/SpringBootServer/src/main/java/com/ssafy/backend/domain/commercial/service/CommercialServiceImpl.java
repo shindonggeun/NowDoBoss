@@ -7,6 +7,7 @@ import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationExc
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
 import com.ssafy.backend.domain.district.entity.enums.ServiceType;
+import com.ssafy.backend.domain.simulation.repository.RentRepository;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final PopulationCommercialRepository populationCommercialRepository;
     private final FacilityCommercialRepository facilityCommercialRepository;
     private final StoreCommercialRepository storeCommercialRepository;
+    private final RentRepository rentRepository;
 
     @Override
     @Transactional(readOnly = true)

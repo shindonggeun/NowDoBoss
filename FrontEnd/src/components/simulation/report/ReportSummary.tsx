@@ -19,9 +19,9 @@ const reportSummary = ({
   if (TotalPrice >= 100000000) {
     const billions = Math.floor(TotalPrice / 100000000)
     const millions = Math.floor((TotalPrice % 100000000) / 10000)
-    formattedNumber = `${billions}억 ${millions.toFixed(0)}만원`
+    formattedNumber = `${billions}억 ${millions.toFixed(0)} 만원`
   } else {
-    formattedNumber = `${(TotalPrice / 10000).toFixed(2)}만원`
+    formattedNumber = `${(TotalPrice / 10000).toFixed(0)} 만원`
   }
 
   return (

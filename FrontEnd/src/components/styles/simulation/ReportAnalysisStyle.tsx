@@ -1,7 +1,10 @@
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
-  margin: 2rem 5rem;
+  margin: 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 
 export const Title = styled.div`
@@ -155,4 +158,41 @@ export const CircleMonth = styled.div<CircleProps>`
       color: white;
       border: 1px solid #fa390e;
     `};
+`
+
+export const GrayBox = styled.div`
+  width: 93%;
+  min-height: 5rem;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 1.5rem 1rem;
+  margin-top: 0.5rem;
+`
+
+export const GrayBoxHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const GrayBoxHeaderTitle = styled.div`
+  padding-left: 0.7rem;
+  font-weight: 700;
+`
+
+export const ThumbUpIcon = styled.img`
+  width: 1.8rem;
+`
+
+export const GrayBoxTitle = styled.div`
+  padding: 1rem 0.7rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #d84a34;
+`
+
+export const GrayBoxSubTitle = styled.div`
+  padding: 0 0.7rem;
+  font-size: 0.9rem;
+  color: #4c545e;
 `

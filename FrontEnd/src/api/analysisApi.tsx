@@ -23,3 +23,14 @@ export const getResidentPopulationData = async (commercialCode: string) => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 매출분석
+export const getSalesData = async (
+  commercialCode: string,
+  serviceCode: string,
+) => {
+  return customAxios
+    .get(`/commercial/sales/${commercialCode}/${serviceCode}?periodCode=20192`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

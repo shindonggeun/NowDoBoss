@@ -1,3 +1,4 @@
+import { HorizontalBarChartPropsType } from '@src/types/CommonPropsType'
 import {
   BarElement,
   CategoryScale,
@@ -11,25 +12,14 @@ import { Bar } from 'react-chartjs-2'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-const HorizontalBarChart = () => {
-  const labels = [
-    '식료품',
-    '의류',
-    '생활용품',
-    '의료비',
-    '교통',
-    '여가',
-    '문화',
-    '교육',
-    '유흥',
-  ]
-  const values = ['12', '23', '500', '302', '101', '69', '99', '350', '200']
+const HorizontalBarChart = (props: HorizontalBarChartPropsType) => {
+  const { labels, values, datasetsLabel, aspectRatio, xDisplay } = props
 
   const data = {
     labels,
     datasets: [
       {
-        label: '유형별 지출금액',
+        label: datasetsLabel,
         data: values,
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
         borderColor: 'rgb(255, 99, 132)',
@@ -40,7 +30,7 @@ const HorizontalBarChart = () => {
   const options = {
     indexAxis: 'y' as const,
     responsive: true,
-    // aspectRatio: 3,
+    aspectRatio,
     interaction: {
       intersect: false,
     },
@@ -52,6 +42,7 @@ const HorizontalBarChart = () => {
     },
     scales: {
       x: {
+        display: xDisplay,
         grid: {
           display: false,
         },

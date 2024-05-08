@@ -18,6 +18,7 @@ import com.ssafy.backend.domain.recommendation.dto.info.StoreCommercialInfo;
 import com.ssafy.backend.domain.recommendation.dto.request.UserRequest;
 import com.ssafy.backend.domain.recommendation.dto.response.RecommendationResponse;
 import com.ssafy.backend.domain.recommendation.dto.response.UserResponse;
+import com.ssafy.backend.domain.recommendation.repository.RecommendationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -46,7 +47,7 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final StoreCommercialRepository storeCommercialRepository;
     private final AreaCommercialRepository areaCommercialRepository;
     private final RedisTemplate<String, String> redisTemplate;
-    private final MongoTemplate mongoTemplate;
+    private final RecommendationRepository recommendationRepository;
 
     @Override
     public List<RecommendationResponse> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
@@ -103,7 +104,7 @@ public class RecommendationServiceImpl implements RecommendationService{
                 for (RecommendationResponse dto: list){
                     if (dto.commercialCode().equals(commercialCode)){
                         RecommendationDocument recommendationDocument = new RecommendationDocument(id, commercialCode, "recommendation");
-                        mongoTemplate.save(recommendationDocument);
+                        recommendationRepository.save(recommendationDocument);
                         break;
                     }
                 }
@@ -112,6 +113,11 @@ public class RecommendationServiceImpl implements RecommendationService{
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void deleteCommercialRecommendation(String commercialCode, Long id) {
+        recommendationRepository.deleteByUserIdAndCommercialCodeAndType(id, commercialCode, "recommendation");
     }
 
     private List<UserResponse> fetchCommercialData(Long id) {

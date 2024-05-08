@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,11 +39,23 @@ public class RecommendationController {
             summary = "상권 추천 정보 보관함 저장",
             description = "해당 추천 정보를 보관함에 저장"
     )
-    @GetMapping("/{districtCode}/{administrationCode}/{commercialCode}/save")
+    @PostMapping("/{districtCode}/{administrationCode}/{commercialCode}/save")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<String>> saveCommercialRecommendation(
             @AuthenticationPrincipal MemberLoginActive loginActive, @PathVariable String districtCode, @PathVariable String commercialCode, @PathVariable String administrationCode) {
         recommendationService.saveCommercialRecommendation(commercialCode, loginActive.id());
         return ResponseEntity.ok().body(Message.success("보관함 저장 성공!"));
+    }
+
+    @Operation(
+            summary = "상권 추천 정보 보관함 저장 취소",
+            description = "해당 추천 정보를 보관함에서 삭제"
+    )
+    @DeleteMapping("/{districtCode}/{administrationCode}/{commercialCode}/cancel")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<String>> deleteCommercialRecommendation(
+            @AuthenticationPrincipal MemberLoginActive loginActive, @PathVariable String districtCode, @PathVariable String commercialCode, @PathVariable String administrationCode) {
+        recommendationService.deleteCommercialRecommendation(commercialCode, loginActive.id());
+        return ResponseEntity.ok().body(Message.success("보관함 삭제 성공!"));
     }
 }

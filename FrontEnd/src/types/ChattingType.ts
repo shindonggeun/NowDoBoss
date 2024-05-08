@@ -10,6 +10,7 @@ export type CreateChatRoomData = {
   category: string
   name: string
   introduction: string
+  limit: number
 }
 
 // 받은 메세지 타입

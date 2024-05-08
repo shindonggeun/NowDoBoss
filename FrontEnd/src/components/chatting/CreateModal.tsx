@@ -5,20 +5,21 @@ import arrow_down from '@src/assets/arrow_down.svg'
 import React, { useState } from 'react'
 import { createChatRoom } from '@src/api/chattingApi'
 import { useMutation } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 
 const style = {
   position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  height: 500,
+  width: '400px',
+  height: '550px',
   borderRadius: '10px',
   bgcolor: 'background.paper',
   '&:focus': {
     outline: 'none',
   },
-  p: 4,
+  p: 3,
   display: 'flex',
   flexDirection: 'column',
   // alignItems: 'center',
@@ -31,12 +32,14 @@ type CreateModalPropsType = {
 
 const CreateModal = (props: CreateModalPropsType) => {
   const { modalOpen, setModalOpen } = props
+  const navigate = useNavigate()
   const [nameValue, setNameValue] = useState<string>('')
   const [introductionValue, setIntroductionValue] = useState<string>('')
 
   const [outputCategoryValue, setOutputCategoryValue] =
     useState<string>('카테고리를 선택해주세요.')
   const [selectedCategoryValue, setSelectedCategoryValue] = useState<string>('')
+  const [selectedLimitValue, setSelectedLimitValue] = useState<number>(0)
 
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const categories = [
@@ -50,6 +53,9 @@ const CreateModal = (props: CreateModalPropsType) => {
   const { mutate: mutateCreateChatRoom } = useMutation({
     mutationKey: ['createChatRoom'],
     mutationFn: createChatRoom,
+    onSuccess: res => {
+      return navigate(`/community/chatting/${res.dataBody.chatRoomId}`)
+    },
   })
 
   // 채팅방 생성 함수
@@ -58,6 +64,7 @@ const CreateModal = (props: CreateModalPropsType) => {
       name: nameValue,
       introduction: introductionValue,
       category: selectedCategoryValue,
+      limit: selectedLimitValue,
     }
     mutateCreateChatRoom(ArticleData)
   }
@@ -120,6 +127,18 @@ const CreateModal = (props: CreateModalPropsType) => {
               </c.DropdownBox>
             )}
           </c.Dropdown>
+          <c.Title>최대인원 (최대 600명)</c.Title>
+          <c.NumberInput
+            type="number"
+            $isActive={!!selectedLimitValue}
+            placeholder="채팅방 이름을 입력해주세요."
+            defaultValue={selectedLimitValue}
+            max="600"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setSelectedLimitValue(Number(e.target.value))
+            }}
+          />
+
           <c.ButtonDiv>
             <c.SubmitButton
               onClick={() => {

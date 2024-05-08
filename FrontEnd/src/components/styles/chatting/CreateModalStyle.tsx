@@ -6,7 +6,7 @@ export const CreateModal = styled.div`
 `
 
 export const Title = styled.div`
-  margin: 15px 0;
+  margin: 10px 0;
   font-weight: 500;
 `
 
@@ -99,6 +99,28 @@ export const DropdownContent = styled.div`
     border-radius: 5px;
   }
 `
+
+export const NumberInput = styled.input<{ $isActive?: boolean }>`
+  font-weight: 500;
+  font-size: 1rem;
+  width: 95%;
+  height: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  resize: none;
+  border: 0.15rem solid #d9d9d9;
+  border-radius: 5px;
+  padding: 5px 0 0 20px;
+  color: #5f5f5f;
+  &:hover {
+    cursor: text;
+  }
+  &:focus {
+    outline: none;
+  }
+`
+
 export const SubmitButton = styled.button`
   color: #5f5f5f;
   font-family: inherit;

@@ -59,7 +59,7 @@ export const ArrowButton = styled.img`
 export const Slick = styled.div``
 export const SlickChild = styled.div`
   &:hover {
-    margin: -10px 0 0 10px;
+    margin: -10px 0 0 0;
     cursor: pointer;
   }
 `
@@ -71,7 +71,7 @@ export const ChatCard = styled.div`
   width: auto;
   height: auto;
   padding: 20px 30px;
-  margin: 10px 30px 10px 4px;
+  margin: 10px 4px;
   min-height: 175px;
   overflow: hidden;
 `

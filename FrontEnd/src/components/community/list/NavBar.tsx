@@ -3,6 +3,8 @@ import { useState } from 'react'
 import useCommunityStore, { Category } from '@src/stores/communityStore'
 import chatIcon from '@src/assets/chat_button.svg'
 import { useNavigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { fetchMyRooms } from '@src/api/chattingApi'
 
 export type NavBarPropsType = {
   setCategory: (category: Category) => void
@@ -21,28 +23,11 @@ const NavBar = (props: NavBarPropsType) => {
   const [isChoice, setIsChoice] = useState<string>(
     selectedCategory.name ? selectedCategory.name : '전체보기',
   )
-  const chatCards = [
-    {
-      id: 1,
-      name: '나도광연',
-      img: '',
-    },
-    {
-      id: 2,
-      name: '나도정인',
-      img: '',
-    },
-    {
-      id: 3,
-      name: '나도동근',
-      img: '',
-    },
-    {
-      id: 4,
-      name: '나도성호',
-      img: '',
-    },
-  ]
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['fetchMyRooms'],
+    queryFn: () => fetchMyRooms(),
+  })
 
   return (
     <n.Container>
@@ -70,26 +55,30 @@ const NavBar = (props: NavBarPropsType) => {
           </n.Category>
         ))}
       </n.Community>
-      <n.Chatting>
-        <n.Title>채팅</n.Title>
-        {chatCards.map(chatCard => (
-          <n.Category
-            key={chatCard.id}
-            $isChoice={isChoice === chatCard.name}
-            onClick={() => {
-              setIsChoice(chatCard.name)
-              navigate(`/community/chatting/${chatCard.id}`)
-            }}
-          >
-            <n.ProfileImg>{chatCard.img}</n.ProfileImg>
-            <n.Text>{chatCard.name}</n.Text>
-          </n.Category>
-        ))}
-      </n.Chatting>
-      <n.ChatButton
-        src={chatIcon}
-        onClick={() => navigate(`/community/chatting/1`)}
-      />
+      {data && !isLoading && (
+        <n.Div>
+          <n.Chatting>
+            <n.Title>채팅</n.Title>
+            {data.dataBody.map((chatCard: { id: number; name: string }) => (
+              <n.Category
+                key={chatCard.id}
+                $isChoice={isChoice === chatCard.name}
+                onClick={() => {
+                  setIsChoice(chatCard.name)
+                  navigate(`/community/chatting/${chatCard.id}`)
+                }}
+              >
+                <n.ProfileImg />
+                <n.Text>{chatCard.name}</n.Text>
+              </n.Category>
+            ))}
+          </n.Chatting>
+          <n.ChatButton
+            src={chatIcon}
+            onClick={() => navigate(`/community/chatting/1`)}
+          />
+        </n.Div>
+      )}
     </n.Container>
   )
 }

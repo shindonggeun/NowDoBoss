@@ -7,7 +7,7 @@ import { forwardRef, Ref } from 'react'
 const ExpenditureAnalysis = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
     <div ref={ref}>
-      <CategoryTitleCard title="지출내역" />
+      <CategoryTitleCard src="src/assets/expenditure.png" title="지출내역" />
       <e.FirstLowContainer>
         <TotalCard />
         <CategoryCard />

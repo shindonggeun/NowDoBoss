@@ -28,7 +28,7 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
   // 보여주기 위한 값
   const [outputCategoryValue, setOutputCategoryValue] =
     useState<string>('카테고리를 선택해주세요.')
-  const [imageFileValue, setImageFile] = useState<File[]>([])
+  const [imageFileValue, setImageFileValue] = useState<File[]>([])
   const [imageViewValue, setImageViewValue] = useState<string[]>([])
   const [imageUrl, setImageUrl] = useState<ImageType>({
     imageId: null,
@@ -277,7 +277,7 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
         imageViewValue={imageViewValue}
         setImageView={setImageViewValue}
         imageFileValue={imageFileValue}
-        setImageFile={setImageFile}
+        setImageFileValue={setImageFileValue}
         setClickAddImg={setClickAddImg}
       />
     </c.Container>

@@ -1,23 +1,19 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import recommendation
-import recommend
+import asyncio
+
 app = FastAPI()
 
 class UserRequest(BaseModel):
     userId: int
 
+
 @app.post("/recommend")
 async def recommend_commercial_areas(request: UserRequest):
-    try:
-        recommendations = recommendation.recommend_commercials(request.userId)
-        return recommendations
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.on_event("shutdown")
-def shutdown_event():
-    recommendation.stop_spark()  # Spark 세션 종료 처리
+    print("추천에 도착!")
+    print("확인!")
+    return recommendation.recommend_commercials(request.userId)
 
 @app.get("/")
 async def root():

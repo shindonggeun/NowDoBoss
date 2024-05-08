@@ -86,7 +86,10 @@ const NavBar = (props: NavBarPropsType) => {
           </n.Category>
         ))}
       </n.Chatting>
-      <n.ChatButton src={chatIcon} />
+      <n.ChatButton
+        src={chatIcon}
+        onClick={() => navigate(`/community/chatting/1`)}
+      />
     </n.Container>
   )
 }

@@ -1,9 +1,9 @@
+import analysisStore from '@src/stores/analysisStore'
 import {
   ChoiceServiceDetailPropsType,
   SelectedServiceType,
 } from '@src/types/AnalysisType'
 import * as c from '@src/components/styles/analysis/ChoiceServiceDetailStyle'
-import analysisStore from '@src/stores/analysisStore'
 
 const ChoiceServiceDetail = (props: ChoiceServiceDetailPropsType) => {
   const { serviceList } = props

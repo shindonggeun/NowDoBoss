@@ -16,3 +16,13 @@ export const ContentSlide = styled.div`
   box-sizing: border-box;
   background-color: #ffffff;
 `
+
+export const BtnContainer = styled.div<{ disabled: boolean }>`
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${props => (props.disabled ? 0.5 : 1)};
+  pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
+
+  &:hover {
+    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  }
+`

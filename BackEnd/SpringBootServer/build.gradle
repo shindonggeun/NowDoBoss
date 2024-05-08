@@ -76,6 +76,8 @@ dependencies {
 	implementation 'org.geotools:gt-referencing:29.2'
 	implementation 'org.geotools:gt-epsg-hsql:29.2'
 
+	// mongoDB
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

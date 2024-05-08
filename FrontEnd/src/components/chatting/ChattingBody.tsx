@@ -1,46 +1,14 @@
 import * as c from '@src/components/styles/chatting/ChattingBodyStyle'
-import React, { useState } from 'react'
-import send_message from '@src/assets/send_message.svg'
+import { MessageType } from '@src/types/ChattingType'
 
-const ChattingBody = () => {
-  const [contentValue, setContentValue] = useState<string>('')
+export type ChattingBodyPropsType = {
+  messages: MessageType[]
+}
 
-  return (
-    <c.Container>
-      {/* 헤더 */}
-      <c.Header>
-        <c.ChatInfo>
-          <c.ChatImg />
-          <c.ChatDiv>
-            <c.ChatTitle>제목</c.ChatTitle>
-            <c.ChatMembers>3 members</c.ChatMembers>
-          </c.ChatDiv>
-        </c.ChatInfo>
-        <c.More>⋯</c.More>
-      </c.Header>
-      {/* <c.Content> */}
-      {/*    <c.User */}
-      {/* </c.Content> */}
-      {/* 입력창 */}
-      <c.Input
-        placeholder="내용을 입력해주세요."
-        defaultValue={contentValue}
-        maxLength={499}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-          setContentValue(e.target.value)
-        }}
-      />
-      <c.SubmitButton
-        $isActive={contentValue !== ''}
-        onClick={() => {
-          console.log('채팅 제출')
-          setContentValue('')
-        }}
-      >
-        <c.SubmitImg src={send_message} />
-      </c.SubmitButton>
-    </c.Container>
-  )
+const ChattingBody = (props: ChattingBodyPropsType) => {
+  const { messages } = props
+  console.log(messages)
+  return <c.Container>바디</c.Container>
 }
 
 export default ChattingBody

@@ -1,5 +1,5 @@
 # 기본 이미지로 Node.js 버전 20.11.1 사용
-FROM node:20.11.1 as build
+FROM node:20.11.1 AS build
 
 # 작업 디렉토리 설정
 WORKDIR /usr/src/app

@@ -41,6 +41,20 @@ const initialFlowPopulationDataBody: FlowPopulationDataBodyType = {
     fiftyFootTraffic: 0,
     sixtyFootTraffic: 0,
   },
+  ageGenderPercentFootTraffic: {
+    maleTeenFootTrafficPercent: 0,
+    femaleTeenFootTrafficPercent: 0,
+    maleTwentyFootTrafficPercent: 0,
+    femaleTwentyFootTrafficPercent: 0,
+    maleThirtyFootTrafficPercent: 0,
+    femaleThirtyFootTrafficPercent: 0,
+    maleFortyFootTrafficPercent: 0,
+    femaleFortyFootTrafficPercent: 0,
+    maleFiftyFootTrafficPercent: 0,
+    femaleFiftyFootTrafficPercent: 0,
+    maleSixtyFootTrafficPercent: 0,
+    femaleSixtyFootTrafficPercent: 0,
+  },
 }
 
 const initialResidentPopulationDataBody: ResidentPopulationDataBodyType = {
@@ -59,11 +73,14 @@ const initialResidentPopulationDataBody: ResidentPopulationDataBodyType = {
 
 // store
 const analysisStore = create<AnalysisStoreType>(set => ({
-  selectedService: initialSelectService,
-  serviceDataBody: initialServiceDataBody,
-  flowPopulationDataBody: initialFlowPopulationDataBody,
-  residentPopulationDataBody: initialResidentPopulationDataBody,
+  selectedServiceType: '', // 선택한 업종 대분류
+  selectedService: initialSelectService, // 선택한 업종 소분류
+  serviceDataBody: initialServiceDataBody, // 업종 API 반환 데이터
+  flowPopulationDataBody: initialFlowPopulationDataBody, // 유동인구 API 반환 데이터
+  residentPopulationDataBody: initialResidentPopulationDataBody, // 상주인구 API 반환 데이터
 
+  setSelectedServiceType: serviceType =>
+    set({ selectedServiceType: serviceType }),
   setSelectedService: service => set(() => ({ selectedService: service })),
   setServiceDataBody: dataBody => set({ serviceDataBody: dataBody }),
   setFlowPopulationDataBody: dataBody =>

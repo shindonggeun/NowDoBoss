@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import down_arrow from '@src/assets/arrow_down.svg'
 import styled from 'styled-components'
 import useSelectPlaceStore from '@src/stores/selectPlaceStore'
+import analysisStore from '@src/stores/analysisStore'
 import { useQuery } from '@tanstack/react-query'
 import { fetchAdministrationList, fetchDongList } from '@src/api/mapApi'
 import { useLocation } from 'react-router-dom'
@@ -157,18 +158,20 @@ const ChoicePlace = () => {
   // store에 저장된 구 데이터와 선택한 구, 동, 상권 값 가져올 store
   const {
     goosData,
-    // 선택한 구, 동, 상권
     selectedGoo,
     selectedDong,
     selectedCommercial,
-    // 구, 동, 상권 데이터 set
     setSelectedGoo,
     setSelectedDong,
     setSelectedCommercial,
-    // 동, 상권 데이터 목록
     setSaveDongList,
     setSaveCommercialList,
   } = useSelectPlaceStore()
+
+  const setSelectedServiceType = analysisStore(
+    state => state.setSelectedServiceType,
+  )
+  const setSelectedService = analysisStore(state => state.setSelectedService)
 
   // 구 선택 시 동 목록 조회하는 useQuery
   const { data: dongListData } = useQuery({
@@ -357,6 +360,13 @@ const ChoicePlace = () => {
                 setSelectedCommercial({
                   name: district.commercialCodeName,
                   code: district.commercialCode,
+                })
+                // 업종 선택값 초기화
+                setSelectedServiceType('')
+                setSelectedService({
+                  serviceCode: '',
+                  serviceCodeName: '',
+                  serviceType: '',
                 })
                 setDropdownCommercialOpen(false)
               }}

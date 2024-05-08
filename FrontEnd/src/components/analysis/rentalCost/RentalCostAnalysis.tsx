@@ -7,7 +7,7 @@ import * as r from '@src/components/styles/analysis/RentalCostAnalysisStyle'
 const RentalCostAnalysis = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
     <div ref={ref}>
-      <CategoryTitleCard title="임대료" />
+      <CategoryTitleCard src="src/assets/rental_cost.png" title="임대료" />
       <r.FirstLowContainer>
         <TotalChart />
         <CategoryChart />

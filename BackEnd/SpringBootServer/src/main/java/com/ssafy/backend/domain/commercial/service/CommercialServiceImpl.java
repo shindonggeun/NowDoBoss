@@ -5,17 +5,17 @@ import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import com.ssafy.backend.domain.commercial.repository.*;
+import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
+import com.ssafy.backend.domain.district.entity.enums.ServiceType;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.C;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,6 +28,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final SalesCommercialRepository salesCommercialRepository;
     private final PopulationCommercialRepository populationCommercialRepository;
     private final FacilityCommercialRepository facilityCommercialRepository;
+    private final StoreCommercialRepository storeCommercialRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -139,7 +140,7 @@ public class CommercialServiceImpl implements CommercialService {
     @Override
     @Transactional(readOnly = true)
     public CommercialSalesResponse getSalesByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode) {
-        SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
+        com.ssafy.backend.domain.commercial.entity.SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
                 .orElseThrow(() -> new RuntimeException("매출분석 데이터가 없습니다."));
 
         CommercialTimeSalesInfo timeSales = new CommercialTimeSalesInfo(
@@ -172,7 +173,52 @@ public class CommercialServiceImpl implements CommercialService {
 
         CommercialAgeGenderPercentSalesInfo ageGenderPercentSales = calculateAgeGenderPercentSales(salesCommercial);
 
-        return new CommercialSalesResponse(timeSales, daySales, ageSales, ageGenderPercentSales);
+        CommercialDaySalesCountInfo daySalesCount = new CommercialDaySalesCountInfo(
+                salesCommercial.getMonSalesCount(),
+                salesCommercial.getTueSalesCount(),
+                salesCommercial.getWedSalesCount(),
+                salesCommercial.getThuSalesCount(),
+                salesCommercial.getFriSalesCount(),
+                salesCommercial.getSatSalesCount(),
+                salesCommercial.getSunSalesCount()
+        );
+
+        CommercialTimeSalesCountInfo timeSalesCount = new CommercialTimeSalesCountInfo(
+                salesCommercial.getSalesCount00(),
+                salesCommercial.getSalesCount06(),
+                salesCommercial.getSalesCount11(),
+                salesCommercial.getSalesCount14(),
+                salesCommercial.getSalesCount17(),
+                salesCommercial.getSalesCount21()
+        );
+
+        CommercialGenderSalesCountInfo genderSalesCount = new CommercialGenderSalesCountInfo(
+                salesCommercial.getMaleSalesCount(),
+                salesCommercial.getFemaleSalesCount()
+        );
+
+        // 최근 4분기의 기간 코드를 계산
+        List<String> periodCodes = calculateLastFourQuarters(periodCode);
+
+        List<com.ssafy.backend.domain.commercial.entity.SalesCommercial> salesCommercials = salesCommercialRepository.findByCommercialCodeAndServiceCodeAndPeriodCodeIn(
+                commercialCode, serviceCode, periodCodes);
+
+        List<CommercialAnnualQuarterSalesInfo> annualQuarterSalesInfos = salesCommercials.stream()
+                .map(sales -> new CommercialAnnualQuarterSalesInfo(
+                        sales.getPeriodCode(),
+                        salesCommercial.getMonthSales())
+                ).toList();
+
+        return new CommercialSalesResponse(
+                timeSales,
+                daySales,
+                ageSales,
+                ageGenderPercentSales,
+                daySalesCount,
+                timeSalesCount,
+                genderSalesCount,
+                annualQuarterSalesInfos
+        );
     }
 
     @Override
@@ -220,8 +266,47 @@ public class CommercialServiceImpl implements CommercialService {
         return areaCommercialRepository.findByCommercialCode(commercialCode);
     }
 
+    @Override
+    public CommercialStoreResponse getStoreByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode) {
+        ServiceType serviceType = storeCommercialRepository.findServiceTypeByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode);
+
+        List<StoreCommercial> otherStores = storeCommercialRepository.findOtherServicesInSameCategory(periodCode, commercialCode, serviceType);
+
+        List<CommercialSameStoreInfo> sameStores = otherStores.stream()
+                .map(store -> new CommercialSameStoreInfo(
+                        store.getServiceCodeName(),
+                        store.getTotalStore())
+                ).toList();
+
+        long sameTotalStore = sameStores.stream()
+                .mapToLong(CommercialSameStoreInfo::totalStore)
+                .sum();
+
+        StoreCommercial storeCommercial = storeCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
+                .orElseThrow(() -> new RuntimeException("점포 분석 데이터가 없습니다."));
+
+        long totalStores = storeCommercial.getTotalStore() + storeCommercial.getFranchiseStore();
+        double normalStorePercentage = totalStores > 0 ? Math.round((double) storeCommercial.getTotalStore() / totalStores * 100.0 * 100.0) / 100.0 : 0.0;
+        double franchiseStorePercentage = totalStores > 0 ? Math.round((double) storeCommercial.getFranchiseStore() / totalStores * 100.0 * 100.0) / 100.0 : 0.0;
+
+        CommercialFranchiseeStoreInfo franchiseeStore = new CommercialFranchiseeStoreInfo(
+                storeCommercial.getTotalStore(),
+                storeCommercial.getFranchiseStore(),
+                normalStorePercentage,
+                franchiseStorePercentage
+        );
+
+        CommercialOpenAndCloseStoreInfo openAndCloseStore = new CommercialOpenAndCloseStoreInfo(
+                storeCommercial.getOpenedRate(),
+                storeCommercial.getClosedRate()
+        );
+
+        return new CommercialStoreResponse(sameStores, sameTotalStore, franchiseeStore, openAndCloseStore);
+    }
+
+
     private CommercialAgeGenderPercentFootTrafficInfo calculateAgeGenderPercentFootTraffic(FootTrafficCommercial trafficCommercial) {
-        double total = trafficCommercial.getTotalFootTraffic().doubleValue();
+        Long total = trafficCommercial.getTotalFootTraffic();
 
         return new CommercialAgeGenderPercentFootTrafficInfo(
                 calculatePercent(trafficCommercial.getTeenFootTraffic(), trafficCommercial.getMaleFootTraffic(), total),
@@ -239,8 +324,8 @@ public class CommercialServiceImpl implements CommercialService {
         );
     }
 
-    private CommercialAgeGenderPercentSalesInfo calculateAgeGenderPercentSales(SalesCommercial salesCommercial) {
-        double total = salesCommercial.getMonthSales().doubleValue();
+    private CommercialAgeGenderPercentSalesInfo calculateAgeGenderPercentSales(com.ssafy.backend.domain.commercial.entity.SalesCommercial salesCommercial) {
+        Long total = salesCommercial.getMaleSales() + salesCommercial.getFemaleSales();
 
         return new CommercialAgeGenderPercentSalesInfo(
                 calculatePercent(salesCommercial.getTeenSales(), salesCommercial.getMaleSales(), total),
@@ -258,10 +343,27 @@ public class CommercialServiceImpl implements CommercialService {
         );
     }
 
-    private double calculatePercent(Long ageGroupCount, Long genderCount, double total) {
+    private double calculatePercent(Long ageGroupCount, Long genderCount, Long total) {
         if (total == 0) return 0.0;
         double percent = 100.0 * (ageGroupCount.doubleValue() * (genderCount.doubleValue() / total)) / total;
         return Math.round(percent * 100.0) / 100.0;
+    }
+
+    private List<String> calculateLastFourQuarters(String currentPeriod) {
+        List<String> periods = new ArrayList<>();
+        int year = Integer.parseInt(currentPeriod.substring(0, 4));
+        int quarter = Integer.parseInt(currentPeriod.substring(4));
+
+        for (int i = 0; i < 4; i++) {
+            periods.add(year + "" + quarter);
+            if (quarter == 1) {
+                quarter = 4;
+                year--;
+            } else {
+                quarter--;
+            }
+        }
+        return periods;
     }
 
 }

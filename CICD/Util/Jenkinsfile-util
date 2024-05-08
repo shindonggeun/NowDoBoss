@@ -27,7 +27,7 @@ pipeline {
             }
         }
 
-        stage('Redis And SonarQube Deploy with Docker Compose') {
+        stage('Deploy with Docker Compose') {
             steps {
                 script {
                     echo "Redis 컨테이너 실행 상태 확인 중..."
@@ -38,10 +38,33 @@ pipeline {
                     def isSonarQubeRunning = sh(script: "docker ps --filter name=nowdoboss_sonarqube --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
                     echo "SonarQube 실행 상태: ${isSonarQubeRunning}"
 
-                    // Redis가 실행 중이지 않으면 실행
-                    if (isRedisRunning == "" || isSonarQubeRunning == "") {
-                        echo "Redis And SonarQube dockerfile 빌드..."
-                        sh "docker-compose -f CICD/docker-compose.yml up -d"
+                    echo "Zookeeper 컨테이너 실행 상태 확인 중..."
+                    def isZookeeperRunning = sh(script: "docker ps --filter name=nowdoboss_zookeeper --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
+                    echo "Zookeeper 실행 상태: ${isZookeeperRunning}"
+
+                    echo "Kafka 컨테이너 실행 상태 확인 중..."
+                    def isKafkaRunning = sh(script: "docker ps --filter name=nowdoboss_kafka --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
+                    echo "Kafka 실행 상태: ${isKafkaRunning}"
+
+                    // 하나의 컨테이너라도 실행되고 있지 않다면 도커 컴포즈 실행
+                    if (isRedisRunning == "") {
+                        echo "redis 관련 dockerfile 빌드..."
+                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d redis"
+                    }
+
+                    if (isSonarQubeRunning == "") {
+                        echo "sonarqube 관련 dockerfile 빌드..."
+                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d sonarqube"
+                    }
+
+                    if (isZookeeperRunning == "") {
+                        echo "zookeeper 관련 dockerfile 빌드..."
+                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d zookeeper"
+                    }
+
+                    if (isKafkaRunning == "") {
+                        echo "zookeeper 관련 dockerfile 빌드..."
+                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d kafka"
                     }
                 }
             }

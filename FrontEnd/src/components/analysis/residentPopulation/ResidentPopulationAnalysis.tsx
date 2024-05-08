@@ -7,7 +7,10 @@ import * as r from '@src/components/styles/analysis/ResidentPopulationAnalysisSt
 const ResidentPopulationAnalysis = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
     <div ref={ref}>
-      <CategoryTitleCard title="상주인구" />
+      <CategoryTitleCard
+        src="src/assets/resident_population.png"
+        title="상주인구"
+      />
       <r.FirstLowContainer>
         <GenderChart />
         <AgeChart />

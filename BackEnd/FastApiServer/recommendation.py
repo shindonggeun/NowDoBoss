@@ -108,31 +108,31 @@ def load_model(model_path, df_actions):
         print("New model trained and saved.")
     return model
 
-# def to_load_csv():
-#     return spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
-# try:
-#     with concurrent.futures.ThreadPoolExecutor() as executor:
-#         future = executor.submit(to_load_csv)
-#         df_actions = future.result(timeout=50)  # 5분으로 설정
+def to_load_csv():
+    return spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
+try:
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(to_load_csv)
+        df_actions = future.result(timeout=50)  # 5분으로 설정
 
-# except concurrent.futures.TimeoutError:
-#     future.cancel()
-#     print("작업이 시간 초과되었습니다.")
+except concurrent.futures.TimeoutError:
+    future.cancel()
+    print("작업이 시간 초과되었습니다.")
 
-# except AnalysisException as e:
-#     print("파일을 찾을 수 없습니다:", e)
+except AnalysisException as e:
+    print("파일을 찾을 수 없습니다:", e)
 
-# def recommend_commercials(userId):
-#     print("추천 메서드 안!")
+def recommend_commercials(userId):
+    print("추천 메서드 안!")
     
     
-#     print("spark 설정 이후!")
+    print("spark 설정 이후!")
 
-#     # 이전 업데이트 시간 불러오기
-#     last_update_time = load_last_update_time(filename)
-#     print("Previous update time:", last_update_time)
+    # 이전 업데이트 시간 불러오기
+    last_update_time = load_last_update_time(filename)
+    print("Previous update time:", last_update_time)
 
-#     to_load_csv()
+    to_load_csv()
 
     # # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
     # df_actions = spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)

@@ -18,11 +18,7 @@ filename = 'model_update_time.json'
 hdfs_path = 'hdfs://172.17.0.2:9000'
 model_path = hdfs_path + "/user/hadoop/model"
 
-# Spark 세션 초기화 - 추후 설정에 맞게 변경
-spark = SparkSession.builder \
-    .appName("Recommendation") \
-    .config("spark.hadoop.fs.defaultFS", hdfs_path) \
-    .getOrCreate()
+
 
 # 마지막 업데이트 시간을 불러오는 함수
 def load_last_update_time(file_path):
@@ -39,7 +35,7 @@ def action_weight(action):
     return weights.get(action, 0)
 
 # 사용자 별 상권 특징에 대한 가중치 정보
-def load_user_weights(userId):
+def load_user_weights(spark, userId):
     weights_path = hdfs_path + "/user/hadoop/weight/user_weights.json"
     try:
         # 파일이 존재하는지 확인
@@ -59,7 +55,7 @@ def load_user_weights(userId):
         # 파일이 존재하지 않는 경우 빈 DataFrame 반환
         return spark.createDataFrame([(userId, 0.0, 0.0, 0.0, 0.0, 0.0)], schema="userId long, totalTrafficFootValue double, totalSalesValue double, openedRateValue double, closedRateValue double, totalConsumptionValue double")
 
-def update_user_weights(userId, new_weights):
+def update_user_weights(spark, userId, new_weights):
     weights_path = hdfs_path + "/user/hadoop/weight/user_weights.json"
     try:
         # 파일이 존재하는지 확인
@@ -108,23 +104,17 @@ def load_model(model_path, df_actions):
         print("New model trained and saved.")
     return model
 
-def to_load_csv():
+def to_load_csv(spark):
+    # CSV 파일을 DataFrame으로 읽어오는 함수 정의
     return spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
-try:
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(to_load_csv)
-        df_actions = future.result(timeout=50)  # 5분으로 설정
-
-except concurrent.futures.TimeoutError:
-    future.cancel()
-    print("작업이 시간 초과되었습니다.")
-
-except AnalysisException as e:
-    print("파일을 찾을 수 없습니다:", e)
 
 def recommend_commercials(userId):
     print("추천 메서드 안!")
-    
+    # Spark 세션 초기화 - 추후 설정에 맞게 변경
+    spark = SparkSession.builder \
+        .appName("Recommendation") \
+        .config("spark.hadoop.fs.defaultFS", hdfs_path) \
+        .getOrCreate()
     
     print("spark 설정 이후!")
 
@@ -132,7 +122,19 @@ def recommend_commercials(userId):
     last_update_time = load_last_update_time(filename)
     print("Previous update time:", last_update_time)
 
-    to_load_csv()
+    to_load_csv(spark)
+
+    try:
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future = executor.submit(to_load_csv, spark)
+            df_actions = future.result(timeout=50)  # 5분으로 설정
+
+    except concurrent.futures.TimeoutError:
+        future.cancel()
+        print("작업이 시간 초과되었습니다.")
+
+    except AnalysisException as e:
+        print("파일을 찾을 수 없습니다:", e)
 
     # # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
     # df_actions = spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
-  height: 25rem;
+  min-height: 24rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,6 +12,7 @@ export const Container = styled.div`
 export const SummaryContainer = styled.div`
   width: 36rem;
   min-height: 23rem;
+  margin-bottom: 1rem;
   border-radius: 10px;
   background: white;
   @media (max-width: 768px) {

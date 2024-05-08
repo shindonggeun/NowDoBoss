@@ -6,7 +6,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, udf, to_timestamp
 from pyspark.sql.types import IntegerType
 
-hdfs_path = 'hdfs://172.17.0.2:9000'
+hdfs_path = 'hdfs://172.18.0.2:9000'
 model_path = hdfs_path + "/user/hadoop/model"
 filename = 'model_update_time.json'
 

@@ -13,7 +13,7 @@ from pyspark.sql.functions import lit
 
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
 filename = 'model_update_time.json'
-hdfs_path = 'hdfs://172.17.0.2:9000'
+hdfs_path = 'hdfs://172.18.0.2:9000'
 model_path = hdfs_path + "/user/hadoop/model"
 
 # 마지막 업데이트 시간을 불러오는 함수

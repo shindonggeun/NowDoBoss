@@ -34,3 +34,14 @@ export const getSalesData = async (
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 점포 수
+export const getStoreCountData = async (
+  commercialCode: string,
+  serviceCode: string,
+) => {
+  return customAxios
+    .get(`/commercial/store/${commercialCode}/${serviceCode}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

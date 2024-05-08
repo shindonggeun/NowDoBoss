@@ -25,7 +25,9 @@ public class CustomChatRoomMemberRepositoryImpl implements CustomChatRoomMemberR
                         chatRoomMember.chatRoom.category,
                         chatRoomMember.chatRoom.name,
                         chatRoomMember.chatRoom.introduction,
-                        chatRoomMember.count().intValue()))
+                        chatRoomMember.count().intValue(),
+                        chatRoomMember.chatRoom.limit
+                ))
                 .from(chatRoomMember)
                 .where(categoryEquals(category))
                 .groupBy(chatRoomMember.chatRoom)

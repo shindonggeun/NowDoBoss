@@ -10,6 +10,7 @@ import ReportGender from '@src/components/simulation/report/ReportGender'
 import ReportMonthAnalysis from '@src/components/simulation/report/ReportMonthAnalysis'
 import ReportKeyMoney from '@src/components/simulation/report/ReportKeyMoney'
 import ReportMyGoal from '@src/components/simulation/report/ReportMyGoal'
+import ReportFranchise from '@src/components/simulation/report/ReportFranchise'
 
 const SimulReportContainer = () => {
   const {
@@ -61,6 +62,8 @@ const SimulReportContainer = () => {
             <ReportGender ReportData={location.state.res.dataBody} />
             <c.SplitLine />
             <ReportMonthAnalysis ReportData={location.state.res.dataBody} />
+            <c.SplitLine />
+            <ReportFranchise ReportData={location.state.res.dataBody} />
           </c.Container>
         </c.Overlay>
       )}

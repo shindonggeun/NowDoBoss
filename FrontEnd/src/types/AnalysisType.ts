@@ -92,6 +92,7 @@ export type AnalysisStoreType = {
 // prop type
 export type SelectContainerPropsType = {
   setIsReady: React.Dispatch<React.SetStateAction<boolean>>
+  handleResultButtonClick: () => void
 }
 
 export type CategoryTitleCardProps = {
@@ -102,7 +103,7 @@ export type CategoryTitleCardProps = {
 export type SearchSectionPropsType = {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setIsReady: React.Dispatch<React.SetStateAction<boolean>>
+  handleResultButtonClick: () => void
 }
 
 export type ChoiceServicePropsType = {

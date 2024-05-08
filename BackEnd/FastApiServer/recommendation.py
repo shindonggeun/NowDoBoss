@@ -102,142 +102,144 @@ def load_model(model_path, df_actions):
 
 def recommend_commercials(userId):
     print("추천 메서드 안!")
-    # Spark 세션 초기화 - 추후 설정에 맞게 변경
-    spark = SparkSession.builder \
-        .appName("Recommendation") \
-        .config("spark.hadoop.fs.defaultFS", hdfs_path) \
-        .getOrCreate()
-    print("spark 설정 이후!")
-    # 이전 업데이트 시간 불러오기
-    last_update_time = load_last_update_time(filename)
-    print("Previous update time:", last_update_time)
+    return 0
+    # print("추천 메서드 안!")
+    # # Spark 세션 초기화 - 추후 설정에 맞게 변경
+    # spark = SparkSession.builder \
+    #     .appName("Recommendation") \
+    #     .config("spark.hadoop.fs.defaultFS", hdfs_path) \
+    #     .getOrCreate()
+    # print("spark 설정 이후!")
+    # # 이전 업데이트 시간 불러오기
+    # last_update_time = load_last_update_time(filename)
+    # print("Previous update time:", last_update_time)
 
-    # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
-    df_actions = spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
+    # # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
+    # df_actions = spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
 
-    # 문자열 타입의 timestamp를 datetime으로 변환
-    df_actions = df_actions.withColumn("timestamp", to_timestamp(col("timestamp")))
+    # # 문자열 타입의 timestamp를 datetime으로 변환
+    # df_actions = df_actions.withColumn("timestamp", to_timestamp(col("timestamp")))
 
-    # 마지막 업데이트 시간 이후의 데이터만 필터링
-    action_data = df_actions.filter(col("timestamp") > last_update_time)
+    # # 마지막 업데이트 시간 이후의 데이터만 필터링
+    # action_data = df_actions.filter(col("timestamp") > last_update_time)
 
-    # 가장 최근 업데이트 timestamp 파일 시스템으로 가져오기 => 해당 timestamp 이후의 사용자 행동 데이터만 가져오기 위해
-    last_update_time = datetime.datetime.now().isoformat()
-    with open('model_update_time.json', 'w') as f:
-        json.dump({'last_update_time': last_update_time}, f)
+    # # 가장 최근 업데이트 timestamp 파일 시스템으로 가져오기 => 해당 timestamp 이후의 사용자 행동 데이터만 가져오기 위해
+    # last_update_time = datetime.datetime.now().isoformat()
+    # with open('model_update_time.json', 'w') as f:
+    #     json.dump({'last_update_time': last_update_time}, f)
 
-    action_columns = ["userId", "action", "commercialCode"]
-    df_actions = df_actions.select(*action_columns)
+    # action_columns = ["userId", "action", "commercialCode"]
+    # df_actions = df_actions.select(*action_columns)
 
-    # UDF 등록 및 가중치 열 추가
-    action_weight_udf = udf(action_weight, IntegerType())
-    df_actions = df_actions.withColumn("weight", action_weight_udf(col("action")))
+    # # UDF 등록 및 가중치 열 추가
+    # action_weight_udf = udf(action_weight, IntegerType())
+    # df_actions = df_actions.withColumn("weight", action_weight_udf(col("action")))
 
-    commercial_data_path = hdfs_path + "/user/hadoop/data/commercial_data.csv"
+    # commercial_data_path = hdfs_path + "/user/hadoop/data/commercial_data.csv"
 
-    commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
-    commercial_columns = ["commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption"]
-    df_commercials = commercial_data.select(*commercial_columns)
+    # commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
+    # commercial_columns = ["commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption"]
+    # df_commercials = commercial_data.select(*commercial_columns)
 
-    # 모델 로드 및 학습
-    model = load_model(spark, model_path, df_actions)
+    # # 모델 로드 및 학습
+    # model = load_model(spark, model_path, df_actions)
 
-    # 사용자별 상권 추천 - 추천 상권 개수는 추후 조정
-    user_recommendations = model.recommendForAllUsers(20)
-    user_recommendations.show(truncate=False)
+    # # 사용자별 상권 추천 - 추천 상권 개수는 추후 조정
+    # user_recommendations = model.recommendForAllUsers(20)
+    # user_recommendations.show(truncate=False)
 
-    # 'recommendations' 배열의 구조를 분해하여 'commercialCode'와 'rating'을 별도의 컬럼으로 생성
-    recommendations_df = user_recommendations.withColumn("recommendation", explode("recommendations")).select(
-        col("userId"),
-        col("recommendation.commercialCode").alias("commercialCode"),
-        col("recommendation.rating").alias("rating")
-    )
+    # # 'recommendations' 배열의 구조를 분해하여 'commercialCode'와 'rating'을 별도의 컬럼으로 생성
+    # recommendations_df = user_recommendations.withColumn("recommendation", explode("recommendations")).select(
+    #     col("userId"),
+    #     col("recommendation.commercialCode").alias("commercialCode"),
+    #     col("recommendation.rating").alias("rating")
+    # )
 
-    # 상권 데이터와 조인
-    # df_commercials의 'commercialCode' 컬럼 타입이 문자열인지 확인하고 필요하면 타입을 조정
-    df_integrated_with_recommendations = recommendations_df.join(df_commercials, recommendations_df.commercialCode == df_commercials.commercialCode, "inner")
+    # # 상권 데이터와 조인
+    # # df_commercials의 'commercialCode' 컬럼 타입이 문자열인지 확인하고 필요하면 타입을 조정
+    # df_integrated_with_recommendations = recommendations_df.join(df_commercials, recommendations_df.commercialCode == df_commercials.commercialCode, "inner")
 
-    # userId가 유저의 아이디와 같은 경우만 가져오기 
-    df_integrated_with_recommendations = df_integrated_with_recommendations[df_integrated_with_recommendations['userId'] == userId]
+    # # userId가 유저의 아이디와 같은 경우만 가져오기 
+    # df_integrated_with_recommendations = df_integrated_with_recommendations[df_integrated_with_recommendations['userId'] == userId]
 
-    # JSON 파일 로드
-    user_weights = load_user_weights(spark, userId)
+    # # JSON 파일 로드
+    # user_weights = load_user_weights(spark, userId)
 
-    # df_integrated_with_recommendations와 user_weights를 userId 컬럼을 기준으로 조인합니다.
-    joined_df = df_integrated_with_recommendations.join(user_weights, on='userId', how='inner')
-
-
-    # 각 항목에 대해 가중 평가 값을 계산합니다.
-    weighted_df = joined_df.withColumn('weighted_totalTrafficFoot', col('totalTrafficFoot') * col('totalTrafficFootValue')) \
-                        .withColumn('weighted_totalSales', col('totalSales') * col('totalSalesValue')) \
-                        .withColumn('weighted_openedRate', col('openedRate') * col('openedRateValue')) \
-                        .withColumn('weighted_closedRate', col('closedRate') * col('closedRateValue')) \
-                        .withColumn('weighted_totalConsumption', col('totalConsumption') * col('totalConsumptionValue'))
-
-    # 각 레코드의 rating을 계산하여 새로운 열인 'new_rating'에 저장
-    df_updated = weighted_df.withColumn(
-        "final_rating",
-        F.col("rating") + 
-        F.col("weighted_totalTrafficFoot") +
-        F.col("weighted_totalSales") +
-        F.col("weighted_openedRate") +
-        F.col("weighted_closedRate") +
-        F.col("weighted_totalConsumption")
-    )
-
-    # 삭제할 컬럼 이름 지정 (예시: "column_to_drop")
-    columns_to_drop = ["totalTrafficFootValue", "totalSalesValue",
-                    "openedRateValue", "closedRateValue", "totalConsumptionValue", "weighted_totalTrafficFoot", "weighted_totalSales", "weighted_openedRate", "weighted_closedRate",
-                    "weighted_totalConsumption", "rating"]  # 삭제할 컬럼 이름들을 리스트로 지정
-
-    # 컬럼 삭제
-    df_cleaned = df_updated.drop(*columns_to_drop)
-
-    # finalRating 열을 기준으로 내림차순 정렬
-    final_recommendations_sorted = df_cleaned.orderBy(desc('final_rating'))
-
-    # 반환할 결과
-    final_recommendations_sorted.show(truncate=False)
+    # # df_integrated_with_recommendations와 user_weights를 userId 컬럼을 기준으로 조인합니다.
+    # joined_df = df_integrated_with_recommendations.join(user_weights, on='userId', how='inner')
 
 
-    # 반환할 결과
-    res = final_recommendations_sorted.toPandas().to_dict(orient="records")
+    # # 각 항목에 대해 가중 평가 값을 계산합니다.
+    # weighted_df = joined_df.withColumn('weighted_totalTrafficFoot', col('totalTrafficFoot') * col('totalTrafficFootValue')) \
+    #                     .withColumn('weighted_totalSales', col('totalSales') * col('totalSalesValue')) \
+    #                     .withColumn('weighted_openedRate', col('openedRate') * col('openedRateValue')) \
+    #                     .withColumn('weighted_closedRate', col('closedRate') * col('closedRateValue')) \
+    #                     .withColumn('weighted_totalConsumption', col('totalConsumption') * col('totalConsumptionValue'))
 
-    # 추천 점수와 각 특성 간의 상관관계 계산
-    correlations = final_recommendations_sorted.select(
-        corr("final_rating", "totalTrafficFoot").alias("corr_population"),
-        corr("final_rating", "totalSales").alias("corr_sales"),
-        corr("final_rating", "openedRate").alias("corr_openedRate"),
-        corr("final_rating", "closedRate").alias("corr_closedRate"),
-        corr("final_rating", "totalConsumption").alias("corr_consumption")
-    )
+    # # 각 레코드의 rating을 계산하여 새로운 열인 'new_rating'에 저장
+    # df_updated = weighted_df.withColumn(
+    #     "final_rating",
+    #     F.col("rating") + 
+    #     F.col("weighted_totalTrafficFoot") +
+    #     F.col("weighted_totalSales") +
+    #     F.col("weighted_openedRate") +
+    #     F.col("weighted_closedRate") +
+    #     F.col("weighted_totalConsumption")
+    # )
 
-    # correlations DataFrame의 각 열의 값을 수집하여 딕셔너리에 저장
-    new_weights = {
-        "userId": userId,
-        "totalTrafficFootValue": correlations.select("corr_population").collect()[0][0],
-        "totalSalesValue": correlations.select("corr_sales").collect()[0][0],
-        "openedRateValue": correlations.select("corr_openedRate").collect()[0][0],
-        "closedRateValue": correlations.select("corr_closedRate").collect()[0][0],
-        "totalConsumptionValue": correlations.select("corr_consumption").collect()[0][0]
-    }
+    # # 삭제할 컬럼 이름 지정 (예시: "column_to_drop")
+    # columns_to_drop = ["totalTrafficFootValue", "totalSalesValue",
+    #                 "openedRateValue", "closedRateValue", "totalConsumptionValue", "weighted_totalTrafficFoot", "weighted_totalSales", "weighted_openedRate", "weighted_closedRate",
+    #                 "weighted_totalConsumption", "rating"]  # 삭제할 컬럼 이름들을 리스트로 지정
 
-    # 새로운 가중치와 이전 가중치 점진적 업데이트 (50%만 반영)
-    update_ratio = 0.5  # 새 가중치를 50% 반영
-    updated_weights = {
-        "userId": new_weights["userId"],
-        "totalTrafficFootValue": float(user_weights.select("totalTrafficFootValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalTrafficFootValue"]) * update_ratio,
-        "totalSalesValue": float(user_weights.select("totalSalesValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalSalesValue"]) * update_ratio,
-        "openedRateValue": float(user_weights.select("openedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["openedRateValue"]) * update_ratio,
-        "closedRateValue": float(user_weights.select("closedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["closedRateValue"]) * update_ratio,
-        "totalConsumptionValue": float(user_weights.select("totalConsumptionValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalConsumptionValue"]) * update_ratio
-    }
+    # # 컬럼 삭제
+    # df_cleaned = df_updated.drop(*columns_to_drop)
 
-    update_user_weights(userId, updated_weights)
+    # # finalRating 열을 기준으로 내림차순 정렬
+    # final_recommendations_sorted = df_cleaned.orderBy(desc('final_rating'))
 
-    stop_spark(spark)
+    # # 반환할 결과
+    # final_recommendations_sorted.show(truncate=False)
+
+
+    # # 반환할 결과
+    # res = final_recommendations_sorted.toPandas().to_dict(orient="records")
+
+    # # 추천 점수와 각 특성 간의 상관관계 계산
+    # correlations = final_recommendations_sorted.select(
+    #     corr("final_rating", "totalTrafficFoot").alias("corr_population"),
+    #     corr("final_rating", "totalSales").alias("corr_sales"),
+    #     corr("final_rating", "openedRate").alias("corr_openedRate"),
+    #     corr("final_rating", "closedRate").alias("corr_closedRate"),
+    #     corr("final_rating", "totalConsumption").alias("corr_consumption")
+    # )
+
+    # # correlations DataFrame의 각 열의 값을 수집하여 딕셔너리에 저장
+    # new_weights = {
+    #     "userId": userId,
+    #     "totalTrafficFootValue": correlations.select("corr_population").collect()[0][0],
+    #     "totalSalesValue": correlations.select("corr_sales").collect()[0][0],
+    #     "openedRateValue": correlations.select("corr_openedRate").collect()[0][0],
+    #     "closedRateValue": correlations.select("corr_closedRate").collect()[0][0],
+    #     "totalConsumptionValue": correlations.select("corr_consumption").collect()[0][0]
+    # }
+
+    # # 새로운 가중치와 이전 가중치 점진적 업데이트 (50%만 반영)
+    # update_ratio = 0.5  # 새 가중치를 50% 반영
+    # updated_weights = {
+    #     "userId": new_weights["userId"],
+    #     "totalTrafficFootValue": float(user_weights.select("totalTrafficFootValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalTrafficFootValue"]) * update_ratio,
+    #     "totalSalesValue": float(user_weights.select("totalSalesValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalSalesValue"]) * update_ratio,
+    #     "openedRateValue": float(user_weights.select("openedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["openedRateValue"]) * update_ratio,
+    #     "closedRateValue": float(user_weights.select("closedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["closedRateValue"]) * update_ratio,
+    #     "totalConsumptionValue": float(user_weights.select("totalConsumptionValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalConsumptionValue"]) * update_ratio
+    # }
+
+    # update_user_weights(userId, updated_weights)
+
+    # stop_spark(spark)
     
-    return res  
+    # return res  
 
-def stop_spark(spark):
-    spark.stop()
+# def stop_spark(spark):
+#     spark.stop()

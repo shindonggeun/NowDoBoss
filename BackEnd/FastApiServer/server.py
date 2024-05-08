@@ -20,6 +20,7 @@ async def run_recommendation(userId: int):
 @app.post("/recommend")
 async def recommend_commercial_areas(request: UserRequest):
     print("추천에 도착!")
+    print("확인!")
     try:
         print("추천하기 전!")
         # 백그라운드에서 비동기 작업 실행

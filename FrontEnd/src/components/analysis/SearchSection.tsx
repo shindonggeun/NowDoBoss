@@ -8,11 +8,12 @@ import MainButton from '@src/common/MainButton'
 import * as s from '@src/components/styles/analysis/SearchSectionStyle'
 
 const SearchSection = (props: SearchSectionPropsType) => {
-  const { isOpen, setIsOpen, setIsReady } = props
+  const { isOpen, setIsOpen, handleResultButtonClick } = props
   const selectedGoo = selectPlaceStore(state => state.selectedGoo)
   const selectedDong = selectPlaceStore(state => state.selectedDong)
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
   const selectedService = analysisStore(state => state.selectedService)
+
   // 상권분석 결과 보기 버튼 disabled 조건
   const isSelectionComplete =
     selectedGoo.code !== 0 &&
@@ -36,7 +37,7 @@ const SearchSection = (props: SearchSectionPropsType) => {
           <ChoicePlace />
           {selectedCommercial.code !== 0 && <ChoiceService />}
           <s.BtnContainer
-            onClick={() => setIsReady(true)}
+            onClick={handleResultButtonClick}
             disabled={!isSelectionComplete}
           >
             <MainButton buttonContent="상권분석 결과 보기" />

@@ -102,14 +102,13 @@ def load_model(model_path, df_actions):
 
 def recommend_commercials(userId):
     print("추천 메서드 안!")
-    return 0
-    # print("추천 메서드 안!")
-    # # Spark 세션 초기화 - 추후 설정에 맞게 변경
-    # spark = SparkSession.builder \
-    #     .appName("Recommendation") \
-    #     .config("spark.hadoop.fs.defaultFS", hdfs_path) \
-    #     .getOrCreate()
-    # print("spark 설정 이후!")
+    
+    # Spark 세션 초기화 - 추후 설정에 맞게 변경
+    spark = SparkSession.builder \
+        .appName("Recommendation") \
+        .config("spark.hadoop.fs.defaultFS", hdfs_path) \
+        .getOrCreate()
+    print("spark 설정 이후!")
     # # 이전 업데이트 시간 불러오기
     # last_update_time = load_last_update_time(filename)
     # print("Previous update time:", last_update_time)
@@ -240,6 +239,6 @@ def recommend_commercials(userId):
     # stop_spark(spark)
     
     # return res  
-
+    return 0    
 # def stop_spark(spark):
 #     spark.stop()

@@ -109,4 +109,5 @@ public class CommercialController {
         CommercialAdministrationAreaResponse administrationResponse = commercialService.getAdministrationInfoByCommercialCode(commercialCode);
         return ResponseEntity.ok().body(Message.success(administrationResponse));
     }
+
 }

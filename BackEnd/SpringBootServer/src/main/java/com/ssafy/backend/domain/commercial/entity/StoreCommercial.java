@@ -66,9 +66,17 @@ public class StoreCommercial {
     @Column(columnDefinition = "FLOAT")
     private Float openedRate;
 
+    @Comment("개업 점포 수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long openedStore;
+
     @Comment("폐업률")
     @Column(columnDefinition = "FLOAT")
     private Float closedRate;
+
+    @Comment("폐업 점포 수")
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Long closedStore;
 
     @Comment("프렌차이즈 점포 수")
     @Column(columnDefinition = "INT UNSIGNED")

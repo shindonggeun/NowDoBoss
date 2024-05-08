@@ -29,6 +29,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final SalesCommercialRepository salesCommercialRepository;
     private final PopulationCommercialRepository populationCommercialRepository;
     private final FacilityCommercialRepository facilityCommercialRepository;
+    private final StoreCommercialRepository storeCommercialRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -264,6 +265,19 @@ public class CommercialServiceImpl implements CommercialService {
     @Override
     public CommercialAdministrationAreaResponse getAdministrationInfoByCommercialCode(String commercialCode) {
         return areaCommercialRepository.findByCommercialCode(commercialCode);
+    }
+
+    @Override
+    public CommercialStoreResponse getStoreByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode) {
+        StoreCommercial storeCommercial = storeCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
+                .orElseThrow(() -> new RuntimeException("점포 상권 데이터가 없습니다."));
+
+        return new CommercialStoreResponse(
+                storeCommercial.getSimilarStore(),
+                storeCommercial.getFranchiseStore(),
+                storeCommercial.getOpenedStore(),
+                storeCommercial.getClosedStore()
+        );
     }
 
     private CommercialAgeGenderPercentFootTrafficInfo calculateAgeGenderPercentFootTraffic(FootTrafficCommercial trafficCommercial) {

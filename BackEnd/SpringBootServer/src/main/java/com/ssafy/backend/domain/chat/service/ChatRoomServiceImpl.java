@@ -36,6 +36,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final KafkaProducer kafkaProducer;
     private final ChatMessageRepository chatMessageRepository;
     private final ObjectMapper objectMapper;
+    private final ChatMessageService chatMessageService;
 
     @Override
     public List<MyChatRoomListResponse> selectMyChatRooms(Long memberId, MyChatRoomListRequest request) {
@@ -78,9 +79,11 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .orElseThrow(() -> new ChatException(ChatErrorCode.NOT_EXIST_CHAT_ROOM));
 
         // 채팅방 탈퇴 메시지 전송
-        ChatMessage chatMessage = ChatMessage.createExitMessage(member, chatRoom);
+        ChatMessage exitMessage = ChatMessage.createExitMessage(member, chatRoom);
 
-        chatMessageRepository.save(chatMessage);
+        chatMessageService.processMessage(exitMessage);
+
+        /*chatMessageRepository.save(chatMessage);
         ChatMessageResponse chatMessageResponse = ChatMessageResponse.of(chatMessage, member, chatRoom.getId());
 
         try {
@@ -91,7 +94,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
         } catch (Exception ex) {
             throw new ChatException(ChatErrorCode.SAVE_FAILED);
-        }
+        }*/
 
         // 구성원 제거
         chatRoomMemberRepository.deleteByMemberAndChatRoom(member, chatRoom);

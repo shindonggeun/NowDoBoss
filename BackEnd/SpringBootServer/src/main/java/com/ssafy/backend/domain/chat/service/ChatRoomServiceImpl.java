@@ -48,6 +48,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .category(Category.valueOf(request.category()))
                 .name(request.name())
                 .introduction(request.introduction())
+                .limit(request.limit())
                 .build();
         chatRoomRepository.save(chatRoom);
 

@@ -30,5 +30,9 @@ public class ChatRoom extends BaseEntity {
     @Comment("채팅방 소개")
     @Column(name = "chat_room_introduction", columnDefinition = "VARCHAR(40)")
     private String introduction;
+
+    @Comment("채팅방 제한 인원수")
+    @Column(name = "chat_room_limit", columnDefinition = "INT UNSIGNED")
+    private int limit;
 }
 

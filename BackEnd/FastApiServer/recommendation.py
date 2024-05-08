@@ -117,8 +117,8 @@ def recommend_commercials(userId):
     # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
     df_actions = spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
 
-    # # 문자열 타입의 timestamp를 datetime으로 변환
-    # df_actions = df_actions.withColumn("timestamp", to_timestamp(col("timestamp")))
+    # 문자열 타입의 timestamp를 datetime으로 변환
+    df_actions = df_actions.withColumn("timestamp", to_timestamp(col("timestamp")))
 
     # # 마지막 업데이트 시간 이후의 데이터만 필터링
     # action_data = df_actions.filter(col("timestamp") > last_update_time)

@@ -1,9 +1,8 @@
 package com.ssafy.backend.domain.chat.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.backend.domain.chat.dto.request.ChatMessageRequest;
 import com.ssafy.backend.domain.chat.dto.request.CreateChatRoomRequest;
 import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
-import com.ssafy.backend.domain.chat.dto.response.ChatMessageResponse;
 import com.ssafy.backend.domain.chat.dto.response.PopularChatRoomResponse;
 import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import com.ssafy.backend.domain.chat.entity.ChatMessage;
@@ -19,7 +18,6 @@ import com.ssafy.backend.domain.member.entity.Member;
 import com.ssafy.backend.domain.member.exception.MemberErrorCode;
 import com.ssafy.backend.domain.member.exception.MemberException;
 import com.ssafy.backend.domain.member.repository.MemberRepository;
-import com.ssafy.backend.global.component.kafka.KafkaChatConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,9 +31,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomMemberRepository chatRoomMemberRepository;
     private final MemberRepository memberRepository;
-    private final KafkaProducer kafkaProducer;
     private final ChatMessageRepository chatMessageRepository;
-    private final ObjectMapper objectMapper;
+    private final ChatMessageService chatMessageService;
 
     @Override
     public List<MyChatRoomListResponse> selectMyChatRooms(Long memberId, MyChatRoomListRequest request) {
@@ -48,6 +45,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .category(Category.valueOf(request.category()))
                 .name(request.name())
                 .introduction(request.introduction())
+                .limit(request.limit())
                 .build();
         chatRoomRepository.save(chatRoom);
 
@@ -60,6 +58,31 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .build());
 
         return chatRoom.getId();
+    }
+
+    @Override
+    public void enter(Long memberId, Long chatRoomId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_MEMBER));
+
+        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId)
+                .orElseThrow(() -> new ChatException(ChatErrorCode.NOT_EXIST_CHAT_ROOM));
+        int memberCount = chatRoomMemberRepository.countByChatRoom(chatRoom);
+
+        // 처음 입장한 경우 환영메시지 생성 후 DB 저장, 메시지 전송
+        if (chatRoom.isFull(memberCount)) {
+            throw new ChatException(ChatErrorCode.FULL_CHAT_ROOM);
+        }
+
+        if (!chatRoomMemberRepository.existsByMemberAndChatRoom(member, chatRoom)) {
+            chatRoomMemberRepository.save(ChatRoomMember
+                    .builder()
+                    .member(member)
+                    .chatRoom(chatRoom)
+                    .build());
+            ChatMessage enterMessage = ChatMessage.createEnterMessage(member, chatRoom);
+            chatMessageService.processMessage(enterMessage);
+        }
     }
 
     @Override
@@ -77,20 +100,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .orElseThrow(() -> new ChatException(ChatErrorCode.NOT_EXIST_CHAT_ROOM));
 
         // 채팅방 탈퇴 메시지 전송
-        ChatMessage chatMessage = ChatMessage.createExitMessage(member, chatRoom);
+        ChatMessage exitMessage = ChatMessage.createExitMessage(member, chatRoom);
 
-        chatMessageRepository.save(chatMessage);
-        ChatMessageResponse chatMessageResponse = ChatMessageResponse.of(chatMessage, member, chatRoom.getId());
-
-        try {
-            String response = objectMapper.writeValueAsString(chatMessageResponse);
-
-            // 카프카 이벤트 발생
-            kafkaProducer.publishMessage(KafkaChatConstants.KAFKA_TOPIC, response);
-
-        } catch (Exception ex) {
-            throw new ChatException(ChatErrorCode.SAVE_FAILED);
-        }
+        chatMessageService.processMessage(exitMessage);
 
         // 구성원 제거
         chatRoomMemberRepository.deleteByMemberAndChatRoom(member, chatRoom);

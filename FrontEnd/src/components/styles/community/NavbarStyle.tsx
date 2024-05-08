@@ -93,6 +93,7 @@ export const Category = styled.div<CategoryType>`
   padding: 10px 20px;
   display: flex;
   flex-direction: row;
+  align-items: center;
   font-size: ${props => (props.$isChoice ? '1.2rem' : '1.1rem')};
   color: ${props => (props.$isChoice ? 'black' : 'gray')};
   background-color: ${props => (props.$isChoice ? '#D9D9D9' : 'none')};
@@ -146,3 +147,5 @@ export const ProfileImg = styled.div`
   border-radius: 100%;
   background-color: #888888;
 `
+
+export const Div = styled.div``

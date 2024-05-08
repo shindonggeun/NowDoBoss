@@ -10,9 +10,8 @@ class UserRequest(BaseModel):
 
 
 @app.post("/recommend")
-async def recommend_commercial_areas(request: UserRequest):
+def recommend_commercial_areas(request: UserRequest):
     print("추천에 도착!")
-    print("확인!")
     return recommendation.recommend_commercials(request.userId)
 
 @app.get("/")

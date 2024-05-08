@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.recommendation.controller;
 
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationResponse;
+import com.ssafy.backend.domain.recommendation.RecommendationDocument;
 import com.ssafy.backend.domain.recommendation.dto.response.RecommendationResponse;
 import com.ssafy.backend.domain.recommendation.service.RecommendationService;
 import com.ssafy.backend.global.common.dto.Message;
@@ -57,5 +58,16 @@ public class RecommendationController {
             @AuthenticationPrincipal MemberLoginActive loginActive, @PathVariable String districtCode, @PathVariable String commercialCode, @PathVariable String administrationCode) {
         recommendationService.deleteCommercialRecommendation(commercialCode, loginActive.id());
         return ResponseEntity.ok().body(Message.success("보관함 삭제 성공!"));
+    }
+
+    @Operation(
+            summary = "보관함에 저장된 상권 추천 리스트 조회",
+            description = "해당 유저가 저장한 추천 상권 리스트 목록 조회"
+    )
+    @GetMapping("/save/list")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<List<RecommendationDocument>>> getSavedCommercialRecommendationList(
+            @AuthenticationPrincipal MemberLoginActive loginActive) {
+        return ResponseEntity.ok().body(Message.success(recommendationService.getSavedCommercialRecommendationList(loginActive.id())));
     }
 }

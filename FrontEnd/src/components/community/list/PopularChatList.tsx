@@ -7,11 +7,22 @@ import useCommunityStore from '@src/stores/communityStore'
 import leftArrow from '@src/assets/arrow_left.svg'
 import rightArrow from '@src/assets/arrow_right.svg'
 import CreateModal from '@src/components/chatting/CreateModal'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { enterChatRoom, fetchPopularRoom } from '@src/api/chattingApi'
+import { PromisePopularMessageType } from '@src/types/ChattingType'
+import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
-const PopularChatList = () => {
+const PopularChatList = ({ category }: { category: string }) => {
+  const navigate = useNavigate()
   const categories = useCommunityStore(state => state.categories)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [modalOpen, setModalOpen] = useState(false)
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['fetchPopularRoom', category],
+    queryFn: () => fetchPopularRoom(category),
+  })
 
   // 화면 크기에 따라 slidesToShow 값을 설정하는 함수
   const getSlidesToShow = () => {
@@ -34,6 +45,7 @@ const PopularChatList = () => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
   // slider 옆으로 넘기기 위한 ref 상태
   const sliderRef = useRef<Slider | null>(null)
 
@@ -59,38 +71,27 @@ const PopularChatList = () => {
     }
   }
 
-  const ChatCardDatas = [
-    {
-      id: 1,
-      title: '강창모 (강동구 창업자들의 모임)',
-      content:
-        '강동구 사장님, 예비사장님들의 모임입니다. 부담 가지지 말고 들어오세요 :)',
-      category: '이모저모',
-      subContent: '인원 24 / 50',
+  // 채팅방 입장 mutate 로직
+  const { mutate: mutateEnterChatRoom } = useMutation({
+    mutationFn: enterChatRoom,
+    onSuccess: res => {
+      // 성공이면
+      if (res.dataHeader.successCode === 0) {
+        navigate(`/community/chatting/${res.dataBody.chatRoomId}`)
+      } else {
+        Swal.fire({
+          title: res.dataHeader.resultMessage,
+          // text: '로그인하여 서비스를 이용하세요.',
+          icon: 'warning',
+          confirmButtonText: '확인',
+        })
+      }
     },
-    {
-      id: 2,
-      title: '잡담수다방',
-      content:
-        '강동구 사장님, 예비사장님들의 모임입니다. 부담 가지지 말고 들어오세요 :)',
-      category: '인테리어',
-      subContent: '인원 24 / 50',
-    },
-    {
-      id: 3,
-      title: '강남모임',
-      content: '강남 사장 모임입니다 ㅎㅎ 누구든 들오세유',
-      category: '창업고민',
-      subContent: '인원 24 / 50',
-    },
-    {
-      id: 4,
-      title: '논현 게주아',
-      content: '논현동 사장님, 예비사장님들의 모임입니다. 일단 드루와!',
-      category: '동업제안',
-      subContent: '인원 8 / 50',
-    },
-  ]
+  })
+
+  const goChatRoom = (chatRoomId: number) => {
+    mutateEnterChatRoom(chatRoomId)
+  }
 
   return (
     <p.Container>
@@ -111,33 +112,38 @@ const PopularChatList = () => {
       <p.Modal>
         <CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
       </p.Modal>
-      <p.Slick className="slider-container">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        <Slider {...settings} ref={sliderRef}>
-          {ChatCardDatas.map(ChatCardData => {
-            // 카테고리 이미지를 find 함수를 사용해 category name 과 일치하는 이미지 불러오기
-            const matchedCategory = categories.find(
-              category => category.name === ChatCardData.category,
-            )
-            const iconSrc = matchedCategory ? matchedCategory.iconInactive : ''
-
-            return (
-              <p.SlickChild key={ChatCardData.id}>
-                <p.ChatCard>
-                  <p.CategoryBadge>채팅방</p.CategoryBadge>
-                  <p.CardTitle>{ChatCardData.title}</p.CardTitle>
-                  <p.CardContent>{ChatCardData.content}</p.CardContent>
-                  <p.CardCategory>
-                    <p.Icon src={iconSrc} />
-                    {ChatCardData.category}
-                  </p.CardCategory>
-                  <p.CardSubContent>{ChatCardData.subContent}</p.CardSubContent>
-                </p.ChatCard>
-              </p.SlickChild>
-            )
-          })}
-        </Slider>
-      </p.Slick>
+      {data && !isLoading && (
+        <p.Slick className="slider-container">
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          <Slider {...settings} ref={sliderRef}>
+            {data.dataBody.map((Card: PromisePopularMessageType) => {
+              // 카테고리 이미지를 find 함수를 사용해 category name 과 일치하는 이미지 불러오기
+              const matchedCategory = categories.find(
+                selectCategory => selectCategory.value === Card.category,
+              )
+              const iconSrc = matchedCategory
+                ? matchedCategory.iconInactive
+                : ''
+              return (
+                <p.SlickChild key={Card.chatRoomId}>
+                  <p.ChatCard onClick={() => goChatRoom(Card.chatRoomId)}>
+                    <p.CategoryBadge>채팅방</p.CategoryBadge>
+                    <p.CardTitle>{Card.name}</p.CardTitle>
+                    <p.CardContent>{Card.introduction}</p.CardContent>
+                    <p.CardCategory>
+                      <p.Icon src={iconSrc} />
+                      {matchedCategory?.name}
+                    </p.CardCategory>
+                    <p.CardSubContent>
+                      인원 {Card.memberCount} /{Card.limit}
+                    </p.CardSubContent>
+                  </p.ChatCard>
+                </p.SlickChild>
+              )
+            })}
+          </Slider>
+        </p.Slick>
+      )}
     </p.Container>
   )
 }

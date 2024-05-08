@@ -2,10 +2,10 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(10vh - 20px);
 `
 
-export const Input = styled.textarea`
+export const Textarea = styled.textarea`
   font-size: 1.2rem;
   resize: none;
   width: calc(100% - 375px);

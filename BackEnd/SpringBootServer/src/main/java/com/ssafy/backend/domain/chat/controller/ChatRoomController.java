@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.chat.controller;
 
+import com.ssafy.backend.domain.chat.dto.request.ChatMessageRequest;
 import com.ssafy.backend.domain.chat.dto.request.CreateChatRoomRequest;
 import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
 import com.ssafy.backend.domain.chat.dto.response.ChatMessageResponse;
@@ -10,10 +11,14 @@ import com.ssafy.backend.domain.chat.service.ChatMessageService;
 import com.ssafy.backend.domain.chat.service.ChatRoomService;
 import com.ssafy.backend.global.common.dto.Message;
 import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
+import com.ssafy.backend.global.component.kafka.KafkaChatConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +79,18 @@ public class ChatRoomController {
                                                       @PathVariable Long chatRoomId) {
 
         chatRoomService.exitChatRoom(loginActive.id(), chatRoomId);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "채팅방 입장",
+            description = "채팅방에 입장하는 기능입니다."
+    )
+    @PostMapping("/{chatRoomId}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<Void>> enter(@AuthenticationPrincipal MemberLoginActive loginActive,
+                      @PathVariable Long chatRoomId) {
+        chatRoomService.enter(loginActive.id(), chatRoomId);
         return ResponseEntity.ok().body(Message.success());
     }
 

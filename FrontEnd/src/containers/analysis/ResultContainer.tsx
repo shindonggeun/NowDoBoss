@@ -5,6 +5,8 @@ import selectPlaceStore from '@src/stores/selectPlaceStore'
 import {
   getFlowPopulationData,
   getResidentPopulationData,
+  getSalesData,
+  getStoreCountData,
 } from '@src/api/analysisApi'
 import FlowPopulationAnalysis from '@src/components/analysis/flowPopulation/FlowPopulationAnalysis'
 import FacilitiesAnalysis from '@src/components/analysis/facilities/FacilitiesAnalysis'
@@ -18,10 +20,16 @@ import ResultIntro from '@src/components/analysis/ResultIntro'
 import * as a from '@src/containers/analysis/ResultContainerStyle'
 
 const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
-  const { setFlowPopulationDataBody, setResidentPopulationDataBody } =
-    analysisStore()
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
+  const {
+    selectedService,
+    setFlowPopulationDataBody,
+    setResidentPopulationDataBody,
+    setSalesDataBody,
+    setStoreCountDataBody,
+  } = analysisStore()
 
+  // 카테고리별 컴포넌트로 이동하기 위한 ref
   const flowRef = useRef<HTMLDivElement>(null)
   const facilitiesRef = useRef<HTMLDivElement>(null)
   const storeRef = useRef<HTMLDivElement>(null)
@@ -38,6 +46,7 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
     residentRef,
     expenditureRef,
   ]
+  // 카테고리별 컴포넌트로 이동 함수
   const moveTo = (index: number) => {
     refArr[index]?.current?.scrollIntoView({
       behavior: 'smooth',
@@ -77,6 +86,44 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       setResidentPopulationDataBody(ResidentPopulationData.dataBody)
     }
   }, [residentPopulationStatus, ResidentPopulationData]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 매출 분석
+  const { data: SalesData, status: salesStatus } = useQuery({
+    queryKey: ['GetSalesData', selectedCommercial.code],
+    queryFn: () =>
+      getSalesData(
+        String(selectedCommercial.code),
+        selectedService.serviceCode,
+      ),
+    enabled:
+      selectedCommercial.code !== 0 && selectedService.serviceCode !== '', // 상권 코드가 0이거나 업종 코드가 없으면 호출하지 않는 조건
+  })
+
+  useEffect(() => {
+    if (salesStatus === 'success' && SalesData?.dataHeader.successCode === 0) {
+      setSalesDataBody(SalesData.dataBody)
+    }
+  }, [salesStatus, SalesData]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const { data: StoreCountData, status: storeCountStatus } = useQuery({
+    queryKey: ['GetStoreCountData', selectedCommercial.code],
+    queryFn: () =>
+      getStoreCountData(
+        String(selectedCommercial.code),
+        selectedService.serviceCode,
+      ),
+    enabled:
+      selectedCommercial.code !== 0 && selectedService.serviceCode !== '', // 상권 코드가 0이거나 업종 코드가 없으면 호출하지 않는 조건
+  })
+
+  useEffect(() => {
+    if (
+      storeCountStatus === 'success' &&
+      StoreCountData?.dataHeader.successCode === 0
+    ) {
+      setStoreCountDataBody(StoreCountData.dataBody)
+    }
+  }, [storeCountStatus, StoreCountData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <a.Container ref={ref}>

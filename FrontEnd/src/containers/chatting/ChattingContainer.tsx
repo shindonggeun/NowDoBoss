@@ -4,16 +4,39 @@ import ChattingBody from '@src/components/chatting/ChattingBody'
 import ChattingInput from '@src/components/chatting/ChattingInput'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { connectStompClient, getStompClient } from '@src/util/chat/stompClient'
-import { MessageType } from '@src/types/ChattingType'
+import { MessageType, PromiseMessageType } from '@src/types/ChattingType'
+import { connectStompClient } from '@src/util/chat/stompClient'
 import { Client, Frame } from 'webstomp-client'
+import { useQuery } from '@tanstack/react-query'
+import { fetchMessages } from '@src/api/chattingApi'
 
 const ChattingContainer = () => {
   // 현재 이동한 방 id 받기
   const { roomId } = useParams<{ roomId: string | undefined }>()
+  const [userId, setUserId] = useState(0)
+  const [messages, setMessages] = useState<PromiseMessageType[]>([])
+  const [client, setClient] = useState<Client | null>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  // const client = useRef<StompJs.Client | null>(null)
+
+  // 해당 방에 기존에 존재하는 메세지 불러오는 로직
+  const { data, isLoading } = useQuery({
+    queryKey: ['fetchMessages', roomId],
+    queryFn: () => fetchMessages(Number(roomId)),
+  })
+
+  // 존재하는 메세지를 messages에 담는 로직
+  useEffect(() => {
+    if (data) {
+      data.dataBody.reverse().map((message: PromiseMessageType) => {
+        setMessages(prevMessages => [...prevMessages, message])
+        return ''
+      })
+    }
+  }, [data])
 
   // 로그인 된 사용자 id 값 받기
-  const [userId, setUserId] = useState(0)
   useEffect(() => {
     const userInfo = window.localStorage.getItem('memberInfo')
     if (userInfo) {
@@ -21,9 +44,6 @@ const ChattingContainer = () => {
       setUserId(user.id)
     }
   }, [])
-
-  const [messages, setMessages] = useState<MessageType[]>([])
-  const scrollRef = useRef<HTMLDivElement>(null)
 
   // 스크롤 아래로 이동하게 하는 함수
   const scrollToBottom = () => {
@@ -35,9 +55,9 @@ const ChattingContainer = () => {
   // 메세지 보내기
   const sendMessage = useCallback(
     (type: string, content: string) => {
-      const client = getStompClient()
+      // const client = getStompClient()
       if (client?.connected) {
-        const message = {
+        const message: MessageType = {
           chatRoomId: Number(roomId),
           type,
           content,
@@ -48,109 +68,68 @@ const ChattingContainer = () => {
           JSON.stringify(message),
           {},
         )
+        scrollToBottom()
       } else {
         console.log('Cannot send message. Client is not connected.')
       }
     },
-    [roomId, userId],
+    [client, roomId, userId],
   )
 
-  useEffect(() => {
-    const client = getStompClient()
-    if (client && roomId && userId) {
-      const subscription = client.subscribe(
-        `/topic/public/rooms/${roomId}`,
-        message => {
-          const chat = JSON.parse(message.body)
-          console.log('Received message:', chat)
-          setMessages(prevMessages => [...prevMessages, chat])
-        },
-      )
-
-      sendMessage('ENTER', '') // 방에 입장할 때 메시지 전송
-
-      return () => {
-        // 구독 해제
-        subscription.unsubscribe()
-      }
+  // 에러 발생 시
+  const onError = (error: Frame | string) => {
+    if (typeof error === 'string') {
+      console.error('Connection string error: ', error)
+    } else {
+      console.error('Connection frame error: ', error.headers.message)
     }
-    return () => {}
-  }, [roomId, sendMessage, userId]) // roomId 또는 userId가 변경될 때 구독을 업데이트
+  }
 
   useEffect(() => {
     const serverURL = import.meta.env.VITE_REACT_WS_URL as string
-    const onConnected = (client: Client) => {
+
+    // 이미 연결된 클라이언트가 있는지 확인하고, 연결이 없을 때만 연결을 초기화
+    if (!client?.connected && roomId) {
+      const onConnected = (connectedClient: Client) => {
+        setClient(connectedClient)
+      }
+
+      // 클라이언트 연결
+      connectStompClient(serverURL, onConnected, onError)
+    }
+
+    if (client && roomId) {
       const subscription = client.subscribe(
         `/topic/public/rooms/${roomId}`,
         message => {
-          // 받은 채팅을 상태 관리
           const chat = JSON.parse(message.body)
-          console.log('Received message:', chat)
           setMessages(prevMessages => [...prevMessages, chat])
         },
       )
-      scrollToBottom()
 
+      // 메시지를 받을 때마다 스크롤을 아래로 내립니다
+      scrollToBottom()
+      // 구독 해제 처리
       return () => subscription.unsubscribe()
     }
 
-    // 에러 발생 시
-    const onError = (error: Frame | string) => {
-      if (typeof error === 'string') {
-        console.error('Connection string error: ', error)
-      } else {
-        console.error('Connection frame error: ', error.headers.message)
+    // 컴포넌트 언마운트 시 클라이언트 연결 해제
+    return () => {
+      if (client) {
+        client.disconnect()
       }
     }
-    connectStompClient(serverURL, onConnected, onError)
-
-    // 연결 종료 로직
-    return () => {
-      getStompClient()?.disconnect()
-    }
-  }, [roomId]) // 서버 URL이 변경되는 경우에만 연결을 재설정
-
-  // useEffect(() => {
-  //   const serverURL = import.meta.env.VITE_REACT_WS_URL as string
-  //   const onConnected = (client: Client) => {
-  //     const subscription = client.subscribe(
-  //       `/topic/public/rooms/${roomId}`,
-  //       message => {
-  //         // 받은 채팅을 상태 관리
-  //         const chat = JSON.parse(message.body)
-  //         console.log('Received message:', chat)
-  //         setMessages(prevMessages => [...prevMessages, chat])
-  //       },
-  //     )
-  //     setNewMessage(defaultMessage)
-  //     scrollToBottom()
-  //
-  //     return () => subscription.unsubscribe()
-  //   }
-  //
-  //   // 에러 발생 시
-  //   const onError = (error: Frame | string) => {
-  //     if (typeof error === 'string') {
-  //       console.error('Connection string error: ', error)
-  //     } else {
-  //       console.error('Connection frame error: ', error.headers.message)
-  //     }
-  //   }
-  //
-  //   sendMessage('ENTER', '')
-  //
-  //   connectStompClient(serverURL, onConnected, onError)
-  //
-  //   return () => {
-  //     getStompClient()?.disconnect()
-  //   }
-  // }, [roomId, userId])
+  }, [client, roomId, sendMessage]) // client 객체와 roomId 변경 시 구독 재설정
 
   return (
     <c.Div>
-      <ChattingHeader />
-      <ChattingBody messages={messages} />
-      <ChattingInput onSend={content => sendMessage('TALK', content)} />
+      {data && !isLoading && (
+        <c.Div>
+          <ChattingHeader />
+          <ChattingBody messages={messages} userId={userId} />
+          <ChattingInput onSend={content => sendMessage('TALK', content)} />
+        </c.Div>
+      )}
     </c.Div>
   )
 }

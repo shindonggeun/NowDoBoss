@@ -1,16 +1,26 @@
 import SelectContainer from '@src/containers/analysis/SelectContainer'
 import ResultContainer from '@src/containers/analysis/ResultContainer'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 const AnalysisContainer = () => {
   const [isReady, setIsReady] = useState(false)
+  const resultContainerRef = useRef<HTMLDivElement>(null)
+
+  const handleResultButtonClick = () => {
+    setIsReady(true)
+    resultContainerRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
 
   return (
-    <div
-      style={{ display: 'flex', flexDirection: 'column', overflowY: 'auto' }}
-    >
-      <SelectContainer setIsReady={setIsReady} />
-      {isReady && <ResultContainer />}
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <SelectContainer
+        setIsReady={setIsReady}
+        handleResultButtonClick={handleResultButtonClick}
+      />
+      {isReady && <ResultContainer ref={resultContainerRef} />}
     </div>
   )
 }

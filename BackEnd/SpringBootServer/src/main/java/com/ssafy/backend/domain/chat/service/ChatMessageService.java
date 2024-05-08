@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface ChatMessageService {
     List<ChatMessageResponse> selectChatMessages(Long chatRoomId, Long lastId);
-    void enter(String topic, ChatMessageRequest request);
     void send(String topic, ChatMessageRequest request);
     void processMessage(ChatMessage chatMessage);
 }

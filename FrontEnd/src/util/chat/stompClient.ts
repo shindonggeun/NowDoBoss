@@ -8,10 +8,13 @@ export type OnErrorCallback = (error: Frame | string) => void
 
 let stompClient: StompClient = null
 
+export const setStompClient = (client: Client | null) => {
+  stompClient = client
+}
+
 // STOMP 클라이언트 연결 함수
 export const connectStompClient = (
   serverURL: string,
-  // token: string,
   onConnected: OnConnectedCallback,
   onError: OnErrorCallback,
 ): void => {
@@ -21,16 +24,14 @@ export const connectStompClient = (
     const client = over(socket)
 
     client.debug = () => {}
-    const headers = {
-      // Authorization: `Bearer ${token}`,
-    }
 
     // 수정된 connect 호출 부분
     client.connect(
-      headers,
+      {},
       (frame?: Frame) => {
         if (frame) {
           onConnected(client)
+          setStompClient(client)
         }
       },
       (error: Frame | CloseEvent) => {

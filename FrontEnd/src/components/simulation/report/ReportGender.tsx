@@ -1,7 +1,7 @@
 import * as c from '@src/components/styles/simulation/ReportAnalysisStyle'
 import Woman from '@src/assets/womanIcon.svg'
 import Man from '@src/assets/manIcon.svg'
-import { SimulationReportType } from '@src/types/SimulationType.tsx'
+import { SimulationReportType } from '@src/types/SimulationType'
 
 const ReportGender = ({ ReportData }: { ReportData: SimulationReportType }) => {
   const GendarAndAgeDInfo = ReportData.genderAndAgeAnalysisInfo

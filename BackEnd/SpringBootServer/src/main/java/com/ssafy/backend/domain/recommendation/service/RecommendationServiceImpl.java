@@ -120,6 +120,11 @@ public class RecommendationServiceImpl implements RecommendationService{
         recommendationRepository.deleteByUserIdAndCommercialCodeAndType(id, commercialCode, "recommendation");
     }
 
+    @Override
+    public List<RecommendationDocument> getSavedCommercialRecommendationList(Long id) {
+        return recommendationRepository.findByUserIdAndType(id, "recommendation");
+    }
+
     private List<UserResponse> fetchCommercialData(Long id) {
 //        //FastAPI 서버로부터 데이터를 비동기로 받아옵니다.
 //        Mono<List<UserResponse>> commercialDataMono = sendToFastAPIServer(id);

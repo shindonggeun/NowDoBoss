@@ -93,7 +93,8 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
         String(selectedCommercial.code),
         selectedService.serviceCode,
       ),
-    enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
+    enabled:
+      selectedCommercial.code !== 0 && selectedService.serviceCode !== '', // 상권 코드가 0이거나 업종 코드가 없으면 호출하지 않는 조건
   })
 
   useEffect(() => {

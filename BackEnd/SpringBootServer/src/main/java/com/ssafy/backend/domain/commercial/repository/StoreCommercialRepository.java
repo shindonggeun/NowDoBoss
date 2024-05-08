@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface StoreCommercialRepository extends JpaRepository<StoreCommercial, Long>, StoreCommercialCustom {
@@ -26,4 +27,6 @@ public interface StoreCommercialRepository extends JpaRepository<StoreCommercial
             "AND sc.commercial_code = :commercialCode " +
             "AND sc.service_type = :#{#serviceType.name()}", nativeQuery = true)
     List<StoreCommercial> findOtherServicesInSameCategory(String periodCode, String commercialCode, ServiceType serviceType);
+
+    Optional<StoreCommercial> findByPeriodCodeAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode);
 }

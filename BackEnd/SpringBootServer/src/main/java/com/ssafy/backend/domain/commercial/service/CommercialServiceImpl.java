@@ -10,14 +10,12 @@ import com.ssafy.backend.domain.district.entity.enums.ServiceType;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.C;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -284,7 +282,26 @@ public class CommercialServiceImpl implements CommercialService {
                 .mapToLong(CommercialSameStoreInfo::totalStore)
                 .sum();
 
-        return new CommercialStoreResponse(sameStores, sameTotalStore);
+        StoreCommercial storeCommercial = storeCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
+                .orElseThrow(() -> new RuntimeException("점포 분석 데이터가 없습니다."));
+
+        long totalStores = storeCommercial.getTotalStore() + storeCommercial.getFranchiseStore();
+        double normalStorePercentage = totalStores > 0 ? Math.round((double) storeCommercial.getTotalStore() / totalStores * 100.0 * 100.0) / 100.0 : 0.0;
+        double franchiseStorePercentage = totalStores > 0 ? Math.round((double) storeCommercial.getFranchiseStore() / totalStores * 100.0 * 100.0) / 100.0 : 0.0;
+
+        CommercialFranchiseeStoreInfo franchiseeStore = new CommercialFranchiseeStoreInfo(
+                storeCommercial.getTotalStore(),
+                storeCommercial.getFranchiseStore(),
+                normalStorePercentage,
+                franchiseStorePercentage
+        );
+
+        CommercialOpenAndCloseStoreInfo openAndCloseStore = new CommercialOpenAndCloseStoreInfo(
+                storeCommercial.getOpenedRate(),
+                storeCommercial.getClosedRate()
+        );
+
+        return new CommercialStoreResponse(sameStores, sameTotalStore, franchiseeStore, openAndCloseStore);
     }
 
 

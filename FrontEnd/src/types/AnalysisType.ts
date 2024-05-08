@@ -35,10 +35,26 @@ export type AgeGroupFootTrafficType = {
   sixtyFootTraffic: number
 }
 
+export type AeGenderPercentFootTrafficType = {
+  maleTeenFootTrafficPercent: number
+  femaleTeenFootTrafficPercent: number
+  maleTwentyFootTrafficPercent: number
+  femaleTwentyFootTrafficPercent: number
+  maleThirtyFootTrafficPercent: number
+  femaleThirtyFootTrafficPercent: number
+  maleFortyFootTrafficPercent: number
+  femaleFortyFootTrafficPercent: number
+  maleFiftyFootTrafficPercent: number
+  femaleFiftyFootTrafficPercent: number
+  maleSixtyFootTrafficPercent: number
+  femaleSixtyFootTrafficPercent: number
+}
+
 export type FlowPopulationDataBodyType = {
   timeSlotFootTraffic: TimeSlotFootTrafficType
   dayOfWeekFootTraffic: DayOfWeekFootTrafficType
   ageGroupFootTraffic: AgeGroupFootTrafficType
+  ageGenderPercentFootTraffic: AeGenderPercentFootTrafficType
 }
 
 export type PopulationInfoType = {
@@ -59,10 +75,12 @@ export type ResidentPopulationDataBodyType = {
 
 // store type
 export type AnalysisStoreType = {
+  selectedServiceType: string
   selectedService: SelectedServiceType
   serviceDataBody: SelectedServiceType[]
   flowPopulationDataBody: FlowPopulationDataBodyType
   residentPopulationDataBody: ResidentPopulationDataBodyType
+  setSelectedServiceType: (serviceType: string) => void
   setSelectedService: (service: SelectedServiceType) => void
   setServiceDataBody: (dataBody: SelectedServiceType[]) => void
   setFlowPopulationDataBody: (dataBody: FlowPopulationDataBodyType) => void
@@ -72,18 +90,24 @@ export type AnalysisStoreType = {
 }
 
 // prop type
+export type SelectContainerPropsType = {
+  setIsReady: React.Dispatch<React.SetStateAction<boolean>>
+  handleResultButtonClick: () => void
+}
+
 export type CategoryTitleCardProps = {
+  src: string
   title: string
 }
 
 export type SearchSectionPropsType = {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  handleResultButtonClick: () => void
 }
 
 export type ChoiceServicePropsType = {
   handleServiceTypeClick: (serviceType: string) => void
-  selectedType: string
 }
 
 export type ChoiceServiceDetailPropsType = {

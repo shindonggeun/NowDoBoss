@@ -61,3 +61,77 @@ export interface DaumDataType {
   userSelectedType: string
   zonecode: string
 }
+
+// 프렌차이즈 검색 응답 type
+export interface FranchiseListType {
+  brandName: string
+  franchiseeId: number
+  serviceCode: string
+  serviceCodeName: string
+}
+
+export interface FranchiseDataBody {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: FranchiseListType[]
+}
+
+// 시뮬레이션 레포트 요청 데이터 타입
+export interface SimulationDataType {
+  isFranchisee: boolean | null
+  brandName: string | null
+  gugun: string
+  serviceCode: string
+  serviceCodeName: string
+  storeSize: number
+  floor: string
+}
+
+// [NOTE] 레포트 타입
+
+export interface SimulationReportType {
+  totalPrice: number
+  keyMoneyInfo: {
+    keyMoneyRatio: number
+    keyMoney: number
+    keyMoneyLevel: number
+  }
+  detail: {
+    rentPrice: number
+    deposit: number
+    interior: number
+    levy: number
+  }
+  franchisees: {
+    totalPrice: number
+    brandName: string
+    subscription: number
+    education: number
+    deposit: number
+    etc: number
+    interior: number
+  }[]
+  genderAndAgeAnalysisInfo: {
+    maleSalesPercent: number
+    femaleSalesPercent: number
+    first: {
+      sales: number
+      name: string
+    }
+    second: {
+      sales: number
+      name: string
+    }
+    third: {
+      sales: number
+      name: string
+    }
+  }
+  monthAnalysisInfo: {
+    peakSeasons: number[]
+    offPeakSeasons: number[]
+  }
+}

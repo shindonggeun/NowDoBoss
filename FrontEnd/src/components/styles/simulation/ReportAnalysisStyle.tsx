@@ -1,7 +1,10 @@
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
-  margin: 2rem 5rem;
+  margin: 2rem 6vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 
 export const Title = styled.div`
@@ -34,6 +37,51 @@ export const AgeContainer = styled.div`
   justify-content: center;
 `
 
+export const AgeWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+`
+
+export const AgeDetail = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+interface AgeBarType {
+  rank: string
+}
+export const AgeBar = styled.div<AgeBarType>`
+  margin: 1rem 1rem 0 1rem;
+  //padding: 0 1rem;
+  width: 3vw;
+  ${({ rank }) => {
+    switch (rank) {
+      case 'first':
+        return 'height: 12rem;'
+      case 'second':
+        return 'height: 10rem;'
+      case 'third':
+        return 'height: 8rem;'
+      default:
+        return 'height: 8rem;'
+    }
+  }}
+  ${({ rank }) => {
+    switch (rank) {
+      case 'first':
+        return 'background-color: #1C42C9;'
+      case 'second':
+        return 'background-color: #5472DD;'
+      case 'third':
+        return 'background-color: #A2ACCD;'
+      default:
+        return 'background-color: blue;'
+    }
+  }}
+`
+
 export const GenderContainer = styled.div`
   flex: 1;
   display: flex;
@@ -60,6 +108,7 @@ export const GenderPercent = styled.div`
   font-size: 0.9rem;
   font-weight: 700;
   margin-bottom: 0.8rem;
+  margin-left: 1vw;
 `
 
 export const GenderText = styled.div`
@@ -109,4 +158,41 @@ export const CircleMonth = styled.div<CircleProps>`
       color: white;
       border: 1px solid #fa390e;
     `};
+`
+
+export const GrayBox = styled.div`
+  width: 93%;
+  min-height: 5rem;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 1.5rem 1rem;
+  margin-top: 0.5rem;
+`
+
+export const GrayBoxHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const GrayBoxHeaderTitle = styled.div`
+  padding-left: 0.7rem;
+  font-weight: 700;
+`
+
+export const ThumbUpIcon = styled.img`
+  width: 1.8rem;
+`
+
+export const GrayBoxTitle = styled.div`
+  padding: 1rem 0.7rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #d84a34;
+`
+
+export const GrayBoxSubTitle = styled.div`
+  padding: 0 0.7rem;
+  font-size: 0.9rem;
+  color: #4c545e;
 `

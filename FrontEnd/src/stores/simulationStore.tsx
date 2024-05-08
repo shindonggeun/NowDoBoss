@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import buildingSmall from '@src/assets/building_small.svg'
 import buildingMedium from '@src/assets/building_medium.svg'
 import buildingLarge from '@src/assets/building_large.svg'
+// import { SimulationReportType } from '@src/types/SimulationType'
 
 export interface SubCategoryItem {
   name: string
@@ -131,18 +132,24 @@ interface StoreSizeState {
 interface SimulationState {
   step: number
   isFranchise: boolean | null
+  brandName: string | null
   category: string
-  subCategory: string
+  subCategoryName: string
+  subCategoryCode: string
   bulidingSize: number
   floor: string
   setStep: (step: number) => void
   setIsFranchise: (isFranchise: boolean | null) => void
+  setBrandName: (brandName: string | null) => void
   setCategory: (category: string) => void
-  setSubCategory: (subCategory: string) => void
+  setSubCategoryName: (subCategoryName: string) => void
+  setSubCategoryCode: (subCategoryCode: string) => void
   setBulidingSize: (bulidingSize: number) => void
   setFloor: (floor: string) => void
   updateStoreSize: StoreSizeState
   setUpdateStoreSize: (updateStoreSize: StoreSizeState) => void
+  // reportData: SimulationReportType
+  // setReportData: (reportData: SimulationReportType) => void
 }
 
 // 가게 정보 입력 저장
@@ -151,10 +158,14 @@ const useSimulationStore = create<SimulationState>(set => ({
   setStep: step => set({ step }),
   isFranchise: null,
   setIsFranchise: isFranchise => set({ isFranchise }),
+  brandName: null,
+  setBrandName: (brandName: string | null) => set({ brandName }),
   category: '',
   setCategory: category => set({ category }),
-  subCategory: '',
-  setSubCategory: subCategory => set({ subCategory }),
+  subCategoryName: '',
+  setSubCategoryName: subCategoryName => set({ subCategoryName }),
+  subCategoryCode: '',
+  setSubCategoryCode: subCategoryCode => set({ subCategoryCode }),
   bulidingSize: 0,
   setBulidingSize: bulidingSize => set({ bulidingSize }),
   floor: '',
@@ -176,6 +187,7 @@ const useSimulationStore = create<SimulationState>(set => ({
     },
   },
   setUpdateStoreSize: data => set({ updateStoreSize: data }),
+  // reportData: {},
 }))
 
 export default useSimulationStore

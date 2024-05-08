@@ -7,7 +7,7 @@ import * as f from '@src/components/styles/analysis/FacilitiesAnalysisStyle'
 const FacilitiesAnalysis = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
     <div ref={ref}>
-      <CategoryTitleCard title="집객시설" />
+      <CategoryTitleCard src="src/assets/facilities.png" title="집객시설" />
       <f.FirstLowContainer>
         <TransChart />
         <EduChart />

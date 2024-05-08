@@ -25,3 +25,9 @@ export type HalfDoughnutChartPropsType = {
   labels: string[]
   values: number[]
 }
+
+export type RadarChartPropsType = {
+  labels: string[]
+  value1: number[]
+  value2: number[]
+}

@@ -1,3 +1,4 @@
+import { RadarChartPropsType } from '@src/types/CommonPropsType'
 import {
   Chart as ChartJS,
   Filler,
@@ -18,10 +19,8 @@ ChartJS.register(
   Legend,
 )
 
-const RadarChart = () => {
-  const labels: string[] = ['10대', '20대', '30대', '40대', '50대', '60대 이상']
-  const value1 = [12, 13, 15, 30, 10, 20]
-  const value2 = [5, 20, 10, 15, 15, 35]
+const RadarChart = (props: RadarChartPropsType) => {
+  const { labels, value1, value2 } = props
 
   const data = {
     labels,

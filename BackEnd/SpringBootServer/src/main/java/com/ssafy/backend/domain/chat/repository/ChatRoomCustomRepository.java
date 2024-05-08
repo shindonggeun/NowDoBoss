@@ -6,5 +6,6 @@ import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import java.util.List;
 
 public interface ChatRoomCustomRepository {
-    List<MyChatRoomListResponse> selectChatRooms(Long memberId, MyChatRoomListRequest request);
+    List<MyChatRoomListResponse> selectMyChatRooms(Long memberId, MyChatRoomListRequest request);
+
 }

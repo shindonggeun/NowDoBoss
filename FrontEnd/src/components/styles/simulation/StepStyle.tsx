@@ -251,3 +251,17 @@ export const NextButton = styled.button`
   width: 15rem;
   height: 3rem;
 `
+
+export const StyledButton = styled.button`
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px 2.5rem;
+`
+
+export const Step1ButtonContainer = styled.div`
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+`

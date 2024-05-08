@@ -1,7 +1,7 @@
 import { DetailDataBody } from '@src/types/StatusType'
 
 interface DetailCommercialProps {
-  props: DetailDataBody | undefined
+  props: DetailDataBody
 }
 const DetailCommercialComponent = ({ props }: DetailCommercialProps) => {
   console.log(props)

@@ -1,18 +1,51 @@
 import * as c from '@src/components/styles/simulation/ReportDetailStyle'
 import LightIcon from '@src/assets/lightBulbIcon.svg'
+import useSimulationStore from '@src/stores/simulationStore'
+import { SimulationReportType } from '@src/types/SimulationType'
 
-const ReportDetail = () => {
+const ReportDetail = ({ ReportData }: { ReportData: SimulationReportType }) => {
+  const { isFranchise } = useSimulationStore()
   type DetailType = {
     name: string
     detail: string
   }
+  // 단위면적당 임대료 계산
+  const rentPriceCalcul = Math.floor(
+    ReportData.detail.rentPrice / 3.3,
+  ).toLocaleString()
+
   const DetailInfos: DetailType[] = [
-    { name: '첫 월 임대료', detail: '단위면적(3.3㎡)당 ???원' },
+    {
+      name: '첫 월 임대료',
+      detail: `단위면적(3.3㎡)당 ${rentPriceCalcul}원`,
+    },
     { name: '보증금', detail: '월 임대료 * 10개월' },
     { name: '인테리어 비용', detail: '단위면적(3.3㎡)당 인테리어 비용' },
   ]
 
-  const DetailPrices: number[] = [123, 235, 1322]
+  const FranchiseInfo = {
+    name: '가맹 사업자 부담금',
+    detail: '가입비+교육비+가맹보증금 등',
+  }
+
+  const DetailPrices: (number | null)[] = [
+    ReportData.detail.rentPrice,
+    ReportData.detail.deposit,
+    ReportData.detail.interior,
+    ReportData.detail.levy,
+  ]
+
+  const formattedPrices = DetailPrices.map(price => {
+    if (price !== null) {
+      if (price > 100000000) {
+        const billions = Math.floor(price / 100000000)
+        const millions = Math.floor((price % 100000000) / 10000)
+        return `${billions}억 ${millions.toFixed(0)}만원`
+      }
+      return `${(price / 10000).toFixed(0)}만원`
+    }
+    return null
+  })
 
   return (
     <>
@@ -28,9 +61,18 @@ const ReportDetail = () => {
             <c.TextTitle>{detailInfo.name}</c.TextTitle>
             <c.TextSubtitle>{detailInfo.detail}</c.TextSubtitle>
           </c.BodyText>
-          <c.TextPrice>{DetailPrices[i].toLocaleString()}만원</c.TextPrice>
+          <c.TextPrice>{formattedPrices[i]}</c.TextPrice>
         </c.Body>
       ))}
+      {isFranchise ? (
+        <c.Body>
+          <c.BodyText>
+            <c.TextTitle>{FranchiseInfo.name}</c.TextTitle>
+            <c.TextSubtitle>{FranchiseInfo.detail}</c.TextSubtitle>
+          </c.BodyText>
+          <c.TextPrice>{formattedPrices[3]}</c.TextPrice>
+        </c.Body>
+      ) : null}
     </>
   )
 }

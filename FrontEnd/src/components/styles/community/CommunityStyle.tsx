@@ -13,6 +13,7 @@ export const LeftGrid = styled.div`
   justify-content: space-between;
   height: auto;
 `
+export const Modal = styled.div``
 export const Title = styled.div`
   font-weight: 600;
   font-size: 1.7rem;

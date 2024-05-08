@@ -5,20 +5,23 @@ import useSimulationStore, {
   BuildingData,
   SubCategoryItem,
 } from '@src/stores/simulationStore'
-import { useQuery } from '@tanstack/react-query'
+import useReportStore from '@src/stores/reportStore'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { StoreSizeDataBody } from '@src/types/SimulationType'
-import { fetchStoreSize } from '@src/api/simulationApi'
+import {
+  SimulationDataType,
+  StoreSizeDataBody,
+} from '@src/types/SimulationType'
+import { fetchStoreSize, reportCreate } from '@src/api/simulationApi'
 
-interface Step5Props {
-  nextStep: () => void
-}
-
-const SelectionStep5 = ({ nextStep }: Step5Props) => {
+const SelectionStep5 = () => {
   const navigate = useNavigate()
   const {
+    isFranchise,
+    brandName,
     category,
-    subCategory,
+    subCategoryName,
+    subCategoryCode,
     bulidingSize,
     setBulidingSize,
     floor,
@@ -26,9 +29,10 @@ const SelectionStep5 = ({ nextStep }: Step5Props) => {
     updateStoreSize,
     setUpdateStoreSize,
   } = useSimulationStore()
+  const { sigungu } = useReportStore()
 
   const categoryObj: SubCategoryItem | undefined = subCategories[category].find(
-    target => target.name === subCategory,
+    target => target.name === subCategoryName,
   )
   const categoryCode = categoryObj ? categoryObj.code : ''
 
@@ -43,13 +47,34 @@ const SelectionStep5 = ({ nextStep }: Step5Props) => {
     refetch()
     if (!isLoading && data) {
       setUpdateStoreSize(data?.dataBody)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       respons = data.dataBody
     }
-  }, [refetch, subCategory])
+  }, [refetch, subCategoryName])
+
+  // 레포트 생성
+  const { mutate: mutateCreateReport } = useMutation({
+    mutationFn: reportCreate,
+    onSuccess: res => {
+      navigate('/simulation/report', { state: { res } })
+    },
+    onError: error => {
+      console.error(error)
+    },
+  })
 
   const goReportPage = () => {
-    nextStep()
-    navigate('/simulation/report')
+    const reportCreateData: SimulationDataType = {
+      isFranchisee: isFranchise,
+      brandName,
+      gugun: sigungu,
+      serviceCode: subCategoryCode,
+      serviceCodeName: subCategoryName,
+      storeSize: bulidingSize,
+      floor,
+    }
+    console.log(reportCreateData)
+    mutateCreateReport(reportCreateData)
   }
 
   return (

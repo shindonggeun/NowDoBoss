@@ -1,29 +1,23 @@
 import * as c from '@src/components/styles/simulation/ReportAnalysisStyle'
+import useReportStore from '@src/stores/reportStore'
+import { SimulationReportType } from '@src/types/SimulationType'
 
-const ReportMonthAnalysis = () => {
-  const peakSeasons: number[] = [12, 1, 2]
-  const offPeakSeasons: number[] = [3, 4, 5]
+const ReportMonthAnalysis = ({
+  ReportData,
+}: {
+  ReportData: SimulationReportType
+}) => {
+  const { sigungu } = useReportStore()
+  const { peakSeasons } = ReportData.monthAnalysisInfo
+  const { offPeakSeasons } = ReportData.monthAnalysisInfo
 
-  const Months: string[] = [
-    '1월',
-    '2월',
-    '3월',
-    '4월',
-    '5월',
-    '6월',
-    '7월',
-    '8월',
-    '9월',
-    '10월',
-    '11월',
-    '12월',
-  ]
+  const Months = Array.from({ length: 12 }, (_, i) => i + 1)
   return (
     <c.Container>
       <c.Title>성수기 비성수기 분석</c.Title>
       <c.SubTitle>
-        000구 000동의
-        <c.Emphasis> 성수기는 {peakSeasons.join(',')}월</c.Emphasis> 이고
+        {sigungu}의<c.Emphasis> 성수기는 {peakSeasons.join(',')}월</c.Emphasis>{' '}
+        이고
         <c.Emphasis> 비성수기는 {offPeakSeasons.join(',')}월</c.Emphasis>입니다.
       </c.SubTitle>
       <c.CircleContainer>
@@ -37,7 +31,7 @@ const ReportMonthAnalysis = () => {
           }
           return (
             <c.CircleMonth key={month} season={season || null}>
-              {month}
+              {month}월
             </c.CircleMonth>
           )
         })}

@@ -49,7 +49,7 @@ pipeline {
                     // 하나의 컨테이너라도 실행되고 있지 않다면 도커 컴포즈 실행
                     if (isRedisRunning == "" || isSonarQubeRunning == "" || isZookeeperRunning == "" || isKafkaRunning == "") {
                         echo "util 관련 dockerfile 빌드..."
-                        sh "docker-compose -f CICD/docker-compose.yml up -d"
+                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up -d"
                     }
                 }
             }

@@ -6,6 +6,7 @@ import {
   getFlowPopulationData,
   getResidentPopulationData,
   getSalesData,
+  getStoreCountData,
 } from '@src/api/analysisApi'
 import FlowPopulationAnalysis from '@src/components/analysis/flowPopulation/FlowPopulationAnalysis'
 import FacilitiesAnalysis from '@src/components/analysis/facilities/FacilitiesAnalysis'
@@ -25,6 +26,7 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
     setFlowPopulationDataBody,
     setResidentPopulationDataBody,
     setSalesDataBody,
+    setStoreCountDataBody,
   } = analysisStore()
 
   // 카테고리별 컴포넌트로 이동하기 위한 ref
@@ -102,6 +104,26 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       setSalesDataBody(SalesData.dataBody)
     }
   }, [salesStatus, SalesData]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const { data: StoreCountData, status: storeCountStatus } = useQuery({
+    queryKey: ['GetStoreCountData', selectedCommercial.code],
+    queryFn: () =>
+      getStoreCountData(
+        String(selectedCommercial.code),
+        selectedService.serviceCode,
+      ),
+    enabled:
+      selectedCommercial.code !== 0 && selectedService.serviceCode !== '', // 상권 코드가 0이거나 업종 코드가 없으면 호출하지 않는 조건
+  })
+
+  useEffect(() => {
+    if (
+      storeCountStatus === 'success' &&
+      StoreCountData?.dataHeader.successCode === 0
+    ) {
+      setStoreCountDataBody(StoreCountData.dataBody)
+    }
+  }, [storeCountStatus, StoreCountData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <a.Container ref={ref}>

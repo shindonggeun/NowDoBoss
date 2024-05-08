@@ -1,10 +1,12 @@
 package com.ssafy.backend.domain.commercial.dto.response;
 
-public record CommercialStoreResponse(
-        Long similarStore,
-        Long franchiseStore,
-        Long openedStore,
-        Long closedStore
+import com.ssafy.backend.domain.commercial.dto.info.CommercialSameStoreInfo;
 
+import java.util.List;
+
+public record CommercialStoreResponse(
+        List<CommercialSameStoreInfo> sameStoreInfos,
+
+        Long sameTotalStore
 ) {
 }

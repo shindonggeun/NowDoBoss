@@ -110,4 +110,13 @@ public class CommercialController {
         return ResponseEntity.ok().body(Message.success(administrationResponse));
     }
 
+    @GetMapping("/store/{commercialCode}/{serviceCode}")
+    public ResponseEntity<Message<CommercialStoreResponse>> getStoreByPeriodAndCommercialCodeAndServiceCode(
+            @RequestParam(defaultValue = "20233") String periodCode,
+            @PathVariable String commercialCode,
+            @PathVariable String serviceCode) {
+        CommercialStoreResponse storeResponse = commercialService.getStoreByPeriodAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode);
+        return ResponseEntity.ok().body(Message.success(storeResponse));
+    }
+
 }

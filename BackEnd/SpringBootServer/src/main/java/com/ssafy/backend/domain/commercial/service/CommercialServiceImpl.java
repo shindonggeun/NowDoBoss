@@ -6,6 +6,7 @@ import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
+import com.ssafy.backend.domain.district.entity.enums.ServiceType;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -269,16 +270,23 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     public CommercialStoreResponse getStoreByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode) {
-        StoreCommercial storeCommercial = storeCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
-                .orElseThrow(() -> new RuntimeException("점포 상권 데이터가 없습니다."));
+        ServiceType serviceType = storeCommercialRepository.findServiceTypeByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode);
 
-        return new CommercialStoreResponse(
-                storeCommercial.getSimilarStore(),
-                storeCommercial.getFranchiseStore(),
-                storeCommercial.getOpenedStore(),
-                storeCommercial.getClosedStore()
-        );
+        List<StoreCommercial> otherStores = storeCommercialRepository.findOtherServicesInSameCategory(periodCode, commercialCode, serviceType);
+
+        List<CommercialSameStoreInfo> sameStores = otherStores.stream()
+                .map(store -> new CommercialSameStoreInfo(
+                        store.getServiceCodeName(),
+                        store.getTotalStore())
+                ).toList();
+
+        long sameTotalStore = sameStores.stream()
+                .mapToLong(CommercialSameStoreInfo::totalStore)
+                .sum();
+
+        return new CommercialStoreResponse(sameStores, sameTotalStore);
     }
+
 
     private CommercialAgeGenderPercentFootTrafficInfo calculateAgeGenderPercentFootTraffic(FootTrafficCommercial trafficCommercial) {
         Long total = trafficCommercial.getTotalFootTraffic();

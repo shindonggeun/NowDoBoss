@@ -11,7 +11,7 @@ import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 const SalesAnalysis = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
     <div ref={ref}>
-      <CategoryTitleCard title="매출분석" />
+      <CategoryTitleCard src="src/assets/sales.png" title="매출분석" />
       <s.FirstLowContainer>
         <ExpectChart />
         <AgeChart />

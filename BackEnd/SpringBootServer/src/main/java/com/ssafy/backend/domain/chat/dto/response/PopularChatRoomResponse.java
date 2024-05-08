@@ -7,6 +7,7 @@ public record PopularChatRoomResponse(
         Category category,
         String name,
         String introduction,
-        int memberCount
+        int memberCount,
+        int limit
 ) {
 }

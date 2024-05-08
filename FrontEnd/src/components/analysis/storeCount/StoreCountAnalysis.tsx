@@ -9,7 +9,7 @@ import * as s from '@src/components/styles/analysis/StoreCountAnalysisStyle'
 const StoreCountAnalysis = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
     <div ref={ref}>
-      <CategoryTitleCard title="점포 수" />
+      <CategoryTitleCard src="src/assets/store_count.png" title="점포 수" />
       <s.FirstLowContainer>
         <TotalChart />
         <s.FirstRightWrap>

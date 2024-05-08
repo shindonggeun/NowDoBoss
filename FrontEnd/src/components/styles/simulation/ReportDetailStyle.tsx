@@ -7,7 +7,7 @@ export const SummaryHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1rem 2rem;
+  margin: 1rem 1.3rem;
   position: relative;
 `
 

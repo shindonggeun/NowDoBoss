@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { forwardRef, Ref, useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import analysisStore from '@src/stores/analysisStore'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
@@ -17,7 +17,7 @@ import SideBarMenu from '@src/components/analysis/SideBarMenu'
 import ResultIntro from '@src/components/analysis/ResultIntro'
 import * as a from '@src/containers/analysis/ResultContainerStyle'
 
-const ResultContainer = () => {
+const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   const { setFlowPopulationDataBody, setResidentPopulationDataBody } =
     analysisStore()
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
@@ -49,6 +49,7 @@ const ResultContainer = () => {
   const { data: FlowPopulationData, status: flowPopulationStatus } = useQuery({
     queryKey: ['GetFlowPopulationData', selectedCommercial.code],
     queryFn: () => getFlowPopulationData(String(selectedCommercial.code)),
+    enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
   })
 
   useEffect(() => {
@@ -65,6 +66,7 @@ const ResultContainer = () => {
     useQuery({
       queryKey: ['GetResidentPopulationData', selectedCommercial.code],
       queryFn: () => getResidentPopulationData(String(selectedCommercial.code)),
+      enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
     })
 
   useEffect(() => {
@@ -77,7 +79,7 @@ const ResultContainer = () => {
   }, [residentPopulationStatus, ResidentPopulationData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <a.Container>
+    <a.Container ref={ref}>
       <ResultIntro />
       <a.Wrap>
         <a.Sidebar>
@@ -95,6 +97,7 @@ const ResultContainer = () => {
       </a.Wrap>
     </a.Container>
   )
-}
+})
 
+ResultContainer.displayName = 'ResultContainer'
 export default ResultContainer

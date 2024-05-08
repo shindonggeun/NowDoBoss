@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import buildingSmall from '@src/assets/building_small.svg'
 import buildingMedium from '@src/assets/building_medium.svg'
 import buildingLarge from '@src/assets/building_large.svg'
+// import { SimulationReportType } from '@src/types/SimulationType'
 
 export interface SubCategoryItem {
   name: string
@@ -147,6 +148,8 @@ interface SimulationState {
   setFloor: (floor: string) => void
   updateStoreSize: StoreSizeState
   setUpdateStoreSize: (updateStoreSize: StoreSizeState) => void
+  // reportData: SimulationReportType
+  // setReportData: (reportData: SimulationReportType) => void
 }
 
 // 가게 정보 입력 저장
@@ -184,6 +187,7 @@ const useSimulationStore = create<SimulationState>(set => ({
     },
   },
   setUpdateStoreSize: data => set({ updateStoreSize: data }),
+  // reportData: {},
 }))
 
 export default useSimulationStore

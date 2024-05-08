@@ -41,6 +41,10 @@ spring:
     redis:
       host: ${server.base-url}
       port: 6379
+    mongodb:
+      host: localhost
+      port: 27017
+      database: nowdoboss
 
   # Java Mail Sender setting (Google Mail)
   mail:

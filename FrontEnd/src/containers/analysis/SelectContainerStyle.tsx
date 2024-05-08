@@ -39,7 +39,7 @@ export const ReduceBtnWrap = styled.div`
   top: 0;
   height: auto;
 
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 450px) {
     display: none;
   }
 `
@@ -59,4 +59,37 @@ export const ReduceBtn = styled.div`
 
 export const BtnImg = styled.img`
   scale: 1.3;
+`
+
+export const SimulationBtnWrap = styled.div`
+  position: absolute;
+  z-index: 1;
+  right: 100px;
+  width: 230px;
+  top: 0;
+  height: auto;
+
+  @media only screen and (max-width: 768px) {
+    left: 0;
+    top: 500px;
+  }
+
+  @media only screen and (max-width: 400px) {
+    top: 0;
+  }
+`
+export const SimulationBtn = styled.div`
+  width: 100%;
+  padding: 10px 30px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  background-color: #2a65f0;
+  color: #ffffff;
 `

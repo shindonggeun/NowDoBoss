@@ -9,9 +9,9 @@ const reportSummary = ({
 }: {
   ReportData: SimulationReportType
 }) => {
-  const { subCategoryName, bulidingSize, floor } = SimulationStore()
+  const { isFranchise, brandName, subCategoryName, bulidingSize, floor } =
+    SimulationStore()
   const { query } = ReportStore()
-  console.log(ReportData)
 
   const TotalPrice = ReportData.totalPrice
   let formattedNumber
@@ -42,11 +42,13 @@ const reportSummary = ({
           <c.SplitLine />
           <c.BodyBottom>
             <c.BodyBottomLeft>
+              {isFranchise ? <c.BottomText>이름</c.BottomText> : null}
               {['지역', '업종', '면적', '층'].map(data => (
                 <c.BottomText key={data}>{data}</c.BottomText>
               ))}
             </c.BodyBottomLeft>
             <c.BodyBottomRight>
+              <c.BottomText>{isFranchise ? brandName : null}</c.BottomText>
               <c.BottomText>{query.split('서울특별시')}</c.BottomText>
               <c.BottomText>{subCategoryName}</c.BottomText>
               <c.BottomText>{bulidingSize}㎡</c.BottomText>

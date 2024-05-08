@@ -1,5 +1,5 @@
 import { DetailDataBody } from '@src/types/StatusType'
-import * as c from '@src/components/styles/status/DeatilComponentStyle.tsx'
+import * as c from '@src/components/styles/status/DeatilComponentStyle'
 
 interface DetailAnalysisProps {
   props: DetailDataBody

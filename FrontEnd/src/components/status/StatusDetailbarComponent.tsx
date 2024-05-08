@@ -46,8 +46,8 @@ const StatusDetailbarComponent = ({
     () => [
       {
         name: '유동인구',
-        // component: DetailPopulationComponent,
-        component: DetailAnalysisComponent,
+        component: DetailPopulationComponent,
+        // component: DetailAnalysisComponent,
       },
       {
         // <todo> % 비율말고 data 값 받아오기
@@ -64,8 +64,8 @@ const StatusDetailbarComponent = ({
       },
       {
         name: '매출분석',
-        // component: DetailAnalysisComponent,
-        component: DetailPopulationComponent,
+        component: DetailAnalysisComponent,
+        // component: DetailPopulationComponent,
       },
       {
         name: '상권변화',

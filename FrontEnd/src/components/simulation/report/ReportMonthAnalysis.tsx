@@ -1,11 +1,15 @@
 import * as c from '@src/components/styles/simulation/ReportAnalysisStyle'
 import useReportStore from '@src/stores/reportStore'
+import { SimulationReportType } from '@src/types/SimulationType'
 
-const ReportMonthAnalysis = () => {
+const ReportMonthAnalysis = ({
+  ReportData,
+}: {
+  ReportData: SimulationReportType
+}) => {
   const { sigungu } = useReportStore()
-
-  const peakSeasons: number[] = [12, 1, 2]
-  const offPeakSeasons: number[] = [3, 4, 5]
+  const { peakSeasons } = ReportData.monthAnalysisInfo
+  const { offPeakSeasons } = ReportData.monthAnalysisInfo
 
   const Months = Array.from({ length: 12 }, (_, i) => i + 1)
   return (

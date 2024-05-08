@@ -83,13 +83,55 @@ export interface FranchiseDataBody {
 export interface SimulationDataType {
   isFranchisee: boolean | null
   brandName: string | null
-  location: {
-    sido: string
-    gugun: string
-    dong: string
-  }
+  gugun: string
   serviceCode: string
   serviceCodeName: string
   storeSize: number
   floor: string
+}
+
+// [NOTE] 레포트 타입
+
+export interface SimulationReportType {
+  totalPrice: number
+  keyMoneyInfo: {
+    keyMoneyRatio: number
+    keyMoney: number
+    keyMoneyLevel: number
+  }
+  detail: {
+    rentPrice: number
+    deposit: number
+    interior: number
+    levy: number
+  }
+  franchisees: {
+    totalPrice: number
+    brandName: string
+    subscription: number
+    education: number
+    deposit: number
+    etc: number
+    interior: number
+  }[]
+  genderAndAgeAnalysisInfo: {
+    maleSalesPercent: number
+    femaleSalesPercent: number
+    first: {
+      sales: number
+      name: string
+    }
+    second: {
+      sales: number
+      name: string
+    }
+    third: {
+      sales: number
+      name: string
+    }
+  }
+  monthAnalysisInfo: {
+    peakSeasons: number[]
+    offPeakSeasons: number[]
+  }
 }

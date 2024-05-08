@@ -6,7 +6,6 @@ import useSimulationStore, {
   SubCategoryItem,
 } from '@src/stores/simulationStore'
 import useReportStore from '@src/stores/reportStore'
-
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import {
@@ -48,6 +47,7 @@ const SelectionStep5 = () => {
     refetch()
     if (!isLoading && data) {
       setUpdateStoreSize(data?.dataBody)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       respons = data.dataBody
     }
   }, [refetch, subCategoryName])
@@ -55,8 +55,8 @@ const SelectionStep5 = () => {
   // 레포트 생성
   const { mutate: mutateCreateReport } = useMutation({
     mutationFn: reportCreate,
-    onSuccess: () => {
-      navigate('/simulation/report')
+    onSuccess: res => {
+      navigate('/simulation/report', { state: { res } })
     },
     onError: error => {
       console.error(error)
@@ -64,22 +64,16 @@ const SelectionStep5 = () => {
   })
 
   const goReportPage = () => {
-    const location = {
-      sido: '',
-      gugun: sigungu,
-      dong: '',
-    }
     const reportCreateData: SimulationDataType = {
       isFranchisee: isFranchise,
       brandName,
-      location,
+      gugun: sigungu,
       serviceCode: subCategoryCode,
       serviceCodeName: subCategoryName,
       storeSize: bulidingSize,
       floor,
     }
     console.log(reportCreateData)
-    // const requestData = JSON.stringify(reportCreateData)
     mutateCreateReport(reportCreateData)
   }
 

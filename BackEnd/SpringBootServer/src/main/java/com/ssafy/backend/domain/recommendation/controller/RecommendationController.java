@@ -32,9 +32,21 @@ public class RecommendationController {
     )
     @GetMapping("/{districtCode}/{administrationCode}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<?>> getCommercialRecommendation(
+    public ResponseEntity<Message<List<RecommendationResponse>>> getCommercialRecommendation(
             @AuthenticationPrincipal MemberLoginActive loginActive, @PathVariable String districtCode, @PathVariable String administrationCode) {
         List<RecommendationResponse> administrationAreaResponseList = recommendationService.getTopThreeRecommendations(districtCode, administrationCode, loginActive.id());
         return ResponseEntity.ok().body(Message.success(administrationAreaResponseList));
+    }
+
+    @Operation(
+            summary = "상권 추천 정보 보관함 저장",
+            description = "해당 추천 정보를 보관함에 저장"
+    )
+    @GetMapping("/{districtCode}/{administrationCode}/{commercialCode}/save")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<String>> saveCommercialRecommendation(
+            @AuthenticationPrincipal MemberLoginActive loginActive, @PathVariable String districtCode, @PathVariable String commercialCode, @PathVariable String administrationCode) {
+        recommendationService.saveCommercialRecommendation(commercialCode, loginActive.id());
+        return ResponseEntity.ok().body(Message.success("보관함 저장 성공!"));
     }
 }

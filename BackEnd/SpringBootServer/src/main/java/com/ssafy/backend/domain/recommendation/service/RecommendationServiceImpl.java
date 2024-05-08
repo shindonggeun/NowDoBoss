@@ -1,12 +1,16 @@
 package com.ssafy.backend.domain.recommendation.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAreaResponse;
 import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.FootTrafficCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.StoreCommercialRepository;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
+import com.ssafy.backend.domain.recommendation.RecommendationDocument;
 import com.ssafy.backend.domain.recommendation.dto.info.ClosedRateCommercialInfo;
 import com.ssafy.backend.domain.recommendation.dto.info.FootTrafficCommercialInfo;
 import com.ssafy.backend.domain.recommendation.dto.info.SalesCommercialInfo;
@@ -16,7 +20,10 @@ import com.ssafy.backend.domain.recommendation.dto.response.RecommendationRespon
 import com.ssafy.backend.domain.recommendation.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +32,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
@@ -37,6 +45,8 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final FootTrafficCommercialRepository footTrafficCommercialRepository;
     private final StoreCommercialRepository storeCommercialRepository;
     private final AreaCommercialRepository areaCommercialRepository;
+    private final RedisTemplate<String, String> redisTemplate;
+    private final MongoTemplate mongoTemplate;
 
     @Override
     public List<RecommendationResponse> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
@@ -75,8 +85,33 @@ public class RecommendationServiceImpl implements RecommendationService{
                 }
             }
         }
-
+        if (!responses.isEmpty()) {
+            saveRecommendationsToRedis(id, responses);
+        }
         return responses.isEmpty() ? null : responses;
+    }
+
+    @Override
+    public void saveCommercialRecommendation(String commercialCode, Long id) {
+        String jsonResponses = redisTemplate.opsForValue().get("recommendation:" + id);
+        log.info("레디스에서 가져오기 {}", jsonResponses);
+        if (jsonResponses != null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                // JSON 데이터를 List<RecommendationResponse> 객체로 역직렬화하여 반환
+                List<RecommendationResponse> list = objectMapper.readValue(jsonResponses, new TypeReference<List<RecommendationResponse>>() {});
+                for (RecommendationResponse dto: list){
+                    if (dto.commercialCode().equals(commercialCode)){
+                        RecommendationDocument recommendationDocument = new RecommendationDocument(id, commercialCode, "recommendation");
+                        mongoTemplate.save(recommendationDocument);
+                        break;
+                    }
+                }
+            } catch (JsonProcessingException e) {
+                // JSON 역직렬화 실패 시 예외 처리
+                e.printStackTrace();
+            }
+        }
     }
 
     private List<UserResponse> fetchCommercialData(Long id) {
@@ -214,5 +249,19 @@ public class RecommendationServiceImpl implements RecommendationService{
             // 에러 처리
             throw new RuntimeException("Failed to retrieve recommendations from FastAPI server", throwable);
         });
+    }
+
+    public void saveRecommendationsToRedis(long userId, List<RecommendationResponse> responses) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            // responses를 JSON 형식으로 직렬화
+            String jsonResponses = objectMapper.writeValueAsString(responses);
+            // 레디스에 저장
+            redisTemplate.opsForValue().set("recommendation:" + userId, jsonResponses, 1, TimeUnit.HOURS);
+        } catch (JsonProcessingException e) {
+            // JSON 직렬화 실패 시 예외 처리
+            e.printStackTrace();
+        }
     }
 }

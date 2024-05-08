@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface RecommendationService {
     List<RecommendationResponse> getTopThreeRecommendations(String districtCode, String administrationCode, Long id);
+
+    void saveCommercialRecommendation(String commercialCode, Long id);
 }

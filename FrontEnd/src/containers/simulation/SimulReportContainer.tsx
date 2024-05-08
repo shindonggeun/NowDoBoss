@@ -1,13 +1,15 @@
 import * as c from '@src/components/styles/simulation/SelectionStyle'
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import useSimulationStore from '@src/stores/simulationStore'
+import useReportStore from '@src/stores/reportStore'
 import ReportSummary from '@src/components/simulation/report/ReportSummary'
 import ReportHeader from '@src/components/simulation/report/ReportHeader'
 import ReportDetail from '@src/components/simulation/report/ReportDetail'
 import ReportGender from '@src/components/simulation/report/ReportGender'
 import ReportMonthAnalysis from '@src/components/simulation/report/ReportMonthAnalysis'
-import useSimulationStore from '@src/stores/simulationStore'
-import useReportStore from '@src/stores/reportStore'
-import { useLocation } from 'react-router-dom'
+import ReportKeyMoney from '@src/components/simulation/report/ReportKeyMoney'
+import ReportMyGoal from '@src/components/simulation/report/ReportMyGoal'
 
 const SimulReportContainer = () => {
   const {
@@ -52,9 +54,13 @@ const SimulReportContainer = () => {
             <ReportSummary ReportData={location.state.res.dataBody} />
             <ReportDetail ReportData={location.state.res.dataBody} />
             <c.SplitLine />
-            <ReportGender />
+            <ReportKeyMoney ReportData={location.state.res.dataBody} />
             <c.SplitLine />
-            <ReportMonthAnalysis />
+            <ReportMyGoal ReportData={location.state.res.dataBody} />
+            <c.SplitLine />
+            <ReportGender ReportData={location.state.res.dataBody} />
+            <c.SplitLine />
+            <ReportMonthAnalysis ReportData={location.state.res.dataBody} />
           </c.Container>
         </c.Overlay>
       )}

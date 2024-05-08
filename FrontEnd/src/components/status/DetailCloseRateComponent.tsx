@@ -33,7 +33,7 @@ const DetailCloseRateComponent = ({ props }: DetailCloseRateProps) => {
           <DoughnutChart2
             labels={OpenLabels}
             value={[20, 30, 50, 20, 80]}
-            subTextCenter="개업률 1위"
+            subTextCenter="폐업률 1위"
             textCenter={OpenData[0].administrationCodeName}
           />
         </c.MixInnerConatiner>

@@ -102,12 +102,12 @@ def load_model(model_path, df_actions):
         print("New model trained and saved.")
     return model
 
-def load_csv(spark):
+def to_load_csv(spark):
     return spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)
 try:
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(load_csv)
-        df_actions = future.result(timeout=60)  # 5분으로 설정
+        future = executor.submit(to_load_csv)
+        df_actions = future.result(timeout=50)  # 5분으로 설정
 
 except concurrent.futures.TimeoutError:
     future.cancel()
@@ -130,7 +130,7 @@ def recommend_commercials(userId):
     last_update_time = load_last_update_time(filename)
     print("Previous update time:", last_update_time)
 
-    load_csv(spark)
+    to_load_csv(spark)
 
     # # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
     # df_actions = spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)

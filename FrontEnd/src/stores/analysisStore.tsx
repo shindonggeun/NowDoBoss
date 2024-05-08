@@ -5,6 +5,7 @@ import {
   ResidentPopulationDataBodyType,
   SalesDataBodyType,
   SelectedServiceType,
+  StoreCountDataBodyType,
 } from '@src/types/AnalysisType'
 
 // 초기 상태 - 업종
@@ -139,6 +140,22 @@ const initialSalesDataBody: SalesDataBodyType = {
   annualQuarterSalesInfos: [],
 }
 
+// 초기 상태 - 점포 수
+const initialStoreCountDataBody: StoreCountDataBodyType = {
+  sameStoreInfos: [],
+  sameTotalStore: 0,
+  franchiseeStoreInfo: {
+    normalStore: 0,
+    franchiseeStore: 0,
+    normalStorePercentage: 0,
+    franchiseePercentage: 0,
+  },
+  openAndCloseStoreInfo: {
+    openedRate: 0,
+    closedRate: 0,
+  },
+}
+
 // store
 const analysisStore = create<AnalysisStoreType>(set => ({
   selectedServiceType: '', // 선택한 업종 대분류
@@ -147,6 +164,7 @@ const analysisStore = create<AnalysisStoreType>(set => ({
   flowPopulationDataBody: initialFlowPopulationDataBody, // 유동인구 API 반환 데이터
   residentPopulationDataBody: initialResidentPopulationDataBody, // 상주인구 API 반환 데이터
   salesDataBody: initialSalesDataBody, // 매출분석 API 반환 데이터
+  storeCountDataBody: initialStoreCountDataBody,
 
   setSelectedServiceType: serviceType =>
     set({ selectedServiceType: serviceType }),
@@ -157,6 +175,7 @@ const analysisStore = create<AnalysisStoreType>(set => ({
   setResidentPopulationDataBody: dataBody =>
     set({ residentPopulationDataBody: dataBody }),
   setSalesDataBody: dataBody => set({ salesDataBody: dataBody }),
+  setStoreCountDataBody: dataBody => set({ storeCountDataBody: dataBody }),
 }))
 
 export default analysisStore

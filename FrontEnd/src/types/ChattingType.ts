@@ -15,8 +15,8 @@ export type CreateChatRoomData = {
 
 // 받은 메세지 타입
 export type PromiseMessageType = {
-  chatMessageId: number
   chatRoomId: number
+  chatMessageId: number
   content: string
   createdAt: Date
   senderId: number

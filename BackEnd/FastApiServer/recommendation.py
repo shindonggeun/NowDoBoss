@@ -15,7 +15,7 @@ import concurrent.futures
 
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
 filename = 'model_update_time.json'
-hdfs_path = 'hdfs://172.18.0.2:9000'
+hdfs_path = 'hdfs://master1:9000'
 model_path = hdfs_path + "/user/hadoop/model"
 
 

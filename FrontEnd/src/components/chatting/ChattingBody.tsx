@@ -31,7 +31,6 @@ const ChattingBody = (props: ChattingBodyPropsType) => {
         // 바로 전 메세지와 같은 사람이 보낼 경우를 확인하기 위한 값
         const same = lastSenderId === message.senderId
         lastSenderId = message.senderId
-        console.log(message.senderProfileImage)
         return (
           <c.MessageDiv key={message.chatMessageId} $isMe={myMessage}>
             <c.ImgDiv>

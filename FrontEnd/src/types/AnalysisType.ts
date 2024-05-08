@@ -159,6 +159,31 @@ export type SalesDataBodyType = {
   annualQuarterSalesInfos: AnnualQuarterSalesInfoType[]
 }
 
+// data type - 점포 수
+export type SameStoreInfoType = {
+  serviceCodeName: string
+  totalStore: number
+}
+
+export type FranchiseeStoreInfoType = {
+  normalStore: number
+  franchiseeStore: number
+  normalStorePercentage: number
+  franchiseePercentage: number
+}
+
+export type OpenAndCloseStoreInfoType = {
+  openedRate: number
+  closedRate: number
+}
+
+export type StoreCountDataBodyType = {
+  sameStoreInfos: SameStoreInfoType[]
+  sameTotalStore: number
+  franchiseeStoreInfo: FranchiseeStoreInfoType
+  openAndCloseStoreInfo: OpenAndCloseStoreInfoType
+}
+
 // prop type
 export type SelectContainerPropsType = {
   setIsReady: React.Dispatch<React.SetStateAction<boolean>>
@@ -192,6 +217,7 @@ export type AnalysisStoreType = {
   flowPopulationDataBody: FlowPopulationDataBodyType
   residentPopulationDataBody: ResidentPopulationDataBodyType
   salesDataBody: SalesDataBodyType
+  storeCountDataBody: StoreCountDataBodyType
   setSelectedServiceType: (serviceType: string) => void
   setSelectedService: (service: SelectedServiceType) => void
   setServiceDataBody: (dataBody: SelectedServiceType[]) => void
@@ -200,4 +226,5 @@ export type AnalysisStoreType = {
     dataBody: ResidentPopulationDataBodyType,
   ) => void
   setSalesDataBody: (dataBody: SalesDataBodyType) => void
+  setStoreCountDataBody: (dataBody: StoreCountDataBodyType) => void
 }

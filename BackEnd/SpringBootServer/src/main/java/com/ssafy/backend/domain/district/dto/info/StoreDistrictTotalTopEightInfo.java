@@ -6,6 +6,6 @@ import lombok.Builder;
 public record StoreDistrictTotalTopEightInfo(
         String serviceCode,
         String serviceCodeName,
-        Double totalStoreChangeRate
+        Long totalStore
 ) {
 }

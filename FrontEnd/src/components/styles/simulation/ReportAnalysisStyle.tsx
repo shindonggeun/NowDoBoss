@@ -34,6 +34,51 @@ export const AgeContainer = styled.div`
   justify-content: center;
 `
 
+export const AgeWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+`
+
+export const AgeDetail = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+interface AgeBarType {
+  rank: string
+}
+export const AgeBar = styled.div<AgeBarType>`
+  margin: 1rem 1rem 0 1rem;
+  //padding: 0 1rem;
+  width: 3vw;
+  ${({ rank }) => {
+    switch (rank) {
+      case 'first':
+        return 'height: 12rem;'
+      case 'second':
+        return 'height: 10rem;'
+      case 'third':
+        return 'height: 8rem;'
+      default:
+        return 'height: 8rem;'
+    }
+  }}
+  ${({ rank }) => {
+    switch (rank) {
+      case 'first':
+        return 'background-color: #1C42C9;'
+      case 'second':
+        return 'background-color: #5472DD;'
+      case 'third':
+        return 'background-color: #A2ACCD;'
+      default:
+        return 'background-color: blue;'
+    }
+  }}
+`
+
 export const GenderContainer = styled.div`
   flex: 1;
   display: flex;
@@ -60,6 +105,7 @@ export const GenderPercent = styled.div`
   font-size: 0.9rem;
   font-weight: 700;
   margin-bottom: 0.8rem;
+  margin-left: 1vw;
 `
 
 export const GenderText = styled.div`

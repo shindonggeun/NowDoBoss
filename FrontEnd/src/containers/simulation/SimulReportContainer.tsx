@@ -1,5 +1,5 @@
 import * as c from '@src/components/styles/simulation/SelectionStyle'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import ReportSummary from '@src/components/simulation/report/ReportSummary'
 import ReportHeader from '@src/components/simulation/report/ReportHeader'
 import ReportDetail from '@src/components/simulation/report/ReportDetail'
@@ -20,14 +20,7 @@ const SimulReportContainer = () => {
     setFloor,
   } = useSimulationStore()
   const { setAddress, setQuery, setSido, setSigungu } = useReportStore()
-  const { state } = useLocation()
-
-  useEffect(() => {
-    if (state) {
-      console.log('=============')
-      console.log(state)
-    }
-  }, [state])
+  const location = useLocation()
 
   const resetButton = () => {
     setIsFranchise(null)
@@ -56,8 +49,8 @@ const SimulReportContainer = () => {
         <c.Overlay>
           <c.Container>
             <ReportHeader onClose={onClose} />
-            <ReportSummary />
-            <ReportDetail />
+            <ReportSummary ReportData={location.state.res.dataBody} />
+            <ReportDetail ReportData={location.state.res.dataBody} />
             <c.SplitLine />
             <ReportGender />
             <c.SplitLine />

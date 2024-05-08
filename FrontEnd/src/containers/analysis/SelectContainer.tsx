@@ -11,7 +11,7 @@ import up_arrow from '@src/assets/arrow_up.svg'
 import down_arrow from '@src/assets/arrow_down.svg'
 
 const SelectContainer = (props: SelectContainerPropsType) => {
-  const { setIsReady } = props
+  const { setIsReady, handleResultButtonClick } = props
   const [isOpen, setIsOpen] = useState<boolean>(true)
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
   const setServiceDataBody = analysisStore(state => state.setServiceDataBody)
@@ -46,7 +46,7 @@ const SelectContainer = (props: SelectContainerPropsType) => {
           <SearchSection
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-            setIsReady={setIsReady}
+            handleResultButtonClick={handleResultButtonClick}
           />
         </a.Search>
         <a.ReduceBtnWrap>

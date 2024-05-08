@@ -24,3 +24,13 @@ export type PromiseMessageType = {
   senderProfileImage: string
   type: string
 }
+
+// 인기 채팅방 카드 타입
+export type PromisePopularMessageType = {
+  category: string
+  chatRoomId: number
+  introduction: string
+  limit: number
+  memberCount: number
+  name: string
+}

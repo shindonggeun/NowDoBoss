@@ -109,9 +109,10 @@ def recommend_commercials(userId):
         .config("spark.hadoop.fs.defaultFS", hdfs_path) \
         .getOrCreate()
     print("spark 설정 이후!")
-    # # 이전 업데이트 시간 불러오기
-    # last_update_time = load_last_update_time(filename)
-    # print("Previous update time:", last_update_time)
+
+    # 이전 업데이트 시간 불러오기
+    last_update_time = load_last_update_time(filename)
+    print("Previous update time:", last_update_time)
 
     # # HDFS에서 유저 행동 데이터 로드 - 추후 위치 변경
     # df_actions = spark.read.csv(hdfs_path + "/user/hadoop/data/action_data.csv", header=True, inferSchema=True)

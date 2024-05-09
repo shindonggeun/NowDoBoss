@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
-  margin: 2rem 4vw;
+  margin: 2rem 3vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -252,7 +252,7 @@ export const FranchiseHeaderSubTitle = styled.div`
   font-size: 0.9rem;
   color: #30353b;
   background-color: #fdffc7;
-  padding: 1px 5px;
+  padding: 2px 5px;
 `
 
 export const FranchiseHeaderRight = styled.div`
@@ -299,5 +299,5 @@ export const FranchiseDetailPrice = styled.div`
 export const SeparateLine = styled.div`
   width: 100%;
   border: 1px solid #ededed;
-  margin-bottom: 1rem;
+  margin-bottom: 2.5rem;
 `

@@ -9,6 +9,7 @@ const ReportFranchise = ({
 }: {
   ReportData: SimulationReportType
 }) => {
+  console.log(ReportData.franchisees)
   const MyTotalPrice = ReportData.totalPrice
 
   return (
@@ -27,16 +28,20 @@ const ReportFranchise = ({
           const billions = Math.floor(franchise.totalPrice / 100000000)
           const millions = Math.floor(
             (franchise.totalPrice % 100000000) / 10000,
-          )
-          formattedNumber = `${billions}억 ${millions.toFixed(0)} 만원`
+          ).toFixed(0)
+          formattedNumber = `${billions}억 ${millions.toLocaleString()} 만원`
         } else {
-          formattedNumber = `${(MyTotalPrice / 10000).toFixed(0)} 만원`
+          formattedNumber = `${Math.floor(franchise.totalPrice / 10000).toLocaleString()} 만원`
         }
-        const ComparePrice = Math.floor(
-          franchise.totalPrice / 10000,
-        ).toLocaleString()
-        const CompareData: string =
-          MyTotalPrice - franchise.totalPrice >= 0 ? '더 낮아요' : '더 높아요'
+        const isUp = MyTotalPrice - franchise.totalPrice >= 0
+        const ComparePrice = isUp
+          ? Math.floor(
+              (MyTotalPrice - franchise.totalPrice) / 10000,
+            ).toLocaleString()
+          : Math.floor(
+              (franchise.totalPrice - MyTotalPrice) / 10000,
+            ).toLocaleString()
+        const CompareData: string = isUp ? '더 낮아요' : '더 높아요'
         const Infos = [
           { name: '가입비', price: franchise.subscription },
           { name: '보증금', price: franchise.deposit },

@@ -38,7 +38,7 @@ public class FirebaseController {
             summary = "FCM 디바이스 토큰 저장",
             description = "FCM 디바이스 토큰을 저장하는 기능입니다."
     )
-    @PostMapping("/{deviceToken}")
+    @PostMapping("/message/{deviceToken}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> createDeviceToken(@AuthenticationPrincipal MemberLoginActive loginActive,
                                                @PathVariable String deviceToken) {

@@ -86,21 +86,21 @@ export interface FootTrafficDistrictDetail {
 export interface StoreDistrictTotalTopEightList {
   serviceCode: string
   serviceCodeName: string
-  totalStoreChangeRate: number
+  totalStore: number
 }
 
 // 행정동 별 개업률 Top 5
 export interface OpenedStoreAdministrationTopFiveList {
   administrationCode: string
   administrationCodeName: string
-  curOpenedRateChange: number
+  curOpenedRate: number
 }
 
 // 행정동 별 폐업률 Top 5
 export interface ClosedStoreAdministrationTopFiveList {
   administrationCode: string
   administrationCodeName: string
-  curClosedRateChange: number
+  curClosedRate: number
 }
 
 export interface StoreDistrictDetail {

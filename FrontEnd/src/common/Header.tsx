@@ -214,7 +214,11 @@ const Header = () => {
       {menuOpen && (
         <DropdownMenu>
           <HeaderDropdown
-            menuData={LocationData}
+            menuData={LocationData.filter(item =>
+              userLoggedIn
+                ? item.name !== '로그인' && item.name !== '회원가입'
+                : item.name !== '마이페이지',
+            )}
             isMenuOpen={menuOpen}
             setMenuOpen={setMenuOpen}
           />

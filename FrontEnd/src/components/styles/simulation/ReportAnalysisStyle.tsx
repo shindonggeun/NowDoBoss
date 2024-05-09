@@ -126,7 +126,7 @@ export const CircleContainer = styled.div`
   gap: 1rem;
   justify-content: center;
   align-items: center;
-  margin: 3rem 2rem;
+  margin: 3rem 3rem;
 `
 
 interface CircleProps {

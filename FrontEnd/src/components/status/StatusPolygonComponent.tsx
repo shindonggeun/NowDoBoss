@@ -2,6 +2,7 @@ import * as c from '@src/components/styles/status/StatusPolygonStyle'
 import seoul from '@src/components/status/sig_seoul_geojson.json'
 import * as d3 from 'd3'
 import { TopList, TopListItem } from '@src/types/StatusType'
+import { useEffect, useState } from 'react'
 
 type StatusPolygonProps = {
   tab: number | null
@@ -19,19 +20,44 @@ const StatusPolygonComponent = ({
   onClickRegionCodeHandler,
 }: StatusPolygonProps) => {
   // console.log(`선택된 탭 index : ${tab}`)
-
-  // 폴리곤 그리기
+  const [width, setWidth] = useState(660)
+  const [height, setHeight] = useState(550)
+  const [scale, setScale] = useState(90000)
   const mapData = seoul.features // 서울시 행정구역 json data
-  const width = 660
-  const height = 550
-  const scale = 90000
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1400) {
+        setWidth(window.innerWidth * 0.7)
+        setHeight(window.innerHeight * 0.8)
+        setScale(window.innerWidth * 60)
+      } else if (window.innerWidth > 800) {
+        setWidth(window.innerWidth * 0.7)
+        setHeight(window.innerHeight * 0.8)
+        setScale(80000)
+      } else {
+        setWidth(window.innerWidth)
+        setHeight(window.innerHeight)
+        setScale(window.innerWidth * 120)
+      }
+
+      console.log(window.innerWidth, '너비!')
+    }
+
+    window.addEventListener('resize', handleResize)
+    handleResize()
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [width])
 
   // 데카르트 투영법을 이용하여 만든 프로젝션
   const projection = d3
     .geoMercator()
     .center([127.023136826325427, 37.57196080977203])
     .scale(scale)
-    .translate([width / 2 + 75, height / 2 - 10])
+    .translate([width / 2 + 50, height / 2 - 10])
 
   // projection을 이용하여 만든 경로 생성 함수
   const pathGenerator = d3.geoPath().projection(projection)
@@ -82,7 +108,7 @@ const StatusPolygonComponent = ({
           cursor: 'pointer',
         }
       : {
-          fill: tab === null ? '#009FA9' : mapColor[tab][colorIndex],
+          fill: tab === null ? '#4cbbf8' : mapColor[tab][colorIndex],
           stroke: 'white',
           strokeWidth: '2px',
           transition: 'transform 0.5s ease-out, fill 0.3s ease-out',
@@ -112,6 +138,7 @@ const StatusPolygonComponent = ({
       key={`path${i}text`}
       transform={`translate(${pathGenerator.centroid(d)})`}
       style={{
+        fontSize: window.innerWidth >= 600 ? '1rem' : '0.5rem',
         textAnchor: 'middle',
         top: '10px',
         position: 'relative',

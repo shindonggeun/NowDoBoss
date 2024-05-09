@@ -36,6 +36,10 @@ spring:
     redis:
       host: ${server.base-url}
       port: 6379
+    mongodb:
+      host: ${server.base-url}
+      port: 27017
+      database: nowdoboss
 
   # Java Mail Sender setting (Google Mail)
   mail:
@@ -68,7 +72,6 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
     out-of-order: false
-
 
 # log 관리
 logging:

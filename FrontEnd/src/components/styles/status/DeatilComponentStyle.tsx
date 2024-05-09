@@ -94,3 +94,14 @@ export const AnalysisDataRate = styled.div<{ isup: boolean }>`
 export const AnalysisDataIcon = styled.img`
   width: 1rem;
 `
+
+export const SummaryTitle = styled.div`
+  font-size: 1.5rem;
+  color: #6a6a6a;
+`
+
+export const SummaryTitleEmphasis = styled.span`
+  font-size: 2rem;
+  font-weight: 600;
+  color: #5057ff;
+`

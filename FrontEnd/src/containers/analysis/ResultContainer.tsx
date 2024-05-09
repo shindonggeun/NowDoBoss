@@ -4,9 +4,10 @@ import analysisStore from '@src/stores/analysisStore'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
 import {
   getFlowPopulationData,
-  getResidentPopulationData,
   getSalesData,
   getStoreCountData,
+  getResidentPopulationData,
+  getExpenditureData,
 } from '@src/api/analysisApi'
 import FlowPopulationAnalysis from '@src/components/analysis/flowPopulation/FlowPopulationAnalysis'
 import FacilitiesAnalysis from '@src/components/analysis/facilities/FacilitiesAnalysis'
@@ -23,9 +24,10 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   const {
     selectedService,
     setFlowPopulationDataBody,
-    setResidentPopulationDataBody,
     setSalesDataBody,
     setStoreCountDataBody,
+    setResidentPopulationDataBody,
+    setExpenditureDataBody,
   } = analysisStore()
 
   // 카테고리별 컴포넌트로 이동하기 위한 ref
@@ -67,24 +69,7 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
     }
   }, [flowPopulationStatus, FlowPopulationData]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 상주인구
-  const { data: ResidentPopulationData, status: residentPopulationStatus } =
-    useQuery({
-      queryKey: ['GetResidentPopulationData', selectedCommercial.code],
-      queryFn: () => getResidentPopulationData(String(selectedCommercial.code)),
-      enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
-    })
-
-  useEffect(() => {
-    if (
-      residentPopulationStatus === 'success' &&
-      ResidentPopulationData?.dataHeader.successCode === 0
-    ) {
-      setResidentPopulationDataBody(ResidentPopulationData.dataBody)
-    }
-  }, [residentPopulationStatus, ResidentPopulationData]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // 매출 분석
+  // 매출분석
   const { data: SalesData, status: salesStatus } = useQuery({
     queryKey: ['GetSalesData', selectedCommercial.code],
     queryFn: () =>
@@ -122,6 +107,39 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       setStoreCountDataBody(StoreCountData.dataBody)
     }
   }, [storeCountStatus, StoreCountData]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 상주인구
+  const { data: ResidentPopulationData, status: residentPopulationStatus } =
+    useQuery({
+      queryKey: ['GetResidentPopulationData', selectedCommercial.code],
+      queryFn: () => getResidentPopulationData(String(selectedCommercial.code)),
+      enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
+    })
+
+  useEffect(() => {
+    if (
+      residentPopulationStatus === 'success' &&
+      ResidentPopulationData?.dataHeader.successCode === 0
+    ) {
+      setResidentPopulationDataBody(ResidentPopulationData.dataBody)
+    }
+  }, [residentPopulationStatus, ResidentPopulationData]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 지출내역
+  const { data: ExpenditureData, status: expenditureStatus } = useQuery({
+    queryKey: ['GetExpenditureData', selectedCommercial.code],
+    queryFn: () => getExpenditureData(String(selectedCommercial.code)),
+    enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
+  })
+
+  useEffect(() => {
+    if (
+      expenditureStatus === 'success' &&
+      ExpenditureData?.dataHeader.successCode === 0
+    ) {
+      setExpenditureDataBody(ExpenditureData.dataBody)
+    }
+  }, [expenditureStatus, ExpenditureData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <a.Container ref={ref}>

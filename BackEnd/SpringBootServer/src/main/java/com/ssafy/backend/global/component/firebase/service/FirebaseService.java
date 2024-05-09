@@ -1,5 +1,8 @@
 package com.ssafy.backend.global.component.firebase.service;
 
+import com.ssafy.backend.global.component.firebase.dto.request.FcmSubscribeRequest;
+import com.ssafy.backend.global.component.firebase.dto.request.FcmTokenRequest;
+import com.ssafy.backend.global.component.firebase.dto.request.FcmTopicRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -15,4 +18,10 @@ public interface FirebaseService {
      * @return 업로드된 파일의 공개 URL입니다.
      */
     String uploadFiles(MultipartFile file, String nameFile);
+
+    void sendMessageByTopic(FcmTopicRequest request);
+    void sendMessageByToken(FcmTokenRequest request);
+    void createDeviceToken(Long memberId, String deviceToken);
+    void subscribeByTopic(FcmSubscribeRequest request);
+    void deleteDeviceToken(String deviceToken);
 }

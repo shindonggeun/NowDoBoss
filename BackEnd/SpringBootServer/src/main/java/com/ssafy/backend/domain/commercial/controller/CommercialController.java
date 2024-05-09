@@ -110,6 +110,12 @@ public class CommercialController {
         return ResponseEntity.ok().body(Message.success(administrationResponse));
     }
 
+    @GetMapping("/rent/{districtCode}")
+    public ResponseEntity<Message<CommercialRentResponse>> getRentByDistrictCode(@PathVariable String districtCode) {
+        CommercialRentResponse rentResponse = commercialService.getRentByDistrictCode(districtCode);
+        return ResponseEntity.ok().body(Message.success(rentResponse));
+    }
+
     @Operation(
             summary = "해당 상권 & 업종의 분기별 점포 분석 조회",
             description = "주어진 상권코드 및 서비스코드에 대해 해당 분기의 점포 분석 데이터를 조회합니다. " +

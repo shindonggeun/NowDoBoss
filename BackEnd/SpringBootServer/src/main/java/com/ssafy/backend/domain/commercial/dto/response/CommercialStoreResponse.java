@@ -8,7 +8,6 @@ import java.util.List;
 
 public record CommercialStoreResponse(
         List<CommercialSameStoreInfo> sameStoreInfos,
-
         Long sameTotalStore,
         CommercialFranchiseeStoreInfo franchiseeStoreInfo,
         CommercialOpenAndCloseStoreInfo openAndCloseStoreInfo

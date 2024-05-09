@@ -89,6 +89,7 @@ jwt:
 app:
   firebase-configuration-file: classpath:serviceAccountKey.json
   firebase-bucket: ENC(kEjE5eNrPFCEldmd4VOt0mXnXI2qkPVNJIhOBdW8K60=)
+  firebase-project-id: nowdoboss
 
 # OAUTH2.0 Setting
 oauth:
@@ -119,7 +120,3 @@ oauth:
     scope:
       - profile
       - email
-
-kafka:
-  topic: chat
-  broker: localhost:9092

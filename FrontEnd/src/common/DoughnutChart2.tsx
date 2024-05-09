@@ -9,6 +9,8 @@ interface DoughnutPropsType {
   textCenter: string
   subTextCenter: string
 }
+
+// center에 1위 데이터, 데이터 막대 라벨링
 const DoughnutChart = (props: DoughnutPropsType) => {
   const { labels, value, textCenter, subTextCenter } = props
 
@@ -89,7 +91,7 @@ const DoughnutChart = (props: DoughnutPropsType) => {
       },
     },
     {
-      id: 'customTopLabels', // 새로 추가한 플러그인
+      id: 'customTopLabels',
       afterDraw: (chart: ChartJS<'doughnut', number[], unknown>) => {
         const {
           ctx,
@@ -135,6 +137,68 @@ const DoughnutChart = (props: DoughnutPropsType) => {
         })
       },
     },
+    {
+      id: 'customTopPercent',
+      afterDraw: (chart: ChartJS<'doughnut', number[], unknown>) => {
+        const {
+          ctx,
+          chartArea: { width, height },
+        } = chart
+        const total = data.datasets[0].data.reduce((acc, cur) => acc + cur, 0)
+        chart.data.datasets.forEach((dataset, i) => {
+          chart.getDatasetMeta(i).data.forEach((datapoint, index) => {
+            const { x, y } = datapoint.tooltipPosition(true)
+            const percentage = `(${((data.datasets[0].data[index] / total) * 100).toFixed(1)}%)`
+
+            const halfwidth = width / 2
+            const halfheight = height / 2
+            const xLine = x > halfwidth + 20 ? x + 15 : x - 15
+            const yLine = y > halfheight + 20 ? y + 15 : y - 15
+            const extraLine = x >= halfwidth + 20 ? 15 : -15
+
+            // Line
+            ctx.beginPath()
+            ctx.moveTo(x, y)
+            ctx.lineTo(xLine, yLine)
+            ctx.lineTo(xLine + extraLine, yLine)
+            ctx.strokeStyle = Array.isArray(dataset.borderColor)
+              ? dataset.borderColor[index]
+              : dataset.borderColor
+            ctx.stroke()
+
+            // text
+            ctx.font = 'bolder 11px sans-serif'
+
+            // control the position
+            const textXposition = x >= halfwidth + 20 ? 'left' : 'right'
+            const PlusFivePx = x >= halfwidth + 20 ? 5 : -5
+            ctx.textAlign = textXposition
+            ctx.textBaseline = 'middle'
+            ctx.fillStyle = Array.isArray(dataset.borderColor)
+              ? dataset.borderColor[index]
+              : dataset.borderColor
+            ctx.fillText(percentage, xLine + extraLine + PlusFivePx, yLine + 13)
+          })
+        })
+      },
+    },
+    // {
+    //   id: 'customCenterPercent',
+    //   afterDraw: (chart: ChartJS<'doughnut', number[], unknown>) => {
+    //     const { ctx } = chart
+    //     const total = data.datasets[0].data.reduce((acc, cur) => acc + cur, 0)
+    //     data.datasets[0].data.forEach((datapoint, index) => {
+    //       const percentage = `(${((datapoint / total) * 100).toFixed(1)}%)`
+    //       const { x, y } = chart
+    //         .getDatasetMeta(0)
+    //         .data[index].tooltipPosition(true)
+    //       ctx.font = 'bold 12px sans-serif'
+    //       ctx.fillStyle = data.datasets[0].borderColor[index]
+    //       ctx.textAlign = 'center'
+    //       ctx.fillText(percentage, x, y)
+    //     })
+    //   },
+    // },
   ]
 
   return (

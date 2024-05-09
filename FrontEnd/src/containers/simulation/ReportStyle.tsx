@@ -18,6 +18,7 @@ export const SummaryContainer = styled.div`
   @media (max-width: 768px) {
     width: 90vw;
     height: 40vh;
+    margin: 1rem 2vw;
   }
 `
 
@@ -88,6 +89,7 @@ export const BodyTopTitle = styled.div`
 `
 
 export const BodyTopSubTitle = styled.div`
+  width: 100%;
   font-size: 0.8rem;
   color: #808080;
 `

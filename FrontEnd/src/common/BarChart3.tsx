@@ -15,16 +15,17 @@ interface BarChartProps {
   labels: string[]
   values: number[]
   minvalue: number
+  dataLavel: string
 }
 
 const BarChart2 = (props: BarChartProps) => {
-  const { labels, values, minvalue } = props
+  const { labels, values, minvalue, dataLavel } = props
 
   const data = {
     labels,
     datasets: [
       {
-        label: '인구(명)',
+        label: dataLavel,
         data: values,
         backgroundColor: 'rgba(75, 192, 192, 0.2)', // 차트 색상
         borderColor: 'rgba(75, 192, 192, 1)', // 선 색상

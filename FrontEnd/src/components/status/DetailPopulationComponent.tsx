@@ -72,6 +72,7 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
           labels={PeriodLabels}
           values={PeriodDataArray.map(item => Object.values(item)[0])}
           minvalue={PeriodMinValue}
+          dataLavel="인구(명)"
         />
         <ContainerBox height={30} />
       </div>
@@ -136,6 +137,7 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
           labels={['월', '화', '수', '목', '금', '토', '일']}
           values={DayDataArray.map(item => Object.values(item)[0])}
           minvalue={DayMinValue}
+          dataLavel="인구 (명)"
         />
       </div>
     </div>

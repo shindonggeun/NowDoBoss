@@ -1,6 +1,6 @@
 import analysisStore from '@src/stores/analysisStore'
-import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 import HorizontalBarChart from '@src/common/HorizontalBarChart'
+import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 
 const TodaySalesChart = () => {
   const salesDataBody = analysisStore(state => state.salesDataBody)
@@ -30,7 +30,7 @@ const TodaySalesChart = () => {
       <HorizontalBarChart
         labels={labels}
         values={values}
-        datasetsLabel="추정 매출액"
+        datasetsLabel="매출액"
         aspectRatio={4}
         xDisplay={false}
       />

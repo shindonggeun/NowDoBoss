@@ -12,9 +12,11 @@ interface DetailCloseRateProps {
 const DetailCloseRateComponent = ({ props }: DetailCloseRateProps) => {
   const { selectedRegion } = useStateStore()
 
-  const OpenData =
+  const CloseData =
     props!.storeDistrictDetail.closedStoreAdministrationTopFiveList
-  const OpenLabels = OpenData.map(data => data.administrationCodeName)
+  const CloseLabels = CloseData.map(data => data.administrationCodeName)
+  const CloseRate = CloseData.map(data => data.curClosedRate)
+
   const ChangeData = props!.changeIndicatorDistrictDetail
 
   return (
@@ -25,16 +27,16 @@ const DetailCloseRateComponent = ({ props }: DetailCloseRateProps) => {
           <c.AnalysisSubTitle>
             폐업률이 가장 높은 동은
             <c.AnalysiEemphasis>
-              {OpenData[0].administrationCodeName}
+              {CloseData[0].administrationCodeName}
             </c.AnalysiEemphasis>
             입니다
           </c.AnalysisSubTitle>
           <ContainerBox height={10} />
           <DoughnutChart2
-            labels={OpenLabels}
-            value={[20, 30, 50, 20, 80]}
+            labels={CloseLabels}
+            value={CloseRate}
             subTextCenter="폐업률 1위"
-            textCenter={OpenData[0].administrationCodeName}
+            textCenter={CloseData[0].administrationCodeName}
           />
         </c.MixInnerConatiner>
         <c.MixInnerConatiner>

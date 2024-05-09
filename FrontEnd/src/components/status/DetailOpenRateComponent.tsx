@@ -15,6 +15,9 @@ const DetailOpenRateComponent = ({ props }: DetailOpenRateProps) => {
   const OpenData =
     props!.storeDistrictDetail.openedStoreAdministrationTopFiveList
   const OpenLabels = OpenData.map(data => data.administrationCodeName)
+  const OpenRate = OpenData.map(data => data.curOpenedRate)
+
+  // 영업개월
   const ChangeData = props!.changeIndicatorDistrictDetail
 
   return (
@@ -32,7 +35,7 @@ const DetailOpenRateComponent = ({ props }: DetailOpenRateProps) => {
           <ContainerBox height={10} />
           <DoughnutChart2
             labels={OpenLabels}
-            value={[20, 30, 50, 20, 80]}
+            value={OpenRate}
             subTextCenter="개업률 1위"
             textCenter={OpenData[0].administrationCodeName}
           />

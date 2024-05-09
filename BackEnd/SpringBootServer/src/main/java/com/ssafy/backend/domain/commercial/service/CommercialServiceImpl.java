@@ -33,7 +33,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final PopulationCommercialRepository populationCommercialRepository;
     private final FacilityCommercialRepository facilityCommercialRepository;
     private final StoreCommercialRepository storeCommercialRepository;
-    private final RentRepository rentRepository;
+    private final IncomeCommercialRepository incomeCommercialRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -205,7 +205,7 @@ public class CommercialServiceImpl implements CommercialService {
         // 최근 4분기의 기간 코드를 계산
         List<String> periodCodes = calculateLastFourQuarters(periodCode);
 
-        List<com.ssafy.backend.domain.commercial.entity.SalesCommercial> salesCommercials = salesCommercialRepository.findByCommercialCodeAndServiceCodeAndPeriodCodeIn(
+        List<SalesCommercial> salesCommercials = salesCommercialRepository.findByCommercialCodeAndServiceCodeAndPeriodCodeIn(
                 commercialCode, serviceCode, periodCodes);
 
         List<CommercialAnnualQuarterSalesInfo> annualQuarterSalesInfos = salesCommercials.stream()
@@ -310,14 +310,43 @@ public class CommercialServiceImpl implements CommercialService {
     }
 
     @Override
-    public CommercialRentResponse getRentByDistrictCode(String districtCode) {
-        Rent rent = rentRepository.findByDistrictCode(districtCode)
-                .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_DISTRICT));
+    public CommercialIncomeResponse getIncomeByPeriodCodeAndCommercialCode(String periodCode, String commercialCode) {
+        IncomeCommercial incomeCommercial = incomeCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기에 따른 상권의 소득소비 데이터가 없습니다."));
 
-        return new CommercialRentResponse(
-                rent.getTotal(),
-                rent.getFirstFloor(),
-                rent.getOtherFloor()
+        CommercialAvgIncomeInfo avgIncome = new CommercialAvgIncomeInfo(
+                incomeCommercial.getMonthAvgIncome(),
+                incomeCommercial.getIncomeSectionCode()
+        );
+
+        // 최근 4분기의 기간 코드를 계산
+        List<String> periodCodes = calculateLastFourQuarters(periodCode);
+
+        List<IncomeCommercial> incomeCommercials = incomeCommercialRepository.findByCommercialCodeAndPeriodCodeInOrderByPeriodCode(commercialCode, periodCodes);
+
+        List<CommercialAnnualQuarterIncomeInfo> annualQuarterIncomeInfos = incomeCommercials.stream()
+                .map(income -> new CommercialAnnualQuarterIncomeInfo(
+                        income.getPeriodCode(),
+                        income.getTotalPrice()
+                ))
+                .toList();
+
+        CommercialTypeIncomeInfo typeIncome = new CommercialTypeIncomeInfo(
+                incomeCommercial.getGroceryPrice(),
+                incomeCommercial.getClothesPrice(),
+                incomeCommercial.getMedicalPrice(),
+                incomeCommercial.getLifePrice(),
+                incomeCommercial.getTrafficPrice(),
+                incomeCommercial.getLeisurePrice(),
+                incomeCommercial.getCulturePrice(),
+                incomeCommercial.getEducationPrice(),
+                incomeCommercial.getLuxuryPrice()
+        );
+
+        return new CommercialIncomeResponse(
+                avgIncome,
+                annualQuarterIncomeInfos,
+                typeIncome
         );
     }
 
@@ -371,7 +400,7 @@ public class CommercialServiceImpl implements CommercialService {
         int year = Integer.parseInt(currentPeriod.substring(0, 4));
         int quarter = Integer.parseInt(currentPeriod.substring(4));
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             periods.add(year + "" + quarter);
             if (quarter == 1) {
                 quarter = 4;
@@ -380,6 +409,7 @@ public class CommercialServiceImpl implements CommercialService {
                 quarter--;
             }
         }
+
         return periods;
     }
 

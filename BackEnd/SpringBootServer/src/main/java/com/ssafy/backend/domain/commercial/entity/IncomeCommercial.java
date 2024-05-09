@@ -40,6 +40,14 @@ public class IncomeCommercial {
     @Column(columnDefinition = "VARCHAR(80)", nullable = false)
     private String commercialCodeName;
 
+    @Comment("월 평균 소득 금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long monthAvgIncome;
+
+    @Comment("소득 구간 코드")
+    @Column(columnDefinition = "INT")
+    private Integer incomeSectionCode;
+
     @Comment("지출 총금액")
     @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long totalPrice;
@@ -51,6 +59,10 @@ public class IncomeCommercial {
     @Comment("의류 신발 지출 총금액")
     @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long clothesPrice;
+
+    @Comment("의료비 지출 총금액")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long medicalPrice;
 
     @Comment("생활용품 지출 총금액")
     @Column(columnDefinition = "BIGINT UNSIGNED")
@@ -75,8 +87,4 @@ public class IncomeCommercial {
     @Comment("유흥 총금액")
     @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long luxuryPrice;
-
-    @Comment("음식 지출 총금액")
-    @Column(columnDefinition = "BIGINT UNSIGNED")
-    private Long foodPrice;
 }

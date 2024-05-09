@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 import * as c from './CommunityContainerStyle'
 
 const CommunityContainer = () => {
-  const { setCategory } = useCommunityStore(state => ({
+  const { category, setCategory } = useCommunityStore(state => ({
     category: state.selectedCategory,
     setCategory: state.setSelectedCategory,
   }))
@@ -12,7 +12,7 @@ const CommunityContainer = () => {
     <div>
       <c.Container>
         <c.NabBar>
-          <NavBar setCategory={setCategory} />
+          <NavBar category={category} setCategory={setCategory} />
         </c.NabBar>
         <c.MarginLeft>
           <c.Context>

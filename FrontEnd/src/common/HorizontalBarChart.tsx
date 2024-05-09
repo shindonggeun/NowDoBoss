@@ -42,7 +42,7 @@ const HorizontalBarChart = (props: HorizontalBarChartPropsType) => {
     },
     layout: {
       padding: {
-        top: 20,
+        top: 10,
         right: 20,
       },
     },

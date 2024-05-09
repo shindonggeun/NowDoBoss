@@ -11,10 +11,10 @@ spring:
 
   jpa:
     open-in-view: false
-    defer-datasource-initialization: true
-    generate-ddl: true
+    defer-datasource-initialization: false
+    generate-ddl: false
     hibernate:
-      ddl-auto: create-drop                # ddl 자동 작성 여부
+      ddl-auto: none                # ddl 자동 작성 여부
     properties:
       hibernate:
         format_sql: true             # 하이버네이트가 실행한 SQL을 출력할 때 보기 좋게 정렬
@@ -30,20 +30,16 @@ spring:
     username: ENC(CIv9gIlHdeV0RVfvISnt1Q==)                     # 데이터베이스 계정명
     password: ENC(8JDguUr+RtTPfR+4re7EluKRxKLKmaLb)             # 데이터베이스 계정 비밀번호
 
-  # data_테이블명.sql 관련 실행 setting (더미데이터)
-  sql:
-    init:
-      mode: always
-      data-locations:
-        - 'classpath:/db/dummy/*'
-
   # NoSQL setting
   data:
     # Redis setting
     redis:
       host: ${server.base-url}
       port: 6379
-
+    mongodb:
+      host: ${server.base-url}
+      port: 27017
+      database: nowdoboss
 
   # Java Mail Sender setting (Google Mail)
   mail:
@@ -70,6 +66,13 @@ spring:
         key-serializer: org.apache.kafka.common.serialization.StringSerializer
         value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+  # flyway setting
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    out-of-order: false
+
 # log 관리
 logging:
   level:
@@ -88,6 +91,7 @@ jwt:
 app:
   firebase-configuration-file: classpath:serviceAccountKey.json
   firebase-bucket: ENC(kEjE5eNrPFCEldmd4VOt0mXnXI2qkPVNJIhOBdW8K60=)
+  firebase-project-id: nowdoboss
 
 # OAUTH2.0 Setting
 oauth:

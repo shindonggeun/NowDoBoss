@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import LogoutContainer from '@src/containers/User/LogoutContainer'
 
 const DropdownBox = styled.div`
   position: absolute;
@@ -34,6 +35,9 @@ type HeaderDropdownPropsType = {
 const HeaderDropdown = (props: HeaderDropdownPropsType) => {
   const { menuData, isMenuOpen, setMenuOpen } = props
   const navigate = useNavigate()
+
+  // 로그인 상태 확인 (localStorage 사용)
+  const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
 
   // 드롭다운 열었을 때 다른 곳 눌러도 드롭다운 닫히게 하는 ref
   const dropdownRef = useRef<HTMLDivElement | null>(null)
@@ -73,6 +77,11 @@ const HeaderDropdown = (props: HeaderDropdownPropsType) => {
           {locate.name}
         </DropdownContent>
       ))}
+      {userLoggedIn && (
+        <DropdownContent>
+          <LogoutContainer />
+        </DropdownContent>
+      )}
     </DropdownBox>
   )
 }

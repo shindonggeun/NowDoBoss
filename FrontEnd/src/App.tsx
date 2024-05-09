@@ -5,6 +5,7 @@ import MainPage from '@src/pages/MainPage'
 import SignUpPage from '@src/pages/SignUpPage'
 import LoginPage from '@src/pages/LoginPage'
 import SocialLoadingPage from '@src/pages/SocialLoadingPage'
+import MyPage from '@src/pages/MyPage'
 import CommunityPage from '@src/pages/CommunityPage'
 import CommunityRegisterPage from '@src/pages/CommunityRegisterPage'
 import CommunityDetailPage from '@src/pages/CommunityDetailPage'
@@ -22,6 +23,7 @@ function App() {
     const vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty('--vh', `${vh}px`)
   }
+
   useEffect(() => {
     setScreenSize()
   })
@@ -38,7 +40,7 @@ function App() {
             path="/member/loading/:provider"
             element={<SocialLoadingPage />}
           />
-          {/* 커뮤니티 */}
+          <Route path="/mypage" element={<MyPage />} />
           <Route path="/community/*" element={<CommunityPage />}>
             <Route path="list" element={<CommunityListPage />} />
             <Route path="register" element={<CommunityRegisterPage />} />

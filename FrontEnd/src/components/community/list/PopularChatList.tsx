@@ -51,6 +51,8 @@ const PopularChatList = ({ category }: { category: string }) => {
   useEffect(() => {
     if (data && data.dataBody.length < 2) {
       setIsInfinite(false)
+    } else {
+      setIsInfinite(true)
     }
   }, [data])
 

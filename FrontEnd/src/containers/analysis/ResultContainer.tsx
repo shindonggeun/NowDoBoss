@@ -12,7 +12,6 @@ import FlowPopulationAnalysis from '@src/components/analysis/flowPopulation/Flow
 import FacilitiesAnalysis from '@src/components/analysis/facilities/FacilitiesAnalysis'
 import StoreCountAnalysis from '@src/components/analysis/storeCount/StoreCountAnalysis'
 import SalesAnalysis from '@src/components/analysis/sales/SalesAnalysis'
-import RentalCostAnalysis from '@src/components/analysis/rentalCost/RentalCostAnalysis'
 import ResidentPopulationAnalysis from '@src/components/analysis/residentPopulation/ResidentPopulationAnalysis'
 import ExpenditureAnalysis from '@src/components/analysis/expenditure/ExpenditureAnalysis'
 import SideBarMenu from '@src/components/analysis/SideBarMenu'
@@ -34,7 +33,6 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   const facilitiesRef = useRef<HTMLDivElement>(null)
   const storeRef = useRef<HTMLDivElement>(null)
   const salesRef = useRef<HTMLDivElement>(null)
-  const rentalRef = useRef<HTMLDivElement>(null)
   const residentRef = useRef<HTMLDivElement>(null)
   const expenditureRef = useRef<HTMLDivElement>(null)
   const refArr = [
@@ -42,7 +40,6 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
     facilitiesRef,
     storeRef,
     salesRef,
-    rentalRef,
     residentRef,
     expenditureRef,
   ]
@@ -138,7 +135,6 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
           <FacilitiesAnalysis ref={facilitiesRef} />
           <StoreCountAnalysis ref={storeRef} />
           <SalesAnalysis ref={salesRef} />
-          <RentalCostAnalysis ref={rentalRef} />
           <ResidentPopulationAnalysis ref={residentRef} />
           <ExpenditureAnalysis ref={expenditureRef} />
         </a.Main>

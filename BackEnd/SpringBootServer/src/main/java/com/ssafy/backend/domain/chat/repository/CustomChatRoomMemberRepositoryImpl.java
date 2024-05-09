@@ -3,7 +3,7 @@ package com.ssafy.backend.domain.chat.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.backend.domain.chat.dto.response.PopularChatRoomResponse;
+import com.ssafy.backend.domain.chat.dto.response.ChatRoomResponse;
 import com.ssafy.backend.domain.community.entity.enums.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.ssafy.backend.domain.chat.entity.QChatRoomMember.chatRoomMember;
-import static com.ssafy.backend.domain.community.entity.QCommunity.community;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,9 +18,9 @@ public class CustomChatRoomMemberRepositoryImpl implements CustomChatRoomMemberR
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<PopularChatRoomResponse> selectPopularChatRoom(String category) {
+    public List<ChatRoomResponse> selectPopularChatRoom(String category) {
         return queryFactory
-                .select(Projections.constructor(PopularChatRoomResponse.class,
+                .select(Projections.constructor(ChatRoomResponse.class,
                         chatRoomMember.chatRoom.id,
                         chatRoomMember.chatRoom.category,
                         chatRoomMember.chatRoom.name,

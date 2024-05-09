@@ -57,8 +57,8 @@ public class CommercialController {
     )
     @GetMapping("/foot-traffic/{commercialCode}")
     public ResponseEntity<Message<CommercialFootTrafficResponse>> getFootTrafficByCommercialCodeAndPeriod(
-            @PathVariable String commercialCode,
-            @RequestParam(defaultValue = "20233") String periodCode) {
+            @RequestParam(defaultValue = "20233") String periodCode,
+            @PathVariable String commercialCode) {
         CommercialFootTrafficResponse footTrafficResponse = commercialService.getFootTrafficByPeriodAndCommercialCode(periodCode, commercialCode);
         return ResponseEntity.ok().body(Message.success(footTrafficResponse));
     }
@@ -69,9 +69,9 @@ public class CommercialController {
     )
     @GetMapping("/sales/{commercialCode}/{serviceCode}")
     public ResponseEntity<Message<CommercialSalesResponse>> getSalesByPeriodAndCommercialCode(
+            @RequestParam(defaultValue = "20233") String periodCode,
             @PathVariable String commercialCode,
-            @PathVariable String serviceCode,
-            @RequestParam(defaultValue = "20233") String periodCode) {
+            @PathVariable String serviceCode) {
         CommercialSalesResponse salesResponse = commercialService.getSalesByPeriodAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode);
         return ResponseEntity.ok().body(Message.success(salesResponse));
     }
@@ -82,8 +82,8 @@ public class CommercialController {
     )
     @GetMapping("/facility/{commercialCode}")
     public ResponseEntity<Message<CommercialFacilityResponse>> getFacilityByPeriodAndCommercialCode(
-            @PathVariable String commercialCode,
-            @RequestParam(defaultValue = "20233") String periodCode) {
+            @RequestParam(defaultValue = "20233") String periodCode,
+            @PathVariable String commercialCode) {
         CommercialFacilityResponse facilityResponse = commercialService.getFacilityByPeriodAndCommercialCode(periodCode, commercialCode);
         return ResponseEntity.ok().body(Message.success(facilityResponse));
     }
@@ -94,8 +94,8 @@ public class CommercialController {
     )
     @GetMapping("/population/{commercialCode}")
     public ResponseEntity<Message<CommercialPopulationResponse>> getPopulationByPeriodAndCommercialCode(
-            @PathVariable String commercialCode,
-            @RequestParam(defaultValue = "20233") String periodCode) {
+            @RequestParam(defaultValue = "20233") String periodCode,
+            @PathVariable String commercialCode) {
         CommercialPopulationResponse populationResponse = commercialService.getPopulationByPeriodAndCommercialCode(periodCode, commercialCode);
         return ResponseEntity.ok().body(Message.success(populationResponse));
     }
@@ -108,12 +108,6 @@ public class CommercialController {
     public ResponseEntity<Message<CommercialAdministrationAreaResponse>> getAdministration(@PathVariable String commercialCode) {
         CommercialAdministrationAreaResponse administrationResponse = commercialService.getAdministrationInfoByCommercialCode(commercialCode);
         return ResponseEntity.ok().body(Message.success(administrationResponse));
-    }
-
-    @GetMapping("/rent/{districtCode}")
-    public ResponseEntity<Message<CommercialRentResponse>> getRentByDistrictCode(@PathVariable String districtCode) {
-        CommercialRentResponse rentResponse = commercialService.getRentByDistrictCode(districtCode);
-        return ResponseEntity.ok().body(Message.success(rentResponse));
     }
 
     @Operation(
@@ -130,4 +124,16 @@ public class CommercialController {
         return ResponseEntity.ok().body(Message.success(storeResponse));
     }
 
+    @Operation(
+            summary = "해당 상권의 분기별 지출 내역 분석 조회",
+            description = "주어진 상권코드에 대해 해당 분기의 지출 내역 분석 데이터를 조회합니다. " +
+                    "기준년분기코드가 주어지지 않으면 2023년 3분기의 데이터를 사용합니다."
+    )
+    @GetMapping("/income/{commercialCode}")
+    public ResponseEntity<Message<CommercialIncomeResponse>> getIncomeByPeriodCodeAndCommercialCode(
+            @RequestParam(defaultValue = "20233") String periodCode,
+            @PathVariable String commercialCode) {
+        CommercialIncomeResponse incomeResponse = commercialService.getIncomeByPeriodCodeAndCommercialCode(periodCode, commercialCode);
+        return ResponseEntity.ok().body(Message.success(incomeResponse));
+    }
 }

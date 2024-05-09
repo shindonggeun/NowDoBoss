@@ -71,6 +71,10 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+  # flyway setting
+  flyway:
+    enabled: false  # Flyway 비활성화
+
 # log 관리
 logging:
   level:

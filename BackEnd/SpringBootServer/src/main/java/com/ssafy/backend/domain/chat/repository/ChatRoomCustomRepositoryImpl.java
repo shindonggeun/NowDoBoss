@@ -1,10 +1,15 @@
 package com.ssafy.backend.domain.chat.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
+import com.ssafy.backend.domain.chat.dto.response.ChatRoomResponse;
 import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
+import com.ssafy.backend.domain.chat.entity.QChatRoom;
+import com.ssafy.backend.domain.chat.entity.QChatRoomMember;
 import com.ssafy.backend.global.util.NullSafeBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,6 +18,8 @@ import java.util.List;
 
 import static com.ssafy.backend.domain.chat.entity.QChatRoom.*;
 import static com.ssafy.backend.domain.chat.entity.QChatRoomMember.*;
+import static com.ssafy.backend.domain.community.entity.QComments.comments;
+import static com.ssafy.backend.domain.community.entity.QCommunity.community;
 
 @Repository
 @RequiredArgsConstructor
@@ -52,5 +59,27 @@ public class ChatRoomCustomRepositoryImpl implements ChatRoomCustomRepository {
             builder.and(chatRoom.id.lt(chatRoomId));
         }
         return builder;
+    }
+
+    @Override
+    public ChatRoomResponse selectChatRoomDetail(Long chatRoomId) {
+        return queryFactory
+                .select(Projections.constructor(ChatRoomResponse.class,
+                        chatRoom.id,
+                        chatRoom.category,
+                        chatRoom.name,
+                        chatRoom.introduction,
+                        ExpressionUtils.as(JPAExpressions.select(chatRoomMember.count().intValue())
+                                .from(chatRoomMember)
+                                .where(chatRoomMember.chatRoom.id.eq(chatRoomId)), "memberCount"),
+                        chatRoom.limit
+                ))
+                .from(chatRoom)
+                .where(equalsChatRoomId(chatRoomId))
+                .fetchOne();
+    }
+
+    private BooleanBuilder equalsChatRoomId(final Long chatRoomId) {
+        return NullSafeBuilder.build(() -> chatRoom.id.eq(chatRoomId));
     }
 }

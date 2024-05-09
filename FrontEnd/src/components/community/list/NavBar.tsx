@@ -8,10 +8,20 @@ import { fetchMyRooms } from '@src/api/chattingApi'
 
 export type NavBarPropsType = {
   setCategory: (category: Category) => void
+  category: Category
 }
 const NavBar = (props: NavBarPropsType) => {
-  const { setCategory } = props
+  const { setCategory, category } = props
   const navigate = useNavigate()
+
+  // const location = useLocation()
+  //
+  // 채팅페이지인지 확인
+  // const [isChatPage, setIsChatPage] = useState(false)
+  //
+  // useEffect(() => {
+  //   setIsChatPage(String.prototype.startsWith('/community/chatting'))
+  // }, [location.pathname])
 
   // store에 저장해둔 카테고리 받아오기
   const { categories, selectedCategory } = useCommunityStore(state => ({
@@ -41,7 +51,7 @@ const NavBar = (props: NavBarPropsType) => {
 
   useEffect(() => {
     refetch()
-  }, [refetch])
+  }, [refetch, category])
 
   return (
     <n.Container>
@@ -79,6 +89,12 @@ const NavBar = (props: NavBarPropsType) => {
                 $isChoice={isChoice === chatCard.name}
                 onClick={() => {
                   setIsChoice(chatCard.name)
+                  setCategory({
+                    name: chatCard.name,
+                    value: '',
+                    iconActive: '',
+                    iconInactive: '',
+                  })
                   navigate(`/community/chatting/${chatCard.id}`)
                 }}
               >

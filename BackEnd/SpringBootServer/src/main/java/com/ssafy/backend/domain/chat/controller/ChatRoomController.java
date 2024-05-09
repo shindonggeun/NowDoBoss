@@ -1,24 +1,16 @@
 package com.ssafy.backend.domain.chat.controller;
 
-import com.ssafy.backend.domain.chat.dto.request.ChatMessageRequest;
 import com.ssafy.backend.domain.chat.dto.request.CreateChatRoomRequest;
 import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
-import com.ssafy.backend.domain.chat.dto.response.ChatMessageResponse;
-import com.ssafy.backend.domain.chat.dto.response.PopularChatRoomResponse;
-import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
-import com.ssafy.backend.domain.chat.dto.response.CreateChatRoomResponse;
+import com.ssafy.backend.domain.chat.dto.response.*;
 import com.ssafy.backend.domain.chat.service.ChatMessageService;
 import com.ssafy.backend.domain.chat.service.ChatRoomService;
 import com.ssafy.backend.global.common.dto.Message;
 import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
-import com.ssafy.backend.global.component.kafka.KafkaChatConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +38,17 @@ public class ChatRoomController {
     }
 
     @Operation(
+            summary = "내 채팅방 목록 조회",
+            description = "내 채팅방 목록 조회에 필요한 정보를 입력하여 내 채팅방 목록을 조회하는 기능입니다."
+    )
+    @GetMapping("/{chatRoomId}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<ChatRoomResponse>> selectChatRoomDetail(@PathVariable Long chatRoomId) {
+        ChatRoomResponse response = chatRoomService.selectChatRoomDetail(chatRoomId);
+        return ResponseEntity.ok().body(Message.success(response));
+    }
+
+    @Operation(
             summary = "채팅방 생성",
             description = "채팅방에 필요한 정보를 입력하여 채팅방을 생성하는 기능입니다."
     )
@@ -64,8 +67,8 @@ public class ChatRoomController {
             description = "인기 채팅방 조회에 필요한 정보를 입력하여 조회하는 기능입니다."
     )
     @GetMapping("/popular-room")
-    public ResponseEntity<Message<List<PopularChatRoomResponse>>> selectPopularChatRoom(String category) {
-        List<PopularChatRoomResponse> response = chatRoomService.selectPopularChatRoom(category);
+    public ResponseEntity<Message<List<ChatRoomResponse>>> selectPopularChatRoom(String category) {
+        List<ChatRoomResponse> response = chatRoomService.selectPopularChatRoom(category);
         return ResponseEntity.ok().body(Message.success(response));
     }
 
@@ -88,10 +91,10 @@ public class ChatRoomController {
     )
     @PostMapping("/{chatRoomId}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<Void>> enter(@AuthenticationPrincipal MemberLoginActive loginActive,
+    public ResponseEntity<Message<EnterChatRoomResponse>> enterChatRoom(@AuthenticationPrincipal MemberLoginActive loginActive,
                       @PathVariable Long chatRoomId) {
-        chatRoomService.enter(loginActive.id(), chatRoomId);
-        return ResponseEntity.ok().body(Message.success());
+        EnterChatRoomResponse response = chatRoomService.enterChatRoom(loginActive.id(), chatRoomId);
+        return ResponseEntity.ok().body(Message.success(response));
     }
 
     @Operation(

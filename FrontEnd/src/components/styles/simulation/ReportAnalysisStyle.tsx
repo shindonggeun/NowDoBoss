@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
-  margin: 2rem 6vw;
+  margin: 2rem 4vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,6 +10,8 @@ export const Container = styled.div`
 export const Title = styled.div`
   font-size: 1.2rem;
   font-weight: 700;
+  display: flex;
+  align-items: center;
 `
 
 export const SubTitle = styled.div`
@@ -163,7 +165,7 @@ export const CircleMonth = styled.div<CircleProps>`
 export const GrayBox = styled.div`
   width: 93%;
   min-height: 5rem;
-  background-color: #f5f5f5;
+  background-color: #f7f7f7;
   border-radius: 10px;
   padding: 1.5rem 1rem;
   margin-top: 0.5rem;
@@ -195,4 +197,20 @@ export const GrayBoxSubTitle = styled.div`
   padding: 0 0.7rem;
   font-size: 0.9rem;
   color: #4c545e;
+`
+
+export const GrayBoxText = styled.div`
+  font-size: 1rem;
+  font-weight: 500;
+  color: #343940;
+  margin: 0.5rem 0;
+`
+
+export const GrayBoxTextEmphasis = styled.span`
+  color: #236cfe;
+`
+
+export const CheckIcon = styled.img`
+  width: 1.5rem;
+  margin-right: 0.8rem;
 `

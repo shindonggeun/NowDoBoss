@@ -25,7 +25,7 @@ export const HighLight = styled.div`
 `
 
 export const SummarySubTitle = styled.div`
-  margin: 4rem 3rem 0 1rem;
+  margin: 4rem 3rem 0 0;
   font-size: 0.9rem;
   color: #808080;
 `
@@ -39,7 +39,7 @@ export const LightIcon = styled.img`
 export const Body = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 2rem 5rem;
+  margin: 2rem 4vw;
 `
 
 export const BodyText = styled.div`

@@ -65,7 +65,7 @@ public class GenderAndAgeAnalysisInfo {
     @Getter
     @NoArgsConstructor
     private static class Age implements Comparable<Age> {
-        private Long sales;
+        private Long sales; // 단위: 원
         private String name;
 
         public Age(Long sales, String name) {

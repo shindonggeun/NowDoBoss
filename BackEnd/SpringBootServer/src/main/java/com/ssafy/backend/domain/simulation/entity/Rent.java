@@ -36,14 +36,14 @@ public class Rent {
     @Column(nullable = false)
     private int otherFloor;
 
-    public int calculateRent(int area, String floor) {
+    public long calculateRent(int area, String floor) {
         if ("1층".equals(floor)) {
             return (int) (area / 3.3 * firstFloor);
         }
         return (int) (area / 3.3 * otherFloor);
     }
 
-    public int calculateDeposit(int rentPrice) {
+    public long calculateDeposit(long rentPrice) {
         return rentPrice * 10;
     }
 }

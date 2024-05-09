@@ -16,14 +16,6 @@ export const getFlowPopulationData = async (commercialCode: string) => {
     .catch(err => console.log(err))
 }
 
-// 상주인구
-export const getResidentPopulationData = async (commercialCode: string) => {
-  return customAxios
-    .get(`/commercial/population/${commercialCode}`)
-    .then(res => res.data)
-    .catch(err => console.log(err))
-}
-
 // 매출분석
 export const getSalesData = async (
   commercialCode: string,
@@ -42,6 +34,22 @@ export const getStoreCountData = async (
 ) => {
   return customAxios
     .get(`/commercial/store/${commercialCode}/${serviceCode}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 상주인구
+export const getResidentPopulationData = async (commercialCode: string) => {
+  return customAxios
+    .get(`/commercial/population/${commercialCode}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 지출내역
+export const getExpenditureData = async (commercialCode: string) => {
+  return customAxios
+    .get(`/commercial/income/${commercialCode}`)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

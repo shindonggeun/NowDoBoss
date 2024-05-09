@@ -12,12 +12,13 @@ import com.ssafy.backend.domain.simulation.repository.FranchiseeRepository;
 import com.ssafy.backend.domain.simulation.repository.RentRepository;
 import com.ssafy.backend.domain.simulation.repository.ServiceRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -47,59 +48,14 @@ public class SimulationServiceImpl implements SimulationService {
                 .build();
     }
 
-
-    private Long calculateFranchisee(Long totalPrice, String brandName) {
-        Franchisee franchisee = franchiseeRepository.findByBrandName(brandName)
-                .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_BRAND));
-
-        // 가맹 사업자 부담금
-        Long levy = franchisee.getLevy();
-
-        // 인테리어 비용
-        Long interior = franchisee.getTotalInterior();
-
-        System.out.println("=========================== 가맹 사업자 부담금 : " + levy);
-        System.out.println("=========================== 인테리어 비용 : " + interior);
-
-//        totalPrice += (levy + interior);
-
-        return totalPrice + levy + interior;
-    }
-
-    private long calculateTotalRentalCosts(Rent rent, int storeSize, String floor) {
-        // 임대료
-        int rentPrice = rent.calculateRent(storeSize, floor);
-        
-        // 보증금
-        int deposit = rent.calculateDeposit(rentPrice);
-
-        System.out.println("=========================== 임대료 : " + rentPrice);
-        System.out.println("=========================== 보증금 : " + deposit);
-
-        return rentPrice + deposit;
-    }
-
-    private long calculateFranchiseeCosts(String brandName) {
-        Franchisee franchisee = franchiseeRepository.findByBrandName(brandName)
-                .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_BRAND));
-
-        long totalLevy = franchisee.getLevy();
-        long totalInterior = franchisee.getTotalInterior();
-
-        System.out.println("=========================== 가맹 사업자 부담금 : " + totalLevy);
-        System.out.println("=========================== 인테리어 비용 : " + totalInterior);
-
-        return totalLevy + totalInterior;
-    }
-
     private long calculateNonFranchiseeInteriorCost(String serviceCode, int storeSize) {
         double unitArea = franchiseeRepository.findAvgByService(serviceCode);
 
-        System.out.println("=========================== 단위면적당 인테리어비용 평균값 : " + unitArea);
+        System.out.println("=========================== 단위면적당 인테리어비용 평균값(천원) : " + unitArea);
 
         long interiorCost = (long) (storeSize / SQUARE_METER_CONVERSION * unitArea * THOUSAND_MULTIPLIER);
 
-        System.out.println("=========================== 인테리어 비용 : " + interiorCost);
+        System.out.println("=========================== 인테리어 비용(원) : " + interiorCost);
 
         return interiorCost;
     }
@@ -113,10 +69,13 @@ public class SimulationServiceImpl implements SimulationService {
         Rent rent = rentRepository.findByDistrictCodeName(request.gugun())
                 .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_SERVICE));
 
-        long totalPrice = calculateTotalRentalCosts(rent, request.storeSize(), request.floor());
 
-        int rentPrice = rent.calculateRent(request.storeSize(), request.floor());
-        int deposit = rent.calculateDeposit(rentPrice);
+        long rentPrice = rent.calculateRent(request.storeSize(), request.floor());
+        long deposit = rent.calculateDeposit(rentPrice);
+        long totalPrice = rentPrice + deposit;
+
+        log.info("임대료(원): {}", rentPrice);
+        log.info("보증금(원) : {}", deposit);
 
         Long totalLevy = 0L;
         Long totalInterior = 0L;
@@ -136,6 +95,10 @@ public class SimulationServiceImpl implements SimulationService {
             totalPrice += totalInterior;
             totalLevy = null;
         }
+
+        log.info("부담금(원) : {}", totalLevy);
+        log.info("인테리어비용(원) : {}", totalInterior);
+        log.info("창업 비용(원) : {}", totalPrice);
 
         KeyMoneyInfo keyMoneyInfo = KeyMoneyInfo.builder()
                 .keyMoneyRatio(serviceType.getKeyMoneyRatio())
@@ -160,12 +123,12 @@ public class SimulationServiceImpl implements SimulationService {
 
         //////////////////////////////////////////////////////////// 프랜차이즈 상위 5개 비교
         // 비용 >> 보증금 + 임대료 + 아래 내용
-        int franchiseePrice = rentPrice + deposit;
+        long franchiseePrice = rentPrice + deposit;
 
         List<FranchiseeInfo> franchisees = franchiseeRepository.findByServiceCode(franchiseePrice, totalPrice, request.serviceCode());
 
         return SimulationResponse.builder()
-                .totalPrice(totalPrice)
+                .totalPrice(totalPrice) // 원
                 .keyMoneyInfo(keyMoneyInfo)
                 .detail(detailInfo)
                 .franchisees(franchisees)
@@ -181,11 +144,11 @@ public class SimulationServiceImpl implements SimulationService {
 
         // 비성수기
         int offPeakQuarter = getQuarter(quarterSales, 0);
-        System.out.println("============== 비성수기 : " + offPeakQuarter);
+        log.info("비성수기 : {}", offPeakQuarter);
 
         // 성수기
         int peakQuarter = getQuarter(quarterSales, size - 1);
-        System.out.println("============== 성수기 : " + peakQuarter);
+        log.info("성수기 : {}", peakQuarter);
 
         return MonthAnalysisInfo.builder()
                 .peak(peakQuarter)

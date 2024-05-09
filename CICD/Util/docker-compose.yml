@@ -52,6 +52,7 @@ services:
     networks:
       - nowdoboss_net
 
+  # kafka-ui 설정
   kafka-ui:
     image: provectuslabs/kafka-ui
     container_name: nowdoboss_kafka-ui

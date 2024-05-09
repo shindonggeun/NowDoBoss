@@ -30,7 +30,7 @@ export const getSalesData = async (
   serviceCode: string,
 ) => {
   return customAxios
-    .get(`/commercial/sales/${commercialCode}/${serviceCode}?periodCode=20192`)
+    .get(`/commercial/sales/${commercialCode}/${serviceCode}`)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

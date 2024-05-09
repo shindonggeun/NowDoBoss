@@ -60,7 +60,7 @@ spring:
 
   # Kafka setting
   kafka:
-    bootstrap-servers: ${server.base-url}:9092
+    bootstrap-servers: nowdoboss_kafka:9092
     consumer:
       group-id: NoWDoBossGroup
       auto-offset-reset: earliest
@@ -94,7 +94,7 @@ oauth:
   kakao:
     client-id: ENC(BXCwf0NtueMIhhv565w/js6mYPVy/ydnEixfuH4untZmrP3mi6qKEPCRUvPYZSTQ)   # REST API 키
     client-secret: ENC(Vt6Pop34W0MzRbM/vmr0uqASBu2KA78aqShRqWv7weGoNHzwkayNeCkxo11QeeTP) # 보안 -> Client Secret 키
-    redirect-uri: http://${server.https-url}/member/loading/kakao
+    redirect-uri: ${server.https-url}/member/loading/kakao
     scope:
       - profile_nickname
       - profile_image
@@ -104,7 +104,7 @@ oauth:
   naver:
     client-id: ENC(+VjRqdSmB6m1Jvl1ZJGJRW+bTtY4tJNh123J0sHB4QU=)
     client-secret: ENC(0BeyGmHNDHLJW5hudtEfpEpq+0hFiGaO)
-    redirect_uri: http://${server.https-url}/member/loading/naver
+    redirect_uri: ${server.https-url}/member/loading/naver
     scope:
       - nickname
       - name
@@ -114,7 +114,7 @@ oauth:
   google:
     client_id: ENC(cDBVfDvLY03EnW9oNtZ9XqgVTS1otEDtR+jbK/4o2cK67zN1bWTfsX/bBJNwjKW3pP2iu0LzCLwG3LUVn8AJyZb5ENsfeN3DavnK+k0SeASHOTrlvZWPxA==)
     client_secret: ENC(FEWnh24Bb7QzhYBqVbWowEN+fJkgt0qVchd8MVcwNBwdBl8oRKn9qIz7Ff22gtNI)
-    redirect_uri: http://${server.https-url}/member/loading/google
+    redirect_uri: ${server.https-url}/member/loading/google
     scope:
       - profile
       - email

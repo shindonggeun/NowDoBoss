@@ -40,6 +40,12 @@ const HorizontalBarChart = (props: HorizontalBarChartPropsType) => {
         position: 'right' as const,
       },
     },
+    layout: {
+      padding: {
+        top: 20,
+        right: 20,
+      },
+    },
     scales: {
       x: {
         display: xDisplay,

@@ -4,6 +4,7 @@ import {
   Chart as ChartJS,
   Legend,
   LinearScale,
+  Plugin,
   Title,
   Tooltip,
 } from 'chart.js'
@@ -39,7 +40,7 @@ const BarChart2 = (props: BarChartProps) => {
       intersect: false,
     },
     layout: {
-      padding: 0,
+      padding: 20,
     },
     plugins: {
       legend: {
@@ -67,7 +68,27 @@ const BarChart2 = (props: BarChartProps) => {
     categoryPercentage: 0.5,
   }
 
-  return <Bar options={options} data={data} />
+  const plugins: Plugin<'bar', unknown>[] = [
+    {
+      id: 'customCenterValue',
+      afterDraw: (chart: ChartJS<'bar', number[], unknown>) => {
+        const { ctx } = chart
+        ctx.save()
+        chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
+          ctx.font = 'bolder 12px sans-serif'
+          ctx.fillStyle = data.datasets[0].borderColor[index]
+          ctx.textAlign = 'center'
+          ctx.fillText(
+            `${data.datasets[0].data[index].toLocaleString()} 명`,
+            datapoint.x,
+            datapoint.y - 10,
+          )
+        })
+      },
+    },
+  ]
+
+  return <Bar options={options} data={data} plugins={plugins} />
 }
 
 export default BarChart2

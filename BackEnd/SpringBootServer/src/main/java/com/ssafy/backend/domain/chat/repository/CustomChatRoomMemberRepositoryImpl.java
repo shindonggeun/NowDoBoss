@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.ssafy.backend.domain.chat.entity.QChatRoomMember.chatRoomMember;
+import static com.ssafy.backend.domain.community.entity.QCommunity.community;
 
 @Repository
 @RequiredArgsConstructor
@@ -38,7 +39,7 @@ public class CustomChatRoomMemberRepositoryImpl implements CustomChatRoomMemberR
 
     private BooleanBuilder categoryEquals(final String category) {
         BooleanBuilder builder = new BooleanBuilder();
-        if (category != null) {
+        if (!category.isBlank()) {
             builder.and(chatRoomMember.chatRoom.category.eq(Category.valueOf(category)));
         }
         return builder;

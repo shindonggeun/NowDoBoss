@@ -42,4 +42,6 @@ volumes:
   react_build:  # 공유 볼륨 선언
 
 networks:
-  nowdoboss_net:  # 사용할 네트워크를 정의합니다. 여기서는 기본 설정을 사용합니다.
+  nowdoboss_net:  # 사용할 네트워크를 정의합니다. 
+    name: nowdoboss_net
+    driver: bridge

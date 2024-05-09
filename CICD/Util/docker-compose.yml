@@ -47,3 +47,5 @@ services:
 
 networks:
   nowdoboss_net:
+    name: nowdoboss_net
+    driver: bridge

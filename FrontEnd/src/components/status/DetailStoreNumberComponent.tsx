@@ -9,7 +9,6 @@ interface DetailStoreNumberProps {
 
 const DetailStoreNumberComponent = ({ props }: DetailStoreNumberProps) => {
   const StoreData = props!.storeDistrictDetail.storeDistrictTotalTopEightList
-  console.log(props!.storeDistrictDetail)
 
   const StoreLabels = StoreData.map(item => item.serviceCodeName)
   const StoreValues = StoreData.map(item => item.totalStore)

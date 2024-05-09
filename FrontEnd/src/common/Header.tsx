@@ -106,6 +106,9 @@ const Header = () => {
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState<boolean>(false)
 
+  // 로그인 상태 확인 (localStorage 사용)
+  const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const LocationData = [
     {
@@ -185,17 +188,28 @@ const Header = () => {
       </MenuListLeft>
 
       <BlankDiv />
+
       <MenuListRight>
-        {['마이페이지', '로그인', '회원가입'].map(menuName => (
+        {userLoggedIn ? (
           <Menu
-            key={menuName}
-            $isActive={activeMenu === menuName}
-            onClick={() => handleMenuClick(menuName)}
+            $isActive={activeMenu === '마이페이지'}
+            onClick={() => handleMenuClick('마이페이지')}
           >
-            {menuName}
+            마이페이지
           </Menu>
-        ))}
+        ) : (
+          ['로그인', '회원가입'].map(menuName => (
+            <Menu
+              key={menuName}
+              $isActive={activeMenu === menuName}
+              onClick={() => handleMenuClick(menuName)}
+            >
+              {menuName}
+            </Menu>
+          ))
+        )}
       </MenuListRight>
+
       <HamburgerMenu onClick={() => setMenuOpen(!menuOpen)}>≡</HamburgerMenu>
       {menuOpen && (
         <DropdownMenu>

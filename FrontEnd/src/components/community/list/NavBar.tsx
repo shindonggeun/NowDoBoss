@@ -32,12 +32,16 @@ const NavBar = (props: NavBarPropsType) => {
   const [isChoice, setIsChoice] = useState<string>(
     selectedCategory.name ? selectedCategory.name : '전체보기',
   )
-
-  const { data, isLoading } = useQuery({
+  // TODO 채팅방 새로 들어갔을 때 refetch 로직 추가해야합니다.
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['fetchMyRooms'],
     queryFn: () => fetchMyRooms(),
     enabled: !!userId,
   })
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   return (
     <n.Container>

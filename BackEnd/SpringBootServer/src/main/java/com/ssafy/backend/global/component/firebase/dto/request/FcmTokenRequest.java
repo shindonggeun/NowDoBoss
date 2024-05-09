@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.fcm.dto.request;
+package com.ssafy.backend.global.component.firebase.dto.request;
 
 import lombok.Builder;
 

@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.fcm.entity;
+package com.ssafy.backend.global.component.firebase.entity;
 
 import com.ssafy.backend.domain.member.entity.Member;
 import jakarta.persistence.*;

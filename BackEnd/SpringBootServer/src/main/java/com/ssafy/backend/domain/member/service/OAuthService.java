@@ -6,5 +6,5 @@ import com.ssafy.backend.global.component.oauth.vendor.enums.OAuthDomain;
 public interface OAuthService {
     String provideAuthCodeRequestUrlOAuth(OAuthDomain oAuthDomain);
 
-    MemberLoginResponse loginOAuth(OAuthDomain oAuthDomain, String authCode, String deviceToken);
+    MemberLoginResponse loginOAuth(OAuthDomain oAuthDomain, String authCode);
 }

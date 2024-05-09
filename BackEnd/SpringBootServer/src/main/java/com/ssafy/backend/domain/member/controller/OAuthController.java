@@ -36,9 +36,8 @@ public class OAuthController {
     @GetMapping("/{oAuthDomain}/login")
     public ResponseEntity<Message<MemberLoginResponse>> loginOAuth(@PathVariable("oAuthDomain") OAuthDomain oAuthDomain,
                                                                    @RequestParam("code") String authCode,
-                                                                   @RequestParam("deviceToken") String deviceToken,
                                                                    HttpServletResponse response) {
-        MemberLoginResponse loginResponse = oAuthService.loginOAuth(oAuthDomain, authCode, deviceToken);
+        MemberLoginResponse loginResponse = oAuthService.loginOAuth(oAuthDomain, authCode);
         // JWT 토큰을 쿠키에 저장
         Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.tokenInfo().accessToken());
         accessTokenCookie.setPath("/");

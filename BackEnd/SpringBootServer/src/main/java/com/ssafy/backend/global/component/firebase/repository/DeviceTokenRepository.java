@@ -1,6 +1,6 @@
-package com.ssafy.backend.domain.fcm.repository;
+package com.ssafy.backend.global.component.firebase.repository;
 
-import com.ssafy.backend.domain.fcm.entity.DeviceToken;
+import com.ssafy.backend.global.component.firebase.entity.DeviceToken;
 import com.ssafy.backend.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

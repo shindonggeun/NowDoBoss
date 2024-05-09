@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.fcm.exception;
+package com.ssafy.backend.global.component.firebase.exception;
 
 
 import lombok.Getter;

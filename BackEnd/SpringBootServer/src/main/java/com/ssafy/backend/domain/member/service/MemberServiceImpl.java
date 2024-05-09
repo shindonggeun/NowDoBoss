@@ -1,6 +1,5 @@
 package com.ssafy.backend.domain.member.service;
 
-import com.ssafy.backend.domain.fcm.service.FcmService;
 import com.ssafy.backend.domain.member.dto.*;
 import com.ssafy.backend.domain.member.entity.Member;
 import com.ssafy.backend.domain.member.exception.MemberErrorCode;
@@ -26,7 +25,6 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenService jwtTokenService;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final FcmService fcmService;
 
     @Override
     public void signupMember(MemberSignupRequest signupRequest) {
@@ -49,7 +47,6 @@ public class MemberServiceImpl implements MemberService {
             throw new MemberException(MemberErrorCode.NOT_MATCH_PASSWORD);
         }
 
-        fcmService.createDeviceToken(member.getId(), loginRequest.deviceToken());
         return jwtTokenService.issueAndSaveJwtToken(member);
     }
 

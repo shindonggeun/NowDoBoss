@@ -9,7 +9,7 @@ import com.ssafy.backend.domain.chat.exception.ChatErrorCode;
 import com.ssafy.backend.domain.chat.exception.ChatException;
 import com.ssafy.backend.domain.chat.repository.ChatMessageRepository;
 import com.ssafy.backend.domain.chat.repository.ChatRoomRepository;
-import com.ssafy.backend.domain.fcm.dto.request.FcmTopicRequest;
+import com.ssafy.backend.global.component.firebase.dto.request.FcmTopicRequest;
 import com.ssafy.backend.domain.fcm.service.FcmService;
 import com.ssafy.backend.domain.member.entity.Member;
 import com.ssafy.backend.domain.member.exception.MemberErrorCode;

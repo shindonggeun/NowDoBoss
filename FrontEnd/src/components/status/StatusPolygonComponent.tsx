@@ -41,7 +41,7 @@ const StatusPolygonComponent = ({
         setScale(window.innerWidth * 120)
       }
 
-      console.log(window.innerWidth, '너비!')
+      // console.log(window.innerWidth, '너비!')
     }
 
     window.addEventListener('resize', handleResize)

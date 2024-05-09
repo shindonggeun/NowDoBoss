@@ -52,6 +52,7 @@ const Menu = styled.div<{ $isActive?: boolean }>`
   font-weight: bold;
   border-bottom: 3px solid ${props => (props.$isActive ? '#236cff' : 'white')};
   color: ${props => (props.$isActive ? '#236cff' : 'black')};
+
   &:hover {
     color: #236cff;
     border-bottom: 3px solid #236cff;
@@ -141,59 +142,21 @@ const Header = () => {
     },
   ]
 
+  // 경로에 따라 activeMenu 설정
   useEffect(() => {
-    // 경로에 따라 activeMenu 설정
-    switch (location.pathname) {
-      case LocationData[0].location:
-        setActiveMenu(LocationData[0].name)
-        break
-      case LocationData[1].location:
-        setActiveMenu(LocationData[1].name)
-        break
-      case LocationData[2].location:
-        setActiveMenu(LocationData[2].name)
-        break
-      case LocationData[3].location:
-        setActiveMenu(LocationData[3].name)
-        break
-      case LocationData[4].location:
-        setActiveMenu(LocationData[4].name)
-        break
-      case LocationData[5].location:
-        setActiveMenu(LocationData[5].name)
-        break
-      case LocationData[6].location:
-        setActiveMenu(LocationData[6].name)
-        break
-      case LocationData[7].location:
-        setActiveMenu(LocationData[7].name)
-        break
-      default:
-        setActiveMenu(null)
-    }
-  }, [LocationData, location.pathname])
+    const activeItem = LocationData.find(
+      item => item.location === location.pathname,
+    )
+    setActiveMenu(activeItem ? activeItem.name : null)
+  }, [location.pathname])
 
   const handleMenuClick = (menuName: string) => {
-    setActiveMenu(menuName)
-    if (menuName === LocationData[0].name) {
-      navigate(LocationData[0].location)
-    } else if (menuName === LocationData[1].name) {
-      navigate(LocationData[1].location)
-    } else if (menuName === LocationData[2].name) {
-      navigate(LocationData[2].location)
-    } else if (menuName === LocationData[3].name) {
-      navigate(LocationData[3].location)
-    } else if (menuName === LocationData[4].name) {
-      navigate(LocationData[4].location)
-    } else if (menuName === LocationData[5].name) {
-      navigate(LocationData[5].location)
-    } else if (menuName === LocationData[6].name) {
-      navigate(LocationData[6].location)
-    } else if (menuName === LocationData[7].name) {
-      navigate(LocationData[7].location)
+    const menuItem = LocationData.find(item => item.name === menuName)
+    if (menuItem) {
+      navigate(menuItem.location)
     }
+    setActiveMenu(menuName)
   }
-
   const goNavigate = ({ url }: NavigateType) => {
     navigate(url)
   }

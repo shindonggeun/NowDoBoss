@@ -6,6 +6,7 @@ import SlimLogoImg from '@src/assets/logo_slim.svg'
 // import BlueLogoImg from '@src/assets/logo_blue.svg'
 import styled from 'styled-components'
 import HeaderDropdown from '@src/common/HeaderDropdown'
+import LogoutContainer from '@src/containers/User/LogoutContainer'
 
 const Container = styled.header`
   height: 68px;
@@ -161,6 +162,7 @@ const Header = () => {
     }
     setActiveMenu(menuName)
   }
+
   const goNavigate = ({ url }: NavigateType) => {
     navigate(url)
   }
@@ -191,12 +193,17 @@ const Header = () => {
 
       <MenuListRight>
         {userLoggedIn ? (
-          <Menu
-            $isActive={activeMenu === '마이페이지'}
-            onClick={() => handleMenuClick('마이페이지')}
-          >
-            마이페이지
-          </Menu>
+          <>
+            <Menu
+              $isActive={activeMenu === '마이페이지'}
+              onClick={() => handleMenuClick('마이페이지')}
+            >
+              마이페이지
+            </Menu>
+            <Menu>
+              <LogoutContainer />
+            </Menu>
+          </>
         ) : (
           ['로그인', '회원가입'].map(menuName => (
             <Menu

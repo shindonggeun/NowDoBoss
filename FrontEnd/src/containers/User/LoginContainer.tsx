@@ -8,7 +8,6 @@ import EmailInputSection from '@src/components/User/LogIn/EmailInputSection'
 import PwInputSection from '@src/components/User/LogIn/PwInputSection'
 import AskSection from '@src/components/User/AskSection'
 import SocialLoginContainer from '@src/containers/User/SocialLoginContainer'
-import LogoutContainer from '@src/containers/User/LogoutContainer'
 import * as u from '@src/containers/User/UserContainerStyle'
 import Swal from 'sweetalert2'
 
@@ -23,8 +22,7 @@ const LoginContainer = () => {
     mutationFn: loginUser,
     onSuccess: res => {
       if (res.dataHeader.successCode === 1) {
-        console.log('로그인실패 : ', res.dataHeader.resultMessage)
-        alert(`로그인 실패 ${res.dataHeader.resultMessage}`)
+        console.log(`로그인 실패 ${res.dataHeader.resultMessage}`)
       } else {
         // 쿠키에 accessToken 저장 (7일 동안 유지)
         const { accessToken } = res.dataBody.tokenInfo
@@ -40,7 +38,7 @@ const LoginContainer = () => {
 
         const Toast = Swal.mixin({
           toast: true,
-          position: 'top-end',
+          position: 'bottom-end',
           showConfirmButton: false,
           timer: 2000,
           timerProgressBar: true,
@@ -79,7 +77,6 @@ const LoginContainer = () => {
         </u.Btn>
         <AskSection title="아직 회원이 아니신가요?" subtitle="Sign up" />
         <SocialLoginContainer state="login" />
-        <LogoutContainer />
       </u.LeftWrap>
       <u.RightWrap />
     </u.Container>

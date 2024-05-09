@@ -18,46 +18,6 @@ import ChattingPage from '@src/pages/ChattingPage'
 import CommunityListPage from '@src/pages/CommunityListPage'
 import { useEffect } from 'react'
 
-// 로그인한 사용자
-const AuthRoutes = () => (
-  <Routes>
-    <Route path="/" element={<MainPage />} />
-    <Route path="/mypage" element={<MyPage />} />
-    <Route path="/community/*" element={<CommunityPage />}>
-      <Route path="list" element={<CommunityListPage />} />
-      <Route path="register" element={<CommunityRegisterPage />} />
-      <Route path=":communityId" element={<CommunityDetailPage />} />
-      <Route path="chatting/:roomId" element={<ChattingPage />} />
-    </Route>
-    <Route path="/status" element={<StatusPage />} />
-    <Route path="/analysis" element={<AnalysisPage />} />
-    <Route path="/recommend" element={<RecommendPage />} />
-    <Route path="/simulation" element={<SimulationPage />} />
-    <Route path="/simulation/report" element={<SimulationReportPage />} />
-  </Routes>
-)
-
-// 로그인 안한 사용자
-const HomeRoutes = () => (
-  <Routes>
-    <Route path="/" element={<MainPage />} />
-    <Route path="/register" element={<SignUpPage />} />
-    <Route path="/login" element={<LoginPage />} />
-    <Route path="/member/loading/:provider" element={<SocialLoadingPage />} />
-    <Route path="/community/*" element={<CommunityPage />}>
-      <Route path="list" element={<CommunityListPage />} />
-      <Route path="register" element={<CommunityRegisterPage />} />
-      <Route path=":communityId" element={<CommunityDetailPage />} />
-      <Route path="chatting/:roomId" element={<ChattingPage />} />
-    </Route>
-    <Route path="/status" element={<StatusPage />} />
-    <Route path="/analysis" element={<AnalysisPage />} />
-    <Route path="/recommend" element={<RecommendPage />} />
-    <Route path="/simulation" element={<SimulationPage />} />
-    <Route path="/simulation/report" element={<SimulationReportPage />} />
-  </Routes>
-)
-
 function App() {
   function setScreenSize() {
     const vh = window.innerHeight * 0.01
@@ -68,13 +28,31 @@ function App() {
     setScreenSize()
   })
 
-  const user = localStorage.getItem('isLogIn') === 'true'
-
   return (
     <CookiesProvider>
       <BrowserRouter>
         <Header />
-        {user ? <AuthRoutes /> : <HomeRoutes />}
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/register" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/member/loading/:provider"
+            element={<SocialLoadingPage />}
+          />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/community/*" element={<CommunityPage />}>
+            <Route path="list" element={<CommunityListPage />} />
+            <Route path="register" element={<CommunityRegisterPage />} />
+            <Route path=":communityId" element={<CommunityDetailPage />} />
+            <Route path="chatting/:roomId" element={<ChattingPage />} />
+          </Route>
+          <Route path="/status" element={<StatusPage />} />
+          <Route path="/analysis" element={<AnalysisPage />} />
+          <Route path="/recommend" element={<RecommendPage />} />
+          <Route path="/simulation" element={<SimulationPage />} />
+          <Route path="/simulation/report" element={<SimulationReportPage />} />
+        </Routes>
       </BrowserRouter>
     </CookiesProvider>
   )

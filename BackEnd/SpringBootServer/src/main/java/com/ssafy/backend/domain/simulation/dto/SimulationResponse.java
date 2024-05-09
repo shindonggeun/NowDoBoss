@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SimulationResponse {
-    // 전체 비용
+    // 전체 비용, 단위: 원
     private Long totalPrice;
 
     // 권리금 관련 데이터

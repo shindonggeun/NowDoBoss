@@ -58,23 +58,6 @@ export type FlowPopulationDataBodyType = {
   ageGenderPercentFootTraffic: AeGenderPercentFootTrafficType
 }
 
-// data type - 상주인구
-export type PopulationInfoType = {
-  totalPopulation: number
-  teenPopulation: number
-  twentyPopulation: number
-  thirtyPopulation: number
-  fortyPopulation: number
-  fiftyPopulation: number
-  sixtyPopulation: number
-}
-
-export type ResidentPopulationDataBodyType = {
-  populationInfo: PopulationInfoType
-  malePercentage: number
-  femalePercentage: number
-}
-
 // data type - 매출분석
 export type TimeSalesInfoType = {
   sales00: number
@@ -184,7 +167,53 @@ export type StoreCountDataBodyType = {
   openAndCloseStoreInfo: OpenAndCloseStoreInfoType
 }
 
-// prop type
+// data type - 상주인구
+export type PopulationInfoType = {
+  totalPopulation: number
+  teenPopulation: number
+  twentyPopulation: number
+  thirtyPopulation: number
+  fortyPopulation: number
+  fiftyPopulation: number
+  sixtyPopulation: number
+}
+
+export type ResidentPopulationDataBodyType = {
+  populationInfo: PopulationInfoType
+  malePercentage: number
+  femalePercentage: number
+}
+
+// data type - 지출내역
+export type AvgIncomeInfoType = {
+  monthAvgIncome: number
+  incomeSectionCode: number
+}
+
+export type AnnualQuarterIncomeInfoType = {
+  periodCode: string
+  totalPrice: number
+}
+
+export type TypeIncomeInfoType = {
+  groceryPrice: number
+  clothesPrice: number
+  medicalPrice: number
+  lifePrice: number
+  trafficPrice: number
+  leisurePrice: number
+  culturePrice: number
+  educationPrice: number
+  luxuryPrice: number
+}
+
+export type ExpenditureDataBodyType = {
+  avgIncomeInfo: AvgIncomeInfoType
+  annualQuarterIncomeInfos: AnnualQuarterIncomeInfoType[]
+  typeIncomeInfo: TypeIncomeInfoType
+}
+
+// props type
 export type SelectContainerPropsType = {
   setIsReady: React.Dispatch<React.SetStateAction<boolean>>
   handleResultButtonClick: () => void
@@ -211,20 +240,22 @@ export type ChoiceServiceDetailPropsType = {
 
 // store type
 export type AnalysisStoreType = {
-  selectedServiceType: string
-  selectedService: SelectedServiceType
-  serviceDataBody: SelectedServiceType[]
-  flowPopulationDataBody: FlowPopulationDataBodyType
-  residentPopulationDataBody: ResidentPopulationDataBodyType
-  salesDataBody: SalesDataBodyType
-  storeCountDataBody: StoreCountDataBodyType
+  selectedServiceType: string // 선택한 업종 대분류
+  selectedService: SelectedServiceType // 선택한 업종 소분류
+  serviceDataBody: SelectedServiceType[] // 업종 API 반환 데이터
+  flowPopulationDataBody: FlowPopulationDataBodyType // 유동인구 API 반환 데이터
+  salesDataBody: SalesDataBodyType // 매출분석 API 반환 데이터
+  storeCountDataBody: StoreCountDataBodyType // 점포수 API 반환 데이터
+  residentPopulationDataBody: ResidentPopulationDataBodyType // 상주인구 API 반환 데이터
+  expenditureDataBody: ExpenditureDataBodyType // 지출내역 API 반환 데이터
   setSelectedServiceType: (serviceType: string) => void
   setSelectedService: (service: SelectedServiceType) => void
   setServiceDataBody: (dataBody: SelectedServiceType[]) => void
   setFlowPopulationDataBody: (dataBody: FlowPopulationDataBodyType) => void
+  setSalesDataBody: (dataBody: SalesDataBodyType) => void
+  setStoreCountDataBody: (dataBody: StoreCountDataBodyType) => void
   setResidentPopulationDataBody: (
     dataBody: ResidentPopulationDataBodyType,
   ) => void
-  setSalesDataBody: (dataBody: SalesDataBodyType) => void
-  setStoreCountDataBody: (dataBody: StoreCountDataBodyType) => void
+  setExpenditureDataBody: (dataBody: ExpenditureDataBodyType) => void
 }

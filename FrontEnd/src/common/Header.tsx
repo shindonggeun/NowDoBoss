@@ -143,6 +143,7 @@ const Header = () => {
   ]
 
   // 경로에 따라 activeMenu 설정
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const activeItem = LocationData.find(
       item => item.location === location.pathname,

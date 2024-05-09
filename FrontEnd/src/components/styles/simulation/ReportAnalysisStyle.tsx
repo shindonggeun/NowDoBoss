@@ -214,3 +214,90 @@ export const CheckIcon = styled.img`
   width: 1.5rem;
   margin-right: 0.8rem;
 `
+
+export const FranchiseHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`
+
+export const FranchiseHeaderLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const FranchiseTitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+export const CheckedIcon = styled.img`
+  width: 1.4rem;
+  margin-right: 0.4rem;
+`
+
+export const SearchIcon = styled.img`
+  width: 1.6rem;
+  margin-left: 0.5rem;
+`
+
+export const FranchiseHeaderTitle = styled.div`
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #191b1e;
+`
+
+export const FranchiseHeaderSubTitle = styled.div`
+  font-size: 0.9rem;
+  color: #30353b;
+  background-color: #fdffc7;
+  padding: 1px 5px;
+`
+
+export const FranchiseHeaderRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`
+
+export const FranchiseTotalPrice = styled.div`
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #d84a34;
+`
+
+export const FranchiseSubPrice = styled.div`
+  font-size: 0.9rem;
+  color: #30353b;
+  background-color: #ffd9d3;
+  padding: 1px 6px;
+`
+
+export const FranchiseContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+`
+
+export const FranchiseBox = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 12rem;
+  padding: 0.2rem 1rem;
+`
+
+export const FranchiseDetailPrice = styled.div`
+  color: #191b1e;
+  font-weight: 600;
+`
+
+export const SeparateLine = styled.div`
+  width: 100%;
+  border: 1px solid #ededed;
+  margin-bottom: 1rem;
+`

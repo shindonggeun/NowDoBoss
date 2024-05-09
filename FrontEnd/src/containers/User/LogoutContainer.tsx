@@ -20,8 +20,6 @@ const LogoutContainer = () => {
       localStorage.removeItem('memberInfo')
       localStorage.removeItem('isLogIn')
 
-      console.log('로그아웃성공! 메인페이지로 리다이렉트합니다.')
-
       // 메인페이지로 리다이렉트
       navigate('/')
     },
@@ -31,7 +29,7 @@ const LogoutContainer = () => {
     LogoutUser()
   }
 
-  return <div onClick={handleLogoutUser}>로그아웃</div>
+  return <p onClick={handleLogoutUser}>로그아웃</p>
 }
 
 export default LogoutContainer

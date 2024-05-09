@@ -70,14 +70,17 @@ dependencies {
 
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
-
-//	implementation fileTree(dir: 'libs', include: ['*.jar']) // libs 폴더의 모든 JAR를 포함
+	// geotools (위도, 경도 변환)
 	implementation 'org.geotools:gt-main:29.2'
 	implementation 'org.geotools:gt-referencing:29.2'
 	implementation 'org.geotools:gt-epsg-hsql:29.2'
 
 	// mongoDB
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+	// flyway (DB 마이그레이션)
+	implementation 'org.flywaydb:flyway-mysql'
+	implementation 'org.flywaydb:flyway-core'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1cf45ef0-d421-4978-8f7e-78a55f3e7c16" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/controller/CommercialController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/controller/CommercialController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/dto/info/CommercialTypeIncomeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/dto/info/CommercialTypeIncomeInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/repository/IncomeCommercialRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/repository/IncomeCommercialRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/service/CommercialService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/service/CommercialService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/service/CommercialServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/service/CommercialServiceImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "feature/be-commercial/income",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>

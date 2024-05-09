@@ -1,8 +1,6 @@
 package com.ssafy.backend.domain.commercial.dto.info;
 
 public record CommercialTypeIncomeInfo(
-        Long monthAvgIncome,
-        Integer incomeSectionCode,
         Long groceryPrice,
         Long clothesPrice,
         Long medicalPrice,

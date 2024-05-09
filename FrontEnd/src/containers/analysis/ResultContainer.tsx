@@ -105,6 +105,7 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
     }
   }, [salesStatus, SalesData]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // 점포 수
   const { data: StoreCountData, status: storeCountStatus } = useQuery({
     queryKey: ['GetStoreCountData', selectedCommercial.code],
     queryFn: () =>

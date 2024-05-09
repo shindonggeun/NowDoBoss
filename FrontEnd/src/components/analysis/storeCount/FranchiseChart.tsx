@@ -4,9 +4,14 @@ import * as s from '@src/components/styles/analysis/StoreCountAnalysisStyle'
 
 const FranchiseChart = () => {
   const selectedService = analysisStore(state => state.selectedService)
+  const storeCountDataBody = analysisStore(state => state.storeCountDataBody)
 
-  const labels = ['프랜차이즈', '일반']
-  const values = [3, 8]
+  const { normalStore, franchiseeStore } =
+    storeCountDataBody.franchiseeStoreInfo
+
+  // 차트 props
+  const labels = ['일반', '프랜차이즈']
+  const values = [normalStore, franchiseeStore]
 
   return (
     <s.FranchiseChart>
@@ -14,7 +19,7 @@ const FranchiseChart = () => {
       <s.ChartSubTitleWrap>
         <s.ChartSubTitle>{selectedService.serviceCodeName}의</s.ChartSubTitle>
         <s.ChartSubTitle>프랜차이즈 점포는</s.ChartSubTitle>
-        <s.ChartSubTitle>00개 있어요.</s.ChartSubTitle>
+        <s.ChartSubTitle>{franchiseeStore}개 있어요.</s.ChartSubTitle>
       </s.ChartSubTitleWrap>
       <HalfDoughnutChart labels={labels} values={values} />
     </s.FranchiseChart>

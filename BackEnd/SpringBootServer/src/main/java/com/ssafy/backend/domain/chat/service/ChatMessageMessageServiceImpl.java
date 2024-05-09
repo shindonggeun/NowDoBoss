@@ -5,12 +5,12 @@ import com.ssafy.backend.domain.chat.dto.request.ChatMessageRequest;
 import com.ssafy.backend.domain.chat.dto.response.ChatMessageResponse;
 import com.ssafy.backend.domain.chat.entity.ChatMessage;
 import com.ssafy.backend.domain.chat.entity.ChatRoom;
-import com.ssafy.backend.domain.chat.entity.ChatRoomMember;
 import com.ssafy.backend.domain.chat.exception.ChatErrorCode;
 import com.ssafy.backend.domain.chat.exception.ChatException;
 import com.ssafy.backend.domain.chat.repository.ChatMessageRepository;
-import com.ssafy.backend.domain.chat.repository.ChatRoomMemberRepository;
 import com.ssafy.backend.domain.chat.repository.ChatRoomRepository;
+import com.ssafy.backend.domain.fcm.dto.request.FcmTopicRequest;
+import com.ssafy.backend.domain.fcm.service.FcmService;
 import com.ssafy.backend.domain.member.entity.Member;
 import com.ssafy.backend.domain.member.exception.MemberErrorCode;
 import com.ssafy.backend.domain.member.exception.MemberException;
@@ -31,6 +31,7 @@ public class ChatMessageMessageServiceImpl implements ChatMessageService {
     private final MemberRepository memberRepository;
     private final KafkaProducer kafkaProducer;
     private final ObjectMapper objectMapper;
+    private final FcmService fcmService;
 
     @Override
     public List<ChatMessageResponse> selectChatMessages(Long chatRoomId, Long lastId) {
@@ -57,12 +58,6 @@ public class ChatMessageMessageServiceImpl implements ChatMessageService {
     }
 
     public void processMessage(ChatMessage chatMessage) {
-        /*if (request.getMessageType() != MessageType.ENTER) {
-            throw new ChatException(ChatErrorCode.INVALID_MESSAGE_TYPE);
-        }*/
-
-        chatMessageRepository.save(chatMessage);
-
         ChatMessageResponse chatMessageResponse = ChatMessageResponse.of(chatMessage);
 
         try {
@@ -74,5 +69,15 @@ public class ChatMessageMessageServiceImpl implements ChatMessageService {
         } catch (Exception ex) {
             throw new ChatException(ChatErrorCode.SAVE_FAILED);
         }
+
+        chatMessageRepository.save(chatMessage);
+
+        // topic : chat.room.{roomId}
+        fcmService.sendMessageByTopic(
+                FcmTopicRequest.builder()
+                        .title(chatMessage.getChatRoom().getName())
+                        .body(chatMessage.getContent())
+                        .topicName("chat.room." + chatMessage.getChatRoom().getId())
+                        .build());
     }
 }

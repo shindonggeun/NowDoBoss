@@ -19,6 +19,9 @@ public class FirebaseConfig {
     @Value("${app.firebase-configuration-file}")
     private String firebaseConfigPath;
 
+    @Value("${app.firebase-project-id}")
+    private String projectId;
+
     private final ResourceLoader resourceLoader;
 
     /**
@@ -53,6 +56,7 @@ public class FirebaseConfig {
     private FirebaseOptions createFirebaseOptions() throws IOException {
         return FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(resourceLoader.getResource(firebaseConfigPath).getInputStream()))
+                .setProjectId(projectId)
                 .build();
     }
 

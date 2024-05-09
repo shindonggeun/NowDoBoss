@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.member.service;
 
+import com.ssafy.backend.domain.fcm.service.FcmService;
 import com.ssafy.backend.domain.member.dto.MemberLoginResponse;
 import com.ssafy.backend.domain.member.entity.Member;
 import com.ssafy.backend.domain.member.repository.MemberRepository;
@@ -22,6 +23,7 @@ public class OAuthServiceImpl implements OAuthService {
     private final OAuthMemberClient oAuthMemberClient;
     private final MemberRepository memberRepository;
     private final JwtTokenService jwtTokenService;
+    private final FcmService fcmService;
 
     @Transactional(readOnly = true)
     @Override
@@ -30,11 +32,12 @@ public class OAuthServiceImpl implements OAuthService {
     }
 
     @Override
-    public MemberLoginResponse loginOAuth(OAuthDomain oAuthDomain, String authCode) {
+    public MemberLoginResponse loginOAuth(OAuthDomain oAuthDomain, String authCode, String deviceToken) {
         Member oauthMember = oAuthMemberClient.fetch(oAuthDomain, authCode);
         Member member = memberRepository.findByEmail(oauthMember.getEmail()).orElseGet(()
                 -> memberRepository.save(oauthMember));
 
+        fcmService.createDeviceToken(member.getId(), deviceToken);
         return jwtTokenService.issueAndSaveJwtToken(member);
     }
 }

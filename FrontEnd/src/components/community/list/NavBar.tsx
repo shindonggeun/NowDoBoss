@@ -1,5 +1,5 @@
 import * as n from '@src/components/styles/community/NavbarStyle'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useCommunityStore, { Category } from '@src/stores/communityStore'
 import chatIcon from '@src/assets/chat_button.svg'
 import { useNavigate } from 'react-router-dom'
@@ -19,15 +19,29 @@ const NavBar = (props: NavBarPropsType) => {
     selectedCategory: state.selectedCategory,
   }))
 
+  const [userId, setUserId] = useState(0)
+  useEffect(() => {
+    const userInfo = window.localStorage.getItem('memberInfo')
+    if (userInfo) {
+      const user = JSON.parse(userInfo)
+      setUserId(user.id)
+    }
+  }, [])
+
   // 선택한 문자열 filter 해서 style prop 하기 위한 값
   const [isChoice, setIsChoice] = useState<string>(
     selectedCategory.name ? selectedCategory.name : '전체보기',
   )
-
-  const { data, isLoading } = useQuery({
+  // TODO 채팅방 새로 들어갔을 때 refetch 로직 추가해야합니다.
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['fetchMyRooms'],
     queryFn: () => fetchMyRooms(),
+    enabled: !!userId,
   })
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   return (
     <n.Container>

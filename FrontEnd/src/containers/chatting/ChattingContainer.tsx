@@ -20,6 +20,7 @@ const ChattingContainer = () => {
 
   // const client = useRef<StompJs.Client | null>(null)
 
+  // TODO 캐싱작업 추가해서 다시 불러오지 말 것
   // 해당 방에 기존에 존재하는 메세지 불러오는 로직
   const { data, isLoading } = useQuery({
     queryKey: ['fetchMessages', roomId],

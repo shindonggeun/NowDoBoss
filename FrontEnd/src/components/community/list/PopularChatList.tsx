@@ -18,7 +18,9 @@ const PopularChatList = ({ category }: { category: string }) => {
   const categories = useCommunityStore(state => state.categories)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [modalOpen, setModalOpen] = useState(false)
+  const [isInfinite, setIsInfinite] = useState(true)
 
+  // 인기 채팅방 불러오는 useQuery
   const { data, isLoading } = useQuery({
     queryKey: ['fetchPopularRoom', category],
     queryFn: () => fetchPopularRoom(category),
@@ -46,12 +48,18 @@ const PopularChatList = ({ category }: { category: string }) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (data && data.dataBody.length < 2) {
+      setIsInfinite(false)
+    }
+  }, [data])
+
   // slider 옆으로 넘기기 위한 ref 상태
   const sliderRef = useRef<Slider | null>(null)
 
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: isInfinite,
     arrows: false,
     speed: 500,
     slidesToShow: getSlidesToShow(),

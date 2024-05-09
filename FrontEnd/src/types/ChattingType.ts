@@ -18,7 +18,7 @@ export type PromiseMessageType = {
   chatRoomId: number
   chatMessageId: number
   content: string
-  createdAt: Date
+  createdAt: string
   senderId: number
   senderNickname: string
   senderProfileImage: string

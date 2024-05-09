@@ -22,7 +22,7 @@ const CommunityListContainer = () => {
     <c.Mid>
       {!isLoading && data ? (
         <c.Div>
-          <PopularChatList category={category.name} />
+          <PopularChatList category={category.value} />
           <ArticleList articleList={data.dataBody} />
         </c.Div>
       ) : (

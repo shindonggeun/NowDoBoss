@@ -10,6 +10,26 @@ export const Container = styled.div`
     height: 57vh;
   }
 `
+export const Div = styled.div``
+export const DateSeparator = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+  font-weight: 500;
+  align-items: center;
+
+  &::before,
+  &::after {
+    content: '';
+    flex-grow: 1;
+    background-color: #d9d9d9;
+    height: 1px;
+    font-size: 0;
+    line-height: 0;
+    margin: 0 16px;
+  }
+`
 export const MessageDiv = styled.div<{ $isMe: boolean }>`
   display: flex;
   flex-direction: row;
@@ -34,10 +54,19 @@ export const SenderName = styled.div<{ $isMe: boolean; $same: boolean }>`
   display: ${props => (props.$isMe || props.$same ? 'none' : '')};
 `
 export const ContentDiv = styled.div``
-export const Content = styled.div<{ $same: boolean }>`
+export const RowDiv = styled.div<{ $isMe: boolean }>`
+  display: flex;
+  flex-direction: ${props => (props.$isMe ? 'row-reverse' : 'row')};
+  justify-content: center;
+  align-items: end;
+`
+export const DateDiv = styled.div`
+  margin: 0 5px;
+`
+export const Content = styled.div<{ $isMe: boolean; $same: boolean }>`
   background-color: #beccff;
   max-width: 60vw;
   border-radius: 5px;
   padding: 5px 10px;
-  margin-left: ${props => (props.$same ? '50px' : '')};
+  margin-left: ${props => (!props.$isMe && props.$same ? '50px' : '')};
 `

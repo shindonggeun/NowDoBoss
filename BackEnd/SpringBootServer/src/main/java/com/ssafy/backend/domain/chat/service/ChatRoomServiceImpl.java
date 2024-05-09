@@ -1,9 +1,9 @@
 package com.ssafy.backend.domain.chat.service;
 
-import com.ssafy.backend.domain.chat.dto.request.ChatMessageRequest;
 import com.ssafy.backend.domain.chat.dto.request.CreateChatRoomRequest;
 import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
-import com.ssafy.backend.domain.chat.dto.response.PopularChatRoomResponse;
+import com.ssafy.backend.domain.chat.dto.response.EnterChatRoomResponse;
+import com.ssafy.backend.domain.chat.dto.response.ChatRoomResponse;
 import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import com.ssafy.backend.domain.chat.entity.ChatMessage;
 import com.ssafy.backend.domain.chat.entity.ChatRoom;
@@ -61,7 +61,12 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     @Override
-    public void enter(Long memberId, Long chatRoomId) {
+    public ChatRoomResponse selectChatRoomDetail(Long chatRoomId) {
+        return chatRoomRepository.selectChatRoomDetail(chatRoomId);
+    }
+
+    @Override
+    public EnterChatRoomResponse enterChatRoom(Long memberId, Long chatRoomId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_MEMBER));
 
@@ -83,10 +88,12 @@ public class ChatRoomServiceImpl implements ChatRoomService {
             ChatMessage enterMessage = ChatMessage.createEnterMessage(member, chatRoom);
             chatMessageService.processMessage(enterMessage);
         }
+
+        return new EnterChatRoomResponse(chatRoomId);
     }
 
     @Override
-    public List<PopularChatRoomResponse> selectPopularChatRoom(String category) {
+    public List<ChatRoomResponse> selectPopularChatRoom(String category) {
         // 채팅방 인원 많은 순으로 조회
         return chatRoomMemberRepository.selectPopularChatRoom(category);
     }

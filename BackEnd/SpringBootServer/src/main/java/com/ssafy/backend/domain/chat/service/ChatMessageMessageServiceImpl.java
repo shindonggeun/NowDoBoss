@@ -10,11 +10,11 @@ import com.ssafy.backend.domain.chat.exception.ChatException;
 import com.ssafy.backend.domain.chat.repository.ChatMessageRepository;
 import com.ssafy.backend.domain.chat.repository.ChatRoomRepository;
 import com.ssafy.backend.global.component.firebase.dto.request.FcmTopicRequest;
-import com.ssafy.backend.domain.fcm.service.FcmService;
 import com.ssafy.backend.domain.member.entity.Member;
 import com.ssafy.backend.domain.member.exception.MemberErrorCode;
 import com.ssafy.backend.domain.member.exception.MemberException;
 import com.ssafy.backend.domain.member.repository.MemberRepository;
+import com.ssafy.backend.global.component.firebase.service.FirebaseService;
 import com.ssafy.backend.global.component.kafka.KafkaChatConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class ChatMessageMessageServiceImpl implements ChatMessageService {
     private final MemberRepository memberRepository;
     private final KafkaProducer kafkaProducer;
     private final ObjectMapper objectMapper;
-    private final FcmService fcmService;
+    private final FirebaseService firebaseService;
 
     @Override
     public List<ChatMessageResponse> selectChatMessages(Long chatRoomId, Long lastId) {
@@ -73,7 +73,7 @@ public class ChatMessageMessageServiceImpl implements ChatMessageService {
         chatMessageRepository.save(chatMessage);
 
         // topic : chat.room.{roomId}
-        fcmService.sendMessageByTopic(
+        firebaseService.sendMessageByTopic(
                 FcmTopicRequest.builder()
                         .title(chatMessage.getChatRoom().getName())
                         .body(chatMessage.getContent())

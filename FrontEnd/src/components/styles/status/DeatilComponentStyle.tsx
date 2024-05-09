@@ -95,13 +95,38 @@ export const AnalysisDataIcon = styled.img`
   width: 1rem;
 `
 
+export const SummaryContainer = styled.div`
+  margin: 1rem 2vw;
+`
+
 export const SummaryTitle = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: #6a6a6a;
+  margin-bottom: 1.5rem;
 `
 
 export const SummaryTitleEmphasis = styled.span`
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-weight: 600;
   color: #5057ff;
+`
+
+export const SummaryEmphasis = styled.span`
+  color: #5057ff;
+`
+
+export const SummaryTextContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+`
+
+export const SummaryList = styled.div`
+  font-size: 1rem;
+  color: #6a6a6a;
+  margin: 0.5rem 0;
+`
+
+export const DotIcon = styled.img`
+  width: 1rem;
 `

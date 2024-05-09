@@ -25,7 +25,7 @@ const BarChart2 = (props: BarChartProps) => {
     labels,
     datasets: [
       {
-        label: '인구(명)',
+        label: '운영일(개월)',
         data: values,
         backgroundColor: ['rgba(4, 191, 218, 0.4)', 'rgba(255, 168, 74, 0.4)'],
         borderColor: ['rgba(4, 191, 218, 1)', 'rgba(255, 168, 74, 1)'],

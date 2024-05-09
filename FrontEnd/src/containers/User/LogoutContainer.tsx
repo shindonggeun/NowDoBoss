@@ -31,7 +31,7 @@ const LogoutContainer = () => {
     LogoutUser()
   }
 
-  return <div onClick={handleLogoutUser}>로그아웃 버튼</div>
+  return <div onClick={handleLogoutUser}>로그아웃</div>
 }
 
 export default LogoutContainer

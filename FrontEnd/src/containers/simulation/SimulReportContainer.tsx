@@ -57,11 +57,11 @@ const SimulReportContainer = () => {
             <c.SplitLine />
             <ReportKeyMoney ReportData={location.state.res.dataBody} />
             <c.SplitLine />
-            <ReportMyGoal ReportData={location.state.res.dataBody} />
-            <c.SplitLine />
             <ReportGender ReportData={location.state.res.dataBody} />
             <c.SplitLine />
             <ReportMonthAnalysis ReportData={location.state.res.dataBody} />
+            <c.SplitLine />
+            <ReportMyGoal ReportData={location.state.res.dataBody} />
             <c.SplitLine />
             <ReportFranchise ReportData={location.state.res.dataBody} />
           </c.Container>

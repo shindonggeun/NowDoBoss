@@ -1,15 +1,18 @@
 package com.ssafy.backend.domain.district.repository;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.district.dto.response.FootTrafficDistrictTopTenResponse;
+import com.ssafy.backend.domain.district.dto.response.OpenedStoreDistrictTopTenResponse;
 import com.ssafy.backend.domain.district.entity.QFootTrafficDistrict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -22,16 +25,13 @@ public class FootTrafficDistrictCustomRepositoryImpl implements FootTrafficDistr
         QFootTrafficDistrict f = QFootTrafficDistrict.footTrafficDistrict;
         QFootTrafficDistrict f2 = new QFootTrafficDistrict("f2");
 
-        JPQLQuery<FootTrafficDistrictTopTenResponse> query = queryFactory
-                .select(Projections.constructor(
-                        FootTrafficDistrictTopTenResponse.class,
-                        f.districtCode,
+        List<Tuple> data = queryFactory
+                .select(f.districtCode,
                         f.districtCodeName,
                         f2.totalFootTraffic.as("total"),
                         (f2.totalFootTraffic.doubleValue().subtract(f.totalFootTraffic.doubleValue()))
-                                .divide(f.totalFootTraffic).multiply(100).as("totalRate"),
-                        Expressions.numberTemplate(Integer.class, "(ROW_NUMBER() OVER(ORDER BY f2.totalFootTraffic DESC) - 1) / 5 + 1").as("level")
-                        ))
+                                .divide(f.totalFootTraffic).multiply(100).as("totalRate")
+                        )
                 .from(f)
                 .join(f2)
                 .on(f.districtCodeName.eq(f2.districtCodeName))
@@ -44,8 +44,24 @@ public class FootTrafficDistrictCustomRepositoryImpl implements FootTrafficDistr
                                         .where(f2.periodCode.eq("20233"))
                                         .orderBy(f2.totalFootTraffic.desc())
                         ))
-                .orderBy(f2.totalFootTraffic.desc());
+                .orderBy(f2.totalFootTraffic.desc())
+                .fetch();
 
-        return query.fetch();
+        List<FootTrafficDistrictTopTenResponse> responses = new ArrayList<>();
+        int level = 0;
+        for (int i = 0; i < data.size(); i++) {
+            if (i % 5 == 0) {
+                level++; // 10개 단위로 level 증가
+            }
+            FootTrafficDistrictTopTenResponse response = new FootTrafficDistrictTopTenResponse(
+                    data.get(i).get(f.districtCode),
+                    data.get(i).get(f.districtCodeName),
+                    data.get(i).get(Expressions.numberPath(Long.class, "total")),
+                    data.get(i).get(Expressions.numberPath(Double.class, "totalRate")),
+                    level
+            );
+            responses.add(response);
+        }
+        return responses;
     }
 }

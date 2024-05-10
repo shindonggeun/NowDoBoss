@@ -1,6 +1,6 @@
-package com.ssafy.backend.domain.simulation.dto;
+package com.ssafy.backend.domain.simulation.dto.request;
 
-public record CreateSimulationRequest(
+public record SimulationRequest(
         // 프랜차이즈 여부
         // if 프랜차이즈 여부 true : 프랜차이즈 브랜드 명 존재
         // if 프랜차이즈 여부 false : 프랜차이즈 브랜드 명 null
@@ -19,7 +19,7 @@ public record CreateSimulationRequest(
         // 매장 크기
         int storeSize,
 
-        // 층수 (1층, 1층 이외)
+        // 층수 (FIRST_FLOOR, ETC)
         String floor
 ) {
 }

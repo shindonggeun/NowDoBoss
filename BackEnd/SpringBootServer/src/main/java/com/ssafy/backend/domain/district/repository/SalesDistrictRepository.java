@@ -1,7 +1,7 @@
 package com.ssafy.backend.domain.district.repository;
 
 import com.ssafy.backend.domain.district.entity.SalesDistrict;
-import com.ssafy.backend.domain.simulation.dto.QuarterSalesInfo;
+import com.ssafy.backend.domain.simulation.dto.info.QuarterSalesInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,7 +17,7 @@ public interface SalesDistrictRepository extends JpaRepository<SalesDistrict, Lo
     Optional<SalesDistrict> findSalesDistrictByOption(String periodCode, String districtCodeName, String serviceCode);
 
 
-    @Query("select  new com.ssafy.backend.domain.simulation.dto.QuarterSalesInfo(s.periodCode, s.monthSales) " +
+    @Query("select  new com.ssafy.backend.domain.simulation.dto.info.QuarterSalesInfo(s.periodCode, s.monthSales) " +
             "from SalesDistrict s " +
             "where s.periodCode like CONCAT(:period, '_') " +
             "and s.districtCodeName = :districtCodeName " +

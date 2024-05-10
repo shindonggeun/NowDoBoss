@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.simulation.dto;
+package com.ssafy.backend.domain.simulation.dto.info;
 
 public record QuarterSalesInfo (
         String periodCode,

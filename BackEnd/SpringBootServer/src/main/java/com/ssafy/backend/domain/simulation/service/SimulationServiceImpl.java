@@ -2,7 +2,14 @@ package com.ssafy.backend.domain.simulation.service;
 
 import com.ssafy.backend.domain.district.entity.SalesDistrict;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
-import com.ssafy.backend.domain.simulation.dto.*;
+import com.ssafy.backend.domain.simulation.document.SimulationDocument;
+import com.ssafy.backend.domain.simulation.dto.info.*;
+import com.ssafy.backend.domain.simulation.dto.request.CreateSimulationRequest;
+import com.ssafy.backend.domain.simulation.dto.request.SimulationRequest;
+import com.ssafy.backend.domain.simulation.dto.request.SearchFranchiseeRequest;
+import com.ssafy.backend.domain.simulation.dto.response.SearchFranchiseeResponse;
+import com.ssafy.backend.domain.simulation.dto.response.SimulationResponse;
+import com.ssafy.backend.domain.simulation.dto.response.StoreResponse;
 import com.ssafy.backend.domain.simulation.entity.Franchisee;
 import com.ssafy.backend.domain.simulation.entity.Rent;
 import com.ssafy.backend.domain.simulation.entity.ServiceType;
@@ -11,6 +18,7 @@ import com.ssafy.backend.domain.simulation.exception.SimulationException;
 import com.ssafy.backend.domain.simulation.repository.FranchiseeRepository;
 import com.ssafy.backend.domain.simulation.repository.RentRepository;
 import com.ssafy.backend.domain.simulation.repository.ServiceRepository;
+import com.ssafy.backend.domain.simulation.repository.SimulationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,6 +39,7 @@ public class SimulationServiceImpl implements SimulationService {
     private final ServiceRepository serviceRepository;
     private final RentRepository rentRepository;
     private final SalesDistrictRepository salesDistrictRepository;
+    private final SimulationRepository simulationRepository;
 
     @Override
     public List<SearchFranchiseeResponse> searchFranchisee(SearchFranchiseeRequest request) {
@@ -62,7 +71,7 @@ public class SimulationServiceImpl implements SimulationService {
     }
 
     @Override
-    public SimulationResponse simulate(CreateSimulationRequest request) {
+    public SimulationResponse simulate(SimulationRequest request) {
         //////////////////////////////////////////////////////////// 전체 비용 계산
         ServiceType serviceType = serviceRepository.findByServiceCode(request.serviceCode())
                 .orElseThrow(() -> new SimulationException(SimulationErrorCode.NOT_EXIST_SERVICE));
@@ -174,4 +183,22 @@ public class SimulationServiceImpl implements SimulationService {
         return GenderAndAgeAnalysisInfo.create(salesDistrict);
     }
 
+    @Override
+    public void createSimulation(Long memberId, CreateSimulationRequest request) {
+        SimulationDocument simulationDocument = SimulationDocument.builder()
+                .memberId(memberId)
+                .totalPrice(request.totalPrice())
+                .isFranchisee(request.isFranchisee())
+                .brandName(request.brandName())
+                .gugun(request.gugun())
+                .serviceCode(request.serviceCode())
+                .serviceCodeName(request.serviceCodeName())
+                .storeSize(request.storeSize())
+                .floor(request.floor())
+                .build();
+
+        if (!simulationRepository.existsBySimulationDocument(simulationDocument)) {
+            simulationRepository.save(simulationDocument);
+        }
+    }
 }

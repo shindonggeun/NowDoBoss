@@ -6,9 +6,13 @@ const Header = styled.div<{ $isOpen: boolean }>`
   flex-direction: row;
   justify-content: space-between;
   padding: 10px 10px 5px 20px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: ${props => (props.$isOpen ? '0' : '5px')};
+  border-bottom-right-radius: ${props => (props.$isOpen ? '0' : '5px')};
+
   border: ${props => (props.$isOpen ? '' : '2px solid #236cff')};
   border-bottom: ${props => (props.$isOpen ? '2px solid #d9d9d9' : '')};
-  border-radius: ${props => (props.$isOpen ? '0' : '5px')};
   background-color: ${props => (props.$isOpen ? '#f2f2f2' : '#236cff')};
   color: ${props => (props.$isOpen ? '#000000' : '#ffffff')};
 

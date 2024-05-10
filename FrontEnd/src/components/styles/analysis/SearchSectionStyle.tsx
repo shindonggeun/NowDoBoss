@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div<{ $isOpen: boolean }>`
-  border: 1px solid #d9d9d9;
+  border: ${props => (props.$isOpen ? '1px solid #d9d9d9' : '')};
   background-color: #ffffff;
   box-shadow: 10px 10px 15px -5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
@@ -15,6 +15,7 @@ export const ContentSlide = styled.div`
   padding: 5px 10px;
   box-sizing: border-box;
   background-color: #ffffff;
+  border-radius: 5px;
 `
 
 export const BtnContainer = styled.div<{ disabled: boolean }>`

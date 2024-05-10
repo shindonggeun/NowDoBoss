@@ -56,7 +56,7 @@ const SelectionStep5 = () => {
   const { mutate: mutateCreateReport } = useMutation({
     mutationFn: reportCreate,
     onSuccess: res => {
-      navigate('/simulation/report', { state: { res } })
+      navigate('/analysis/simulation/report', { state: { res } })
     },
     onError: error => {
       console.error(error)

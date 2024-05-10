@@ -154,7 +154,7 @@ const CommentList = (props: CommentPropsType) => {
                     <c.CommentName>{commentData.writerNickname}</c.CommentName>
                     {/* <m.CommentTime>2024-03-12 16:40</m.CommentTime> */}
                     <c.CommentTime>
-                      {TimeCounting('2024-04-24 4:00:00', TimeOption)}
+                      {TimeCounting(commentData.createdAt, TimeOption)}
                     </c.CommentTime>
                   </c.CommentUser>
                 </c.CommentContainer>

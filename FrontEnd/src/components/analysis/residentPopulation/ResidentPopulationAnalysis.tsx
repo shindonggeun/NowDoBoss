@@ -8,7 +8,7 @@ const ResidentPopulationAnalysis = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
     <div ref={ref}>
       <CategoryTitleCard
-        src="src/assets/resident_population.png"
+        src="/images/resident_population.png"
         title="상주인구"
       />
       <r.FirstLowContainer>

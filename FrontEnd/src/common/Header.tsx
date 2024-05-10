@@ -124,10 +124,10 @@ const Header = () => {
       name: '상권추천',
       location: '/recommend',
     },
-    {
-      name: '창업시뮬레이션',
-      location: '/simulation',
-    },
+    // {
+    //   name: '창업시뮬레이션',
+    //   location: '/simulation',
+    // },
     {
       name: '커뮤니티',
       location: '/community/list',
@@ -176,17 +176,15 @@ const Header = () => {
       <BlankDiv />
 
       <MenuListLeft>
-        {['상권현황', '상권분석', '상권추천', '창업시뮬레이션', '커뮤니티'].map(
-          menuName => (
-            <Menu
-              key={menuName}
-              $isActive={activeMenu === menuName}
-              onClick={() => handleMenuClick(menuName)}
-            >
-              {menuName}
-            </Menu>
-          ),
-        )}
+        {['상권현황', '상권분석', '상권추천', '커뮤니티'].map(menuName => (
+          <Menu
+            key={menuName}
+            $isActive={activeMenu === menuName}
+            onClick={() => handleMenuClick(menuName)}
+          >
+            {menuName}
+          </Menu>
+        ))}
       </MenuListLeft>
 
       <BlankDiv />

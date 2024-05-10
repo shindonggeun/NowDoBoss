@@ -1,5 +1,6 @@
-package com.ssafy.backend.domain.community.dto;
+package com.ssafy.backend.domain.community.dto.request;
 
+import com.ssafy.backend.domain.community.dto.info.ImageInfo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

@@ -1,6 +1,6 @@
 package com.ssafy.backend.domain.community.repository;
 
-import com.ssafy.backend.domain.community.dto.CommentListResponse;
+import com.ssafy.backend.domain.community.dto.response.CommentListResponse;
 
 import java.util.List;
 

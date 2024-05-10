@@ -1,5 +1,6 @@
-package com.ssafy.backend.domain.community.dto;
+package com.ssafy.backend.domain.community.dto.response;
 
+import com.ssafy.backend.domain.community.dto.info.ImageInfo;
 import com.ssafy.backend.domain.community.entity.enums.Category;
 import lombok.*;
 

@@ -12,6 +12,7 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 `
 export const ChatInfo = styled.div`
   display: flex;
@@ -44,5 +45,52 @@ export const More = styled.div`
 
   &:hover {
     cursor: pointer;
+  }
+`
+
+export const MoreModal = styled.div`
+  position: absolute;
+  right: 15px;
+  top: 40px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: flex-end;
+`
+
+export const ModalTriangle = styled.div`
+  width: 15px;
+  height: 15px;
+  background-color: #d9d9d9;
+  border-radius: 2px;
+  transform: rotate(135deg);
+  z-index: 0;
+  margin: 0 6px 0 0;
+`
+
+export const ModalDiv = styled.div`
+  border-radius: 5px;
+  border: 2px solid #dadada;
+  background-color: #dadada;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: -10px 0 0 0;
+  z-index: 2;
+`
+
+export const ModalContent = styled.div`
+  padding: 5px;
+  cursor: pointer;
+  border-bottom: solid 1px #bababa;
+  z-index: 2;
+  &:hover {
+    font-weight: 600;
+  }
+  &:active {
+    font-weight: 700;
   }
 `

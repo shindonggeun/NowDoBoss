@@ -9,7 +9,6 @@ const ReportFranchise = ({
 }: {
   ReportData: SimulationReportType
 }) => {
-  console.log(ReportData.franchisees)
   const MyTotalPrice = ReportData.totalPrice
 
   return (
@@ -24,23 +23,17 @@ const ReportFranchise = ({
       <ContainerBox height={40} />
       {ReportData.franchisees.map((franchise, i) => {
         let formattedNumber
-        if (franchise.totalPrice >= 100000000) {
-          const billions = Math.floor(franchise.totalPrice / 100000000)
-          const millions = Math.floor(
-            (franchise.totalPrice % 100000000) / 10000,
-          ).toFixed(0)
-          formattedNumber = `${billions}억 ${millions.toLocaleString()} 만원`
+        if (franchise.totalPrice >= 10000) {
+          const billions = Math.floor(franchise.totalPrice / 10000)
+          formattedNumber = `${billions}억 ${franchise.totalPrice.toLocaleString()} 만원`
         } else {
-          formattedNumber = `${Math.floor(franchise.totalPrice / 10000).toLocaleString()} 만원`
+          formattedNumber = `${franchise.totalPrice.toLocaleString()} 만원`
         }
         const isUp = MyTotalPrice - franchise.totalPrice >= 0
         const ComparePrice = isUp
-          ? Math.floor(
-              (MyTotalPrice - franchise.totalPrice) / 10000,
-            ).toLocaleString()
-          : Math.floor(
-              (franchise.totalPrice - MyTotalPrice) / 10000,
-            ).toLocaleString()
+          ? (MyTotalPrice - franchise.totalPrice).toLocaleString()
+          : (franchise.totalPrice - MyTotalPrice).toLocaleString()
+
         const CompareData: string = isUp ? '더 낮아요' : '더 높아요'
         const Infos = [
           { name: '가입비', price: franchise.subscription },
@@ -75,7 +68,7 @@ const ReportFranchise = ({
                 <c.FranchiseBox key={index}>
                   <div>{info.name}</div>
                   <c.FranchiseDetailPrice>
-                    {info.price}원
+                    {info.price.toLocaleString()}만원
                   </c.FranchiseDetailPrice>
                 </c.FranchiseBox>
               ))}

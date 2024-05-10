@@ -53,7 +53,7 @@ const SimulReportContainer = () => {
       setSpinner(false)
     }, 2000)
   }, [])
-
+  console.log(location.state.res.dataBody)
   return (
     <div>
       {isOpen && (

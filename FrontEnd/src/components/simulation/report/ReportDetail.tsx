@@ -37,12 +37,11 @@ const ReportDetail = ({ ReportData }: { ReportData: SimulationReportType }) => {
 
   const formattedPrices = DetailPrices.map(price => {
     if (price !== null) {
-      if (price > 100000000) {
-        const billions = Math.floor(price / 100000000)
-        const millions = Math.floor((price % 100000000) / 10000)
-        return `${billions}억 ${millions.toFixed(0)} ${price === 0 ? '원' : '만원'}`
+      if (price > 10000) {
+        const billions = Math.floor(price / 10000)
+        return `${billions}억 ${price.toLocaleString()} ${price === 0 ? '원' : '만원'}`
       }
-      return `${(price / 10000).toFixed(0)} ${price === 0 ? '원' : '만원'}`
+      return `${price.toLocaleString()} ${price === 0 ? '원' : '만원'}`
     }
     return null
   })

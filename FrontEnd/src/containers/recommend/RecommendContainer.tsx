@@ -4,6 +4,9 @@ import KakaoMap from '@src/common/KakaoMap'
 import SearchBar from '@src/components/recommend/SearchBar'
 import RecommendReport from '@src/components/recommend/RecommendReport'
 import ReduceButton from '@src/common/ReduceButton'
+import { useQuery } from '@tanstack/react-query'
+import { recommendCommercial } from '@src/api/recommendApi'
+import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 
 const RecommendContainer = () => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
@@ -43,12 +46,39 @@ const RecommendContainer = () => {
 
   const [isOpen, setIsOpen] = useState<boolean>(true)
 
+  // store에 저장된 구, 동 코드 값 가져올 store
+  const { selectedGoo, selectedDong } = useSelectPlaceStore(state => ({
+    selectedGoo: state.selectedGoo,
+    selectedDong: state.selectedDong,
+  }))
+
+  const [submitData, setSubmitData] = useState({
+    districtCode: 0,
+    administrationCode: 0,
+  })
+
+  useEffect(() => {
+    setSubmitData({
+      // districtCode: selectedGoo.code,
+      districtCode: 11710,
+      administrationCode: 0,
+    })
+  }, [selectedDong.code, selectedGoo.code])
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['recommendCommercial'],
+    queryFn: () => recommendCommercial(submitData),
+    enabled: isSubmit,
+  })
+  // 11710
+  // 11710610
   return (
     <r.Container>
       <r.MapDiv>
         <KakaoMap />
       </r.MapDiv>
       <r.SearchDiv>
+        {/* 서치바 */}
         <r.Search>
           <SearchBar
             setIsSubmit={setIsSubmit}
@@ -60,13 +90,13 @@ const RecommendContainer = () => {
           <ReduceButton isOpen={isOpen} setIsOpen={setIsOpen} />
         </r.ReduceButton>
       </r.SearchDiv>
-      {shouldRender && (
+      {shouldRender && data && !isLoading && (
         <r.Report
           ref={reportRef}
           $isSubmit={isSubmit}
           onAnimationEnd={handleAnimationEnd} // 애니메이션 종료 이벤트 핸들러 추가
         >
-          <RecommendReport setIsSubmit={setIsSubmit} />
+          <RecommendReport setIsSubmit={setIsSubmit} data={data.dataBody} />
         </r.Report>
       )}
     </r.Container>

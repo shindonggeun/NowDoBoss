@@ -5,55 +5,29 @@ import { useState } from 'react'
 import MainButton from '@src/common/MainButton'
 import ThreeBox from '@src/common/ThreeBox'
 import BarChart from '@src/common/BarChart'
-
-const DistrictData = [
-  {
-    id: 1,
-    name: '상권1',
-    placeCountAverage: 12,
-    placeCountCurrent: 10,
-    takeAverage: 350,
-    takeCurrent: 400,
-    closeAverage: 12,
-    closeCurrent: 5,
-  },
-  {
-    id: 2,
-    name: '상권2',
-    placeCountAverage: 23,
-    placeCountCurrent: 15,
-    takeAverage: 750,
-    takeCurrent: 456,
-    closeAverage: 15,
-    closeCurrent: 8,
-  },
-  {
-    id: 3,
-    name: '상권3',
-    placeCountAverage: 36,
-    placeCountCurrent: 42,
-    takeAverage: 754,
-    takeCurrent: 576,
-    closeAverage: 25,
-    closeCurrent: 17,
-  },
-]
+import { RecommendCommercialType } from '@src/types/MapType'
 
 type RecommendReportPropsType = {
   setIsSubmit: React.Dispatch<React.SetStateAction<boolean>>
+  data: RecommendCommercialType[]
 }
 
 const RecommendReport = (props: RecommendReportPropsType) => {
-  const { setIsSubmit } = props
-  const [selectedTab, setSelectedTab] = useState<string>('상권1')
-  const [selectedData, setSelectedData] = useState(DistrictData[0])
+  const { setIsSubmit, data } = props
+  const [selectedTab, setSelectedTab] = useState<string>('')
+  const [selectedData, setSelectedData] = useState(data[0])
 
   const handleTabClick = (name: string) => {
     setSelectedTab(name)
-    const data = DistrictData.find(district => district.name === name)
-    if (data) {
-      setSelectedData(data)
+    const tab = data.find(commercial => commercial.commercialCodeName === name)
+    if (tab) {
+      setSelectedData(tab)
     }
+  }
+
+  const roundNumber = (num: number, decimalPlaces: number) => {
+    const factor = 10 ** decimalPlaces
+    return Math.round(num * factor) / factor
   }
 
   return (
@@ -68,44 +42,67 @@ const RecommendReport = (props: RecommendReportPropsType) => {
           isOpen
         />
         <r.TabBox>
-          {DistrictData.map(district => (
-            <r.Tab
-              key={district.id}
-              $selectedTab={selectedTab === district.name}
-              onClick={() => {
-                handleTabClick(district.name)
-              }}
-            >
-              {district.id}. {district.name}
-            </r.Tab>
-          ))}
+          {data.map((commercial, index) => {
+            return (
+              <r.Tab
+                key={commercial.commercialCode}
+                $selectedTab={selectedTab === commercial.commercialCodeName}
+                onClick={() => {
+                  handleTabClick(commercial.commercialCodeName)
+                }}
+              >
+                {index + 1}. {commercial.commercialCodeName}
+              </r.Tab>
+            )
+          })}
         </r.TabBox>
       </r.FixedHeader>
       <r.Notice>
         해당 보고서에서 제공하는 내용은 <b>추정정보</b>이므로 실제와 다를 수
         있기에, <b>사용자의 책임 하에 활용</b>하시기 바랍니다.
       </r.Notice>
-      <r.Title>{selectedData.name} 비교</r.Title>
+      <r.Title>{selectedData.commercialCodeName} 비교</r.Title>
       <r.MainContent>
         <ThreeBox
-          MainContent="점포수"
-          AroundData={selectedData.placeCountAverage}
-          CurrentData={selectedData.placeCountCurrent}
+          MainContent="유동 인구"
+          AroundData={
+            selectedData.footTrafficCommercialInfo.administrationFootTraffic
+          }
+          CurrentData={selectedData.footTrafficCommercialInfo.myFootTraffic}
+          SeoulData={selectedData.footTrafficCommercialInfo.otherFootTraffic}
+          Unit="명"
+        />
+        <ThreeBox
+          MainContent="점포 수"
+          AroundData={selectedData.storeCommercialInfo.administrationStores}
+          CurrentData={selectedData.storeCommercialInfo.myStores}
+          SeoulData={selectedData.storeCommercialInfo.otherStores}
           Unit="개"
         />
         <ThreeBox
-          MainContent="매출액"
-          AroundData={selectedData.takeAverage}
-          CurrentData={selectedData.takeCurrent}
-          Unit="만원"
-        />
-        <ThreeBox
           MainContent="폐업률"
-          AroundData={selectedData.closeAverage}
-          CurrentData={selectedData.closeCurrent}
+          AroundData={roundNumber(
+            selectedData.closedRateCommercialInfo.administrationClosedRate,
+            2,
+          )}
+          CurrentData={roundNumber(
+            selectedData.closedRateCommercialInfo.myClosedRate,
+            2,
+          )}
+          SeoulData={roundNumber(
+            selectedData.closedRateCommercialInfo.otherClosedRate,
+            2,
+          )}
           Unit="%"
         />
-      </r.MainContent>
+      </r.MainContent>{' '}
+      <ThreeBox
+        MainContent="매출"
+        AroundData={selectedData.salesCommercialInfo.administrationSales / 4}
+        CurrentData={selectedData.salesCommercialInfo.mySales / 4}
+        SeoulData={selectedData.salesCommercialInfo.otherSales / 4}
+        Unit="원"
+      />
       <Divider />
       <r.BlueOcean>
         <r.BlueOceanTitle>블루오션</r.BlueOceanTitle>

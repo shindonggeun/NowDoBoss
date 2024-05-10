@@ -53,7 +53,7 @@ const MainContent = (props: MainContentPropsType) => {
     mutationFn: articleDelete,
     onSuccess: () => {
       // 댓글 삭제 성공 시 댓글 목록 재호출
-      navigate('/community')
+      navigate('/community/list')
       const Toast = Swal.mixin({
         toast: true,
         position: 'bottom-end',

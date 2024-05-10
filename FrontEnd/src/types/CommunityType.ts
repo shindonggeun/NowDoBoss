@@ -56,6 +56,7 @@ export type CommentCreateType = {
 export type CommentDataType = {
   commentId: number
   content: string
+  createdAt: string
   writerId: number
   writerNickname: string
   writerProfileImage: string

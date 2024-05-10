@@ -76,3 +76,30 @@ export type PromiseDongType = {
   dataHeader: DataHeaderType
   dataBody: PromiseDongBody
 }
+
+// 추천받은 상권 데이터 Promise type
+export type RecommendCommercialType = {
+  commercialCode: number
+  commercialCodeName: string
+  salesCommercialInfo: {
+    mySales: number
+    administrationSales: number
+    otherSales: number
+  }
+  footTrafficCommercialInfo: {
+    myFootTraffic: number
+    administrationFootTraffic: number
+    otherFootTraffic: number
+  }
+  storeCommercialInfo: {
+    myStores: number
+    administrationStores: number
+    otherStores: number
+  }
+  closedRateCommercialInfo: {
+    myClosedRate: number
+    administrationClosedRate: number
+    otherClosedRate: number
+  }
+  blueOceanInfo: { string: number }
+}

@@ -41,7 +41,7 @@ public class DistrictServiceImpl implements DistrictService {
     @Override
     public DistrictTopTenResponse getTopTenDistricts() {
         // 유동 인구
-        List<FootTrafficDistrictTopTenResponse> footTrafficInfoList = footTrafficDistrictRepository.getTopTenFootTrafficDistrictByPeriodCode();
+        //List<FootTrafficDistrictTopTenResponse> footTrafficInfoList = footTrafficDistrictRepository.getTopTenFootTrafficDistrictByPeriodCode();
         // 매출
         List<SalesDistrictTopTenResponse> salesInfoList = salesDistrictRepository.getTopTenSalesDistrictByPeriodCode();
         // 개업률
@@ -49,7 +49,7 @@ public class DistrictServiceImpl implements DistrictService {
         // 폐업률
         List<ClosedStoreDistrictTopTenResponse> closedStoreInfoList = storeDistrictRepository.getTopTenClosedStoreDistrictByPeriodCode();
 
-        return new DistrictTopTenResponse(footTrafficInfoList, salesInfoList, openedStoreInfoList, closedStoreInfoList);
+        return new DistrictTopTenResponse(null, salesInfoList, openedStoreInfoList, closedStoreInfoList);
     }
 
     @Override

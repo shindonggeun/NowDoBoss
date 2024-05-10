@@ -25,7 +25,7 @@ public class FootTrafficDistrictCustomRepositoryImpl implements FootTrafficDistr
         QFootTrafficDistrict f = QFootTrafficDistrict.footTrafficDistrict;
         QFootTrafficDistrict f2 = new QFootTrafficDistrict("f2");
 
-        List<Tuple> data = queryFactory
+        List<Tuple> datas = queryFactory
                 .select(f.districtCode,
                         f.districtCodeName,
                         f2.totalFootTraffic.as("total"),
@@ -49,18 +49,18 @@ public class FootTrafficDistrictCustomRepositoryImpl implements FootTrafficDistr
 
         List<FootTrafficDistrictTopTenResponse> responses = new ArrayList<>();
         int level = 0;
-        for (int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < datas.size(); i++) {
             if (i % 5 == 0) {
                 level++; // 10개 단위로 level 증가
             }
-            FootTrafficDistrictTopTenResponse response = new FootTrafficDistrictTopTenResponse(
-                    data.get(i).get(f.districtCode),
-                    data.get(i).get(f.districtCodeName),
-                    data.get(i).get(Expressions.numberPath(Long.class, "total")),
-                    data.get(i).get(Expressions.numberPath(Double.class, "totalRate")),
+            FootTrafficDistrictTopTenResponse responseDto = new FootTrafficDistrictTopTenResponse(
+                    datas.get(i).get(f.districtCode),
+                    datas.get(i).get(f.districtCodeName),
+                    datas.get(i).get(Expressions.numberPath(Long.class, "total")),
+                    datas.get(i).get(Expressions.numberPath(Double.class, "totalRate")),
                     level
             );
-            responses.add(response);
+            responses.add(responseDto);
         }
         return responses;
     }

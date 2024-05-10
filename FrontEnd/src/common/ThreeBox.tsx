@@ -40,6 +40,7 @@ export const ComparisonBox = styled.div<{ $whatNumber: number }>`
     font-size: 0.75rem;
   }
 `
+
 export const ComparisonData = styled.div`
   display: flex;
   flex-direction: row;
@@ -57,36 +58,70 @@ export const Content = styled.div`
 
 type ThreeBoxPropsType = {
   MainContent: string
-  AroundData: number
   CurrentData: number
+  AroundData: number
+  SeoulData: number
   Unit: string
 }
 
 const ThreeBox = (props: ThreeBoxPropsType) => {
-  const { MainContent, AroundData, CurrentData, Unit } = props
+  const { MainContent, CurrentData, AroundData, SeoulData, Unit } = props
   // 해당 상권 - 지역구 평균
   const DifferenceOfValue = CurrentData - AroundData
+
+  // 단위 수정
+  const formatKRW = (number: number) => {
+    const isNegative = number < 0 // 음수인지 확인
+    const absNumber = Math.abs(number) // 절대값 취하기
+
+    let formattedNumber = ''
+    if (absNumber < 1e4) {
+      formattedNumber = `${absNumber}`
+    } else if (absNumber < 1e8) {
+      formattedNumber = `${(absNumber / 1e4).toFixed(0)}만`
+    } else {
+      const billion = Math.floor(absNumber / 1e8)
+      const million = ((absNumber % 1e8) / 1e4).toFixed(0)
+      if (million === '0') {
+        formattedNumber = `${billion}억`
+      } else {
+        formattedNumber = `${billion}억 ${million}만`
+      }
+    }
+
+    // 음수인 경우 결과에 '-' 추가
+    return isNegative ? `-${formattedNumber}` : formattedNumber
+  }
+
   return (
     <ComparisonContainer>
       <ComparisonTitle>{MainContent}</ComparisonTitle>
+
       <ComparisonBox $whatNumber={1}>
-        00동 평균 {MainContent}
+        서울시 평균 {MainContent}
         <ComparisonData>
-          <Content>{AroundData}</Content>
+          <Content>{formatKRW(SeoulData)}</Content>
           {Unit}
         </ComparisonData>
       </ComparisonBox>
       <ComparisonBox $whatNumber={2}>
-        00상권 {MainContent}
+        해당 동 평균 {MainContent}
         <ComparisonData>
-          <Content>{CurrentData}</Content>
+          <Content>{formatKRW(AroundData)}</Content>
           {Unit}
         </ComparisonData>
       </ComparisonBox>
-      <ComparisonBox $whatNumber={3}>
+      <ComparisonBox $whatNumber={1}>
+        00상권 {MainContent}
+        <ComparisonData>
+          <Content>{formatKRW(CurrentData)}</Content>
+          {Unit}
+        </ComparisonData>
+      </ComparisonBox>
+      <ComparisonBox $whatNumber={2}>
         타 상권 대비 {MainContent}
         <ComparisonData>
-          <Content>{DifferenceOfValue}</Content>
+          <Content>{formatKRW(DifferenceOfValue)}</Content>
           {Unit}
         </ComparisonData>
       </ComparisonBox>

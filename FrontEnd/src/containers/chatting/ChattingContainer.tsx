@@ -8,7 +8,7 @@ import { MessageType, PromiseMessageType } from '@src/types/ChattingType'
 import { connectStompClient } from '@src/util/chat/stompClient'
 import { Client, Frame } from 'webstomp-client'
 import { useQuery } from '@tanstack/react-query'
-import { fetchMessages } from '@src/api/chattingApi'
+import { fetchMessages, fetchRoomDetail } from '@src/api/chattingApi'
 
 const ChattingContainer = () => {
   // 현재 이동한 방 id 받기
@@ -20,22 +20,31 @@ const ChattingContainer = () => {
 
   // const client = useRef<StompJs.Client | null>(null)
 
-  // TODO 캐싱작업 추가해서 다시 불러오지 말 것
+  // useEffect(() => {
+  //   setMessages([])
+  // }, [roomId])
+
   // 해당 방에 기존에 존재하는 메세지 불러오는 로직
-  const { data, isLoading } = useQuery({
+  const { data: messagesData, isLoading: messagesIsLoading } = useQuery({
     queryKey: ['fetchMessages', roomId],
     queryFn: () => fetchMessages(Number(roomId)),
   })
 
+  // 해당 방 정보 불러오는 로직
+  const { data: roomData, isLoading: roomIsLoading } = useQuery({
+    queryKey: ['fetchRoomDetail', roomId],
+    queryFn: () => fetchRoomDetail(Number(roomId)),
+  })
+
   // 존재하는 메세지를 messages에 담는 로직
   useEffect(() => {
-    if (data) {
-      data.dataBody.reverse().map((message: PromiseMessageType) => {
+    if (messagesData) {
+      messagesData.dataBody.reverse().map((message: PromiseMessageType) => {
         setMessages(prevMessages => [...prevMessages, message])
         return ''
       })
     }
-  }, [data])
+  }, [messagesData])
 
   // 로그인 된 사용자 id 값 받기
   useEffect(() => {
@@ -116,6 +125,7 @@ const ChattingContainer = () => {
 
     // 컴포넌트 언마운트 시 클라이언트 연결 해제
     return () => {
+      // setMessages([])
       if (client) {
         client.disconnect()
       }
@@ -124,9 +134,9 @@ const ChattingContainer = () => {
 
   return (
     <c.Div>
-      {data && !isLoading && (
+      {messagesData && !messagesIsLoading && roomData && !roomIsLoading && (
         <c.Div>
-          <ChattingHeader />
+          <ChattingHeader roomData={roomData.dataBody} />
           <ChattingBody messages={messages} userId={userId} />
           <ChattingInput onSend={content => sendMessage('TALK', content)} />
         </c.Div>

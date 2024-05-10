@@ -20,6 +20,10 @@ import static com.ssafy.backend.domain.simulation.entity.QServiceType.*;
 @Repository
 @RequiredArgsConstructor
 public class FranchiseeCustomRepositoryImpl implements FranchiseeCustomRepository {
+    private static final int TEN_THOUSAND_MULTIPLIER = 10000;
+    private static final int THOUSAND_MULTIPLIER = 1000;
+    private static final int TEN = 10;
+
     private final JPAQueryFactory queryFactory;
 
     @Override
@@ -68,11 +72,11 @@ public class FranchiseeCustomRepositoryImpl implements FranchiseeCustomRepositor
     @Override
     public List<FranchiseeInfo> findByServiceCode(long franchiseePrice, long totalPrice, String serviceCode) {
         // 합계를 계산하는 표현식
-        NumberExpression<Integer> totalCost = franchisee.subscription.multiply(1000)
-                .add(franchisee.education.multiply(1000))
-                .add(franchisee.deposit.multiply(1000))
-                .add(franchisee.etc.multiply(1000))
-                .add(franchisee.interior.multiply(1000))
+        NumberExpression<Integer> totalCost = franchisee.subscription.multiply(THOUSAND_MULTIPLIER)
+                .add(franchisee.education.multiply(THOUSAND_MULTIPLIER))
+                .add(franchisee.deposit.multiply(THOUSAND_MULTIPLIER))
+                .add(franchisee.etc.multiply(THOUSAND_MULTIPLIER))
+                .add(franchisee.interior.multiply(THOUSAND_MULTIPLIER))
                 .add(ConstantImpl.create(franchiseePrice));
 
         // 합계와 주어진 totalPrice의 차이의 절대값을 계산하는 표현식
@@ -80,13 +84,13 @@ public class FranchiseeCustomRepositoryImpl implements FranchiseeCustomRepositor
 
         return queryFactory
                 .select(Projections.constructor(FranchiseeInfo.class,
-                        totalCost,
+                        totalCost.divide(TEN_THOUSAND_MULTIPLIER),
                         franchisee.brandName,
-                        franchisee.subscription.multiply(1000),
-                        franchisee.education.multiply(1000),
-                        franchisee.deposit.multiply(1000),
-                        franchisee.etc.multiply(1000),
-                        franchisee.interior.multiply(1000)))
+                        franchisee.subscription.divide(TEN),
+                        franchisee.education.divide(TEN),
+                        franchisee.deposit.divide(TEN),
+                        franchisee.etc.divide(TEN),
+                        franchisee.interior.divide(TEN)))
                 .from(franchisee)
                 .orderBy(difference.asc())
                 .limit(5)

@@ -13,7 +13,6 @@ export type NavBarPropsType = {
 const NavBar = (props: NavBarPropsType) => {
   const { setCategory, category } = props
   const navigate = useNavigate()
-
   // const location = useLocation()
   //
   // 채팅페이지인지 확인
@@ -42,7 +41,7 @@ const NavBar = (props: NavBarPropsType) => {
   const [isChoice, setIsChoice] = useState<string>(
     selectedCategory.name ? selectedCategory.name : '전체보기',
   )
-  // TODO 채팅방 새로 들어갔을 때 refetch 로직 추가해야합니다.
+
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['fetchMyRooms'],
     queryFn: () => fetchMyRooms(),
@@ -50,32 +49,34 @@ const NavBar = (props: NavBarPropsType) => {
   })
 
   useEffect(() => {
-    refetch()
-  }, [refetch, category])
+    if (userId) {
+      refetch()
+    }
+  }, [refetch, userId, category])
 
   return (
     <n.Container>
       <n.Community>
         <n.Title>커뮤니티</n.Title>
-        {categories.map(category => (
+        {categories.map(navCategory => (
           <n.Category
-            key={category.name}
-            $isChoice={isChoice === category.name}
+            key={navCategory.name}
+            $isChoice={isChoice === navCategory.name}
             onClick={() => {
-              setIsChoice(category.name)
-              setCategory(category)
+              setIsChoice(navCategory.name)
+              setCategory(navCategory)
               navigate('/community/list')
             }}
           >
             <n.Icon
               src={
-                isChoice === category.name
-                  ? category.iconActive
-                  : category.iconInactive
+                isChoice === navCategory.name
+                  ? navCategory.iconActive
+                  : navCategory.iconInactive
               }
               alt=""
             />
-            <n.Text>{category.name}</n.Text>
+            <n.Text>{navCategory.name}</n.Text>
           </n.Category>
         ))}
       </n.Community>

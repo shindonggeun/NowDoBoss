@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.simulation.dto;
+package com.ssafy.backend.domain.simulation.dto.info;
 
 import com.ssafy.backend.domain.district.entity.SalesDistrict;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.simulation.dto;
+package com.ssafy.backend.domain.simulation.dto.response;
 
 public record SearchFranchiseeResponse(
         Long franchiseeId,

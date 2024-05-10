@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.community.dto;
+package com.ssafy.backend.domain.community.dto.response;
 
 import java.time.LocalDateTime;
 

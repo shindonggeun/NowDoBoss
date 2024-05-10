@@ -1,7 +1,7 @@
 package com.ssafy.backend.domain.community.repository;
 
-import com.ssafy.backend.domain.community.dto.CommunityListResponse;
-import com.ssafy.backend.domain.community.dto.CommunityDetailResponse;
+import com.ssafy.backend.domain.community.dto.response.CommunityListResponse;
+import com.ssafy.backend.domain.community.dto.response.CommunityDetailResponse;
 
 import java.util.List;
 

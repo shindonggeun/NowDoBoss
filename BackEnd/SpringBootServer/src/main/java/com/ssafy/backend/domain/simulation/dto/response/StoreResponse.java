@@ -1,5 +1,6 @@
-package com.ssafy.backend.domain.simulation.dto;
+package com.ssafy.backend.domain.simulation.dto.response;
 
+import com.ssafy.backend.domain.simulation.dto.info.SizeInfo;
 import lombok.Builder;
 
 @Builder

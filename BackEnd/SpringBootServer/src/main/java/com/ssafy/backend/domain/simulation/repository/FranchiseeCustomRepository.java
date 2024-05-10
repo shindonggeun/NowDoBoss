@@ -1,8 +1,8 @@
 package com.ssafy.backend.domain.simulation.repository;
 
-import com.ssafy.backend.domain.simulation.dto.FranchiseeInfo;
-import com.ssafy.backend.domain.simulation.dto.SearchFranchiseeRequest;
-import com.ssafy.backend.domain.simulation.dto.SearchFranchiseeResponse;
+import com.ssafy.backend.domain.simulation.dto.info.FranchiseeInfo;
+import com.ssafy.backend.domain.simulation.dto.request.SearchFranchiseeRequest;
+import com.ssafy.backend.domain.simulation.dto.response.SearchFranchiseeResponse;
 
 import java.util.List;
 

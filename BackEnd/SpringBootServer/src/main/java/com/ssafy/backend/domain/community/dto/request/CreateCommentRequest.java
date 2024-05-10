@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.community.dto;
+package com.ssafy.backend.domain.community.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 

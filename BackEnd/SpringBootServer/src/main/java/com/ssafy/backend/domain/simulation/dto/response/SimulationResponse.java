@@ -1,5 +1,6 @@
-package com.ssafy.backend.domain.simulation.dto;
+package com.ssafy.backend.domain.simulation.dto.response;
 
+import com.ssafy.backend.domain.simulation.dto.info.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

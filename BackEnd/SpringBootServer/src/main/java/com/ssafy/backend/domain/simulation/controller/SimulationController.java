@@ -4,6 +4,7 @@ import com.ssafy.backend.domain.simulation.dto.request.SimulationRequest;
 import com.ssafy.backend.domain.simulation.dto.request.SearchFranchiseeRequest;
 import com.ssafy.backend.domain.simulation.dto.request.CreateSimulationRequest;
 import com.ssafy.backend.domain.simulation.dto.response.SearchFranchiseeResponse;
+import com.ssafy.backend.domain.simulation.dto.response.SimulationDocumentResponse;
 import com.ssafy.backend.domain.simulation.dto.response.SimulationResponse;
 import com.ssafy.backend.domain.simulation.dto.response.StoreResponse;
 import com.ssafy.backend.domain.simulation.service.SimulationService;
@@ -59,10 +60,22 @@ public class SimulationController {
     )
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity createSimulation(@AuthenticationPrincipal MemberLoginActive loginActive,
+    public ResponseEntity<Message<Void>> createSimulation(@AuthenticationPrincipal MemberLoginActive loginActive,
                                            @RequestBody CreateSimulationRequest request) {
 
         simulationService.createSimulation(loginActive.id(), request);
         return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "내 창업 시뮬레이션 결과 목록 조회",
+            description = "내 창업 시뮬레이션 결과 목록을 조회하는 기능입니다."
+    )
+    @GetMapping
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<List<SimulationDocumentResponse>>> selectSimulation(@AuthenticationPrincipal MemberLoginActive loginActive) {
+
+        List<SimulationDocumentResponse> response = simulationService.selectSimulation(loginActive.id());
+        return ResponseEntity.ok().body(Message.success(response));
     }
 }

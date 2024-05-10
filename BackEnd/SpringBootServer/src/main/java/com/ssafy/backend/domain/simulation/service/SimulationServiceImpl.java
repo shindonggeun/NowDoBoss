@@ -8,6 +8,7 @@ import com.ssafy.backend.domain.simulation.dto.request.CreateSimulationRequest;
 import com.ssafy.backend.domain.simulation.dto.request.SimulationRequest;
 import com.ssafy.backend.domain.simulation.dto.request.SearchFranchiseeRequest;
 import com.ssafy.backend.domain.simulation.dto.response.SearchFranchiseeResponse;
+import com.ssafy.backend.domain.simulation.dto.response.SimulationDocumentResponse;
 import com.ssafy.backend.domain.simulation.dto.response.SimulationResponse;
 import com.ssafy.backend.domain.simulation.dto.response.StoreResponse;
 import com.ssafy.backend.domain.simulation.entity.Franchisee;
@@ -200,5 +201,12 @@ public class SimulationServiceImpl implements SimulationService {
         if (!simulationRepository.existsBySimulationDocument(simulationDocument)) {
             simulationRepository.save(simulationDocument);
         }
+    }
+
+    @Override
+    public List<SimulationDocumentResponse> selectSimulation(Long memberId) {
+        return simulationRepository.findByMemberId(memberId).stream().map(
+                s -> new SimulationDocumentResponse(s)
+        ).toList();
     }
 }

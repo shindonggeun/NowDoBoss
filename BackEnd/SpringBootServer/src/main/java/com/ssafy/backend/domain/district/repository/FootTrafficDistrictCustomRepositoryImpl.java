@@ -27,7 +27,7 @@ public class FootTrafficDistrictCustomRepositoryImpl implements FootTrafficDistr
                         FootTrafficDistrictTopTenResponse.class,
                         f.districtCode,
                         f.districtCodeName,
-                        f2.totalFootTraffic,
+                        f2.totalFootTraffic.as("total"),
                         (f2.totalFootTraffic.doubleValue().subtract(f.totalFootTraffic.doubleValue()))
                                 .divide(f.totalFootTraffic).multiply(100).as("totalRate"),
                         Expressions.numberTemplate(Integer.class, "(ROW_NUMBER() OVER(ORDER BY f2.totalFootTraffic DESC) - 1) / 5 + 1").as("level")

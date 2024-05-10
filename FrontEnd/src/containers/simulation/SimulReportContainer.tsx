@@ -1,5 +1,5 @@
 import * as c from '@src/components/styles/simulation/SelectionStyle'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import useSimulationStore from '@src/stores/simulationStore'
 import useReportStore from '@src/stores/reportStore'
@@ -11,6 +11,7 @@ import ReportMonthAnalysis from '@src/components/simulation/report/ReportMonthAn
 import ReportKeyMoney from '@src/components/simulation/report/ReportKeyMoney'
 import ReportMyGoal from '@src/components/simulation/report/ReportMyGoal'
 import ReportFranchise from '@src/components/simulation/report/ReportFranchise'
+import SearchLoading from '@src/common/SearchLoading'
 
 const SimulReportContainer = () => {
   const {
@@ -46,24 +47,37 @@ const SimulReportContainer = () => {
     resetButton()
   }
 
+  const [spinner, setSpinner] = useState(true)
+  useEffect(() => {
+    setTimeout(() => {
+      setSpinner(false)
+    }, 2000)
+  }, [])
+
   return (
     <div>
       {isOpen && (
         <c.Overlay>
           <c.Container>
             <ReportHeader onClose={onClose} />
-            <ReportSummary ReportData={location.state.res.dataBody} />
-            <ReportDetail ReportData={location.state.res.dataBody} />
-            <c.SplitLine />
-            <ReportKeyMoney ReportData={location.state.res.dataBody} />
-            <c.SplitLine />
-            <ReportGender ReportData={location.state.res.dataBody} />
-            <c.SplitLine />
-            <ReportMonthAnalysis ReportData={location.state.res.dataBody} />
-            <c.SplitLine />
-            <ReportMyGoal ReportData={location.state.res.dataBody} />
-            <c.SplitLine />
-            <ReportFranchise ReportData={location.state.res.dataBody} />
+            {spinner ? (
+              <SearchLoading />
+            ) : (
+              <c.FadeInContainer>
+                <ReportSummary ReportData={location.state.res.dataBody} />
+                <ReportDetail ReportData={location.state.res.dataBody} />
+                <c.SplitLine />
+                <ReportKeyMoney ReportData={location.state.res.dataBody} />
+                <c.SplitLine />
+                <ReportGender ReportData={location.state.res.dataBody} />
+                <c.SplitLine />
+                <ReportMonthAnalysis ReportData={location.state.res.dataBody} />
+                <c.SplitLine />
+                <ReportMyGoal ReportData={location.state.res.dataBody} />
+                <c.SplitLine />
+                <ReportFranchise ReportData={location.state.res.dataBody} />
+              </c.FadeInContainer>
+            )}
           </c.Container>
         </c.Overlay>
       )}

@@ -25,6 +25,7 @@ import java.util.List;
 public class SimulationServiceImpl implements SimulationService {
     private static final double SQUARE_METER_CONVERSION = 3.3;
     private static final int THOUSAND_MULTIPLIER = 1000;
+    private static final int TEN_THOUSAND_MULTIPLIER = 10000;
 
     private final FranchiseeRepository franchiseeRepository;
     private final ServiceRepository serviceRepository;
@@ -106,10 +107,14 @@ public class SimulationServiceImpl implements SimulationService {
                 .keyMoneyLevel(serviceType.getKeyMoneyLevel())
                 .build();
 
+        if (totalLevy != null) {
+            totalLevy /= TEN_THOUSAND_MULTIPLIER;
+        }
+
         DetailInfo detailInfo = DetailInfo.builder()
-                .rentPrice(rentPrice)
-                .deposit(deposit)
-                .interior(totalInterior)
+                .rentPrice(rentPrice/TEN_THOUSAND_MULTIPLIER)
+                .deposit(deposit/TEN_THOUSAND_MULTIPLIER)
+                .interior(totalInterior/TEN_THOUSAND_MULTIPLIER)
                 .levy(totalLevy)
                 .build();
 
@@ -122,13 +127,13 @@ public class SimulationServiceImpl implements SimulationService {
         MonthAnalysisInfo monthAnalysisInfo = analyzePeakAndOffPeak(request.gugun(), request.serviceCode());
 
         //////////////////////////////////////////////////////////// 프랜차이즈 상위 5개 비교
-        // 비용 >> 보증금 + 임대료 + 아래 내용
+        // 비용(원) >> 보증금 + 임대료 + 아래 내용
         long franchiseePrice = rentPrice + deposit;
 
         List<FranchiseeInfo> franchisees = franchiseeRepository.findByServiceCode(franchiseePrice, totalPrice, request.serviceCode());
 
         return SimulationResponse.builder()
-                .totalPrice(totalPrice) // 원
+                .totalPrice(totalPrice/TEN_THOUSAND_MULTIPLIER) // 원
                 .keyMoneyInfo(keyMoneyInfo)
                 .detail(detailInfo)
                 .franchisees(franchisees)

@@ -12,6 +12,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class GenderAndAgeAnalysisInfo {
+    private static final int TEN_THOUSAND_MULTIPLIER = 10000;
+
     // 남성 매출 금액 비율
     private Float maleSalesPercent;
     // 여성 매출 금액 비율
@@ -65,11 +67,11 @@ public class GenderAndAgeAnalysisInfo {
     @Getter
     @NoArgsConstructor
     private static class Age implements Comparable<Age> {
-        private Long sales; // 단위: 원
+        private Long sales; // 단위: 만원
         private String name;
 
         public Age(Long sales, String name) {
-            this.sales = sales;
+            this.sales = sales / TEN_THOUSAND_MULTIPLIER;
             this.name = name;
         }
 

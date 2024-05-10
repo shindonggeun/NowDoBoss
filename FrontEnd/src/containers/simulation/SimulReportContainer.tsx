@@ -1,6 +1,6 @@
 import * as c from '@src/components/styles/simulation/SelectionStyle'
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import useSimulationStore from '@src/stores/simulationStore'
 import useReportStore from '@src/stores/reportStore'
 import ReportSummary from '@src/components/simulation/report/ReportSummary'
@@ -40,10 +40,12 @@ const SimulReportContainer = () => {
   }
 
   const [isOpen, setIsOpen] = useState(true)
+  const navigate = useNavigate()
 
   const onClose = () => {
     setIsOpen(false)
     resetButton()
+    navigate('/analysis')
   }
 
   return (

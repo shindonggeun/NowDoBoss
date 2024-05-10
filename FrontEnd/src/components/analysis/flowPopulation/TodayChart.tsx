@@ -55,7 +55,7 @@ const TodayChart = () => {
   return (
     <f.TodayChart>
       <f.TodayTopContainer>
-        <f.IconImg src="src/assets/flow_population.png" alt="flow_population" />
+        <f.IconImg src="/images/flow_population.png" alt="flow_population" />
         <f.Title>일일 평균 유동인구는 {dailyAverage} 명 입니다.</f.Title>
       </f.TodayTopContainer>
       <f.Divider />

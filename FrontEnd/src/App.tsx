@@ -41,17 +41,23 @@ function App() {
             element={<SocialLoadingPage />}
           />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/status" element={<StatusPage />} />
+          <Route path="/analysis" element={<AnalysisPage />}>
+            <Route path="simulation" element={<SimulationPage />} />
+            <Route
+              path="simulation/report"
+              element={<SimulationReportPage />}
+            />
+          </Route>
+          <Route path="/recommend" element={<RecommendPage />} />
+          <Route path="/simulation" element={<SimulationPage />} />
+          <Route path="/simulation/report" element={<SimulationReportPage />} />
           <Route path="/community/*" element={<CommunityPage />}>
             <Route path="list" element={<CommunityListPage />} />
             <Route path="register" element={<CommunityRegisterPage />} />
             <Route path=":communityId" element={<CommunityDetailPage />} />
             <Route path="chatting/:roomId" element={<ChattingPage />} />
           </Route>
-          <Route path="/status" element={<StatusPage />} />
-          <Route path="/analysis" element={<AnalysisPage />} />
-          <Route path="/recommend" element={<RecommendPage />} />
-          <Route path="/simulation" element={<SimulationPage />} />
-          <Route path="/simulation/report" element={<SimulationReportPage />} />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

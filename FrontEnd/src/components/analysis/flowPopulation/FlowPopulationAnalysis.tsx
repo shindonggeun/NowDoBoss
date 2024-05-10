@@ -9,10 +9,7 @@ import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
 const FlowPopulationAnalysis = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
     <div ref={ref}>
-      <CategoryTitleCard
-        src="src/assets/flow_population.png"
-        title="유동인구"
-      />
+      <CategoryTitleCard src="/images/flow_population.png" title="유동인구" />
       <f.FirstLowContainer>
         <TodayChart />
         <WeekChart />

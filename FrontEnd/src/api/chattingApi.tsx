@@ -35,21 +35,23 @@ export const fetchMyRooms = async () => {
 
 // 인기 채팅방 목록 조회 get api
 export const fetchPopularRoom = async (category: string) => {
-  return (
-    customAxios
-      .get(`/chat-rooms/popular-room?category=${category}`)
-      // .get(`/chat-rooms/popular-room?${category}`)
-      .then(res => res.data)
-      .catch(err => console.log(err))
-  )
+  return customAxios
+    .get(`/chat-rooms/popular-room?category=${category}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
 }
 // 채팅방 상세 조회 get api
 export const fetchRoomDetail = async (chatRoomId: number) => {
-  return (
-    customAxios
-      .get(`/chat-rooms/${chatRoomId}`)
-      // .get(`/chat-rooms/popular-room?${category}`)
-      .then(res => res.data)
-      .catch(err => console.log(err))
-  )
+  return customAxios
+    .get(`/chat-rooms/${chatRoomId}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 채팅방 나가기 delete api
+export const roomExit = async (chatRoomId: number) => {
+  return customAxios
+    .delete(`/chat-rooms/${chatRoomId}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
 }

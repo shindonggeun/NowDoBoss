@@ -58,6 +58,7 @@ public class ChatMessageMessageServiceImpl implements ChatMessageService {
     }
 
     public void processMessage(ChatMessage chatMessage) {
+        chatMessageRepository.save(chatMessage);
         ChatMessageResponse chatMessageResponse = ChatMessageResponse.of(chatMessage);
 
         try {
@@ -69,8 +70,6 @@ public class ChatMessageMessageServiceImpl implements ChatMessageService {
         } catch (Exception ex) {
             throw new ChatException(ChatErrorCode.SAVE_FAILED);
         }
-
-        chatMessageRepository.save(chatMessage);
 
         // topic : chat.room.{roomId}
         firebaseService.sendMessageByTopic(

@@ -1,20 +1,19 @@
 package com.ssafy.backend.domain.commercial.service;
 
+import com.ssafy.backend.domain.administration.entity.SalesAdministration;
+import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.commercial.dto.info.*;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
+import com.ssafy.backend.domain.district.entity.SalesDistrict;
 import com.ssafy.backend.domain.district.entity.enums.ServiceType;
-import com.ssafy.backend.domain.simulation.entity.Rent;
-import com.ssafy.backend.domain.simulation.exception.SimulationErrorCode;
-import com.ssafy.backend.domain.simulation.exception.SimulationException;
-import com.ssafy.backend.domain.simulation.repository.RentRepository;
+import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.C;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +33,8 @@ public class CommercialServiceImpl implements CommercialService {
     private final FacilityCommercialRepository facilityCommercialRepository;
     private final StoreCommercialRepository storeCommercialRepository;
     private final IncomeCommercialRepository incomeCommercialRepository;
+    private final SalesDistrictRepository salesDistrictRepository;
+    private final SalesAdministrationRepository salesAdministrationRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -224,6 +225,23 @@ public class CommercialServiceImpl implements CommercialService {
                 genderSalesCount,
                 annualQuarterSalesInfos
         );
+    }
+
+    @Override
+    public AllSalesResponse getAllSalesByPeriodAndDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
+            String periodCode, String districtCode, String administrationCode, String commercialCode, String serviceCode) {
+        SalesDistrict salesDistrict = salesDistrictRepository.findByPeriodCodeAndDistrictCodeAndServiceCode(periodCode, districtCode, serviceCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_자치구 데이터가 없습니다."));
+
+        SalesAdministration salesAdministration = salesAdministrationRepository.findByPeriodCodeAndAdministrationCodeAndServiceCode(periodCode, administrationCode, serviceCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_행정동 데이터가 없습니다."));
+
+
+        SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_상권 데이터가 없습니다."));
+
+
+        return null;
     }
 
     @Override

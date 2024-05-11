@@ -25,4 +25,5 @@ public interface SalesDistrictRepository extends JpaRepository<SalesDistrict, Lo
             "order by s.monthSales asc")
     List<QuarterSalesInfo> findMonthSalesByOption(String period, String districtCodeName, String serviceCode);
 
+    Optional<SalesDistrict> findByPeriodCodeAndDistrictCodeAndServiceCode(String periodCode, String districtCode, String serviceCode);
 }

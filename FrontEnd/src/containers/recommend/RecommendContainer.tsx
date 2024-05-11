@@ -84,6 +84,7 @@ const RecommendContainer = () => {
             setIsSubmit={setIsSubmit}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
+            selectedGoo={selectedGoo}
           />
         </r.Search>
         <r.ReduceButton>

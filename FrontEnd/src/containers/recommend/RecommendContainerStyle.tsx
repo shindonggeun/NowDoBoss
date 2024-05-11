@@ -55,7 +55,7 @@ export const Search = styled.div`
   position: absolute;
   z-index: 1;
   top: 0;
-  width: 300px;
+  width: 320px;
   height: auto;
 
   @media only screen and (max-width: 400px) {
@@ -69,7 +69,7 @@ export const Search = styled.div`
 export const ReduceButton = styled.div`
   position: absolute;
   z-index: 1;
-  left: 300px;
+  left: 320px;
   top: 0;
   height: auto;
 

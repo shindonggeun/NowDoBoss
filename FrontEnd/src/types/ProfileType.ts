@@ -7,3 +7,12 @@ export type TitlePropsType = {
 export type ProfilePropsType = {
   MemberInfoData: MemberInfoType
 }
+
+export type TabsType = {
+  label: string
+  path: string
+}
+
+export type TabBarPropsType = {
+  tabs: TabsType[]
+}

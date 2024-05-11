@@ -17,8 +17,8 @@ const reportSummary = ({
   let formattedNumber
 
   if (TotalPrice >= 1000) {
-    const billions = Math.floor(TotalPrice / 1000)
-    const millions = Math.floor(TotalPrice % 1000)
+    const billions = Math.floor(TotalPrice / 10000)
+    const millions = Math.floor(TotalPrice % 10000)
     formattedNumber = `${billions}억 ${millions.toFixed(0)} 만원`
   } else {
     formattedNumber = `${(TotalPrice / 10000).toFixed(0)} 만원`

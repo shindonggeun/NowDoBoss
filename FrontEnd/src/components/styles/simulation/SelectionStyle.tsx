@@ -59,6 +59,7 @@ export const Container = styled.div`
 export const SelctionHeader = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   background-color: #236cff;
@@ -76,10 +77,9 @@ export const HeaderLeft = styled.div`
   flex-direction: row;
 `
 
-export const HeaderRignt = styled.div`
+export const HeaderRight = styled.div`
   display: flex;
   align-items: center;
-  //width: 20rem;
 `
 
 export const PrevIcon = styled.img`

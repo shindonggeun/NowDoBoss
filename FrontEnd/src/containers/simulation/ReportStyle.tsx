@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
-  min-height: 24rem;
+  min-height: 20rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,16 +10,11 @@ export const Container = styled.div`
 `
 
 export const SummaryContainer = styled.div`
-  width: 36rem;
-  min-height: 23rem;
-  margin-bottom: 1rem;
+  width: 100%;
+  margin: 0 1rem 1rem 1rem;
+  min-height: 20rem;
   border-radius: 10px;
   background: white;
-  @media (max-width: 768px) {
-    width: 90vw;
-    height: 40vh;
-    margin: 1rem 2vw;
-  }
 `
 
 export const SaveIcon = styled.img`
@@ -35,6 +30,9 @@ export const LightIcon = styled.img`
   width: 3rem;
   position: relative;
   z-index: 1;
+  @media (max-width: 768px) {
+    width: 2rem;
+  }
 `
 
 export const HeaderIcon = styled.div`
@@ -54,6 +52,10 @@ export const SummaryHeader = styled.div`
   align-items: center;
   margin: 1.7rem 1rem;
   position: relative;
+
+  @media (max-width: 768px) {
+    margin: 1.2rem 1rem;
+  }
 `
 
 export const HighLight = styled.div`
@@ -67,6 +69,13 @@ export const HighLight = styled.div`
   position: absolute;
   left: 1rem;
   z-index: 0;
+
+  @media (max-width: 768px) {
+    width: 7rem;
+    padding: 0.3rem 2rem;
+    font-size: 1.1rem;
+    left: 10px;
+  }
 `
 
 export const SummaryBody = styled.div`
@@ -86,12 +95,19 @@ export const BodyTopTitle = styled.div`
   font-size: 2rem;
   font-weight: 700;
   color: #1b3fff;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `
 
 export const BodyTopSubTitle = styled.div`
-  width: 100%;
+  margin-right: 5vw;
   font-size: 0.8rem;
   color: #808080;
+  @media (max-width: 768px) {
+    font-size: 0.7rem;
+  }
 `
 
 export const SplitLine = styled.div`
@@ -105,6 +121,10 @@ export const BodyBottom = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 `
 
 export const BodyBottomLeft = styled.div`

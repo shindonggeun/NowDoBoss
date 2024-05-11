@@ -12,12 +12,22 @@ export const Title = styled.div`
   font-weight: 700;
   display: flex;
   align-items: center;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    margin: 0 2vw;
+  }
 `
 
 export const SubTitle = styled.div`
   margin: 0.4rem 0;
   font-size: 0.9rem;
   color: #808080;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    margin: 0.3rem 2vw;
+  }
 `
 
 export const Emphasis = styled.span`
@@ -72,6 +82,10 @@ export const AgeBar = styled.div<AgeBarType>`
         return 'background-color: blue;'
     }
   }}
+
+  @media (max-width: 768px) {
+    height: ${({ data }) => `${data * 1.2}rem`};
+  }
 `
 
 export const GenderContainer = styled.div`
@@ -94,6 +108,9 @@ interface GendarImgType {
 
 export const GenderImg = styled.img<GendarImgType>`
   width: ${props => `${props.size}rem`};
+  @media (max-width: 768px) {
+    width: ${props => `${props.size * 0.6}rem`};
+  }
 `
 
 export const GenderPercent = styled.div`
@@ -117,6 +134,10 @@ export const CircleContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin: 3rem 3rem;
+
+  @media (max-width: 768px) {
+    margin: 3rem 1rem;
+  }
 `
 
 interface CircleProps {
@@ -150,15 +171,20 @@ export const CircleMonth = styled.div<CircleProps>`
       color: white;
       border: 1px solid #fa390e;
     `};
+
+  @media (max-width: 768px) {
+    width: 3rem;
+    height: 3rem;
+    font-size: 0.9rem;
+  }
 `
 
 export const GrayBox = styled.div`
-  width: 93%;
   min-height: 5rem;
   background-color: #f7f7f7;
   border-radius: 10px;
   padding: 1.5rem 1rem;
-  margin-top: 0.5rem;
+  margin: 0 auto;
 `
 
 export const GrayBoxHeader = styled.div`
@@ -181,12 +207,20 @@ export const GrayBoxTitle = styled.div`
   font-size: 2rem;
   font-weight: 700;
   color: #d84a34;
+
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
+  }
 `
 
 export const GrayBoxSubTitle = styled.div`
   padding: 0 0.7rem;
   font-size: 0.9rem;
   color: #4c545e;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 `
 
 export const GrayBoxText = styled.div`
@@ -194,6 +228,10 @@ export const GrayBoxText = styled.div`
   font-weight: 500;
   color: #343940;
   margin: 0.5rem 0;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 `
 
 export const GrayBoxTextEmphasis = styled.span`
@@ -203,6 +241,9 @@ export const GrayBoxTextEmphasis = styled.span`
 export const CheckIcon = styled.img`
   width: 1.5rem;
   margin-right: 0.8rem;
+  @media (max-width: 768px) {
+    width: 1.2rem;
+  }
 `
 
 export const FranchiseHeader = styled.div`
@@ -236,6 +277,10 @@ export const FranchiseHeaderTitle = styled.div`
   font-size: 1.4rem;
   font-weight: 600;
   color: #191b1e;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
 `
 
 export const FranchiseHeaderSubTitle = styled.div`
@@ -243,6 +288,10 @@ export const FranchiseHeaderSubTitle = styled.div`
   color: #30353b;
   background-color: #fdffc7;
   padding: 2px 5px;
+
+  @media (max-width: 768px) {
+    font-size: 0.7rem;
+  }
 `
 
 export const FranchiseHeaderRight = styled.div`
@@ -255,6 +304,10 @@ export const FranchiseTotalPrice = styled.div`
   font-size: 1.5rem;
   font-weight: 700;
   color: #d84a34;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
 `
 
 export const FranchiseSubPrice = styled.div`
@@ -262,6 +315,10 @@ export const FranchiseSubPrice = styled.div`
   color: #30353b;
   background-color: #ffd9d3;
   padding: 1px 6px;
+
+  @media (max-width: 768px) {
+    font-size: 0.7rem;
+  }
 `
 
 export const FranchiseContainer = styled.div`
@@ -277,7 +334,7 @@ export const FranchiseBox = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  min-width: 12rem;
+  min-width: 11rem;
   padding: 0.2rem 1rem;
 `
 

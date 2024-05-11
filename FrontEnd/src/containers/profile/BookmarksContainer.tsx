@@ -1,5 +1,13 @@
+import Title from '@src/components/profile/Title'
+import TabBar from '@src/components/profile/TabBar'
+
 const BookmarksContainer = () => {
-  return <div>여기는 북마크 자리 입니다. 알겠습니까?</div>
+  return (
+    <div>
+      <Title title="북마크" />
+      <TabBar />
+    </div>
+  )
 }
 
 export default BookmarksContainer

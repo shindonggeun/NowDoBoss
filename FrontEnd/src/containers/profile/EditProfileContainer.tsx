@@ -1,5 +1,11 @@
+import Title from '@src/components/profile/Title'
+
 const EditProfileContainer = () => {
-  return <>개인정보 수정 페이지입니다.</>
+  return (
+    <div>
+      <Title title="개인 정보 수정" />
+    </div>
+  )
 }
 
 export default EditProfileContainer

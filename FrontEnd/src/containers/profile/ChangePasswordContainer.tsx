@@ -1,5 +1,11 @@
+import Title from '@src/components/profile/Title'
+
 const ChangePasswordContainer = () => {
-  return <>비밀번호 변경 페이지</>
+  return (
+    <div>
+      <Title title="비밀번호 변경" />
+    </div>
+  )
 }
 
 export default ChangePasswordContainer

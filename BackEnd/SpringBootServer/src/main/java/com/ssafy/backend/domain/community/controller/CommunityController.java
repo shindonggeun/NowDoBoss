@@ -1,6 +1,9 @@
 package com.ssafy.backend.domain.community.controller;
 
-import com.ssafy.backend.domain.community.dto.*;
+import com.ssafy.backend.domain.community.dto.request.*;
+import com.ssafy.backend.domain.community.dto.response.CommentListResponse;
+import com.ssafy.backend.domain.community.dto.response.CommunityDetailResponse;
+import com.ssafy.backend.domain.community.dto.response.CommunityListResponse;
 import com.ssafy.backend.domain.community.service.CommentService;
 import com.ssafy.backend.domain.community.service.CommunityService;
 import com.ssafy.backend.global.common.dto.Message;

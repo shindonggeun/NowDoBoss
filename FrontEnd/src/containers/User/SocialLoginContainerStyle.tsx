@@ -1,10 +1,10 @@
 import styled from 'styled-components'
-import GoogleBtnSmallImage from 'src/assets/GoogleBtnSmall.png'
-import NaverBtnSmallImage from 'src/assets/NaverBtnSmall.png'
-import KakaoBtnSmallImage from 'src/assets/KakaoBtnSmall.png'
 import GoogleBtnImage from 'src/assets/GoogleBtn.png'
 import NaverBtnImage from 'src/assets/NaverBtn.png'
 import KakaoBtnImage from 'src/assets/KakaoBtn.png'
+import NaverBtnSmallImage from '../../../public/images/NaverBtnSmall.png'
+import GoogleBtnSmallImage from '../../../public/images/GoogleBtnSmall.png'
+import KakaoBtnSmallImage from '../../../public/images/KakaoBtnSmall.png'
 
 export const Container = styled.div`
   width: 100%;

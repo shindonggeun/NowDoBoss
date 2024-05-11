@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { Outlet, useNavigate } from 'react-router-dom'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
 import analysisStore from '@src/stores/analysisStore'
 import { getServiceData } from '@src/api/analysisApi'
 import { SelectContainerPropsType } from '@src/types/AnalysisType'
 import KakaoMap from '@src/common/KakaoMap'
 import SearchSection from '@src/components/analysis/SearchSection'
-import SimulSelction from '@src/components/simulation/SimulSelction'
 import * as a from '@src/containers/analysis/SelectContainerStyle'
 import up_arrow from '@src/assets/arrow_up.svg'
 import down_arrow from '@src/assets/arrow_down.svg'
@@ -18,8 +18,12 @@ const SelectContainer = (props: SelectContainerPropsType) => {
   const setServiceDataBody = analysisStore(state => state.setServiceDataBody)
   const selectedService = analysisStore(state => state.selectedService)
 
-  const [isModal, setIsModal] = useState(false) // 창업 시뮬레이션 모달 여부
-  const onClickClose = () => setIsModal(false)
+  const navigate = useNavigate()
+
+  // 창업 시뮬레이션 바로가기 버튼 클릭 핸들러
+  const handleSimulationClick = () => {
+    navigate('/analysis/simulation')
+  }
 
   // 업종 선택
   const { data: ServiceData, status: serviceStatus } = useQuery({
@@ -63,12 +67,12 @@ const SelectContainer = (props: SelectContainerPropsType) => {
           </a.ReduceBtn>
         </a.ReduceBtnWrap>
         <a.SimulationBtnWrap>
-          <a.SimulationBtn onClick={() => setIsModal(!isModal)}>
+          <a.SimulationBtn onClick={handleSimulationClick}>
             창업 시뮬레이션 바로가기
           </a.SimulationBtn>
         </a.SimulationBtnWrap>
       </a.SearchDiv>
-      {isModal && <SimulSelction open={isModal} onClose={onClickClose} />}
+      <Outlet />
     </a.Container>
   )
 }

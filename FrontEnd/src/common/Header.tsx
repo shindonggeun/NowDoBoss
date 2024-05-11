@@ -133,8 +133,8 @@ const Header = () => {
       location: '/community/list',
     },
     {
-      name: '마이페이지',
-      location: '/mypage',
+      name: '프로필',
+      location: '/profile/bookmarks',
     },
     {
       name: '로그인',
@@ -193,10 +193,10 @@ const Header = () => {
         {userLoggedIn ? (
           <>
             <Menu
-              $isActive={activeMenu === '마이페이지'}
-              onClick={() => handleMenuClick('마이페이지')}
+              $isActive={activeMenu === '프로필'}
+              onClick={() => handleMenuClick('프로필')}
             >
-              마이페이지
+              프로필
             </Menu>
             <Menu>
               <LogoutContainer />
@@ -222,7 +222,7 @@ const Header = () => {
             menuData={LocationData.filter(item =>
               userLoggedIn
                 ? item.name !== '로그인' && item.name !== '회원가입'
-                : item.name !== '마이페이지',
+                : item.name !== '프로필',
             )}
             isMenuOpen={menuOpen}
             setMenuOpen={setMenuOpen}

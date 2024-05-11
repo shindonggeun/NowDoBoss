@@ -2,8 +2,15 @@ import { useEffect, useRef, useState } from 'react'
 import * as r from '@src/containers/recommend/RecommendContainerStyle'
 import KakaoMap from '@src/common/KakaoMap'
 import SearchBar from '@src/components/recommend/SearchBar'
-import RecommendReport from '@src/components/recommend/RecommendReport'
 import ReduceButton from '@src/common/ReduceButton'
+import { useQuery } from '@tanstack/react-query'
+import { recommendCommercial } from '@src/api/recommendApi'
+import useSelectPlaceStore from '@src/stores/selectPlaceStore'
+import RecommendHeader from '@src/components/recommend/RecommendHeader'
+import RecommendBody from '@src/components/recommend/RecommendBody'
+import RecommendBanner from '@src/components/recommend/RecommendBanner'
+import RecommendBlueOcean from '@src/components/recommend/RecommendBlueOcean'
+import { RecommendCommercialType } from '@src/types/MapType'
 
 const RecommendContainer = () => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
@@ -43,30 +50,115 @@ const RecommendContainer = () => {
 
   const [isOpen, setIsOpen] = useState<boolean>(true)
 
+  // store에 저장된 구, 동 코드 값 가져올 store
+  const { selectedGoo, selectedDong } = useSelectPlaceStore(state => ({
+    selectedGoo: state.selectedGoo,
+    selectedDong: state.selectedDong,
+  }))
+
+  const [submitData, setSubmitData] = useState({
+    districtCode: 0,
+    administrationCode: 0,
+  })
+
+  useEffect(() => {
+    setSubmitData({
+      // districtCode: selectedGoo.code,
+      districtCode: 11710,
+      administrationCode: 0,
+    })
+  }, [selectedDong.code, selectedGoo.code])
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['recommendCommercial'],
+    queryFn: () => recommendCommercial(submitData),
+    enabled: isSubmit,
+  })
+  // 11710
+  // 11710610
+
+  const [selectedTab, setSelectedTab] = useState<string>('')
+  const [selectedData, setSelectedData] = useState<RecommendCommercialType>({
+    commercialCode: 0,
+    commercialCodeName: '',
+    salesCommercialInfo: {
+      mySales: 0,
+      administrationSales: 0,
+      otherSales: 0,
+    },
+    footTrafficCommercialInfo: {
+      myFootTraffic: 0,
+      administrationFootTraffic: 0,
+      otherFootTraffic: 0,
+    },
+    storeCommercialInfo: {
+      myStores: 0,
+      administrationStores: 0,
+      otherStores: 0,
+    },
+    closedRateCommercialInfo: {
+      myClosedRate: 0,
+      administrationClosedRate: 0,
+      otherClosedRate: 0,
+    },
+    blueOceanInfo: { string: 0 },
+  })
+
+  useEffect(() => {
+    if (data) {
+      setSelectedData(data.dataBody[0])
+    }
+  }, [data])
+
+  const handleTabClick = (name: string) => {
+    setSelectedTab(name)
+    const tab = data.dataBody.find(
+      (commercial: RecommendCommercialType) =>
+        commercial.commercialCodeName === name,
+    )
+    if (tab) {
+      setSelectedData(tab)
+    }
+  }
+
   return (
     <r.Container>
       <r.MapDiv>
         <KakaoMap />
       </r.MapDiv>
       <r.SearchDiv>
+        {/* 서치바 */}
         <r.Search>
           <SearchBar
             setIsSubmit={setIsSubmit}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
+            selectedGoo={selectedGoo}
           />
         </r.Search>
         <r.ReduceButton>
           <ReduceButton isOpen={isOpen} setIsOpen={setIsOpen} />
         </r.ReduceButton>
       </r.SearchDiv>
-      {shouldRender && (
+      {shouldRender && data && !isLoading && (
         <r.Report
           ref={reportRef}
           $isSubmit={isSubmit}
           onAnimationEnd={handleAnimationEnd} // 애니메이션 종료 이벤트 핸들러 추가
         >
-          <RecommendReport setIsSubmit={setIsSubmit} />
+          <r.ReportContainer>
+            <RecommendHeader
+              selectedTab={selectedTab}
+              setSelectedTab={setSelectedTab}
+              setSelectedData={setSelectedData}
+              handleTabClick={handleTabClick}
+              setIsSubmit={setIsSubmit}
+              data={data.dataBody}
+            />
+            <RecommendBody selectedData={selectedData} />
+            <RecommendBanner selectedData={selectedData} />
+            <RecommendBlueOcean selectedData={selectedData} />
+          </r.ReportContainer>
         </r.Report>
       )}
     </r.Container>

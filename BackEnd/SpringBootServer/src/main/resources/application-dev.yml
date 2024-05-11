@@ -11,7 +11,7 @@ spring:
 
   jpa:
     open-in-view: false
-    defer-datasource-initialization: false
+    defer-datasource-initialization: false  # flyway 관련 마이그레이션 이슈 -> false로 변경
     generate-ddl: false
     hibernate:
       ddl-auto: none                # ddl 자동 작성 여부
@@ -56,7 +56,7 @@ spring:
 
   # Kafka setting
   kafka:
-    bootstrap-servers: localhost:29092 # 도커에서 설정한 내부 서비스명으로 접근 (내부 네트워크 이용)
+    bootstrap-servers: kafka-1:29092 # 도커에서 설정한 내부 서비스명으로 접근 (내부 네트워크 이용)
     consumer:
       group-id: NoWDoBossGroup
       auto-offset-reset: earliest

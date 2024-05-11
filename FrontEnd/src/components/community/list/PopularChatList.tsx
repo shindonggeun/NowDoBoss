@@ -91,7 +91,6 @@ const PopularChatList = ({ category }: { category: string }) => {
       } else {
         Swal.fire({
           title: res.dataHeader.resultMessage,
-          // text: '로그인하여 서비스를 이용하세요.',
           icon: 'warning',
           confirmButtonText: '확인',
         })

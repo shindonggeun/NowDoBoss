@@ -1,20 +1,17 @@
-import SimulSelction from '@src/components/simulation/SimulSelction'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import SimulSelction from '@src/components/simulation/SimulSelction'
 
 const StatusPage = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
+  const navigate = useNavigate()
 
-  const onClickClose = () => setIsOpen(false)
+  const onClickClose = () => {
+    setIsOpen(false)
+    navigate('/analysis')
+  }
 
-  return (
-    <>
-      <button type="button" onClick={() => setIsOpen(!isOpen)}>
-        시뮬레이션 버튼
-      </button>
-
-      {isOpen && <SimulSelction open={isOpen} onClose={onClickClose} />}
-    </>
-  )
+  return <>{isOpen && <SimulSelction open={isOpen} onClose={onClickClose} />}</>
 }
 
 export default StatusPage

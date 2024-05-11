@@ -1,7 +1,7 @@
 package com.ssafy.backend.domain.community.service;
 
-import com.ssafy.backend.domain.community.dto.CommentListResponse;
-import com.ssafy.backend.domain.community.dto.UpdateCommentRequest;
+import com.ssafy.backend.domain.community.dto.response.CommentListResponse;
+import com.ssafy.backend.domain.community.dto.request.UpdateCommentRequest;
 import com.ssafy.backend.domain.community.entity.Comments;
 import com.ssafy.backend.domain.community.entity.Community;
 import com.ssafy.backend.domain.community.exception.CommunityErrorCode;

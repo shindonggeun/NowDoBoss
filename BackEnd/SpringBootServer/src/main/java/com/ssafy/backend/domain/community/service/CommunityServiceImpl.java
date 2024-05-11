@@ -1,6 +1,11 @@
 package com.ssafy.backend.domain.community.service;
 
-import com.ssafy.backend.domain.community.dto.*;
+import com.ssafy.backend.domain.community.dto.info.ImageInfo;
+import com.ssafy.backend.domain.community.dto.request.CommunityListRequest;
+import com.ssafy.backend.domain.community.dto.request.CreateCommunityRequest;
+import com.ssafy.backend.domain.community.dto.request.UpdateCommunityRequest;
+import com.ssafy.backend.domain.community.dto.response.CommunityDetailResponse;
+import com.ssafy.backend.domain.community.dto.response.CommunityListResponse;
 import com.ssafy.backend.domain.community.entity.Community;
 import com.ssafy.backend.domain.community.entity.Image;
 import com.ssafy.backend.domain.community.exception.CommunityErrorCode;

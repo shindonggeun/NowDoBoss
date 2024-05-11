@@ -23,7 +23,6 @@ export type SignUpErrorType = {
   nameError: string
   nicknameError: string
 }
-export type LoginErrorType = {}
 
 export type MemberInfoType = {
   id: number | null
@@ -56,7 +55,7 @@ export type UserStoreType = {
   setLoginData: (fieldName: keyof LoginDataType, value: string) => void
   setEmailError: (fieldName: keyof EmailErrorType, value: string) => void
   setSignUpError: (fieldName: keyof SignUpErrorType, value: string) => void
-  setMemberInfo: (fieldName: keyof MemberInfoType, value: string) => void
+  setMemberInfo: (dataBody: MemberInfoType) => void
 }
 
 // prop type

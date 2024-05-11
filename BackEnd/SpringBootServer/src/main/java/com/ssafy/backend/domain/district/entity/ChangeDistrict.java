@@ -9,6 +9,10 @@ import org.hibernate.annotations.Comment;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {
+        @Index(name = "idx_period_code", columnList = "periodCode"),
+        @Index(name = "idx_district_code", columnList = "districtCode")
+})
 public class ChangeDistrict {
     @Id
     @Comment("상권 변화 지표 자치구 아이디")

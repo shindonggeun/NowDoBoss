@@ -14,8 +14,8 @@ const reportSummary = ({
   const { query } = ReportStore()
 
   const TotalPrice = ReportData.totalPrice
-  let formattedNumber
 
+  let formattedNumber
   if (TotalPrice >= 1000) {
     const billions = Math.floor(TotalPrice / 10000)
     const millions = Math.floor(TotalPrice % 10000)

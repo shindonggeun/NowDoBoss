@@ -25,16 +25,22 @@ const ReportFranchise = ({
         let formattedNumber
         if (franchise.totalPrice >= 10000) {
           const billions = Math.floor(franchise.totalPrice / 10000)
-          formattedNumber = `${billions}억 ${franchise.totalPrice.toLocaleString()} 만원`
+          const millions = Math.floor(franchise.totalPrice % 10000)
+          formattedNumber = `${billions}억 ${millions.toLocaleString()} 만원`
         } else {
           formattedNumber = `${franchise.totalPrice.toLocaleString()} 만원`
         }
-        const isUp = MyTotalPrice - franchise.totalPrice >= 0
+
+        const isUp = MyTotalPrice - franchise.totalPrice > 0
+        const isSame = MyTotalPrice - franchise.totalPrice === 0
         const ComparePrice = isUp
           ? (MyTotalPrice - franchise.totalPrice).toLocaleString()
           : (franchise.totalPrice - MyTotalPrice).toLocaleString()
 
-        const CompareData: string = isUp ? '더 낮아요' : '더 높아요'
+        let CompareData: string = isUp ? '더 낮아요' : '더 높아요'
+        if (MyTotalPrice - franchise.totalPrice === 0) {
+          CompareData = '비슷한 가격이에요'
+        }
         const Infos = [
           { name: '가입비', price: franchise.subscription },
           { name: '보증금', price: franchise.deposit },
@@ -59,7 +65,7 @@ const ReportFranchise = ({
               <c.FranchiseHeaderRight>
                 <c.FranchiseTotalPrice>{formattedNumber}</c.FranchiseTotalPrice>
                 <c.FranchiseSubPrice>
-                  {ComparePrice}만원 {CompareData}
+                  {isSame ? '' : `${ComparePrice}만원`} {CompareData}
                 </c.FranchiseSubPrice>
               </c.FranchiseHeaderRight>
             </c.FranchiseHeader>

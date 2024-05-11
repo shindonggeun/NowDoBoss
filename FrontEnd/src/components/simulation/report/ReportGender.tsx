@@ -5,7 +5,29 @@ import { SimulationReportType } from '@src/types/SimulationType'
 
 const ReportGender = ({ ReportData }: { ReportData: SimulationReportType }) => {
   const GendarAndAgeDInfo = ReportData.genderAndAgeAnalysisInfo
+  // const AgeInfos = {
+  //   first: Math.floor(GendarAndAgeDInfo.second.sales / 10000),
+  //   second: Math.floor(GendarAndAgeDInfo.second.sales / 10000),
+  //   third: Math.floor(GendarAndAgeDInfo.second.sales / 10000),
+  // }
 
+  const AgeInfos = [
+    {
+      rank: 'second',
+      data: Math.floor(GendarAndAgeDInfo.second.sales / 10000),
+      name: GendarAndAgeDInfo.second.name,
+    },
+    {
+      rank: 'first',
+      data: Math.floor(GendarAndAgeDInfo.first.sales / 10000),
+      name: GendarAndAgeDInfo.first.name,
+    },
+    {
+      rank: 'third',
+      data: Math.floor(GendarAndAgeDInfo.third.sales / 10000),
+      name: GendarAndAgeDInfo.third.name,
+    },
+  ]
   return (
     <c.Container>
       <c.Title>고객남여, 연령대별 분석</c.Title>
@@ -22,27 +44,13 @@ const ReportGender = ({ ReportData }: { ReportData: SimulationReportType }) => {
       <c.GraphContainer>
         <c.AgeContainer>
           <c.AgeWrapper>
-            <c.AgeDetail>
-              <div>
-                {Math.floor(GendarAndAgeDInfo.second.sales / 100000000)}억
-              </div>
-              <c.AgeBar rank="second" />
-              <div>{GendarAndAgeDInfo.second.name}</div>
-            </c.AgeDetail>
-            <c.AgeDetail>
-              <div>
-                {Math.floor(GendarAndAgeDInfo.first.sales / 100000000)}억
-              </div>
-              <c.AgeBar rank="first" />
-              <div>{GendarAndAgeDInfo.first.name}</div>
-            </c.AgeDetail>
-            <c.AgeDetail>
-              <div>
-                {Math.floor(GendarAndAgeDInfo.third.sales / 100000000)}억
-              </div>
-              <c.AgeBar rank="third" />
-              <div>{GendarAndAgeDInfo.third.name}</div>
-            </c.AgeDetail>
+            {AgeInfos.map(info => (
+              <c.AgeDetail key={info.rank}>
+                <div>{info.data}억</div>
+                <c.AgeBar rank={info.rank} data={info.data} />
+                <div>{info.name}</div>
+              </c.AgeDetail>
+            ))}
           </c.AgeWrapper>
         </c.AgeContainer>
         <c.GenderContainer>

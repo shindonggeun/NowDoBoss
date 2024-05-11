@@ -53,23 +53,13 @@ export const AgeDetail = styled.div`
 
 interface AgeBarType {
   rank: string
+  data: number
 }
 export const AgeBar = styled.div<AgeBarType>`
-  margin: 1rem 1rem 0 1rem;
-  //padding: 0 1rem;
-  width: 3vw;
-  ${({ rank }) => {
-    switch (rank) {
-      case 'first':
-        return 'height: 12rem;'
-      case 'second':
-        return 'height: 10rem;'
-      case 'third':
-        return 'height: 8rem;'
-      default:
-        return 'height: 8rem;'
-    }
-  }}
+  margin: 1rem;
+  width: 2.5vw;
+  height: ${({ data }) => `${data * 1.5}rem`};
+
   ${({ rank }) => {
     switch (rank) {
       case 'first':

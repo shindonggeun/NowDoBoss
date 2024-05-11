@@ -3,13 +3,19 @@ import ThumbUp from '@src/assets/thumbUp.svg'
 import { SimulationReportType } from '@src/types/SimulationType'
 
 const ReportMyGoal = ({ ReportData }: { ReportData: SimulationReportType }) => {
-  const GoalPrice = Math.floor(
-    ReportData.detail.deposit / 10000,
-  ).toLocaleString()
+  const GoalPrice: number = ReportData.detail.deposit
 
-  const GoalMinPrice = Math.floor(
-    ReportData.detail.rentPrice / 10000,
-  ).toLocaleString()
+  const GoalMinPrice = Math.floor(ReportData.detail.rentPrice).toLocaleString()
+
+  const formattedPrices = () => {
+    if (GoalPrice > 10000) {
+      const billions = Math.floor(GoalPrice / 10000)
+      const millions = Math.floor(GoalPrice % 10000)
+      return `${billions}억 ${millions.toLocaleString()} '만원'}`
+    }
+    return `${GoalPrice.toLocaleString()} ${GoalPrice === 0 ? '원' : '만원'}`
+  }
+
   return (
     <c.Container>
       <c.Title>내 매장 목표</c.Title>
@@ -24,10 +30,10 @@ const ReportMyGoal = ({ ReportData }: { ReportData: SimulationReportType }) => {
             매장 월 최소 평균 목표 매출
           </c.GrayBoxHeaderTitle>
         </c.GrayBoxHeader>
-        <c.GrayBoxTitle>{GoalPrice} 만원</c.GrayBoxTitle>
+        <c.GrayBoxTitle>{formattedPrices()}</c.GrayBoxTitle>
         <c.GrayBoxSubTitle>
           안정적인 운영을 위해서는 영업일 3일 이내로 평균 ({GoalMinPrice}
-          만원)만큼의 매출이 발생해야해요.
+          만원) 만큼의 매출이 발생해야해요.
         </c.GrayBoxSubTitle>
       </c.GrayBox>
     </c.Container>

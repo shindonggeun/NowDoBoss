@@ -6,11 +6,7 @@ const Header = styled.div<{ $isOpen: boolean }>`
   flex-direction: row;
   justify-content: space-between;
   padding: 10px 10px 5px 20px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-left-radius: ${props => (props.$isOpen ? '0' : '5px')};
-  border-bottom-right-radius: ${props => (props.$isOpen ? '0' : '5px')};
-
+  border-radius: ${props => (props.$isOpen ? '5px 5px 0 0' : '5px')};
   border: ${props => (props.$isOpen ? '' : '2px solid #236cff')};
   border-bottom: ${props => (props.$isOpen ? '2px solid #d9d9d9' : '')};
   background-color: ${props => (props.$isOpen ? '#f2f2f2' : '#236cff')};
@@ -38,10 +34,10 @@ const SubTitle = styled.div`
   padding: 0 0 5px;
 `
 const CloseButton = styled.div`
-  background-color: #e2ebf7;
+  background-color: #d8d8d8;
   border-radius: 100%;
 
-  color: #236cff;
+  color: #333333;
   font-weight: 600;
   width: 2.2rem;
   height: 2.2rem;
@@ -52,12 +48,12 @@ const CloseButton = styled.div`
   user-select: none;
 
   &:hover {
-    background-color: #cfdcff;
-    color: #236cff;
+    background-color: #b9b9b9;
+    color: #e2ebf7;
   }
 
   &:active {
-    background-color: #78a1ff;
+    background-color: #a9a9a9;
     color: #e2ebf7;
     //box-shadow: 0 0 0 2px #e2ebf7;
   }

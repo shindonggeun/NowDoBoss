@@ -5,7 +5,7 @@ import { TopList, TopListItem } from '@src/types/StatusType'
 import { useEffect, useState } from 'react'
 
 type StatusPolygonProps = {
-  tab: number | null
+  tab: number
   selectedRegion: string | null
   TopLists: TopList
   onClickRegionHandler: (data: string | null) => void
@@ -27,13 +27,11 @@ const StatusPolygonComponent = ({
 
   useEffect(() => {
     const handleResize = () => {
+      setWidth(window.innerWidth * 0.7)
+      setHeight(window.innerHeight * 0.8)
       if (window.innerWidth > 1400) {
-        setWidth(window.innerWidth * 0.7)
-        setHeight(window.innerHeight * 0.8)
         setScale(window.innerWidth * 60)
       } else if (window.innerWidth > 800) {
-        setWidth(window.innerWidth * 0.7)
-        setHeight(window.innerHeight * 0.8)
         setScale(80000)
       } else {
         setWidth(window.innerWidth)
@@ -57,17 +55,17 @@ const StatusPolygonComponent = ({
     .geoMercator()
     .center([127.023136826325427, 37.57196080977203])
     .scale(scale)
-    .translate([width / 2 + 50, height / 2 - 10])
+    .translate([width / 2 + window.innerWidth * 0.03, height / 2 - 10])
 
   // projection을 이용하여 만든 경로 생성 함수
   const pathGenerator = d3.geoPath().projection(projection)
 
   // <todo> 색 변경하기!
   const mapColor = [
-    ['#E7E0F9', '#D3C0F7', '#A78DED', '#8C63E5', '#5E28C9'], // 유동인구
-    ['#D8EEFF', '#A4D7FC', '#60AEEE', '#0095E5', '#007ECE'], // 매출평균
-    ['#FDEAEC', '#FFCCD1', '#F3A6AF', '#E97F8D', '#CC4E5D'], // 개업률
-    ['#C3FFEA', '#92ECCD', '#5DD0A7', '#00BF7A', '#009E65'], // 폐점률
+    ['#5E28C9', '#8C63E5', '#A78DED', '#D3C0F7', '#E7E0F9'], // 유동인구
+    ['#007ECE', '#0095E5', '#60AEEE', '#A4D7FC', '#D8EEFF'], // 평균매출
+    ['#CC4E5D', '#E97F8D', '#F3A6AF', '#FFCCD1', '#FDEAEC'], // 개업률
+    ['#009E65', '#00BF7A', '#5DD0A7', '#92ECCD', '#C3FFEA'], // 폐점률
     ['#F3FFDA', '#FAF0C3', '#F8DB6D', '#FFDE3C', '#E8C500'],
     ['#D6FFFD', '#BBFBF7', '#68E1D9', '#10C1CC', '#009FA9'],
   ]
@@ -84,10 +82,11 @@ const StatusPolygonComponent = ({
   const openedRateTop: TopListItem[] = TopLists.openedRateTopTenList
   const salesTop: TopListItem[] = TopLists.salesTopTenList
   const closedRateTop: TopListItem[] = TopLists.closedRateTopTenList
-  const StatusTopData = [footTrafficTop, openedRateTop, salesTop, closedRateTop]
+  const StatusTopData = [footTrafficTop, salesTop, openedRateTop, closedRateTop]
 
   // 행정구 폴리곤
   const countries = mapData.map((d: any, i) => {
+    // console.log(d)
     const isSelected = selectedRegion === d.properties.SIG_KOR_NM
     const tempItem =
       tab != null
@@ -138,6 +137,7 @@ const StatusPolygonComponent = ({
       key={`path${i}text`}
       transform={`translate(${pathGenerator.centroid(d)})`}
       style={{
+        // fontFamily: 'pretendard',
         fontSize: window.innerWidth >= 600 ? '1rem' : '0.5rem',
         textAnchor: 'middle',
         top: '10px',
@@ -145,21 +145,67 @@ const StatusPolygonComponent = ({
         cursor: 'pointer',
       }}
       x={d.properties.x_offset ? d.properties.x_offset : ''}
-      y={d.properties.y_offset ? d.properties.y_offset : ''}
+      y={d.properties.y_offset ? d.properties.y_offset - 10 : ''}
       onClick={() => {
         handleRegionClick(d.properties.SIG_KOR_NM)
         onClickRegionCodeHandler(d.properties.SIG_CD)
       }}
+      // onMouseEnter={e => {
+      //   e.currentTarget.style.transform = 'translateY(-10px)'
+      // }}
     >
       {d.properties.SIG_KOR_NM}
     </text>
   ))
+
+  // 범례 데이터
+  const legendData = mapColor[tab]
+  const legendLabels = ['매우 높음', '높음', '보통', '낮음', '매우 낮음']
+
+  // 범례 그리기
+  const drawLegend = () => {
+    const legendHeight = 15
+    const legendWidth = 15
+    const spacing = 5
+    const textOffset = 5
+
+    return legendData.map((color, index) => (
+      <g key={index}>
+        <rect
+          key={index}
+          x={width - 200}
+          y={
+            height -
+            legendData.length * (legendHeight + spacing) +
+            index * (legendHeight + spacing)
+          }
+          width={legendWidth}
+          height={legendHeight}
+          fill={color}
+        />
+        <text
+          x={width - 200 + legendWidth + textOffset}
+          y={
+            height -
+            legendData.length * (legendHeight + spacing) +
+            index * (legendHeight + spacing) +
+            legendHeight / 2
+          }
+          alignmentBaseline="middle"
+          style={{ fontSize: '12px' }}
+        >
+          {legendLabels[index]}
+        </text>
+      </g>
+    ))
+  }
 
   return (
     <c.PolygonContainer>
       <svg width={width} height={height}>
         {countries}
         {countryTexts}
+        {drawLegend()}
       </svg>
     </c.PolygonContainer>
   )

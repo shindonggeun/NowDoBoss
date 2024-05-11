@@ -12,4 +12,7 @@ export const ContentSlide = styled.div`
   background-color: white;
 `
 
-export const Content = styled.div``
+export const Content = styled.div<{ $isSelect: boolean }>`
+  pointer-events: ${props => (props.$isSelect ? '' : 'none')};
+  opacity: ${props => (props.$isSelect ? '' : '0.4')};
+`

@@ -8,7 +8,8 @@ interface PasswordInputProps {
   value: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   id: string
-  required?: boolean // Optional prop, 기본값은 true로 설정할 수 있습니다.
+  // eslint-disable-next-line react/require-default-props
+  required?: boolean // Optional prop, 기본값은 true로 설정
 }
 
 const PasswordInput = ({

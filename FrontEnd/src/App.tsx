@@ -6,10 +6,11 @@ import SignUpPage from '@src/pages/SignUpPage'
 import LoginPage from '@src/pages/LoginPage'
 import SocialLoadingPage from '@src/pages/SocialLoadingPage'
 import ProfilePage from '@src/pages/ProfilePage'
-import EditProfilePage from '@src/pages/EditProfilePage'
-import WithdrawPage from '@src/pages/WithdrawPage'
 import BookmarksPage from '@src/pages/BookmarksPage'
+import SettingsPage from '@src/pages/SettingsPage'
+import EditProfilePage from '@src/pages/EditProfilePage'
 import ChangePasswordPage from '@src/pages/ChangePasswordPage'
+import WithdrawPage from '@src/pages/WithdrawPage'
 import CommunityPage from '@src/pages/CommunityPage'
 import CommunityRegisterPage from '@src/pages/CommunityRegisterPage'
 import CommunityDetailPage from '@src/pages/CommunityDetailPage'
@@ -47,9 +48,11 @@ function App() {
           />
           <Route path="/profile/*" element={<ProfilePage />}>
             <Route path="bookmarks" element={<BookmarksPage />} />
-            <Route path="edit" element={<EditProfilePage />} />
-            <Route path="change-password" element={<ChangePasswordPage />} />
-            <Route path="withdraw" element={<WithdrawPage />} />
+            <Route path="settings/*" element={<SettingsPage />}>
+              <Route path="edit" element={<EditProfilePage />} />
+              <Route path="change-password" element={<ChangePasswordPage />} />
+              <Route path="withdraw" element={<WithdrawPage />} />
+            </Route>
           </Route>
           {/* 상권 */}
           <Route path="/status" element={<StatusPage />} />

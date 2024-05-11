@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
-import down_arrow from '@src/assets/arrow_down.svg'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 import analysisStore from '@src/stores/analysisStore'
 import { useQuery } from '@tanstack/react-query'
 import { fetchAdministrationList, fetchDongList } from '@src/api/mapApi'
 import { useLocation } from 'react-router-dom'
+import Select, { selectClasses } from '@mui/joy/Select'
+import Option from '@mui/joy/Option'
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 
 const Place = styled.div`
   margin: 10px 10px;
@@ -20,116 +22,9 @@ const Content = styled.div`
 const SelectPlace = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
   text-align: center;
   margin-top: 10px;
-`
-
-const Dropdown = styled.div`
-  border-bottom: 0.1rem solid #626262;
-  width: 100px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  margin: 5px 0 0 20px;
-  position: relative;
-`
-
-const SelectedContent = styled.div`
-  text-align: right;
-  font-weight: 500;
-  width: 65%;
-  white-space: nowrap; /* 내용을 한 줄로 표시 */
-  overflow: hidden; /* 내용이 너비를 넘어가면 숨김 처리 */
-  text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
-`
-const SelectedDistrict = styled.div`
-  text-align: center;
-  font-weight: 500;
-  width: 60%;
-  margin-left: 20%;
-  white-space: nowrap; /* 내용을 한 줄로 표시 */
-  overflow: hidden; /* 내용이 너비를 넘어가면 숨김 처리 */
-  text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
-`
-const ArrowIcon = styled.img``
-const DropdownBox = styled.div<{ $place: string; $recommend: boolean }>`
-  position: absolute;
-  overflow-y: auto;
-  height: 60%;
-  background-color: #ffffff;
-  right: ${({ $place, $recommend }) => {
-    const placeToRight: { [key: string]: string } = $recommend
-      ? {
-          goo: '52%',
-          dong: '12%',
-        }
-      : {
-          goo: '65%',
-          dong: '36.7%',
-          district: '6.5%',
-        }
-    return placeToRight[$place] || 'default'
-  }};
-  width: 100px;
-  border: 0.15rem solid #d9d9d9;
-  border-radius: 5px;
-
-  @media only screen and (max-width: 400px) {
-    right: ${({
-      $place,
-      $recommend,
-    }: {
-      $place: string
-      $recommend: boolean
-    }) => {
-      const placeToRight: { [key: string]: string } = $recommend
-        ? {
-            goo: '51%',
-            dong: '22%',
-          }
-        : {
-            goo: '64%',
-            dong: '36%',
-            district: '7%',
-          }
-      return placeToRight[$place] || 'default'
-    }};
-    width: 100px;
-    height: 15vh;
-    overflow-y: scroll;
-  }
-
-  ${({ $recommend }) =>
-    !$recommend &&
-    `
-  @media only screen and (max-width: 680px) {
-  right: ${({ $place }: { $place: string }) => {
-    const placeToRight: { [key: string]: string } = {
-      goo: '65%',
-      dong: '35%',
-      district: '5%',
-    }
-    return placeToRight[$place] || 'default'
-  }};
-  width: 23%;
-}
-`}
-`
-const DropdownContent = styled.div`
-  width: 100%;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  color: #5f5f5f;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #d9d9d9;
-    border-radius: 3px;
-  }
 `
 
 const ChoicePlace = () => {
@@ -145,15 +40,6 @@ const ChoicePlace = () => {
       setIsRecommendPage(false)
     }
   }, [location])
-
-  // 드롭다운 열렸는지 여부
-  const [dropdownGooOpen, setDropdownGooOpen] = useState<boolean>(false)
-  const [dropdownDongOpen, setDropdownDongOpen] = useState<boolean>(false)
-  const [dropdownCommercialOpen, setDropdownCommercialOpen] =
-    useState<boolean>(false)
-
-  // 드롭다운 열었을 때 다른 곳 눌러도 드롭다운 닫히게 하는 ref
-  const dropdownRef = useRef<HTMLDivElement | null>(null)
 
   // store에 저장된 구 데이터와 선택한 구, 동, 상권 값 가져올 store
   const {
@@ -195,30 +81,6 @@ const ChoicePlace = () => {
     }
   }, [commercialListData, dongListData, setSaveDongList, setSaveCommercialList])
 
-  // 드롭다운 열었을 때 외부 클릭 시 드롭다운 닫히게 하는 로직
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setDropdownGooOpen(false)
-        setDropdownDongOpen(false)
-        setDropdownCommercialOpen(false)
-      }
-    }
-
-    // 드롭다운이 열려있을 때만 이벤트 리스너 추가
-    if (dropdownGooOpen || dropdownDongOpen || dropdownCommercialOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-    }
-
-    // 컴포넌트 언마운트 혹은 드롭다운이 닫힐 때 이벤트 리스너 제거
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [dropdownGooOpen, dropdownDongOpen, dropdownCommercialOpen]) // 드롭다운 상태 변경 시 useEffect 재실행
-
   // // 지도 선택 시 선택된 값 바뀌었을 때 드롭다운에도 갱신
   // useEffect(() => {
   //   setSelectedGoo(selectedGoo.name)
@@ -233,69 +95,34 @@ const ChoicePlace = () => {
         <Content>분석하고 싶은 상권을 선택해주세요.</Content>
       )}
 
-      <SelectPlace ref={dropdownRef}>
-        {/* 행정구 드롭다운 */}
-        <Dropdown
-          onClick={() => {
-            setDropdownGooOpen(!dropdownGooOpen)
+      <SelectPlace>
+        <Select
+          placeholder={selectedGoo.name}
+          indicator={<KeyboardArrowDown />}
+          sx={{
+            paddingRight: '5px',
+            width: isRecommendPage ? '135px' : '100px',
+            maxWidth: isRecommendPage ? '135px' : '108px',
+            [`& .${selectClasses.indicator}`]: {
+              transition: '0.2s',
+              [`&.${selectClasses.expanded}`]: {
+                transform: 'rotate(-180deg)',
+              },
+            },
+            fontFamily: 'Pretendard',
+            fontWeight: 600,
+            fontSize: '14px',
           }}
         >
-          <SelectedContent>{selectedGoo.name}</SelectedContent>
-          <ArrowIcon src={down_arrow} />
-        </Dropdown>
-
-        {/* 행정동 드롭다운 */}
-        <Dropdown
-          onClick={() => {
-            if (selectedGoo.name !== '행정구') {
-              setDropdownDongOpen(!dropdownDongOpen)
-            } else {
-              console.log(' 구를 먼저 선택해주세요')
-            }
-          }}
-        >
-          <SelectedContent>{selectedDong.name}</SelectedContent>
-          <ArrowIcon src={down_arrow} />
-        </Dropdown>
-
-        {
-          isRecommendPage ? (
-            ''
-          ) : (
-            <Dropdown
-              onClick={() => {
-                if (selectedDong.name !== '행정동') {
-                  setDropdownCommercialOpen(!dropdownCommercialOpen)
-                } else {
-                  console.log(' 동을 먼저 선택해주세요')
-                }
-              }}
-            >
-              {/* 상권 드롭다운 */}
-              <SelectedDistrict>{selectedCommercial.name}</SelectedDistrict>
-              <ArrowIcon src={down_arrow} />
-            </Dropdown>
-          )
-          //   : (
-          //   ''
-          // )
-        }
-      </SelectPlace>
-      {/* 행정구 드롭다운 내용 */}
-      {dropdownGooOpen && (
-        <DropdownBox
-          ref={dropdownRef}
-          $place="goo"
-          $recommend={isRecommendPage}
-        >
-          {goosData.map(district => (
-            <DropdownContent
-              key={district.gooName}
+          {goosData.map(option => (
+            <Option
+              value={option.gooCode}
+              key={option.gooCode}
               onClick={() => {
                 // store에 선택 값 저장
                 setSelectedGoo({
-                  name: district.gooName,
-                  code: district.gooCode,
+                  name: option.gooName,
+                  code: option.gooCode,
                 })
                 // 하위 선택값 초기화
                 setSelectedDong({
@@ -306,76 +133,116 @@ const ChoicePlace = () => {
                   name: '상권',
                   code: 0,
                 })
-                setDropdownGooOpen(false)
               }}
             >
-              {district.gooName}
-            </DropdownContent>
+              {option.gooName}
+            </Option>
           ))}
-        </DropdownBox>
-      )}
+        </Select>
 
-      {/* 행정동 드롭다운 내용 */}
-      {dropdownDongOpen && (
-        <DropdownBox
-          ref={dropdownRef}
-          $place="dong"
-          $recommend={isRecommendPage}
+        {/* 행정동 드롭다운 */}
+        <Select
+          placeholder={selectedDong.name}
+          indicator={<KeyboardArrowDown />}
+          sx={{
+            paddingRight: isRecommendPage ? '10px' : '5px',
+            width: isRecommendPage ? '140px' : '100px',
+            maxWidth: isRecommendPage ? '140px' : '110px',
+            marginLeft: '5px',
+            [`& .${selectClasses.indicator}`]: {
+              transition: '0.2s',
+              [`&.${selectClasses.expanded}`]: {
+                transform: 'rotate(-180deg)',
+              },
+            },
+            fontFamily: 'Pretendard',
+            fontWeight: 600,
+            fontSize: '14px',
+          }}
         >
-          {dongListData?.dataBody.map(dong => (
-            <DropdownContent
-              key={dong.administrationCode}
+          {dongListData?.dataBody.map(option => (
+            <Option
+              value={option.administrationCode}
+              key={option.administrationCode}
               onClick={() => {
                 // store에 선택 값 저장
                 setSelectedDong({
-                  name: dong.administrationCodeName,
-                  code: dong.administrationCode,
+                  name: option.administrationCodeName,
+                  code: option.administrationCode,
                 })
                 // 하위 선택값 초기화
                 setSelectedCommercial({
                   name: '상권',
                   code: 0,
                 })
-                setDropdownDongOpen(false)
               }}
             >
-              {dong.administrationCodeName}
-            </DropdownContent>
+              {option.administrationCodeName}
+            </Option>
           ))}
-        </DropdownBox>
-      )}
+        </Select>
 
-      {/* 상권 드롭다운 내용 */}
-      {dropdownCommercialOpen && (
-        <DropdownBox
-          ref={dropdownRef}
-          $place="district"
-          $recommend={isRecommendPage}
-        >
-          {commercialListData?.dataBody.map(district => (
-            <DropdownContent
-              key={district.commercialCode}
-              onClick={() => {
-                // store에 선택 값 저장
-                setSelectedCommercial({
-                  name: district.commercialCodeName,
-                  code: district.commercialCode,
-                })
-                // 업종 선택값 초기화
-                setSelectedServiceType('')
-                setSelectedService({
-                  serviceCode: '',
-                  serviceCodeName: '',
-                  serviceType: '',
-                })
-                setDropdownCommercialOpen(false)
-              }}
-            >
-              {district.commercialCodeName}
-            </DropdownContent>
-          ))}
-        </DropdownBox>
-      )}
+        {isRecommendPage ? (
+          ''
+        ) : (
+          <Select
+            placeholder={selectedCommercial.name}
+            indicator={<KeyboardArrowDown />}
+            sx={{
+              paddingRight: '5px',
+              minWidth: '140px',
+              maxWidth: '150px',
+              marginLeft: '5px',
+              [`& .${selectClasses.indicator}`]: {
+                transition: '0.2s',
+                [`&.${selectClasses.expanded}`]: {
+                  transform: 'rotate(-180deg)',
+                },
+              },
+              fontFamily: 'Pretendard',
+              fontWeight: 600,
+              fontSize: '14px',
+            }}
+          >
+            {commercialListData?.dataBody.map(option => (
+              <Option
+                value={option.commercialCode}
+                key={option.commercialCode}
+                onClick={() => {
+                  // store에 선택 값 저장
+                  setSelectedCommercial({
+                    name: option.commercialCodeName,
+                    code: option.commercialCode,
+                  })
+                  // 업종 선택값 초기화
+                  setSelectedServiceType('')
+                  setSelectedService({
+                    serviceCode: '',
+                    serviceCodeName: '',
+                    serviceType: '',
+                  })
+                }}
+              >
+                {option.commercialCodeName}
+              </Option>
+            ))}
+          </Select>
+
+          // <Dropdown
+          //   onClick={() => {
+          //     if (selectedDong.name !== '행정동') {
+          //       setDropdownCommercialOpen(!dropdownCommercialOpen)
+          //     } else {
+          //       console.log(' 동을 먼저 선택해주세요')
+          //     }
+          //   }}
+          // >
+          //   {/* 상권 드롭다운 */}
+          //   <SelectedDistrict>{selectedCommercial.name}</SelectedDistrict>
+          //   <ArrowIcon src={down_arrow} />
+          // </Dropdown>
+        )}
+      </SelectPlace>
     </Place>
   )
 }

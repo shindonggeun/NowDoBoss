@@ -126,7 +126,7 @@ export const BuildingContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin: 2rem 1rem 5rem 1rem;
+  margin: 2rem 1rem 3rem 1rem;
 `
 
 export const BuildingImg = styled.img`
@@ -157,7 +157,7 @@ export const FloorContainer = styled.div`
 export const GoReportContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 5rem;
+  margin-top: 12vh;
 `
 
 export const GoReportButton = styled.button`

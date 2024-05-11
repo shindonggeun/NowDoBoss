@@ -8,7 +8,7 @@ export const Overlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
   z-index: 9999;
   .scroll-locked {
     overflow: hidden;
@@ -35,15 +35,15 @@ export const Container = styled.div`
   //  width: 45vw;
   width: 100%;
   max-width: 40rem;
-  height: 100vh;
+  height: 95vh;
+  border-radius: 10px;
   background-color: #fff;
   position: absolute;
-  top: 0;
+  top: 3vh;
   left: 50%;
   transform: translate(-50%, 0);
   overflow-y: auto;
   overflow-x: hidden;
-  //padding-top: 80px; // 헤더 높이 조절용
 
   ::-webkit-scrollbar {
     display: none;
@@ -52,7 +52,7 @@ export const Container = styled.div`
   scrollbar-width: none;
 
   @media (max-width: 768px) {
-    width: 100vw;
+    width: 90vw;
   }
 `
 

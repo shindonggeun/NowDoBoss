@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.commercial.service;
 
+import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalSalesInfo;
 import com.ssafy.backend.domain.administration.entity.SalesAdministration;
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.commercial.dto.info.*;
@@ -8,6 +9,7 @@ import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
+import com.ssafy.backend.domain.district.dto.info.DistrictTotalSalesInfo;
 import com.ssafy.backend.domain.district.entity.SalesDistrict;
 import com.ssafy.backend.domain.district.entity.enums.ServiceType;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
@@ -236,12 +238,28 @@ public class CommercialServiceImpl implements CommercialService {
         SalesAdministration salesAdministration = salesAdministrationRepository.findByPeriodCodeAndAdministrationCodeAndServiceCode(periodCode, administrationCode, serviceCode)
                 .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_행정동 데이터가 없습니다."));
 
-
         SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
                 .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_상권 데이터가 없습니다."));
 
+        DistrictTotalSalesInfo districtTotalSalesInfo = new DistrictTotalSalesInfo(
+                salesDistrict.getDistrictCode(),
+                salesDistrict.getDistrictCodeName(),
+                salesDistrict.getMonthSales()
+        );
 
-        return null;
+        AdministrationTotalSalesInfo administrationTotalSalesInfo = new AdministrationTotalSalesInfo(
+                salesAdministration.getAdministrationCode(),
+                salesAdministration.getAdministrationCodeName(),
+                salesAdministration.getMonthSales()
+        );
+
+        CommercialTotalSalesInfo commercialTotalSalesInfo = new CommercialTotalSalesInfo(
+                salesCommercial.getCommercialCode(),
+                salesCommercial.getCommercialCodeName(),
+                salesCommercial.getMonthSales()
+        );
+
+        return new AllSalesResponse(districtTotalSalesInfo, administrationTotalSalesInfo, commercialTotalSalesInfo);
     }
 
     @Override

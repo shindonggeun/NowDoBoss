@@ -24,7 +24,7 @@ const SideBar = () => {
       <s.MenuItem
         onClick={() => navigate('/profile/settings/edit')}
         style={{
-          fontWeight: isActive('/profile/settings/edit') ? '600' : '400',
+          fontWeight: isActive('/profile/settings') ? '600' : '400',
         }}
       >
         개인 정보 설정

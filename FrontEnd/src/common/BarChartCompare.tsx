@@ -35,6 +35,7 @@ const BarChart2 = (props: BarChartProps) => {
   }
 
   const options = {
+    // maintainAspectRatio: false,
     responsive: true,
     interaction: {
       intersect: false,
@@ -75,7 +76,7 @@ const BarChart2 = (props: BarChartProps) => {
         const { ctx } = chart
         ctx.save()
         chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
-          ctx.font = 'bolder 12px sans-serif'
+          ctx.font = 'bolder 14px sans-serif'
           ctx.fillStyle = data.datasets[0].borderColor[index]
           ctx.textAlign = 'center'
           ctx.fillText(

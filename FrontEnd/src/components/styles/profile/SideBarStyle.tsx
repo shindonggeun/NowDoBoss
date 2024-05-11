@@ -18,10 +18,6 @@ export const MenuItem = styled.div`
   color: #333;
   cursor: pointer;
 
-  &:hover {
-    background-color: #e7e7e7;
-  }
-
   &:not(:first-child) {
     margin-top: 5px; // 첫 번째 항목을 제외하고 상단 마진 추가
   }

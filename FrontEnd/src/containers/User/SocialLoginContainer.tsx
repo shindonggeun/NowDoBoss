@@ -8,7 +8,6 @@ interface Props {
 
 const SocialLoginContainer = (props: Props) => {
   const { state } = props
-  console.log(state)
 
   const { data: googleUrl } = useQuery({
     queryKey: ['googleUrl'],

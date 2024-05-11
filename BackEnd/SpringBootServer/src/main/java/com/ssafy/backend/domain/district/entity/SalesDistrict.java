@@ -10,6 +10,12 @@ import org.hibernate.annotations.Comment;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {
+        @Index(name = "idx_period_code", columnList = "periodCode"),
+        @Index(name = "idx_district_code", columnList = "districtCode"),
+        @Index(name = "idx_district_code_name", columnList = "districtCodeName"),
+        @Index(name = "idx_service_code", columnList = "serviceCode")
+})
 public class SalesDistrict {
     @Id
     @Comment("추정매출_자치구_아이디")

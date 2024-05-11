@@ -15,7 +15,7 @@ const SideBar = () => {
       <s.MenuItem
         onClick={() => navigate('/profile/bookmarks')}
         style={{
-          fontWeight: isActive('/profile/bookmarks') ? '600' : 'normal',
+          fontWeight: isActive('/profile/bookmarks') ? '600' : '400',
         }}
       >
         북마크
@@ -24,15 +24,15 @@ const SideBar = () => {
       <s.MenuItem
         onClick={() => navigate('/profile/edit')}
         style={{
-          fontWeight: isActive('/profile/edit') ? '600' : 'normal',
+          fontWeight: isActive('/profile/edit') ? '600' : '400',
         }}
       >
-        개인 정보 설정
+        개인 정보 수정
       </s.MenuItem>
       <s.MenuItem
         onClick={() => navigate('/profile/change-password')}
         style={{
-          fontWeight: isActive('/profile/change-password') ? '600' : 'normal',
+          fontWeight: isActive('/profile/change-password') ? '600' : '400',
         }}
       >
         비밀번호 변경
@@ -41,7 +41,7 @@ const SideBar = () => {
       <s.MenuItem
         onClick={() => navigate('/profile/withdraw')}
         style={{
-          fontWeight: isActive('/profile/withdraw') ? '600' : 'normal',
+          fontWeight: isActive('/profile/withdraw') ? '600' : '400',
         }}
       >
         회원탈퇴

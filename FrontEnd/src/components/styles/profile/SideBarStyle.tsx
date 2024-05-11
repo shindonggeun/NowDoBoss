@@ -13,10 +13,15 @@ export const Container = styled.div`
 `
 
 export const MenuItem = styled.div`
-  padding: 10px 0;
-  font-size: 1rem;
+  padding: 10px 4px;
+  font-size: 16px;
   color: #333;
   cursor: pointer;
+
+  &:hover {
+    border-radius: 5px;
+    background-color: #f3f4f5; // 호버 시 배경색 변경
+  }
 
   &:not(:first-child) {
     margin-top: 5px; // 첫 번째 항목을 제외하고 상단 마진 추가

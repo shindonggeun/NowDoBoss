@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import * as s from '@src/components/styles/profile/SideBarStyle'
 
 const SideBar = () => {
@@ -22,30 +22,14 @@ const SideBar = () => {
       </s.MenuItem>
       <s.Divider />
       <s.MenuItem
-        onClick={() => navigate('/profile/edit')}
+        onClick={() => navigate('/profile/settings/edit')}
         style={{
-          fontWeight: isActive('/profile/edit') ? '600' : '400',
+          fontWeight: isActive('/profile/settings/edit') ? '600' : '400',
         }}
       >
-        개인 정보 수정
-      </s.MenuItem>
-      <s.MenuItem
-        onClick={() => navigate('/profile/change-password')}
-        style={{
-          fontWeight: isActive('/profile/change-password') ? '600' : '400',
-        }}
-      >
-        비밀번호 변경
+        개인 정보 설정
       </s.MenuItem>
       <s.MenuItem>로그아웃</s.MenuItem>
-      <s.MenuItem
-        onClick={() => navigate('/profile/withdraw')}
-        style={{
-          fontWeight: isActive('/profile/withdraw') ? '600' : '400',
-        }}
-      >
-        회원탈퇴
-      </s.MenuItem>
     </s.Container>
   )
 }

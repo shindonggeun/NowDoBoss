@@ -21,7 +21,7 @@ const ReportHeader = ({ onClose }: HeaderType) => {
       <c.HeaderLeft>
         <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
       </c.HeaderLeft>
-      <c.HeaderRignt>
+      <c.HeaderRight>
         <h.HeaderIcon onClick={onClickSave}>
           {isSaved ? (
             <h.SaveIcon src={SaveCheckIcon} alt="saveCheck" />
@@ -35,7 +35,7 @@ const ReportHeader = ({ onClose }: HeaderType) => {
           비교하기
         </h.HeaderIcon>
         <c.CloseIcon src={Xmark} alt="close" onClick={onClose} />
-      </c.HeaderRignt>
+      </c.HeaderRight>
     </c.SelctionHeader>
   )
 }

@@ -51,7 +51,6 @@ const ReportDetail = ({ ReportData }: { ReportData: SimulationReportType }) => {
     <>
       <c.SummaryHeader>
         <c.LightIcon src={LightIcon} alt="close" />
-
         <c.HighLight>예상비용 상세</c.HighLight>
         <c.SummarySubTitle>아래의 비용들을 더해 계산했어요</c.SummarySubTitle>
       </c.SummaryHeader>

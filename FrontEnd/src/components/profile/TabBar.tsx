@@ -1,35 +1,31 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { TabBarPropsType } from '@src/types/ProfileType'
 import * as t from '@src/components/styles/profile/TabBarStyle'
 
-const TabBar = () => {
-  const [activeTab, setActiveTab] = useState('전체')
+const TabBar = (props: TabBarPropsType) => {
+  const { tabs } = props
+  const navigate = useNavigate()
+  const [activeTab, setActiveTab] = useState(tabs[0].label)
+
+  const handleTabClick = (path: string) => {
+    navigate(path) // 지정된 경로로 이동
+  }
 
   return (
     <t.Container>
-      <t.TabItem
-        $isActive={activeTab === '전체'}
-        onClick={() => setActiveTab('전체')}
-      >
-        전체
-      </t.TabItem>
-      <t.TabItem
-        $isActive={activeTab === '상권분석'}
-        onClick={() => setActiveTab('상권분석')}
-      >
-        상권분석
-      </t.TabItem>
-      <t.TabItem
-        $isActive={activeTab === '상권추천'}
-        onClick={() => setActiveTab('상권추천')}
-      >
-        상권추천
-      </t.TabItem>
-      <t.TabItem
-        $isActive={activeTab === '창업시뮬레이션'}
-        onClick={() => setActiveTab('창업시뮬레이션')}
-      >
-        창업시뮬레이션
-      </t.TabItem>
+      {tabs.map(tab => (
+        <t.TabItem
+          key={tab.label}
+          $isActive={activeTab === tab.label}
+          onClick={() => {
+            setActiveTab(tab.label)
+            handleTabClick(tab.path)
+          }}
+        >
+          {tab.label}
+        </t.TabItem>
+      ))}
     </t.Container>
   )
 }

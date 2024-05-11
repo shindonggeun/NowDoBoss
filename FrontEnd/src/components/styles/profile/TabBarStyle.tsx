@@ -6,8 +6,12 @@ interface TabItemPropsStyleType {
 
 export const Container = styled.div`
   display: flex;
-  margin: 8px 0 24px;
   box-sizing: border-box;
+  margin: 8px 0 50px;
+
+  @media (max-width: 768px) {
+    margin: 8px 0 30px;
+  }
 `
 
 export const TabItem = styled.div<TabItemPropsStyleType>`
@@ -22,7 +26,6 @@ export const TabItem = styled.div<TabItemPropsStyleType>`
   cursor: pointer;
   &:hover {
     background-color: #eaecee;
-    border-radius: 5px;
   }
 
   @media (max-width: 800px) {
@@ -35,10 +38,5 @@ export const TabItem = styled.div<TabItemPropsStyleType>`
 
   @media (max-width: 576px) {
     padding: 10px 5px;
-  }
-
-  @media (max-width: 405px) {
-    font-size: 12px;
-    padding: 10px 3px;
   }
 `

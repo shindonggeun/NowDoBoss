@@ -1,5 +1,11 @@
+import Title from '@src/components/profile/Title'
+
 const WithdrawContainer = () => {
-  return <>회원탈퇴페이지입니다.</>
+  return (
+    <div>
+      <Title title="회원탈퇴" />
+    </div>
+  )
 }
 
 export default WithdrawContainer

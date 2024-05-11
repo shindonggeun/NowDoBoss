@@ -2,10 +2,10 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   position: fixed;
-  top: 0;
+  top: 69px;
   left: 0;
   width: 40vw;
-  height: 97vh;
+  height: 88vh;
   z-index: 1000;
   background-color: white;
 
@@ -26,7 +26,9 @@ export const Container = styled.div`
   }
 
   @media (max-width: 768px) {
+    top: -10px;
     width: 100%;
+    height: 100vh;
   }
 `
 
@@ -90,10 +92,14 @@ interface BarInnerTextProps {
 
 export const BarInnerText = styled.div<BarInnerTextProps>`
   display: inline-block;
-  margin: 10px 15px;
+  padding: 10px 15px;
   cursor: pointer;
   color: ${props => (props.isActive ? '#154daf' : 'black')};
   border-bottom: ${props => (props.isActive ? '2px solid #7DB6EB' : 'none')};
+
+  @media (max-width: 768px) {
+    padding: 10px 7px;
+  }
 `
 
 export const TabBarContainer = styled.div`

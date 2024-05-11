@@ -23,7 +23,6 @@ const StatusDetailbarComponent = ({
   onClickRegionHandler,
   regionCode,
 }: StatusDetailbarProps) => {
-  const [activeTab, setActiveTab] = useState<string>('유동인구')
   const scrollRef = useRef<HTMLDivElement[]>([])
   const detailbarRef = useRef<HTMLDivElement>(null)
 
@@ -44,6 +43,10 @@ const StatusDetailbarComponent = ({
 
   const categories = useMemo(
     () => [
+      {
+        name: '핵심요약',
+        component: DetailCommercialComponent,
+      },
       {
         name: '유동인구',
         component: DetailPopulationComponent,
@@ -67,13 +70,11 @@ const StatusDetailbarComponent = ({
         component: DetailAnalysisComponent,
         // component: DetailPopulationComponent,
       },
-      {
-        name: '상권변화',
-        component: DetailCommercialComponent,
-      },
     ],
     [],
   )
+
+  const [activeTab, setActiveTab] = useState<string>(categories[0].name)
 
   const onClickActiveTab = (tab: string) => {
     setActiveTab(tab)

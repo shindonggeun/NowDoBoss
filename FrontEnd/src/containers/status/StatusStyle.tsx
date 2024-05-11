@@ -27,6 +27,10 @@ export const Sidebar = styled.div`
   }
 `
 
+export const EmptyContainer = styled.div`
+  width: 700px;
+`
+
 export const Content = styled.div`
   flex: 1;
 `

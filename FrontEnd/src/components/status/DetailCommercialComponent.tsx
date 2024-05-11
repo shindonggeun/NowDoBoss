@@ -53,7 +53,7 @@ const DetailCommercialComponent = ({ props }: DetailCommercialProps) => {
 
   return (
     <>
-      <ContainerBox height={30} />
+      <ContainerBox height={20} />
       <h.SummaryHeader>
         <h.LightIcon src={ThumbUp} alt="close" />
 

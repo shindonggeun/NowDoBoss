@@ -46,15 +46,19 @@ const StatusContainer = () => {
             />
           )}
 
-          <c.Sidebar>
-            <StatusSidebarTopComponent
-              TopLists={data.dataBody}
-              Tab={tab}
-              onClickSetTab={onClickSetTab}
-              onClickRegionHandler={onClickRegionHandler}
-              onClickRegionCodeHandler={onClickRegionCodeHandler}
-            />
-          </c.Sidebar>
+          {selectedRegion ? (
+            <c.EmptyContainer />
+          ) : (
+            <c.Sidebar>
+              <StatusSidebarTopComponent
+                TopLists={data.dataBody}
+                Tab={tab}
+                onClickSetTab={onClickSetTab}
+                onClickRegionHandler={onClickRegionHandler}
+                onClickRegionCodeHandler={onClickRegionCodeHandler}
+              />
+            </c.Sidebar>
+          )}
 
           <c.Content>
             <StatusPolygonComponent

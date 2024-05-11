@@ -24,7 +24,7 @@ export const MixInnerConatiner = styled.div`
 export const MixInnerConatiner2 = styled.div`
   flex: 1;
   width: 17rem;
-  margin: 0 auto;
+  margin: 0 auto 20px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -96,7 +96,7 @@ export const AnalysisDataIcon = styled.img`
 `
 
 export const SummaryContainer = styled.div`
-  margin: 1rem 2vw;
+  margin: 1rem 1vw;
 `
 
 export const SummaryTitle = styled.div`

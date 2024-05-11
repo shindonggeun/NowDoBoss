@@ -2,7 +2,7 @@ import { DetailDataBody } from '@src/types/StatusType'
 import * as c from '@src/components/styles/status/DeatilComponentStyle'
 import UpIcon from '@src/assets/top_arrow_up.svg'
 import DownIcon from '@src/assets/top_arrow_down.svg'
-import ContainerBox from '@src/common/ContainerBox.tsx'
+import ContainerBox from '@src/common/ContainerBox'
 
 interface DetailAnalysisProps {
   props: DetailDataBody

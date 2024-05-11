@@ -87,14 +87,7 @@ const userStore = create<UserStoreType>(set => ({
       },
     }))
   },
-  setMemberInfo: (fieldName: keyof MemberInfoType, value: string) => {
-    set(state => ({
-      memberInfo: {
-        ...state.memberInfo,
-        [fieldName]: value,
-      },
-    }))
-  },
+  setMemberInfo: (dataBody: MemberInfoType) => set({ memberInfo: dataBody }),
 }))
 
 export default userStore

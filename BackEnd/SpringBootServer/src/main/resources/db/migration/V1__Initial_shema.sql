@@ -1,3 +1,216 @@
+--
+-- Table structure for table `member`
+--
+
+DROP TABLE IF EXISTS `member`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `member` (
+                          `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+                          `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '회원 아이디',
+                          `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+                          `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '이메일',
+                          `name` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '이름',
+                          `nickname` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '닉네임',
+                          `password` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '비밀번호',
+                          `profile_image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '프로필 이미지 URL',
+                          `provider` enum('KAKAO','NAVER','GOOGLE') CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '소셜 로그인 제공업체',
+                          `role` enum('USER','ADMIN') CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '권한',
+                          PRIMARY KEY (`id`),
+                          KEY `idx_email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `chat_room`
+--
+
+DROP TABLE IF EXISTS `chat_room`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chat_room` (
+                             `chat_room_limit` int unsigned DEFAULT NULL COMMENT '채팅방 제한 인원수',
+                             `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+                             `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '채팅방 아이디',
+                             `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+                             `chat_room_introduction` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '채팅방 소개',
+                             `chat_room_name` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '채팅방 이름',
+                             `category` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '카테고리',
+                             PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `chat_message`
+--
+
+DROP TABLE IF EXISTS `chat_message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chat_message` (
+                                `chat_room_id` int unsigned NOT NULL COMMENT '채팅방 아이디',
+                                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+                                `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '채팅 내역 아이디',
+                                `member_id` int unsigned NOT NULL COMMENT '작성자 아이디',
+                                `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+                                `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '채팅 내용',
+                                `type` enum('ENTER','EXIT','TALK') CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '채팅 내용 종류',
+                                PRIMARY KEY (`id`),
+                                KEY `FKj52yap2xrm9u0721dct0tjor9` (`chat_room_id`),
+                                KEY `FKynfbnbqot8mpd1tquoc2s1w5` (`member_id`),
+                                CONSTRAINT `FKj52yap2xrm9u0721dct0tjor9` FOREIGN KEY (`chat_room_id`) REFERENCES `chat_room` (`id`),
+                                CONSTRAINT `FKynfbnbqot8mpd1tquoc2s1w5` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `chat_room_member`
+--
+
+DROP TABLE IF EXISTS `chat_room_member`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chat_room_member` (
+                                    `chat_room_id` int unsigned NOT NULL COMMENT '채팅방 아이디',
+                                    `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '채팅방 구성 아이디',
+                                    `member_id` int unsigned NOT NULL COMMENT '구성원 아이디',
+                                    PRIMARY KEY (`id`),
+                                    KEY `FKo6a9v51aal2574fjb1ldlw4di` (`chat_room_id`),
+                                    KEY `FKq64atn9y4cyjpp4qcrllxi3o5` (`member_id`),
+                                    CONSTRAINT `FKo6a9v51aal2574fjb1ldlw4di` FOREIGN KEY (`chat_room_id`) REFERENCES `chat_room` (`id`),
+                                    CONSTRAINT `FKq64atn9y4cyjpp4qcrllxi3o5` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `community`
+--
+
+DROP TABLE IF EXISTS `community`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `community` (
+                             `read_count` int unsigned NOT NULL COMMENT '조회수',
+                             `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+                             `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '커뮤니티 아이디',
+                             `member_id` int unsigned NOT NULL COMMENT '작성자 아이디',
+                             `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+                             `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '커뮤니티 글 내용',
+                             `title` varchar(65) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '제목',
+                             `category` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '카테고리',
+                             PRIMARY KEY (`id`),
+                             KEY `FKhcwt9ggjfvanatb6u621vbf1r` (`member_id`),
+                             CONSTRAINT `FKhcwt9ggjfvanatb6u621vbf1r` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comment` (
+                           `community_id` int unsigned NOT NULL COMMENT '커뮤니티 글 아이디',
+                           `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+                           `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '댓글 아이디',
+                           `member_id` int unsigned NOT NULL COMMENT '작성자 아이디',
+                           `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+                           `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '댓글 내용',
+                           PRIMARY KEY (`id`),
+                           KEY `FKbwy7a8hwdjqbm26qadw82ikqg` (`community_id`),
+                           KEY `FKmrrrpi513ssu63i2783jyiv9m` (`member_id`),
+                           CONSTRAINT `FKbwy7a8hwdjqbm26qadw82ikqg` FOREIGN KEY (`community_id`) REFERENCES `community` (`id`),
+                           CONSTRAINT `FKmrrrpi513ssu63i2783jyiv9m` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `image`
+--
+
+DROP TABLE IF EXISTS `image`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `image` (
+                         `community_id` int unsigned NOT NULL COMMENT '커뮤니티 아이디',
+                         `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '커뮤니티 이미지 아이디',
+                         `url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '이미지 url',
+                         PRIMARY KEY (`id`),
+                         KEY `FKqv3gf8jaakhx7b0yp5x84642q` (`community_id`),
+                         CONSTRAINT `FKqv3gf8jaakhx7b0yp5x84642q` FOREIGN KEY (`community_id`) REFERENCES `community` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `service_type`
+--
+
+DROP TABLE IF EXISTS `service_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `service_type` (
+                                `key_money` int NOT NULL COMMENT '권리금 수준 평균, 단위: 만원',
+                                `key_money_level` decimal(10,2) DEFAULT NULL COMMENT '권리금 수준 ㎡당 평균, 만원/㎡',
+                                `key_money_ratio` decimal(10,2) DEFAULT NULL COMMENT '권리금 유 비율',
+                                `large_size` int NOT NULL COMMENT '대형 크기(m²)',
+                                `medium_size` int NOT NULL COMMENT '중형 크기(m²)',
+                                `small_size` int NOT NULL COMMENT '소형 크기(m²)',
+                                `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '서비스 아이디',
+                                `service_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '업종 코드',
+                                `service_code_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '업종 이름',
+                                PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `rent`
+--
+
+DROP TABLE IF EXISTS `rent`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `rent` (
+                        `first_floor` int NOT NULL COMMENT '1층 임대료(단위: 3.3㎡당 월환산임대료, 원)',
+                        `other_floor` int NOT NULL COMMENT '1층 외 임대료(단위: 3.3㎡당 월환산임대료, 원)',
+                        `total` int NOT NULL COMMENT '전체 층 임대료(단위: 3.3㎡당 월환산임대료, 원)',
+                        `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '임대료 아이디',
+                        `district_code` varchar(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '자치구 코드',
+                        `district_code_name` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '자치구 코드 명',
+                        PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `franchisee`
+--
+
+DROP TABLE IF EXISTS `franchisee`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `franchisee` (
+                              `area` int NOT NULL COMMENT '기준점포면적(㎡)',
+                              `deposit` int NOT NULL COMMENT '가맹 보증금, 천원',
+                              `education` int NOT NULL COMMENT '교육비, 천원',
+                              `etc` int NOT NULL COMMENT '기타비용, 천원',
+                              `interior` int NOT NULL COMMENT '인테리어 비용, 천원',
+                              `subscription` int NOT NULL COMMENT '가입비, 천원',
+                              `total_levy` int NOT NULL COMMENT '부담금 합계, 천원',
+                              `unit_area` int NOT NULL COMMENT '단위면적(3.3㎡)당 인테리어 비용, 천원',
+                              `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '프랜차이즈 아이디',
+                              `service_type_id` int unsigned NOT NULL COMMENT '서비스 아이디',
+                              `brand_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '브랜드 이름',
+                              PRIMARY KEY (`id`),
+                              KEY `FK3046354yfkxp6v9fo14gswkhw` (`service_type_id`),
+                              CONSTRAINT `FK3046354yfkxp6v9fo14gswkhw` FOREIGN KEY (`service_type_id`) REFERENCES `service_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12124 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `area_commercial`
+--
+
 DROP TABLE IF EXISTS `area_commercial`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -60,111 +273,6 @@ CREATE TABLE `change_district` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `chat_message`
---
-
-DROP TABLE IF EXISTS `chat_message`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `chat_message` (
-                                `chat_room_id` int unsigned NOT NULL COMMENT '채팅방 아이디',
-                                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-                                `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '채팅 내역 아이디',
-                                `member_id` int unsigned NOT NULL COMMENT '작성자 아이디',
-                                `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
-                                `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '채팅 내용',
-                                `type` enum('ENTER','EXIT','TALK') CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '채팅 내용 종류',
-                                PRIMARY KEY (`id`),
-                                KEY `FKj52yap2xrm9u0721dct0tjor9` (`chat_room_id`),
-                                KEY `FKynfbnbqot8mpd1tquoc2s1w5` (`member_id`),
-                                CONSTRAINT `FKj52yap2xrm9u0721dct0tjor9` FOREIGN KEY (`chat_room_id`) REFERENCES `chat_room` (`id`),
-                                CONSTRAINT `FKynfbnbqot8mpd1tquoc2s1w5` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `chat_room`
---
-
-DROP TABLE IF EXISTS `chat_room`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `chat_room` (
-                             `chat_room_limit` int unsigned DEFAULT NULL COMMENT '채팅방 제한 인원수',
-                             `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-                             `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '채팅방 아이디',
-                             `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
-                             `chat_room_introduction` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '채팅방 소개',
-                             `chat_room_name` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '채팅방 이름',
-                             `category` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '카테고리',
-                             PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `chat_room_member`
---
-
-DROP TABLE IF EXISTS `chat_room_member`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `chat_room_member` (
-                                    `chat_room_id` int unsigned NOT NULL COMMENT '채팅방 아이디',
-                                    `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '채팅방 구성 아이디',
-                                    `member_id` int unsigned NOT NULL COMMENT '구성원 아이디',
-                                    PRIMARY KEY (`id`),
-                                    KEY `FKo6a9v51aal2574fjb1ldlw4di` (`chat_room_id`),
-                                    KEY `FKq64atn9y4cyjpp4qcrllxi3o5` (`member_id`),
-                                    CONSTRAINT `FKo6a9v51aal2574fjb1ldlw4di` FOREIGN KEY (`chat_room_id`) REFERENCES `chat_room` (`id`),
-                                    CONSTRAINT `FKq64atn9y4cyjpp4qcrllxi3o5` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `comment`
---
-
-DROP TABLE IF EXISTS `comment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `comment` (
-                           `community_id` int unsigned NOT NULL COMMENT '커뮤니티 글 아이디',
-                           `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-                           `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '댓글 아이디',
-                           `member_id` int unsigned NOT NULL COMMENT '작성자 아이디',
-                           `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
-                           `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '댓글 내용',
-                           PRIMARY KEY (`id`),
-                           KEY `FKbwy7a8hwdjqbm26qadw82ikqg` (`community_id`),
-                           KEY `FKmrrrpi513ssu63i2783jyiv9m` (`member_id`),
-                           CONSTRAINT `FKbwy7a8hwdjqbm26qadw82ikqg` FOREIGN KEY (`community_id`) REFERENCES `community` (`id`),
-                           CONSTRAINT `FKmrrrpi513ssu63i2783jyiv9m` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `community`
---
-
-DROP TABLE IF EXISTS `community`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `community` (
-                             `read_count` int unsigned NOT NULL COMMENT '조회수',
-                             `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-                             `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '커뮤니티 아이디',
-                             `member_id` int unsigned NOT NULL COMMENT '작성자 아이디',
-                             `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
-                             `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '커뮤니티 글 내용',
-                             `title` varchar(65) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '제목',
-                             `category` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '카테고리',
-                             PRIMARY KEY (`id`),
-                             KEY `FKhcwt9ggjfvanatb6u621vbf1r` (`member_id`),
-                             CONSTRAINT `FKhcwt9ggjfvanatb6u621vbf1r` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `device_token`
 --
 
@@ -205,29 +313,6 @@ CREATE TABLE `facility_commercial` (
                                        KEY `idx_period_code` (`period_code`),
                                        KEY `idx_commercial_code` (`commercial_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18937 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `flyway_schema_history`
---
-
-DROP TABLE IF EXISTS `flyway_schema_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `flyway_schema_history` (
-                                         `installed_rank` int NOT NULL,
-                                         `version` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-                                         `description` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-                                         `type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-                                         `script` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-                                         `checksum` int DEFAULT NULL,
-                                         `installed_by` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-                                         `installed_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                         `execution_time` int NOT NULL,
-                                         `success` tinyint(1) NOT NULL,
-                                         PRIMARY KEY (`installed_rank`),
-                                         KEY `flyway_schema_history_s_idx` (`success`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,48 +398,6 @@ CREATE TABLE `foot_traffic_district` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `franchisee`
---
-
-DROP TABLE IF EXISTS `franchisee`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `franchisee` (
-                              `area` int NOT NULL COMMENT '기준점포면적(㎡)',
-                              `deposit` int NOT NULL COMMENT '가맹 보증금, 천원',
-                              `education` int NOT NULL COMMENT '교육비, 천원',
-                              `etc` int NOT NULL COMMENT '기타비용, 천원',
-                              `interior` int NOT NULL COMMENT '인테리어 비용, 천원',
-                              `subscription` int NOT NULL COMMENT '가입비, 천원',
-                              `total_levy` int NOT NULL COMMENT '부담금 합계, 천원',
-                              `unit_area` int NOT NULL COMMENT '단위면적(3.3㎡)당 인테리어 비용, 천원',
-                              `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '프랜차이즈 아이디',
-                              `service_type_id` int unsigned NOT NULL COMMENT '서비스 아이디',
-                              `brand_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '브랜드 이름',
-                              PRIMARY KEY (`id`),
-                              KEY `FK3046354yfkxp6v9fo14gswkhw` (`service_type_id`),
-                              CONSTRAINT `FK3046354yfkxp6v9fo14gswkhw` FOREIGN KEY (`service_type_id`) REFERENCES `service_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12124 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `image`
---
-
-DROP TABLE IF EXISTS `image`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `image` (
-                         `community_id` int unsigned NOT NULL COMMENT '커뮤니티 아이디',
-                         `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '커뮤니티 이미지 아이디',
-                         `url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '이미지 url',
-                         PRIMARY KEY (`id`),
-                         KEY `FKqv3gf8jaakhx7b0yp5x84642q` (`community_id`),
-                         CONSTRAINT `FKqv3gf8jaakhx7b0yp5x84642q` FOREIGN KEY (`community_id`) REFERENCES `community` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `income_administration`
 --
 
@@ -425,29 +468,6 @@ CREATE TABLE `income_district` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `member`
---
-
-DROP TABLE IF EXISTS `member`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `member` (
-                          `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-                          `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '회원 아이디',
-                          `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
-                          `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '이메일',
-                          `name` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '이름',
-                          `nickname` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '닉네임',
-                          `password` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '비밀번호',
-                          `profile_image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '프로필 이미지 URL',
-                          `provider` enum('KAKAO','NAVER','GOOGLE') CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '소셜 로그인 제공업체',
-                          `role` enum('USER','ADMIN') CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '권한',
-                          PRIMARY KEY (`id`),
-                          KEY `idx_email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `population_commercial`
 --
 
@@ -474,24 +494,6 @@ CREATE TABLE `population_commercial` (
                                          KEY `idx_period_code` (`period_code`),
                                          KEY `idx_commercial_code` (`commercial_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26112 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `rent`
---
-
-DROP TABLE IF EXISTS `rent`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `rent` (
-                        `first_floor` int NOT NULL COMMENT '1층 임대료(단위: 3.3㎡당 월환산임대료, 원)',
-                        `other_floor` int NOT NULL COMMENT '1층 외 임대료(단위: 3.3㎡당 월환산임대료, 원)',
-                        `total` int NOT NULL COMMENT '전체 층 임대료(단위: 3.3㎡당 월환산임대료, 원)',
-                        `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '임대료 아이디',
-                        `district_code` varchar(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '자치구 코드',
-                        `district_code_name` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '자치구 코드 명',
-                        PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -616,27 +618,6 @@ CREATE TABLE `sales_district` (
                                   `service_type` enum('RESTAURANT','ACADEMY','LEISURE','SERVICE','RETAIL','HOUSEHOLDS') CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '서비스 업종 타입',
                                   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29305 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `service_type`
---
-
-DROP TABLE IF EXISTS `service_type`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `service_type` (
-                                `key_money` int NOT NULL COMMENT '권리금 수준 평균, 단위: 만원',
-                                `key_money_level` decimal(10,2) DEFAULT NULL COMMENT '권리금 수준 ㎡당 평균, 만원/㎡',
-                                `key_money_ratio` decimal(10,2) DEFAULT NULL COMMENT '권리금 유 비율',
-                                `large_size` int NOT NULL COMMENT '대형 크기(m²)',
-                                `medium_size` int NOT NULL COMMENT '중형 크기(m²)',
-                                `small_size` int NOT NULL COMMENT '소형 크기(m²)',
-                                `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '서비스 아이디',
-                                `service_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '업종 코드',
-                                `service_code_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '업종 이름',
-                                PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

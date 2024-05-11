@@ -12,7 +12,8 @@ import * as u from '@src/containers/User/UserContainerStyle'
 import Swal from 'sweetalert2'
 
 const LoginContainer = () => {
-  const { loginData } = userStore()
+  const loginData = userStore(state => state.loginData)
+  const setMemberInfo = userStore(state => state.setMemberInfo)
   const [, setCookie] = useCookies(['accessToken'])
   const navigate = useNavigate()
 
@@ -35,6 +36,9 @@ const LoginContainer = () => {
         const { memberInfo } = res.dataBody
         localStorage.setItem('memberInfo', JSON.stringify(memberInfo))
         localStorage.setItem('isLogIn', 'true')
+
+        // 회원정보 상태관리 추가
+        setMemberInfo(memberInfo)
 
         const Toast = Swal.mixin({
           toast: true,

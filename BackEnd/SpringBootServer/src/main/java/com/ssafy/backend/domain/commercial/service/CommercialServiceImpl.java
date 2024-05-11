@@ -1,7 +1,10 @@
 package com.ssafy.backend.domain.commercial.service;
 
+import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalIncomeInfo;
 import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalSalesInfo;
+import com.ssafy.backend.domain.administration.entity.IncomeAdministration;
 import com.ssafy.backend.domain.administration.entity.SalesAdministration;
+import com.ssafy.backend.domain.administration.repository.IncomeAdministrationRepository;
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.commercial.dto.info.*;
 import com.ssafy.backend.domain.commercial.dto.response.*;
@@ -9,9 +12,12 @@ import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
+import com.ssafy.backend.domain.district.dto.info.DistrictTotalIncomeInfo;
 import com.ssafy.backend.domain.district.dto.info.DistrictTotalSalesInfo;
+import com.ssafy.backend.domain.district.entity.IncomeDistrict;
 import com.ssafy.backend.domain.district.entity.SalesDistrict;
 import com.ssafy.backend.domain.district.entity.enums.ServiceType;
+import com.ssafy.backend.domain.district.repository.IncomeDistrictRepository;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +43,8 @@ public class CommercialServiceImpl implements CommercialService {
     private final IncomeCommercialRepository incomeCommercialRepository;
     private final SalesDistrictRepository salesDistrictRepository;
     private final SalesAdministrationRepository salesAdministrationRepository;
+    private final IncomeDistrictRepository incomeDistrictRepository;
+    private final IncomeAdministrationRepository incomeAdministrationRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -384,6 +392,38 @@ public class CommercialServiceImpl implements CommercialService {
                 annualQuarterIncomeInfos,
                 typeIncome
         );
+    }
+
+    @Override
+    public AllIncomeResponse getAllIncomeByPeriodCodeAndDistrictCodeAndAdministrationCodeAndCommercialCode(String periodCode, String districtCode, String administrationCode, String commercialCode) {
+        IncomeDistrict incomeDistrict = incomeDistrictRepository.findByPeriodCodeAndDistrictCode(periodCode, districtCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 소득소비_자치구 데이터가 없습니다."));
+
+        IncomeAdministration incomeAdministration = incomeAdministrationRepository.findByPeriodCodeAndAdministrationCode(periodCode, administrationCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 소득소비_행정동 데이터가 없습니다."));
+
+        IncomeCommercial incomeCommercial = incomeCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 소득소비_상권 데이터가 없습니다."));
+
+        DistrictTotalIncomeInfo districtTotalIncomeInfo = new DistrictTotalIncomeInfo(
+                incomeDistrict.getDistrictCode(),
+                incomeDistrict.getDistrictCodeName(),
+                incomeDistrict.getTotalPrice()
+        );
+
+        AdministrationTotalIncomeInfo administrationTotalIncomeInfo = new AdministrationTotalIncomeInfo(
+                incomeAdministration.getAdministrationCode(),
+                incomeAdministration.getAdministrationCodeName(),
+                incomeAdministration.getTotalPrice()
+        );
+
+        CommercialTotalIncomeInfo commercialTotalIncomeInfo = new CommercialTotalIncomeInfo(
+                incomeCommercial.getCommercialCode(),
+                incomeCommercial.getCommercialCodeName(),
+                incomeCommercial.getTotalPrice()
+        );
+
+        return new AllIncomeResponse(districtTotalIncomeInfo, administrationTotalIncomeInfo, commercialTotalIncomeInfo);
     }
 
 

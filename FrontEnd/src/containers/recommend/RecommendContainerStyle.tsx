@@ -99,3 +99,27 @@ export const Report = styled.div<{ $isSubmit: boolean }>`
       0.5s ease-out forwards;
   }
 `
+
+export const ReportContainer = styled.div`
+  width: 500px;
+  height: auto;
+  border: 2px solid #d9d9d9;
+  background-color: white;
+  border-radius: 0 5px 5px 0;
+  box-shadow: 10px 15px 15px -5px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-height: calc(100vh - 75px);
+
+  @media only screen and (max-width: 680px) {
+    font-size: 0.9rem;
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    max-height: 60vh;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 20px;
+    box-shadow: none;
+  }
+`

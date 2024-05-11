@@ -85,7 +85,7 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
             ) : null}
             <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
           </c.HeaderLeft>
-          <c.HeaderRignt>
+          <c.HeaderRight>
             <c.CloseIcon
               src={Xmark}
               alt="close"
@@ -94,7 +94,7 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
                 resetButton()
               }}
             />
-          </c.HeaderRignt>
+          </c.HeaderRight>
         </c.SelctionHeader>
         <c.Contants>
           {step === 1 && (

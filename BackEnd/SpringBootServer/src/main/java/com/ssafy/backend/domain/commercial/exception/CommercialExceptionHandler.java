@@ -18,4 +18,10 @@ public class CommercialExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Message.fail("coordinateTransformationError", "좌표 변환 중 오류가 발생했습니다."));
     }
+
+    @ExceptionHandler(CommercialException.class)
+    public ResponseEntity<Message<Void>> commercialException(CommercialException e) {
+        log.error("상권 관련 오류: {}", e.getMessage());
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(Message.fail(null, e.getErrorCode().getErrorMessage()));
+    }
 }

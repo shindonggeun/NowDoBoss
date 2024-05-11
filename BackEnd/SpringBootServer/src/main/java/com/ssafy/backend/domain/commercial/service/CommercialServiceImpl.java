@@ -9,6 +9,8 @@ import com.ssafy.backend.domain.administration.repository.SalesAdministrationRep
 import com.ssafy.backend.domain.commercial.dto.info.*;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
+import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
+import com.ssafy.backend.domain.commercial.exception.CommercialException;
 import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
@@ -156,8 +158,8 @@ public class CommercialServiceImpl implements CommercialService {
     @Override
     @Transactional(readOnly = true)
     public CommercialSalesResponse getSalesByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode) {
-        com.ssafy.backend.domain.commercial.entity.SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
-                .orElseThrow(() -> new RuntimeException("매출분석 데이터가 없습니다."));
+        SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
+                .orElseThrow(() -> new CommercialException(CommercialErrorCode.NOT_SALES));
 
         CommercialTimeSalesInfo timeSales = new CommercialTimeSalesInfo(
                 salesCommercial.getSales00(),

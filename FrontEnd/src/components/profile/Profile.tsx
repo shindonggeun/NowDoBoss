@@ -8,7 +8,7 @@ const Profile = () => {
         <p.Name>이승현</p.Name>
         <p.EmailDiv>
           <p.Email>tmdgus1761@gmail.com</p.Email>
-          <p.Provider src="src/assets/KakaoBtnSmall.png" alt="provider" />
+          <p.Provider src="/images/KakaoBtnSmall.png" alt="provider" />
         </p.EmailDiv>
       </p.InfoDiv>
     </p.Container>

@@ -10,6 +10,11 @@ import org.hibernate.annotations.Comment;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {
+        @Index(name = "idx_period_code", columnList = "periodCode"),
+        @Index(name = "idx_administration_code", columnList = "administrationCode"),
+        @Index(name = "idx_service_code", columnList = "serviceCode")
+})
 public class StoreAdministration {
     @Id
     @Comment("점포_행정동_아이디")
@@ -28,7 +33,6 @@ public class StoreAdministration {
     @Comment("행정동 코드 명")
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String administrationCodeName;
-
 
     @Comment("서비스 업종 코드")
     @Column(columnDefinition = "VARCHAR(8)", nullable = false)

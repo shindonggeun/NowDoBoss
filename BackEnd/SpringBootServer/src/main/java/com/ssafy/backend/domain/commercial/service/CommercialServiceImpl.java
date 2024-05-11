@@ -4,6 +4,8 @@ import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalIncom
 import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalSalesInfo;
 import com.ssafy.backend.domain.administration.entity.IncomeAdministration;
 import com.ssafy.backend.domain.administration.entity.SalesAdministration;
+import com.ssafy.backend.domain.administration.exception.AdministrationErrorCode;
+import com.ssafy.backend.domain.administration.exception.AdministrationException;
 import com.ssafy.backend.domain.administration.repository.IncomeAdministrationRepository;
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.commercial.dto.info.*;
@@ -19,6 +21,8 @@ import com.ssafy.backend.domain.district.dto.info.DistrictTotalSalesInfo;
 import com.ssafy.backend.domain.district.entity.IncomeDistrict;
 import com.ssafy.backend.domain.district.entity.SalesDistrict;
 import com.ssafy.backend.domain.district.entity.enums.ServiceType;
+import com.ssafy.backend.domain.district.exception.DistrictErrorCode;
+import com.ssafy.backend.domain.district.exception.DistrictException;
 import com.ssafy.backend.domain.district.repository.IncomeDistrictRepository;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
 import com.ssafy.backend.global.util.CoordinateConverter;
@@ -107,7 +111,7 @@ public class CommercialServiceImpl implements CommercialService {
     @Transactional(readOnly = true)
     public CommercialFootTrafficResponse getFootTrafficByPeriodAndCommercialCode(String periodCode, String commercialCode) {
         FootTrafficCommercial footTrafficCommercial = footTrafficCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
-                .orElseThrow(() -> new RuntimeException("유동인구 데이터가 존재하지 않습니다."));
+                .orElseThrow(() -> new CommercialException(CommercialErrorCode.NOT_FOOT_TRAFFIC));
 
         CommercialTimeSlotFootTrafficInfo timeSlotFootTraffic = new CommercialTimeSlotFootTrafficInfo(
                 footTrafficCommercial.getFootTraffic00(),
@@ -243,13 +247,13 @@ public class CommercialServiceImpl implements CommercialService {
     public AllSalesResponse getAllSalesByPeriodAndDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
             String periodCode, String districtCode, String administrationCode, String commercialCode, String serviceCode) {
         SalesDistrict salesDistrict = salesDistrictRepository.findByPeriodCodeAndDistrictCodeAndServiceCode(periodCode, districtCode, serviceCode)
-                .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_자치구 데이터가 없습니다."));
+                .orElseThrow(() -> new DistrictException(DistrictErrorCode.NOT_SALES));
 
         SalesAdministration salesAdministration = salesAdministrationRepository.findByPeriodCodeAndAdministrationCodeAndServiceCode(periodCode, administrationCode, serviceCode)
-                .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_행정동 데이터가 없습니다."));
+                .orElseThrow(() -> new AdministrationException(AdministrationErrorCode.NOT_SALES));
 
         SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
-                .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_상권 데이터가 없습니다."));
+                .orElseThrow(() -> new CommercialException(CommercialErrorCode.NOT_SALES));
 
         DistrictTotalSalesInfo districtTotalSalesInfo = new DistrictTotalSalesInfo(
                 salesDistrict.getDistrictCode(),
@@ -276,7 +280,7 @@ public class CommercialServiceImpl implements CommercialService {
     @Transactional(readOnly = true)
     public CommercialPopulationResponse getPopulationByPeriodAndCommercialCode(String periodCode, String commercialCode) {
         PopulationCommercial populationCommercial = populationCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
-                .orElseThrow(() -> new RuntimeException("상주인구 분석 데이터가 없습니다."));
+                .orElseThrow(() -> new CommercialException(CommercialErrorCode.NOT_POPULATION));
 
         CommercialPopulationInfo population = new CommercialPopulationInfo(
                 populationCommercial.getTotalPopulation(),
@@ -299,7 +303,7 @@ public class CommercialServiceImpl implements CommercialService {
     @Transactional(readOnly = true)
     public CommercialFacilityResponse getFacilityByPeriodAndCommercialCode(String periodCode, String commercialCode) {
         FacilityCommercial facilityCommercial = facilityCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
-                .orElseThrow(() -> new RuntimeException("집객시설 분석 데이터가 없습니다."));
+                .orElseThrow(() -> new CommercialException(CommercialErrorCode.NOT_FACILITY));
 
         CommercialSchoolInfo school = new CommercialSchoolInfo(
                 facilityCommercial.getElementarySchoolCnt() + facilityCommercial.getMiddleSchoolCnt() + facilityCommercial.getHighSchoolCnt(),
@@ -334,7 +338,7 @@ public class CommercialServiceImpl implements CommercialService {
                 .sum();
 
         StoreCommercial storeCommercial = storeCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
-                .orElseThrow(() -> new RuntimeException("점포 분석 데이터가 없습니다."));
+                .orElseThrow(() -> new CommercialException(CommercialErrorCode.NOT_STORE));
 
         long totalStores = storeCommercial.getTotalStore() + storeCommercial.getFranchiseStore();
         double normalStorePercentage = totalStores > 0 ? Math.round((double) storeCommercial.getTotalStore() / totalStores * 100.0 * 100.0) / 100.0 : 0.0;
@@ -358,7 +362,7 @@ public class CommercialServiceImpl implements CommercialService {
     @Override
     public CommercialIncomeResponse getIncomeByPeriodCodeAndCommercialCode(String periodCode, String commercialCode) {
         IncomeCommercial incomeCommercial = incomeCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
-                .orElseThrow(() -> new RuntimeException("해당 분기에 따른 상권의 소득소비 데이터가 없습니다."));
+                .orElseThrow(() -> new CommercialException(CommercialErrorCode.NOT_INCOME));
 
         CommercialAvgIncomeInfo avgIncome = new CommercialAvgIncomeInfo(
                 incomeCommercial.getMonthAvgIncome(),
@@ -399,13 +403,13 @@ public class CommercialServiceImpl implements CommercialService {
     @Override
     public AllIncomeResponse getAllIncomeByPeriodCodeAndDistrictCodeAndAdministrationCodeAndCommercialCode(String periodCode, String districtCode, String administrationCode, String commercialCode) {
         IncomeDistrict incomeDistrict = incomeDistrictRepository.findByPeriodCodeAndDistrictCode(periodCode, districtCode)
-                .orElseThrow(() -> new RuntimeException("해당 분기의 소득소비_자치구 데이터가 없습니다."));
+                .orElseThrow(() -> new DistrictException(DistrictErrorCode.NOT_INCOME));
 
         IncomeAdministration incomeAdministration = incomeAdministrationRepository.findByPeriodCodeAndAdministrationCode(periodCode, administrationCode)
-                .orElseThrow(() -> new RuntimeException("해당 분기의 소득소비_행정동 데이터가 없습니다."));
+                .orElseThrow(() -> new AdministrationException(AdministrationErrorCode.NOT_INCOME));
 
         IncomeCommercial incomeCommercial = incomeCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
-                .orElseThrow(() -> new RuntimeException("해당 분기의 소득소비_상권 데이터가 없습니다."));
+                .orElseThrow(() -> new CommercialException(CommercialErrorCode.NOT_INCOME));
 
         DistrictTotalIncomeInfo districtTotalIncomeInfo = new DistrictTotalIncomeInfo(
                 incomeDistrict.getDistrictCode(),

@@ -22,6 +22,6 @@ public class CommercialExceptionHandler {
     @ExceptionHandler(CommercialException.class)
     public ResponseEntity<Message<Void>> commercialException(CommercialException e) {
         log.error("상권 관련 오류: {}", e.getMessage());
-        return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(Message.fail(null, e.getErrorCode().getErrorMessage()));
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(Message.fail(null, e.getMessage()));
     }
 }

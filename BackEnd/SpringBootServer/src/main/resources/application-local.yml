@@ -10,10 +10,10 @@ spring:
 
   jpa:
     open-in-view: false
-    defer-datasource-initialization: true
-    generate-ddl: true
+    defer-datasource-initialization: false
+    generate-ddl: false
     hibernate:
-      ddl-auto: create-drop                # ddl 자동 작성 여부
+      ddl-auto: none                # ddl 자동 작성 여부
     properties:
       hibernate:
         format_sql: true             # 하이버네이트가 실행한 SQL을 출력할 때 보기 좋게 정렬
@@ -34,7 +34,10 @@ spring:
     init:
       mode: always
       data-locations:
-        - 'classpath:/db/dummy/*'
+        - 'classpath:/db/dummy/FOREIGN_KEY_CHECKS_0.sql'
+        - 'classpath:/db/dummy/db_dump.sql'
+        - 'classpath:/db/dummy/FOREIGN_KEY_CHECKS_1.sql'
+
   # NoSQL setting
   data:
     # Redis setting

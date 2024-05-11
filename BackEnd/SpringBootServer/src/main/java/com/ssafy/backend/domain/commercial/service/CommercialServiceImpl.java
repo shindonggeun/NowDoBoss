@@ -1,20 +1,27 @@
 package com.ssafy.backend.domain.commercial.service;
 
+import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalIncomeInfo;
+import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalSalesInfo;
+import com.ssafy.backend.domain.administration.entity.IncomeAdministration;
+import com.ssafy.backend.domain.administration.entity.SalesAdministration;
+import com.ssafy.backend.domain.administration.repository.IncomeAdministrationRepository;
+import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.commercial.dto.info.*;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CoordinateTransformationException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
+import com.ssafy.backend.domain.district.dto.info.DistrictTotalIncomeInfo;
+import com.ssafy.backend.domain.district.dto.info.DistrictTotalSalesInfo;
+import com.ssafy.backend.domain.district.entity.IncomeDistrict;
+import com.ssafy.backend.domain.district.entity.SalesDistrict;
 import com.ssafy.backend.domain.district.entity.enums.ServiceType;
-import com.ssafy.backend.domain.simulation.entity.Rent;
-import com.ssafy.backend.domain.simulation.exception.SimulationErrorCode;
-import com.ssafy.backend.domain.simulation.exception.SimulationException;
-import com.ssafy.backend.domain.simulation.repository.RentRepository;
+import com.ssafy.backend.domain.district.repository.IncomeDistrictRepository;
+import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.C;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +41,10 @@ public class CommercialServiceImpl implements CommercialService {
     private final FacilityCommercialRepository facilityCommercialRepository;
     private final StoreCommercialRepository storeCommercialRepository;
     private final IncomeCommercialRepository incomeCommercialRepository;
+    private final SalesDistrictRepository salesDistrictRepository;
+    private final SalesAdministrationRepository salesAdministrationRepository;
+    private final IncomeDistrictRepository incomeDistrictRepository;
+    private final IncomeAdministrationRepository incomeAdministrationRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -227,6 +238,39 @@ public class CommercialServiceImpl implements CommercialService {
     }
 
     @Override
+    public AllSalesResponse getAllSalesByPeriodAndDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
+            String periodCode, String districtCode, String administrationCode, String commercialCode, String serviceCode) {
+        SalesDistrict salesDistrict = salesDistrictRepository.findByPeriodCodeAndDistrictCodeAndServiceCode(periodCode, districtCode, serviceCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_자치구 데이터가 없습니다."));
+
+        SalesAdministration salesAdministration = salesAdministrationRepository.findByPeriodCodeAndAdministrationCodeAndServiceCode(periodCode, administrationCode, serviceCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_행정동 데이터가 없습니다."));
+
+        SalesCommercial salesCommercial = salesCommercialRepository.findByPeriodCodeAndCommercialCodeAndServiceCode(periodCode, commercialCode, serviceCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 추정매출_상권 데이터가 없습니다."));
+
+        DistrictTotalSalesInfo districtTotalSalesInfo = new DistrictTotalSalesInfo(
+                salesDistrict.getDistrictCode(),
+                salesDistrict.getDistrictCodeName(),
+                salesDistrict.getMonthSales()
+        );
+
+        AdministrationTotalSalesInfo administrationTotalSalesInfo = new AdministrationTotalSalesInfo(
+                salesAdministration.getAdministrationCode(),
+                salesAdministration.getAdministrationCodeName(),
+                salesAdministration.getMonthSales()
+        );
+
+        CommercialTotalSalesInfo commercialTotalSalesInfo = new CommercialTotalSalesInfo(
+                salesCommercial.getCommercialCode(),
+                salesCommercial.getCommercialCodeName(),
+                salesCommercial.getMonthSales()
+        );
+
+        return new AllSalesResponse(districtTotalSalesInfo, administrationTotalSalesInfo, commercialTotalSalesInfo);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public CommercialPopulationResponse getPopulationByPeriodAndCommercialCode(String periodCode, String commercialCode) {
         PopulationCommercial populationCommercial = populationCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
@@ -348,6 +392,38 @@ public class CommercialServiceImpl implements CommercialService {
                 annualQuarterIncomeInfos,
                 typeIncome
         );
+    }
+
+    @Override
+    public AllIncomeResponse getAllIncomeByPeriodCodeAndDistrictCodeAndAdministrationCodeAndCommercialCode(String periodCode, String districtCode, String administrationCode, String commercialCode) {
+        IncomeDistrict incomeDistrict = incomeDistrictRepository.findByPeriodCodeAndDistrictCode(periodCode, districtCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 소득소비_자치구 데이터가 없습니다."));
+
+        IncomeAdministration incomeAdministration = incomeAdministrationRepository.findByPeriodCodeAndAdministrationCode(periodCode, administrationCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 소득소비_행정동 데이터가 없습니다."));
+
+        IncomeCommercial incomeCommercial = incomeCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
+                .orElseThrow(() -> new RuntimeException("해당 분기의 소득소비_상권 데이터가 없습니다."));
+
+        DistrictTotalIncomeInfo districtTotalIncomeInfo = new DistrictTotalIncomeInfo(
+                incomeDistrict.getDistrictCode(),
+                incomeDistrict.getDistrictCodeName(),
+                incomeDistrict.getTotalPrice()
+        );
+
+        AdministrationTotalIncomeInfo administrationTotalIncomeInfo = new AdministrationTotalIncomeInfo(
+                incomeAdministration.getAdministrationCode(),
+                incomeAdministration.getAdministrationCodeName(),
+                incomeAdministration.getTotalPrice()
+        );
+
+        CommercialTotalIncomeInfo commercialTotalIncomeInfo = new CommercialTotalIncomeInfo(
+                incomeCommercial.getCommercialCode(),
+                incomeCommercial.getCommercialCodeName(),
+                incomeCommercial.getTotalPrice()
+        );
+
+        return new AllIncomeResponse(districtTotalIncomeInfo, administrationTotalIncomeInfo, commercialTotalIncomeInfo);
     }
 
 

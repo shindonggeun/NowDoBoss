@@ -134,7 +134,7 @@ const Header = () => {
     },
     {
       name: '프로필',
-      location: '/profile',
+      location: '/profile/bookmarks',
     },
     {
       name: '로그인',
@@ -196,7 +196,7 @@ const Header = () => {
               $isActive={activeMenu === '프로필'}
               onClick={() => handleMenuClick('프로필')}
             >
-              마이페이지
+              프로필
             </Menu>
             <Menu>
               <LogoutContainer />

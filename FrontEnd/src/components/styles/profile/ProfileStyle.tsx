@@ -5,24 +5,41 @@ export const Container = styled.div`
   height: auto;
   align-items: center;
   justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `
 
-export const ImgDiv = styled.div`
-  width: 20%;
-`
 export const Img = styled.img`
-  width: 70%;
-  height: auto;
+  width: 40px;
+  height: 40px;
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+  }
 `
 
 export const InfoDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 80%;
+  padding-left: 10px;
+
+  @media (max-width: 768px) {
+    padding-left: 0;
+    padding-top: 20px;
+  }
 `
 
 export const EmailDiv = styled.div`
   display: flex;
+  align-items: center;
 `
 
 export const Name = styled.div`
@@ -35,4 +52,8 @@ export const Email = styled.div`
   font-weight: 500;
 `
 
-export const Provider = styled.img``
+export const Provider = styled.img`
+  margin-left: 5px;
+  width: 16px;
+  height: 16px;
+`

@@ -15,6 +15,9 @@ public interface CommercialService {
 
     CommercialSalesResponse getSalesByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode);
 
+    AllSalesResponse getAllSalesByPeriodAndDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
+            String periodCode, String districtCode, String administrationCode, String commercialCode, String serviceCode);
+
     CommercialPopulationResponse getPopulationByPeriodAndCommercialCode(String periodCode, String commercialCode);
 
     CommercialFacilityResponse getFacilityByPeriodAndCommercialCode(String periodCode, String commercialCode);
@@ -24,4 +27,7 @@ public interface CommercialService {
     CommercialStoreResponse getStoreByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode);
 
     CommercialIncomeResponse getIncomeByPeriodCodeAndCommercialCode(String periodCode, String commercialCode);
+
+    AllIncomeResponse getAllIncomeByPeriodCodeAndDistrictCodeAndAdministrationCodeAndCommercialCode(
+            String periodCode, String districtCode, String administrationCode, String commercialCode);
 }

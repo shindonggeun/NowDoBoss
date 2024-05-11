@@ -9,6 +9,7 @@ import ProfilePage from '@src/pages/ProfilePage'
 import EditProfilePage from '@src/pages/EditProfilePage'
 import WithdrawPage from '@src/pages/WithdrawPage'
 import BookmarksPage from '@src/pages/BookmarksPage'
+import ChangePasswordPage from '@src/pages/ChangePasswordPage'
 import CommunityPage from '@src/pages/CommunityPage'
 import CommunityRegisterPage from '@src/pages/CommunityRegisterPage'
 import CommunityDetailPage from '@src/pages/CommunityDetailPage'
@@ -45,9 +46,10 @@ function App() {
             element={<SocialLoadingPage />}
           />
           <Route path="/profile/*" element={<ProfilePage />}>
-            <Route path="edit" element={<EditProfilePage />} />
-            <Route path="withdraw" element={<WithdrawPage />} />
             <Route path="bookmarks" element={<BookmarksPage />} />
+            <Route path="edit" element={<EditProfilePage />} />
+            <Route path="change-password" element={<ChangePasswordPage />} />
+            <Route path="withdraw" element={<WithdrawPage />} />
           </Route>
           {/* 상권 */}
           <Route path="/status" element={<StatusPage />} />

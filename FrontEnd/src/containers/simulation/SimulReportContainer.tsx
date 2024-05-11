@@ -55,7 +55,7 @@ const SimulReportContainer = () => {
       setSpinner(false)
     }, 2000)
   }, [])
-  console.log(location.state.res.dataBody)
+
   return (
     <div>
       {isOpen && (
@@ -88,45 +88,3 @@ const SimulReportContainer = () => {
 }
 
 export default SimulReportContainer
-
-// import * as c from '@src/components/styles/simulation/SelectionStyle'
-// import { useEffect, useRef, useState } from 'react'
-//
-// const SimulReportContainer = () => {
-//   const modalRef = useRef<HTMLDivElement>(null)
-//   const [isOpen, setIsOpen] = useState(true)
-//
-//   const onClose = () => setIsOpen(false)
-//
-//   useEffect(() => {
-//     const closeModal = (e: MouseEvent) => {
-//       if (
-//         isOpen &&
-//         modalRef.current &&
-//         !modalRef.current.contains(e.target as Node)
-//       ) {
-//         onClose()
-//       }
-//     }
-//
-//     document.addEventListener('mousedown', closeModal)
-//     return () => {
-//       document.removeEventListener('mousedown', closeModal)
-//     }
-//   }, [isOpen])
-//
-//   return (
-//     <div>
-//       {isOpen && (
-//         <c.Overlay>
-//           <c.Container ref={modalRef}>
-//             <div>시뮬레이션 계산페이지</div>
-//             <div>시뮬레이션 계산페이지</div>
-//           </c.Container>
-//         </c.Overlay>
-//       )}
-//     </div>
-//   )
-// }
-//
-// export default SimulReportContainer

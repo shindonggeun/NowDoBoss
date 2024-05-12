@@ -6,6 +6,7 @@ import com.ssafy.backend.domain.community.dto.request.CreateCommunityRequest;
 import com.ssafy.backend.domain.community.dto.request.UpdateCommunityRequest;
 import com.ssafy.backend.domain.community.dto.response.CommunityDetailResponse;
 import com.ssafy.backend.domain.community.dto.response.CommunityListResponse;
+import com.ssafy.backend.domain.community.dto.response.PopularCommunityListResponse;
 import com.ssafy.backend.domain.community.entity.Community;
 import com.ssafy.backend.domain.community.entity.Image;
 import com.ssafy.backend.domain.community.exception.CommunityErrorCode;
@@ -61,6 +62,11 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public List<CommunityListResponse> selectCommunityList(CommunityListRequest request) {
         return communityRepository.selectCommunityList(request.category(), request.lastId());
+    }
+
+    @Override
+    public List<PopularCommunityListResponse> selectPopularCommunityList() {
+        return communityRepository.selectPopularCommunityList();
     }
 
     @Override

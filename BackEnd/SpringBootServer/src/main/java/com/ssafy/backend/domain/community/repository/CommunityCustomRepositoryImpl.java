@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.community.dto.response.CommunityListResponse;
 import com.ssafy.backend.domain.community.dto.response.CommunityDetailResponse;
 import com.ssafy.backend.domain.community.dto.info.ImageInfo;
+import com.ssafy.backend.domain.community.dto.response.PopularCommunityListResponse;
 import com.ssafy.backend.domain.community.entity.QImage;
 import com.ssafy.backend.domain.community.entity.enums.Category;
 import com.ssafy.backend.global.util.NullSafeBuilder;
@@ -31,31 +32,6 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
 
     @Override
     public List<CommunityListResponse> selectCommunityList(String category, Long lastId) {
-
-
-        /*List<CommunityListResponse> responses = queryFactory
-                .select(Projections.constructor(CommunityListResponse.class,
-                        community.id,
-                        community.category,
-                        community.title,
-                        community.content,
-                        member.id,
-                        member.nickname,
-                        member.profileImage,
-                        community.readCount,
-                        ExpressionUtils.as(JPAExpressions.select(comments.count().intValue())
-                                .from(comments)
-                                .where(comments.community.eq(community)), "commentCount")
-                ))
-                .from(community)
-                .join(community.writer, member)
-                .join(community.images, image)
-                .where(isLowerThan(lastId), equalsCategory(category))
-                .orderBy(community.id.desc())
-                .limit(10)
-                .fetch();*/
-
-
         List<CommunityListResponse> responses = queryFactory
                 .select(Projections.constructor(CommunityListResponse.class,
                         community.id,
@@ -105,6 +81,42 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
             builder.and(community.category.eq(Category.valueOf(category)));
         }
         return builder;
+    }
+
+    @Override
+    public List<PopularCommunityListResponse> selectPopularCommunityList() {
+        List<PopularCommunityListResponse> responses = queryFactory
+                .select(Projections.constructor(PopularCommunityListResponse.class,
+                        community.id,
+                        community.category,
+                        community.title,
+                        community.content,
+                        member.id,
+                        member.nickname,
+                        member.profileImage,
+                        community.readCount,
+                        ExpressionUtils.as(JPAExpressions.select(comments.count().intValue())
+                                .from(comments)
+                                .where(comments.community.eq(community)), "commentCount")
+                ))
+                .from(community)
+                .join(community.writer, member)
+                .orderBy(community.readCount.desc(), community.id.desc())
+                .limit(10)
+                .fetch();
+
+        for (PopularCommunityListResponse response : responses) {
+            String image = queryFactory.select(QImage.image.url)
+                    .from(QImage.image)
+                    .where(QImage.image.community.id.eq(response.getCommunityId()))
+                    .orderBy(QImage.image.id.asc())
+                    .limit(1)
+                    .fetchOne();
+
+            response.setImage(image);
+        }
+
+        return responses;
     }
 
     @Override

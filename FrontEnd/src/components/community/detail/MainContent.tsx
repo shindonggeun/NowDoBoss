@@ -113,7 +113,6 @@ const MainContent = (props: MainContentPropsType) => {
               >
                 수정
               </m.ModalContent>
-              ∘
               <m.ModalContent
                 onClick={() => {
                   onArticleDelete()

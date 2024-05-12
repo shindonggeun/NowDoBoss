@@ -34,16 +34,16 @@ export const More = styled.div`
   border-radius: 5px;
   &:hover {
     cursor: pointer;
-    background-color: #d9d9d9;
+    background-color: #f3f3f3;
   }
   &:active {
-    background-color: #bababa;
+    background-color: #f3f3f3;
   }
 `
 export const ModalTriangle = styled.div`
   width: 15px;
   height: 15px;
-  background-color: #d9d9d9;
+  background-color: #f3f3f3;
   border-radius: 2px;
   transform: rotate(135deg);
   z-index: 0;
@@ -52,17 +52,17 @@ export const ModalTriangle = styled.div`
 
 export const ModalDiv = styled.div`
   border-radius: 5px;
-  border: 2px solid #dadada;
-  background-color: #dadada;
+  border: 2px solid #f3f3f3;
+  background-color: #f3f3f3;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   margin: -10px 0 0 0;
   z-index: 2;
 `
 
 export const ModalContent = styled.div`
-  padding: 5px;
+  padding: 5px 15px;
   cursor: pointer;
   z-index: 2;
   &:hover {

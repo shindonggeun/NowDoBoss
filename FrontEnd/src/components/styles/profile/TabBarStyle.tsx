@@ -24,6 +24,7 @@ export const TabItem = styled.div<TabItemPropsStyleType>`
   font-size: 14px;
 
   cursor: pointer;
+
   &:hover {
     background-color: #eaecee;
   }
@@ -38,5 +39,8 @@ export const TabItem = styled.div<TabItemPropsStyleType>`
 
   @media (max-width: 576px) {
     padding: 10px 5px;
+    &:not(:first-child) {
+      margin-left: 5px;
+    }
   }
 `

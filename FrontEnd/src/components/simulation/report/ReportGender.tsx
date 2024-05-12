@@ -2,14 +2,10 @@ import * as c from '@src/components/styles/simulation/ReportAnalysisStyle'
 import Woman from '@src/assets/womanIcon.svg'
 import Man from '@src/assets/manIcon.svg'
 import { SimulationReportType } from '@src/types/SimulationType'
+import TripleBar from '@src/common/TripleBarChart'
 
 const ReportGender = ({ ReportData }: { ReportData: SimulationReportType }) => {
   const GendarAndAgeDInfo = ReportData.genderAndAgeAnalysisInfo
-  // const AgeInfos = {
-  //   first: Math.floor(GendarAndAgeDInfo.second.sales / 10000),
-  //   second: Math.floor(GendarAndAgeDInfo.second.sales / 10000),
-  //   third: Math.floor(GendarAndAgeDInfo.second.sales / 10000),
-  // }
 
   const AgeInfos = [
     {
@@ -28,6 +24,7 @@ const ReportGender = ({ ReportData }: { ReportData: SimulationReportType }) => {
       name: GendarAndAgeDInfo.third.name,
     },
   ]
+
   return (
     <c.Container>
       <c.Title>고객남여, 연령대별 분석</c.Title>
@@ -44,13 +41,12 @@ const ReportGender = ({ ReportData }: { ReportData: SimulationReportType }) => {
       <c.GraphContainer>
         <c.AgeContainer>
           <c.AgeWrapper>
-            {AgeInfos.map(info => (
-              <c.AgeDetail key={info.rank}>
-                <div>{info.data}억</div>
-                <c.AgeBar rank={info.rank} data={info.data} />
-                <div>{info.name}</div>
-              </c.AgeDetail>
-            ))}
+            <TripleBar
+              labels={AgeInfos.map(info => info.name)}
+              infos={['2위', '1위', '3위']}
+              values={AgeInfos.map(info => info.data)}
+              dataLavel="인구(명)"
+            />
           </c.AgeWrapper>
         </c.AgeContainer>
         <c.GenderContainer>

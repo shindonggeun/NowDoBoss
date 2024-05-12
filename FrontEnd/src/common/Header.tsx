@@ -133,6 +133,10 @@ const Header = () => {
       location: '/community/list',
     },
     {
+      name: '채팅',
+      location: '/chatting/list',
+    },
+    {
       name: '프로필',
       location: '/profile/bookmarks',
     },
@@ -176,15 +180,17 @@ const Header = () => {
       <BlankDiv />
 
       <MenuListLeft>
-        {['상권현황', '상권분석', '상권추천', '커뮤니티'].map(menuName => (
-          <Menu
-            key={menuName}
-            $isActive={activeMenu === menuName}
-            onClick={() => handleMenuClick(menuName)}
-          >
-            {menuName}
-          </Menu>
-        ))}
+        {['상권현황', '상권분석', '상권추천', '커뮤니티', '채팅'].map(
+          menuName => (
+            <Menu
+              key={menuName}
+              $isActive={activeMenu === menuName}
+              onClick={() => handleMenuClick(menuName)}
+            >
+              {menuName}
+            </Menu>
+          ),
+        )}
       </MenuListLeft>
 
       <BlankDiv />

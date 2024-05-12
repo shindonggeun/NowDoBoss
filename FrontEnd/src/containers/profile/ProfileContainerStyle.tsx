@@ -7,6 +7,10 @@ export const Container = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
   }
+
+  @media (max-width: 576px) {
+    padding: 2% 0;
+  }
 `
 
 export const LeftWrap = styled.div`
@@ -21,9 +25,4 @@ export const RightWrap = styled.div`
   width: 100%;
   padding: 12px 24px;
   box-sizing: border-box;
-
-  @media (max-width: 768px) {
-    margin-left: 0;
-    margin-top: 20px;
-  }
 `

@@ -39,3 +39,11 @@ export const changeMemberPassword = async (
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 회원탈퇴
+export const deleteAccount = async () => {
+  return customAxios
+    .delete('/member/delete')
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

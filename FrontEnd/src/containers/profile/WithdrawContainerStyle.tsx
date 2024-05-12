@@ -35,8 +35,10 @@ export const AgreeSection = styled.div`
   justify-items: center;
   margin-bottom: 15px;
 
-  font-weight: 400;
-  font-size: 0.8rem;
+  label {
+    font-weight: 400;
+    font-size: 0.8rem;
+  }
 `
 
 export const AgreeInput = styled.input`

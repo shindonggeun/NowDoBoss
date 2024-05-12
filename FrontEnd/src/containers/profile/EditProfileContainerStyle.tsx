@@ -138,8 +138,8 @@ export const NameInput = styled.input`
   }
 
   &:disabled {
-    background-color: #f5f5f5; // 배경 색상 변경
-    cursor: not-allowed; // 커서 변경
+    background-color: #f5f5f5;
+    cursor: not-allowed;
   }
 `
 
@@ -149,10 +149,10 @@ export const SubmitButton = styled.button`
   box-sizing: border-box;
   outline: none;
   align-items: center;
-  background-color: #007bff;
+  background-color: #d4e5f9;
   font-size: 0.9rem;
-  font-weight: 500;
-  color: #fff;
+  font-weight: 600;
+  color: #2a7de1;
   border-radius: 5px;
   cursor: pointer;
   justify-content: center;
@@ -160,7 +160,7 @@ export const SubmitButton = styled.button`
   height: 40px;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #6797da;
   }
 
   @media (max-width: 992px) {

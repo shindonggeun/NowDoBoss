@@ -53,14 +53,14 @@ export const SubmitButton = styled.button`
   margin-top: 20px;
   padding: 10px 20px;
   border: none;
-  background-color: #007bff;
+  background-color: #d4e5f9;
   font-size: 14px;
-  font-weight: 500;
-  color: #f9f9f9;
+  font-weight: 600;
+  color: #2a7de1;
   border-radius: 5px;
   cursor: pointer;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #6797da;
   }
 `

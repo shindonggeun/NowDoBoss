@@ -2,12 +2,12 @@ import * as h from '@src/components/styles/status/StatusSidebarTopStyle'
 import { TopList, TopListItem } from '@src/types/StatusType'
 import up from 'src/assets/top_arrow_up.svg'
 import down from 'src/assets/top_arrow_down.svg'
+import useStateStore from '@src/stores/statusStore'
 
 export type ArticleListPropsType = {
   TopLists: TopList
   Tab: number
   onClickSetTab: (data: number) => void
-  onClickRegionHandler: (data: string | null) => void
   onClickRegionCodeHandler: (data: number) => void
 }
 
@@ -15,11 +15,11 @@ const StatusSidebarTopComponent = ({
   TopLists,
   Tab,
   onClickSetTab,
-  onClickRegionHandler,
   onClickRegionCodeHandler,
 }: ArticleListPropsType) => {
-  const options = ['유동인구', '평균매출', '개업률', '폐업률']
+  const { setSelectedRegion } = useStateStore()
 
+  const options = ['유동인구', '평균매출', '개업률', '폐업률']
   const footTrafficTop: TopListItem[] = TopLists.footTrafficTopTenList.slice(
     0,
     10,
@@ -69,7 +69,7 @@ const StatusSidebarTopComponent = ({
             <h.HoverItem
               key={i}
               onClick={() => {
-                onClickRegionHandler(name)
+                setSelectedRegion(name)
                 onClickRegionCodeHandler(code)
               }}
             >

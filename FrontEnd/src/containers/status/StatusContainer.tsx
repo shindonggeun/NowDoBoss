@@ -1,4 +1,5 @@
 import * as c from '@src/containers/status/StatusStyle'
+// import * as r from '@src/containers/recommend/RecommendContainerStyle'
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchTopList } from '@src/api/statusApi'
@@ -9,17 +10,12 @@ import StatusDetailbarComponent from '@src/components/status/StatusDetailbarComp
 import useStateStore from '@src/stores/statusStore'
 
 const StatusContainer = () => {
-  const { selectedRegion, setSelectedRegion } = useStateStore()
-  // const [selectedRegion, setSelectedRegion] = useState<string | null>(null) // 지역 선택
+  const { selectedRegion } = useStateStore()
   const [regionCode, setRegionCode] = useState<number | null>(null) // 지역 선택
   const [tab, setTab] = useState<number>(0)
 
   const onClickSetTab = (data: number) => {
     setTab(data)
-  }
-
-  const onClickRegionHandler = (region: string | null) => {
-    setSelectedRegion(region)
   }
 
   const onClickRegionCodeHandler = (code: number) => {
@@ -39,11 +35,7 @@ const StatusContainer = () => {
       {!isLoading && data ? (
         <c.StatusContainer>
           {selectedRegion && (
-            <StatusDetailbarComponent
-              selectedRegion={selectedRegion}
-              onClickRegionHandler={onClickRegionHandler}
-              regionCode={regionCode}
-            />
+            <StatusDetailbarComponent regionCode={regionCode} />
           )}
 
           {selectedRegion ? (
@@ -54,7 +46,6 @@ const StatusContainer = () => {
                 TopLists={data.dataBody}
                 Tab={tab}
                 onClickSetTab={onClickSetTab}
-                onClickRegionHandler={onClickRegionHandler}
                 onClickRegionCodeHandler={onClickRegionCodeHandler}
               />
             </c.Sidebar>
@@ -63,9 +54,7 @@ const StatusContainer = () => {
           <c.Content>
             <StatusPolygonComponent
               tab={tab}
-              selectedRegion={selectedRegion}
               TopLists={data.dataBody}
-              onClickRegionHandler={onClickRegionHandler}
               onClickRegionCodeHandler={onClickRegionCodeHandler}
             />
           </c.Content>

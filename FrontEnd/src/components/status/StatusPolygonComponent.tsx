@@ -3,23 +3,20 @@ import seoul from '@src/components/status/sig_seoul_geojson.json'
 import * as d3 from 'd3'
 import { TopList, TopListItem } from '@src/types/StatusType'
 import { useEffect, useState } from 'react'
+import useStateStore from '@src/stores/statusStore'
 
 type StatusPolygonProps = {
   tab: number
-  selectedRegion: string | null
   TopLists: TopList
-  onClickRegionHandler: (data: string | null) => void
   onClickRegionCodeHandler: (data: number) => void
 }
 
 const StatusPolygonComponent = ({
   tab,
-  selectedRegion,
   TopLists,
-  onClickRegionHandler,
   onClickRegionCodeHandler,
 }: StatusPolygonProps) => {
-  // console.log(`선택된 탭 index : ${tab}`)
+  const { selectedRegion, setSelectedRegion } = useStateStore()
   const [width, setWidth] = useState(660)
   const [height, setHeight] = useState(550)
   const [scale, setScale] = useState(90000)
@@ -72,9 +69,9 @@ const StatusPolygonComponent = ({
   ]
   const handleRegionClick = (regionName: string) => {
     if (selectedRegion === regionName) {
-      onClickRegionHandler(null)
+      setSelectedRegion(null)
     } else {
-      onClickRegionHandler(regionName)
+      setSelectedRegion(regionName)
     }
   }
 

@@ -11,6 +11,7 @@ import SettingsPage from '@src/pages/SettingsPage'
 import EditProfilePage from '@src/pages/EditProfilePage'
 import ChangePasswordPage from '@src/pages/ChangePasswordPage'
 import WithdrawPage from '@src/pages/WithdrawPage'
+import AccountDeletedPage from '@src/pages/AccountDeletedPage'
 import CommunityPage from '@src/pages/CommunityPage'
 import CommunityRegisterPage from '@src/pages/CommunityRegisterPage'
 import CommunityDetailPage from '@src/pages/CommunityDetailPage'
@@ -56,6 +57,7 @@ function App() {
               <Route path="withdraw" element={<WithdrawPage />} />
             </Route>
           </Route>
+          <Route path="/account-deleted" element={<AccountDeletedPage />} />
           {/* 상권 */}
           <Route path="/status" element={<StatusPage />} />
           <Route path="/analysis" element={<AnalysisPage />}>

@@ -23,3 +23,9 @@ export const MainContentDiv = styled.div`
 `
 
 export const Div = styled.div``
+
+// 채팅 디테일 시 좌우 라인
+export const DetailContainer = styled.div`
+  border-inline: 1px solid #d9d9d9;
+  height: calc(100vh - 68px);
+`

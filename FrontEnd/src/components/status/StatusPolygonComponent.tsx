@@ -82,7 +82,6 @@ const StatusPolygonComponent = ({
   const closedRateTop: TopListItem[] = TopLists.closedRateTopTenList
   const StatusTopData = [footTrafficTop, salesTop, openedRateTop, closedRateTop]
 
-  console.log(footTrafficTop)
   // 행정구 폴리곤
   const countries = mapData.map((d: any, i) => {
     // console.log(d)

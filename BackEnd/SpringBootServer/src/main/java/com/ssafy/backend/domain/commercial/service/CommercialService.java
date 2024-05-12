@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.commercial.service;
 
+import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 
 import java.util.List;
@@ -30,4 +31,8 @@ public interface CommercialService {
 
     AllIncomeResponse getAllIncomeByPeriodCodeAndDistrictCodeAndAdministrationCodeAndCommercialCode(
             String periodCode, String districtCode, String administrationCode, String commercialCode);
+
+    void saveAnalysis(Long memberId, CommercialAnalysisSaveRequest analysisSaveRequest);
+
+    List<CommercialAnalysisResponse> getMyAnalysisListByMemberId(Long memberId);
 }

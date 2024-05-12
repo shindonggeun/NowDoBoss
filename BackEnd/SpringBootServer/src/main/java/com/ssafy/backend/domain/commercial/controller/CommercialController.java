@@ -1,12 +1,16 @@
 package com.ssafy.backend.domain.commercial.controller;
 
+import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
 import com.ssafy.backend.global.common.dto.Message;
+import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -170,4 +174,27 @@ public class CommercialController {
         return ResponseEntity.ok().body(Message.success(allIncomeResponse));
     }
 
+    @Operation(
+            summary = "상권 분석 저장 (북마크)",
+            description = "상권분석 조회 한 데이터를 나의 북마크로 저장합니다."
+    )
+    @PostMapping("/analysis")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<Void>> saveAnalysis(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                      @RequestBody CommercialAnalysisSaveRequest saveRequest) {
+        commercialService.saveAnalysis(loginActive.id(), saveRequest);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "나의 상권 분석 리스트 조회",
+            description = "마이페이지에서 나의 상권 분석 리스트를 조회하는 기능입니다."
+    )
+    @GetMapping("/analysis-list")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<List<CommercialAnalysisResponse>>> getMyAnalysisListByMemberId(
+            @AuthenticationPrincipal MemberLoginActive loginActive) {
+        List<CommercialAnalysisResponse> analysisResponseList = commercialService.getMyAnalysisListByMemberId(loginActive.id());
+        return ResponseEntity.ok().body(Message.success(analysisResponseList));
+    }
 }

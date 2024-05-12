@@ -4,6 +4,7 @@ import com.ssafy.backend.domain.community.dto.request.*;
 import com.ssafy.backend.domain.community.dto.response.CommentListResponse;
 import com.ssafy.backend.domain.community.dto.response.CommunityDetailResponse;
 import com.ssafy.backend.domain.community.dto.response.CommunityListResponse;
+import com.ssafy.backend.domain.community.dto.response.PopularCommunityListResponse;
 import com.ssafy.backend.domain.community.service.CommentService;
 import com.ssafy.backend.domain.community.service.CommunityService;
 import com.ssafy.backend.global.common.dto.Message;
@@ -47,6 +48,15 @@ public class CommunityController {
     @GetMapping
     public ResponseEntity<Message<List<CommunityListResponse>>> selectCommunityList(CommunityListRequest request) {
         return ResponseEntity.ok().body(Message.success(communityService.selectCommunityList(request)));
+    }
+
+    @Operation(
+            summary = "인기 게시글 조회",
+            description = "커뮤니티 인기 게시글을 조회하는 기능입니다."
+    )
+    @GetMapping("/popular")
+    public ResponseEntity<Message<List<PopularCommunityListResponse>>> selectPopularCommunityList() {
+        return ResponseEntity.ok().body(Message.success(communityService.selectPopularCommunityList()));
     }
 
     @Operation(

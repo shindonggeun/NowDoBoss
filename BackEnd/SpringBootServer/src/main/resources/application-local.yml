@@ -44,6 +44,8 @@ spring:
     redis:
       host: ${server.base-url}
       port: 6379
+
+    # MongoDB setting
     mongodb:
       host: localhost
       port: 27017

@@ -11,7 +11,7 @@ const StatusPage = () => {
     navigate('/analysis')
   }
 
-  return <>{isOpen && <SimulSelction open={isOpen} onClose={onClickClose} />}</>
+  return <div>{isOpen && <SimulSelction onClose={onClickClose} />}</div>
 }
 
 export default StatusPage

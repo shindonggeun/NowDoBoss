@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   margin: 40px 0 0;
-  min-height: 280px;
+  min-height: 340px;
   width: 100%;
 `
 
@@ -119,6 +119,13 @@ export const ArticleContainer = styled.div`
     background-color: #fbfbfb;
     cursor: pointer;
   }
+
+  @media only screen and (max-width: 992px) {
+    padding: 20px 10px;
+  }
+  @media only screen and (max-width: 456px) {
+    padding: 20px 0;
+  }
 `
 
 export const Header = styled.div`
@@ -156,7 +163,22 @@ export const Body = styled.div`
   align-items: center;
   justify-content: space-between;
 `
-export const BodyContent = styled.div``
+export const BodyContent = styled.div`
+  width: 70%;
+  margin-right: 5px;
+
+  @media only screen and (max-width: 992px) {
+    width: 70%;
+    margin-right: 5px;
+  }
+  @media only screen and (max-width: 700px) {
+    width: 65%;
+  }
+  @media only screen and (max-width: 550px) {
+    width: 60%;
+    margin-right: 30px;
+  }
+`
 export const Img = styled.img`
   border: 1px solid #e0e6ee;
   width: 120px;

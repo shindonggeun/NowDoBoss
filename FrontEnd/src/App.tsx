@@ -22,6 +22,8 @@ import SimulationReportPage from '@src/pages/SimulationReportPage'
 import ChattingPage from '@src/pages/ChattingPage'
 import CommunityListPage from '@src/pages/CommunityListPage'
 import { useEffect } from 'react'
+import ChattingListPage from '@src/pages/ChattingListPage'
+import ChattingDetailPage from '@src/pages/ChattingDetailPage'
 
 function App() {
   function setScreenSize() {
@@ -71,7 +73,10 @@ function App() {
             <Route path="list" element={<CommunityListPage />} />
             <Route path="register" element={<CommunityRegisterPage />} />
             <Route path=":communityId" element={<CommunityDetailPage />} />
-            <Route path="chatting/:roomId" element={<ChattingPage />} />
+          </Route>
+          <Route path="/chatting/" element={<ChattingPage />}>
+            <Route path="list" element={<ChattingListPage />} />
+            <Route path=":roomId" element={<ChattingDetailPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

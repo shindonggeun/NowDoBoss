@@ -1,13 +1,16 @@
 package com.ssafy.backend.domain.community.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.community.dto.response.CommunityListResponse;
 import com.ssafy.backend.domain.community.dto.response.CommunityDetailResponse;
 import com.ssafy.backend.domain.community.dto.info.ImageInfo;
+import com.ssafy.backend.domain.community.entity.QImage;
 import com.ssafy.backend.domain.community.entity.enums.Category;
 import com.ssafy.backend.global.util.NullSafeBuilder;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.querydsl.core.group.GroupBy.list;
 import static com.ssafy.backend.domain.community.entity.QComments.*;
 import static com.ssafy.backend.domain.community.entity.QCommunity.*;
 import static com.ssafy.backend.domain.community.entity.QImage.*;
@@ -27,13 +31,40 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
 
     @Override
     public List<CommunityListResponse> selectCommunityList(String category, Long lastId) {
-        return queryFactory
+
+
+        /*List<CommunityListResponse> responses = queryFactory
                 .select(Projections.constructor(CommunityListResponse.class,
                         community.id,
                         community.category,
                         community.title,
                         community.content,
-                        community.writer.nickname,
+                        member.id,
+                        member.nickname,
+                        member.profileImage,
+                        community.readCount,
+                        ExpressionUtils.as(JPAExpressions.select(comments.count().intValue())
+                                .from(comments)
+                                .where(comments.community.eq(community)), "commentCount")
+                ))
+                .from(community)
+                .join(community.writer, member)
+                .join(community.images, image)
+                .where(isLowerThan(lastId), equalsCategory(category))
+                .orderBy(community.id.desc())
+                .limit(10)
+                .fetch();*/
+
+
+        List<CommunityListResponse> responses = queryFactory
+                .select(Projections.constructor(CommunityListResponse.class,
+                        community.id,
+                        community.category,
+                        community.title,
+                        community.content,
+                        member.id,
+                        member.nickname,
+                        member.profileImage,
                         community.readCount,
                         ExpressionUtils.as(JPAExpressions.select(comments.count().intValue())
                                 .from(comments)
@@ -45,6 +76,19 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
                 .orderBy(community.id.desc())
                 .limit(10)
                 .fetch();
+
+        for (CommunityListResponse response : responses) {
+            String image = queryFactory.select(QImage.image.url)
+                    .from(QImage.image)
+                    .where(QImage.image.community.id.eq(response.getCommunityId()))
+                    .orderBy(QImage.image.id.asc())
+                    .limit(1)
+                    .fetchOne();
+
+            response.setImage(image);
+        }
+
+        return responses;
     }
 
     private BooleanBuilder isLowerThan(final Long communityId) {

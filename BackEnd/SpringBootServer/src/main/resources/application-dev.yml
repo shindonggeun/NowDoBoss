@@ -98,8 +98,8 @@ app:
 # OAUTH2.0 Setting
 oauth:
   kakao:
-    client-id: ENC(BXCwf0NtueMIhhv565w/js6mYPVy/ydnEixfuH4untZmrP3mi6qKEPCRUvPYZSTQ)   # REST API 키
-    client-secret: ENC(Vt6Pop34W0MzRbM/vmr0uqASBu2KA78aqShRqWv7weGoNHzwkayNeCkxo11QeeTP) # 보안 -> Client Secret 키
+    client-id: ENC(Er9vs53WOnigwpkw3PMICW6PwM0fN0m1xbjy9AIEqdSqyMhgFAKQkFnG2E1xxNFE)   # REST API 키
+    client-secret: ENC(15fElLNo9a/0jmRDVVdspIQYQQemm1JLA6ZW8G28x8J1PgPsbsRgwdol46dAfuug) # 보안 -> Client Secret 키
     redirect-uri: ${server.https-url}/member/loading/kakao
     scope:
       - profile_nickname

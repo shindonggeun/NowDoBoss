@@ -16,7 +16,7 @@ const reportSummary = ({
   const TotalPrice = ReportData.totalPrice
 
   let formattedNumber
-  if (TotalPrice >= 1000) {
+  if (TotalPrice >= 10000) {
     const billions = Math.floor(TotalPrice / 10000)
     const millions = Math.floor(TotalPrice % 10000)
     formattedNumber = `${billions}억 ${millions.toLocaleString()} 만원`

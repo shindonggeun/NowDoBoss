@@ -36,6 +36,8 @@ spring:
     redis:
       host: ${server.base-url}
       port: 6379
+
+    # MongoDB setting
     mongodb:
       host: ${server.base-url}
       port: 27017

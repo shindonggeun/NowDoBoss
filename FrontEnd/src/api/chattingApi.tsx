@@ -26,9 +26,9 @@ export const enterChatRoom = async (chatRoomId: number) => {
 }
 
 // navbar에 띄울 채팅방 목록 조회 get api
-export const fetchMyRooms = async () => {
+export const fetchMyRooms = async (searchContent: string) => {
   return customAxios
-    .get(`/chat-rooms/my-rooms`)
+    .get(`/chat-rooms/my-rooms?${searchContent}`)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Document(collection = "commercial_analysis")
 public class CommercialAnalysis {
     @Id
-    private Long id;
+    private String id;
 
     @Field("member_id")
     private Long memberId;

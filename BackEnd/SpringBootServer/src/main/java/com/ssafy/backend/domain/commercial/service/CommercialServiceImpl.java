@@ -10,6 +10,7 @@ import com.ssafy.backend.domain.administration.repository.IncomeAdministrationRe
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.commercial.document.CommercialAnalysis;
 import com.ssafy.backend.domain.commercial.dto.info.*;
+import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
@@ -33,6 +34,7 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -432,6 +434,25 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         return new AllIncomeResponse(districtTotalIncomeInfo, administrationTotalIncomeInfo, commercialTotalIncomeInfo);
+    }
+
+    @Override
+    public void saveAnalysis(Long memberId, CommercialAnalysisSaveRequest analysisSaveRequest) {
+        CommercialAnalysis commercialAnalysis = CommercialAnalysis.builder()
+                .memberId(memberId)
+                .districtCode(analysisSaveRequest.districtCode())
+                .districtCodeName(analysisSaveRequest.districtCodeName())
+                .administrationCode(analysisSaveRequest.administrationCode())
+                .administrationCodeName(analysisSaveRequest.administrationCodeName())
+                .commercialCode(analysisSaveRequest.commercialCode())
+                .commercialCodeName(analysisSaveRequest.commercialCodeName())
+                .serviceType(analysisSaveRequest.serviceType())
+                .serviceCode(analysisSaveRequest.serviceCode())
+                .serviceCodeName(analysisSaveRequest.serviceCodeName())
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        commercialAnalysisRepository.save(commercialAnalysis);
     }
 
     @Override

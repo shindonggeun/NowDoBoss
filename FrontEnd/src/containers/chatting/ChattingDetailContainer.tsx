@@ -41,7 +41,7 @@ const ChattingDetailContainer = () => {
     if (messagesData) {
       setMessages(messagesData.dataBody.reverse())
     }
-  }, [messagesData])
+  }, [messagesData, roomId])
 
   // 로그인 된 사용자 id 값 받기
   useEffect(() => {

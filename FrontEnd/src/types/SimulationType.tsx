@@ -135,3 +135,15 @@ export interface SimulationReportType {
     offPeakSeasons: number[]
   }
 }
+
+// 시물레이션 결과 저장 요청 데이터 타입
+export interface SimulationSaveType {
+  totalPrice: number
+  isFranchisee: boolean
+  brandName: string
+  gugun: string
+  serviceCode: string
+  serviceCodeName: string
+  storeSize: number
+  floor: string
+}

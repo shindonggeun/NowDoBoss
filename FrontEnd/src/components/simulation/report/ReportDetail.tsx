@@ -40,7 +40,7 @@ const ReportDetail = ({ ReportData }: { ReportData: SimulationReportType }) => {
       if (price > 10000) {
         const billions = Math.floor(price / 10000)
         const millions = Math.floor(price % 10000)
-        return `${billions}억 ${millions.toLocaleString()} '만원'}`
+        return `${billions}억 ${millions.toLocaleString()} 만원`
       }
       return `${price.toLocaleString()} ${price === 0 ? '원' : '만원'}`
     }

@@ -2,9 +2,6 @@ import styled from 'styled-components'
 import GoogleBtnImage from 'src/assets/GoogleBtn.png'
 import NaverBtnImage from 'src/assets/NaverBtn.png'
 import KakaoBtnImage from 'src/assets/KakaoBtn.png'
-import NaverBtnSmallImage from '../../../public/images/NaverBtnSmall.png'
-import GoogleBtnSmallImage from '../../../public/images/GoogleBtnSmall.png'
-import KakaoBtnSmallImage from '../../../public/images/KakaoBtnSmall.png'
 
 export const Container = styled.div`
   width: 100%;
@@ -40,7 +37,7 @@ export const SmallButtonWrapper = styled.div`
 `
 
 export const GoogleBtnSmall = styled.img.attrs({
-  src: GoogleBtnSmallImage,
+  src: '/images/GoogleBtnSmall.png',
 })`
     width: 11%;
     height: auto;
@@ -61,7 +58,7 @@ export const GoogleBtnSmall = styled.img.attrs({
 `
 
 export const NaverBtnSmall = styled.img.attrs({
-  src: NaverBtnSmallImage,
+  src: '/images/NaverBtnSmall.png',
 })`
     width: 11%;
     height: auto;
@@ -82,7 +79,7 @@ export const NaverBtnSmall = styled.img.attrs({
 `
 
 export const KakaoBtnSmall = styled.img.attrs({
-  src: KakaoBtnSmallImage,
+  src: '/images/KakaoBtnSmall.png',
 })`
     width: 11%;
     height: auto;

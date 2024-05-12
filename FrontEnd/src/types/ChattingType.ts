@@ -34,3 +34,16 @@ export type PromisePopularMessageType = {
   memberCount: number
   name: string
 }
+
+export type PopularType = {
+  communityId: number
+  category: string
+  title: string
+  content: string
+  image: string
+  writerId: number
+  writerNickname: string
+  profileImage: string
+  readCount: number
+  commentCount: number
+}

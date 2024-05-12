@@ -9,28 +9,13 @@ export type ArticleListPropsType = {
 
 const ArticleList = (props: ArticleListPropsType) => {
   const { articleList } = props
-  const { categories, setModifyCommunityId } = useCommunityStore(state => ({
+  const { categories } = useCommunityStore(state => ({
     categories: state.categories,
-    setModifyCommunityId: state.setModifyCommunityId,
   }))
   const navigate = useNavigate()
+
   return (
     <a.Container>
-      {/* 상단 */}
-      <a.Context>
-        <a.LeftGrid>
-          <a.Title>커뮤니티 목록</a.Title>
-          <a.CreateButton
-            onClick={() => {
-              setModifyCommunityId(Number(0))
-              navigate('/community/register')
-            }}
-          >
-            게시글 작성하기
-          </a.CreateButton>
-        </a.LeftGrid>
-        <a.Sub>다양한 목적의 게시글을 올릴 수 있어요.</a.Sub>
-      </a.Context>
       {/*  게시글 목록 */}
       <a.ArticlesContainer>
         {Array.isArray(articleList)
@@ -46,18 +31,40 @@ const ArticleList = (props: ArticleListPropsType) => {
               return (
                 <a.ArticleContainer
                   key={article.communityId}
-                  onClick={() => navigate(`/community/${article.communityId}`)}
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'instant' })
+                    navigate(`/community/${article.communityId}`)
+                  }}
                 >
-                  <a.CategoryBadge>커뮤니티</a.CategoryBadge>
-                  <a.CardTitle>{article.title}</a.CardTitle>
-                  <a.CardContent>{article.content}</a.CardContent>
-                  <a.CardCategory>
-                    <a.Icon src={iconSrc} />
-                    {categoryKorean}
-                  </a.CardCategory>
-                  <a.CardSubContent>
-                    조회수 {article.readCount} ∙ 댓글 {article.commentCount}
-                  </a.CardSubContent>
+                  <a.Header>
+                    <a.Profile>
+                      <a.ProfileImg
+                        src={
+                          article.profileImage
+                            ? article.profileImage
+                            : undefined
+                        }
+                      />
+                      <a.ProfileContent>
+                        <a.Name>{article.writerNickname}</a.Name>
+                        <a.Category>
+                          <a.Icon src={iconSrc} />
+                          {categoryKorean}
+                        </a.Category>
+                      </a.ProfileContent>
+                    </a.Profile>
+
+                    <a.CardSubContent>
+                      조회수 {article.readCount} ∙ 댓글 {article.commentCount}
+                    </a.CardSubContent>
+                  </a.Header>
+                  <a.Body>
+                    <a.BodyContent>
+                      <a.CardTitle>{article.title}</a.CardTitle>
+                      <a.CardContent>{article.content}</a.CardContent>
+                    </a.BodyContent>
+                    {article.image ? <a.Img src={article.image} /> : ''}
+                  </a.Body>
                 </a.ArticleContainer>
               )
             })

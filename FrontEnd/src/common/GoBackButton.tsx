@@ -28,16 +28,14 @@ const GoBack = styled.div`
 const GoBackButton = () => {
   const navigate = useNavigate()
 
+  const handleGoBack = () => {
+    navigate(-1)
+    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 300)
+  }
   return (
-    <BackButton>
+    <BackButton onClick={handleGoBack}>
       <BackIcon src={arrow_left} />
-      <GoBack
-        onClick={() => {
-          navigate(-1)
-        }}
-      >
-        목록으로 돌아가기
-      </GoBack>
+      <GoBack>목록으로 돌아가기</GoBack>
     </BackButton>
   )
 }

@@ -8,7 +8,9 @@ import com.ssafy.backend.domain.administration.exception.AdministrationErrorCode
 import com.ssafy.backend.domain.administration.exception.AdministrationException;
 import com.ssafy.backend.domain.administration.repository.IncomeAdministrationRepository;
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
+import com.ssafy.backend.domain.commercial.document.CommercialAnalysis;
 import com.ssafy.backend.domain.commercial.dto.info.*;
+import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
@@ -32,6 +34,7 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,6 +54,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final SalesAdministrationRepository salesAdministrationRepository;
     private final IncomeDistrictRepository incomeDistrictRepository;
     private final IncomeAdministrationRepository incomeAdministrationRepository;
+    private final CommercialAnalysisRepository commercialAnalysisRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -430,6 +434,53 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         return new AllIncomeResponse(districtTotalIncomeInfo, administrationTotalIncomeInfo, commercialTotalIncomeInfo);
+    }
+
+    @Override
+    public void saveAnalysis(Long memberId, CommercialAnalysisSaveRequest analysisSaveRequest) {
+        boolean existAnalysis = commercialAnalysisRepository.existsByDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
+                analysisSaveRequest.districtCode(), analysisSaveRequest.administrationCode(),
+                analysisSaveRequest.commercialCode(), analysisSaveRequest.serviceCode());
+
+        if (existAnalysis) {
+            throw new CommercialException(CommercialErrorCode.EXIST_ANALYSIS);
+        }
+
+        CommercialAnalysis commercialAnalysis = CommercialAnalysis.builder()
+                .memberId(memberId)
+                .districtCode(analysisSaveRequest.districtCode())
+                .districtCodeName(analysisSaveRequest.districtCodeName())
+                .administrationCode(analysisSaveRequest.administrationCode())
+                .administrationCodeName(analysisSaveRequest.administrationCodeName())
+                .commercialCode(analysisSaveRequest.commercialCode())
+                .commercialCodeName(analysisSaveRequest.commercialCodeName())
+                .serviceType(analysisSaveRequest.serviceType())
+                .serviceCode(analysisSaveRequest.serviceCode())
+                .serviceCodeName(analysisSaveRequest.serviceCodeName())
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        commercialAnalysisRepository.save(commercialAnalysis);
+    }
+
+    @Override
+    public List<CommercialAnalysisResponse> getMyAnalysisListByMemberId(Long memberId) {
+        List<CommercialAnalysis> commercialAnalysisList = commercialAnalysisRepository.findByMemberIdOrderByCreatedAt(memberId);
+
+        return commercialAnalysisList.stream()
+                .map(ca -> new CommercialAnalysisResponse(
+                        ca.getDistrictCode(),
+                        ca.getDistrictCodeName(),
+                        ca.getAdministrationCode(),
+                        ca.getAdministrationCodeName(),
+                        ca.getCommercialCode(),
+                        ca.getCommercialCodeName(),
+                        ca.getServiceType(),
+                        ca.getServiceCode(),
+                        ca.getServiceCodeName(),
+                        ca.getCreatedAt()
+                ))
+                .toList();
     }
 
 

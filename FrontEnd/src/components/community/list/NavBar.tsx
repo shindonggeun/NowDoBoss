@@ -1,63 +1,48 @@
 import * as n from '@src/components/styles/community/NavbarStyle'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import useCommunityStore, { Category } from '@src/stores/communityStore'
-import chatIcon from '@src/assets/chat_button.svg'
 import { useNavigate } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
-import { fetchMyRooms } from '@src/api/chattingApi'
+import penIcon from '@src/assets/pen.svg'
 
 export type NavBarPropsType = {
   setCategory: (category: Category) => void
-  category: Category
 }
 const NavBar = (props: NavBarPropsType) => {
-  const { setCategory, category } = props
+  const { setCategory } = props
   const navigate = useNavigate()
-  // const location = useLocation()
-  //
-  // 채팅페이지인지 확인
-  // const [isChatPage, setIsChatPage] = useState(false)
-  //
-  // useEffect(() => {
-  //   setIsChatPage(String.prototype.startsWith('/community/chatting'))
-  // }, [location.pathname])
 
   // store에 저장해둔 카테고리 받아오기
-  const { categories, selectedCategory } = useCommunityStore(state => ({
-    categories: state.categories,
-    selectedCategory: state.selectedCategory,
-  }))
-
-  const [userId, setUserId] = useState(0)
-  useEffect(() => {
-    const userInfo = window.localStorage.getItem('memberInfo')
-    if (userInfo) {
-      const user = JSON.parse(userInfo)
-      setUserId(user.id)
-    }
-  }, [])
+  const { categories, selectedCategory, setModifyCommunityId } =
+    useCommunityStore(state => ({
+      categories: state.categories,
+      selectedCategory: state.selectedCategory,
+      setModifyCommunityId: state.setModifyCommunityId,
+    }))
 
   // 선택한 문자열 filter 해서 style prop 하기 위한 값
   const [isChoice, setIsChoice] = useState<string>(
     selectedCategory.name ? selectedCategory.name : '전체보기',
   )
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ['fetchMyRooms'],
-    queryFn: () => fetchMyRooms(),
-    enabled: !!userId,
-  })
-
-  useEffect(() => {
-    if (userId) {
-      refetch()
-    }
-  }, [refetch, userId, category])
+  const handleCreate = () => {
+    setModifyCommunityId(Number(0))
+    navigate('/community/register')
+  }
 
   return (
     <n.Container>
       <n.Community>
         <n.Title>커뮤니티</n.Title>
+        <n.Sub>
+          관심사가 비슷한 회원들과 <br />
+          소통해서 성공에 다가가세요.
+        </n.Sub>
+        <n.CreateButton onClick={handleCreate}>
+          {/* <b>성공하고싶나요?</b> */}게시글 작성하기 &nbsp;&nbsp;→
+        </n.CreateButton>
+
+        <n.CreateIcon src={penIcon} onClick={handleCreate} />
+
         {categories.map(navCategory => (
           <n.Category
             key={navCategory.name}
@@ -80,36 +65,6 @@ const NavBar = (props: NavBarPropsType) => {
           </n.Category>
         ))}
       </n.Community>
-      {data && !isLoading && (
-        <n.Div>
-          <n.Chatting>
-            <n.Title>채팅</n.Title>
-            {data.dataBody.map((chatCard: { id: number; name: string }) => (
-              <n.Category
-                key={chatCard.id}
-                $isChoice={isChoice === chatCard.name}
-                onClick={() => {
-                  setIsChoice(chatCard.name)
-                  setCategory({
-                    name: chatCard.name,
-                    value: '',
-                    iconActive: '',
-                    iconInactive: '',
-                  })
-                  navigate(`/community/chatting/${chatCard.id}`)
-                }}
-              >
-                <n.ProfileImg />
-                <n.Text>{chatCard.name}</n.Text>
-              </n.Category>
-            ))}
-          </n.Chatting>
-          <n.ChatButton
-            src={chatIcon}
-            onClick={() => navigate(`/community/chatting/1`)}
-          />
-        </n.Div>
-      )}
     </n.Container>
   )
 }

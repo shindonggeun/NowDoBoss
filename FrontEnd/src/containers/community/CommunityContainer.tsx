@@ -4,24 +4,21 @@ import { Outlet } from 'react-router-dom'
 import * as c from './CommunityContainerStyle'
 
 const CommunityContainer = () => {
-  const { category, setCategory } = useCommunityStore(state => ({
-    category: state.selectedCategory,
+  const { setCategory } = useCommunityStore(state => ({
     setCategory: state.setSelectedCategory,
   }))
   return (
-    <div>
-      <c.Container>
-        <c.NabBar>
-          <NavBar category={category} setCategory={setCategory} />
-        </c.NabBar>
-        <c.MarginLeft>
-          <c.Context>
-            {/* 하위 페이지 위치 */}
-            <Outlet />
-          </c.Context>
-        </c.MarginLeft>
-      </c.Container>
-    </div>
+    <c.Container>
+      <c.NabBar>
+        <NavBar setCategory={setCategory} />
+      </c.NabBar>
+      <c.MarginLeft>
+        <c.Context>
+          {/* 하위 페이지 위치 */}
+          <Outlet />
+        </c.Context>
+      </c.MarginLeft>
+    </c.Container>
   )
 }
 

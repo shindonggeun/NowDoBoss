@@ -26,9 +26,9 @@ export const enterChatRoom = async (chatRoomId: number) => {
 }
 
 // navbar에 띄울 채팅방 목록 조회 get api
-export const fetchMyRooms = async () => {
+export const fetchMyRooms = async (searchContent: string) => {
   return customAxios
-    .get(`/chat-rooms/my-rooms`)
+    .get(`/chat-rooms/my-rooms?${searchContent}`)
     .then(res => res.data)
     .catch(err => console.log(err))
 }
@@ -40,6 +40,15 @@ export const fetchPopularRoom = async (category: string) => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 채팅 목록 get api
+export const fetchChattingList = async () => {
+  return customAxios
+    .get(`/chat-rooms`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
 // 채팅방 상세 조회 get api
 export const fetchRoomDetail = async (chatRoomId: number) => {
   return customAxios

@@ -54,7 +54,8 @@ const CreateModal = (props: CreateModalPropsType) => {
     mutationKey: ['createChatRoom'],
     mutationFn: createChatRoom,
     onSuccess: res => {
-      return navigate(`/community/chatting/${res.dataBody.chatRoomId}`)
+      setModalOpen(false)
+      return navigate(`/chatting/${res.dataBody.chatRoomId}`)
     },
   })
 
@@ -131,7 +132,7 @@ const CreateModal = (props: CreateModalPropsType) => {
           <c.NumberInput
             type="number"
             $isActive={!!selectedLimitValue}
-            placeholder="채팅방 이름을 입력해주세요."
+            placeholder="채팅방 인원을 적어주세요."
             defaultValue={selectedLimitValue}
             max="600"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

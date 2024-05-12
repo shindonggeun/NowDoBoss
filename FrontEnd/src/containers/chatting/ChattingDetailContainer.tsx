@@ -39,10 +39,7 @@ const ChattingDetailContainer = () => {
   // 존재하는 메세지를 messages에 담는 로직
   useEffect(() => {
     if (messagesData) {
-      messagesData.dataBody.reverse().map((message: PromiseMessageType) => {
-        setMessages(prevMessages => [...prevMessages, message])
-        return ''
-      })
+      setMessages(messagesData.dataBody.reverse())
     }
   }, [messagesData])
 

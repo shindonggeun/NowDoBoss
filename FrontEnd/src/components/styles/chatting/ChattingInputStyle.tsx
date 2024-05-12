@@ -8,7 +8,7 @@ export const Container = styled.div`
 export const Textarea = styled.textarea`
   font-size: 1.2rem;
   resize: none;
-  width: calc(100% - 375px);
+  width: calc(70% - 375px);
   height: calc(10vh - 20px);
   font-weight: 600;
   border: 2px solid #d9d9d9;
@@ -29,7 +29,7 @@ export const Textarea = styled.textarea`
   }
 
   @media only screen and (max-width: 992px) {
-    width: calc(100vw - 125px);
+    width: calc(70vw - 125px);
     //margin: 20px 10px -5px 10px;
   }
 `
@@ -38,7 +38,7 @@ export const SubmitButton = styled.div<{ $isActive: boolean }>`
   z-index: 10;
   position: absolute;
   bottom: 32px;
-  right: 34px;
+  right: calc(34px + 15%);
   border-radius: 10px;
   background-color: #94abff;
   width: 40px;

@@ -26,7 +26,7 @@ const ChattingHeader = (props: ChattingHeaderPropsType) => {
     mutationFn: roomExit,
     onSuccess: () => {
       // 댓글 삭제 성공 시 댓글 목록 재호출
-      navigate('/community/list')
+      navigate('/chatting/list')
       const Toast = Swal.mixin({
         toast: true,
         position: 'bottom-end',
@@ -67,7 +67,7 @@ const ChattingHeader = (props: ChattingHeaderPropsType) => {
     <c.Container>
       <c.Header>
         <c.ChatInfo>
-          <c.ChatImg />
+          {/* <c.ChatImg /> */}
           <c.ChatDiv>
             <c.ChatTitle>{roomData.name}</c.ChatTitle>
             <c.ChatMembers>{roomData.memberCount} members</c.ChatMembers>
@@ -78,7 +78,7 @@ const ChattingHeader = (props: ChattingHeaderPropsType) => {
           <c.MoreModal>
             <c.ModalTriangle />
             <c.ModalDiv>
-              <c.ModalContent onClick={() => {}}>정보보기</c.ModalContent>
+              <c.ModalContent onClick={() => {}}>상세보기</c.ModalContent>
 
               <c.ModalContent
                 onClick={() => {

@@ -135,11 +135,11 @@ const ChattingDetailContainer = () => {
   return (
     <c.Div>
       {messagesData && !messagesIsLoading && roomData && !roomIsLoading && (
-        <c.Div>
+        <c.DetailContainer>
           <ChattingHeader roomData={roomData.dataBody} />
           <ChattingBody messages={messages} userId={userId} />
           <ChattingInput onSend={content => sendMessage('TALK', content)} />
-        </c.Div>
+        </c.DetailContainer>
       )}
     </c.Div>
   )

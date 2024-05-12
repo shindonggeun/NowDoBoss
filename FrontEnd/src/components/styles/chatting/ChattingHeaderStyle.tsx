@@ -6,9 +6,9 @@ export const Container = styled.div`
 `
 export const Header = styled.div`
   //background-color: #d9d9d9;
-  border-bottom: 2px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
   height: 40px;
-  padding: 10px 20px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,7 +64,7 @@ export const MoreModal = styled.div`
 export const ModalTriangle = styled.div`
   width: 15px;
   height: 15px;
-  background-color: #d9d9d9;
+  background-color: #f2f2f2;
   border-radius: 2px;
   transform: rotate(135deg);
   z-index: 0;
@@ -73,8 +73,8 @@ export const ModalTriangle = styled.div`
 
 export const ModalDiv = styled.div`
   border-radius: 5px;
-  border: 2px solid #dadada;
-  background-color: #dadada;
+  border: 2px solid #f2f2f2;
+  background-color: #f2f2f2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,9 +83,9 @@ export const ModalDiv = styled.div`
 `
 
 export const ModalContent = styled.div`
-  padding: 5px;
+  padding: 5px 15px;
   cursor: pointer;
-  border-bottom: solid 1px #bababa;
+  //border-bottom: solid 1px #bababa;
   z-index: 2;
   &:hover {
     font-weight: 600;

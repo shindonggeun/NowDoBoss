@@ -25,7 +25,7 @@ const EditProfileContainer = () => {
     }
   }
 
-  // 프로필 이미지 업로드 API 호출
+  // 프로필 이미지 업로드 API
   const { mutate: uploadProfileImage } = useMutation({
     mutationKey: ['uploadProfileImage'],
     mutationFn: UploadProfileImage,
@@ -36,7 +36,7 @@ const EditProfileContainer = () => {
     },
   })
 
-  // 프로필 업데이트 API 호출
+  // 프로필 업데이트 API
   const { mutate: updateMemberInfo } = useMutation({
     mutationKey: ['updateMemberInfo'],
     mutationFn: UpdateMemberInfo,
@@ -138,7 +138,7 @@ const EditProfileContainer = () => {
             <e.UpdateTitle>닉네임 변경</e.UpdateTitle>
             <e.NameInput value={nickname} onChange={handleNicknameChange} />
           </e.TitleWrap>
-          <e.SubmitButton>수정</e.SubmitButton>
+          <e.SubmitButton>수정하기</e.SubmitButton>
         </e.UpdateWrap>
       </e.Form>
     </div>

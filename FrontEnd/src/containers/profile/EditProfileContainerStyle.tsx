@@ -129,7 +129,7 @@ export const NameInput = styled.input`
   }
 
   @media (max-width: 576px) {
-    width: 90%;
+    width: 91%;
   }
 
   &:focus {
@@ -141,9 +141,6 @@ export const NameInput = styled.input`
     background-color: #f5f5f5; // 배경 색상 변경
     cursor: not-allowed; // 커서 변경
   }
-
-  @media (max-width: 425px) {
-  }
 `
 
 export const SubmitButton = styled.button`
@@ -153,8 +150,8 @@ export const SubmitButton = styled.button`
   outline: none;
   align-items: center;
   background-color: #007bff;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 500;
   color: #fff;
   border-radius: 5px;
   cursor: pointer;

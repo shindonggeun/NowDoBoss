@@ -18,12 +18,6 @@ const ChattingDetailContainer = () => {
   const [client, setClient] = useState<Client | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  // const client = useRef<StompJs.Client | null>(null)
-
-  // useEffect(() => {
-  //   setMessages([])
-  // }, [roomId])
-
   // 해당 방에 기존에 존재하는 메세지 불러오는 로직
   const { data: messagesData, isLoading: messagesIsLoading } = useQuery({
     queryKey: ['fetchMessages', roomId],
@@ -39,7 +33,7 @@ const ChattingDetailContainer = () => {
   // 존재하는 메세지를 messages에 담는 로직
   useEffect(() => {
     if (messagesData) {
-      setMessages(messagesData.dataBody.reverse())
+      setTimeout(() => setMessages(messagesData.dataBody.reverse()), 100)
     }
   }, [messagesData, roomId])
 

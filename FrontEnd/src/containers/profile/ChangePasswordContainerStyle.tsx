@@ -2,11 +2,11 @@ import styled from 'styled-components'
 
 export const SocialMsg = styled.div`
   display: flex;
-  height: 30vh;
+  height: 20vh;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #333;
 

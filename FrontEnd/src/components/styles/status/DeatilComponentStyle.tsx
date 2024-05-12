@@ -100,13 +100,13 @@ export const SummaryContainer = styled.div`
 `
 
 export const SummaryTitle = styled.div`
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: #6a6a6a;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.1rem;
 `
 
 export const SummaryTitleEmphasis = styled.span`
-  font-size: 1.7rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #5057ff;
 `

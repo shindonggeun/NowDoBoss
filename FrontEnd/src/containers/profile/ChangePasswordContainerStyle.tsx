@@ -21,12 +21,20 @@ export const Form = styled.form`
   max-width: 650px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   justify-content: center;
 
   @media (max-width: 425px) {
     gap: 10px;
   }
+`
+export const ErrorMsg = styled.div`
+  padding: 10px;
+  font-size: 0.9rem;
+  background-color: #ffebee;
+  color: #d32f2f;
+  border-left: 5px solid #d32f2f;
+  animation: fadeIn 0.5s;
 `
 
 export const InputContainer = styled.div`

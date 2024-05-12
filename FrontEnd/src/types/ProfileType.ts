@@ -16,3 +16,8 @@ export type TabsType = {
 export type TabBarPropsType = {
   tabs: TabsType[]
 }
+
+export type UpdateMemberInfoDataType = {
+  nickname: string
+  profileImage: string
+}

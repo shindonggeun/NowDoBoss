@@ -42,6 +42,9 @@ export type CommunityListData = {
   category: string
   title: string
   content: string
+  image: string | undefined
+  writerId: number
+  profileImage: string
   writerNickname: string
   readCount: number
   commentCount: number

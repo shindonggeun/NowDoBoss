@@ -6,17 +6,22 @@ interface CategoryType {
 
 export const Container = styled.div`
   //  왼쪽에 띄울 크기
-  width: 250px;
+  width: 160px;
   position: absolute;
   height: calc(100vh - 65px);
+  padding-top: 30px;
 
   @media only screen and (max-width: 992px) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: calc(100vw - 40px);
+    width: calc(100vw);
+    position: fixed;
+    left: 0;
     height: 8vh;
     padding: 5px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee4ec;
   }
 
   @media only screen and (max-width: 400px) {
@@ -26,7 +31,7 @@ export const Container = styled.div`
 `
 export const Community = styled.div`
   margin: 0 0 10px 0;
-
+  width: 200px;
   @media only screen and (max-width: 992px) {
     display: flex;
     align-items: center;
@@ -65,14 +70,13 @@ export const Sub = styled.div`
   color: #555555;
   font-weight: 500;
 
-  @media only screen and (max-width: 576px) {
-    padding: 15px 0 10px;
+  @media only screen and (max-width: 992px) {
+    display: none;
   }
 `
 export const CreateButton = styled.div`
   background-color: #b1c3ff;
   cursor: pointer;
-  width: 160px;
   height: 50px;
   padding: 0 20px;
   display: flex;
@@ -93,11 +97,38 @@ export const CreateButton = styled.div`
   &:hover {
     background-color: #94a9f3;
   }
+
+  @media only screen and (max-width: 992px) {
+    display: none;
+  }
+`
+
+export const CreateIcon = styled.img`
+  display: none;
+
+  @media only screen and (max-width: 992px) {
+    display: flex;
+    cursor: pointer;
+    scale: 1.2;
+    padding: 0.25rem 0.5rem;
+  }
+  @media only screen and (max-width: 830px) {
+    display: flex;
+    scale: 1.5;
+    padding: 0.25rem 0.5rem;
+  }
+  @media only screen and (max-width: 500px) {
+    scale: 1.2;
+    padding: 0.25rem;
+  }
+  @media only screen and (max-width: 455px) {
+    scale: 1;
+    padding: 0;
+  }
 `
 
 // 카테고리 목록으로 재사용
 export const Category = styled.div<CategoryType>`
-  width: 160px;
   font-weight: 700;
   padding: 10px 20px;
   display: flex;

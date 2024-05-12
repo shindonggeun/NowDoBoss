@@ -2,6 +2,7 @@ import * as n from '@src/components/styles/community/NavbarStyle'
 import { useState } from 'react'
 import useCommunityStore, { Category } from '@src/stores/communityStore'
 import { useNavigate } from 'react-router-dom'
+import penIcon from '@src/assets/pen.svg'
 
 export type NavBarPropsType = {
   setCategory: (category: Category) => void
@@ -23,6 +24,11 @@ const NavBar = (props: NavBarPropsType) => {
     selectedCategory.name ? selectedCategory.name : '전체보기',
   )
 
+  const handleCreate = () => {
+    setModifyCommunityId(Number(0))
+    navigate('/community/register')
+  }
+
   return (
     <n.Container>
       <n.Community>
@@ -31,14 +37,12 @@ const NavBar = (props: NavBarPropsType) => {
           관심사가 비슷한 회원들과 <br />
           소통해서 성공에 다가가세요.
         </n.Sub>
-        <n.CreateButton
-          onClick={() => {
-            setModifyCommunityId(Number(0))
-            navigate('/community/register')
-          }}
-        >
-          {/* <b>성공하고싶나요?</b> */}게시글 작성하기 →
+        <n.CreateButton onClick={handleCreate}>
+          {/* <b>성공하고싶나요?</b> */}게시글 작성하기 &nbsp;&nbsp;→
         </n.CreateButton>
+
+        <n.CreateIcon src={penIcon} onClick={handleCreate} />
+
         {categories.map(navCategory => (
           <n.Category
             key={navCategory.name}

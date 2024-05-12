@@ -1,10 +1,14 @@
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
-  margin: 2rem 3vw;
+  margin: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+    @media (max-width: 768px) {
+        margin: 2rem 3vw;
+
 `
 
 export const Title = styled.div`
@@ -133,7 +137,7 @@ export const CircleContainer = styled.div`
   gap: 1rem;
   justify-content: center;
   align-items: center;
-  margin: 3rem 3rem;
+  margin: 3rem 4rem;
 
   @media (max-width: 768px) {
     margin: 3rem 1rem;

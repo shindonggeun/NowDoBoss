@@ -8,6 +8,7 @@ import com.ssafy.backend.domain.administration.exception.AdministrationErrorCode
 import com.ssafy.backend.domain.administration.exception.AdministrationException;
 import com.ssafy.backend.domain.administration.repository.IncomeAdministrationRepository;
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
+import com.ssafy.backend.domain.commercial.document.CommercialAnalysis;
 import com.ssafy.backend.domain.commercial.dto.info.*;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
@@ -51,6 +52,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final SalesAdministrationRepository salesAdministrationRepository;
     private final IncomeDistrictRepository incomeDistrictRepository;
     private final IncomeAdministrationRepository incomeAdministrationRepository;
+    private final CommercialAnalysisRepository commercialAnalysisRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -430,6 +432,26 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         return new AllIncomeResponse(districtTotalIncomeInfo, administrationTotalIncomeInfo, commercialTotalIncomeInfo);
+    }
+
+    @Override
+    public List<CommercialAnalysisResponse> getMyAnalysisListByMemberId(Long memberId) {
+        List<CommercialAnalysis> commercialAnalysisList = commercialAnalysisRepository.findByMemberIdOrderByCreatedAt(memberId);
+
+        return commercialAnalysisList.stream()
+                .map(ca -> new CommercialAnalysisResponse(
+                        ca.getDistrictCode(),
+                        ca.getDistrictCodeName(),
+                        ca.getAdministrationCode(),
+                        ca.getAdministrationCodeName(),
+                        ca.getCommercialCode(),
+                        ca.getCommercialCodeName(),
+                        ca.getServiceType(),
+                        ca.getServiceCode(),
+                        ca.getServiceCodeName(),
+                        ca.getCreatedAt()
+                ))
+                .toList();
     }
 
 

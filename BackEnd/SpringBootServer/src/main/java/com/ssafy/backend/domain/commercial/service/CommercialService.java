@@ -30,4 +30,6 @@ public interface CommercialService {
 
     AllIncomeResponse getAllIncomeByPeriodCodeAndDistrictCodeAndAdministrationCodeAndCommercialCode(
             String periodCode, String districtCode, String administrationCode, String commercialCode);
+
+    List<CommercialAnalysisResponse> getMyAnalysisListByMemberId(Long memberId);
 }

@@ -40,6 +40,15 @@ export const fetchPopularRoom = async (category: string) => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 채팅 목록 get api
+export const fetchChattingList = async () => {
+  return customAxios
+    .get(`/chat-rooms`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
 // 채팅방 상세 조회 get api
 export const fetchRoomDetail = async (chatRoomId: number) => {
   return customAxios

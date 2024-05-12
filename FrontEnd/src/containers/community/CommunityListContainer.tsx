@@ -1,4 +1,3 @@
-import PopularChatList from '@src/components/community/list/PopularChatList'
 import ArticleList from '@src/components/community/list/ArticleList'
 import { useQuery } from '@tanstack/react-query'
 import { fetchCommunityList } from '@src/api/communityApi'
@@ -18,11 +17,12 @@ const CommunityListContainer = () => {
   useEffect(() => {
     refetch()
   }, [refetch, category])
+
   return (
     <c.Mid>
       {!isLoading && data ? (
         <c.Div>
-          <PopularChatList category={category.value} />
+          {/* <PopularChatList category={category.value} /> */}
           <ArticleList articleList={data.dataBody} />
         </c.Div>
       ) : (

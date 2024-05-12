@@ -134,10 +134,11 @@ export const ArticlesContainer = styled.div`
 `
 
 export const ArticleContainer = styled.div`
-  border-top: 2px solid #d9d9d9;
+  border-bottom: 2px solid #d9d9d9;
   padding: 30px;
+
   &:hover {
-    background-color: #d9d9d9;
+    background-color: #fbfbfb;
     cursor: pointer;
   }
 `

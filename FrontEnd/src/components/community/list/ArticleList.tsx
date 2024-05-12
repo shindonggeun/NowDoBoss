@@ -13,6 +13,7 @@ const ArticleList = (props: ArticleListPropsType) => {
     categories: state.categories,
   }))
   const navigate = useNavigate()
+
   return (
     <a.Container>
       {/*  게시글 목록 */}
@@ -30,18 +31,40 @@ const ArticleList = (props: ArticleListPropsType) => {
               return (
                 <a.ArticleContainer
                   key={article.communityId}
-                  onClick={() => navigate(`/community/${article.communityId}`)}
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'instant' })
+                    navigate(`/community/${article.communityId}`)
+                  }}
                 >
-                  <a.CategoryBadge>커뮤니티</a.CategoryBadge>
-                  <a.CardTitle>{article.title}</a.CardTitle>
-                  <a.CardContent>{article.content}</a.CardContent>
-                  <a.CardCategory>
-                    <a.Icon src={iconSrc} />
-                    {categoryKorean}
-                  </a.CardCategory>
-                  <a.CardSubContent>
-                    조회수 {article.readCount} ∙ 댓글 {article.commentCount}
-                  </a.CardSubContent>
+                  <a.Header>
+                    <a.Profile>
+                      <a.ProfileImg
+                        src={
+                          article.profileImage
+                            ? article.profileImage
+                            : undefined
+                        }
+                      />
+                      <a.ProfileContent>
+                        <a.Name>{article.writerNickname}</a.Name>
+                        <a.Category>
+                          <a.Icon src={iconSrc} />
+                          {categoryKorean}
+                        </a.Category>
+                      </a.ProfileContent>
+                    </a.Profile>
+
+                    <a.CardSubContent>
+                      조회수 {article.readCount} ∙ 댓글 {article.commentCount}
+                    </a.CardSubContent>
+                  </a.Header>
+                  <a.Body>
+                    <a.BodyContent>
+                      <a.CardTitle>{article.title}</a.CardTitle>
+                      <a.CardContent>{article.content}</a.CardContent>
+                    </a.BodyContent>
+                    {article.image ? <a.Img src={article.image} /> : ''}
+                  </a.Body>
                 </a.ArticleContainer>
               )
             })

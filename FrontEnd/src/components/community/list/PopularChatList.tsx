@@ -87,7 +87,7 @@ const PopularChatList = ({ category }: { category: string }) => {
     onSuccess: res => {
       // 성공이면
       if (res.dataHeader.successCode === 0) {
-        navigate(`/community/chatting/${res.dataBody.chatRoomId}`)
+        navigate(`/chatting/${res.dataBody.chatRoomId}`)
       } else {
         Swal.fire({
           title: res.dataHeader.resultMessage,

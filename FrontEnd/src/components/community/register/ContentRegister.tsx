@@ -87,6 +87,7 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
     mutationFn: communityCreate,
     onSuccess() {
       navigate(`/community/list`)
+      Swal.close()
     },
   })
 
@@ -96,6 +97,7 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
     mutationFn: communityModify,
     onSuccess() {
       navigate(`/community/${modifyCommunityId}`)
+      Swal.close()
 
       // 수정 완료 모달
       const Toast = Swal.mixin({

@@ -129,7 +129,7 @@ export const NameInput = styled.input`
   }
 
   @media (max-width: 576px) {
-    width: 91%;
+    width: 92%;
   }
 
   &:focus {

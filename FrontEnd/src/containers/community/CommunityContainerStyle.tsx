@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div`
   display: flex;
   flex-direction: row; // 기본 방향을 행으로 설정  display: flex;
-  padding: 2% 15%;
+  padding: 0 15%;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -11,6 +11,8 @@ export const Container = styled.div`
 
   @media only screen and (max-width: 992px) {
     flex-direction: column; // 화면 너비가 992px 이하일 때 방향을 열로 변경
+
+    padding: 0;
   }
 `
 export const NabBar = styled.div`
@@ -46,11 +48,30 @@ export const Context = styled.div`
 
 export const MainContentDiv = styled.div`
   width: 100%;
+
+  @media only screen and (max-width: 992px) {
+    margin: 0 10%;
+    width: 80%;
+  }
 `
 
 export const Div = styled.div``
 
 export const Mid = styled.div`
-  margin: 3% 10%;
+  margin: 3% 5%;
+  width: 100%;
+
+  @media only screen and (max-width: 992px) {
+    margin: 3% 10%;
+    width: 80%;
+  }
+`
+export const List = styled.div`
+  margin: 3% 5%;
   width: 80%;
+
+  @media only screen and (max-width: 992px) {
+    margin: 3% 10%;
+    width: 80%;
+  }
 `

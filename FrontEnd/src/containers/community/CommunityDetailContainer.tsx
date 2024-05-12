@@ -16,7 +16,7 @@ const CommunityDetailContainer = () => {
   })
 
   return (
-    <c.Mid>
+    <c.Div>
       {!isLoading && data ? (
         <c.MainContentDiv>
           <MainContent detailData={data.dataBody} />
@@ -27,7 +27,7 @@ const CommunityDetailContainer = () => {
       ) : (
         <div>데이터 호출 에러</div>
       )}
-    </c.Mid>
+    </c.Div>
   )
 }
 export default CommunityDetailContainer

@@ -1,46 +1,34 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  margin: 0 0 40px;
+  margin: 40px 0 0;
+  min-height: 280px;
+  width: 100%;
 `
+
 export const Context = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `
-export const LeftGrid = styled.div`
-  display: flex;
-  justify-content: space-between;
-  height: auto;
-`
-export const Modal = styled.div``
+
 export const Title = styled.div`
   font-weight: 600;
   font-size: 1.7rem;
+
+  b {
+    color: #0051ff;
+  }
+
+  @media only screen and (max-width: 456px) {
+    font-size: 1.4rem;
+  }
 `
 export const Sub = styled.div`
   font-weight: 500;
 
-  @media only screen and (max-width: 576px) {
-    padding: 15px 0 10px;
-  }
-`
-
-// 생성하기 버튼
-export const CreateButton = styled.div`
-  background-color: #94a3b8;
-  color: #f1f5f9;
-  font-weight: 600;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 120px;
-  height: 40px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #707d8d;
+  @media only screen and (max-width: 456px) {
+    font-size: 0.9rem;
   }
 `
 
@@ -70,22 +58,10 @@ export const ChatCard = styled.div`
   border-radius: 15px;
   width: auto;
   height: auto;
-  padding: 20px 30px;
+  padding: 15px 30px;
   margin: 10px 4px;
-  min-height: 175px;
+  min-height: 155px;
   overflow: hidden;
-`
-
-export const CategoryBadge = styled.div`
-  background-color: #f1f5f9;
-  color: #94a3b8;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 13px;
-  width: 65px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `
 
 export const CardTitle = styled.div`
@@ -95,6 +71,7 @@ export const CardTitle = styled.div`
   white-space: nowrap; /* 내용을 한 줄로 표시 */
   overflow: hidden; /* 내용이 너비를 넘어가면 숨김 처리 */
   text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
+  min-height: 30px;
 `
 
 export const CardContent = styled.div`
@@ -108,6 +85,7 @@ export const CardContent = styled.div`
   text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
   height: auto; /* 높이 자동 조절 */
   max-height: 48px; /* 최대 높이를 48px로 제한 */
+  min-height: 40px;
   line-height: 24px; /* 줄 높이를 24px로 설정 */
 `
 
@@ -134,11 +112,55 @@ export const ArticlesContainer = styled.div`
 `
 
 export const ArticleContainer = styled.div`
-  border-bottom: 2px solid #d9d9d9;
-  padding: 30px;
+  border-bottom: 2px solid #e0e6ee;
+  padding: 20px 30px;
 
   &:hover {
     background-color: #fbfbfb;
     cursor: pointer;
   }
+`
+
+export const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  //align-items: center;
+`
+export const Profile = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+export const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-right: 10px;
+`
+export const ProfileContent = styled.div``
+export const Name = styled.div`
+  margin: -1px 0 -5px;
+`
+export const Category = styled.div`
+  scale: 0.9;
+  font-weight: 600;
+  color: #696d6e;
+  display: flex;
+  margin-left: -7px;
+`
+export const Body = styled.div`
+  padding: 5px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
+export const BodyContent = styled.div``
+export const Img = styled.img`
+  border: 1px solid #e0e6ee;
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
 `

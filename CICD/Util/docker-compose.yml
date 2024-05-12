@@ -80,7 +80,7 @@ services:
     restart: always
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-1:29092, kafka-2:29093
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-1:29092,kafka-2:29093
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:32181
     networks:
       - nowdoboss_net

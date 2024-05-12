@@ -66,7 +66,7 @@ spring:
 
   # Kafka setting
   kafka:
-    bootstrap-servers: ${server.base-url}:9092
+    bootstrap-servers: ${server.base-url}:9092, ${server.base-url}:9093
     consumer:
       group-id: NoWDoBossGroup
       auto-offset-reset: earliest

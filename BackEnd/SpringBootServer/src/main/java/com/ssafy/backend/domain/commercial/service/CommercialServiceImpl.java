@@ -27,6 +27,8 @@ import com.ssafy.backend.domain.district.exception.DistrictErrorCode;
 import com.ssafy.backend.domain.district.exception.DistrictException;
 import com.ssafy.backend.domain.district.repository.IncomeDistrictRepository;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
+import com.ssafy.backend.global.component.kafka.KafkaConstants;
+import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +57,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final IncomeDistrictRepository incomeDistrictRepository;
     private final IncomeAdministrationRepository incomeAdministrationRepository;
     private final CommercialAnalysisRepository commercialAnalysisRepository;
+    private final KafkaProducer kafkaProducer;
 
     @Override
     @Transactional(readOnly = true)
@@ -438,6 +441,8 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     public void saveAnalysis(Long memberId, CommercialAnalysisSaveRequest analysisSaveRequest) {
+        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisSaveRequest.commercialCodeName());
+
         boolean existAnalysis = commercialAnalysisRepository.existsByDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
                 analysisSaveRequest.districtCode(), analysisSaveRequest.administrationCode(),
                 analysisSaveRequest.commercialCode(), analysisSaveRequest.serviceCode());

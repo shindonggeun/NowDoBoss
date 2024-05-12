@@ -104,3 +104,11 @@ export const commentDelete = async (
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 인기 커뮤니티 목록 조회 get api
+export const fetchPopularArticle = async () => {
+  return customAxios
+    .get(`/community/popular`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

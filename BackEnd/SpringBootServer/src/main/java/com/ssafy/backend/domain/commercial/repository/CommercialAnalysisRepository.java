@@ -8,5 +8,8 @@ import java.util.List;
 
 @Repository
 public interface CommercialAnalysisRepository extends MongoRepository<CommercialAnalysis, Long> {
+    boolean existsByDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
+            String districtCode, String administrationCode, String commercialCode, String serviceCode);
+
     List<CommercialAnalysis> findByMemberIdOrderByCreatedAt(Long memberId);
 }

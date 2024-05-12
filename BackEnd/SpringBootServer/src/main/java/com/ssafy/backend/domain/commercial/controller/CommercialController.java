@@ -176,7 +176,7 @@ public class CommercialController {
 
     @Operation(
             summary = "상권 분석 저장 (북마크)",
-            description = "상권분석 조회 한 데이터를 나의 북마크로 저장합니다. "
+            description = "상권분석 조회 한 데이터를 나의 북마크로 저장합니다."
     )
     @PostMapping("/analysis")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
@@ -186,6 +186,10 @@ public class CommercialController {
         return ResponseEntity.ok().body(Message.success());
     }
 
+    @Operation(
+            summary = "나의 상권 분석 리스트 조회",
+            description = "마이페이지에서 나의 상권 분석 리스트를 조회하는 기능입니다."
+    )
     @GetMapping("/analysis-list")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<List<CommercialAnalysisResponse>>> getMyAnalysisListByMemberId(

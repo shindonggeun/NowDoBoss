@@ -438,6 +438,14 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     public void saveAnalysis(Long memberId, CommercialAnalysisSaveRequest analysisSaveRequest) {
+        boolean existAnalysis = commercialAnalysisRepository.existsByDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
+                analysisSaveRequest.districtCode(), analysisSaveRequest.administrationCode(),
+                analysisSaveRequest.commercialCode(), analysisSaveRequest.serviceCode());
+
+        if (existAnalysis) {
+            throw new CommercialException(CommercialErrorCode.EXIST_ANALYSIS);
+        }
+
         CommercialAnalysis commercialAnalysis = CommercialAnalysis.builder()
                 .memberId(memberId)
                 .districtCode(analysisSaveRequest.districtCode())

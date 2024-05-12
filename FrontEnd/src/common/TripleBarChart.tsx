@@ -50,9 +50,11 @@ const TripleBar = (props: BarChartProps) => {
         display: false,
       },
     },
-    // layout: {
-    //   padding: 25,
-    // },
+    layout: {
+      padding: {
+        top: 20,
+      },
+    },
     scales: {
       x: {
         grid: {
@@ -80,7 +82,7 @@ const TripleBar = (props: BarChartProps) => {
           ctx.font = 'bolder 14px sans-serif'
           ctx.fillStyle = 'black'
           ctx.textAlign = 'center'
-          ctx.fillText(infos[index], datapoint.x, datapoint.y + 20)
+          ctx.fillText(infos[index], datapoint.x, datapoint.y - 15)
         })
       },
     },

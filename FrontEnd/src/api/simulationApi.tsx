@@ -1,5 +1,8 @@
 import { customAxios } from '@src/util/auth/customAxios'
-import { SimulationDataType } from '@src/types/SimulationType'
+import {
+  SimulationDataType,
+  SimulationSaveType,
+} from '@src/types/SimulationType'
 
 // 시뮬레이션 업종별 가게 사이즈
 export const fetchStoreSize = async (serviceCode: string) => {
@@ -24,6 +27,14 @@ export const fetchFranchiseList = async (
 export const reportCreate = async (data: SimulationDataType) => {
   return customAxios
     .post(`/simulation`, data)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 시뮬레이션 결과 저장
+export const reportSave = async (data: SimulationSaveType) => {
+  return customAxios
+    .post(`/simulation/save`, data)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

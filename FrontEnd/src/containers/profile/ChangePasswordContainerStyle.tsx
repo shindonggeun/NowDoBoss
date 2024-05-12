@@ -2,13 +2,18 @@ import styled from 'styled-components'
 
 export const SocialMsg = styled.div`
   display: flex;
-  height: 50vh;
+  height: 30vh;
   justify-content: center;
   align-items: center;
   text-align: center;
   font-size: 1.1rem;
   font-weight: 500;
   color: #333;
+
+  @media (max-width: 425px) {
+    height: 20vh;
+    font-size: 0.9rem;
+  }
 `
 
 export const Form = styled.form`

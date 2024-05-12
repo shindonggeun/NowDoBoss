@@ -83,7 +83,7 @@ const StatusSidebarTopComponent = ({
                     {(() => {
                       switch (Tab) {
                         case 0:
-                          return `${total.slice(0, -5)} 만명`
+                          return `${total.slice(0, -4)} 만명`
                         case 1:
                           return `${item.total.toString().slice(0, 1)} 조 ${item.total.toString().slice(2, 6)} 억`
                         case 2:

@@ -16,3 +16,14 @@ export type TabsType = {
 export type TabBarPropsType = {
   tabs: TabsType[]
 }
+
+export type UpdateMemberInfoDataType = {
+  nickname: string
+  profileImage: string
+}
+
+export type ChangeMemberPasswordDataType = {
+  nowPassword: string
+  changePassword: string
+  changePasswordCheck: string
+}

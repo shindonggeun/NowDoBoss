@@ -1,14 +1,15 @@
 import * as c from '@src/components/styles/chatting/ChattingNavbarStyle'
-import chatIcon from '@src/assets/chat_button.svg'
+import * as n from '@src/components/styles/community/NavbarStyle'
 import { useQuery } from '@tanstack/react-query'
 import { fetchMyRooms } from '@src/api/chattingApi'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as n from '@src/components/styles/community/NavbarStyle'
+import CreateModal from '@src/components/chatting/CreateModal'
 
 const ChattingNavbar = () => {
   const navigate = useNavigate()
   const [userId, setUserId] = useState(0)
+  const [modalOpen, setModalOpen] = useState(false)
 
   // const [isChoice, setIsChoice] = useState(false)
 
@@ -40,7 +41,15 @@ const ChattingNavbar = () => {
           <c.Chatting>
             <n.Title>채팅</n.Title>
             <n.Sub>회원들과 대화를 나눠보세요.</n.Sub>
-
+            <c.ChatCard
+              $isChoice={false}
+              onClick={() => navigate('/chatting/list')}
+            >
+              둘러보기 &nbsp;&nbsp; →
+            </c.ChatCard>
+            <n.CreateButton onClick={() => setModalOpen(true)}>
+              채팅방 생성하기
+            </n.CreateButton>
             {/* 검색창 */}
             <c.Group>
               <c.InputIcon viewBox="0 0 24 24">
@@ -49,7 +58,7 @@ const ChattingNavbar = () => {
               <c.Input placeholder="사용자 검색하기" type="search" />
             </c.Group>
             {data.dataBody.map((chatCard: { id: number; name: string }) => (
-              <c.Category
+              <c.ChatCard
                 key={chatCard.id}
                 // $isChoice={isChoice === chatCard.name}
                 $isChoice={false}
@@ -57,15 +66,15 @@ const ChattingNavbar = () => {
                   navigate(`/chatting/${chatCard.id}`)
                 }}
               >
-                <c.ProfileImg />
+                {/* <c.ProfileImg /> */}
                 <c.Text>{chatCard.name}</c.Text>
-              </c.Category>
+              </c.ChatCard>
             ))}
           </c.Chatting>
-          <c.ChatButton
-            src={chatIcon}
-            onClick={() => navigate(`/chatting/1`)}
-          />
+
+          <c.Modal>
+            <CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+          </c.Modal>
         </c.Div>
       )}
     </c.Container>

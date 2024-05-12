@@ -5,11 +5,11 @@ interface CategoryType {
 }
 
 export const Container = styled.div`
-  background-color: #f1f1f1;
-  //  왼쪽에 띄울 크기
-  width: 250px;
+  width: 240px;
   position: absolute;
   height: calc(100vh - 65px);
+  //border-right: 1px solid #d9d9d9;
+  padding-top: 30px;
 
   @media only screen and (max-width: 992px) {
     display: flex;
@@ -33,30 +33,12 @@ export const Chatting = styled.div`
   }
 `
 
-export const ChatButton = styled.img`
-  display: none;
-
-  @media only screen and (max-width: 992px) {
-    display: flow;
-    cursor: pointer;
-  }
-  @media only screen and (max-width: 800px) {
-    display: flow;
-    cursor: pointer;
-  }
-  @media only screen and (max-width: 586px) {
-    scale: 0.8;
-  }
-  @media only screen and (max-width: 500px) {
-    scale: 0.6;
-    margin-right: -10px;
-  }
-`
 export const Group = styled.div`
   display: flex;
   line-height: 28px;
   align-items: center;
   position: relative;
+  margin-bottom: 15px;
 `
 
 export const Input = styled.input`
@@ -78,7 +60,7 @@ export const Input = styled.input`
   &:focus,
   &:hover {
     outline: none;
-    border-color: #aac1f9;
+    border-color: #f8fafc;
     background-color: #fff;
   }
 `
@@ -92,9 +74,9 @@ export const InputIcon = styled.svg`
 `
 
 // 카테고리 및 채팅 목록으로 재사용
-export const Category = styled.div<CategoryType>`
+export const ChatCard = styled.div<CategoryType>`
   font-weight: 600;
-  padding: 20px;
+  padding: 15px 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -118,20 +100,6 @@ export const Category = styled.div<CategoryType>`
     padding: 3px;
   }
 `
-export const Icon = styled.img`
-  @media only screen and (max-width: 830px) {
-    scale: 1.5;
-    padding: 0.25rem 0.5rem;
-  }
-  @media only screen and (max-width: 500px) {
-    scale: 1.2;
-    padding: 0.25rem;
-  }
-  @media only screen and (max-width: 455px) {
-    scale: 1;
-    padding: 0;
-  }
-`
 
 export const Text = styled.div`
   margin: 0 0 0 5px;
@@ -153,3 +121,5 @@ export const ProfileImg = styled.div`
 `
 
 export const Div = styled.div``
+
+export const Modal = styled.div``

@@ -140,7 +140,7 @@ export interface SimulationReportType {
 export interface SimulationSaveType {
   totalPrice: number
   isFranchisee: boolean
-  brandName: string
+  brandName: string | null
   gugun: string
   serviceCode: string
   serviceCodeName: string

@@ -8,11 +8,13 @@ import DetailCommercialComponent from '@src/components/status/DetailCommercialCo
 import Xmark from 'src/assets/xmark_solid_nomal.svg'
 import bookmark from 'src/assets/bookmark.svg'
 import { useRef, useState, useEffect, useMemo } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { fetchStatusDetail } from '@src/api/statusApi'
 import { StatusResponse } from '@src/types/StatusType'
-import CircleLoading from '@src/common/CircleLoading.tsx'
+import CircleLoading from '@src/common/CircleLoading'
 import useStateStore from '@src/stores/statusStore'
+import { reportSave } from '@src/api/simulationApi'
+import { SimulationSaveType } from '@src/types/SimulationType'
 
 interface StatusDetailbarProps {
   regionCode: number | null
@@ -111,11 +113,33 @@ const StatusDetailbarComponent = ({ regionCode }: StatusDetailbarProps) => {
     }
   }, [])
 
+  // 레포트 분석 저장
+  const { mutate: mutateSaveReport } = useMutation({
+    mutationFn: reportSave,
+    // onSuccess: res => {},
+    onError: error => {
+      console.error(error)
+    },
+  })
+
   const [spinner, setSpinner] = useState(true)
   useEffect(() => {
     setTimeout(() => {
       setSpinner(false)
     }, 1100)
+
+    const saveReportData: SimulationSaveType = {
+      totalPrice: DeatilData.totalPrice,
+      isFranchisee: true,
+      brandName: '',
+      gugun: '',
+      serviceCode: '',
+      serviceCodeName: '',
+      storeSize: 0,
+      floor: 'string',
+    }
+
+    mutateSaveReport(saveReportData)
   }, [])
 
   return (

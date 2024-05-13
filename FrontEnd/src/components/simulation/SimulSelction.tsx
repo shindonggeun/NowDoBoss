@@ -98,22 +98,22 @@ const SimulSelction = ({ onClose }: SimulSelctionProps) => {
         <c.Contants>
           {step === 1 && (
             <c.FadeInContainer>
-              <SelectionStep1 nextStep={nextStep} />
+              <SelectionStep2 nextStep={nextStep} />
             </c.FadeInContainer>
           )}
           {step === 2 && (
             <c.FadeInContainer>
-              <SelectionStep2 nextStep={nextStep} />
+              <SelectionStep3 nextStep={nextStep} />
             </c.FadeInContainer>
           )}
           {step === 3 && (
             <c.FadeInContainer>
-              <SelectionStep3 nextStep={nextStep} />
+              <SelectionStep4 nextStep={nextStep} />
             </c.FadeInContainer>
           )}
           {step === 4 && (
             <c.FadeInContainer>
-              <SelectionStep4 nextStep={nextStep} />
+              <SelectionStep1 nextStep={nextStep} />
             </c.FadeInContainer>
           )}
           {step === 5 && (

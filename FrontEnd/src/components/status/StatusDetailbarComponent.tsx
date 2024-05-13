@@ -137,7 +137,7 @@ const StatusDetailbarComponent = ({ regionCode }: StatusDetailbarProps) => {
             <c.BarInnerText
               key={index}
               onClick={() => onClickActiveTab(category.name)}
-              isActive={category.name === activeTab}
+              $isActive={category.name === activeTab}
             >
               {category.name}
             </c.BarInnerText>

@@ -11,8 +11,13 @@ interface Step1Props {
 }
 
 const SelectionStep1 = ({ nextStep }: Step1Props) => {
-  const { isFranchise, setIsFranchise, brandName, setBrandName } =
-    useSimulationStore()
+  const {
+    isFranchise,
+    setIsFranchise,
+    subCategoryCode,
+    brandName,
+    setBrandName,
+  } = useSimulationStore()
   const [isClicked, setIsClicked] = useState<boolean>(false)
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +32,7 @@ const SelectionStep1 = ({ nextStep }: Step1Props) => {
 
   const { data, isLoading, refetch } = useQuery<FranchiseDataBody>({
     queryKey: ['SearchFranchise', brandName],
-    queryFn: () => fetchFranchiseList(brandName, 0),
+    queryFn: () => fetchFranchiseList(brandName, 0, subCategoryCode),
   })
 
   useEffect(() => {

@@ -68,3 +68,17 @@ export const getExpenditureData = async (commercialCode: string) => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 지출내역 (총 지출 금액)
+export const getTotalExpenditureData = async (
+  districtCode: string,
+  administrationCode: string,
+  commercialCode: string,
+) => {
+  return customAxios
+    .get(
+      `/commercial/income/${districtCode}/${administrationCode}/${commercialCode}`,
+    )
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

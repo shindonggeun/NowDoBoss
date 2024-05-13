@@ -25,59 +25,29 @@ const LoadingSpinner = styled.div`
   display: block;
   margin: 15px auto;
   position: relative;
-  color: #525252;
+  color: #236cff;
   box-sizing: border-box;
   animation: ${Loadingani} 1s linear infinite;
 `
 
-const Searchani = keyframes`
-    0% {
-        transform: translate(-10px, -10px);
-    }
-    25% {
-        transform: translate(-10px, 10px);
-    }
-    50% {
-        transform: translate(10px, 10px);
-    }
-    75% {
-        transform: translate(10px, -10px);
-    }
-    100% {
-        transform: translate(-10px, -10px);
-    }
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20vh;
 `
-const SearchIcon = styled.div`
-  width: 48px;
-  height: 48px;
-  display: block;
-  margin: 20px auto;
-  position: relative;
-  border: 3px solid #4b4b4b;
-  border-radius: 50%;
-  box-sizing: border-box;
-  animation: ${Searchani} 2s linear infinite;
 
-  &::after {
-    content: '';
-    box-sizing: border-box;
-    width: 6px;
-    height: 24px;
-    background: #4b4b4b;
-    transform: rotate(-45deg);
-    position: absolute;
-    bottom: -20px;
-    left: 46px;
-  }
+const ContainerText = styled.div`
+  margin-bottom: 10px;
+  color: #2c3e50;
 `
 
 const SearchLoading = () => {
   return (
-    <div>
-      <SearchIcon />
-      <div>입력한 결과를 바탕으로 분석중이에요</div>
+    <Container>
+      <ContainerText>입력한 결과를 바탕으로 분석중이에요</ContainerText>
       <LoadingSpinner />
-    </div>
+    </Container>
   )
 }
 

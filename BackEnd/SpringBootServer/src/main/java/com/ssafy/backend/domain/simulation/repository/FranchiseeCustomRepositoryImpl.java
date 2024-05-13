@@ -94,10 +94,9 @@ public class FranchiseeCustomRepositoryImpl implements FranchiseeCustomRepositor
                         franchisee.etc.divide(TEN),
                         franchisee.interior.divide(TEN)))
                 .from(franchisee)
+                .where(equalsServiceCode(serviceCode))
                 .orderBy(difference.asc())
                 .limit(5)
                 .fetch();
     }
-
-
 }

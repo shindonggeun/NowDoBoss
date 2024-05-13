@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class SimulationController {
             description = "프랜차이즈 검색 기능입니다."
     )
     @GetMapping("/franchisee")
-    public ResponseEntity<Message<List<SearchFranchiseeResponse>>> searchFranchisee(SearchFranchiseeRequest request) {
+    public ResponseEntity<Message<List<SearchFranchiseeResponse>>> searchFranchisee(@Validated SearchFranchiseeRequest request) {
         return ResponseEntity.ok().body(Message.success(simulationService.searchFranchisee(request)));
     }
 

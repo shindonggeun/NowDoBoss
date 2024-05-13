@@ -51,7 +51,7 @@ pipeline {
                     echo "Kafka-2 실행 상태: ${isKafkaRunning_2}"
 
                     echo "Kafka-3 컨테이너 실행 상태 확인 중..."
-                    def isKafkaRunning_3 = sh(script: "docker ps --filter name=nowdoboss_kafka-2 --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
+                    def isKafkaRunning_3 = sh(script: "docker ps --filter name=nowdoboss_kafka-3 --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
                     echo "Kafka-3 실행 상태: ${isKafkaRunning_3}"
 
                     echo "Kafka-ui 컨테이너 실행 상태 확인 중..."

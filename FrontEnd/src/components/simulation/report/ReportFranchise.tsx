@@ -18,7 +18,7 @@ const ReportFranchise = ({
         <c.SearchIcon src={Search} alt="SearchIcon" />
       </c.FranchiseTitleContainer>
       <c.SubTitle>
-        현재 창업비용과 유사한 프렌차이즈 정보들을 가져왔어요.
+        현재 카테고리에서 유사한 비용의 프렌차이즈 정보들을 가져왔어요.
       </c.SubTitle>
       <ContainerBox height={40} />
       {ReportData.franchisees.map((franchise, i) => {

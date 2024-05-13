@@ -1,7 +1,11 @@
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
-  margin: 3rem 3rem;
+  margin: 3rem;
+
+  @media (max-width: 768px) {
+    margin: 2rem;
+  }
 `
 
 export const Title = styled.div`
@@ -196,7 +200,7 @@ export const InfoText = styled.div`
 export const InputContainer = styled.div`
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   margin-top: 2rem;
 `
@@ -207,6 +211,10 @@ export const SearchIcon = styled.img`
   bottom: 5px;
   width: 1.8rem;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 1.5rem;
+  }
 `
 
 export const StyledInput = styled.input`
@@ -227,6 +235,10 @@ export const StyledInput = styled.input`
   &::placeholder {
     color: #4c545e;
     font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 2rem;
   }
 `
 

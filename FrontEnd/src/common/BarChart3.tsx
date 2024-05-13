@@ -18,7 +18,7 @@ interface BarChartProps {
   dataLavel: string
 }
 
-const BarChart2 = (props: BarChartProps) => {
+const BarChart3 = (props: BarChartProps) => {
   const { labels, values, minvalue, dataLavel } = props
 
   const data = {
@@ -65,4 +65,4 @@ const BarChart2 = (props: BarChartProps) => {
   return <Bar options={options} data={data} />
 }
 
-export default BarChart2
+export default BarChart3

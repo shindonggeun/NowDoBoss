@@ -7,6 +7,7 @@ export const StatusContainer = styled.div`
   //width: window.innerWidth;
   height: 90.5vh;
   overflow: hidden;
+  //background-color: #ededef;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -21,6 +22,7 @@ export const Sidebar = styled.div`
   border: 1px solid #dce5f2;
   border-radius: 5px;
   margin: 10px 50px;
+  background-color: white;
 
   @media (max-width: 768px) {
     display: none;

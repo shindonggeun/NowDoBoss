@@ -23,7 +23,7 @@ const WithdrawContainer = () => {
     onSuccess: res => {
       if (res.dataHeader.successCode === 0) {
         // 쿠키에서 accessToken 삭제
-        removeCookie('accessToken')
+        removeCookie('accessToken', { path: '/' })
 
         // 로컬 스토리지에서 memberInfo 및 로그인 여부 삭제
         localStorage.removeItem('memberInfo')

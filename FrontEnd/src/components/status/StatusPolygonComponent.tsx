@@ -3,26 +3,24 @@ import seoul from '@src/components/status/sig_seoul_geojson.json'
 import * as d3 from 'd3'
 import { TopList, TopListItem } from '@src/types/StatusType'
 import { useEffect, useState } from 'react'
+import useStateStore from '@src/stores/statusStore'
 
 type StatusPolygonProps = {
   tab: number
-  selectedRegion: string | null
   TopLists: TopList
-  onClickRegionHandler: (data: string | null) => void
   onClickRegionCodeHandler: (data: number) => void
 }
 
 const StatusPolygonComponent = ({
   tab,
-  selectedRegion,
   TopLists,
-  onClickRegionHandler,
   onClickRegionCodeHandler,
 }: StatusPolygonProps) => {
-  // console.log(`선택된 탭 index : ${tab}`)
+  const { selectedRegion, setSelectedRegion } = useStateStore()
   const [width, setWidth] = useState(660)
   const [height, setHeight] = useState(550)
   const [scale, setScale] = useState(90000)
+  const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
   const mapData = seoul.features // 서울시 행정구역 json data
 
   useEffect(() => {
@@ -62,25 +60,25 @@ const StatusPolygonComponent = ({
 
   // <todo> 색 변경하기!
   const mapColor = [
-    ['#5E28C9', '#8C63E5', '#A78DED', '#D3C0F7', '#E7E0F9'], // 유동인구
-    ['#007ECE', '#0095E5', '#60AEEE', '#A4D7FC', '#D8EEFF'], // 평균매출
-    ['#CC4E5D', '#E97F8D', '#F3A6AF', '#FFCCD1', '#FDEAEC'], // 개업률
-    ['#009E65', '#00BF7A', '#5DD0A7', '#92ECCD', '#C3FFEA'], // 폐점률
+    ['#0d47a1', '#1976d2', '#2196f3', '#64b5f6', '#90caf9'], // 유동인구
+    ['#311b92', '#512da8', '#673ab7', '#7e57c2', '#b39ddb'], // 평균매출
+    ['#fe036a', '#f5347f', '#ef5591', '#da85a1', '#f3a1bc'], // 개업률
+    ['#198450', '#27a567', '#2eb774', '#41dc8e', '#84eab3'], // 폐점률
     ['#F3FFDA', '#FAF0C3', '#F8DB6D', '#FFDE3C', '#E8C500'],
     ['#D6FFFD', '#BBFBF7', '#68E1D9', '#10C1CC', '#009FA9'],
   ]
   const handleRegionClick = (regionName: string) => {
     if (selectedRegion === regionName) {
-      onClickRegionHandler(null)
+      setSelectedRegion(null)
     } else {
-      onClickRegionHandler(regionName)
+      setSelectedRegion(regionName)
     }
   }
 
   // 받아온 데이터 탭별 정리
   const footTrafficTop: TopListItem[] = TopLists.footTrafficTopTenList
-  const openedRateTop: TopListItem[] = TopLists.openedRateTopTenList
   const salesTop: TopListItem[] = TopLists.salesTopTenList
+  const openedRateTop: TopListItem[] = TopLists.openedRateTopTenList
   const closedRateTop: TopListItem[] = TopLists.closedRateTopTenList
   const StatusTopData = [footTrafficTop, salesTop, openedRateTop, closedRateTop]
 
@@ -105,13 +103,18 @@ const StatusPolygonComponent = ({
           transform: 'scale(1)',
           transformOrigin: 'center',
           cursor: 'pointer',
+          // opacity: hoveredRegion === d.properties.SIG_KOR_NM ? 0.8 : 0.6,
         }
       : {
-          fill: tab === null ? '#4cbbf8' : mapColor[tab][colorIndex],
+          fill:
+            hoveredRegion === d.properties.SIG_KOR_NM
+              ? mapColor[tab][0]
+              : mapColor[tab][colorIndex],
           stroke: 'white',
           strokeWidth: '2px',
           transition: 'transform 0.5s ease-out, fill 0.3s ease-out',
           cursor: 'pointer',
+          opacity: hoveredRegion === d.properties.SIG_KOR_NM ? 1 : 0.8,
         }
 
     return (
@@ -119,13 +122,11 @@ const StatusPolygonComponent = ({
         key={`path${i}`}
         d={pathGenerator(d)!}
         onClick={() => {
-          // console.log(`${d.properties.SIG_KOR_NM}를 선택함!`)
           handleRegionClick(d.properties.SIG_KOR_NM)
           onClickRegionCodeHandler(d.properties.SIG_CD)
         }}
-        // onMouseEnter={() => {
-        //   console.log(`${d.properties.SIG_KOR_NM}에 마우스 올림!`)
-        // }}
+        onMouseEnter={() => setHoveredRegion(d.properties.SIG_KOR_NM)}
+        onMouseLeave={() => setHoveredRegion(null)}
         style={style}
       />
     )
@@ -137,8 +138,10 @@ const StatusPolygonComponent = ({
       key={`path${i}text`}
       transform={`translate(${pathGenerator.centroid(d)})`}
       style={{
-        // fontFamily: 'pretendard',
-        fontSize: window.innerWidth >= 600 ? '1rem' : '0.5rem',
+        fontFamily: 'pretender',
+        fontWeight: '600',
+        fill: 'white',
+        fontSize: window.innerWidth >= 600 ? '13px' : '0.5rem',
         textAnchor: 'middle',
         top: '10px',
         position: 'relative',
@@ -150,6 +153,8 @@ const StatusPolygonComponent = ({
         handleRegionClick(d.properties.SIG_KOR_NM)
         onClickRegionCodeHandler(d.properties.SIG_CD)
       }}
+      onMouseEnter={() => setHoveredRegion(d.properties.SIG_KOR_NM)}
+      onMouseLeave={() => setHoveredRegion(null)}
       // onMouseEnter={e => {
       //   e.currentTarget.style.transform = 'translateY(-10px)'
       // }}
@@ -160,7 +165,36 @@ const StatusPolygonComponent = ({
 
   // 범례 데이터
   const legendData = mapColor[tab]
-  const legendLabels = ['매우 높음', '높음', '보통', '낮음', '매우 낮음']
+  const legendLabels = [
+    [
+      `${Math.round(footTrafficTop[4].total / 1000000)},000 만명 이상`,
+      `${Math.round(footTrafficTop[9].total / 1000000)},000 만명 이상`,
+      `${Math.round(footTrafficTop[14].total / 1000000)},000 만명 이상`,
+      `${Math.round(footTrafficTop[19].total / 1000000)},000 만명 이상`,
+      `${Math.round(footTrafficTop[24].total / 1000000)},000 만명 이상`,
+    ],
+    [
+      `${salesTop[4].total.toString().slice(0, 1)}조 ${salesTop[4].total.toString().slice(1, 3)}00억 이상`,
+      `${salesTop[9].total.toString().slice(0, 1)}조 ${salesTop[9].total.toString().slice(1, 3)}00억 이상`,
+      `${salesTop[14].total.toString().slice(1, 3)}00억 이상`,
+      `${salesTop[19].total.toString().slice(1, 3)}00억 이상`,
+      `${salesTop[24].total.toString().slice(1, 3)}00억 이상`,
+    ],
+    [
+      `${openedRateTop[4].total.toFixed(2)}개 이상`,
+      `${openedRateTop[9].total.toFixed(2)}개 이상`,
+      `${openedRateTop[14].total.toFixed(2)}개 이상`,
+      `${openedRateTop[19].total.toFixed(2)}개 이상`,
+      `${openedRateTop[24].total.toFixed(2)}개 이상`,
+    ],
+    [
+      `${closedRateTop[4].total.toFixed(2)}개 이상`,
+      `${closedRateTop[9].total.toFixed(2)}개 이상`,
+      `${closedRateTop[14].total.toFixed(2)}개 이상`,
+      `${closedRateTop[19].total.toFixed(2)}개 이상`,
+      `${closedRateTop[24].total.toFixed(2)}개 이상`,
+    ],
+  ]
 
   // 범례 그리기
   const drawLegend = () => {
@@ -182,6 +216,7 @@ const StatusPolygonComponent = ({
           width={legendWidth}
           height={legendHeight}
           fill={color}
+          opacity={0.8}
         />
         <text
           x={width - 200 + legendWidth + textOffset}
@@ -194,7 +229,7 @@ const StatusPolygonComponent = ({
           alignmentBaseline="middle"
           style={{ fontSize: '12px' }}
         >
-          {legendLabels[index]}
+          {legendLabels[tab][index]}
         </text>
       </g>
     ))

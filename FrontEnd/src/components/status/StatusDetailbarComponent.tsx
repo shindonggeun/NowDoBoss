@@ -5,24 +5,21 @@ import DetailOpenRateComponent from '@src/components/status/DetailOpenRateCompon
 import DetailCloseRateComponent from '@src/components/status/DetailCloseRateComponent'
 import DetailAnalysisComponent from '@src/components/status/DetailAnalysisComponent'
 import DetailCommercialComponent from '@src/components/status/DetailCommercialComponent'
+import CircleLoading from '@src/common/CircleLoading'
 import Xmark from 'src/assets/xmark_solid_nomal.svg'
 import bookmark from 'src/assets/bookmark.svg'
 import { useRef, useState, useEffect, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchStatusDetail } from '@src/api/statusApi'
+import useStateStore from '@src/stores/statusStore'
 import { StatusResponse } from '@src/types/StatusType'
 
 interface StatusDetailbarProps {
-  selectedRegion: string | null
-  onClickRegionHandler: (region: string | null) => void
   regionCode: number | null
 }
 
-const StatusDetailbarComponent = ({
-  selectedRegion,
-  onClickRegionHandler,
-  regionCode,
-}: StatusDetailbarProps) => {
+const StatusDetailbarComponent = ({ regionCode }: StatusDetailbarProps) => {
+  const { selectedRegion, setSelectedRegion } = useStateStore()
   const scrollRef = useRef<HTMLDivElement[]>([])
   const detailbarRef = useRef<HTMLDivElement>(null)
 
@@ -50,7 +47,6 @@ const StatusDetailbarComponent = ({
       {
         name: '유동인구',
         component: DetailPopulationComponent,
-        // component: DetailAnalysisComponent,
       },
       {
         // <todo> % 비율말고 data 값 받아오기
@@ -68,7 +64,6 @@ const StatusDetailbarComponent = ({
       {
         name: '매출분석',
         component: DetailAnalysisComponent,
-        // component: DetailPopulationComponent,
       },
     ],
     [],
@@ -87,7 +82,7 @@ const StatusDetailbarComponent = ({
         detailbarRef.current &&
         !detailbarRef.current.contains(event.target as Node)
       ) {
-        onClickRegionHandler(null)
+        setSelectedRegion(null)
       }
     }
 
@@ -96,7 +91,7 @@ const StatusDetailbarComponent = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [onClickRegionHandler])
+  }, [setSelectedRegion])
 
   // 탭 클릭시 화면 부드럽게 내리기
   useEffect(() => {
@@ -105,8 +100,6 @@ const StatusDetailbarComponent = ({
   }, [activeTab, categories])
 
   useEffect(() => {
-    // console.log('------------------------')
-    // console.log(scrollRef.current)
     const handleScroll = () => {
       console.log('스크롤중~~~')
     }
@@ -116,6 +109,13 @@ const StatusDetailbarComponent = ({
     return () => {
       document.removeEventListener('scroll', handleScroll)
     }
+  }, [])
+
+  const [spinner, setSpinner] = useState(true)
+  useEffect(() => {
+    setTimeout(() => {
+      setSpinner(false)
+    }, 1100)
   }, [])
 
   return (
@@ -129,7 +129,7 @@ const StatusDetailbarComponent = ({
           <c.CloseIcon
             src={Xmark}
             alt="close"
-            onClick={() => onClickRegionHandler(null)}
+            onClick={() => setSelectedRegion(null)}
           />
         </c.BarTopHeader>
         <c.BarInnerContainer>
@@ -144,7 +144,7 @@ const StatusDetailbarComponent = ({
           ))}
         </c.BarInnerContainer>
       </c.FixedCategoryBar>
-      {!isLoading && data ? (
+      {!isLoading && data && !spinner ? (
         <>
           {/* <p>선택한 지역구 코드: {regionCode} </p> */}
           {categories.map((category, index) => (
@@ -162,7 +162,9 @@ const StatusDetailbarComponent = ({
           ))}
         </>
       ) : (
-        <div>로딩중 입니당</div>
+        <c.LoadingContainer>
+          <CircleLoading />
+        </c.LoadingContainer>
       )}
     </c.Container>
   )

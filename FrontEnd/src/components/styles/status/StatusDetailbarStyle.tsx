@@ -112,3 +112,11 @@ export const SeparateLine = styled.div`
   height: 0.8rem;
   background-color: #f7f7f7;
 `
+
+export const LoadingContainer = styled.div`
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`

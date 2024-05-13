@@ -24,6 +24,7 @@ export const TabContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  background-color: white;
 `
 
 export const TabLists = styled.div`

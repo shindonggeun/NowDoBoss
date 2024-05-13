@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import * as c from '@src/components/styles/simulation/SelectionStyle'
 import SelectionStep1 from '@src/components/simulation/SelectionStep1'
 import SelectionStep2 from '@src/components/simulation/SelectionStep2'
@@ -11,11 +11,10 @@ import LeftArrow from '@src/assets/angle_left.svg'
 import Xmark from '@src/assets/xmark_solid_nomal.svg'
 
 interface SimulSelctionProps {
-  open: boolean
   onClose: () => void
 }
 
-const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
+const SimulSelction = ({ onClose }: SimulSelctionProps) => {
   const {
     setIsFranchise,
     setBrandName,
@@ -28,7 +27,6 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
   const { setAddress, setQuery, setSido, setSigungu } = useReportStore()
   const [step, setStep] = useState<number>(1)
   const modalRef = useRef<HTMLDivElement>(null)
-
   const resetButton = () => {
     setIsFranchise(null)
     setBrandName(null)
@@ -53,23 +51,24 @@ const SimulSelction = ({ open, onClose }: SimulSelctionProps) => {
     setStep(next => next - 1)
   }
 
-  useEffect(() => {
-    const closeModal = (e: MouseEvent) => {
-      if (
-        open &&
-        modalRef.current &&
-        !modalRef.current.contains(e.target as Node)
-      ) {
-        onClose()
-        resetButton()
-      }
-    }
-
-    document.addEventListener('mousedown', closeModal)
-    return () => {
-      document.removeEventListener('mousedown', closeModal)
-    }
-  }, [onClose, open])
+  // 외부 클릭시 닫힘
+  // useEffect(() => {
+  //   const closeModal = (e: MouseEvent) => {
+  //     if (
+  //       open &&
+  //       modalRef.current &&
+  //       !modalRef.current.contains(e.target as Node)
+  //     ) {
+  //       onClose()
+  //       resetButton()
+  //     }
+  //   }
+  //
+  //   document.addEventListener('mousedown', closeModal)
+  //   return () => {
+  //     document.removeEventListener('mousedown', closeModal)
+  //   }
+  // }, [onClose, open])
 
   return (
     <c.Overlay>

@@ -73,7 +73,7 @@ const SelectionStep5 = () => {
       storeSize: bulidingSize,
       floor,
     }
-    console.log(reportCreateData)
+
     mutateCreateReport(reportCreateData)
   }
 

@@ -12,6 +12,7 @@ import ReportKeyMoney from '@src/components/simulation/report/ReportKeyMoney'
 import ReportMyGoal from '@src/components/simulation/report/ReportMyGoal'
 import ReportFranchise from '@src/components/simulation/report/ReportFranchise'
 import SearchLoading from '@src/common/SearchLoading'
+import ReportWarning from '@src/components/simulation/report/ReportWarning'
 import Snackbar from '@mui/joy/Snackbar'
 
 const SimulReportContainer = () => {
@@ -88,6 +89,7 @@ const SimulReportContainer = () => {
                 <ReportMyGoal ReportData={location.state.res.dataBody} />
                 <c.SplitLine />
                 <ReportFranchise ReportData={location.state.res.dataBody} />
+                <ReportWarning />
               </c.FadeInContainer>
             )}
           </c.Container>

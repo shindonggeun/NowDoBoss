@@ -1,12 +1,13 @@
 import { create } from 'zustand'
 import {
   AnalysisStoreType,
-  SelectedServiceType,
-  FlowPopulationDataBodyType,
-  SalesDataBodyType,
-  StoreCountDataBodyType,
-  ResidentPopulationDataBodyType,
   ExpenditureDataBodyType,
+  FlowPopulationDataBodyType,
+  ResidentPopulationDataBodyType,
+  SalesDataBodyType,
+  SelectedServiceType,
+  StoreCountDataBodyType,
+  TotalSalesDataBodyType,
 } from '@src/types/AnalysisType'
 
 // 초기 상태 - 업종
@@ -126,6 +127,25 @@ const initialSalesDataBody: SalesDataBodyType = {
   annualQuarterSalesInfos: [],
 }
 
+// 초기 상태 - 매출분석 (매출 총 금액)
+const initialTotalSalesDataBody: TotalSalesDataBodyType = {
+  districtTotalSalesInfo: {
+    districtCode: '',
+    districtCodeName: '',
+    totalSales: 0,
+  },
+  administrationTotalSalesInfo: {
+    administrationCode: '',
+    administrationCodeName: '',
+    totalSales: 0,
+  },
+  commercialTotalSalesInfo: {
+    commercialCode: '',
+    commercialCodeName: '',
+    totalSales: 0,
+  },
+}
+
 // 초기 상태 - 점포 수
 const initialStoreCountDataBody: StoreCountDataBodyType = {
   sameStoreInfos: [],
@@ -184,6 +204,7 @@ const analysisStore = create<AnalysisStoreType>(set => ({
   serviceDataBody: initialServiceDataBody, // 업종 API 반환 데이터
   flowPopulationDataBody: initialFlowPopulationDataBody, // 유동인구 API 반환 데이터
   salesDataBody: initialSalesDataBody, // 매출분석 API 반환 데이터
+  totalSalesDataBody: initialTotalSalesDataBody, // 매출분석 (매출 총 금액) API 반환 데이터
   storeCountDataBody: initialStoreCountDataBody, // 점포수 API 반환 데이터
   residentPopulationDataBody: initialResidentPopulationDataBody, // 상주인구 API 반환 데이터
   expenditureDataBody: initialExpenditureDataBody, // 지출내역 API 반환 데이터
@@ -195,6 +216,7 @@ const analysisStore = create<AnalysisStoreType>(set => ({
   setFlowPopulationDataBody: dataBody =>
     set({ flowPopulationDataBody: dataBody }),
   setSalesDataBody: dataBody => set({ salesDataBody: dataBody }),
+  setTotalSalesDataBody: dataBody => set({ totalSalesDataBody: dataBody }),
   setStoreCountDataBody: dataBody => set({ storeCountDataBody: dataBody }),
   setResidentPopulationDataBody: dataBody =>
     set({ residentPopulationDataBody: dataBody }),

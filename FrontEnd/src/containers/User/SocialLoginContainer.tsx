@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { getSocialAuthUrl } from '@src/api/userApi'
 import * as s from '@src/containers/User/SocialLoginContainerStyle'
 
@@ -9,23 +9,16 @@ interface Props {
 const SocialLoginContainer = (props: Props) => {
   const { state } = props
 
-  const { data: googleUrl } = useQuery({
-    queryKey: ['googleUrl'],
-    queryFn: () => getSocialAuthUrl('google'),
+  const { mutate: GetSocialAuthUrl } = useMutation({
+    mutationKey: ['GetSocialAuthUrl'],
+    mutationFn: getSocialAuthUrl,
+    onSuccess: res => {
+      window.location.href = res.dataBody
+    },
   })
 
-  const { data: naverUrl } = useQuery({
-    queryKey: ['naverUrl'],
-    queryFn: () => getSocialAuthUrl('naver'),
-  })
-
-  const { data: kakaoUrl } = useQuery({
-    queryKey: ['kakaoUrl'],
-    queryFn: () => getSocialAuthUrl('kakao'),
-  })
-
-  const handleRedirectUrl = (url: string) => {
-    window.location.href = url
+  const handleRedirectUrl = (oAuthDomain: string) => {
+    GetSocialAuthUrl(oAuthDomain)
   }
 
   return (
@@ -38,26 +31,18 @@ const SocialLoginContainer = (props: Props) => {
             <s.Separator />
           </s.OrTextSmallWrapper>
           <s.SmallButtonWrapper>
-            <s.GoogleBtnSmall
-              onClick={() => handleRedirectUrl(googleUrl.dataBody)}
-            />
-            <s.NaverBtnSmall
-              onClick={() => handleRedirectUrl(naverUrl.dataBody)}
-            />
-            <s.KakaoBtnSmall
-              onClick={() => handleRedirectUrl(kakaoUrl.dataBody)}
-            />
+            <s.GoogleBtnSmall onClick={() => handleRedirectUrl('google')} />
+            <s.NaverBtnSmall onClick={() => handleRedirectUrl('naver')} />
+            <s.KakaoBtnSmall onClick={() => handleRedirectUrl('kakao')} />
           </s.SmallButtonWrapper>
         </>
       ) : (
         <>
           <s.TopSeparator />
           <s.ButtonWrapper>
-            <s.GoogleBtn
-              onClick={() => handleRedirectUrl(googleUrl.dataBody)}
-            />
-            <s.NaverBtn onClick={() => handleRedirectUrl(naverUrl.dataBody)} />
-            <s.KakaoBtn onClick={() => handleRedirectUrl(kakaoUrl.dataBody)} />
+            <s.GoogleBtn onClick={() => handleRedirectUrl('google')} />
+            <s.NaverBtn onClick={() => handleRedirectUrl('naver')} />
+            <s.KakaoBtn onClick={() => handleRedirectUrl('kakao')} />
           </s.ButtonWrapper>
           <s.OrTextWrapper>
             <s.Separator />

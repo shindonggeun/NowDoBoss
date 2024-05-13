@@ -125,8 +125,8 @@ export const GenderPercent = styled.div`
 `
 
 export const GenderText = styled.div`
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 500;
   margin-top: 0.8rem;
 `
 
@@ -145,7 +145,7 @@ export const CircleContainer = styled.div`
 `
 
 interface CircleProps {
-  season: string | null
+  $season: string | null
 }
 
 export const CircleMonth = styled.div<CircleProps>`
@@ -160,14 +160,14 @@ export const CircleMonth = styled.div<CircleProps>`
   //color: #87898d  // 왜 color 적용하면 배경색이 사라질까??
 
   ${props =>
-    props.season === 'peak' &&
+    props.$season === 'peak' &&
     css`
       background-color: #236cff;
       color: white;
       border: 1px solid #236cff;
     `}
   ${props =>
-    props.season === 'offpeak' &&
+    props.$season === 'offpeak' &&
     css`
       background-color: #fa390e;
       //background-color: #f4b800;

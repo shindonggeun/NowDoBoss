@@ -5,9 +5,12 @@ import com.ssafy.backend.domain.chat.dto.response.ChatMessageResponse;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 
@@ -30,6 +33,23 @@ public class KafkaConsumer {
     public void handleCommercialAnalysis(String message) {
         log.info("상업 분석 메시지 수신 : {}", message);
         // TODO: 추가적인 로직 구현
+
+    }
+
+    @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC_RECOMMENDATION)
+    public void handleRecommendationInfo(String message) {
+        // FastAPI 서버 URL 설정 - 로컬버전
+        String fastApiUrl = "http://localhost:8000/data";
+
+        WebClient webClient = WebClient.create();
+
+        webClient.post()
+                .uri(fastApiUrl) // 변수 참조를 정확하게 하여 FastAPI 엔드포인트 설정
+                .contentType(MediaType.APPLICATION_JSON) // 콘텐츠 타입을 JSON으로 설정
+                .body(Mono.just(message), String.class) // 문자열 데이터를 Mono로 감싸 전송
+                .retrieve() // 응답 결과를 받아 처리
+                .bodyToMono(String.class) // 응답을 문자열로 변환
+                .subscribe(response -> System.out.println("Response from FastAPI: " + response)); // 응답 출력
 
     }
 }

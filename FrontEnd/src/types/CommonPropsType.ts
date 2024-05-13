@@ -7,6 +7,9 @@ export type AreaChartPropsType = {
 export type BarChartPropsType = {
   labels: string[]
   values: number[]
+  minValue: number
+  datasetsLabel: string
+  pluginUnit: string
 }
 
 export type ComboChartPropsType = {

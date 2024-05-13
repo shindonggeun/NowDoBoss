@@ -6,6 +6,7 @@ import {
   Legend,
   LinearScale,
   LogarithmicScale,
+  Plugin,
   Title,
   Tooltip,
 } from 'chart.js'
@@ -22,15 +23,15 @@ ChartJS.register(
 )
 
 const BarChart2 = (props: BarChartPropsType) => {
-  const { labels, values } = props
+  const { labels, values, minValue, datasetsLabel, pluginUnit } = props
 
   const data = {
     labels,
     datasets: [
       {
-        label: '유동 인구(명)',
+        label: datasetsLabel,
         data: values,
-        backgroundColor: 'rgba(75, 192, 192, 0.2)', // 차트 색상
+        backgroundColor: 'rgba(75, 192, 192, 0.2)', // 차트 색상 (색상을 더 다르게 하고 싶다면 props으로 전환)
         borderColor: 'rgba(75, 192, 192, 1)', // 선 색상
         borderWidth: 0.5,
       },
@@ -50,6 +51,13 @@ const BarChart2 = (props: BarChartPropsType) => {
         position: 'top' as const,
       },
     },
+    layout: {
+      padding: {
+        top: 20,
+        left: 20,
+        right: 30,
+      },
+    },
     scales: {
       x: {
         grid: {
@@ -57,7 +65,9 @@ const BarChart2 = (props: BarChartPropsType) => {
         },
       },
       y: {
-        beginAtZero: true,
+        display: false,
+        beginAtZero: false,
+        min: minValue * 0.8,
         grid: {
           display: false,
         },
@@ -65,7 +75,34 @@ const BarChart2 = (props: BarChartPropsType) => {
     },
   }
 
-  return <Bar options={options} data={data} />
+  const plugins: Plugin<'bar', unknown>[] = [
+    {
+      id: 'customCenterValue',
+      afterDraw: (chart: ChartJS<'bar', number[], unknown>) => {
+        const { ctx } = chart
+        ctx.save()
+        chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
+          ctx.font = 'bolder 12px sans-serif'
+          ctx.fillStyle = data.datasets[0].borderColor[index]
+          ctx.textAlign = 'center'
+          ctx.fillText(
+            `${values[index].toLocaleString()}${pluginUnit}`,
+            datapoint.x,
+            datapoint.y - 10,
+          )
+        })
+      },
+    },
+  ]
+
+  return (
+    <Bar
+      key={JSON.stringify(data)}
+      data={data}
+      options={options}
+      plugins={plugins}
+    />
+  )
 }
 
 export default BarChart2

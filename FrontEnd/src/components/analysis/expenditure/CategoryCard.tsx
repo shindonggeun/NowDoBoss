@@ -1,8 +1,10 @@
-import HorizontalBarChart from '@src/common/HorizontalBarChart'
 import analysisStore from '@src/stores/analysisStore'
+import { ExpenditureErrPropsType } from '@src/types/AnalysisType'
+import HorizontalBarChart from '@src/common/HorizontalBarChart'
 import * as e from '@src/components/styles/analysis/ExpenditureAnalysisStyle'
 
-const CategoryCard = () => {
+const CategoryCard = (props: ExpenditureErrPropsType) => {
+  const { expenditureErr } = props
   const expenditureDataBody = analysisStore(state => state.expenditureDataBody)
   const { typeIncomeInfo } = expenditureDataBody
 
@@ -29,14 +31,22 @@ const CategoryCard = () => {
   return (
     <e.CategoryCard>
       <e.ChartTitle>유형별 지출금액</e.ChartTitle>
-      <e.ChartSubTitle>{maxLabel} 관련 지출금액이 가장 높아요.</e.ChartSubTitle>
-      <HorizontalBarChart
-        labels={labels}
-        values={values}
-        datasetsLabel="유형별 지출금액"
-        aspectRatio={1.5}
-        xDisplay={false}
-      />
+      {expenditureErr ? (
+        <div>{expenditureErr}</div>
+      ) : (
+        <>
+          <e.ChartSubTitle>
+            {maxLabel} 관련 지출금액이 가장 높아요.
+          </e.ChartSubTitle>
+          <HorizontalBarChart
+            labels={labels}
+            values={values}
+            datasetsLabel="유형별 지출금액"
+            aspectRatio={1.5}
+            xDisplay={false}
+          />
+        </>
+      )}
     </e.CategoryCard>
   )
 }

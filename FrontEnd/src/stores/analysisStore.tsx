@@ -7,6 +7,7 @@ import {
   SalesDataBodyType,
   SelectedServiceType,
   StoreCountDataBodyType,
+  TotalExpenditureDataBodyType,
   TotalSalesDataBodyType,
 } from '@src/types/AnalysisType'
 
@@ -197,6 +198,25 @@ const initialExpenditureDataBody: ExpenditureDataBodyType = {
   },
 }
 
+// 초기 상태 - 지출 내역 (지출 총 금액)
+const initialTotalExpenditureDataBody: TotalExpenditureDataBodyType = {
+  districtTotalIncomeInfo: {
+    districtCode: '',
+    districtCodeName: '',
+    totalPrice: 0,
+  },
+  administrationTotalIncomeInfo: {
+    administrationCode: '',
+    administrationCodeName: '',
+    totalPrice: 0,
+  },
+  commercialTotalIncomeInfo: {
+    commercialCode: '',
+    commercialCodeName: '',
+    totalPrice: 0,
+  },
+}
+
 // store
 const analysisStore = create<AnalysisStoreType>(set => ({
   selectedServiceType: '', // 선택한 업종 대분류
@@ -208,7 +228,7 @@ const analysisStore = create<AnalysisStoreType>(set => ({
   storeCountDataBody: initialStoreCountDataBody, // 점포수 API 반환 데이터
   residentPopulationDataBody: initialResidentPopulationDataBody, // 상주인구 API 반환 데이터
   expenditureDataBody: initialExpenditureDataBody, // 지출내역 API 반환 데이터
-
+  totalExpenditureDataBody: initialTotalExpenditureDataBody, // 지출내역 (총 지출 금액) API 반환 데이터
   setSelectedServiceType: serviceType =>
     set({ selectedServiceType: serviceType }),
   setSelectedService: service => set(() => ({ selectedService: service })),
@@ -221,6 +241,8 @@ const analysisStore = create<AnalysisStoreType>(set => ({
   setResidentPopulationDataBody: dataBody =>
     set({ residentPopulationDataBody: dataBody }),
   setExpenditureDataBody: dataBody => set({ expenditureDataBody: dataBody }),
+  setTotalExpenditureDataBody: dataBody =>
+    set({ totalExpenditureDataBody: dataBody }),
 }))
 
 export default analysisStore

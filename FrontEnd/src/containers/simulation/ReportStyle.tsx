@@ -11,9 +11,9 @@ export const Container = styled.div`
 
 export const SummaryContainer = styled.div`
   width: 100%;
-  margin: 0 1rem 1rem 1rem;
+  margin: 0 2vw 1rem 2vw;
   min-height: 20rem;
-  border-radius: 10px;
+  border-radius: 5px;
   background: white;
 `
 

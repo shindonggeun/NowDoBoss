@@ -48,9 +48,11 @@ spring:
 
     # MongoDB setting
     mongodb:
+      auto-index-creation: true
       host: localhost
       port: 27017
       database: nowdoboss
+
 
   # Java Mail Sender setting (Google Mail)
   mail:
@@ -67,16 +69,17 @@ spring:
 
   # Kafka setting
   kafka:
-    bootstrap-servers: ${server.base-url}:9092, ${server.base-url}:9093
+    bootstrap-servers: ${server.base-url}:9092, ${server.base-url}:9093, ${server.base-url}:9094
     consumer:
-      group-id: NoWDoBossGroup
+      group-id: NowDoBossGroup
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-#    streams:
+
+  #    streams:
 #      application-id: commercial-analysis-app
 #      properties:
 #        commit.interval.ms: 1000

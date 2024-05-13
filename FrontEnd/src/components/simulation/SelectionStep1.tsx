@@ -83,7 +83,7 @@ const SelectionStep1 = ({ nextStep }: Step1Props) => {
             <c.StyledInput
               type="text"
               placeholder="프렌차이즈 이름을 입력해주세요"
-              value={brandName !== null ? brandName : undefined}
+              value={brandName !== null ? brandName : ''}
               onChange={handleInputChange}
             />
           </c.InputContainer>

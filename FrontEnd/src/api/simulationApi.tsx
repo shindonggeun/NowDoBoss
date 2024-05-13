@@ -38,3 +38,19 @@ export const reportSave = async (data: SimulationSaveType) => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 시뮬레이션 저장 목록 조회
+export const fetchSavedList = async () => {
+  return customAxios
+    .get(`/simulation`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 시뮬레이션 목록 리스트 조회
+// const { data } = useQuery<FranchiseDataBody>({
+//   queryKey: ['SavedSimulationLists'],
+//   queryFn: () => fetchSavedList(),
+// })
+//
+// console.log(data.dataBody)

@@ -30,7 +30,7 @@ const ReportMonthAnalysis = ({
             season = 'offpeak'
           }
           return (
-            <c.CircleMonth key={month} season={season || null}>
+            <c.CircleMonth key={month} $season={season || null}>
               {month}월
             </c.CircleMonth>
           )

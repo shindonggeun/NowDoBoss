@@ -14,45 +14,48 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 interface BarChartProps {
   labels: string[]
-  infos: string[]
   values: number[]
-  dataLavel: string
+  datasetsLabel: string
+  minvalue: number
+  pluginUnit: string
 }
 
-const TripleBar = (props: BarChartProps) => {
-  const { labels, infos, values, dataLavel } = props
+const BarChartCompare2 = (props: BarChartProps) => {
+  const { labels, values, datasetsLabel, minvalue, pluginUnit } = props
 
   const data = {
     labels,
     datasets: [
       {
-        label: dataLavel,
+        label: datasetsLabel,
         data: values,
         backgroundColor: [
-          'rgba(84, 114, 221, 1)',
-          'rgba(28, 66, 201, 1)',
-          'rgba(162, 172, 205, 1)',
-        ], // 차트 색상
-        // borderColor: 'rgba(75, 192, 192, 1)', // 선 색상
+          'rgba(4, 191, 218, 0.4)',
+          'rgba(255, 168, 74, 0.4)',
+          'rgba(255, 168, 74, 0.4)',
+        ],
+        borderColor: [
+          'rgba(4, 191, 218, 1)',
+          'rgba(255, 168, 74, 1)',
+          'rgba(255, 168, 74, 1)',
+        ],
         borderWidth: 1,
       },
     ],
   }
 
   const options = {
-    maintainAspectRatio: false,
+    // maintainAspectRatio: false,
     responsive: true,
     interaction: {
       intersect: false,
     },
+    layout: {
+      padding: 20,
+    },
     plugins: {
       legend: {
         display: false,
-      },
-    },
-    layout: {
-      padding: {
-        top: 20,
       },
     },
     scales: {
@@ -63,7 +66,11 @@ const TripleBar = (props: BarChartProps) => {
       },
       y: {
         display: false,
-        beginAtZero: true,
+        beginAtZero: false,
+        min: minvalue * 0.1,
+        ticks: {
+          stepSize: 1,
+        },
         grid: {
           display: false,
         },
@@ -79,16 +86,27 @@ const TripleBar = (props: BarChartProps) => {
         const { ctx } = chart
         ctx.save()
         chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
-          ctx.font = 'bolder 14px sans-serif'
-          ctx.fillStyle = 'black'
+          ctx.font = 'bolder 12px sans-serif'
+          ctx.fillStyle = data.datasets[0].borderColor[index]
           ctx.textAlign = 'center'
-          ctx.fillText(infos[index], datapoint.x, datapoint.y - 5)
+          ctx.fillText(
+            `${values[index].toLocaleString()}${pluginUnit}`,
+            datapoint.x,
+            datapoint.y - 10,
+          )
         })
       },
     },
   ]
 
-  return <Bar options={options} data={data} plugins={plugins} />
+  return (
+    <Bar
+      key={JSON.stringify(data)}
+      options={options}
+      data={data}
+      plugins={plugins}
+    />
+  )
 }
 
-export default TripleBar
+export default BarChartCompare2

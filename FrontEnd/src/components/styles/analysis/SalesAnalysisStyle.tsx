@@ -119,6 +119,24 @@ export const WeekNumberChart = styled.div`
   }
 `
 
+export const AddBox = styled.div`
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  border: 2px solid #e0e0e0;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+  padding: 10px 15px;
+  margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 576px) {
+    margin-bottom: 10px;
+  }
+`
+
 export const ChartTitle = styled.div`
   font-size: 0.8rem;
 `

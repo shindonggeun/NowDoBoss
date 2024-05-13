@@ -3,35 +3,27 @@ import { useQuery } from '@tanstack/react-query'
 import analysisStore from '@src/stores/analysisStore'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
 import {
-  getExpenditureData,
   getFlowPopulationData,
   getResidentPopulationData,
-  getSalesData,
   getStoreCountData,
-  getTotalSalesData,
 } from '@src/api/analysisApi'
 import FlowPopulationAnalysis from '@src/components/analysis/flowPopulation/FlowPopulationAnalysis'
 import FacilitiesAnalysis from '@src/components/analysis/facilities/FacilitiesAnalysis'
 import StoreCountAnalysis from '@src/components/analysis/storeCount/StoreCountAnalysis'
-import SalesAnalysis from '@src/components/analysis/sales/SalesAnalysis'
+import SalesAnalysisContainer from '@src/containers/analysis/SalesAnalysisContainer'
 import ResidentPopulationAnalysis from '@src/components/analysis/residentPopulation/ResidentPopulationAnalysis'
-import ExpenditureAnalysis from '@src/components/analysis/expenditure/ExpenditureAnalysis'
+import ExpenditureAnalysisContainer from '@src/containers/analysis/ExpenditureAnalysisContainer'
 import SideBarMenu from '@src/components/analysis/SideBarMenu'
 import ResultIntro from '@src/components/analysis/ResultIntro'
 import * as a from '@src/containers/analysis/ResultContainerStyle'
 
 const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
-  const selectedGoo = selectPlaceStore(state => state.selectedGoo)
-  const selectedDong = selectPlaceStore(state => state.selectedDong)
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
   const {
     selectedService,
     setFlowPopulationDataBody,
-    setSalesDataBody,
-    setTotalSalesDataBody,
     setStoreCountDataBody,
     setResidentPopulationDataBody,
-    setExpenditureDataBody,
   } = analysisStore()
 
   // 카테고리별 컴포넌트로 이동하기 위한 ref
@@ -73,64 +65,6 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
     }
   }, [flowPopulationStatus, FlowPopulationData]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 매출분석
-  const { data: SalesData, status: salesStatus } = useQuery({
-    queryKey: ['GetSalesData', selectedCommercial.code],
-    queryFn: () =>
-      getSalesData(
-        String(selectedCommercial.code),
-        selectedService.serviceCode,
-      ),
-    enabled:
-      selectedCommercial.code !== 0 && selectedService.serviceCode !== '', // 상권 코드가 0이거나 업종 코드가 없으면 호출하지 않는 조건
-  })
-
-  useEffect(() => {
-    if (salesStatus === 'success' && SalesData?.dataHeader.successCode === 0) {
-      setSalesDataBody(SalesData.dataBody)
-    }
-  }, [salesStatus, SalesData]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // 매출분석 (매출 총 금액)
-  const { data: TotalSalesData, status: totalSalesStatus } = useQuery({
-    queryKey: [
-      'GetTotalSalesData',
-      selectedGoo.code,
-      selectedDong.code,
-      selectedCommercial.code,
-      selectedService.serviceCode,
-    ],
-    queryFn: () =>
-      getTotalSalesData(
-        String(selectedGoo.code),
-        String(selectedDong.code),
-        String(selectedCommercial.code),
-        selectedService.serviceCode,
-      ),
-    enabled:
-      selectedGoo.code !== 0 &&
-      selectedDong.code !== 0 &&
-      selectedCommercial.code !== 0 &&
-      selectedService.serviceCode !== '', // 구, 동, 상권 코드가 0이거나 업종 코드가 없으면 호출하지 않는 조건
-  })
-
-  useEffect(() => {
-    // 호출 성공
-    if (
-      totalSalesStatus === 'success' &&
-      TotalSalesData?.dataHeader.successCode === 0
-    ) {
-      setTotalSalesDataBody(TotalSalesData.dataBody)
-    }
-    // 호출 실패
-    else if (
-      totalSalesStatus === 'success' &&
-      TotalSalesData?.dataHeader.successCode === 1
-    ) {
-      alert(TotalSalesData.dataHeader.resultMessage)
-    }
-  }, [TotalSalesData, SalesData]) // eslint-disable-line react-hooks/exhaustive-deps
-
   // 점포 수
   const { data: StoreCountData, status: storeCountStatus } = useQuery({
     queryKey: ['GetStoreCountData', selectedCommercial.code],
@@ -169,22 +103,6 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
     }
   }, [residentPopulationStatus, ResidentPopulationData]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 지출내역
-  const { data: ExpenditureData, status: expenditureStatus } = useQuery({
-    queryKey: ['GetExpenditureData', selectedCommercial.code],
-    queryFn: () => getExpenditureData(String(selectedCommercial.code)),
-    enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
-  })
-
-  useEffect(() => {
-    if (
-      expenditureStatus === 'success' &&
-      ExpenditureData?.dataHeader.successCode === 0
-    ) {
-      setExpenditureDataBody(ExpenditureData.dataBody)
-    }
-  }, [expenditureStatus, ExpenditureData]) // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <a.Container ref={ref}>
       <ResultIntro />
@@ -196,9 +114,9 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
           <FlowPopulationAnalysis ref={flowRef} />
           <FacilitiesAnalysis ref={facilitiesRef} />
           <StoreCountAnalysis ref={storeRef} />
-          <SalesAnalysis ref={salesRef} />
+          <SalesAnalysisContainer ref={salesRef} />
           <ResidentPopulationAnalysis ref={residentRef} />
-          <ExpenditureAnalysis ref={expenditureRef} />
+          <ExpenditureAnalysisContainer ref={expenditureRef} />
         </a.Main>
       </a.Wrap>
     </a.Container>

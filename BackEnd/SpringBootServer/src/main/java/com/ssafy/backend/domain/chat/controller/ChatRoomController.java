@@ -26,6 +26,18 @@ public class ChatRoomController {
     private final ChatMessageService chatMessageService;
 
     @Operation(
+            summary = "채팅방 목록 조회",
+            description = "채팅방 목록을 조회하는 기능입니다."
+    )
+    @GetMapping
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<List<ChatRoomListResponse>>> selectMyChatRooms(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                           Long lastId) {
+        List<ChatRoomListResponse> response = chatRoomService.selectChatRooms(lastId);
+        return ResponseEntity.ok().body(Message.success(response));
+    }
+
+    @Operation(
             summary = "내 채팅방 목록 조회",
             description = "내 채팅방 목록 조회에 필요한 정보를 입력하여 내 채팅방 목록을 조회하는 기능입니다."
     )
@@ -38,8 +50,8 @@ public class ChatRoomController {
     }
 
     @Operation(
-            summary = "내 채팅방 목록 조회",
-            description = "내 채팅방 목록 조회에 필요한 정보를 입력하여 내 채팅방 목록을 조회하는 기능입니다."
+            summary = "채팅방 상세정보 조회",
+            description = "채팅방 상세정보를 조회하는 기능입니다."
     )
     @GetMapping("/{chatRoomId}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")

@@ -12,9 +12,8 @@ import ReportKeyMoney from '@src/components/simulation/report/ReportKeyMoney'
 import ReportMyGoal from '@src/components/simulation/report/ReportMyGoal'
 import ReportFranchise from '@src/components/simulation/report/ReportFranchise'
 import SearchLoading from '@src/common/SearchLoading'
-import { useMutation } from '@tanstack/react-query'
-import { reportSave } from '@src/api/simulationApi'
-import { SimulationSaveType } from '@src/types/SimulationType'
+import ReportWarning from '@src/components/simulation/report/ReportWarning'
+import Snackbar from '@mui/joy/Snackbar'
 
 const SimulReportContainer = () => {
   const {
@@ -25,15 +24,8 @@ const SimulReportContainer = () => {
     setSubCategoryCode,
     setBulidingSize,
     setFloor,
-    isFranchise,
-    brandName,
-    subCategoryName,
-    subCategoryCode,
-    bulidingSize,
-    floor,
   } = useSimulationStore()
-  const { setAddress, setQuery, setSido, setSigungu, sigungu } =
-    useReportStore()
+  const { setAddress, setQuery, setSido, setSigungu } = useReportStore()
   const location = useLocation()
 
   const resetButton = () => {
@@ -52,6 +44,11 @@ const SimulReportContainer = () => {
 
   const [isOpen, setIsOpen] = useState(true)
   const navigate = useNavigate()
+  const [alramOpen, setAlramOpen] = useState(false)
+
+  const onClickAlram = (data: boolean) => {
+    setAlramOpen(data)
+  }
 
   const onClose = () => {
     setIsOpen(false)
@@ -59,32 +56,8 @@ const SimulReportContainer = () => {
     navigate('/analysis')
   }
 
-  // 레포트 분석 저장
-  const { mutate: mutateSaveReport } = useMutation({
-    mutationFn: reportSave,
-    onSuccess: () => {
-      console.log('저장 완료!')
-    },
-    onError: error => {
-      console.error(error)
-    },
-  })
-
   const [spinner, setSpinner] = useState(true)
   useEffect(() => {
-    const saveReportData: SimulationSaveType = {
-      totalPrice: location.state.res.dataBody.totalPrice,
-      isFranchisee: isFranchise!,
-      brandName,
-      gugun: sigungu,
-      serviceCode: subCategoryCode,
-      serviceCodeName: subCategoryName,
-      storeSize: bulidingSize,
-      floor,
-    }
-    console.log(saveReportData)
-    mutateSaveReport(saveReportData)
-
     setTimeout(() => {
       setSpinner(false)
     }, 2000)
@@ -95,7 +68,11 @@ const SimulReportContainer = () => {
       {isOpen && (
         <c.Overlay>
           <c.Container>
-            <ReportHeader onClose={onClose} />
+            <ReportHeader
+              onClose={onClose}
+              onClickAlram={onClickAlram}
+              totalPrice={location.state.res.dataBody.totalPrice}
+            />
             {spinner ? (
               <SearchLoading />
             ) : (
@@ -112,9 +89,22 @@ const SimulReportContainer = () => {
                 <ReportMyGoal ReportData={location.state.res.dataBody} />
                 <c.SplitLine />
                 <ReportFranchise ReportData={location.state.res.dataBody} />
+                <ReportWarning />
               </c.FadeInContainer>
             )}
           </c.Container>
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            autoHideDuration={1100}
+            open={alramOpen}
+            variant="soft"
+            color="primary"
+            onClose={() => {
+              setAlramOpen(false)
+            }}
+          >
+            분석 결과가 저장되었습니다!
+          </Snackbar>
         </c.Overlay>
       )}
     </div>

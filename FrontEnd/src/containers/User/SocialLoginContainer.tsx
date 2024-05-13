@@ -1,8 +1,8 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { getSocialAuthUrl } from '@src/api/userApi'
 import * as s from '@src/containers/User/SocialLoginContainerStyle'
 import firebase from 'firebase'
-import { saveFcmToken } from '@src/api/fcmApi.tsx'
+import { saveFcmToken } from '@src/api/fcmApi'
 
 interface Props {
   state: string
@@ -11,19 +11,12 @@ interface Props {
 const SocialLoginContainer = (props: Props) => {
   const { state } = props
 
-  const { data: googleUrl } = useQuery({
-    queryKey: ['googleUrl'],
-    queryFn: () => getSocialAuthUrl('google'),
-  })
-
-  const { data: naverUrl } = useQuery({
-    queryKey: ['naverUrl'],
-    queryFn: () => getSocialAuthUrl('naver'),
-  })
-
-  const { data: kakaoUrl } = useQuery({
-    queryKey: ['kakaoUrl'],
-    queryFn: () => getSocialAuthUrl('kakao'),
+  const { mutate: GetSocialAuthUrl } = useMutation({
+    mutationKey: ['GetSocialAuthUrl'],
+    mutationFn: getSocialAuthUrl,
+    onSuccess: res => {
+      window.location.href = res.dataBody
+    },
   })
 
   // FCM 토큰을 서버로 보내는 Mutation
@@ -37,7 +30,6 @@ const SocialLoginContainer = (props: Props) => {
   const firebaseMessage = async () => {
     try {
       const permission = await Notification.requestPermission()
-      console.log(permission)
       if (permission === 'granted') {
         // FCM 토큰을 가져옵니다.
         messaging.getToken().then(token => {
@@ -49,11 +41,10 @@ const SocialLoginContainer = (props: Props) => {
     }
   }
 
-  const handleRedirectUrl = (url: string) => {
-    window.location.href = url
-    firebaseMessage()
+  const handleRedirectUrl = (oAuthDomain: string) => {
+    GetSocialAuthUrl(oAuthDomain)
+    setTimeout(() => firebaseMessage(), 1000)
   }
-
   return (
     <s.Container>
       {state === 'login' ? (
@@ -64,26 +55,18 @@ const SocialLoginContainer = (props: Props) => {
             <s.Separator />
           </s.OrTextSmallWrapper>
           <s.SmallButtonWrapper>
-            <s.GoogleBtnSmall
-              onClick={() => handleRedirectUrl(googleUrl.dataBody)}
-            />
-            <s.NaverBtnSmall
-              onClick={() => handleRedirectUrl(naverUrl.dataBody)}
-            />
-            <s.KakaoBtnSmall
-              onClick={() => handleRedirectUrl(kakaoUrl.dataBody)}
-            />
+            <s.GoogleBtnSmall onClick={() => handleRedirectUrl('google')} />
+            <s.NaverBtnSmall onClick={() => handleRedirectUrl('naver')} />
+            <s.KakaoBtnSmall onClick={() => handleRedirectUrl('kakao')} />
           </s.SmallButtonWrapper>
         </>
       ) : (
         <>
           <s.TopSeparator />
           <s.ButtonWrapper>
-            <s.GoogleBtn
-              onClick={() => handleRedirectUrl(googleUrl.dataBody)}
-            />
-            <s.NaverBtn onClick={() => handleRedirectUrl(naverUrl.dataBody)} />
-            <s.KakaoBtn onClick={() => handleRedirectUrl(kakaoUrl.dataBody)} />
+            <s.GoogleBtn onClick={() => handleRedirectUrl('google')} />
+            <s.NaverBtn onClick={() => handleRedirectUrl('naver')} />
+            <s.KakaoBtn onClick={() => handleRedirectUrl('kakao')} />
           </s.ButtonWrapper>
           <s.OrTextWrapper>
             <s.Separator />

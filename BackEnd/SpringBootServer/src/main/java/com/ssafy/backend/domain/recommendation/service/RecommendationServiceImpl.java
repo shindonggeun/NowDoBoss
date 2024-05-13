@@ -4,13 +4,16 @@ package com.ssafy.backend.domain.recommendation.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.DuplicateKeyException;
+import com.mongodb.MongoWriteException;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAreaResponse;
+import com.ssafy.backend.domain.commercial.dto.response.CommercialKafkaInfo;
 import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.FootTrafficCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.StoreCommercialRepository;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
-import com.ssafy.backend.domain.recommendation.RecommendationDocument;
+import com.ssafy.backend.domain.recommendation.document.RecommendationDocument;
 import com.ssafy.backend.domain.recommendation.dto.info.ClosedRateCommercialInfo;
 import com.ssafy.backend.domain.recommendation.dto.info.FootTrafficCommercialInfo;
 import com.ssafy.backend.domain.recommendation.dto.info.SalesCommercialInfo;
@@ -21,17 +24,16 @@ import com.ssafy.backend.domain.recommendation.dto.response.UserResponse;
 import com.ssafy.backend.domain.recommendation.repository.RecommendationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -48,6 +50,7 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final AreaCommercialRepository areaCommercialRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private final RecommendationRepository recommendationRepository;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Override
     public List<RecommendationResponse> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
@@ -100,11 +103,25 @@ public class RecommendationServiceImpl implements RecommendationService{
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 // JSON 데이터를 List<RecommendationResponse> 객체로 역직렬화하여 반환
-                List<RecommendationResponse> list = objectMapper.readValue(jsonResponses, new TypeReference<List<RecommendationResponse>>() {});
+                List<RecommendationResponse> list = objectMapper.readValue(jsonResponses, new TypeReference<>() {
+                });
                 for (RecommendationResponse dto: list){
                     if (dto.commercialCode().equals(commercialCode)){
-                        RecommendationDocument recommendationDocument = new RecommendationDocument(id, commercialCode, "recommendation");
-                        recommendationRepository.save(recommendationDocument);
+                        try {
+                            RecommendationDocument document = new RecommendationDocument(id, commercialCode);
+                            recommendationRepository.save(document);
+                        } catch (MongoWriteException e) {
+                            if (e.getError().getCode() == 11000) {
+                                System.out.println("이미 저장된 추천입니다.");
+                            } else {
+                                throw e; // 다른 종류의 쓰기 에러 처리
+                            }
+                        }
+
+                        // 카프카 이벤트 발생
+                        CommercialKafkaInfo commercialKafkaInfo = new CommercialKafkaInfo(id, "save", 1L, commercialCode, System.currentTimeMillis());
+                        String response = objectMapper.writeValueAsString(commercialKafkaInfo);
+                        kafkaTemplate.send("recommendation", response);
                         break;
                     }
                 }
@@ -117,17 +134,17 @@ public class RecommendationServiceImpl implements RecommendationService{
 
     @Override
     public void deleteCommercialRecommendation(String commercialCode, Long id) {
-        recommendationRepository.deleteByUserIdAndCommercialCodeAndType(id, commercialCode, "recommendation");
+        recommendationRepository.deleteByUserIdAndCommercialCodeAndType(id, commercialCode);
     }
 
     @Override
     public List<RecommendationDocument> getSavedCommercialRecommendationList(Long id) {
-        return recommendationRepository.findByUserIdAndType(id, "recommendation");
+        return recommendationRepository.findByUserId(id);
     }
 
     private List<UserResponse> fetchCommercialData(Long id) {
-//        //FastAPI 서버로부터 데이터를 비동기로 받아옵니다.
-//        Mono<List<UserResponse>> commercialDataMono = sendToFastAPIServer(id);
+        //FastAPI 서버로부터 데이터를 비동기로 받아옵니다.
+        Mono<List<UserResponse>> commercialDataMono = sendToFastAPIServer(id);
 //        // 비동기로 받아온 데이터를 동기적으로 처리하기 위해 blockOptional() 메서드를 사용합니다.
 //        List<UserResponse> commercialData = commercialDataMono.blockOptional().orElse(Collections.emptyList());
         List<UserResponse> commercialData = new ArrayList<>();
@@ -214,7 +231,7 @@ public class RecommendationServiceImpl implements RecommendationService{
 
     private Map<String, Double> sortAndLimitBlueOceanResults(Map<String, Double> myRate) {
         List<Map.Entry<String, Double>> list = new ArrayList<>(myRate.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
+        Collections.sort(list, new Comparator<>() {
             public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
                 // 값(value)이 같은 경우 key를 기준으로 정렬
                 int valueComparison = o1.getValue().compareTo(o2.getValue());
@@ -252,7 +269,7 @@ public class RecommendationServiceImpl implements RecommendationService{
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(userRequest))
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<UserResponse>>() {
+                .bodyToMono(new ParameterizedTypeReference<>() {
                 });
 
         // 요청 결과 반환

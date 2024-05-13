@@ -142,6 +142,31 @@ export type SalesDataBodyType = {
   annualQuarterSalesInfos: AnnualQuarterSalesInfoType[]
 }
 
+// data type - 매출분석 (매출 총 금액)
+export type DistrictTotalSalesInfoType = {
+  districtCode: string
+  districtCodeName: string
+  totalSales: number
+}
+
+export type AdministrationTotalSalesInfoType = {
+  administrationCode: string
+  administrationCodeName: string
+  totalSales: number
+}
+
+export type CommercialTotalSalesInfoType = {
+  commercialCode: string
+  commercialCodeName: string
+  totalSales: number
+}
+
+export type TotalSalesDataBodyType = {
+  districtTotalSalesInfo: DistrictTotalSalesInfoType
+  administrationTotalSalesInfo: AdministrationTotalSalesInfoType
+  commercialTotalSalesInfo: CommercialTotalSalesInfoType
+}
+
 // data type - 점포 수
 export type SameStoreInfoType = {
   serviceCodeName: string
@@ -245,6 +270,7 @@ export type AnalysisStoreType = {
   serviceDataBody: SelectedServiceType[] // 업종 API 반환 데이터
   flowPopulationDataBody: FlowPopulationDataBodyType // 유동인구 API 반환 데이터
   salesDataBody: SalesDataBodyType // 매출분석 API 반환 데이터
+  totalSalesDataBody: TotalSalesDataBodyType // 매출분석 (매출 총 금액) API 반환 데이터
   storeCountDataBody: StoreCountDataBodyType // 점포수 API 반환 데이터
   residentPopulationDataBody: ResidentPopulationDataBodyType // 상주인구 API 반환 데이터
   expenditureDataBody: ExpenditureDataBodyType // 지출내역 API 반환 데이터
@@ -253,6 +279,7 @@ export type AnalysisStoreType = {
   setServiceDataBody: (dataBody: SelectedServiceType[]) => void
   setFlowPopulationDataBody: (dataBody: FlowPopulationDataBodyType) => void
   setSalesDataBody: (dataBody: SalesDataBodyType) => void
+  setTotalSalesDataBody: (dataBody: TotalSalesDataBodyType) => void
   setStoreCountDataBody: (dataBody: StoreCountDataBodyType) => void
   setResidentPopulationDataBody: (
     dataBody: ResidentPopulationDataBodyType,

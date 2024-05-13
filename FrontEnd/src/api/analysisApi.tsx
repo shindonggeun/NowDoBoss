@@ -27,6 +27,21 @@ export const getSalesData = async (
     .catch(err => console.log(err))
 }
 
+// 매출분석 (매출 총 금액)
+export const getTotalSalesData = async (
+  districtCode: string,
+  administrationCode: string,
+  commercialCode: string,
+  serviceCode: string,
+) => {
+  return customAxios
+    .get(
+      `/commercial/sales/${districtCode}/${administrationCode}/${commercialCode}/${serviceCode}`,
+    )
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
 // 점포 수
 export const getStoreCountData = async (
   commercialCode: string,

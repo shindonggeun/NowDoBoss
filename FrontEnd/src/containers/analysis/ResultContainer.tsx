@@ -3,11 +3,12 @@ import { useQuery } from '@tanstack/react-query'
 import analysisStore from '@src/stores/analysisStore'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
 import {
+  getExpenditureData,
   getFlowPopulationData,
+  getResidentPopulationData,
   getSalesData,
   getStoreCountData,
-  getResidentPopulationData,
-  getExpenditureData,
+  getTotalSalesData,
 } from '@src/api/analysisApi'
 import FlowPopulationAnalysis from '@src/components/analysis/flowPopulation/FlowPopulationAnalysis'
 import FacilitiesAnalysis from '@src/components/analysis/facilities/FacilitiesAnalysis'
@@ -20,11 +21,14 @@ import ResultIntro from '@src/components/analysis/ResultIntro'
 import * as a from '@src/containers/analysis/ResultContainerStyle'
 
 const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
+  const selectedGoo = selectPlaceStore(state => state.selectedGoo)
+  const selectedDong = selectPlaceStore(state => state.selectedDong)
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
   const {
     selectedService,
     setFlowPopulationDataBody,
     setSalesDataBody,
+    setTotalSalesDataBody,
     setStoreCountDataBody,
     setResidentPopulationDataBody,
     setExpenditureDataBody,
@@ -86,6 +90,46 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       setSalesDataBody(SalesData.dataBody)
     }
   }, [salesStatus, SalesData]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 매출분석 (매출 총 금액)
+  const { data: TotalSalesData, status: totalSalesStatus } = useQuery({
+    queryKey: [
+      'GetTotalSalesData',
+      selectedGoo.code,
+      selectedDong.code,
+      selectedCommercial.code,
+      selectedService.serviceCode,
+    ],
+    queryFn: () =>
+      getTotalSalesData(
+        String(selectedGoo.code),
+        String(selectedDong.code),
+        String(selectedCommercial.code),
+        selectedService.serviceCode,
+      ),
+    enabled:
+      selectedGoo.code !== 0 &&
+      selectedDong.code !== 0 &&
+      selectedCommercial.code !== 0 &&
+      selectedService.serviceCode !== '', // 구, 동, 상권 코드가 0이거나 업종 코드가 없으면 호출하지 않는 조건
+  })
+
+  useEffect(() => {
+    // 호출 성공
+    if (
+      totalSalesStatus === 'success' &&
+      TotalSalesData?.dataHeader.successCode === 0
+    ) {
+      setTotalSalesDataBody(TotalSalesData.dataBody)
+    }
+    // 호출 실패
+    else if (
+      totalSalesStatus === 'success' &&
+      TotalSalesData?.dataHeader.successCode === 1
+    ) {
+      alert(TotalSalesData.dataHeader.resultMessage)
+    }
+  }, [TotalSalesData, SalesData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 점포 수
   const { data: StoreCountData, status: storeCountStatus } = useQuery({

@@ -1,6 +1,5 @@
 package com.ssafy.backend.domain.recommendation.service;
 
-import com.ssafy.backend.global.component.kafka.KafkaChatConstants;
 import com.ssafy.backend.global.component.kafka.KafkaRecommendationConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

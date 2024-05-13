@@ -14,10 +14,9 @@ import java.util.List;
 public class RecommendationRepository {
     private final MongoTemplate mongoTemplate;
 
-    public void deleteByUserIdAndCommercialCodeAndType(Long userId, String commercialCode, String type) {
+    public void deleteByUserIdAndCommercialCodeAndType(Long userId, String commercialCode) {
         Query query = new Query(Criteria.where("userId").is(userId)
-                .and("commercialCode").is(commercialCode)
-                .and("type").is(type));
+                .and("commercialCode").is(commercialCode));
         mongoTemplate.remove(query, RecommendationDocument.class);
     }
 

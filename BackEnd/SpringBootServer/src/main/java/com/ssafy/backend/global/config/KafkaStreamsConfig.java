@@ -1,31 +1,32 @@
-//package com.ssafy.backend.global.config;
-//
-//import org.apache.kafka.common.serialization.Serdes;
-//import org.apache.kafka.streams.StreamsBuilder;
-//import org.apache.kafka.streams.kstream.KStream;
-//import org.apache.kafka.streams.kstream.KTable;
-//import org.apache.kafka.streams.kstream.Materialized;
-//import org.apache.kafka.streams.state.Stores;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.kafka.annotation.EnableKafkaStreams;
-//
-//@Configuration
-//@EnableKafkaStreams
-//public class KafkaStreamsConfig {
-//
-//    @Bean
-//    public KStream<String, String> kStream(StreamsBuilder builder) {
-//        KStream<String, String> sourceStream = builder.stream("commercial-analysis");
-//
-//        KTable<String, Long> aggregatedStream = sourceStream
-//                .groupBy((key, value) -> value)
-//                .count(Materialized.<String, Long>as(Stores.inMemoryKeyValueStore("aggStore"))
-//                        .withKeySerde(Serdes.String())
-//                        .withValueSerde(Serdes.Long()));
-//
-//        aggregatedStream.toStream().to("aggregated-commercial-output");
-//
-//        return sourceStream;
-//    }
-//}
+package com.ssafy.backend.global.config;
+
+import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.StreamsConfig;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafkaStreams;
+import org.springframework.kafka.annotation.KafkaStreamsDefaultConfiguration;
+import org.springframework.kafka.config.KafkaStreamsConfiguration;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Configuration
+@EnableKafkaStreams
+public class KafkaStreamsConfig {
+    @Value(value = "${spring.kafka.bootstrap-servers}")
+    private String bootstrapAddress;
+
+    @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
+    KafkaStreamsConfiguration kStreamsConfig() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams-app");
+        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+
+        return new KafkaStreamsConfiguration(props);
+    }
+}

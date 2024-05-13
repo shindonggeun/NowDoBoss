@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import CreateModal from '@src/components/chatting/CreateModal'
 import ChatSearchBar from '@src/components/chatting/ChatSearchBar'
 import penIcon from '@src/assets/pen.svg'
+import arrowRight from '@src/assets/arrow_right.svg'
 
 const ChattingNavbar = () => {
   const navigate = useNavigate()
@@ -22,7 +23,8 @@ const ChattingNavbar = () => {
             onClick={() => navigate('/chatting/list')}
           >
             <c.Big>
-              &nbsp; 인기방 둘러보기 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; →
+              &nbsp; 인기방 둘러보기
+              <c.RightArrow src={arrowRight} />
             </c.Big>
             <c.Small>인기방🔥</c.Small>
           </c.ChatCard>

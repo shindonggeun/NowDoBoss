@@ -108,6 +108,9 @@ export const InputIcon = styled.svg`
   width: 1rem;
   height: 1rem;
 `
+export const RightArrow = styled.img`
+  margin-left: 20px;
+`
 
 // 카테고리 및 채팅 목록으로 재사용
 export const ChatCard = styled.div<CategoryType>`
@@ -120,11 +123,19 @@ export const ChatCard = styled.div<CategoryType>`
   color: ${props => (props.$isChoice ? 'black' : 'gray')};
   background-color: ${props => (props.$isChoice ? '#F5F5F5' : 'none')};
   border-radius: ${props => (props.$isChoice ? '5px' : 'none')};
+
   &:hover {
     cursor: pointer;
     background-color: #f5f5f5;
     border-radius: 5px;
+
+    // BannerArrow에만 호버 효과 적용
+    ${RightArrow} {
+      transform: translateX(10px);
+      transition: transform 0.3s ease;
+    }
   }
+
   @media only screen and (max-width: 992px) {
     padding: 7px 5px;
     margin: 0 5px;
@@ -140,13 +151,6 @@ export const Text = styled.div`
   @media only screen and (max-width: 992px) {
     font-size: 0.8rem;
   }
-`
-
-export const ProfileImg = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 100%;
-  background-color: #888888;
 `
 
 export const Div = styled.div``

@@ -1,4 +1,4 @@
-package com.ssafy.backend.domain.recommendation;
+package com.ssafy.backend.domain.recommendation.document;
 
 import com.ssafy.backend.domain.recommendation.dto.info.ClosedRateCommercialInfo;
 import com.ssafy.backend.domain.recommendation.dto.info.FootTrafficCommercialInfo;

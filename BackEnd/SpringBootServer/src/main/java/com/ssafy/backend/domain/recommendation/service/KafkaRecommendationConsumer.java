@@ -1,13 +1,10 @@
-package com.ssafy.backend.domain.commercial.service;
+package com.ssafy.backend.domain.recommendation.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.backend.domain.chat.dto.response.ChatMessageResponse;
-import com.ssafy.backend.domain.commercial.dto.response.CommercialKafkaInfo;
 import com.ssafy.backend.global.component.kafka.KafkaChatConstants;
+import com.ssafy.backend.global.component.kafka.KafkaRecommendationConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -17,13 +14,10 @@ import java.io.IOException;
 @RequiredArgsConstructor
 class KafkaRecommendationConsumer {
 
-    //private final ObjectMapper objectMapper;
     private final WebClient webClient;
 
-    @KafkaListener(topics = KafkaChatConstants.KAFKA_TOPIC)
+    @KafkaListener(topics = KafkaRecommendationConstants.KAFKA_TOPIC)
     public void sendMessage(String message) throws IOException {
-        //CommercialKafkaInfo dto = objectMapper.readValue(message, CommercialKafkaInfo.class);
-        //log.info("카프카 consumer: {}, {}, {} ", dto.userId(), dto.commercialCode(), dto.action());
         sendToFastAPI(message);
     }
 

@@ -1,6 +1,6 @@
 package com.ssafy.backend.domain.recommendation.repository;
 
-import com.ssafy.backend.domain.recommendation.RecommendationDocument;
+import com.ssafy.backend.domain.recommendation.document.RecommendationDocument;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

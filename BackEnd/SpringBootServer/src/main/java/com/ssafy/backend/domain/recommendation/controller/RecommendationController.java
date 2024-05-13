@@ -1,7 +1,6 @@
 package com.ssafy.backend.domain.recommendation.controller;
 
-import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationResponse;
-import com.ssafy.backend.domain.recommendation.RecommendationDocument;
+import com.ssafy.backend.domain.recommendation.document.RecommendationDocument;
 import com.ssafy.backend.domain.recommendation.dto.response.RecommendationResponse;
 import com.ssafy.backend.domain.recommendation.service.RecommendationService;
 import com.ssafy.backend.global.common.dto.Message;

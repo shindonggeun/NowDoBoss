@@ -5,12 +5,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAreaResponse;
+import com.ssafy.backend.domain.commercial.dto.response.CommercialKafkaInfo;
 import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.FootTrafficCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
 import com.ssafy.backend.domain.commercial.repository.StoreCommercialRepository;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
-import com.ssafy.backend.domain.recommendation.RecommendationDocument;
+import com.ssafy.backend.domain.recommendation.document.RecommendationDocument;
 import com.ssafy.backend.domain.recommendation.dto.info.ClosedRateCommercialInfo;
 import com.ssafy.backend.domain.recommendation.dto.info.FootTrafficCommercialInfo;
 import com.ssafy.backend.domain.recommendation.dto.info.SalesCommercialInfo;
@@ -21,17 +22,16 @@ import com.ssafy.backend.domain.recommendation.dto.response.UserResponse;
 import com.ssafy.backend.domain.recommendation.repository.RecommendationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -48,6 +48,7 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final AreaCommercialRepository areaCommercialRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private final RecommendationRepository recommendationRepository;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Override
     public List<RecommendationResponse> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
@@ -105,6 +106,11 @@ public class RecommendationServiceImpl implements RecommendationService{
                     if (dto.commercialCode().equals(commercialCode)){
                         RecommendationDocument recommendationDocument = new RecommendationDocument(id, commercialCode, "recommendation");
                         recommendationRepository.save(recommendationDocument);
+
+                        // 카프카 이벤트 발생
+                        CommercialKafkaInfo commercialKafkaInfo = new CommercialKafkaInfo(id, "save", 1L, commercialCode, System.currentTimeMillis());
+                        String response = objectMapper.writeValueAsString(commercialKafkaInfo);
+                        kafkaTemplate.send("recommendation", response);
                         break;
                     }
                 }

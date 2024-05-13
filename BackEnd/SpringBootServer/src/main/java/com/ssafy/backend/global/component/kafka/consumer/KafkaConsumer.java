@@ -32,4 +32,5 @@ public class KafkaConsumer {
         // TODO: 추가적인 로직 구현
 
     }
+
 }

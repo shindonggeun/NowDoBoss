@@ -441,7 +441,7 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     public void saveAnalysis(Long memberId, CommercialAnalysisSaveRequest analysisSaveRequest) {
-        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisSaveRequest.commercialCodeName());
+        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisSaveRequest.districtCode());
 
         boolean existAnalysis = commercialAnalysisRepository.existsByDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
                 analysisSaveRequest.districtCode(), analysisSaveRequest.administrationCode(),

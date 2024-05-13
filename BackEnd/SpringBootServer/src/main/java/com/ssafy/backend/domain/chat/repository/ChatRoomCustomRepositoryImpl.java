@@ -6,6 +6,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
+import com.ssafy.backend.domain.chat.dto.response.ChatRoomListResponse;
 import com.ssafy.backend.domain.chat.dto.response.ChatRoomResponse;
 import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
 import com.ssafy.backend.domain.chat.entity.QChatRoom;
@@ -25,6 +26,25 @@ import static com.ssafy.backend.domain.community.entity.QCommunity.community;
 @RequiredArgsConstructor
 public class ChatRoomCustomRepositoryImpl implements ChatRoomCustomRepository {
     private final JPAQueryFactory queryFactory;
+
+    @Override
+    public List<ChatRoomListResponse> selectChatRooms(Long lastId) {
+        return queryFactory
+                .select(Projections.constructor(ChatRoomListResponse.class,
+                        chatRoom.id,
+                        chatRoom.category,
+                        chatRoom.name,
+                        ExpressionUtils.as(JPAExpressions.select(chatRoomMember.count().intValue())
+                                .from(chatRoomMember)
+                                .where(chatRoomMember.chatRoom.id.eq(chatRoom.id)), "memberCount"),
+                        chatRoom.limit
+                        ))
+                .from(chatRoom)
+                .where(isLowerThan(lastId))
+                .orderBy(chatRoom.id.desc())
+                .limit(10)
+                .fetch();
+    }
 
     @Override
     public List<MyChatRoomListResponse> selectMyChatRooms(Long memberId, MyChatRoomListRequest request) {

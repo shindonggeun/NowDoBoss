@@ -46,3 +46,11 @@ export const fetchSavedList = async () => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 시뮬레이션 목록 리스트 조회
+// const { data } = useQuery<FranchiseDataBody>({
+//   queryKey: ['SavedSimulationLists'],
+//   queryFn: () => fetchSavedList(),
+// })
+//
+// console.log(data.dataBody)

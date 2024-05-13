@@ -13,9 +13,10 @@ import { SimulationSaveType } from '@src/types/SimulationType'
 
 interface HeaderType {
   onClose: () => void
+  onClickAlram: (data: boolean) => void
   totalPrice: number
 }
-const ReportHeader = ({ onClose, totalPrice }: HeaderType) => {
+const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
   const {
     isFranchise,
     brandName,
@@ -26,12 +27,11 @@ const ReportHeader = ({ onClose, totalPrice }: HeaderType) => {
   } = useSimulationStore()
   const { sigungu } = useReportStore()
   const [isSaved, setIsSaved] = useState<boolean>(false)
-
   // 레포트 분석 저장
   const { mutate: mutateSaveReport } = useMutation({
     mutationFn: reportSave,
     onSuccess: () => {
-      // console.log('저장 완료!')
+      onClickAlram(true)
     },
     onError: error => {
       console.error(error)
@@ -50,8 +50,13 @@ const ReportHeader = ({ onClose, totalPrice }: HeaderType) => {
       storeSize: bulidingSize,
       floor,
     }
-    console.log(saveReportData)
-    mutateSaveReport(saveReportData)
+    if (!isSaved) {
+      mutateSaveReport(saveReportData)
+    }
+  }
+
+  const onClickCompare = () => {
+    console.log('비교하기 버튼...')
   }
 
   return (
@@ -68,7 +73,7 @@ const ReportHeader = ({ onClose, totalPrice }: HeaderType) => {
           )}
           저장하기
         </h.HeaderIcon>
-        <h.HeaderIcon onClick={() => {}}>
+        <h.HeaderIcon onClick={onClickCompare}>
           <h.CompareIcon src={CompareIcon} alt="compare" />
           비교하기
         </h.HeaderIcon>

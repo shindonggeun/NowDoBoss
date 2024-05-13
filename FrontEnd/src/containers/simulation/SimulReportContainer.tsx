@@ -12,6 +12,7 @@ import ReportKeyMoney from '@src/components/simulation/report/ReportKeyMoney'
 import ReportMyGoal from '@src/components/simulation/report/ReportMyGoal'
 import ReportFranchise from '@src/components/simulation/report/ReportFranchise'
 import SearchLoading from '@src/common/SearchLoading'
+import Snackbar from '@mui/joy/Snackbar'
 
 const SimulReportContainer = () => {
   const {
@@ -42,6 +43,11 @@ const SimulReportContainer = () => {
 
   const [isOpen, setIsOpen] = useState(true)
   const navigate = useNavigate()
+  const [alramOpen, setAlramOpen] = useState(false)
+
+  const onClickAlram = (data: boolean) => {
+    setAlramOpen(data)
+  }
 
   const onClose = () => {
     setIsOpen(false)
@@ -63,6 +69,7 @@ const SimulReportContainer = () => {
           <c.Container>
             <ReportHeader
               onClose={onClose}
+              onClickAlram={onClickAlram}
               totalPrice={location.state.res.dataBody.totalPrice}
             />
             {spinner ? (
@@ -84,6 +91,18 @@ const SimulReportContainer = () => {
               </c.FadeInContainer>
             )}
           </c.Container>
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            autoHideDuration={1100}
+            open={alramOpen}
+            variant="soft"
+            color="primary"
+            onClose={() => {
+              setAlramOpen(false)
+            }}
+          >
+            분석 결과가 저장되었습니다!
+          </Snackbar>
         </c.Overlay>
       )}
     </div>

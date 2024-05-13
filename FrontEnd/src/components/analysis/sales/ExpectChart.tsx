@@ -1,5 +1,5 @@
 import analysisStore from '@src/stores/analysisStore'
-import BarChartCompare from '@src/common/BarChartCompare'
+import BarChartCompare2 from '@src/common/BarChartCompare2'
 import { TotalSalesErrPropsType } from '@src/types/AnalysisType'
 import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 
@@ -30,10 +30,13 @@ const ExpectChart = (props: TotalSalesErrPropsType) => {
           <s.ChartSubTitle>
             선택 상권의 추정매출액은 행정동 전체의 00% 이에요.
           </s.ChartSubTitle>
-          <BarChartCompare
+          <s.AddBox>자치구의 몇 %입니다.</s.AddBox>
+          <BarChartCompare2
             labels={labels}
             values={values}
+            datasetsLabel="원"
             minvalue={minvalue}
+            pluginUnit="원"
           />
         </>
       )}

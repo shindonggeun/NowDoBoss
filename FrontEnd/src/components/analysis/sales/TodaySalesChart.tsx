@@ -1,8 +1,10 @@
 import analysisStore from '@src/stores/analysisStore'
+import { SalesErrPropsType } from '@src/types/AnalysisType'
 import HorizontalBarChart from '@src/common/HorizontalBarChart'
 import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 
-const TodaySalesChart = () => {
+const TodaySalesChart = (props: SalesErrPropsType) => {
+  const { salesErr } = props
   const salesDataBody = analysisStore(state => state.salesDataBody)
   const daySales: number[] = Object.values(salesDataBody.daySalesInfo)
 
@@ -22,18 +24,24 @@ const TodaySalesChart = () => {
   return (
     <s.TodaySalesChart>
       <s.ChartTitle>주중/주말 매출액</s.ChartTitle>
-      <s.ChartSubTitle>
-        {parseFloat(weekdayMultiplier) > 1
-          ? `주중의 매출액이 주말보다 약 ${weekdayMultiplier}배 더 많아요.`
-          : `주말의 매출액이 주중보다 약 ${(1 / parseFloat(weekdayMultiplier)).toFixed(1)}배 더 많아요.`}
-      </s.ChartSubTitle>
-      <HorizontalBarChart
-        labels={labels}
-        values={values}
-        datasetsLabel="매출액"
-        aspectRatio={4}
-        xDisplay={false}
-      />
+      {salesErr ? (
+        <div>{salesErr}</div>
+      ) : (
+        <>
+          <s.ChartSubTitle>
+            {parseFloat(weekdayMultiplier) > 1
+              ? `주중의 매출액이 주말보다 약 ${weekdayMultiplier}배 더 많아요.`
+              : `주말의 매출액이 주중보다 약 ${(1 / parseFloat(weekdayMultiplier)).toFixed(1)}배 더 많아요.`}
+          </s.ChartSubTitle>
+          <HorizontalBarChart
+            labels={labels}
+            values={values}
+            datasetsLabel="매출액"
+            aspectRatio={4}
+            xDisplay={false}
+          />
+        </>
+      )}
     </s.TodaySalesChart>
   )
 }

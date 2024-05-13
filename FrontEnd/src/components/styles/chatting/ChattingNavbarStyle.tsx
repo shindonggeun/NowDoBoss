@@ -15,21 +15,46 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: calc(100vw - 40px);
+    left: 0;
+    width: 100vw;
+    position: fixed;
     height: 8vh;
     padding: 5px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee4ec;
+  }
+`
+export const SmallLeft = styled.div`
+  @media only screen and (max-width: 992px) {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+  }
+`
+export const SmallRight = styled.div`
+  @media only screen and (max-width: 992px) {
+    display: flex;
+    align-items: center;
+    justify-content: right;
   }
 
-  @media only screen and (max-width: 400px) {
-    padding: 5px 10px;
-    width: calc(100vw - 20px);
+  @media only screen and (max-width: 800px) {
+    padding-right: 10px;
+  }
+  @media only screen and (max-width: 530px) {
+    padding-right: 12px;
   }
 `
 export const Chatting = styled.div`
   margin: 0 0 10px 0;
 
   @media only screen and (max-width: 992px) {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    height: 10vh;
+    margin: 0;
   }
 `
 
@@ -39,6 +64,18 @@ export const Group = styled.div`
   align-items: center;
   position: relative;
   margin-bottom: 15px;
+  width: 100%;
+
+  @media only screen and (max-width: 992px) {
+    width: 220px;
+    margin-top: 15px;
+  }
+  @media only screen and (max-width: 480px) {
+    width: 160px;
+  }
+  @media only screen and (max-width: 400px) {
+    width: 140px;
+  }
 `
 
 export const Input = styled.input`
@@ -60,7 +97,6 @@ export const Input = styled.input`
   &:focus,
   &:hover {
     outline: none;
-    border-color: #f8fafc;
     background-color: #fff;
   }
 `
@@ -72,6 +108,9 @@ export const InputIcon = styled.svg`
   width: 1rem;
   height: 1rem;
 `
+export const RightArrow = styled.img`
+  margin-left: 20px;
+`
 
 // 카테고리 및 채팅 목록으로 재사용
 export const ChatCard = styled.div<CategoryType>`
@@ -82,20 +121,25 @@ export const ChatCard = styled.div<CategoryType>`
   align-items: center;
   font-size: 1.3rem;
   color: ${props => (props.$isChoice ? 'black' : 'gray')};
-  background-color: ${props => (props.$isChoice ? '#f2f2f2' : 'none')};
+  background-color: ${props => (props.$isChoice ? '#F5F5F5' : 'none')};
   border-radius: ${props => (props.$isChoice ? '5px' : 'none')};
+
   &:hover {
     cursor: pointer;
-    background-color: #fcfcfc;
+    background-color: #f5f5f5;
     border-radius: 5px;
+
+    // BannerArrow에만 호버 효과 적용
+    ${RightArrow} {
+      transform: translateX(10px);
+      transition: transform 0.3s ease;
+    }
   }
+
   @media only screen and (max-width: 992px) {
     padding: 7px 5px;
     margin: 0 5px;
   }
-  //@media only screen and (max-width: 768px) {
-  //  padding: 5px;
-  //}
   @media only screen and (max-width: 540px) {
     padding: 3px;
   }
@@ -105,21 +149,74 @@ export const Text = styled.div`
   margin: 0 0 0 5px;
 
   @media only screen and (max-width: 992px) {
-    margin: 0 0 0 2px;
+    font-size: 0.8rem;
   }
-  @media only screen and (max-width: 830px) {
-    //font-size: 0.8rem;
-    display: none;
-  }
-`
-
-export const ProfileImg = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 100%;
-  background-color: #888888;
 `
 
 export const Div = styled.div``
+export const ChatListDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: auto;
+  background-color: #fff; // 배경색은 원하는 대로 조정 가능
+  position: absolute; // 전체 화면을 덮기 위해 absolute 사용
+  top: 60px; // 네비게이션 바 아래에 위치하도록 설정
+  z-index: 10; // 다른 요소들 위에 표시
+  overflow-y: auto; // 내용이 많을 경우 스크롤
+  padding: 10px; // 패딩으로 내용과 경계 간 여백 제공
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); // 살짝 그림자 효과 추가
+
+  @media only screen and (max-width: 480px) {
+    width: 140px;
+  }
+  @media only screen and (max-width: 480px) {
+    width: 120px;
+  }
+`
+
+// 반응형 992px 이하에서 가로로 설정
+export const RowDiv = styled.div`
+  @media only screen and (max-width: 992px) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+`
 
 export const Modal = styled.div``
+
+export const Big = styled.div`
+  display: flex;
+
+  @media only screen and (max-width: 992px) {
+    display: none;
+  }
+`
+export const Small = styled.div`
+  display: none;
+
+  @media only screen and (max-width: 992px) {
+    display: flex;
+  }
+
+  @media only screen and (max-width: 540px) {
+    scale: 0.9;
+  }
+`
+
+export const CreateIcon = styled.img`
+  display: none;
+
+  @media only screen and (max-width: 992px) {
+    display: flex;
+    cursor: pointer;
+    scale: 1.5;
+    padding: 0.25rem 0.5rem;
+  }
+  @media only screen and (max-width: 540px) {
+    display: flex;
+    scale: 1.2;
+  }
+`

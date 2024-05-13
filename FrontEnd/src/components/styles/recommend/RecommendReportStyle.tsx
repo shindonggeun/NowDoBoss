@@ -88,7 +88,7 @@ export const FixedHeader = styled.div`
   position: fixed;
   width: 99.3%;
   top: 2px;
-  z-index: 1;
+  z-index: 2;
   background-color: white;
   border-top-right-radius: 20px;
 `

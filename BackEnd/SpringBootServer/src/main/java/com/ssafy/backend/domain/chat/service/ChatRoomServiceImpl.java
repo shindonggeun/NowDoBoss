@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.chat.service;
 
 import com.ssafy.backend.domain.chat.dto.request.CreateChatRoomRequest;
 import com.ssafy.backend.domain.chat.dto.request.MyChatRoomListRequest;
+import com.ssafy.backend.domain.chat.dto.response.ChatRoomListResponse;
 import com.ssafy.backend.domain.chat.dto.response.EnterChatRoomResponse;
 import com.ssafy.backend.domain.chat.dto.response.ChatRoomResponse;
 import com.ssafy.backend.domain.chat.dto.response.MyChatRoomListResponse;
@@ -33,6 +34,11 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final MemberRepository memberRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final ChatMessageService chatMessageService;
+
+    @Override
+    public List<ChatRoomListResponse> selectChatRooms(Long lastId) {
+        return chatRoomRepository.selectChatRooms(lastId);
+    }
 
     @Override
     public List<MyChatRoomListResponse> selectMyChatRooms(Long memberId, MyChatRoomListRequest request) {

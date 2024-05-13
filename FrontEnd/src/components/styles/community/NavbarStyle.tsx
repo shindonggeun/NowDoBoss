@@ -86,7 +86,7 @@ export const CreateButton = styled.div`
   font-size: 1.2rem;
   color: #ffffff;
   border-radius: 5px;
-  margin-bottom: 15px;
+  margin: 15px 0;
 
   b {
     font-weight: 500;
@@ -118,10 +118,12 @@ export const CreateIcon = styled.img`
     padding: 0.25rem 0.5rem;
   }
   @media only screen and (max-width: 500px) {
+    display: flex;
     scale: 1.2;
     padding: 0.25rem;
   }
   @media only screen and (max-width: 455px) {
+    display: flex;
     scale: 1;
     padding: 0;
   }

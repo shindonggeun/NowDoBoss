@@ -14,12 +14,20 @@ const WeekChart = () => {
   const maxValue: number = Math.max(...values)
   // 해당 인덱스를 사용하여 라벨 찾기
   const maxLabel: string = labels[values.indexOf(maxValue)]
+  // 가장 낮은 값 찾기
+  const minValue = Math.min(...values)
 
   return (
     <f.WeekChart>
       <f.ChartTitle>요일별 유동인구</f.ChartTitle>
       <f.ChartSubTitle>{maxLabel}요일 유동인구가 가장 높아요.</f.ChartSubTitle>
-      <BarChart2 labels={labels} values={values} />
+      <BarChart2
+        labels={labels}
+        values={values}
+        datasetsLabel="유동인구(명)"
+        minValue={minValue}
+        pluginUnit="명"
+      />
     </f.WeekChart>
   )
 }

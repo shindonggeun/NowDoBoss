@@ -94,3 +94,21 @@ export const TextPrice = styled.div`
     font-size: 1rem;
   }
 `
+
+export const WarningContainer = styled.div`
+  background-color: #f4f4f4;
+  color: #828c98;
+  font-size: 13px;
+  padding: 2rem 3vw;
+`
+
+export const WarningTextContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  padding-bottom: 8px;
+`
+
+export const WarningImg = styled.img`
+  width: 1rem;
+`

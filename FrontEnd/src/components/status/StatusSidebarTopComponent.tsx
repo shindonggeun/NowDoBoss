@@ -73,7 +73,7 @@ const StatusSidebarTopComponent = ({
                 onClickRegionCodeHandler(code)
               }}
             >
-              <h.Item islast={isLast} index={i}>
+              <h.Item $islast={isLast} index={i}>
                 <h.ItemLeft>
                   <h.Rank>{i + 1}.</h.Rank>
                   <h.Name>{name}</h.Name>
@@ -95,7 +95,7 @@ const StatusSidebarTopComponent = ({
                       }
                     })()}
                   </h.Traffic>
-                  <h.Percent isUp={isUp}>
+                  <h.Percent $isup={isUp}>
                     {totalRate}%
                     {isUp ? (
                       <h.UpIcon src={up} alt="up" />

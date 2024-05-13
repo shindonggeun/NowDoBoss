@@ -43,7 +43,9 @@ const DetailAnalysisComponent = ({ props }: DetailAnalysisProps) => {
                 <c.AnalysisData>
                   <div>{name}</div>
                   <c.AnalysisDataLeft>
-                    <c.AnalysisDataRate isup={isup}>{rate}%</c.AnalysisDataRate>
+                    <c.AnalysisDataRate $isup={isup}>
+                      {rate}%
+                    </c.AnalysisDataRate>
                     {isup ? (
                       <c.AnalysisDataIcon src={UpIcon} alt="up" />
                     ) : (
@@ -67,7 +69,9 @@ const DetailAnalysisComponent = ({ props }: DetailAnalysisProps) => {
                 <c.AnalysisData>
                   <div>{name}</div>
                   <c.AnalysisDataLeft>
-                    <c.AnalysisDataRate isup={isup}>{rate}%</c.AnalysisDataRate>
+                    <c.AnalysisDataRate $isup={isup}>
+                      {rate}%
+                    </c.AnalysisDataRate>
                     {isup ? (
                       <c.AnalysisDataIcon src={UpIcon} alt="up" />
                     ) : (

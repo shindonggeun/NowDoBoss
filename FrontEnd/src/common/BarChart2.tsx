@@ -95,7 +95,14 @@ const BarChart2 = (props: BarChartPropsType) => {
     },
   ]
 
-  return <Bar data={data} options={options} plugins={plugins} />
+  return (
+    <Bar
+      key={JSON.stringify(data)}
+      data={data}
+      options={options}
+      plugins={plugins}
+    />
+  )
 }
 
 export default BarChart2

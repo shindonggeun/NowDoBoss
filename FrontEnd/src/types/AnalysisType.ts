@@ -238,6 +238,31 @@ export type ExpenditureDataBodyType = {
   typeIncomeInfo: TypeIncomeInfoType
 }
 
+// data type - 지출내역 (지출 총 금액)
+export type DistrictTotalIncomeInfoType = {
+  districtCode: string
+  districtCodeName: string
+  totalPrice: number
+}
+
+export type AdministrationTotalIncomeInfoType = {
+  administrationCode: string
+  administrationCodeName: string
+  totalPrice: number
+}
+
+export type CommercialTotalIncomeInfoType = {
+  commercialCode: string
+  commercialCodeName: string
+  totalPrice: number
+}
+
+export type TotalExpenditureDataBodyType = {
+  districtTotalIncomeInfo: DistrictTotalIncomeInfoType
+  administrationTotalIncomeInfo: AdministrationTotalIncomeInfoType
+  commercialTotalIncomeInfo: CommercialTotalIncomeInfoType
+}
+
 // props type
 export type SelectContainerPropsType = {
   setIsReady: React.Dispatch<React.SetStateAction<boolean>>
@@ -263,12 +288,19 @@ export type ChoiceServiceDetailPropsType = {
   serviceList: SelectedServiceType[]
 }
 
+export type SalesErrPropsType = {
+  salesErr: string
+}
 export type TotalSalesErrPropsType = {
   totalSalesErr: string
 }
 
-export type SalesErrPropsType = {
-  salesErr: string
+export type ExpenditureErrPropsType = {
+  expenditureErr: string
+}
+
+export type TotalExpenditureErrPropsType = {
+  totalExpenditureErr: string
 }
 
 // store type
@@ -282,6 +314,7 @@ export type AnalysisStoreType = {
   storeCountDataBody: StoreCountDataBodyType // 점포수 API 반환 데이터
   residentPopulationDataBody: ResidentPopulationDataBodyType // 상주인구 API 반환 데이터
   expenditureDataBody: ExpenditureDataBodyType // 지출내역 API 반환 데이터
+  totalExpenditureDataBody: TotalExpenditureDataBodyType // 지출내역 (지출 총 금액) API 반환 데이터
   setSelectedServiceType: (serviceType: string) => void
   setSelectedService: (service: SelectedServiceType) => void
   setServiceDataBody: (dataBody: SelectedServiceType[]) => void
@@ -293,4 +326,5 @@ export type AnalysisStoreType = {
     dataBody: ResidentPopulationDataBodyType,
   ) => void
   setExpenditureDataBody: (dataBody: ExpenditureDataBodyType) => void
+  setTotalExpenditureDataBody: (dataBody: TotalExpenditureDataBodyType) => void
 }

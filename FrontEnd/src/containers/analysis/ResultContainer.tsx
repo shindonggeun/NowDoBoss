@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 import analysisStore from '@src/stores/analysisStore'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
 import {
-  getExpenditureData,
   getFlowPopulationData,
   getResidentPopulationData,
   getStoreCountData,
@@ -13,7 +12,7 @@ import FacilitiesAnalysis from '@src/components/analysis/facilities/FacilitiesAn
 import StoreCountAnalysis from '@src/components/analysis/storeCount/StoreCountAnalysis'
 import SalesAnalysisContainer from '@src/containers/analysis/SalesAnalysisContainer'
 import ResidentPopulationAnalysis from '@src/components/analysis/residentPopulation/ResidentPopulationAnalysis'
-import ExpenditureAnalysis from '@src/components/analysis/expenditure/ExpenditureAnalysis'
+import ExpenditureAnalysisContainer from '@src/containers/analysis/ExpenditureAnalysisContainer'
 import SideBarMenu from '@src/components/analysis/SideBarMenu'
 import ResultIntro from '@src/components/analysis/ResultIntro'
 import * as a from '@src/containers/analysis/ResultContainerStyle'
@@ -25,7 +24,6 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
     setFlowPopulationDataBody,
     setStoreCountDataBody,
     setResidentPopulationDataBody,
-    setExpenditureDataBody,
   } = analysisStore()
 
   // 카테고리별 컴포넌트로 이동하기 위한 ref
@@ -105,22 +103,6 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
     }
   }, [residentPopulationStatus, ResidentPopulationData]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 지출내역
-  const { data: ExpenditureData, status: expenditureStatus } = useQuery({
-    queryKey: ['GetExpenditureData', selectedCommercial.code],
-    queryFn: () => getExpenditureData(String(selectedCommercial.code)),
-    enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
-  })
-
-  useEffect(() => {
-    if (
-      expenditureStatus === 'success' &&
-      ExpenditureData?.dataHeader.successCode === 0
-    ) {
-      setExpenditureDataBody(ExpenditureData.dataBody)
-    }
-  }, [expenditureStatus, ExpenditureData]) // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <a.Container ref={ref}>
       <ResultIntro />
@@ -134,7 +116,7 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
           <StoreCountAnalysis ref={storeRef} />
           <SalesAnalysisContainer ref={salesRef} />
           <ResidentPopulationAnalysis ref={residentRef} />
-          <ExpenditureAnalysis ref={expenditureRef} />
+          <ExpenditureAnalysisContainer ref={expenditureRef} />
         </a.Main>
       </a.Wrap>
     </a.Container>

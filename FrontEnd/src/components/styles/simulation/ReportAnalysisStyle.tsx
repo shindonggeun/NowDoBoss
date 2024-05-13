@@ -12,7 +12,7 @@ export const Container = styled.div`
 `
 
 export const Title = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -228,7 +228,7 @@ export const GrayBoxSubTitle = styled.div`
 `
 
 export const GrayBoxText = styled.div`
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: #343940;
   margin: 0.5rem 0;
@@ -243,10 +243,10 @@ export const GrayBoxTextEmphasis = styled.span`
 `
 
 export const CheckIcon = styled.img`
-  width: 1.5rem;
+  width: 1.3rem;
   margin-right: 0.8rem;
   @media (max-width: 768px) {
-    width: 1.2rem;
+    width: 1.1rem;
   }
 `
 

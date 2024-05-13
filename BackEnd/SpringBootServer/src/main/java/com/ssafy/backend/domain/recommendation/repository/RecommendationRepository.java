@@ -24,8 +24,8 @@ public class RecommendationRepository {
         mongoTemplate.save(recommendationDocument);
     }
 
-    public List<RecommendationDocument> findByUserIdAndType(Long userId, String type) {
-        Query query = new Query(Criteria.where("userId").is(userId).and("type").is(type));
+    public List<RecommendationDocument> findByUserId(Long userId) {
+        Query query = new Query(Criteria.where("userId").is(userId));
         return mongoTemplate.find(query, RecommendationDocument.class);
     }
 

@@ -139,7 +139,7 @@ public class RecommendationServiceImpl implements RecommendationService{
 
     @Override
     public List<RecommendationDocument> getSavedCommercialRecommendationList(Long id) {
-        return recommendationRepository.findByUserIdAndType(id, "recommendation");
+        return recommendationRepository.findByUserId(id);
     }
 
     private List<UserResponse> fetchCommercialData(Long id) {

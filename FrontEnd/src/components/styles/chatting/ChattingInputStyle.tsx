@@ -29,7 +29,7 @@ export const Textarea = styled.textarea`
   }
 
   @media only screen and (max-width: 992px) {
-    width: calc(70vw - 125px);
+    width: calc(100vw - 125px);
     //margin: 20px 10px -5px 10px;
   }
 `

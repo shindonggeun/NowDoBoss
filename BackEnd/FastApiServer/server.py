@@ -19,9 +19,10 @@ import spark_reco
 # async def say_hello(name: str):
 #     return {"message": f"Hello {name}"}
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import lit
+import json
 
 app = FastAPI()
 
@@ -39,6 +40,13 @@ def recommend_commercial_areas(request: UserRequest):
     print("추천에 도착!")
     return spark_reco.recommend_commercials(request.userId)
 
+@app.post("/data")
+async def receive_data(request: Request):
+    body = await request.body()
+    data_str = body.decode('utf-8')  # 바이트를 문자열로 디코딩
+    data = json.loads(data_str)      # 문자열을 JSON(딕셔너리)으로 변환
+    print("Received data:", data)
+    return {"message": "Data received successfully", "receivedData": data}
 
 # @app.get("/test-spark")
 # def test_spark():

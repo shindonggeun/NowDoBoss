@@ -50,6 +50,10 @@ pipeline {
                     def isKafkaRunning_2 = sh(script: "docker ps --filter name=nowdoboss_kafka-2 --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
                     echo "Kafka-2 실행 상태: ${isKafkaRunning_2}"
 
+                    echo "Kafka-3 컨테이너 실행 상태 확인 중..."
+                    def isKafkaRunning_3 = sh(script: "docker ps --filter name=nowdoboss_kafka-2 --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
+                    echo "Kafka-3 실행 상태: ${isKafkaRunning_3}"
+
                     echo "Kafka-ui 컨테이너 실행 상태 확인 중..."
                     def isKafkaUiRunning = sh(script: "docker ps --filter name=nowdoboss_kafka-ui --filter status=running --format '{{.Names}}'", returnStdout: true).trim()
                     echo "Kafka-ui 실행 상태: ${isKafkaUiRunning}"
@@ -64,24 +68,9 @@ pipeline {
                         sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d sonarqube"
                     }
 
-                    if (isZookeeperRunning == "") {
-                        echo "zookeeper 관련 dockerfile 빌드..."
-                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d zookeeper"
-                    }
-
-                    if (isKafkaRunning_1 == "") {
-                        echo "kafka 관련 dockerfile 빌드..."
-                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d kafka-1"
-                    }
-
-                    if (isKafkaRunning_2 == "") {
-                        echo "kafka 관련 dockerfile 빌드..."
-                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d kafka-2"
-                    }
-
-                    if (isKafkaUiRunning == "") {
-                        echo "kafka-ui 관련 dockerfile 빌드..."
-                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d kafka-ui"
+                    if (isZookeeperRunning == "" || isKafkaRunning_1 == "" || isKafkaRunning_2 == "" || isKafkaRunning_3 == "" || isKafkaUiRunning == "") {
+                        echo "zookeeper 및 kafka, kafka-ui 관련 dockerfile 빌드..."
+                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d zookeeper kafka-1 kafka-2 kafka-3 kafka-ui"
                     }
                 }
             }

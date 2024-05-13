@@ -4,64 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1cf45ef0-d421-4978-8f7e-78a55f3e7c16" name="Changes" comment="[FE] feat: fcm 토큰 저장 post api 추가">
-      <change afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/dto/response/ChatRoomListResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/dto/response/CommercialKafkaInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/document/RecommendationDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/service/KafkaRecommendationConsumer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/global/component/kafka/KafkaRecommendationConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FrontEnd/src/common/BarChartCompare2.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FrontEnd/src/components/simulation/report/ReportWarning.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FrontEnd/src/containers/analysis/ExpenditureAnalysisContainer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FrontEnd/src/containers/analysis/SalesAnalysisContainer.tsx" afterDir="false" />
+    <list default="true" id="1cf45ef0-d421-4978-8f7e-78a55f3e7c16" name="Changes" comment="[FE] feat: fcm api 작성">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/controller/ChatRoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/controller/ChatRoomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/repository/ChatRoomCustomRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/repository/ChatRoomCustomRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/repository/ChatRoomCustomRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/repository/ChatRoomCustomRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/service/ChatRoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/service/ChatRoomService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/service/ChatRoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/chat/service/ChatRoomServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/RecommendationDocument.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/controller/RecommendationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/controller/RecommendationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/repository/RecommendationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/repository/RecommendationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/service/RecommendationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/service/RecommendationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/service/RecommendationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/recommendation/service/RecommendationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/simulation/controller/SimulationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/simulation/controller/SimulationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/simulation/dto/request/SearchFranchiseeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/simulation/dto/request/SearchFranchiseeRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/simulation/repository/FranchiseeCustomRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/simulation/repository/FranchiseeCustomRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/support/controller/StartupSupportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/support/controller/StartupSupportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/resources/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/resources/application-local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/resources/application-local.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CICD/Util/Jenkinsfile-util" beforeDir="false" afterPath="$PROJECT_DIR$/CICD/Util/Jenkinsfile-util" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CICD/Util/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/CICD/Util/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/api/analysisApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/api/analysisApi.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/api/simulationApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/api/simulationApi.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/common/BarChart2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/common/BarChart2.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/common/SearchLoading.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/common/SearchLoading.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/common/TripleBarChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/common/TripleBarChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/expenditure/CategoryCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/analysis/expenditure/CategoryCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/expenditure/ExpenditureAnalysis.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/expenditure/TotalCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/analysis/expenditure/TotalCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/flowPopulation/WeekChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/analysis/flowPopulation/WeekChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/AgeChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/AgeChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/ExpectChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/ExpectChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/SalesAnalysis.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/TodayNumberChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/TodayNumberChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/TodaySalesChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/TodaySalesChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/WeekNumberChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/WeekNumberChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/WeekSalesChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/analysis/sales/WeekSalesChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/simulation/SelectionStep1.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/simulation/SelectionStep1.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/simulation/report/ReportHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/simulation/report/ReportHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/simulation/report/ReportMonthAnalysis.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/simulation/report/ReportMonthAnalysis.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/styles/analysis/SalesAnalysisStyle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/styles/analysis/SalesAnalysisStyle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/styles/simulation/ReportAnalysisStyle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/styles/simulation/ReportAnalysisStyle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/styles/simulation/ReportDetailStyle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/styles/simulation/ReportDetailStyle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/containers/User/SocialLoginContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/containers/User/SocialLoginContainer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/containers/analysis/ResultContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/containers/analysis/ResultContainer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/containers/simulation/ReportStyle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/containers/simulation/ReportStyle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/containers/simulation/SimulReportContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/containers/simulation/SimulReportContainer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/stores/analysisStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/stores/analysisStore.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/types/AnalysisType.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/types/AnalysisType.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/types/CommonPropsType.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/types/CommonPropsType.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/api/chattingApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/api/chattingApi.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/chatting/ChattingList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/chatting/ChattingList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +60,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "git-widget-placeholder": "feature/fe-fcm 병합 중",
+    "git-widget-placeholder": "feature/fe-fcm",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -132,7 +78,7 @@
       <option name="presentableId" value="Default" />
       <updated>1715558416695</updated>
       <workItem from="1715558419750" duration="16108000" />
-      <workItem from="1715595836293" duration="14547000" />
+      <workItem from="1715595836293" duration="20349000" />
     </task>
     <task id="LOCAL-00001" summary="[FE] fix: 카카오맵 app key 수정">
       <option name="closed" value="true" />
@@ -254,7 +200,55 @@
       <option name="project" value="LOCAL" />
       <updated>1715612903365</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="[FE] merge: 충돌 해결">
+      <option name="closed" value="true" />
+      <created>1715613453842</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1715613453842</updated>
+    </task>
+    <task id="LOCAL-00017" summary="[FE] feat: 회원 탈퇴 시 토큰 제거 api 연결">
+      <option name="closed" value="true" />
+      <created>1715614585796</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1715614585796</updated>
+    </task>
+    <task id="LOCAL-00018" summary="[FE] feat: fcm 구독, 알림 type 생성">
+      <option name="closed" value="true" />
+      <created>1715618665461</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1715618665462</updated>
+    </task>
+    <task id="LOCAL-00019" summary="[FE] feat: fcm topic 구독 구현">
+      <option name="closed" value="true" />
+      <created>1715618732253</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1715618732253</updated>
+    </task>
+    <task id="LOCAL-00020" summary="[FE] feat: fcm topic 구독 구현">
+      <option name="closed" value="true" />
+      <created>1715618839744</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1715618839744</updated>
+    </task>
+    <task id="LOCAL-00021" summary="[FE] feat: fcm api 작성">
+      <option name="closed" value="true" />
+      <created>1715618851983</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1715618851983</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,6 +281,11 @@
     <MESSAGE value="[FE] feat: 렌더링 시 알림 여부 확인" />
     <MESSAGE value="[FE] feat: 소셜 로그인 fcm 토큰 저장 로직 추가" />
     <MESSAGE value="[FE] feat: fcm 토큰 저장 post api 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="[FE] feat: fcm 토큰 저장 post api 추가" />
+    <MESSAGE value="[FE] merge: 충돌 해결" />
+    <MESSAGE value="[FE] feat: 회원 탈퇴 시 토큰 제거 api 연결" />
+    <MESSAGE value="[FE] feat: fcm 구독, 알림 type 생성" />
+    <MESSAGE value="[FE] feat: fcm topic 구독 구현" />
+    <MESSAGE value="[FE] feat: fcm api 작성" />
+    <option name="LAST_COMMIT_MESSAGE" value="[FE] feat: fcm api 작성" />
   </component>
 </project>

@@ -107,7 +107,6 @@ public class RecommendationServiceImpl implements RecommendationService{
                 });
                 for (RecommendationResponse dto: list){
                     if (dto.commercialCode().equals(commercialCode)){
-                        RecommendationDocument recommendationDocument = new RecommendationDocument(id, commercialCode);
                         try {
                             RecommendationDocument document = new RecommendationDocument(id, commercialCode);
                             recommendationRepository.save(document);

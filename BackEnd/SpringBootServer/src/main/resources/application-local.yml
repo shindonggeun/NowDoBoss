@@ -75,6 +75,13 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#    streams:
+#      application-id: commercial-analysis-app
+#      properties:
+#        commit.interval.ms: 1000
+#        cache.max.bytes.buffering: 0
+#        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+#        default.value.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
 
   # flyway setting
   flyway:

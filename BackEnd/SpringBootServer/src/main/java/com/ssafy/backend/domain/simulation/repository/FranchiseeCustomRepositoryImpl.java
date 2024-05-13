@@ -37,13 +37,15 @@ public class FranchiseeCustomRepositoryImpl implements FranchiseeCustomRepositor
                 ))
                 .from(franchisee)
                 .join(franchisee.serviceType, serviceType)
-                .where(isGreatherThen(request.lastId()), brandNameLikeKeyword(request.keyword()))
+                .where(equalsServiceCode(request.serviceCode()),
+                        isGreaterThen(request.lastId()),
+                        brandNameLikeKeyword(request.keyword()))
                 .orderBy(franchisee.id.asc())
                 .limit(10)
                 .fetch();
     }
 
-    private BooleanBuilder isGreatherThen(final Long franchiseeId) {
+    private BooleanBuilder isGreaterThen(final Long franchiseeId) {
         BooleanBuilder builder = new BooleanBuilder();
         if (franchiseeId != null && franchiseeId > 0) {
             builder.and(franchisee.id.gt(franchiseeId));

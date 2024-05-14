@@ -15,12 +15,12 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 interface BarChartProps {
   labels: string[]
   values: number[]
-  minvalue: number
+  infos: string[]
   dataLavel: string
 }
 
-const BarChart3 = (props: BarChartProps) => {
-  const { labels, values, minvalue, dataLavel } = props
+const BarChart4 = (props: BarChartProps) => {
+  const { labels, values, infos, dataLavel } = props
 
   const data = {
     labels,
@@ -28,8 +28,8 @@ const BarChart3 = (props: BarChartProps) => {
       {
         label: dataLavel,
         data: values,
-        backgroundColor: 'rgba(75, 192, 192, 0.2)', // 차트 색상
-        borderColor: 'rgba(75, 192, 192, 1)', // 선 색상
+        backgroundColor: 'rgba(255, 168, 74, 0.2)', // 차트 색상
+        borderColor: 'rgba(255, 168, 74, 1)', // 선 색상
         borderWidth: 1,
       },
     ],
@@ -48,6 +48,8 @@ const BarChart3 = (props: BarChartProps) => {
     layout: {
       padding: {
         top: 20,
+        left: 15,
+        right: 15,
       },
     },
     scales: {
@@ -57,15 +59,15 @@ const BarChart3 = (props: BarChartProps) => {
         },
       },
       y: {
-        display: true,
+        display: false,
         beginAtZero: false,
-        min: minvalue,
+        min: 0,
         grid: {
           display: false,
         },
       },
     },
-    categoryPercentage: 0.3,
+    categoryPercentage: 0.9,
   }
 
   const plugins: Plugin<'bar', unknown>[] = [
@@ -78,10 +80,23 @@ const BarChart3 = (props: BarChartProps) => {
           ctx.font = 'bolder 12px pretendard'
           ctx.fillStyle = '#22222'
           ctx.textAlign = 'center'
+          ctx.fillText(infos[index], datapoint.x, datapoint.y - 5)
+        })
+      },
+    },
+    {
+      id: 'customValue',
+      afterDraw: (chart: ChartJS<'bar', number[], unknown>) => {
+        const { ctx } = chart
+        ctx.save()
+        chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
+          ctx.font = 'bolder 11px pretendard'
+          ctx.fillStyle = '#33333'
+          ctx.textAlign = 'center'
           ctx.fillText(
-            `${Math.floor(data.datasets[0].data[index] / 10000).toLocaleString()}만명`,
+            `${data.datasets[0].data[index].toLocaleString()}개`,
             datapoint.x,
-            datapoint.y - 10,
+            datapoint.y + 20,
           )
         })
       },
@@ -91,4 +106,4 @@ const BarChart3 = (props: BarChartProps) => {
   return <Bar options={options} data={data} plugins={plugins} />
 }
 
-export default BarChart3
+export default BarChart4

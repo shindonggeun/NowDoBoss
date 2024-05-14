@@ -19,7 +19,7 @@ export const Container = styled.div`
     width: 100vw;
     position: fixed;
     height: 8vh;
-    padding: 5px 20px;
+    padding: 5px 2vw;
     background-color: #ffffff;
     border-bottom: 1px solid #dee4ec;
   }
@@ -37,13 +37,6 @@ export const SmallRight = styled.div`
     align-items: center;
     justify-content: right;
   }
-
-  @media only screen and (max-width: 800px) {
-    padding-right: 10px;
-  }
-  @media only screen and (max-width: 530px) {
-    padding-right: 12px;
-  }
 `
 export const Chatting = styled.div`
   margin: 0 0 10px 0;
@@ -52,7 +45,7 @@ export const Chatting = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 95%;
+    width: 100%;
     height: 10vh;
     margin: 0;
   }
@@ -68,9 +61,9 @@ export const Group = styled.div`
 
   @media only screen and (max-width: 992px) {
     width: 220px;
-    margin-top: 15px;
+    margin: 0 10px 0 0;
   }
-  @media only screen and (max-width: 480px) {
+  @media only screen and (max-width: 540px) {
     width: 160px;
   }
   @media only screen and (max-width: 400px) {
@@ -98,6 +91,10 @@ export const Input = styled.input`
   &:hover {
     outline: none;
     background-color: #fff;
+  }
+
+  @media only screen and (max-width: 540px) {
+    height: 35px;
   }
 `
 

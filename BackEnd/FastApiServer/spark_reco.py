@@ -22,12 +22,6 @@ import pandas as pd
 filename = 'model_update_time.json'
 model_path = "model"
 
-# SparkSession 생성
-spark = SparkSession.builder \
-    .appName("FastAPI-Spark Integration") \
-    .getOrCreate()
-
-
 
 # 마지막 업데이트 시간을 불러오는 함수
 def load_last_update_time(file_path):
@@ -124,12 +118,9 @@ def load_or_train_model(df_actions):
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import lit
 
-def update_user_weights(userId, new_weights):
+def update_user_weights(spark, userId, new_weights):
     weights_path = "weight/user_weights.json"
     try:
-        # Spark 세션 생성
-        spark = SparkSession.builder.appName("Update User Weights").getOrCreate()
-        
         # 가중치 데이터 로드
         user_weights_df = spark.read.json(weights_path)
         
@@ -179,7 +170,7 @@ def update_user_weights(userId, new_weights):
 
 
 
-def recommend_commercials(userId):
+def recommend_commercials(spark, userId):
     print("추천 메서드 안!")
 
     # CSV 파일 읽기
@@ -351,11 +342,9 @@ def recommend_commercials(userId):
 
     # #print(updated_weights.show())
 
-    # update_user_weights(userId, updated_weights)
+    # update_user_weights(spark, userId, updated_weights)
 
     # #stop_spark(spark)
     
     return res  
    
-def stop_spark(spark):
-    spark.stop()

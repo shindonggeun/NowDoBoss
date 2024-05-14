@@ -122,7 +122,8 @@ public class RecommendationServiceImpl implements RecommendationService{
                 for (RecommendationResponse dto: list){
                     if (dto.commercialCode().equals(commercialCode)){
                         try {
-                            RecommendationDocument document = new RecommendationDocument(id, commercialCode);
+                            String action = "save";
+                            RecommendationDocument document = new RecommendationDocument(id, Long.parseLong(commercialCode), action);
                             recommendationRepository.save(document);
                         } catch (MongoWriteException e) {
                             if (e.getError().getCode() == 11000) {

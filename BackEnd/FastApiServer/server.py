@@ -26,9 +26,11 @@ def recommend_commercial_areas(request: UserRequest):
         # 요청 로그
         print(f"Received request: {request}")
         # 처리 로직
-        response = spark_reco.recommend_commercials(request.userId)
+        spark = start_recommend_spark()
+        response = spark_reco.recommend_commercials(spark, request.userId)
         # 응답 로그
         print(f"Sending response: {response}")
+        stop_spark(spark)
         return response
     except Exception as e:
         # 에러 로그
@@ -47,19 +49,23 @@ async def receive_data(request: Request):
 @app.get("/test")
 def test():
     scheduler.update_model()
-# @app.get("/test-spark")
-# def test_spark():
-#     # 데이터 프레임 생성
-#     data = [("Java", 20000), ("Python", 100000), ("Scala", 3000)]
-#     columns = ["Language", "Users"]
-#     df = spark.createDataFrame(data, schema=columns)
 
-#     # 간단한 데이터 변환 수행
-#     df = df.withColumn("UsersPlusOne", df["Users"] + lit(1))
+def start_recommend_spark():
+    # SparkSession 생성
+    spark = SparkSession.builder \
+        .appName("FastAPI-Spark Integration") \
+        .getOrCreate()
+    return spark
 
-#     # 결과를 JSON 형식으로 변환하여 반환
-#     result = df.toPandas().to_dict(orient="records")  # pandas를 사용하여 데이터 프레임을 딕셔너리로 변환
-#     return {"result": result}
+def start_update_spark():
+    # Spark 세션 생성
+    spark = SparkSession.builder \
+        .appName("Data Processing") \
+        .getOrCreate()
+    return spark
+
+def stop_spark(spark):
+    spark.stop()
 
 if __name__ == "__main__":
     import uvicorn

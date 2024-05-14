@@ -94,7 +94,7 @@ const PopularChatList = ({ data }: { data: PromisePopularMessageType[] }) => {
           .getToken()
           .then(token => {
             console.log('Token:', token)
-            subscribeTopicMutation({ token, topicName: String(chatRoomId) })
+            subscribeTopicMutation({ token, topic: String(chatRoomId) })
           })
           .catch(err => {
             console.error('Token retrieval failed:', err)

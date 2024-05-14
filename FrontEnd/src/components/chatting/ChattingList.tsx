@@ -1,8 +1,10 @@
 import * as a from '@src/components/styles/community/CommunityStyle'
+import * as c from '@src/components/styles/chatting/ChattingListStyle'
 import useCommunityStore from '@src/stores/communityStore'
 import { useNavigate } from 'react-router-dom'
-// import { useQuery } from '@tanstack/react-query'
-// import { fetchChattingList } from '@src/api/chattingApi'
+import { useQuery } from '@tanstack/react-query'
+import { fetchChattingList } from '@src/api/chattingApi'
+import { ChatListType } from '@src/types/ChattingType'
 
 const ChattingList = () => {
   const { categories } = useCommunityStore(state => ({
@@ -10,50 +12,17 @@ const ChattingList = () => {
   }))
   const navigate = useNavigate()
 
-  // const { data } = useQuery({
-  //   queryKey: ['fetchChattingList'],
-  //   queryFn: () => fetchChattingList(0),
-  // })
-
-  const data = [
-    {
-      chatRoomId: 4,
-      category: 'ETC',
-      name: '종로 사장',
-      memberCount: 2,
-      limit: 10,
-    },
-    {
-      chatRoomId: 3,
-      category: 'ETC',
-      name: '종로 사장',
-      memberCount: 1,
-      limit: 2,
-    },
-    {
-      chatRoomId: 2,
-      category: 'ETC',
-      name: '종로 사장',
-      memberCount: 1,
-      limit: 2,
-    },
-    {
-      chatRoomId: 1,
-      category: 'ETC',
-      name: '종로 사장',
-      memberCount: 1,
-      limit: 2,
-    },
-  ]
-
-  console.log(data)
+  const { data, isLoading } = useQuery({
+    queryKey: ['fetchChattingList'],
+    queryFn: () => fetchChattingList(0),
+  })
 
   return (
     <a.Container>
       {/*  게시글 목록 */}
       <a.ArticlesContainer>
-        {Array.isArray(data)
-          ? data.map(article => {
+        {data && !isLoading
+          ? data.dataBody?.map((article: ChatListType) => {
               // 카테고리 이미지를 find 함수를 사용해 category name 과 일치하는 이미지 불러오기
               const matchedCategory = categories.find(
                 category => category.value === article.category,
@@ -72,27 +41,24 @@ const ChattingList = () => {
                 >
                   <a.Header>
                     <a.Profile>
-                      <a.ProfileContent>
+                      <c.Title>{article.name}</c.Title>
+                    </a.Profile>
+                    <c.Div>
+                      <c.Content>
                         <a.Category>
                           <a.Icon src={iconSrc} />
                           {categoryKorean}
                         </a.Category>
-                      </a.ProfileContent>
-                    </a.Profile>
-
-                    <a.CardSubContent>
-                      멤버수 {article.memberCount} / {article.limit}
-                    </a.CardSubContent>
+                      </c.Content>
+                      <c.Content>
+                        멤버수 {article.memberCount} / {article.limit}
+                      </c.Content>
+                    </c.Div>
                   </a.Header>
-                  <a.Body>
-                    <a.BodyContent>
-                      <a.CardTitle>{article.name}</a.CardTitle>
-                    </a.BodyContent>
-                  </a.Body>
                 </a.ArticleContainer>
               )
             })
-          : []}
+          : ''}
       </a.ArticlesContainer>
     </a.Container>
   )

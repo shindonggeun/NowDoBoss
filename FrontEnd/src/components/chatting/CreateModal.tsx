@@ -7,7 +7,7 @@ import { createChatRoom } from '@src/api/chattingApi'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import firebase from 'firebase'
-import { subscribeTopic } from '@src/api/fcmApi.tsx'
+import { subscribeTopic } from '@src/api/fcmApi'
 
 const style = {
   position: 'absolute' as const,
@@ -51,6 +51,11 @@ const CreateModal = (props: CreateModalPropsType) => {
     { name: '동업제안', value: 'PARTNERSHIP' },
     { name: '창업고민', value: 'START_UP' },
   ]
+  // 방 들어갈 때 토픽 구독 로직
+  const { mutate: subscribeTopicMutation } = useMutation({
+    mutationKey: ['subscribeTopic'],
+    mutationFn: subscribeTopic,
+  })
 
   // fcm
   const messaging = firebase.messaging()
@@ -61,18 +66,12 @@ const CreateModal = (props: CreateModalPropsType) => {
       if (permission === 'granted') {
         console.log('Notification permission granted.')
 
-        // 방 들어갈 때 토픽 구독 로직
-        const { mutate: subscribeTopicMutation } = useMutation({
-          mutationKey: ['subscribeTopic'],
-          mutationFn: subscribeTopic,
-        })
-
         // FCM 토큰을 가져옵니다.
         messaging
           .getToken()
           .then(token => {
             console.log('Token:', token)
-            subscribeTopicMutation({ token, topicName: String(chatRoomId) })
+            subscribeTopicMutation({ token, topic: String(chatRoomId) })
           })
           .catch(err => {
             console.error('Token retrieval failed:', err)

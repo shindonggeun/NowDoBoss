@@ -47,3 +47,11 @@ export type PopularType = {
   readCount: number
   commentCount: number
 }
+
+export type ChatListType = {
+  category: string
+  chatRoomId: number
+  limit: number
+  memberCount: number
+  name: string
+}

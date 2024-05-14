@@ -42,5 +42,6 @@ export type HorizontalBarChartPropsType = {
   datasetsLabel: string
   aspectRatio: number
   xDisplay: boolean
+  pluginUnit: string
   pluginValues?: number[]
 }

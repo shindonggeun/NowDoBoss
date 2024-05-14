@@ -42,9 +42,9 @@ export const fetchPopularRoom = async (category: string) => {
 }
 
 // 채팅 목록 get api
-export const fetchChattingList = async () => {
+export const fetchChattingList = async (lastId: number) => {
   return customAxios
-    .get(`/chat-rooms`)
+    .get(`/chat-rooms?lastId=${lastId}`)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

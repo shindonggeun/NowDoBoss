@@ -7,8 +7,9 @@ import { useParams } from 'react-router-dom'
 import { MessageType, PromiseMessageType } from '@src/types/ChattingType'
 import { connectStompClient } from '@src/util/chat/stompClient'
 import { Client, Frame } from 'webstomp-client'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { fetchMessages, fetchRoomDetail } from '@src/api/chattingApi'
+import { sendTopic } from '@src/api/fcmApi'
 
 const ChattingDetailContainer = () => {
   // 현재 이동한 방 id 받기
@@ -53,6 +54,12 @@ const ChattingDetailContainer = () => {
     }
   }
 
+  // 메세지 토픽에 보내는 mutation
+  const { mutate: sendTopicMutation } = useMutation({
+    mutationKey: ['sendTopic'],
+    mutationFn: sendTopic,
+  })
+
   // 메세지 보내기
   const sendMessage = useCallback(
     (type: string, content: string) => {
@@ -69,12 +76,21 @@ const ChattingDetailContainer = () => {
           JSON.stringify(message),
           {},
         )
+        if (roomId) {
+          // fcm topic에 알림 보내기
+          sendTopicMutation({
+            title: roomData.name,
+            body: content,
+            topicName: roomId,
+          })
+        }
+
         scrollToBottom()
       } else {
         console.log('Cannot send message. Client is not connected.')
       }
     },
-    [client, roomId, userId],
+    [client, roomData.name, roomId, sendTopicMutation, userId],
   )
 
   // 에러 발생 시

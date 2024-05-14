@@ -26,6 +26,9 @@ import { useEffect } from 'react'
 import ChattingListPage from '@src/pages/ChattingListPage'
 import ChattingDetailPage from '@src/pages/ChattingDetailPage'
 
+// firebase config 파일 실행
+import '@src/util/auth/firebaseMessage'
+
 function App() {
   function setScreenSize() {
     const vh = window.innerHeight * 0.01

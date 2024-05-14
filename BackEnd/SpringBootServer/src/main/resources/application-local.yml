@@ -48,9 +48,11 @@ spring:
 
     # MongoDB setting
     mongodb:
+      auto-index-creation: true
       host: localhost
       port: 27017
       database: nowdoboss
+
 
   # Java Mail Sender setting (Google Mail)
   mail:

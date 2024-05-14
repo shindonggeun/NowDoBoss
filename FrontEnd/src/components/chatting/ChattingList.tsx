@@ -5,6 +5,10 @@ import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { fetchChattingList } from '@src/api/chattingApi'
 import { ChatListType } from '@src/types/ChattingType'
+import NotLogin from '@src/common/swal/NotLogin'
+
+// 로그인 한 사용자인지 확인
+const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
 
 const ChattingList = () => {
   const { categories } = useCommunityStore(state => ({
@@ -16,6 +20,15 @@ const ChattingList = () => {
     queryKey: ['fetchChattingList'],
     queryFn: () => fetchChattingList(0),
   })
+
+  const handleClickCard = (chatRoomId: number) => {
+    if (userLoggedIn) {
+      window.scrollTo({ top: 0, behavior: 'instant' })
+      navigate(`/chatting/${chatRoomId}`)
+    } else {
+      NotLogin(navigate)
+    }
+  }
 
   return (
     <a.Container>
@@ -35,8 +48,7 @@ const ChattingList = () => {
                 <a.ArticleContainer
                   key={article.chatRoomId}
                   onClick={() => {
-                    window.scrollTo({ top: 0, behavior: 'instant' })
-                    navigate(`/chatting/${article.chatRoomId}`)
+                    handleClickCard(article.chatRoomId)
                   }}
                 >
                   <a.Header>

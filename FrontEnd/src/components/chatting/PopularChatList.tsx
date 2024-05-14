@@ -13,12 +13,16 @@ import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { subscribeTopic } from '@src/api/fcmApi'
 import firebase from 'firebase'
+import NotLogin from '@src/common/swal/NotLogin'
 
 const PopularChatList = ({ data }: { data: PromisePopularMessageType[] }) => {
   const navigate = useNavigate()
   const categories = useCommunityStore(state => state.categories)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [isInfinite, setIsInfinite] = useState(true)
+
+  // 로그인 한 사용자인지 확인
+  const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
 
   // 화면 크기에 따라 slidesToShow 값을 설정하는 함수
   const getSlidesToShow = () => {
@@ -125,8 +129,12 @@ const PopularChatList = ({ data }: { data: PromisePopularMessageType[] }) => {
   })
 
   const goChatRoom = (chatRoomId: number) => {
-    mutateEnterChatRoom(chatRoomId)
-    firebaseMessage(chatRoomId)
+    if (userLoggedIn) {
+      mutateEnterChatRoom(chatRoomId)
+      firebaseMessage(chatRoomId)
+    } else {
+      NotLogin(navigate)
+    }
   }
 
   return (

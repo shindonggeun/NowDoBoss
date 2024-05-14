@@ -1,5 +1,7 @@
 package com.ssafy.backend.global.component.kafka.service;
 
+import java.util.Map;
+
 public interface KafkaStreamService {
-    Long getWordCount(String word);
+    Map<String, Long> getAllCounts();
 }

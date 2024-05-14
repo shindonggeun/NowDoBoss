@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.commercial.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalIncomeInfo;
 import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalSalesInfo;
 import com.ssafy.backend.domain.administration.entity.IncomeAdministration;
@@ -441,7 +442,7 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     public void saveAnalysis(Long memberId, CommercialAnalysisSaveRequest analysisSaveRequest) {
-        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisSaveRequest.districtCode());
+        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisSaveRequest);
 
         boolean existAnalysis = commercialAnalysisRepository.existsByDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
                 analysisSaveRequest.districtCode(), analysisSaveRequest.administrationCode(),

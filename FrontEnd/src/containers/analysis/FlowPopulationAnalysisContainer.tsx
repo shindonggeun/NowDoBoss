@@ -18,7 +18,7 @@ const FlowPopulationAnalysisContainer = forwardRef(
     const setFlowPopulationDataBody = analysisStore(
       state => state.setFlowPopulationDataBody,
     )
-    const [flowErr, setFlowErr] = useState('') // 유동인구 에러 메세지
+    const [errMsg, setErrMsg] = useState('') // 유동인구 에러 메세지
 
     // 유동인구
     const { data: FlowPopulationData, status: flowPopulationStatus } = useQuery(
@@ -30,27 +30,30 @@ const FlowPopulationAnalysisContainer = forwardRef(
     )
 
     useEffect(() => {
+      // 호출 성공
       if (
         flowPopulationStatus === 'success' &&
         FlowPopulationData?.dataHeader.successCode === 0
       ) {
         setFlowPopulationDataBody(FlowPopulationData.dataBody)
-        setFlowErr('')
+        setErrMsg('')
       }
       // 호출 실패
       else if (
         flowPopulationStatus === 'success' &&
         FlowPopulationData?.dataHeader.successCode === 1
       ) {
-        setFlowErr(FlowPopulationData.dataHeader.resultMessage)
+        setErrMsg(FlowPopulationData.dataHeader.resultMessage)
       }
     }, [flowPopulationStatus, FlowPopulationData]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
       <div ref={ref}>
         <CategoryTitleCard src="/images/flow_population.png" title="유동인구" />
-        {flowErr ? (
-          <f.ErrBox>{flowErr}</f.ErrBox>
+        {errMsg ? (
+          <f.ErrBox>
+            해당 분기의 선택 상권 유동인구 데이터를 제공하지 않습니다.
+          </f.ErrBox>
         ) : (
           <>
             <f.FirstLowContainer>

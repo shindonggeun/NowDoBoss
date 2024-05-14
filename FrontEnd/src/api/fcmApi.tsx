@@ -1,8 +1,8 @@
 import { customAxios } from '@src/util/auth/customAxios'
 import {
-  sendTokenDataType,
-  sendTopicDataType,
-  subscribeTopicDataType,
+  SendTokenDataType,
+  SendTopicDataType,
+  SubscribeTopicDataType,
 } from '@src/types/FcmType'
 
 // fcm 토큰 저장 post api
@@ -23,7 +23,7 @@ export const deleteFcmToken = async (deviceToken: string) => {
 
 // 채팅방 생성 및 입장 시 topic 구독 post api
 export const subscribeTopic = async (
-  subscribeTopicData: subscribeTopicDataType,
+  subscribeTopicData: SubscribeTopicDataType,
 ) => {
   return customAxios
     .post(`/firebase/message/subscribe`, subscribeTopicData)
@@ -32,7 +32,7 @@ export const subscribeTopic = async (
 }
 
 // 채팅방에서 대화 시 내용 topic에 쏘는 post api
-export const sendTopic = async (sendTopicData: sendTopicDataType) => {
+export const sendTopic = async (sendTopicData: SendTopicDataType) => {
   return customAxios
     .post(`/firebase/message/topic`, sendTopicData)
     .then(res => res.data)
@@ -40,7 +40,7 @@ export const sendTopic = async (sendTopicData: sendTopicDataType) => {
 }
 
 // token에 쏘아 1대1 알림 post api
-export const sendToken = async (sendTokenData: sendTokenDataType) => {
+export const sendToken = async (sendTokenData: SendTokenDataType) => {
   return customAxios
     .post(`/firebase/message/token`, sendTokenData)
     .then(res => res.data)

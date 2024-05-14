@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.commercial.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalIncomeInfo;
 import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalSalesInfo;
 import com.ssafy.backend.domain.administration.entity.IncomeAdministration;
@@ -10,6 +11,7 @@ import com.ssafy.backend.domain.administration.repository.IncomeAdministrationRe
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.commercial.document.CommercialAnalysis;
 import com.ssafy.backend.domain.commercial.dto.info.*;
+import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisKafkaRequest;
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
@@ -27,11 +29,14 @@ import com.ssafy.backend.domain.district.exception.DistrictErrorCode;
 import com.ssafy.backend.domain.district.exception.DistrictException;
 import com.ssafy.backend.domain.district.repository.IncomeDistrictRepository;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
+import com.ssafy.backend.global.common.document.DataDocument;
+import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.C;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +63,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final IncomeAdministrationRepository incomeAdministrationRepository;
     private final CommercialAnalysisRepository commercialAnalysisRepository;
     private final KafkaProducer kafkaProducer;
+    private final DataRepository dataRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -116,7 +122,7 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     @Transactional(readOnly = true)
-    public CommercialFootTrafficResponse getFootTrafficByPeriodAndCommercialCode(String periodCode, String commercialCode) {
+    public CommercialFootTrafficResponse getFootTrafficByPeriodAndCommercialCode(String periodCode, String commercialCode, Long id) {
         FootTrafficCommercial footTrafficCommercial = footTrafficCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
                 .orElseThrow(() -> new CommercialException(CommercialErrorCode.NOT_FOOT_TRAFFIC));
 
@@ -149,6 +155,12 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         CommercialAgeGenderPercentFootTrafficInfo ageGenderPercentFootTraffic = calculateAgeGenderPercentFootTraffic(footTrafficCommercial);
+
+        // 추천용 데이터 저장
+        if (id == null){
+            id = 0L;
+        }
+        saveDataForRecommendation(id, commercialCode, "analysis");
 
         return new CommercialFootTrafficResponse(timeSlotFootTraffic, dayOfWeekFootTraffic, ageGroupFootTraffic, ageGenderPercentFootTraffic);
     }
@@ -279,6 +291,16 @@ public class CommercialServiceImpl implements CommercialService {
                 salesCommercial.getCommercialCodeName(),
                 salesCommercial.getMonthSales()
         );
+
+        // 카프카 토픽에 메시지 저장하기 위해 변환
+        CommercialAnalysisKafkaRequest analysisKafkaRequest = new CommercialAnalysisKafkaRequest(
+                salesDistrict.getDistrictCodeName(),
+                salesAdministration.getAdministrationCodeName(),
+                salesCommercial.getCommercialCodeName(),
+                salesDistrict.getServiceCodeName()
+        );
+
+        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisKafkaRequest);
 
         return new AllSalesResponse(districtTotalSalesInfo, administrationTotalSalesInfo, commercialTotalSalesInfo);
     }
@@ -441,8 +463,6 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     public void saveAnalysis(Long memberId, CommercialAnalysisSaveRequest analysisSaveRequest) {
-        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisSaveRequest.commercialCodeName());
-
         boolean existAnalysis = commercialAnalysisRepository.existsByDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
                 analysisSaveRequest.districtCode(), analysisSaveRequest.administrationCode(),
                 analysisSaveRequest.commercialCode(), analysisSaveRequest.serviceCode());
@@ -464,8 +484,25 @@ public class CommercialServiceImpl implements CommercialService {
                 .serviceCodeName(analysisSaveRequest.serviceCodeName())
                 .createdAt(LocalDateTime.now())
                 .build();
-
         commercialAnalysisRepository.save(commercialAnalysis);
+
+        // 카프카 토픽에 메시지 저장하기 위해 변환
+        CommercialAnalysisKafkaRequest analysisKafkaRequest = new CommercialAnalysisKafkaRequest(
+                analysisSaveRequest.districtCodeName(),
+                analysisSaveRequest.administrationCodeName(),
+                analysisSaveRequest.commercialCodeName(),
+                analysisSaveRequest.serviceCodeName()
+        );
+
+        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisKafkaRequest);
+
+        // 추천용 데이터 저장
+        saveDataForRecommendation(memberId, commercialAnalysis.getCommercialCode(), "save");
+    }
+
+    private void saveDataForRecommendation(Long id, String commercialCode, String action) {
+        DataDocument dataDocument = new DataDocument(id, Long.parseLong(commercialCode), action);
+        dataRepository.save(dataDocument);
     }
 
     @Override

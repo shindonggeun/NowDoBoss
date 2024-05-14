@@ -87,15 +87,15 @@ export const BarInnerContainer = styled.div`
 `
 
 interface BarInnerTextProps {
-  isActive: boolean
+  $isActive: boolean
 }
 
 export const BarInnerText = styled.div<BarInnerTextProps>`
   display: inline-block;
   padding: 10px 15px;
   cursor: pointer;
-  color: ${props => (props.isActive ? '#154daf' : 'black')};
-  border-bottom: ${props => (props.isActive ? '2px solid #7DB6EB' : 'none')};
+  color: ${props => (props.$isActive ? '#154daf' : 'black')};
+  border-bottom: ${props => (props.$isActive ? '2px solid #7DB6EB' : 'none')};
 
   @media (max-width: 768px) {
     padding: 10px 7px;

@@ -3,6 +3,7 @@ import serchIcon from '@src/assets/SearchIcon.svg'
 import DaumPostcode from 'react-daum-postcode'
 import { useState } from 'react'
 import useReportStore from '@src/stores/reportStore'
+import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 // import { DaumDataType } from '@src/types/SimulationType'
 
 interface Step2Props {
@@ -14,6 +15,7 @@ const SelectionStep2 = ({ nextStep }: Step2Props) => {
   const [infoText, setInfoText] = useState('')
   const { address, setAddress, setQuery, sido, setSido, setSigungu } =
     useReportStore()
+  const { selectedGoo, selectedDong } = useSelectPlaceStore()
 
   const completeHandler = (data: any) => {
     // console.log(data)
@@ -33,6 +35,12 @@ const SelectionStep2 = ({ nextStep }: Step2Props) => {
     setShowPostcode(false)
   }
 
+  const onClickLocation = () => {
+    setSigungu(selectedGoo.name)
+    setQuery(`서울특별시 ${selectedGoo.name} ${selectedDong.name}`)
+    nextStep()
+  }
+
   return (
     <c.Container>
       <c.Title>
@@ -44,17 +52,29 @@ const SelectionStep2 = ({ nextStep }: Step2Props) => {
           <DaumPostcode onComplete={completeHandler} autoClose={false} />
         </c.DaumContainer>
       ) : (
-        <c.InputContainer
-          onClick={() => {
-            setShowPostcode(true)
-          }}
-        >
-          <c.SearchIcon src={serchIcon} alt="serchIcon" />
-          <c.StyledInput
-            type="text"
-            placeholder={address !== '' ? `${address}` : '시/군/구 검색하기'}
-          />
-        </c.InputContainer>
+        <div>
+          <c.InputContainer
+            onClick={() => {
+              setShowPostcode(true)
+            }}
+          >
+            <c.SearchIcon src={serchIcon} alt="serchIcon" />
+            <c.StyledInput
+              type="text"
+              placeholder={address !== '' ? `${address}` : '시/군/구 검색하기'}
+            />
+          </c.InputContainer>
+          {selectedGoo.name !== '행정구' ? (
+            <c.GuidLocation>
+              최근 검색한 위치{' '}
+              <c.Emphasis onClick={onClickLocation}>
+                {selectedGoo.name}{' '}
+                {selectedDong.name !== '행정동' ? selectedDong.name : null}에서
+                시작하기
+              </c.Emphasis>
+            </c.GuidLocation>
+          ) : null}
+        </div>
       )}
 
       {sido !== '' && !showPostcode && (

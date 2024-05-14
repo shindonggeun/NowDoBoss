@@ -14,6 +14,7 @@ public class RecommendationDocument {
     private Long userId;
     private String commercialCode;
 
+
     public RecommendationDocument(Long userId, String commercialCode) {
         this.userId = userId;
         this.commercialCode = commercialCode;

@@ -13,8 +13,15 @@ import { Bar } from 'react-chartjs-2'
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const HorizontalBarChart = (props: HorizontalBarChartPropsType) => {
-  const { labels, values, datasetsLabel, aspectRatio, xDisplay, pluginValues } =
-    props
+  const {
+    labels,
+    values,
+    datasetsLabel,
+    aspectRatio,
+    xDisplay,
+    pluginUnit,
+    pluginValues,
+  } = props
   const minValue = Math.min(...values)
 
   const data = {
@@ -105,9 +112,9 @@ const HorizontalBarChart = (props: HorizontalBarChartPropsType) => {
             // 여기서 pluginValues가 존재할 경우 해당 값을 사용합니다.
             pluginValues
               ? `${pluginValues[index].toLocaleString()}%`
-              : values[index].toLocaleString(),
+              : `${values[index].toLocaleString()}${pluginUnit}`,
             dataPoint.x + 6,
-            dataPoint.y + 2,
+            dataPoint.y + 3,
           )
         })
       },

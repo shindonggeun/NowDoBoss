@@ -201,7 +201,7 @@ export const Title = styled.div`
 
 export const ErrBox = styled.div`
   display: flex;
-  height: 50vh;
+  height: 30vh;
   justify-content: center;
   align-items: center;
   text-align: center;

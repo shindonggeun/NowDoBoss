@@ -87,8 +87,8 @@ export const AnalysisDataLeft = styled.div`
   flex-direction: row;
 `
 
-export const AnalysisDataRate = styled.div<{ isup: boolean }>`
-  color: ${({ isup }) => (isup ? '#FF0000' : '#0066FF')};
+export const AnalysisDataRate = styled.div<{ $isup: boolean }>`
+  color: ${({ $isup }) => ($isup ? '#FF0000' : '#0066FF')};
 `
 
 export const AnalysisDataIcon = styled.img`

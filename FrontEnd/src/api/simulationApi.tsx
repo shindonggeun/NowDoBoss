@@ -16,11 +16,14 @@ export const fetchStoreSize = async (serviceCode: string) => {
 export const fetchFranchiseList = async (
   keyword: string | null,
   lastId: number,
+  serviceCode: string,
 ) => {
   return customAxios
-    .get(`/simulation/franchisee?keyword=${keyword}&lastId=${lastId}`)
+    .get(
+      `/simulation/franchisee?keyword=${keyword}&lastId=${lastId}&serviceCode=${serviceCode}`,
+    )
     .then(res => res.data)
-    .catch(err => console.log(err))
+    .catch()
 }
 
 // 시뮬레이션 레포트페이지 결과 받기

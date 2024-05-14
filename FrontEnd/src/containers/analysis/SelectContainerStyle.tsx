@@ -64,7 +64,7 @@ export const SimulationBtnWrap = styled.div`
   position: absolute;
   z-index: 1;
   right: 100px;
-  width: 230px;
+  width: 250px;
   top: 0;
   height: auto;
 

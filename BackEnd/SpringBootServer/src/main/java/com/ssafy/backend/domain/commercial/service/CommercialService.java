@@ -10,7 +10,7 @@ public interface CommercialService {
 
     List<CommercialAreaResponse> getCommercialAreasByAdministrationCode(String administrationCode);
 
-    CommercialFootTrafficResponse getFootTrafficByPeriodAndCommercialCode(String periodCode, String commercialCode);
+    CommercialFootTrafficResponse getFootTrafficByPeriodAndCommercialCode(String periodCode, String commercialCode, Long id);
 
     List<CommercialServiceResponse> getServiceByCommercialCode(String commercialCode);
 

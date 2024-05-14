@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
   margin: 3rem;
+  height: 72vh;
 
   @media (max-width: 768px) {
     margin: 2rem;
@@ -161,7 +162,7 @@ export const FloorContainer = styled.div`
 export const GoReportContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 12vh;
+  //margin-top: 12vh;
 `
 
 export const GoReportButton = styled.button`
@@ -205,6 +206,13 @@ export const InputContainer = styled.div`
   margin-top: 2rem;
 `
 
+export const GuidLocation = styled.div`
+  margin-top: 8px;
+  margin-left: 38px;
+  font-size: 14px;
+  cursor: pointer;
+`
+
 export const SearchIcon = styled.img`
   position: absolute;
   left: 0;
@@ -245,8 +253,7 @@ export const StyledInput = styled.input`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 55vh;
+  margin-top: 50vh;
 `
 
 export const NextButton = styled.button`

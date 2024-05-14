@@ -4,12 +4,14 @@ import SaveCheckIcon from '@src/assets/saveCheckMark.svg'
 import SaveIcon from '@src/assets/saveMark.svg'
 import CompareIcon from '@src/assets/compare.svg'
 import Xmark from '@src/assets/xmark_solid_nomal.svg'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useSimulationStore from '@src/stores/simulationStore'
 import useReportStore from '@src/stores/reportStore'
 import { useMutation } from '@tanstack/react-query'
 import { reportSave } from '@src/api/simulationApi'
 import { SimulationSaveType } from '@src/types/SimulationType'
+
+const { Kakao } = window
 
 interface HeaderType {
   onClose: () => void
@@ -56,30 +58,67 @@ const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
   }
 
   const onClickCompare = () => {
-    console.log('비교하기 버튼...')
+    console.log('임시 공유하기 버튼')
+    shareKakao()
+  }
+
+  useEffect(() => {
+    Kakao.cleanup()
+    Kakao.init('e55da734c04c78fcc069c3dab68f3c1e')
+    // console.log(Kakao.isInitialized())
+  }, [])
+
+  // const localUrl = 'http://localhost:5173/analysis'
+  const serverUrl = 'https://k10c208.p.ssafy.io/analysis'
+
+  const shareKakao = () => {
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '나도 창업 할 수 있다!!!',
+        description: '테스트중~~',
+        imageUrl:
+          'https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg',
+        link: {
+          mobileWebUrl: serverUrl,
+          webUrl: serverUrl,
+        },
+      },
+      buttons: [
+        {
+          title: 'Now Do Boss',
+          link: {
+            mobileWebUrl: serverUrl,
+            webUrl: serverUrl,
+          },
+        },
+      ],
+    })
   }
 
   return (
-    <c.SelctionHeader>
-      <c.HeaderLeft>
-        <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
-      </c.HeaderLeft>
-      <c.HeaderRight>
-        <h.HeaderIcon onClick={onClickSave}>
-          {isSaved ? (
-            <h.SaveIcon src={SaveCheckIcon} alt="saveCheck" />
-          ) : (
-            <h.SaveIcon src={SaveIcon} alt="save" />
-          )}
-          저장하기
-        </h.HeaderIcon>
-        <h.HeaderIcon onClick={onClickCompare}>
-          <h.CompareIcon src={CompareIcon} alt="compare" />
-          비교하기
-        </h.HeaderIcon>
-        <c.CloseIcon src={Xmark} alt="close" onClick={onClose} />
-      </c.HeaderRight>
-    </c.SelctionHeader>
+    <c.SelctionReportHeader>
+      <c.SelctionReportContainer>
+        <c.HeaderLeft>
+          <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
+        </c.HeaderLeft>
+        <c.HeaderRight>
+          <h.HeaderIcon onClick={onClickSave}>
+            {isSaved ? (
+              <h.SaveIcon src={SaveCheckIcon} alt="saveCheck" />
+            ) : (
+              <h.SaveIcon src={SaveIcon} alt="save" />
+            )}
+            저장하기
+          </h.HeaderIcon>
+          <h.HeaderIcon onClick={onClickCompare}>
+            <h.CompareIcon src={CompareIcon} alt="compare" />
+            비교하기
+          </h.HeaderIcon>
+        </c.HeaderRight>
+      </c.SelctionReportContainer>
+      <c.CloseIcon src={Xmark} alt="close" onClick={onClose} />
+    </c.SelctionReportHeader>
   )
 }
 

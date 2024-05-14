@@ -60,13 +60,19 @@ spring:
   kafka:
     bootstrap-servers: kafka-1:29092, kafka-2:29093, kafka-3:29094 # 도커에서 설정한 내부 서비스명으로 접근 (내부 네트워크 이용)
     consumer:
-      group-id: NoWDoBossGroup
+      group-id: NowDoBossGroup
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      producer:
-        key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
 
   # flyway setting
   flyway:

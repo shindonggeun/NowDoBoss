@@ -30,14 +30,14 @@ spring:
     password: ENC(8ZO2KjT7dEI3sWWMRNGIfg==)                     # 데이터베이스 계정 비밀번호
 
   # data_테이블명.sql 관련 실행 setting (더미데이터)
-  sql:
-    init:
-      mode: always
-      data-locations:
-        - 'classpath:/db/dummy/FOREIGN_KEY_CHECKS_0.sql'
-        - 'classpath:/db/dummy/db_dump.sql'
-        - 'classpath:/db/dummy/db_dump1.sql'
-        - 'classpath:/db/dummy/FOREIGN_KEY_CHECKS_1.sql'
+#  sql:
+#    init:
+#      mode: always
+#      data-locations:
+#        - 'classpath:/db/dummy/FOREIGN_KEY_CHECKS_0.sql'
+#        - 'classpath:/db/dummy/db_dump.sql'
+#        - 'classpath:/db/dummy/db_dump1.sql'
+#        - 'classpath:/db/dummy/FOREIGN_KEY_CHECKS_1.sql'
 
   # NoSQL setting
   data:
@@ -74,18 +74,15 @@ spring:
       group-id: NowDoBossGroup
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
-  #    streams:
-#      application-id: commercial-analysis-app
-#      properties:
-#        commit.interval.ms: 1000
-#        cache.max.bytes.buffering: 0
-#        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-#        default.value.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
   # flyway setting
   flyway:

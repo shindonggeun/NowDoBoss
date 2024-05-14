@@ -7,6 +7,10 @@ import LoginPage from '@src/pages/LoginPage'
 import SocialLoadingPage from '@src/pages/SocialLoadingPage'
 import ProfilePage from '@src/pages/ProfilePage'
 import BookmarksPage from '@src/pages/BookmarksPage'
+import BookmarksListPage from '@src/pages/BookmarksListPage'
+import AnalysisBookmarksPage from '@src/pages/AnalysisBookmarksPage'
+import RecommendBookmarksPage from '@src/pages/RecommendBookmarksPage'
+import SimulationBookmarksPage from '@src/pages/SimulationBookmarksPage'
 import SettingsPage from '@src/pages/SettingsPage'
 import EditProfilePage from '@src/pages/EditProfilePage'
 import ChangePasswordPage from '@src/pages/ChangePasswordPage'
@@ -53,7 +57,12 @@ function App() {
             element={<SocialLoadingPage />}
           />
           <Route path="/profile/*" element={<ProfilePage />}>
-            <Route path="bookmarks" element={<BookmarksPage />} />
+            <Route path="bookmarks" element={<BookmarksPage />}>
+              <Route path="" element={<BookmarksListPage />} />
+              <Route path="analysis" element={<AnalysisBookmarksPage />} />
+              <Route path="recommend" element={<RecommendBookmarksPage />} />
+              <Route path="simulation" element={<SimulationBookmarksPage />} />
+            </Route>
             <Route path="settings/*" element={<SettingsPage />}>
               <Route path="edit" element={<EditProfilePage />} />
               <Route path="change-password" element={<ChangePasswordPage />} />

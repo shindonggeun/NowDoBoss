@@ -42,6 +42,7 @@ const CategoryCard = () => {
         datasetsLabel="유형별 지출금액"
         aspectRatio={1.5}
         xDisplay={false}
+        pluginUnit=""
         pluginValues={percentageValues}
       />
     </e.CategoryCard>

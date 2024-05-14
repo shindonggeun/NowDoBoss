@@ -7,14 +7,32 @@ export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 576px) {
+    padding: 0 3%;
+  }
 `
 
 export const ImgDiv = styled.div`
   height: auto;
   align-content: center;
-
+  //margin-left: -10%; /* Container의 padding을 상쇄 */
+  //margin-right: -10%; /* Container의 padding을 상쇄 */
+  //
+  //@media (max-width: 576px) {
+  //  margin-left: -3%; /* 모바일 화면에서 Container의 padding 상쇄 */
+  //  margin-right: -3%; /* 모바일 화면에서 Container의 padding 상쇄 */
+  //}
+  //
+  //img {
+  //  width: 100%;
+  //}
   @media (max-width: 425px) {
     padding: 0 3%;
+  }
+
+  img {
+    width: 100%;
   }
 `
 
@@ -36,28 +54,15 @@ export const IntroTitle = styled.div`
 `
 export const SummaryDiv = styled.div``
 
-export const Wrap = styled.div`
-  width: 100%;
-  margin-top: 10vh;
-  display: flex;
-  align-items: flex-start;
-
-  @media (max-width: 576px) {
-    padding: 0 3%;
-  }
-`
-
-export const Sidebar = styled.div`
-  flex: 1;
-
-  @media (max-width: 992px) {
-    display: none;
-  }
-`
-
-export const Main = styled.div`
-  flex: 6;
+export const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 10vh;
   box-sizing: border-box;
+  height: auto;
+  padding-left: 15%;
+
+  @media (max-width: 992px) {
+    padding-left: 0;
+  }
 `

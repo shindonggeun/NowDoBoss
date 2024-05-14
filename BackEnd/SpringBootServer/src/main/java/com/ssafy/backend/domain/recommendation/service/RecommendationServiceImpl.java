@@ -4,6 +4,8 @@ package com.ssafy.backend.domain.recommendation.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.backend.global.common.document.DataDocument;
+import com.ssafy.backend.global.common.repository.DataRepository;
 import reactor.core.publisher.Flux;
 
 import com.mongodb.MongoWriteException;
@@ -52,6 +54,7 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final RedisTemplate<String, String> redisTemplate;
     private final RecommendationRepository recommendationRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
+    private final DataRepository dataRepository;
 
     @Override
     public Mono<List<RecommendationResponse>> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
@@ -122,9 +125,10 @@ public class RecommendationServiceImpl implements RecommendationService{
                 for (RecommendationResponse dto: list){
                     if (dto.commercialCode().equals(commercialCode)){
                         try {
-                            String action = "save";
-                            RecommendationDocument document = new RecommendationDocument(id, Long.parseLong(commercialCode), action);
+                            RecommendationDocument document = new RecommendationDocument(id, commercialCode);
                             recommendationRepository.save(document);
+                            DataDocument dataDocument = new DataDocument(id, Long.parseLong(commercialCode), "save");
+                            dataRepository.save(dataDocument);
                         } catch (MongoWriteException e) {
                             if (e.getError().getCode() == 11000) {
                                 System.out.println("이미 저장된 추천입니다.");

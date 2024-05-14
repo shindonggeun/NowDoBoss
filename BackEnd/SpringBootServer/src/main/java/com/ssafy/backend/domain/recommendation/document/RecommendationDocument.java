@@ -12,12 +12,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class RecommendationDocument {
     @Id
     private Long userId;
-    private Long commercialCode;
-    private String action;
+    private String commercialCode;
 
-    public RecommendationDocument(Long userId, Long commercialCode, String action) {
+
+    public RecommendationDocument(Long userId, String commercialCode) {
         this.userId = userId;
         this.commercialCode = commercialCode;
-        this.action = action;
     }
 }

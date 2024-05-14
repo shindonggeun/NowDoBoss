@@ -86,10 +86,16 @@ const ExpenditureAnalysisContainer = forwardRef(
     return (
       <div ref={ref}>
         <CategoryTitleCard src="/images/expenditure.png" title="지출내역" />
-        <e.FirstLowContainer>
-          <TotalCard totalExpenditureErr={totalExpenditureErr} />
-          <CategoryCard expenditureErr={expenditureErr} />
-        </e.FirstLowContainer>
+        {totalExpenditureErr || expenditureErr ? (
+          <e.ErrBox>
+            해당 분기에 해당하는 지출내역 데이터가 존재하지 않습니다.
+          </e.ErrBox>
+        ) : (
+          <e.FirstLowContainer>
+            <TotalCard />
+            <CategoryCard />
+          </e.FirstLowContainer>
+        )}
       </div>
     )
   },

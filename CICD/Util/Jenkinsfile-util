@@ -68,6 +68,7 @@ pipeline {
                         sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d sonarqube"
                     }
 
+                    // kafka 분산 클러스터 구성
                     if (isZookeeperRunning == "" || isKafkaRunning_1 == "" || isKafkaRunning_2 == "" || isKafkaRunning_3 == "" || isKafkaUiRunning == "") {
                         echo "zookeeper 및 kafka, kafka-ui 관련 dockerfile 빌드..."
                         sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d zookeeper kafka-1 kafka-2 kafka-3 kafka-ui"

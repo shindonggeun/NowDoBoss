@@ -14,8 +14,7 @@ from pyspark.sql.functions import lit
 from pyspark.sql.utils import AnalysisException
 import concurrent.futures
 from hdfs import InsecureClient
-import findspark
-import wget
+import mongoDB
 import pandas as pd
 
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
@@ -62,31 +61,7 @@ def load_user_weights(spark, userId):
         # 파일이 존재하지 않는 경우 빈 DataFrame 반환
         return spark.createDataFrame([(userId, 0.0, 0.0, 0.0, 0.0, 0.0)], schema="userId long, totalTrafficFootValue double, totalSalesValue double, openedRateValue double, closedRateValue double, totalConsumptionValue double")
 
-# def update_user_weights(userId, new_weights):
-#     weights_path = "/weight/user_weights.json"
-#     try:
-#         # 파일이 존재하는지 확인
-#         user_weights = spark.read.json(weights_path)
-#         # userId 컬럼이 없는 경우 빈 DataFrame 반환
-#         if "userId" not in user_weights.columns:
-#             print("Error: userId column not found in user weights DataFrame.")
-#             return
-#         # userId에 해당하는 레코드 필터링
-#         user_weights = user_weights.filter(user_weights.userId != userId)
-#         # 새로운 가중치 레코드 추가
-#         new_row = spark.createDataFrame([(*new_weights.values(),)], schema=list(new_weights.keys()))
-#         new_row = new_row.withColumn("userId", lit(userId))
-#         updated_weights = user_weights.union(new_row)
-#         # 저장
-#         updated_weights.write.mode('overwrite').json(weights_path)
-#         print(f"Updated weights for user {userId} successfully.")
-#     except Exception as e:
-#         print(f"Error updating user weights: {e}")
-#         # 파일이 존재하지 않는 경우 새로운 DataFrame 생성 후 가중치 추가
-#         new_row = spark.createDataFrame([(*new_weights.values(),)], schema=list(new_weights.keys()))
-#         new_row = new_row.withColumn("userId", lit(userId))
-#         new_row.write.mode('overwrite').json(weights_path)
-#         print(f"New weights for user {userId} added successfully.")
+
 def train_model(df_actions):
     # ALS 모델 설정
     als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="commercialCode", ratingCol="weight", coldStartStrategy="drop")
@@ -95,28 +70,24 @@ def train_model(df_actions):
     return model
 
 def load_or_train_model(df_actions):
-    # 모델 파일이 존재하는지 확인
-    if os.path.exists(model_path):
-        print("Loading existing model...")
-        # 기존 모델 불러오기
-        model = ALSModel.load(model_path)
-        # # 새 ALS 객체 생성
-        # als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="commercialCode", ratingCol="weight", coldStartStrategy="drop")
-        # # 새 데이터로 모델 훈련
-        # model = als.fit(df_actions)
-        # model.write().overwrite().save(model_path)
-    else:
-        print("Training new model...")
-        # 새로운 모델 훈련
+    try:
+        if os.path.exists(model_path):
+            print(f"Loading existing model from {model_path}...")
+            model = ALSModel.load(model_path)
+            print("Model loaded successfully.")
+        else:
+            print("No existing model found. Training new model.")
+            model = train_model(df_actions)
+            model.save(model_path)
+            print(f"Model saved at: {model_path}")
+    except Exception as e:
+        print(f"Failed to load or train model: {e}")
+        print("Training new model.")
         model = train_model(df_actions)
-        # 훈련된 모델 저장
-        model.save(model_path)
-        print("Model saved at:", model_path)
+        model.write().overwrite().save(model_path)
+        print(f"Model saved at: {model_path}")
     
     return model
-
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import lit
 
 def update_user_weights(spark, userId, new_weights):
     weights_path = "weight/user_weights.json"
@@ -143,31 +114,6 @@ def update_user_weights(spark, userId, new_weights):
     except Exception as e:
         print(f"Error processing weights file: {e}")
         # 파일 처리 중 에러가 발생했을 때 처리 로직
-
-
-# def load_model(model_path, df_actions):
-#     try:
-#         # 모델 로드 시도
-#         model = ALSModel.load(model_path)
-#         print("Model loaded successfully.")
-        
-#         # 추가된 데이터를 사용하여 모델을 더 학습
-#         model = model.fit(df_actions)
-#         print("Model retrained with additional data.")
-        
-#         # 다시 훈련된 모델 저장
-#         model.save(model_path)
-#         print("Retrained model saved.")
-#     except Exception as e:
-#         print("Model not found, training a new one. Error:", e)
-#         # 모델이 존재하지 않을 경우 새로 훈련
-#         als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="commercialCode", ratingCol="weight", coldStartStrategy="drop")
-#         model = als.fit(df_actions)
-#         # 훈련된 모델 저장
-#         model.save(model_path)
-#         print("New model trained and saved.")
-#     return model
-
 
 
 def recommend_commercials(spark, userId):
@@ -212,17 +158,7 @@ def recommend_commercials(spark, userId):
     commercial_columns = ["commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption"]
     df_commercials = commercial_data.select(*commercial_columns)
 
-    #print(df_commercials.show())
-    
-    # 모델 로드 및 학습
-    #model = load_model(model_path, df_actions)
-
     model = load_or_train_model(df_actions)
-
-    # als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="commercialCode", ratingCol="weight", coldStartStrategy="drop")
-    # model = als.fit(df_actions)
-    # # 훈련된 모델 저장
-    # model.save(model_path)
 
     # 사용자별 상권 추천 - 추천 상권 개수는 추후 조정
     user_recommendations = model.recommendForAllUsers(20)
@@ -241,11 +177,16 @@ def recommend_commercials(spark, userId):
 
     # userId가 유저의 아이디와 같은 경우만 가져오기 
     df_integrated_with_recommendations = df_integrated_with_recommendations[df_integrated_with_recommendations['userId'] == userId]
-
-    #print(df_integrated_with_recommendations.show())
     
-    # JSON 파일 로드
-    user_weights = load_user_weights(spark, userId)
+    # mongoDB에서 userId에 맞는 레코드 가져오기
+    user_weights = mongoDB.find_weights(userId)
+
+    # 문서를 데이터프레임으로 변환하기 전에 리스트로 묶기
+    user_weights_df = pd.DataFrame([user_weights])  # 리스트로 묶어서 전달
+
+    # 판다스 데이터프레임을 스파크 데이터프레임으로 변환
+    user_weights = spark.createDataFrame(user_weights_df)
+
 
     # df_integrated_with_recommendations와 user_weights를 userId 컬럼을 기준으로 조인합니다.
     joined_df = df_integrated_with_recommendations.join(user_weights, on='userId', how='inner')
@@ -290,61 +231,62 @@ def recommend_commercials(spark, userId):
 
     print(res)
 
-    # # 추천 점수와 각 특성 간의 상관관계 계산
-    # correlations = final_recommendations_sorted.select(
-    #     corr("final_rating", "totalTrafficFoot").alias("corr_population"),
-    #     corr("final_rating", "totalSales").alias("corr_sales"),
-    #     corr("final_rating", "openedRate").alias("corr_openedRate"),
-    #     corr("final_rating", "closedRate").alias("corr_closedRate"),
-    #     corr("final_rating", "totalConsumption").alias("corr_consumption")
-    # )
+    # 추천 점수와 각 특성 간의 상관관계 계산
+    correlations = final_recommendations_sorted.select(
+        corr("final_rating", "totalTrafficFoot").alias("corr_population"),
+        corr("final_rating", "totalSales").alias("corr_sales"),
+        corr("final_rating", "openedRate").alias("corr_openedRate"),
+        corr("final_rating", "closedRate").alias("corr_closedRate"),
+        corr("final_rating", "totalConsumption").alias("corr_consumption")
+    )
 
-    # # correlations DataFrame의 각 열의 값을 수집하여 딕셔너리에 저장
-    # new_weights = {
-    #     "userId": userId,
-    #     "totalTrafficFootValue": correlations.select("corr_population").collect()[0][0],
-    #     "totalSalesValue": correlations.select("corr_sales").collect()[0][0],
-    #     "openedRateValue": correlations.select("corr_openedRate").collect()[0][0],
-    #     "closedRateValue": correlations.select("corr_closedRate").collect()[0][0],
-    #     "totalConsumptionValue": correlations.select("corr_consumption").collect()[0][0]
+    # correlations DataFrame의 각 열의 값을 수집하여 딕셔너리에 저장
+    new_weights = {
+        "userId": userId,
+        "totalTrafficFootValue": correlations.select("corr_population").collect()[0][0],
+        "totalSalesValue": correlations.select("corr_sales").collect()[0][0],
+        "openedRateValue": correlations.select("corr_openedRate").collect()[0][0],
+        "closedRateValue": correlations.select("corr_closedRate").collect()[0][0],
+        "totalConsumptionValue": correlations.select("corr_consumption").collect()[0][0]
+    }
+
+    # 새로운 가중치와 이전 가중치 점진적 업데이트 (50%만 반영)
+    update_ratio = 0.5  # 새 가중치를 50% 반영
+    # updated_weights = {
+    #     "userId": new_weights["userId"],
+    #     "totalTrafficFootValue": float(user_weights.select("totalTrafficFootValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalTrafficFootValue"]) * update_ratio,
+    #     "totalSalesValue": float(user_weights.select("totalSalesValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalSalesValue"]) * update_ratio,
+    #     "openedRateValue": float(user_weights.select("openedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["openedRateValue"]) * update_ratio,
+    #     "closedRateValue": float(user_weights.select("closedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["closedRateValue"]) * update_ratio,
+    #     "totalConsumptionValue": float(user_weights.select("totalConsumptionValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalConsumptionValue"]) * update_ratio
     # }
-
-    # # 새로운 가중치와 이전 가중치 점진적 업데이트 (50%만 반영)
-    # update_ratio = 0.5  # 새 가중치를 50% 반영
-    # # updated_weights = {
-    # #     "userId": new_weights["userId"],
-    # #     "totalTrafficFootValue": float(user_weights.select("totalTrafficFootValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalTrafficFootValue"]) * update_ratio,
-    # #     "totalSalesValue": float(user_weights.select("totalSalesValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalSalesValue"]) * update_ratio,
-    # #     "openedRateValue": float(user_weights.select("openedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["openedRateValue"]) * update_ratio,
-    # #     "closedRateValue": float(user_weights.select("closedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["closedRateValue"]) * update_ratio,
-    # #     "totalConsumptionValue": float(user_weights.select("totalConsumptionValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalConsumptionValue"]) * update_ratio
-    # # }
-    # updated_weights = user_weights.withColumn(
-    #     "totalTrafficFootValue", 
-    #     (col("totalTrafficFootValue") * (1 - update_ratio)) + (lit(new_weights["totalTrafficFootValue"]) * update_ratio)
-    # ).withColumn(
-    #     "totalSalesValue", 
-    #     (col("totalSalesValue") * (1 - update_ratio)) + (lit(new_weights["totalSalesValue"]) * update_ratio)
-    # ).withColumn(
-    #     "openedRateValue", 
-    #     (col("openedRateValue") * (1 - update_ratio)) + (lit(new_weights["openedRateValue"]) * update_ratio)
-    # ).withColumn(
-    #     "closedRateValue", 
-    #     (col("closedRateValue") * (1 - update_ratio)) + (lit(new_weights["closedRateValue"]) * update_ratio)
-    # ).withColumn(
-    #     "totalConsumptionValue", 
-    #     (col("totalConsumptionValue") * (1 - update_ratio)) + (lit(new_weights["totalConsumptionValue"]) * update_ratio)
-    # )
+    updated_weights = user_weights.withColumn(
+        "totalTrafficFootValue", 
+        (col("totalTrafficFootValue") * (1 - update_ratio)) + (lit(new_weights["totalTrafficFootValue"]) * update_ratio)
+    ).withColumn(
+        "totalSalesValue", 
+        (col("totalSalesValue") * (1 - update_ratio)) + (lit(new_weights["totalSalesValue"]) * update_ratio)
+    ).withColumn(
+        "openedRateValue", 
+        (col("openedRateValue") * (1 - update_ratio)) + (lit(new_weights["openedRateValue"]) * update_ratio)
+    ).withColumn(
+        "closedRateValue", 
+        (col("closedRateValue") * (1 - update_ratio)) + (lit(new_weights["closedRateValue"]) * update_ratio)
+    ).withColumn(
+        "totalConsumptionValue", 
+        (col("totalConsumptionValue") * (1 - update_ratio)) + (lit(new_weights["totalConsumptionValue"]) * update_ratio)
+    )
     
-    # print(updated_weights.show())
+    print(updated_weights.show())
 
-    # #updated_weights = updated_weights.round(4)
+    # Spark DataFrame에서 데이터를 추출하고 Python 딕셔너리로 변환
+    weights_row = updated_weights.first().asDict()
 
-    # #print(updated_weights.show())
+    # 모든 값들을 Python 기본 데이터 타입으로 변환 (예를 들어, float 변환 등)
+    weights_dict = {key: float(value) for key, value in weights_row.items()}
 
-    # update_user_weights(spark, userId, updated_weights)
+    # MongoDB 업데이트 함수 호출
+    mongoDB.update_weights(weights_dict)
 
-    # #stop_spark(spark)
-    
     return res  
    

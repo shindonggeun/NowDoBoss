@@ -88,7 +88,7 @@ const ExpenditureAnalysisContainer = forwardRef(
         <CategoryTitleCard src="/images/expenditure.png" title="지출내역" />
         {totalExpenditureErr || expenditureErr ? (
           <e.ErrBox>
-            해당 분기에 해당하는 지출내역 데이터가 존재하지 않습니다.
+            해당 분기의 선택 상권 지출분석 데이터를 제공하지 않습니다.
           </e.ErrBox>
         ) : (
           <e.FirstLowContainer>

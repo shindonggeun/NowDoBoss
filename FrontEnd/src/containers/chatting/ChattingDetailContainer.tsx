@@ -90,7 +90,7 @@ const ChattingDetailContainer = () => {
         console.log('Cannot send message. Client is not connected.')
       }
     },
-    [client, roomData.name, roomId, sendTopicMutation, userId],
+    [client, roomData, roomId, sendTopicMutation, userId],
   )
 
   // 에러 발생 시

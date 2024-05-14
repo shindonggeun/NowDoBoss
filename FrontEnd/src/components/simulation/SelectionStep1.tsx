@@ -90,6 +90,10 @@ const SelectionStep1 = ({ nextStep }: Step1Props) => {
               placeholder="프렌차이즈 이름을 입력해주세요"
               value={brandName !== null ? brandName : ''}
               onChange={handleInputChange}
+              onClick={() => {
+                setIsClicked(true)
+                setBrandName('')
+              }}
             />
           </c.InputContainer>
           <div>
@@ -107,7 +111,7 @@ const SelectionStep1 = ({ nextStep }: Step1Props) => {
                 </div>
               ))}
           </div>
-          {brandName && (
+          {brandName !== ' ' && brandName !== null && brandName !== '' && (
             <c.Step1ButtonContainer>
               <c.NextButton type="button" onClick={nextStep}>
                 다음

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  width: 100%;
+  width: 100.1%;
   min-height: 20rem;
   display: flex;
   align-items: center;
@@ -20,10 +20,18 @@ export const SummaryContainer = styled.div`
 export const SaveIcon = styled.img`
   width: 1.2rem;
   margin-right: 0.4rem;
+
+  @media (max-width: 768px) {
+    width: 1rem;
+  }
 `
 
 export const CompareIcon = styled.img`
   width: 1.8rem;
+
+  @media (max-width: 768px) {
+    width: 1.5rem;
+  }
 `
 
 export const LightIcon = styled.img`
@@ -61,7 +69,7 @@ export const SummaryHeader = styled.div`
 export const HighLight = styled.div`
   display: flex;
   align-items: center;
-  width: 9rem;
+  min-width: 9rem;
   background-color: #fdffc7;
   font-size: 1.4rem;
   font-weight: 700;

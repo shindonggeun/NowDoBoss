@@ -64,6 +64,7 @@ export const SelctionHeader = styled.div`
   justify-content: space-between;
   background-color: #236cff;
   padding: 1rem 2rem;
+  min-width: 90%;
 
   position: sticky;
   top: 0;
@@ -79,7 +80,12 @@ export const HeaderLeft = styled.div`
 
 export const HeaderRight = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
+
+  @media (max-width: 768px) {
+    padding-right: 1rem;
+  }
 `
 
 export const PrevIcon = styled.img`
@@ -91,6 +97,10 @@ export const CloseIcon = styled.img`
   width: 1rem;
   padding-left: 1rem;
   cursor: pointer;
+
+  position: fixed;
+  top: 1.3rem;
+  right: 1rem;
 `
 
 export const HeaderTitle = styled.div`

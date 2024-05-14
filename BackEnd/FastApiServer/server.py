@@ -5,6 +5,8 @@ from fastapi import FastAPI, Request, HTTPException
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import lit
 import json
+from pymongo import MongoClient
+import scheduler
 
 app = FastAPI()
 
@@ -41,6 +43,10 @@ async def receive_data(request: Request):
     print("Received data:", data)
     return {"message": "Data received successfully", "receivedData": data}
 
+
+@app.get("/test")
+def test():
+    scheduler.update_model()
 # @app.get("/test-spark")
 # def test_spark():
 #     # 데이터 프레임 생성

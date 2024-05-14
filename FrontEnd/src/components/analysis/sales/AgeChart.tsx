@@ -1,10 +1,8 @@
-import { SalesErrPropsType } from '@src/types/AnalysisType'
 import RadarChart from '@src/common/RadarChart'
 import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 import analysisStore from '@src/stores/analysisStore'
 
-const AgeChart = (props: SalesErrPropsType) => {
-  const { salesErr } = props
+const AgeChart = () => {
   const salesDataBody = analysisStore(state => state.salesDataBody)
   const labels: string[] = ['10대', '20대', '30대', '40대', '50대', '60대 이상']
 
@@ -40,20 +38,10 @@ const AgeChart = (props: SalesErrPropsType) => {
   return (
     <s.AgeChart>
       <s.ChartTitle>연령별 매출액</s.ChartTitle>
-      {salesErr ? (
-        <div>{salesErr}</div>
-      ) : (
-        <>
-          <s.ChartSubTitle>
-            {maxLabel} {maxGender} 매출액이 가장 높아요.
-          </s.ChartSubTitle>
-          <RadarChart
-            labels={labels}
-            value1={maleValues}
-            value2={femaleValues}
-          />
-        </>
-      )}
+      <s.ChartSubTitle>
+        {maxLabel} {maxGender} 매출액이 가장 높아요.
+      </s.ChartSubTitle>
+      <RadarChart labels={labels} value1={maleValues} value2={femaleValues} />
     </s.AgeChart>
   )
 }

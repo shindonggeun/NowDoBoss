@@ -68,3 +68,18 @@ export const ChartSubTitle = styled.div`
   font-weight: 500;
   margin-bottom: 10px;
 `
+
+export const ErrBox = styled.div`
+  display: flex;
+  height: 50vh;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  margin: 20px 0; // 상하 여백
+  font-size: 1rem; // 글자 크기
+  color: #ff0000; // 글자 색상
+  background-color: #fff0f0; // 배경 색상
+  border-radius: 10px; // 테두리 둥글기
+  border: 2px solid #ffd0d0; // 테두리 색상
+`

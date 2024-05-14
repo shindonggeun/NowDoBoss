@@ -1,10 +1,8 @@
 import analysisStore from '@src/stores/analysisStore'
-import { SalesErrPropsType } from '@src/types/AnalysisType'
 import BarChart2 from '@src/common/BarChart2'
 import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 
-const WeekNumberChart = (props: SalesErrPropsType) => {
-  const { salesErr } = props
+const WeekNumberChart = () => {
   const salesDataBody = analysisStore(state => state.salesDataBody)
 
   const labels: string[] = ['월', '화', '수', '목', '금', '토', '일']
@@ -20,22 +18,14 @@ const WeekNumberChart = (props: SalesErrPropsType) => {
   return (
     <s.WeekNumberChart>
       <s.ChartTitle>요일별 매출건수</s.ChartTitle>
-      {salesErr ? (
-        <div>{salesErr}</div>
-      ) : (
-        <>
-          <s.ChartSubTitle>
-            {maxLabel}요일 매출건수가 가장 높아요.
-          </s.ChartSubTitle>
-          <BarChart2
-            labels={labels}
-            values={values}
-            minValue={minValue}
-            datasetsLabel="매출건수(건)"
-            pluginUnit="건"
-          />
-        </>
-      )}
+      <s.ChartSubTitle>{maxLabel}요일 매출건수가 가장 높아요.</s.ChartSubTitle>
+      <BarChart2
+        labels={labels}
+        values={values}
+        minValue={minValue}
+        datasetsLabel="매출건수(건)"
+        pluginUnit="건"
+      />
     </s.WeekNumberChart>
   )
 }

@@ -9,11 +9,11 @@ import HeaderDropdown from '@src/common/HeaderDropdown'
 import LogoutContainer from '@src/containers/User/LogoutContainer'
 
 const Container = styled.header`
-  height: 68px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: #c4c4c4 2px solid;
+  border-bottom: #c4c4c4 1px solid;
   // 상단 고정하기 위한 코드
   background-color: #fff;
   z-index: 100;
@@ -177,27 +177,30 @@ const Header = () => {
         <Logo src={SlimLogoImg} alt="logo" />
       </LogoDiv>
 
-      <BlankDiv />
-
       <MenuListLeft>
-        {['상권현황', '상권분석', '상권추천', '커뮤니티', '채팅'].map(
-          menuName => (
-            <Menu
-              key={menuName}
-              $isActive={activeMenu === menuName}
-              onClick={() => handleMenuClick(menuName)}
-            >
-              {menuName}
-            </Menu>
-          ),
-        )}
+        {['상권현황', '상권분석', '상권추천', '커뮤니티'].map(menuName => (
+          <Menu
+            key={menuName}
+            $isActive={activeMenu === menuName}
+            onClick={() => handleMenuClick(menuName)}
+          >
+            {menuName}
+          </Menu>
+        ))}
       </MenuListLeft>
 
+      <BlankDiv />
       <BlankDiv />
 
       <MenuListRight>
         {userLoggedIn ? (
           <>
+            <Menu
+              $isActive={activeMenu === '채팅'}
+              onClick={() => handleMenuClick('채팅')}
+            >
+              채팅
+            </Menu>
             <Menu
               $isActive={activeMenu === '프로필'}
               onClick={() => handleMenuClick('프로필')}

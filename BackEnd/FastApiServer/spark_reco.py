@@ -13,7 +13,7 @@ from pyspark.sql import functions as F
 from pyspark.sql.functions import lit
 from pyspark.sql.utils import AnalysisException
 import concurrent.futures
-from hdfs import InsecureClient
+# from hdfs import InsecureClient
 import mongoDB
 import pandas as pd
 

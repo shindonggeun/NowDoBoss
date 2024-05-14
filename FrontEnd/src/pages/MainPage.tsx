@@ -1,5 +1,11 @@
+import MainContainer from '@src/containers/main/MainContainer'
+
 const MainPage = () => {
-  return <>메인페이지</>
+  return (
+    <div>
+      <MainContainer />
+    </div>
+  )
 }
 
 export default MainPage

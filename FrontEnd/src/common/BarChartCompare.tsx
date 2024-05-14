@@ -41,7 +41,9 @@ const BarChart2 = (props: BarChartProps) => {
       intersect: false,
     },
     layout: {
-      padding: 20,
+      padding: {
+        top: 25,
+      },
     },
     plugins: {
       legend: {
@@ -76,11 +78,11 @@ const BarChart2 = (props: BarChartProps) => {
         const { ctx } = chart
         ctx.save()
         chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
-          ctx.font = 'bolder 14px sans-serif'
+          ctx.font = 'bolder 13px pretandard'
           ctx.fillStyle = data.datasets[0].borderColor[index]
           ctx.textAlign = 'center'
           ctx.fillText(
-            `${data.datasets[0].data[index].toLocaleString()} 명`,
+            `${data.datasets[0].data[index]} 개월`,
             datapoint.x,
             datapoint.y - 10,
           )

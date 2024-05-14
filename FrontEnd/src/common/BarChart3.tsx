@@ -4,6 +4,7 @@ import {
   Chart as ChartJS,
   Legend,
   LinearScale,
+  Plugin,
   Title,
   Tooltip,
 } from 'chart.js'
@@ -44,6 +45,11 @@ const BarChart3 = (props: BarChartProps) => {
         display: false,
       },
     },
+    layout: {
+      padding: {
+        top: 20,
+      },
+    },
     scales: {
       x: {
         grid: {
@@ -62,7 +68,27 @@ const BarChart3 = (props: BarChartProps) => {
     categoryPercentage: 0.3,
   }
 
-  return <Bar options={options} data={data} />
+  const plugins: Plugin<'bar', unknown>[] = [
+    {
+      id: 'customCenterValue',
+      afterDraw: (chart: ChartJS<'bar', number[], unknown>) => {
+        const { ctx } = chart
+        ctx.save()
+        chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
+          ctx.font = 'bolder 12px pretendard'
+          ctx.fillStyle = '#22222'
+          ctx.textAlign = 'center'
+          ctx.fillText(
+            `${Math.floor(data.datasets[0].data[index] / 10000).toLocaleString()}만명`,
+            datapoint.x,
+            datapoint.y - 10,
+          )
+        })
+      },
+    },
+  ]
+
+  return <Bar options={options} data={data} plugins={plugins} />
 }
 
 export default BarChart3

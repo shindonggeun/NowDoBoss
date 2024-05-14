@@ -2,13 +2,11 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
-  height: 8vh;
 `
 export const Header = styled.div`
   //background-color: #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
-  height: 40px;
-  padding: 12px 20px;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21,6 +19,7 @@ export const ChatInfo = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  margin: 10px 20px;
 `
 export const ChatImg = styled.div`
   background-color: #d9d9d9;
@@ -28,9 +27,7 @@ export const ChatImg = styled.div`
   width: 36px;
   height: 36px;
 `
-export const ChatDiv = styled.div`
-  padding-left: 10px;
-`
+export const ChatDiv = styled.div``
 export const ChatTitle = styled.div`
   margin-bottom: -5px;
   font-size: 1.3rem;
@@ -38,10 +35,11 @@ export const ChatTitle = styled.div`
 `
 export const ChatMembers = styled.div`
   font-size: 0.8rem;
-  margin-top: -5px;
+  //margin-top: -5px;
 `
 export const More = styled.div`
   font-size: 2rem;
+  margin: 10px 20px;
 
   &:hover {
     cursor: pointer;

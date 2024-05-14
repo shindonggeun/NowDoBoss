@@ -14,12 +14,6 @@ public class CustomJsonSerde<T> implements Serde<T> {
         this.serializer = new JsonSerializer<>();
         this.deserializer = new JsonDeserializer<>(targetType);
         this.deserializer.setUseTypeMapperForKey(true);
-
-        // Optional: Set custom configurations if needed
-        serializer.setAddTypeInfo(false);
-        deserializer.setRemoveTypeHeaders(false);
-        deserializer.addTrustedPackages("*");
-        deserializer.setUseTypeHeaders(false);
     }
 
     @Override

@@ -30,6 +30,7 @@ public class KafkaConsumer {
     @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC_ANALYSIS)
     public void handleCommercialAnalysis(CommercialAnalysisSaveRequest message) {
         log.info("상업 분석 메시지 수신 : {}", message);
+        log.info(message.commercialCodeName());
     }
 
 }

@@ -105,12 +105,12 @@ def load_or_train_model(df_actions):
     if os.path.exists(model_path):
         print("Loading existing model...")
         # 기존 모델 불러오기
-        existing_model = ALSModel.load(model_path)
-        # 새 ALS 객체 생성
-        als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="commercialCode", ratingCol="weight", coldStartStrategy="drop")
-        # 새 데이터로 모델 훈련
-        model = als.fit(df_actions)
-        model.write().overwrite().save(model_path)
+        model = ALSModel.load(model_path)
+        # # 새 ALS 객체 생성
+        # als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="commercialCode", ratingCol="weight", coldStartStrategy="drop")
+        # # 새 데이터로 모델 훈련
+        # model = als.fit(df_actions)
+        # model.write().overwrite().save(model_path)
     else:
         print("Training new model...")
         # 새로운 모델 훈련
@@ -299,61 +299,61 @@ def recommend_commercials(userId):
 
     print(res)
 
-    # 추천 점수와 각 특성 간의 상관관계 계산
-    correlations = final_recommendations_sorted.select(
-        corr("final_rating", "totalTrafficFoot").alias("corr_population"),
-        corr("final_rating", "totalSales").alias("corr_sales"),
-        corr("final_rating", "openedRate").alias("corr_openedRate"),
-        corr("final_rating", "closedRate").alias("corr_closedRate"),
-        corr("final_rating", "totalConsumption").alias("corr_consumption")
-    )
+    # # 추천 점수와 각 특성 간의 상관관계 계산
+    # correlations = final_recommendations_sorted.select(
+    #     corr("final_rating", "totalTrafficFoot").alias("corr_population"),
+    #     corr("final_rating", "totalSales").alias("corr_sales"),
+    #     corr("final_rating", "openedRate").alias("corr_openedRate"),
+    #     corr("final_rating", "closedRate").alias("corr_closedRate"),
+    #     corr("final_rating", "totalConsumption").alias("corr_consumption")
+    # )
 
-    # correlations DataFrame의 각 열의 값을 수집하여 딕셔너리에 저장
-    new_weights = {
-        "userId": userId,
-        "totalTrafficFootValue": correlations.select("corr_population").collect()[0][0],
-        "totalSalesValue": correlations.select("corr_sales").collect()[0][0],
-        "openedRateValue": correlations.select("corr_openedRate").collect()[0][0],
-        "closedRateValue": correlations.select("corr_closedRate").collect()[0][0],
-        "totalConsumptionValue": correlations.select("corr_consumption").collect()[0][0]
-    }
-
-    # 새로운 가중치와 이전 가중치 점진적 업데이트 (50%만 반영)
-    update_ratio = 0.5  # 새 가중치를 50% 반영
-    # updated_weights = {
-    #     "userId": new_weights["userId"],
-    #     "totalTrafficFootValue": float(user_weights.select("totalTrafficFootValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalTrafficFootValue"]) * update_ratio,
-    #     "totalSalesValue": float(user_weights.select("totalSalesValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalSalesValue"]) * update_ratio,
-    #     "openedRateValue": float(user_weights.select("openedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["openedRateValue"]) * update_ratio,
-    #     "closedRateValue": float(user_weights.select("closedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["closedRateValue"]) * update_ratio,
-    #     "totalConsumptionValue": float(user_weights.select("totalConsumptionValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalConsumptionValue"]) * update_ratio
+    # # correlations DataFrame의 각 열의 값을 수집하여 딕셔너리에 저장
+    # new_weights = {
+    #     "userId": userId,
+    #     "totalTrafficFootValue": correlations.select("corr_population").collect()[0][0],
+    #     "totalSalesValue": correlations.select("corr_sales").collect()[0][0],
+    #     "openedRateValue": correlations.select("corr_openedRate").collect()[0][0],
+    #     "closedRateValue": correlations.select("corr_closedRate").collect()[0][0],
+    #     "totalConsumptionValue": correlations.select("corr_consumption").collect()[0][0]
     # }
-    updated_weights = user_weights.withColumn(
-        "totalTrafficFootValue", 
-        (col("totalTrafficFootValue") * (1 - update_ratio)) + (lit(new_weights["totalTrafficFootValue"]) * update_ratio)
-    ).withColumn(
-        "totalSalesValue", 
-        (col("totalSalesValue") * (1 - update_ratio)) + (lit(new_weights["totalSalesValue"]) * update_ratio)
-    ).withColumn(
-        "openedRateValue", 
-        (col("openedRateValue") * (1 - update_ratio)) + (lit(new_weights["openedRateValue"]) * update_ratio)
-    ).withColumn(
-        "closedRateValue", 
-        (col("closedRateValue") * (1 - update_ratio)) + (lit(new_weights["closedRateValue"]) * update_ratio)
-    ).withColumn(
-        "totalConsumptionValue", 
-        (col("totalConsumptionValue") * (1 - update_ratio)) + (lit(new_weights["totalConsumptionValue"]) * update_ratio)
-    )
+
+    # # 새로운 가중치와 이전 가중치 점진적 업데이트 (50%만 반영)
+    # update_ratio = 0.5  # 새 가중치를 50% 반영
+    # # updated_weights = {
+    # #     "userId": new_weights["userId"],
+    # #     "totalTrafficFootValue": float(user_weights.select("totalTrafficFootValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalTrafficFootValue"]) * update_ratio,
+    # #     "totalSalesValue": float(user_weights.select("totalSalesValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalSalesValue"]) * update_ratio,
+    # #     "openedRateValue": float(user_weights.select("openedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["openedRateValue"]) * update_ratio,
+    # #     "closedRateValue": float(user_weights.select("closedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["closedRateValue"]) * update_ratio,
+    # #     "totalConsumptionValue": float(user_weights.select("totalConsumptionValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalConsumptionValue"]) * update_ratio
+    # # }
+    # updated_weights = user_weights.withColumn(
+    #     "totalTrafficFootValue", 
+    #     (col("totalTrafficFootValue") * (1 - update_ratio)) + (lit(new_weights["totalTrafficFootValue"]) * update_ratio)
+    # ).withColumn(
+    #     "totalSalesValue", 
+    #     (col("totalSalesValue") * (1 - update_ratio)) + (lit(new_weights["totalSalesValue"]) * update_ratio)
+    # ).withColumn(
+    #     "openedRateValue", 
+    #     (col("openedRateValue") * (1 - update_ratio)) + (lit(new_weights["openedRateValue"]) * update_ratio)
+    # ).withColumn(
+    #     "closedRateValue", 
+    #     (col("closedRateValue") * (1 - update_ratio)) + (lit(new_weights["closedRateValue"]) * update_ratio)
+    # ).withColumn(
+    #     "totalConsumptionValue", 
+    #     (col("totalConsumptionValue") * (1 - update_ratio)) + (lit(new_weights["totalConsumptionValue"]) * update_ratio)
+    # )
     
-    print(updated_weights.show())
+    # print(updated_weights.show())
 
-    #updated_weights = updated_weights.round(4)
+    # #updated_weights = updated_weights.round(4)
 
-    #print(updated_weights.show())
+    # #print(updated_weights.show())
 
-    update_user_weights(userId, updated_weights)
+    # update_user_weights(userId, updated_weights)
 
-    stop_spark(spark)
+    # #stop_spark(spark)
     
     return res  
    

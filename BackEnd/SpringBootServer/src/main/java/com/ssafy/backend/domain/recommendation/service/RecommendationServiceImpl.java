@@ -4,7 +4,8 @@ package com.ssafy.backend.domain.recommendation.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.DuplicateKeyException;
+import reactor.core.publisher.Flux;
+
 import com.mongodb.MongoWriteException;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAreaResponse;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialKafkaInfo;
@@ -53,46 +54,59 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Override
-    public List<RecommendationResponse> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
+    public Mono<List<RecommendationResponse>> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
         String periodCode = "20233";
-        List<UserResponse> commercialData = fetchCommercialData(id);
-
-        List<RecommendationResponse> responses = new ArrayList<>();
-        int cnt = 0;
-
-        if (administrationCode != null && !administrationCode.isEmpty() && !administrationCode.equals("0")) {
-            for (UserResponse dto : commercialData) {
-                String code = getCode(dto);
-
-                if (code.equals(administrationCode)) {
-                    cnt++;
-                    RecommendationResponse recommendationResponse = createRecommendationResponse(dto, periodCode);
-                    responses.add(recommendationResponse);
-
-                    if (cnt == 3) {
-                        break;
+//        List<UserResponse> commercialData = fetchCommercialData(id).block();
+//
+//        List<RecommendationResponse> responses = new ArrayList<>();
+//        int cnt = 0;
+//
+//        if (administrationCode != null && !administrationCode.isEmpty() && !administrationCode.equals("0")) {
+//            for (UserResponse dto : commercialData) {
+//                String code = getCode(dto);
+//
+//                if (code.equals(administrationCode)) {
+//                    cnt++;
+//                    RecommendationResponse recommendationResponse = createRecommendationResponse(dto, periodCode);
+//                    responses.add(recommendationResponse);
+//
+//                    if (cnt == 3) {
+//                        break;
+//                    }
+//                }
+//            }
+//        } else {
+//            for (UserResponse dto : commercialData) {
+//                String code = getCode(dto);
+//
+//                if (code.substring(0, 5).equals(districtCode)) {
+//                    cnt++;
+//                    RecommendationResponse recommendationResponse = createRecommendationResponse(dto, periodCode);
+//                    responses.add(recommendationResponse);
+//
+//                    if (cnt == 3) {
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        if (!responses.isEmpty()) {
+//            saveRecommendationsToRedis(id, responses);
+//        }
+//        return responses.isEmpty() ? null : responses;
+        return fetchCommercialData(id)
+                .flatMapMany(Flux::fromIterable)
+                .filter(dto -> administrationCode != null && !administrationCode.isEmpty() && !administrationCode.equals("0") ?
+                        getCode(dto).equals(administrationCode) :
+                        getCode(dto).substring(0, 5).equals(districtCode))
+                .take(3)
+                .map(dto -> createRecommendationResponse(dto, periodCode))
+                .collectList()
+                .doOnNext(responses -> {
+                    if (!responses.isEmpty()) {
+                        saveRecommendationsToRedis(id, responses);
                     }
-                }
-            }
-        } else {
-            for (UserResponse dto : commercialData) {
-                String code = getCode(dto);
-
-                if (code.substring(0, 5).equals(districtCode)) {
-                    cnt++;
-                    RecommendationResponse recommendationResponse = createRecommendationResponse(dto, periodCode);
-                    responses.add(recommendationResponse);
-
-                    if (cnt == 3) {
-                        break;
-                    }
-                }
-            }
-        }
-        if (!responses.isEmpty()) {
-            saveRecommendationsToRedis(id, responses);
-        }
-        return responses.isEmpty() ? null : responses;
+                });
     }
 
     @Override
@@ -142,22 +156,23 @@ public class RecommendationServiceImpl implements RecommendationService{
         return recommendationRepository.findByUserId(id);
     }
 
-    private List<UserResponse> fetchCommercialData(Long id) {
+    private Mono<List<UserResponse>> fetchCommercialData(Long id) {
         //FastAPI 서버로부터 데이터를 비동기로 받아옵니다.
-        Mono<List<UserResponse>> commercialDataMono = sendToFastAPIServer(id);
-//        // 비동기로 받아온 데이터를 동기적으로 처리하기 위해 blockOptional() 메서드를 사용합니다.
-//        List<UserResponse> commercialData = commercialDataMono.blockOptional().orElse(Collections.emptyList());
-        List<UserResponse> commercialData = new ArrayList<>();
-        commercialData.add(new UserResponse("3130323", 2131046L, 87417420000L, 2.205006, 3.039333, 3597924000L, 6.829445));
-        commercialData.add(new UserResponse("3111005",  6822274L, 874742000L, 6.205006, 1.039333, 3597924000L, 6.5123));
-        commercialData.add(new UserResponse("3111004", 3189182L, 874172000L, 1.205006, 2.039333, 3597924000L, 5.829445));
-        commercialData.add(new UserResponse("3111003", 8353018L, 874742000L, 9.205006, 4.039333, 3597924000L, 4.29445));
-        commercialData.add(new UserResponse("3111006", 296958L, 8741742000L, 12.205006, 5.039333, 3597924000L, 4.829445));
-        commercialData.add(new UserResponse("3130325", 296879L, 8741742000L, 2.205006, 6.039333, 3597924000L, 3.829445));
-        commercialData.add(new UserResponse("3130324", 551179L, 87412000L, 2.205006, 7.039333, 3597924000L, 3.29445));
-        commercialData.add(new UserResponse("3130327", 55947L, 27417420000L, 3.205006, 3.039333, 3597924000L, 2.829445));
-        commercialData.add(new UserResponse("3130326", 122285L, 4741742000L, 4.205006, 3.039333, 3597924000L, 1.829445));
-        commercialData.add(new UserResponse("3111002", 4005509L, 87410000L, 2.55205006, 3.039333, 3597924000L, 0.829445));
+        Mono<List<UserResponse>> commercialData = sendToFastAPIServer(id);
+        // 비동기로 받아온 데이터를 동기적으로 처리하기 위해 blockOptional() 메서드를 사용합니다.
+        //List<UserResponse> commercialData = commercialDataMono.blockOptional().orElse(Collections.emptyList());
+//        List<UserResponse> commercialData = new ArrayList<>();
+//        commercialData.add(new UserResponse("3130323", 2131046L, 87417420000L, 2.205006, 3.039333, 3597924000L, 6.829445));
+//        commercialData.add(new UserResponse("3111005",  6822274L, 874742000L, 6.205006, 1.039333, 3597924000L, 6.5123));
+//        commercialData.add(new UserResponse("3111004", 3189182L, 874172000L, 1.205006, 2.039333, 3597924000L, 5.829445));
+//        commercialData.add(new UserResponse("3111003", 8353018L, 874742000L, 9.205006, 4.039333, 3597924000L, 4.29445));
+//        commercialData.add(new UserResponse("3111006", 296958L, 8741742000L, 12.205006, 5.039333, 3597924000L, 4.829445));
+//        commercialData.add(new UserResponse("3130325", 296879L, 8741742000L, 2.205006, 6.039333, 3597924000L, 3.829445));
+//        commercialData.add(new UserResponse("3130324", 551179L, 87412000L, 2.205006, 7.039333, 3597924000L, 3.29445));
+//        commercialData.add(new UserResponse("3130327", 55947L, 27417420000L, 3.205006, 3.039333, 3597924000L, 2.829445));
+//        commercialData.add(new UserResponse("3130326", 122285L, 4741742000L, 4.205006, 3.039333, 3597924000L, 1.829445));
+//        commercialData.add(new UserResponse("3111002", 4005509L, 87410000L, 2.55205006, 3.039333, 3597924000L, 0.829445));
+
         return commercialData;
     }
 
@@ -263,20 +278,28 @@ public class RecommendationServiceImpl implements RecommendationService{
         // WebClient 생성
         WebClient webClient = WebClient.create();
 
-        // HTTP 요청 보내기
-        Mono<List<UserResponse>> responseMono = webClient.post()
-                .uri(fastApiUrl)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(userRequest))
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<>() {
-                });
+        try {
+            // 요청 전송 로그
+            System.out.println("Sending request to FastAPI server");
+            // 요청 전송 로그
+            System.out.println("Sending request to FastAPI server");
 
-        // 요청 결과 반환
-        return responseMono.doOnError(throwable -> {
-            // 에러 처리
-            throw new RuntimeException("Failed to retrieve recommendations from FastAPI server", throwable);
-        });
+            return webClient.post()
+                    .uri(fastApiUrl)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(new UserRequest(id)))
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<List<UserResponse>>() {})
+                    .doOnSuccess(result -> {
+                        System.out.println("Received response with " + result.size() + " items");
+                        result.forEach(userResponse -> System.out.println("UserResponse: " + userResponse));
+                    })
+                    .doOnError(error -> System.out.println("Error retrieving data: " + error.getMessage()));
+        } catch (Exception e) {
+            // 에러 로그
+            System.out.println("Failed to send request: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve recommendations from FastAPI server", e);
+        }
     }
 
     public void saveRecommendationsToRedis(long userId, List<RecommendationResponse> responses) {

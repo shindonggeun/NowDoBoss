@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -29,10 +30,14 @@ public class RecommendationController {
     )
     @GetMapping("/{districtCode}/{administrationCode}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<RecommendationResponse>>> getCommercialRecommendation(
-            @AuthenticationPrincipal MemberLoginActive loginActive, @PathVariable String districtCode, @PathVariable String administrationCode) {
-        List<RecommendationResponse> administrationAreaResponseList = recommendationService.getTopThreeRecommendations(districtCode, administrationCode, loginActive.id());
-        return ResponseEntity.ok().body(Message.success(administrationAreaResponseList));
+    public Mono<ResponseEntity<List<RecommendationResponse>>> getCommercialRecommendation(
+            @AuthenticationPrincipal MemberLoginActive loginActive,
+            @PathVariable String districtCode,
+            @PathVariable String administrationCode) {
+
+        return recommendationService.getTopThreeRecommendations(districtCode, administrationCode, loginActive.id())
+                .map(responses -> ResponseEntity.ok().body(responses))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @Operation(

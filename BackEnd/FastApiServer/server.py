@@ -1,25 +1,7 @@
-# from fastapi import FastAPI, HTTPException
+
 from pydantic import BaseModel
-# import recommendation
-# import asyncio
-# import requests
-# import subprocess
 import spark_reco
-
-# app = FastAPI()
-
-
-
-# @app.get("/")
-# async def root():
-#     return {"message": "Hello World"}
-
-
-# @app.get("/hello/{name}")
-# async def say_hello(name: str):
-#     return {"message": f"Hello {name}"}
-
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import lit
 import json
@@ -37,8 +19,19 @@ class UserRequest(BaseModel):
 
 @app.post("/recommend")
 def recommend_commercial_areas(request: UserRequest):
-    print("추천에 도착!")
-    return spark_reco.recommend_commercials(request.userId)
+    print("추천에 도착!") 
+    try:
+        # 요청 로그
+        print(f"Received request: {request}")
+        # 처리 로직
+        response = spark_reco.recommend_commercials(request.userId)
+        # 응답 로그
+        print(f"Sending response: {response}")
+        return response
+    except Exception as e:
+        # 에러 로그
+        print(f"Error occurred: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/data")
 async def receive_data(request: Request):

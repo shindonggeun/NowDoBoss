@@ -28,7 +28,7 @@ export const SubmitButton = styled.div<{ $isValid: boolean }>`
   padding: 5px 20px;
   display: flex;
   justify-content: center;
-  width: 30px;
+  width: auto;
   cursor: pointer;
 `
 export const TitleInput = styled.textarea<{ $isActive?: boolean }>`

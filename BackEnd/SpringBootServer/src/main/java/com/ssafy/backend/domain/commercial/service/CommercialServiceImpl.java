@@ -485,7 +485,6 @@ public class CommercialServiceImpl implements CommercialService {
                 .createdAt(LocalDateTime.now())
                 .build();
         commercialAnalysisRepository.save(commercialAnalysis);
-<<<<<<< 94b21345b3639b66c1d8ca72dbaef97669fe104a
 
         // 카프카 토픽에 메시지 저장하기 위해 변환
         CommercialAnalysisKafkaRequest analysisKafkaRequest = new CommercialAnalysisKafkaRequest(
@@ -496,7 +495,7 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisKafkaRequest);
-=======
+
         // 추천용 데이터 저장
         saveDataForRecommendation(memberId, commercialAnalysis.getCommercialCode(), "save");
     }
@@ -504,7 +503,6 @@ public class CommercialServiceImpl implements CommercialService {
     private void saveDataForRecommendation(Long id, String commercialCode, String action) {
         DataDocument dataDocument = new DataDocument(id, Long.parseLong(commercialCode), action);
         dataRepository.save(dataDocument);
->>>>>>> da98bb04e1831e0af986c44649551990c812ffec
     }
 
     @Override

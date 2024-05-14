@@ -16,7 +16,6 @@ const ExpectChart = () => {
     totalSalesDataBody.administrationTotalSalesInfo.totalSales,
     totalSalesDataBody.commercialTotalSalesInfo.totalSales,
   ]
-  const minvalue = Math.min(...values)
 
   return (
     <s.ExpectChart>
@@ -29,7 +28,6 @@ const ExpectChart = () => {
         labels={labels}
         values={values}
         datasetsLabel="원"
-        minvalue={minvalue}
         pluginUnit="원"
       />
     </s.ExpectChart>

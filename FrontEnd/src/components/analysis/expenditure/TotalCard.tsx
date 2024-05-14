@@ -24,8 +24,6 @@ const TotalCard = () => {
     commercialTotalIncomeInfo.totalPrice,
   ]
 
-  const minValue = Math.min(...values)
-
   return (
     <e.TotalCard>
       <e.ChartTitle>총 지출금액</e.ChartTitle>
@@ -35,7 +33,6 @@ const TotalCard = () => {
         labels={labels}
         values={values}
         datasetsLabel="지출금액(원)"
-        minvalue={minValue}
         pluginUnit="원"
       />
     </e.TotalCard>

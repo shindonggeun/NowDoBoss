@@ -27,6 +27,8 @@ import com.ssafy.backend.domain.district.exception.DistrictErrorCode;
 import com.ssafy.backend.domain.district.exception.DistrictException;
 import com.ssafy.backend.domain.district.repository.IncomeDistrictRepository;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
+import com.ssafy.backend.global.common.document.DataDocument;
+import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
 import com.ssafy.backend.global.util.CoordinateConverter;
@@ -58,6 +60,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final IncomeAdministrationRepository incomeAdministrationRepository;
     private final CommercialAnalysisRepository commercialAnalysisRepository;
     private final KafkaProducer kafkaProducer;
+    private final DataRepository dataRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -116,7 +119,7 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     @Transactional(readOnly = true)
-    public CommercialFootTrafficResponse getFootTrafficByPeriodAndCommercialCode(String periodCode, String commercialCode) {
+    public CommercialFootTrafficResponse getFootTrafficByPeriodAndCommercialCode(String periodCode, String commercialCode, Long id) {
         FootTrafficCommercial footTrafficCommercial = footTrafficCommercialRepository.findByPeriodCodeAndCommercialCode(periodCode, commercialCode)
                 .orElseThrow(() -> new CommercialException(CommercialErrorCode.NOT_FOOT_TRAFFIC));
 
@@ -149,6 +152,12 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         CommercialAgeGenderPercentFootTrafficInfo ageGenderPercentFootTraffic = calculateAgeGenderPercentFootTraffic(footTrafficCommercial);
+
+        // 추천용 데이터 저장
+        if (id == null){
+            id = 0L;
+        }
+        saveDataForRecommendation(id, commercialCode, "analysis");
 
         return new CommercialFootTrafficResponse(timeSlotFootTraffic, dayOfWeekFootTraffic, ageGroupFootTraffic, ageGenderPercentFootTraffic);
     }
@@ -464,8 +473,14 @@ public class CommercialServiceImpl implements CommercialService {
                 .serviceCodeName(analysisSaveRequest.serviceCodeName())
                 .createdAt(LocalDateTime.now())
                 .build();
-
         commercialAnalysisRepository.save(commercialAnalysis);
+        // 추천용 데이터 저장
+        saveDataForRecommendation(memberId, commercialAnalysis.getCommercialCode(), "save");
+    }
+
+    private void saveDataForRecommendation(Long id, String commercialCode, String action) {
+        DataDocument dataDocument = new DataDocument(id, Long.parseLong(commercialCode), action);
+        dataRepository.save(dataDocument);
     }
 
     @Override

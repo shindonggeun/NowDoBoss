@@ -34,7 +34,7 @@ def load_last_update_time(file_path):
 
 # 사용자 행동별 가중치 부여 함수
 def action_weight(action):
-    weights = {"click": 2, "search":4, "simulation": 7, "save": 10}
+    weights = {"click": 2, "search":4, "analysis": 7, "save": 10}
     return weights.get(action, 0)
 
 # 사용자 별 상권 특징에 대한 가중치 정보

@@ -16,6 +16,17 @@ const CommunityDetailContainer = () => {
   const { communityId } = useParams<{ communityId: string }>()
   const [category, setCategory] = useState<string>('')
 
+  const [userId, setUserId] = useState<number>(0)
+
+  // 로그인 된 사용자 id 값 받기
+  useEffect(() => {
+    const userInfo = window.localStorage.getItem('memberInfo')
+    if (userInfo) {
+      const user = JSON.parse(userInfo)
+      setUserId(user.id)
+    }
+  }, [])
+
   const { data: DetailData, isLoading: DetailIsLoading } = useQuery({
     queryKey: ['CommunityDetail'],
     queryFn: () => fetchCommunityDetail(Number(communityId)),
@@ -42,8 +53,8 @@ const CommunityDetailContainer = () => {
     <c.Div>
       {!DetailIsLoading && DetailData ? (
         <c.MainContentDiv>
-          <MainContent detailData={DetailData.dataBody} />
-          <CommentList communityId={communityId} />
+          <MainContent detailData={DetailData.dataBody} userId={userId} />
+          <CommentList communityId={communityId} userId={userId} />
           <Divider />
 
           {!SameCategoryListIsLoading && SameCategoryListData && (

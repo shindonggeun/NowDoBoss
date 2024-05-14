@@ -25,7 +25,7 @@ public class KafkaStreamServiceImpl implements KafkaStreamService {
     public RankingResponse getRankings() {
         KafkaStreams kafkaStreams = factoryBean.getKafkaStreams();
         ReadOnlyKeyValueStore<String, Long> countsStore = kafkaStreams.store(
-                StoreQueryParameters.fromNameAndType("count", QueryableStoreTypes.keyValueStore())
+                StoreQueryParameters.fromNameAndType("ranking", QueryableStoreTypes.keyValueStore())
         );
 
         Map<String, List<RankingDataInfo>> rankingsMap = new HashMap<>();

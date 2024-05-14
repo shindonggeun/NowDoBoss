@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.share.dto.request;
 
+import com.ssafy.backend.domain.share.entity.Share;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,10 @@ import java.util.Map;
 public class CreateShareRequest {
     private String url;
     private Map<String, Object> input;
+
+    public Share toEntity() {
+        return Share.createShare(url, input);
+    }
     
     /*
     // 상권 추천

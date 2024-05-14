@@ -217,3 +217,8 @@ export const CreateIcon = styled.img`
     scale: 1.2;
   }
 `
+
+export const Col = styled.div`
+  display: flex;
+  flex-direction: column;
+`

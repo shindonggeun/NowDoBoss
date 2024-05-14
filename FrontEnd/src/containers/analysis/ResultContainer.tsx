@@ -1,4 +1,4 @@
-import { forwardRef, Ref, useRef } from 'react'
+import { forwardRef, Ref, useEffect, useRef, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { postAnalysisBookmarks } from '@src/api/analysisApi'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
@@ -45,6 +45,23 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
     })
   }
 
+  const [showButton, setShowButton] = useState(false)
+
+  useEffect(() => {
+    const handleShowButton = () => {
+      if (window.scrollY > 1150) {
+        setShowButton(true)
+      } else {
+        setShowButton(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleShowButton)
+    return () => {
+      window.removeEventListener('scroll', handleShowButton)
+    }
+  }, [])
+
   const { mutate: PostAnalysisBookmarks } = useMutation({
     mutationKey: ['PostAnalysisBookmarks'],
     mutationFn: postAnalysisBookmarks,
@@ -70,24 +87,22 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
 
   return (
     <a.Container ref={ref}>
-      <img src="/images/Buildings.png" alt="buildings" />
+      <a.ImgDiv>
+        <img src="/images/Buildings.png" alt="buildings" />
+      </a.ImgDiv>
       <a.ResultWrap>
         <a.IntroTitle>분석 리포트</a.IntroTitle>
       </a.ResultWrap>
       <ResultIntro handlePostAnalysisBookmarks={handlePostAnalysisBookmarks} />
-      <a.Wrap>
-        <a.Sidebar>
-          <SideBarMenu moveTo={moveTo} />
-        </a.Sidebar>
-        <a.Main>
-          <FlowPopulationAnalysisContainer ref={flowRef} />
-          <FacilitiesAnalysis ref={facilitiesRef} />
-          <StoreCountAnalysisContainer ref={storeRef} />
-          <SalesAnalysisContainer ref={salesRef} />
-          <ResidentPopulationAnalysisContainer ref={residentRef} />
-          <ExpenditureAnalysisContainer ref={expenditureRef} />
-        </a.Main>
-      </a.Wrap>
+      {showButton && <SideBarMenu moveTo={moveTo} />}
+      <a.MainDiv>
+        <FlowPopulationAnalysisContainer ref={flowRef} />
+        <FacilitiesAnalysis ref={facilitiesRef} />
+        <StoreCountAnalysisContainer ref={storeRef} />
+        <SalesAnalysisContainer ref={salesRef} />
+        <ResidentPopulationAnalysisContainer ref={residentRef} />
+        <ExpenditureAnalysisContainer ref={expenditureRef} />
+      </a.MainDiv>
       <ScrollToTopButton />
     </a.Container>
   )

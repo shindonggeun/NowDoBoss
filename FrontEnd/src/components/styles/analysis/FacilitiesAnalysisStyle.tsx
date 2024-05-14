@@ -18,7 +18,7 @@ export const TransChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
   @media (max-width: 576px) {
@@ -33,7 +33,7 @@ export const EduChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
   @media (max-width: 576px) {

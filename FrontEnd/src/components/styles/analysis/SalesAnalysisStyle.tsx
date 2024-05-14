@@ -17,7 +17,7 @@ export const ExpectChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
   @media (max-width: 576px) {
@@ -32,7 +32,7 @@ export const AgeChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
   @media (max-width: 576px) {
@@ -57,7 +57,7 @@ export const TodaySalesChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
   @media (max-width: 576px) {
@@ -71,7 +71,7 @@ export const TodayNumberChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
   @media (max-width: 576px) {
@@ -97,7 +97,7 @@ export const WeekSalesChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
   @media (max-width: 576px) {
@@ -111,7 +111,7 @@ export const WeekNumberChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
   @media (max-width: 576px) {
@@ -159,5 +159,5 @@ export const ErrBox = styled.div`
   color: #ff0000; // 글자 색상
   background-color: #fff0f0; // 배경 색상
   border-radius: 10px; // 테두리 둥글기
-  border: 2px solid #ffd0d0; // 테두리 색상
+  border: 1px solid #ffd0d0; // 테두리 색상
 `

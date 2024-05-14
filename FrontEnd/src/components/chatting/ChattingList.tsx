@@ -36,7 +36,7 @@ const ChattingList = () => {
                   key={article.chatRoomId}
                   onClick={() => {
                     window.scrollTo({ top: 0, behavior: 'instant' })
-                    navigate(`/community/${article.chatRoomId}`)
+                    navigate(`/chatting/${article.chatRoomId}`)
                   }}
                 >
                   <a.Header>

@@ -8,7 +8,7 @@ def get_mongodb_data():
     db = client['nowdoboss']
 
     # 컬렉션 선택
-    collection = db['action']
+    collection = db['data']
 
     # 데이터 조회
     documents = collection.find()

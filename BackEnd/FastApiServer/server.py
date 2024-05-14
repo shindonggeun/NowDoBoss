@@ -48,7 +48,7 @@ async def receive_data(request: Request):
 
 @app.get("/test")
 def test():
-    scheduler.update_model()
+    print("테스트중!")
 
 def start_recommend_spark():
     # SparkSession 생성

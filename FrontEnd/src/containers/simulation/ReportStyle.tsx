@@ -50,7 +50,6 @@ export const HeaderIcon = styled.div`
   color: white;
   font-size: 0.9rem;
   font-weight: 500;
-  margin-right: 1rem;
   cursor: pointer;
 `
 

@@ -60,26 +60,28 @@ const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
   }
 
   return (
-    <c.SelctionHeader>
-      <c.HeaderLeft>
-        <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
-      </c.HeaderLeft>
-      <c.HeaderRight>
-        <h.HeaderIcon onClick={onClickSave}>
-          {isSaved ? (
-            <h.SaveIcon src={SaveCheckIcon} alt="saveCheck" />
-          ) : (
-            <h.SaveIcon src={SaveIcon} alt="save" />
-          )}
-          저장하기
-        </h.HeaderIcon>
-        <h.HeaderIcon onClick={onClickCompare}>
-          <h.CompareIcon src={CompareIcon} alt="compare" />
-          비교하기
-        </h.HeaderIcon>
-        <c.CloseIcon src={Xmark} alt="close" onClick={onClose} />
-      </c.HeaderRight>
-    </c.SelctionHeader>
+    <c.SelctionReportHeader>
+      <c.SelctionReportContainer>
+        <c.HeaderLeft>
+          <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
+        </c.HeaderLeft>
+        <c.HeaderRight>
+          <h.HeaderIcon onClick={onClickSave}>
+            {isSaved ? (
+              <h.SaveIcon src={SaveCheckIcon} alt="saveCheck" />
+            ) : (
+              <h.SaveIcon src={SaveIcon} alt="save" />
+            )}
+            저장하기
+          </h.HeaderIcon>
+          <h.HeaderIcon onClick={onClickCompare}>
+            <h.CompareIcon src={CompareIcon} alt="compare" />
+            비교하기
+          </h.HeaderIcon>
+        </c.HeaderRight>
+      </c.SelctionReportContainer>
+      <c.CloseIcon src={Xmark} alt="close" onClick={onClose} />
+    </c.SelctionReportHeader>
   )
 }
 

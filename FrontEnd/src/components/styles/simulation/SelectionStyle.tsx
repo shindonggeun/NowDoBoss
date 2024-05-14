@@ -97,6 +97,7 @@ export const SelctionReportContainer = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  margin-right: 1rem;
 `
 
 export const HeaderLeft = styled.div`
@@ -108,10 +109,6 @@ export const HeaderRight = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  @media (max-width: 768px) {
-    padding-right: 1rem;
-  }
 `
 
 export const PrevIcon = styled.img`
@@ -121,12 +118,8 @@ export const PrevIcon = styled.img`
 
 export const CloseIcon = styled.img`
   width: 1rem;
-  padding-left: 1rem;
   margin-top: 4px;
   cursor: pointer;
-  @media (max-width: 768px) {
-    margin-right: 1rem;
-  }
 `
 
 export const HeaderTitle = styled.div`

@@ -15,7 +15,7 @@ export const SummaryHeader = styled.div`
 export const HighLight = styled.div`
   display: flex;
   align-items: center;
-  width: 7rem;
+  min-width: 9rem;
   background-color: #fdffc7;
   font-size: 1.2rem;
   font-weight: 700;

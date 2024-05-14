@@ -338,7 +338,7 @@ export const FranchiseBox = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  min-width: 11rem;
+  min-width: 15rem;
   padding: 0.2rem 1rem;
 `
 

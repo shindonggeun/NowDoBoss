@@ -68,7 +68,7 @@ export const SummaryHeader = styled.div`
 export const HighLight = styled.div`
   display: flex;
   align-items: center;
-  min-width: 9rem;
+  min-width: 12rem;
   background-color: #fdffc7;
   font-size: 1.4rem;
   font-weight: 700;
@@ -95,7 +95,11 @@ export const BodyTop = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-left: 10vw;
+  padding-left: 4rem;
+
+  @media (max-width: 768px) {
+    padding-left: 2rem;
+  }
 `
 
 export const BodyTopTitle = styled.div`

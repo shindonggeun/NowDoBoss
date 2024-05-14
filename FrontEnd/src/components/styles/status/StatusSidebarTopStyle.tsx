@@ -8,7 +8,7 @@ export const HeaderContainer = styled.div`
   flex-direction: column;
   border-radius: 5px 5px 0 0;
   padding: 15px 30px 10px 30px;
-  height: 8vh;
+  min-height: 8vh;
   color: white;
 `
 

@@ -14,7 +14,7 @@ import {
   CommentModifyDataType,
 } from '@src/types/CommunityType'
 import Swal from 'sweetalert2'
-import NotLogin from '@src/common/swal/NotLogin.tsx'
+import NotLogin from '@src/common/swal/NotLogin'
 import { useNavigate } from 'react-router-dom'
 
 interface CommentPropsType {
@@ -27,7 +27,7 @@ const CommentList = (props: CommentPropsType) => {
   const navigate = useNavigate()
   // 댓글 작성창에 들어가는 데이터
   const [commentValue, setCommentValue] = useState<string>('')
-  const [isMod, setIsMod] = useState<boolean>(false)
+  const [isMod, setIsMod] = useState<number | null>(null)
   // 댓글 수정창에 들어가는 데이터
   const [modCommentValue, setModCommentValue] = useState<string>('')
   const [modCommentIdValue, setModCommentIdValue] = useState<number>(0)
@@ -71,12 +71,12 @@ const CommentList = (props: CommentPropsType) => {
     onSuccess: () => {
       // 댓글 수정 성공 시 댓글 목록 재호출
       refetch()
-      setIsMod(false)
+      setIsMod(null)
     },
   })
 
-  const onModify = () => {
-    setIsMod(!isMod)
+  const onModify = (commentId: number) => {
+    setIsMod(isMod === commentId ? null : commentId)
   }
 
   const onSubmitMod = () => {
@@ -169,7 +169,7 @@ const CommentList = (props: CommentPropsType) => {
                     <c.ModButton
                       onClick={() => {
                         setModCommentIdValue(commentData.commentId)
-                        onModify()
+                        onModify(commentData.commentId)
                       }}
                     >
                       {!isMod ? '수정' : '취소'}
@@ -187,7 +187,7 @@ const CommentList = (props: CommentPropsType) => {
                 )}
               </c.CommentContainer>
               {/* 수정 버튼 눌렀을 때 */}
-              {isMod ? (
+              {isMod === commentData.commentId ? (
                 <c.CommentMod>
                   <c.CommentBox>
                     <c.CommentInput

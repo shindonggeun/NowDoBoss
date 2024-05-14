@@ -2,6 +2,7 @@ import {
   BarElement,
   CategoryScale,
   Chart as ChartJS,
+  ChartOptions,
   Legend,
   LinearScale,
   Plugin,
@@ -16,12 +17,11 @@ interface BarChartProps {
   labels: string[]
   values: number[]
   datasetsLabel: string
-  minvalue: number
   pluginUnit: string
 }
 
 const BarChartCompare2 = (props: BarChartProps) => {
-  const { labels, values, datasetsLabel, minvalue, pluginUnit } = props
+  const { labels, values, datasetsLabel, pluginUnit } = props
 
   const data = {
     labels,
@@ -44,7 +44,7 @@ const BarChartCompare2 = (props: BarChartProps) => {
     ],
   }
 
-  const options = {
+  const options: ChartOptions<'bar'> = {
     responsive: true,
     interaction: {
       intersect: false,
@@ -85,7 +85,7 @@ const BarChartCompare2 = (props: BarChartProps) => {
       },
     },
     categoryPercentage: 0.5,
-  }
+  } as ChartOptions<'bar'>
 
   const plugins: Plugin<'bar', unknown>[] = [
     {

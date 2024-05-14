@@ -11,6 +11,7 @@ import com.ssafy.backend.domain.administration.repository.IncomeAdministrationRe
 import com.ssafy.backend.domain.administration.repository.SalesAdministrationRepository;
 import com.ssafy.backend.domain.commercial.document.CommercialAnalysis;
 import com.ssafy.backend.domain.commercial.dto.info.*;
+import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisKafkaRequest;
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
@@ -33,6 +34,7 @@ import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.C;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -281,6 +283,16 @@ public class CommercialServiceImpl implements CommercialService {
                 salesCommercial.getMonthSales()
         );
 
+        // 카프카 토픽에 메시지 저장하기 위해 변환
+        CommercialAnalysisKafkaRequest analysisKafkaRequest = new CommercialAnalysisKafkaRequest(
+                salesDistrict.getDistrictCodeName(),
+                salesAdministration.getAdministrationCodeName(),
+                salesCommercial.getCommercialCodeName(),
+                salesDistrict.getServiceCodeName()
+        );
+
+        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisKafkaRequest);
+
         return new AllSalesResponse(districtTotalSalesInfo, administrationTotalSalesInfo, commercialTotalSalesInfo);
     }
 
@@ -442,8 +454,6 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     public void saveAnalysis(Long memberId, CommercialAnalysisSaveRequest analysisSaveRequest) {
-        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisSaveRequest);
-
         boolean existAnalysis = commercialAnalysisRepository.existsByDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
                 analysisSaveRequest.districtCode(), analysisSaveRequest.administrationCode(),
                 analysisSaveRequest.commercialCode(), analysisSaveRequest.serviceCode());
@@ -467,6 +477,16 @@ public class CommercialServiceImpl implements CommercialService {
                 .build();
 
         commercialAnalysisRepository.save(commercialAnalysis);
+
+        // 카프카 토픽에 메시지 저장하기 위해 변환
+        CommercialAnalysisKafkaRequest analysisKafkaRequest = new CommercialAnalysisKafkaRequest(
+                analysisSaveRequest.districtCodeName(),
+                analysisSaveRequest.administrationCodeName(),
+                analysisSaveRequest.commercialCodeName(),
+                analysisSaveRequest.serviceCodeName()
+        );
+
+        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisKafkaRequest);
     }
 
     @Override

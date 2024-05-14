@@ -1,6 +1,7 @@
-package com.ssafy.backend.global.component.kafka;
+package com.ssafy.backend.global.component.kafka.processor;
 
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAnalysisResponse;
+import com.ssafy.backend.global.component.kafka.serde.JsonSerde;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;

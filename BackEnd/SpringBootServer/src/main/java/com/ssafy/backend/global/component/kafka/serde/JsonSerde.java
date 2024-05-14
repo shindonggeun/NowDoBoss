@@ -1,4 +1,4 @@
-package com.ssafy.backend.global.component.kafka;
+package com.ssafy.backend.global.component.kafka.serde;
 
 import org.apache.kafka.common.serialization.Serde;
 

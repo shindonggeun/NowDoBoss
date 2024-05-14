@@ -41,7 +41,7 @@
     "sonarqube-scanner": "^3.4.0",
     "styled-components": "^6.1.8",
     "styled-reset": "^4.5.2",
-    "sweetalert2": "^11.10.8",
+    "sweetalert2": "^11.11.0",
     "time-counting": "^2.0.2",
     "use-debounce": "^10.0.0",
     "webstomp-client": "^1.2.6",

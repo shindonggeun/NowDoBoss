@@ -45,13 +45,16 @@ const BarChartCompare2 = (props: BarChartProps) => {
   }
 
   const options = {
-    // maintainAspectRatio: false,
     responsive: true,
     interaction: {
       intersect: false,
     },
     layout: {
-      padding: 20,
+      padding: {
+        top: 20,
+        left: 20,
+        right: 20,
+      },
     },
     plugins: {
       legend: {
@@ -66,9 +69,14 @@ const BarChartCompare2 = (props: BarChartProps) => {
       },
       y: {
         display: false,
-        beginAtZero: false,
-        min: minvalue * 0.1,
+        type: 'logarithmic',
+        position: 'left',
+        min: 1,
+        // 로그 스케일에서는 ticks 설정을 조정하여 레이블을 보기 좋게 할 수 있습니다.
         ticks: {
+          callback(value: number) {
+            return Number(value.toString()) // 이 부분은 데이터에 맞게 조정이 필요합니다.
+          },
           stepSize: 1,
         },
         grid: {
@@ -86,7 +94,7 @@ const BarChartCompare2 = (props: BarChartProps) => {
         const { ctx } = chart
         ctx.save()
         chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
-          ctx.font = 'bolder 12px sans-serif'
+          ctx.font = 'bolder 14px sans-serif'
           ctx.fillStyle = data.datasets[0].borderColor[index]
           ctx.textAlign = 'center'
           ctx.fillText(

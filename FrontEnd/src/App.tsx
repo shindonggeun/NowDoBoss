@@ -29,6 +29,12 @@ import ChattingDetailPage from '@src/pages/ChattingDetailPage'
 // firebase config 파일 실행
 import '@src/util/auth/firebaseMessage'
 
+declare global {
+  interface Window {
+    Kakao: any
+  }
+}
+
 function App() {
   function setScreenSize() {
     const vh = window.innerHeight * 0.01

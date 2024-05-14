@@ -61,9 +61,11 @@ public class CommercialController {
     )
     @GetMapping("/foot-traffic/{commercialCode}")
     public ResponseEntity<Message<CommercialFootTrafficResponse>> getFootTrafficByCommercialCodeAndPeriod(
+            @AuthenticationPrincipal MemberLoginActive loginActive,
             @RequestParam(defaultValue = "20233") String periodCode,
             @PathVariable String commercialCode) {
-        CommercialFootTrafficResponse footTrafficResponse = commercialService.getFootTrafficByPeriodAndCommercialCode(periodCode, commercialCode);
+
+        CommercialFootTrafficResponse footTrafficResponse = commercialService.getFootTrafficByPeriodAndCommercialCode(periodCode, commercialCode, loginActive.id());
         return ResponseEntity.ok().body(Message.success(footTrafficResponse));
     }
 

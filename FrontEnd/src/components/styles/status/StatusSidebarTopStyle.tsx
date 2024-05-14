@@ -8,7 +8,7 @@ export const HeaderContainer = styled.div`
   flex-direction: column;
   border-radius: 5px 5px 0 0;
   padding: 15px 30px 10px 30px;
-  height: 8vh;
+  min-height: 8vh;
   color: white;
 `
 
@@ -54,7 +54,7 @@ export const SeparateLine = styled.div`
 `
 
 interface ItemProps {
-  islast: boolean
+  $islast: boolean
   index: number
 }
 
@@ -64,7 +64,7 @@ export const Item = styled.div<ItemProps>`
   justify-content: space-between;
   margin: 1vh 0;
   padding-bottom: 5px;
-  border-bottom: ${props => (props.islast ? 'none' : '1px solid #ABC4E9')};
+  border-bottom: ${props => (props.$islast ? 'none' : '1px solid #ABC4E9')};
   font-size: 0.9rem;
   animation: fadeInItem 0.2s ease-in-out ${props => props.index * 0.1}s forwards;
 
@@ -123,7 +123,7 @@ export const Traffic = styled.div`
 `
 
 interface RateType {
-  isUp: boolean
+  $isup: boolean
 }
 
 export const Percent = styled.div<RateType>`
@@ -131,7 +131,7 @@ export const Percent = styled.div<RateType>`
   align-items: center;
   justify-content: flex-end;
   width: 80px;
-  color: ${props => (props.isUp ? '#FF0000' : '#0066FF')};
+  color: ${props => (props.$isup ? '#FF0000' : '#0066FF')};
 `
 
 export const UpIcon = styled.img`

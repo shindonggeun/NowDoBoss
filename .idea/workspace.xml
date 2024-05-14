@@ -4,25 +4,288 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1cf45ef0-d421-4978-8f7e-78a55f3e7c16" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/controller/CommercialController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/controller/CommercialController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/dto/info/CommercialTypeIncomeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/dto/info/CommercialTypeIncomeInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/repository/IncomeCommercialRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/repository/IncomeCommercialRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/service/CommercialService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/service/CommercialService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/service/CommercialServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/SpringBootServer/src/main/java/com/ssafy/backend/domain/commercial/service/CommercialServiceImpl.java" afterDir="false" />
+    <list default="true" id="1cf45ef0-d421-4978-8f7e-78a55f3e7c16" name="Changes" comment="[FE] feat: fcm api 작성">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/api/chattingApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/api/chattingApi.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/chatting/ChattingList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/chatting/ChattingList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/fe-fcm" />
+                    <option name="lastUsedInstant" value="1715576686" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="develop" />
+                    <option name="lastUsedInstant" value="1715576640" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2gOAmPUPfZVpQRcVyIHkN0YUABB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "feature/be-commercial/income",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "feature/fe-fcm",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\SSAFY\\WebstormProjects\\S10P31C208\\FrontEnd\\node_modules\\prettier",
+    "ts.external.directory.path": "C:\\Users\\SSAFY\\WebstormProjects\\S10P31C208\\FrontEnd\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <created>1715558416695</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1715558416695</updated>
+      <workItem from="1715558419750" duration="16108000" />
+      <workItem from="1715595836293" duration="20349000" />
+    </task>
+    <task id="LOCAL-00001" summary="[FE] fix: 카카오맵 app key 수정">
+      <option name="closed" value="true" />
+      <created>1715559981723</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1715559981723</updated>
+    </task>
+    <task id="LOCAL-00002" summary="[FE] chore: debounce 모듈 설치">
+      <option name="closed" value="true" />
+      <created>1715564831055</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1715564831055</updated>
+    </task>
+    <task id="LOCAL-00003" summary="[FE] fix: 채팅 네비바 반응형 로직 수정">
+      <option name="closed" value="true" />
+      <created>1715569761001</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1715569761001</updated>
+    </task>
+    <task id="LOCAL-00004" summary="[FE] fix: 내 채팅방 목록 조회 api 수정">
+      <option name="closed" value="true" />
+      <created>1715569802307</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1715569802307</updated>
+    </task>
+    <task id="LOCAL-00005" summary="[FE] feat: 내 채팅방 검색 컴포넌트 분리 및 반응형 추가">
+      <option name="closed" value="true" />
+      <created>1715569848445</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1715569848445</updated>
+    </task>
+    <task id="LOCAL-00006" summary="[FE] style: 채팅방 입력창 style 수정">
+      <option name="closed" value="true" />
+      <created>1715573371171</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1715573371171</updated>
+    </task>
+    <task id="LOCAL-00007" summary="[FE] style: 채팅 인기방 버튼 수정">
+      <option name="closed" value="true" />
+      <created>1715576543314</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1715576543314</updated>
+    </task>
+    <task id="LOCAL-00008" summary="[FE] feat: firebase 서비스 워커 코드 추가">
+      <option name="closed" value="true" />
+      <created>1715611259517</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1715611259517</updated>
+    </task>
+    <task id="LOCAL-00009" summary="[FE] feat: firebase config 코드 추가">
+      <option name="closed" value="true" />
+      <created>1715611324687</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1715611324687</updated>
+    </task>
+    <task id="LOCAL-00010" summary="[FE] chore: firebase 8.10.0 모듈 추가">
+      <option name="closed" value="true" />
+      <created>1715611352641</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1715611352641</updated>
+    </task>
+    <task id="LOCAL-00011" summary="[FE] feat: firebase env 설정 추가">
+      <option name="closed" value="true" />
+      <created>1715612729154</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1715612729154</updated>
+    </task>
+    <task id="LOCAL-00012" summary="[FE] feat: 로그인 시 fcm 토큰 가져오는 로직 구현">
+      <option name="closed" value="true" />
+      <created>1715612764930</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1715612764930</updated>
+    </task>
+    <task id="LOCAL-00013" summary="[FE] feat: 렌더링 시 알림 여부 확인">
+      <option name="closed" value="true" />
+      <created>1715612798981</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1715612798981</updated>
+    </task>
+    <task id="LOCAL-00014" summary="[FE] feat: 소셜 로그인 fcm 토큰 저장 로직 추가">
+      <option name="closed" value="true" />
+      <created>1715612826842</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1715612826842</updated>
+    </task>
+    <task id="LOCAL-00015" summary="[FE] feat: fcm 토큰 저장 post api 추가">
+      <option name="closed" value="true" />
+      <created>1715612903365</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1715612903365</updated>
+    </task>
+    <task id="LOCAL-00016" summary="[FE] merge: 충돌 해결">
+      <option name="closed" value="true" />
+      <created>1715613453842</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1715613453842</updated>
+    </task>
+    <task id="LOCAL-00017" summary="[FE] feat: 회원 탈퇴 시 토큰 제거 api 연결">
+      <option name="closed" value="true" />
+      <created>1715614585796</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1715614585796</updated>
+    </task>
+    <task id="LOCAL-00018" summary="[FE] feat: fcm 구독, 알림 type 생성">
+      <option name="closed" value="true" />
+      <created>1715618665461</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1715618665462</updated>
+    </task>
+    <task id="LOCAL-00019" summary="[FE] feat: fcm topic 구독 구현">
+      <option name="closed" value="true" />
+      <created>1715618732253</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1715618732253</updated>
+    </task>
+    <task id="LOCAL-00020" summary="[FE] feat: fcm topic 구독 구현">
+      <option name="closed" value="true" />
+      <created>1715618839744</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1715618839744</updated>
+    </task>
+    <task id="LOCAL-00021" summary="[FE] feat: fcm api 작성">
+      <option name="closed" value="true" />
+      <created>1715618851983</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1715618851983</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="[FE] fix: 카카오맵 app key 수정" />
+    <MESSAGE value="[FE] chore: debounce 모듈 설치" />
+    <MESSAGE value="[FE] fix: 채팅 네비바 반응형 로직 수정" />
+    <MESSAGE value="[FE] fix: 내 채팅방 목록 조회 api 수정" />
+    <MESSAGE value="[FE] feat: 내 채팅방 검색 컴포넌트 분리 및 반응형 추가" />
+    <MESSAGE value="[FE] style: 채팅방 입력창 style 수정" />
+    <MESSAGE value="[FE] style: 채팅 인기방 버튼 수정" />
+    <MESSAGE value="[FE] feat: firebase 서비스 워커 코드 추가" />
+    <MESSAGE value="[FE] feat: firebase config 코드 추가" />
+    <MESSAGE value="[FE] chore: firebase 8.10.0 모듈 추가" />
+    <MESSAGE value="[FE] feat: firebase env 설정 추가" />
+    <MESSAGE value="[FE] feat: 로그인 시 fcm 토큰 가져오는 로직 구현" />
+    <MESSAGE value="[FE] feat: 렌더링 시 알림 여부 확인" />
+    <MESSAGE value="[FE] feat: 소셜 로그인 fcm 토큰 저장 로직 추가" />
+    <MESSAGE value="[FE] feat: fcm 토큰 저장 post api 추가" />
+    <MESSAGE value="[FE] merge: 충돌 해결" />
+    <MESSAGE value="[FE] feat: 회원 탈퇴 시 토큰 제거 api 연결" />
+    <MESSAGE value="[FE] feat: fcm 구독, 알림 type 생성" />
+    <MESSAGE value="[FE] feat: fcm topic 구독 구현" />
+    <MESSAGE value="[FE] feat: fcm api 작성" />
+    <option name="LAST_COMMIT_MESSAGE" value="[FE] feat: fcm api 작성" />
   </component>
 </project>

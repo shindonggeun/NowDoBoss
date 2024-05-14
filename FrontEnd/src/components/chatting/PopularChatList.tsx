@@ -11,6 +11,8 @@ import { enterChatRoom } from '@src/api/chattingApi'
 import { PromisePopularMessageType } from '@src/types/ChattingType'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { subscribeTopic } from '@src/api/fcmApi'
+import firebase from 'firebase'
 
 const PopularChatList = ({ data }: { data: PromisePopularMessageType[] }) => {
   const navigate = useNavigate()
@@ -73,6 +75,38 @@ const PopularChatList = ({ data }: { data: PromisePopularMessageType[] }) => {
     }
   }
 
+  // 방 들어갈 때 토픽 구독 로직
+  const { mutate: subscribeTopicMutation } = useMutation({
+    mutationKey: ['subscribeTopic'],
+    mutationFn: subscribeTopic,
+  })
+
+  const messaging = firebase.messaging()
+  const firebaseMessage = async (chatRoomId: number) => {
+    try {
+      const permission = await Notification.requestPermission()
+
+      if (permission === 'granted') {
+        console.log('Notification permission granted.')
+
+        // FCM 토큰을 가져옵니다.
+        messaging
+          .getToken()
+          .then(token => {
+            console.log('Token:', token)
+            subscribeTopicMutation({ token, topic: String(chatRoomId) })
+          })
+          .catch(err => {
+            console.error('Token retrieval failed:', err)
+          })
+      } else {
+        console.log('Unable to get permission to notify.')
+      }
+    } catch (error) {
+      console.error('Permission request failed', error)
+    }
+  }
+
   // 채팅방 입장 mutate 로직
   const { mutate: mutateEnterChatRoom } = useMutation({
     mutationFn: enterChatRoom,
@@ -92,6 +126,7 @@ const PopularChatList = ({ data }: { data: PromisePopularMessageType[] }) => {
 
   const goChatRoom = (chatRoomId: number) => {
     mutateEnterChatRoom(chatRoomId)
+    firebaseMessage(chatRoomId)
   }
 
   return (

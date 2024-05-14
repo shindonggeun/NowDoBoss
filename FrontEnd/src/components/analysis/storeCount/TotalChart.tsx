@@ -40,9 +40,10 @@ const TotalChart = () => {
       <HorizontalBarChart
         labels={labels}
         values={values}
-        datasetsLabel="점포 수"
+        datasetsLabel="점포 수(개)"
         aspectRatio={1.7}
         xDisplay={false}
+        pluginUnit="개"
       />
     </s.TotalChart>
   )

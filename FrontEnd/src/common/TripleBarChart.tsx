@@ -53,6 +53,8 @@ const TripleBar = (props: BarChartProps) => {
     layout: {
       padding: {
         top: 20,
+        left: 10,
+        right: 10,
       },
     },
     scales: {

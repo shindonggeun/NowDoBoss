@@ -64,12 +64,40 @@ export const SelctionHeader = styled.div`
   justify-content: space-between;
   background-color: #236cff;
   padding: 1rem 2rem;
+  min-width: 90%;
 
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
+`
+
+export const SelctionReportHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-color: #236cff;
+  padding: 1rem 2rem;
+  min-width: 90%;
+
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+`
+
+export const SelctionReportContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 1rem;
 `
 
 export const HeaderLeft = styled.div`
@@ -79,6 +107,7 @@ export const HeaderLeft = styled.div`
 
 export const HeaderRight = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
 `
 
@@ -89,7 +118,7 @@ export const PrevIcon = styled.img`
 
 export const CloseIcon = styled.img`
   width: 1rem;
-  padding-left: 1rem;
+  margin-top: 4px;
   cursor: pointer;
 `
 
@@ -101,7 +130,7 @@ export const HeaderTitle = styled.div`
   overflow-wrap: break-word;
   flex-grow: 1;
 
-  @media (max-width: 768px) {
+  @media (max-width: 450px) {
     margin-left: 0;
   }
 `

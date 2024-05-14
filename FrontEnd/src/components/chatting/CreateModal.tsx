@@ -6,6 +6,8 @@ import React, { useState } from 'react'
 import { createChatRoom } from '@src/api/chattingApi'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
+import firebase from 'firebase'
+import { subscribeTopic } from '@src/api/fcmApi'
 
 const style = {
   position: 'absolute' as const,
@@ -49,12 +51,46 @@ const CreateModal = (props: CreateModalPropsType) => {
     { name: '동업제안', value: 'PARTNERSHIP' },
     { name: '창업고민', value: 'START_UP' },
   ]
+  // 방 들어갈 때 토픽 구독 로직
+  const { mutate: subscribeTopicMutation } = useMutation({
+    mutationKey: ['subscribeTopic'],
+    mutationFn: subscribeTopic,
+  })
+
+  // fcm
+  const messaging = firebase.messaging()
+  const firebaseMessage = async (chatRoomId: number) => {
+    try {
+      const permission = await Notification.requestPermission()
+
+      if (permission === 'granted') {
+        console.log('Notification permission granted.')
+
+        // FCM 토큰을 가져옵니다.
+        messaging
+          .getToken()
+          .then(token => {
+            console.log('Token:', token)
+            subscribeTopicMutation({ token, topic: String(chatRoomId) })
+          })
+          .catch(err => {
+            console.error('Token retrieval failed:', err)
+          })
+      } else {
+        console.log('Unable to get permission to notify.')
+      }
+    } catch (error) {
+      console.error('Permission request failed', error)
+    }
+  }
 
   const { mutate: mutateCreateChatRoom } = useMutation({
     mutationKey: ['createChatRoom'],
     mutationFn: createChatRoom,
     onSuccess: res => {
       setModalOpen(false)
+      // 토픽 구독하기
+      firebaseMessage(res.dataBody.chatRoomId)
       return navigate(`/chatting/${res.dataBody.chatRoomId}`)
     },
   })

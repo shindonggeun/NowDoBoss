@@ -1,10 +1,8 @@
 import analysisStore from '@src/stores/analysisStore'
-import { SalesErrPropsType } from '@src/types/AnalysisType'
 import BarChart2 from '@src/common/BarChart2'
 import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 
-const WeekSalesChart = (props: SalesErrPropsType) => {
-  const { salesErr } = props
+const WeekSalesChart = () => {
   const salesDataBody = analysisStore(state => state.salesDataBody)
 
   const labels: string[] = ['월', '화', '수', '목', '금', '토', '일']
@@ -16,26 +14,25 @@ const WeekSalesChart = (props: SalesErrPropsType) => {
   const maxLabel: string = labels[values.indexOf(maxValue)]
   // 가장 낮은 값 찾기
   const minValue = Math.min(...values)
+  // values 배열의 총합 구하기
+  const totalSum: number = values.reduce((acc, current) => acc + current, 0)
+  // 백분율로 나타낸 배열 생성
+  const percentageValues = values.map(value =>
+    Math.round((value / totalSum) * 100),
+  )
 
   return (
     <s.WeekSalesChart>
       <s.ChartTitle>요일별 매출액</s.ChartTitle>
-      {salesErr ? (
-        <div>{salesErr}</div>
-      ) : (
-        <>
-          <s.ChartSubTitle>
-            {maxLabel}요일 매출액이 가장 높아요.
-          </s.ChartSubTitle>
-          <BarChart2
-            labels={labels}
-            values={values}
-            minValue={minValue}
-            datasetsLabel="매출액(원)"
-            pluginUnit="원"
-          />
-        </>
-      )}
+      <s.ChartSubTitle>{maxLabel}요일 매출액이 가장 높아요.</s.ChartSubTitle>
+      <BarChart2
+        labels={labels}
+        values={values}
+        minValue={minValue}
+        datasetsLabel="매출액(원)"
+        pluginUnit="원"
+        pluginValues={percentageValues}
+      />
     </s.WeekSalesChart>
   )
 }

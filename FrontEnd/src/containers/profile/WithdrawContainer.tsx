@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 import { deleteAccount } from '@src/api/profileApi'
 import * as w from '@src/containers/profile/WithdrawContainerStyle'
+import { deleteFcmToken } from '@src/api/fcmApi'
+import firebase from 'firebase'
 
 const WithdrawContainer = () => {
   const queryClient = useQueryClient()
@@ -32,10 +34,40 @@ const WithdrawContainer = () => {
         // 캐시된 데이터 업데이트 및 삭제
         queryClient.invalidateQueries({ queryKey: ['GetMemberInfoData'] })
 
+        // fcm 토큰 요청 후 삭제
+        firebaseMessage()
+
         navigate('/account-deleted')
       }
     },
   })
+
+  const { mutate: DeleteFcmToken } = useMutation({
+    mutationKey: ['DeleteFcmToken'],
+    mutationFn: deleteFcmToken,
+  })
+
+  const messaging = firebase.messaging()
+  const firebaseMessage = async () => {
+    try {
+      const permission = await Notification.requestPermission()
+
+      if (permission === 'granted') {
+        messaging
+          .getToken()
+          .then(token => {
+            DeleteFcmToken(token)
+          })
+          .catch(err => {
+            console.error('Token retrieval failed:', err)
+          })
+      } else {
+        console.log('Unable to get permission to notify.')
+      }
+    } catch (error) {
+      console.error('Permission request failed', error)
+    }
+  }
 
   const handleSubmit = () => {
     if (isAgreed) {

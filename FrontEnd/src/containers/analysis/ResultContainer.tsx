@@ -3,11 +3,10 @@ import { useQuery } from '@tanstack/react-query'
 import analysisStore from '@src/stores/analysisStore'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
 import {
-  getFlowPopulationData,
   getResidentPopulationData,
   getStoreCountData,
 } from '@src/api/analysisApi'
-import FlowPopulationAnalysis from '@src/components/analysis/flowPopulation/FlowPopulationAnalysis'
+import FlowPopulationAnalysisContainer from '@src/containers/analysis/FlowPopulationAnalysisContainer'
 import FacilitiesAnalysis from '@src/components/analysis/facilities/FacilitiesAnalysis'
 import StoreCountAnalysis from '@src/components/analysis/storeCount/StoreCountAnalysis'
 import SalesAnalysisContainer from '@src/containers/analysis/SalesAnalysisContainer'
@@ -21,7 +20,6 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
   const {
     selectedService,
-    setFlowPopulationDataBody,
     setStoreCountDataBody,
     setResidentPopulationDataBody,
   } = analysisStore()
@@ -48,22 +46,6 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       block: 'start',
     })
   }
-
-  // 유동인구
-  const { data: FlowPopulationData, status: flowPopulationStatus } = useQuery({
-    queryKey: ['GetFlowPopulationData', selectedCommercial.code],
-    queryFn: () => getFlowPopulationData(String(selectedCommercial.code)),
-    enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
-  })
-
-  useEffect(() => {
-    if (
-      flowPopulationStatus === 'success' &&
-      FlowPopulationData?.dataHeader.successCode === 0
-    ) {
-      setFlowPopulationDataBody(FlowPopulationData.dataBody)
-    }
-  }, [flowPopulationStatus, FlowPopulationData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 점포 수
   const { data: StoreCountData, status: storeCountStatus } = useQuery({
@@ -111,7 +93,7 @@ const ResultContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
           <SideBarMenu moveTo={moveTo} />
         </a.Sidebar>
         <a.Main>
-          <FlowPopulationAnalysis ref={flowRef} />
+          <FlowPopulationAnalysisContainer ref={flowRef} />
           <FacilitiesAnalysis ref={facilitiesRef} />
           <StoreCountAnalysis ref={storeRef} />
           <SalesAnalysisContainer ref={salesRef} />

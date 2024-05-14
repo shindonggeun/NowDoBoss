@@ -1,6 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
 import { getSocialAuthUrl } from '@src/api/userApi'
 import * as s from '@src/containers/User/SocialLoginContainerStyle'
+import firebase from 'firebase'
+import { saveFcmToken } from '@src/api/fcmApi'
 
 interface Props {
   state: string
@@ -17,10 +19,32 @@ const SocialLoginContainer = (props: Props) => {
     },
   })
 
-  const handleRedirectUrl = (oAuthDomain: string) => {
-    GetSocialAuthUrl(oAuthDomain)
+  // FCM 토큰을 서버로 보내는 Mutation
+  const { mutate: saveFcmTokenMutation } = useMutation({
+    mutationFn: saveFcmToken,
+  })
+
+  // 표준 Notification API를 사용하여 알림 권한 요청
+  const messaging = firebase.messaging()
+
+  const firebaseMessage = async () => {
+    try {
+      const permission = await Notification.requestPermission()
+      if (permission === 'granted') {
+        // FCM 토큰을 가져옵니다.
+        messaging.getToken().then(token => {
+          saveFcmTokenMutation(token)
+        })
+      }
+    } catch (error) {
+      console.error('Permission request failed', error)
+    }
   }
 
+  const handleRedirectUrl = (oAuthDomain: string) => {
+    GetSocialAuthUrl(oAuthDomain)
+    setTimeout(() => firebaseMessage(), 1000)
+  }
   return (
     <s.Container>
       {state === 'login' ? (

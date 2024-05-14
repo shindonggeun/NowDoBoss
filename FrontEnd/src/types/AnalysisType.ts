@@ -288,21 +288,6 @@ export type ChoiceServiceDetailPropsType = {
   serviceList: SelectedServiceType[]
 }
 
-export type SalesErrPropsType = {
-  salesErr: string
-}
-export type TotalSalesErrPropsType = {
-  totalSalesErr: string
-}
-
-export type ExpenditureErrPropsType = {
-  expenditureErr: string
-}
-
-export type TotalExpenditureErrPropsType = {
-  totalExpenditureErr: string
-}
-
 // store type
 export type AnalysisStoreType = {
   selectedServiceType: string // 선택한 업종 대분류

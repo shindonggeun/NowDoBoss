@@ -10,6 +10,7 @@ export type BarChartPropsType = {
   minValue: number
   datasetsLabel: string
   pluginUnit: string
+  pluginValues?: number[]
 }
 
 export type ComboChartPropsType = {
@@ -41,4 +42,5 @@ export type HorizontalBarChartPropsType = {
   datasetsLabel: string
   aspectRatio: number
   xDisplay: boolean
+  pluginValues?: number[]
 }

@@ -99,18 +99,26 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
     <div ref={ref}>
       <CategoryTitleCard src="/images/sales.png" title="매출분석" />
-      <s.FirstLowContainer>
-        <ExpectChart totalSalesErr={totalSalesErr} />
-        <AgeChart salesErr={salesErr} />
-      </s.FirstLowContainer>
-      <s.SecondLowContainer>
-        <TodaySalesChart salesErr={salesErr} />
-        <TodayNumberChart salesErr={salesErr} />
-      </s.SecondLowContainer>
-      <s.ThirdLowContainer>
-        <WeekSalesChart salesErr={salesErr} />
-        <WeekNumberChart salesErr={salesErr} />
-      </s.ThirdLowContainer>
+      {totalSalesErr || salesErr ? (
+        <s.ErrBox>
+          해당 분기에 해당하는 매출분석 데이터가 존재하지 않습니다.
+        </s.ErrBox>
+      ) : (
+        <>
+          <s.FirstLowContainer>
+            <ExpectChart />
+            <AgeChart />
+          </s.FirstLowContainer>
+          <s.SecondLowContainer>
+            <TodaySalesChart />
+            <TodayNumberChart />
+          </s.SecondLowContainer>
+          <s.ThirdLowContainer>
+            <WeekSalesChart />
+            <WeekNumberChart />
+          </s.ThirdLowContainer>
+        </>
+      )}
     </div>
   )
 })

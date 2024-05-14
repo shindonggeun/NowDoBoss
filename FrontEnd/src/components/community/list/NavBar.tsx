@@ -3,6 +3,7 @@ import { useState } from 'react'
 import useCommunityStore, { Category } from '@src/stores/communityStore'
 import { useNavigate } from 'react-router-dom'
 import penIcon from '@src/assets/pen.svg'
+import NotLogin from '@src/common/swal/NotLogin.tsx'
 
 export type NavBarPropsType = {
   setCategory: (category: Category) => void
@@ -10,6 +11,9 @@ export type NavBarPropsType = {
 const NavBar = (props: NavBarPropsType) => {
   const { setCategory } = props
   const navigate = useNavigate()
+
+  // 로그인 한 사용자인지 확인
+  const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
 
   // store에 저장해둔 카테고리 받아오기
   const { categories, selectedCategory, setModifyCommunityId } =
@@ -24,9 +28,14 @@ const NavBar = (props: NavBarPropsType) => {
     selectedCategory.name ? selectedCategory.name : '전체보기',
   )
 
+  // 게시글 작성 로직
   const handleCreate = () => {
-    setModifyCommunityId(Number(0))
-    navigate('/community/register')
+    if (userLoggedIn) {
+      setModifyCommunityId(Number(0))
+      navigate('/community/register')
+    } else {
+      NotLogin(navigate)
+    }
   }
 
   return (
@@ -40,8 +49,6 @@ const NavBar = (props: NavBarPropsType) => {
         <n.CreateButton onClick={handleCreate}>
           {/* <b>성공하고싶나요?</b> */}게시글 작성하기 &nbsp;&nbsp;→
         </n.CreateButton>
-
-        <n.CreateIcon src={penIcon} onClick={handleCreate} />
 
         {categories.map(navCategory => (
           <n.Category
@@ -65,6 +72,7 @@ const NavBar = (props: NavBarPropsType) => {
           </n.Category>
         ))}
       </n.Community>
+      <n.CreateIcon src={penIcon} onClick={handleCreate} />
     </n.Container>
   )
 }

@@ -26,7 +26,7 @@ export const Container = styled.div`
 
   @media only screen and (max-width: 400px) {
     padding: 5px 10px;
-    width: calc(100vw - 20px);
+    width: 98vw;
   }
 `
 export const Community = styled.div`
@@ -109,23 +109,16 @@ export const CreateIcon = styled.img`
   @media only screen and (max-width: 992px) {
     display: flex;
     cursor: pointer;
-    scale: 1.2;
-    padding: 0.25rem 0.5rem;
-  }
-  @media only screen and (max-width: 830px) {
-    display: flex;
     scale: 1.5;
     padding: 0.25rem 0.5rem;
   }
+
   @media only screen and (max-width: 500px) {
-    display: flex;
     scale: 1.2;
     padding: 0.25rem;
   }
   @media only screen and (max-width: 455px) {
-    display: flex;
     scale: 1;
-    padding: 0;
   }
 `
 

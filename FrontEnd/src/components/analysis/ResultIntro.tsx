@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
 import analysisStore from '@src/stores/analysisStore'
+import { ResultIntroPropsType } from '@src/types/AnalysisType'
 import * as r from '@src/components/styles/analysis/ResultIntroStyle'
 
-const ResultIntro = () => {
+const ResultIntro = (props: ResultIntroPropsType) => {
+  const { handlePostAnalysisBookmarks } = props
   const selectedGoo = selectPlaceStore(state => state.selectedGoo)
   const selectedDong = selectPlaceStore(state => state.selectedDong)
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
@@ -38,18 +40,23 @@ const ResultIntro = () => {
 
   return (
     <r.Container>
-      <r.InfoDiv>
-        <r.ServiceText>
-          {selectedService.serviceCodeName} ({type})
-        </r.ServiceText>
-        <r.CommercialText>{selectedCommercial.name}</r.CommercialText>
-        <r.GuText>
-          서울시 {selectedGoo.name} {selectedDong.name}
-        </r.GuText>
+      <r.LeftWrap>
+        <r.InfoDiv>
+          <r.ServiceText>
+            {selectedService.serviceCodeName} ({type})
+          </r.ServiceText>
+          <r.CommercialText>{selectedCommercial.name}</r.CommercialText>
+          <r.GuText>
+            서울시 {selectedGoo.name} {selectedDong.name}
+          </r.GuText>
+          <r.BookmarksDiv onClick={() => handlePostAnalysisBookmarks()}>
+            <r.BookmarkText>분석 리포트 저장하기</r.BookmarkText>
+          </r.BookmarksDiv>
+        </r.InfoDiv>
         <r.ShareBox>
-          <r.ShareBoxText>분석 리포트 공유하기</r.ShareBoxText>
+          <r.ShareBoxText>카카오톡 공유 바로가기</r.ShareBoxText>
         </r.ShareBox>
-      </r.InfoDiv>
+      </r.LeftWrap>
       <r.WarningDiv>
         <r.WarnTitle>책임의 한계 안내</r.WarnTitle>
         <r.Text>

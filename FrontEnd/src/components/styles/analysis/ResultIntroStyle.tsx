@@ -11,9 +11,19 @@ export const Container = styled.div`
     gap: 10px;
   }
 `
-export const InfoDiv = styled.div`
+
+export const LeftWrap = styled.div`
   display: flex;
   flex: 1;
+  flex-direction: column;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`
+
+export const InfoDiv = styled.div`
+  display: flex;
   flex-direction: column;
   padding: 20px;
   background: linear-gradient(to right, #71b6ff 0%, #99c5fd 100%);
@@ -32,12 +42,16 @@ export const ServiceText = styled.div`
 `
 
 export const CommercialText = styled.div`
+  display: block;
   color: #ffffff;
   font-size: 1.5rem;
   font-weight: 500;
   margin-bottom: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 `
-
 export const GuText = styled.div`
   display: flex;
   color: #ffffff;
@@ -45,32 +59,68 @@ export const GuText = styled.div`
   margin-bottom: 8px;
 `
 
-export const ShareBox = styled.div`
+export const BookmarksDiv = styled.div`
   padding: 10px 0;
   background-color: rgba(102, 102, 102, 0.4);
   border-radius: 7px;
   box-sizing: border-box;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(102, 102, 102, 0.6); /* 호버 시 배경색 변경 */
+  }
 `
 
-export const ShareBoxText = styled.div`
+export const BookmarkText = styled.div`
   display: block;
   color: #ffffff;
   font-size: 16px;
   text-align: center;
+
+  &:hover {
+    color: #cccccc; /* 호버 시 텍스트 색상 변경 */
+  }
+`
+export const ShareBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #fdbd5b; // 카카오톡의 대표적인 노란색
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #e5d85c; // 조금 더 어두운 노란색
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`
+
+export const ShareBoxText = styled.div`
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
 `
 
 export const WarningDiv = styled.div`
-  display: flex;
-  flex: 3;
-  flex-direction: column;
-  box-sizing: border-box;
-  padding: 20px; /
-  background-color: #f8f9fa; 
-  border: 1px solid #ced4da; 
-  border-radius: 5px; 
-  color: #495057; 
-  font-size: 0.9rem;
-  font-weight: 400;
+    display: flex;
+    flex: 3;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 20px;
+/ background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    color: #495057;
+    font-size: 0.9rem;
+    font-weight: 400;
 `
 
 export const WarnTitle = styled.div`

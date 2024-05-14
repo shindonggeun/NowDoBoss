@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -28,28 +27,20 @@ public class WordCountProcessor {
         messageStream.peek((key, value) -> log.info("Received message with key: {}, value: {}", key, value));
 
         KTable<String, Long> wordCounts = messageStream
-                .flatMapValues(this::normalizeAndSplitFields)
+                .flatMapValues(this::extractAndCategorizeValues)
                 .groupBy((key, word) -> word, Grouped.with(STRING_SERDE, STRING_SERDE))
-                .count(Materialized.as("counts"));
+                .count(Materialized.as("ranking"));
 
-        wordCounts.toStream().to("commercial-word-count-output", Produced.with(STRING_SERDE, Serdes.Long()));
+        wordCounts.toStream().to("commercial-analysis-output", Produced.with(STRING_SERDE, Serdes.Long()));
     }
 
-    private List<String> normalizeAndSplitFields(CommercialAnalysisResponse value) {
-        List<String> words = new ArrayList<>();
-        words.add(value.districtCode());
-        words.add(value.districtCodeName());
-        words.add(value.administrationCode());
-        words.add(value.administrationCodeName());
-        words.add(value.commercialCode());
-        words.add(value.commercialCodeName());
-        words.add(value.serviceType().toString());
-        words.add(value.serviceCode());
-        words.add(value.serviceCodeName());
-        return words;
+    private List<String> extractAndCategorizeValues(CommercialAnalysisResponse value) {
+        List<String> categorizedWords = new ArrayList<>();
+        categorizedWords.add("District:" + value.districtCodeName());
+        categorizedWords.add("Administration:" + value.administrationCodeName());
+        categorizedWords.add("Commercial:" + value.commercialCodeName());
+        categorizedWords.add("Service:" + value.serviceCodeName());
+        return categorizedWords;
     }
 
-    private List<String> normalizeAndSplit(String text) {
-        return Arrays.asList(text.toLowerCase().split("\\s+|,|\\.|;|:|\\(|\\)|\\[|\\]|!|\"|'"));
-    }
 }

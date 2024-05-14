@@ -1,7 +1,9 @@
 package com.ssafy.backend.global.component.kafka.service;
 
-import java.util.Map;
+import com.ssafy.backend.global.component.kafka.dto.response.RankingResponse;
+
 
 public interface KafkaStreamService {
-    Map<String, Long> getAllCounts();
+    RankingResponse getRankings();
+
 }

@@ -30,7 +30,6 @@ def recommend_commercial_areas(request: UserRequest):
         response = spark_reco.recommend_commercials(spark, request.userId)
         # 응답 로그
         print(f"Sending response: {response}")
-        stop_spark(spark)
         return response
     except Exception as e:
         # 에러 로그
@@ -64,8 +63,8 @@ def start_update_spark():
         .getOrCreate()
     return spark
 
-def stop_spark(spark):
-    spark.stop()
+# def stop_spark(spark):
+#     spark.stop()
 
 if __name__ == "__main__":
     import uvicorn

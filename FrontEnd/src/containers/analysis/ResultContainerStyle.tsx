@@ -1,12 +1,17 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  padding: 0 3%;
+  margin-top: 50vh;
+  padding: 0 10%;
   width: 100%;
   //height: 100vh;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 425px) {
+    padding: 0 3%;
+  }
 `
 
 export const Wrap = styled.div`

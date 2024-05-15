@@ -75,13 +75,20 @@ export const BookmarksDiv = styled.div`
 export const BookmarkText = styled.div`
   display: block;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 1rem;
   text-align: center;
 
   &:hover {
     color: #cccccc; /* 호버 시 텍스트 색상 변경 */
   }
 `
+export const BookmarksSmallText = styled.div`
+  display: block;
+  color: #ffffff;
+  font-size: 0.7rem;
+  text-align: center;
+`
+
 export const ShareBox = styled.div`
   display: flex;
   justify-content: center;

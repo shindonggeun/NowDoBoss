@@ -3,7 +3,7 @@ import pandas as pd
 from pyspark.sql import Row
 from motor.motor_asyncio import AsyncIOMotorClient
 
-client = AsyncIOMotorClient("mongodb://k10C208.p.ssafy.io:27017/")
+client = AsyncIOMotorClient("mongodb://localhost:27017/")
 db = client.nowdoboss  # 데이터베이스 선택
 
 async def get_mongodb_data():

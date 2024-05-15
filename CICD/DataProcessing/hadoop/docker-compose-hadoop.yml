@@ -1,0 +1,38 @@
+version: "3.8"  # Docker Compose 파일 버전을 지정합니다. "3.8"은 사용 가능한 최신 버전 중 하나입니다.
+
+services:
+  master1:
+    build: 
+      context: .
+      dockerfile: hd-base.Dockerfile
+    container_name: master1
+    hostname: master1
+    ports:
+      - "29870:9870"    # NameNode Web UI
+      - "28088:8088"    # ResourceManager Web UI
+      - "29888:19888"   # MapReduce JobHistory Server Web UI
+    networks:
+      - nowdoboss_net  # 사용할 네트워크를 지정합니다.
+
+  worker1:
+    build: 
+      context: .
+      dockerfile: hd-base.Dockerfile
+    container_name: worker1
+    hostname: worker1
+    networks:
+      - nowdoboss_net  # 사용할 네트워크를 지정합니다.
+
+  worker2:
+    build: 
+      context: .
+      dockerfile: hd-base.Dockerfile
+    container_name: worker2
+    hostname: worker2
+    networks:
+      - nowdoboss_net  # 사용할 네트워크를 지정합니다.
+
+networks:
+  nowdoboss_net:  # 사용할 네트워크를 정의합니다.
+    name: nowdoboss_net
+    driver: bridge

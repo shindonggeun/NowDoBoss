@@ -9,9 +9,12 @@ export const getServiceData = async (commercialCode: string) => {
 }
 
 // 유동인구
-export const getFlowPopulationData = async (commercialCode: string) => {
+export const getFlowPopulationData = async (
+  commercialCode: string,
+  periodCode: string,
+) => {
   return customAxios
-    .get(`/commercial/foot-traffic/${commercialCode}`)
+    .get(`/commercial/foot-traffic/${commercialCode}?periodCode=${periodCode}`)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

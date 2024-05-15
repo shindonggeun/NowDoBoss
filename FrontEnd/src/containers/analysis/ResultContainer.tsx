@@ -38,7 +38,7 @@ const ResultContainer = () => {
 
   useEffect(() => {
     const handleShowButton = () => {
-      if (window.scrollY > 1150) {
+      if (window.scrollY > 1190) {
         setShowButton(true)
       } else {
         setShowButton(false)

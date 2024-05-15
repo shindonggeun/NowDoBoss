@@ -16,17 +16,7 @@ export const Container = styled.div`
 export const ImgDiv = styled.div`
   height: auto;
   align-content: center;
-  //margin-left: -10%; /* Container의 padding을 상쇄 */
-  //margin-right: -10%; /* Container의 padding을 상쇄 */
-  //
-  //@media (max-width: 576px) {
-  //  margin-left: -3%; /* 모바일 화면에서 Container의 padding 상쇄 */
-  //  margin-right: -3%; /* 모바일 화면에서 Container의 padding 상쇄 */
-  //}
-  //
-  //img {
-  //  width: 100%;
-  //}
+
   @media (max-width: 425px) {
     padding: 0 3%;
   }

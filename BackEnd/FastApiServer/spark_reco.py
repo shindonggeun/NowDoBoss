@@ -116,6 +116,11 @@ async def recommend_commercials(spark, userId, background_tasks: BackgroundTasks
     # userId가 유저의 아이디와 같은 경우만 가져오기 
     df_integrated_with_recommendations = df_integrated_with_recommendations[df_integrated_with_recommendations['userId'] == userId]
     
+    if df_integrated_with_recommendations.count() == 0:
+        print("해당 유저의 정보 없음")
+        empty_res = {}
+        return empty_res
+    
     # mongoDB에서 userId에 맞는 레코드 가져오기
     user_weights = await mongoDB.find_weights(userId)
 

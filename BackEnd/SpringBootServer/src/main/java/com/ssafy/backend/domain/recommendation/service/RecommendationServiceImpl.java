@@ -4,6 +4,9 @@ package com.ssafy.backend.domain.recommendation.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationAreaResponse;
+import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
+import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.global.common.document.DataDocument;
 import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
@@ -14,10 +17,6 @@ import reactor.core.publisher.Flux;
 import com.mongodb.MongoWriteException;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAreaResponse;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialKafkaInfo;
-import com.ssafy.backend.domain.commercial.repository.AreaCommercialRepository;
-import com.ssafy.backend.domain.commercial.repository.FootTrafficCommercialRepository;
-import com.ssafy.backend.domain.commercial.repository.SalesCommercialRepository;
-import com.ssafy.backend.domain.commercial.repository.StoreCommercialRepository;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
 import com.ssafy.backend.domain.recommendation.document.RecommendationDocument;
 import com.ssafy.backend.domain.recommendation.dto.info.ClosedRateCommercialInfo;
@@ -41,6 +40,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -56,49 +56,13 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final RedisTemplate<String, String> redisTemplate;
     private final RecommendationRepository recommendationRepository;
     private final KafkaProducer kafkaProducer;
+    private final IncomeCommercialRepository incomeCommercialRepository;
 
     @Override
     public Mono<List<RecommendationResponse>> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
         String periodCode = "20233";
-//        List<UserResponse> commercialData = fetchCommercialData(id).block();
-//
-//        List<RecommendationResponse> responses = new ArrayList<>();
-//        int cnt = 0;
-//
-//        if (administrationCode != null && !administrationCode.isEmpty() && !administrationCode.equals("0")) {
-//            for (UserResponse dto : commercialData) {
-//                String code = getCode(dto);
-//
-//                if (code.equals(administrationCode)) {
-//                    cnt++;
-//                    RecommendationResponse recommendationResponse = createRecommendationResponse(dto, periodCode);
-//                    responses.add(recommendationResponse);
-//
-//                    if (cnt == 3) {
-//                        break;
-//                    }
-//                }
-//            }
-//        } else {
-//            for (UserResponse dto : commercialData) {
-//                String code = getCode(dto);
-//
-//                if (code.substring(0, 5).equals(districtCode)) {
-//                    cnt++;
-//                    RecommendationResponse recommendationResponse = createRecommendationResponse(dto, periodCode);
-//                    responses.add(recommendationResponse);
-//
-//                    if (cnt == 3) {
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//        if (!responses.isEmpty()) {
-//            saveRecommendationsToRedis(id, responses);
-//        }
-//        return responses.isEmpty() ? null : responses;
-        return fetchCommercialData(id)
+
+        return fetchCommercialData(id, districtCode, administrationCode)
                 .flatMapMany(Flux::fromIterable)
                 .filter(dto -> administrationCode != null && !administrationCode.isEmpty() && !administrationCode.equals("0") ?
                         getCode(dto).equals(administrationCode) :
@@ -163,24 +127,9 @@ public class RecommendationServiceImpl implements RecommendationService{
         return recommendationRepository.findByUserId(id);
     }
 
-    private Mono<List<UserResponse>> fetchCommercialData(Long id) {
+    private Mono<List<UserResponse>> fetchCommercialData(Long id, String districtCode, String administrationCode) {
         //FastAPI 서버로부터 데이터를 비동기로 받아옵니다.
-        Mono<List<UserResponse>> commercialData = sendToFastAPIServer(id);
-        // 비동기로 받아온 데이터를 동기적으로 처리하기 위해 blockOptional() 메서드를 사용합니다.
-        //List<UserResponse> commercialData = commercialDataMono.blockOptional().orElse(Collections.emptyList());
-//        List<UserResponse> commercialData = new ArrayList<>();
-//        commercialData.add(new UserResponse("3130323", 2131046L, 87417420000L, 2.205006, 3.039333, 3597924000L, 6.829445));
-//        commercialData.add(new UserResponse("3111005",  6822274L, 874742000L, 6.205006, 1.039333, 3597924000L, 6.5123));
-//        commercialData.add(new UserResponse("3111004", 3189182L, 874172000L, 1.205006, 2.039333, 3597924000L, 5.829445));
-//        commercialData.add(new UserResponse("3111003", 8353018L, 874742000L, 9.205006, 4.039333, 3597924000L, 4.29445));
-//        commercialData.add(new UserResponse("3111006", 296958L, 8741742000L, 12.205006, 5.039333, 3597924000L, 4.829445));
-//        commercialData.add(new UserResponse("3130325", 296879L, 8741742000L, 2.205006, 6.039333, 3597924000L, 3.829445));
-//        commercialData.add(new UserResponse("3130324", 551179L, 87412000L, 2.205006, 7.039333, 3597924000L, 3.29445));
-//        commercialData.add(new UserResponse("3130327", 55947L, 27417420000L, 3.205006, 3.039333, 3597924000L, 2.829445));
-//        commercialData.add(new UserResponse("3130326", 122285L, 4741742000L, 4.205006, 3.039333, 3597924000L, 1.829445));
-//        commercialData.add(new UserResponse("3111002", 4005509L, 87410000L, 2.55205006, 3.039333, 3597924000L, 0.829445));
-
-        return commercialData;
+        return sendToFastAPIServer(id, districtCode, administrationCode);
     }
 
     private String getCode(UserResponse dto) {
@@ -278,11 +227,11 @@ public class RecommendationServiceImpl implements RecommendationService{
         return sortedMyRate;
     }
 
-    public Mono<List<UserResponse>> sendToFastAPIServer(Long id) {
+    public Mono<List<UserResponse>> sendToFastAPIServer(Long id, String districtCode, String administrationCode) {
         // FastAPI 서버 URL 설정 - 로컬버전
-        //String fastApiUrl = "http://localhost:8001/recommend";
+        String fastApiUrl = "http://localhost:8001/recommend";
 
-        String fastApiUrl = "http://13.124.23.220:8000/recommend";
+        //String fastApiUrl = "http://13.124.23.220:8000/recommend";
 
         // 요청에 필요한 데이터 구성
         UserRequest userRequest = new UserRequest(id);
@@ -290,28 +239,64 @@ public class RecommendationServiceImpl implements RecommendationService{
         // WebClient 생성
         WebClient webClient = WebClient.create();
 
-        try {
-            // 요청 전송 로그
-            System.out.println("Sending request to FastAPI server");
-            // 요청 전송 로그
-            System.out.println("Sending request to FastAPI server");
-
-            return webClient.post()
-                    .uri(fastApiUrl)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(BodyInserters.fromValue(new UserRequest(id)))
-                    .retrieve()
-                    .bodyToMono(new ParameterizedTypeReference<List<UserResponse>>() {})
-                    .doOnSuccess(result -> {
+        return webClient.post()
+                .uri(fastApiUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(new UserRequest(id)))
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<UserResponse>>() {})
+                .doOnNext(result -> {
+                    if (result != null && !result.isEmpty()) {
                         System.out.println("Received response with " + result.size() + " items");
                         result.forEach(userResponse -> System.out.println("UserResponse: " + userResponse));
-                    })
-                    .doOnError(error -> System.out.println("Error retrieving data: " + error.getMessage()));
-        } catch (Exception e) {
-            // 에러 로그
-            System.out.println("Failed to send request: " + e.getMessage());
-            throw new RuntimeException("Failed to retrieve recommendations from FastAPI server", e);
+                    } else {
+                        System.out.println("No data received or empty response.");
+                    }
+                })
+                .doOnError(error -> {
+                    System.out.println("Error retrieving data: " + error.getMessage());
+                })
+                .onErrorResume(e -> {
+                    System.out.println("Handling error: " + e.getMessage());
+                    List<UserResponse> list = new ArrayList<>();
+                    list.add(makeBasicUserResponse(id, districtCode, administrationCode));
+                    return Mono.just(list); // 에러 발생 시 빈 리스트 반환
+                });
+    }
+
+    private UserResponse makeBasicUserResponse(Long userId, String districtCode, String administrationCode){
+        if (administrationCode.equals("0")){ // 자치구 코드만으로
+            List<String> administrationCodes = new ArrayList<>();
+            List<String> commercialCodes = new ArrayList<>();
+            List<CommercialAdministrationAreaResponse> list = getAdministrativeAreasByDistrict(districtCode);
+            for (CommercialAdministrationAreaResponse dto: list){
+                administrationCodes.add(dto.administrationCode());
+            }
+            for (String code: administrationCodes){
+                List<AreaCommercial> areaCommercialList = areaCommercialRepository.findByAdministrationCode(code);
+                for (AreaCommercial ac: areaCommercialList){
+                    commercialCodes.add(ac.getCommercialCode());
+                }
+            }
+            return getUserResponse(userId, commercialCodes);
+        } else { // 행정동 코드만으로
+            List<String> commercialCodes = new ArrayList<>();
+            List<AreaCommercial> areaCommercialList = areaCommercialRepository.findByAdministrationCode(administrationCode);
+            for (AreaCommercial ac: areaCommercialList){
+                commercialCodes.add(ac.getCommercialCode());
+            }
+            return getUserResponse(userId, commercialCodes);
         }
+    }
+
+    private UserResponse getUserResponse(Long userId, List<String> commercialCodes){
+        String commercialCode = salesCommercialRepository.findTopSalesCommercialInCommercialCodes(commercialCodes, "20233");
+        Long sales = salesCommercialRepository.findTopSalesByCommercialCode(commercialCode);
+        Long footTraffic = footTrafficCommercialRepository.getCommercialFootTrafficByCommercialCode(commercialCode, "20233");
+        Double openedRate = storeCommercialRepository.getCommercialRateByCommercialCode(commercialCode, "20233").get("openedRate");
+        Double closedRate = storeCommercialRepository.getCommercialRateByCommercialCode(commercialCode, "20233").get("closedRate");;
+        Long consumption = incomeCommercialRepository.getTotalPriceByCommercialCode(commercialCode, "20233");
+        return new UserResponse(userId, commercialCode, footTraffic, sales, openedRate, closedRate, consumption, 0.0);
     }
 
     public void saveRecommendationsToRedis(long userId, List<RecommendationResponse> responses) {
@@ -326,5 +311,16 @@ public class RecommendationServiceImpl implements RecommendationService{
             // JSON 직렬화 실패 시 예외 처리
             e.printStackTrace();
         }
+    }
+
+    public List<CommercialAdministrationAreaResponse> getAdministrativeAreasByDistrict(String districtCode) {
+        List<AreaCommercial> areaCommercialList = areaCommercialRepository.findAllByDistrictCode(districtCode);
+        return areaCommercialList.stream()
+                .map(ac -> new CommercialAdministrationAreaResponse(
+                        ac.getAdministrationCodeName(),
+                        ac.getAdministrationCode())
+                )
+                .distinct() // 중복 제거
+                .collect(Collectors.toList());
     }
 }

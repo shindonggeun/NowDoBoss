@@ -52,8 +52,8 @@ public class StoreCommercialCustomImpl implements StoreCommercialCustom {
 
         // 결과를 Map으로 반환
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("otherStores", totalStoreSum / numCommercialSum);
-        resultMap.put("otherClosedRate", (closedStoreSum / totalStoreSum) * 100);
+        resultMap.put("otherStores", numCommercialSum==0? 0: totalStoreSum / numCommercialSum);
+        resultMap.put("otherClosedRate", totalStoreSum==0? 0: (closedStoreSum / totalStoreSum) * 100);
 
         return resultMap;
     }
@@ -94,8 +94,8 @@ public class StoreCommercialCustomImpl implements StoreCommercialCustom {
 
         // 결과를 Map으로 반환
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("administrationStores", totalStoreSum / numCommercialSum);
-        resultMap.put("administrationClosedRate", (closedStoreSum / totalStoreSum) * 100);
+        resultMap.put("administrationStores", numCommercialSum==0? 0: totalStoreSum / numCommercialSum);
+        resultMap.put("administrationClosedRate", numCommercialSum==0? 0: (closedStoreSum / totalStoreSum) * 100);
 
         return resultMap;
     }
@@ -142,5 +142,35 @@ public class StoreCommercialCustomImpl implements StoreCommercialCustom {
             resultMap.put(result.get(storeCommercial.serviceCodeName), result.get(storeCommercial.totalStore.sum()).longValue());
         }
         return resultMap;
+    }
+
+    @Override
+    public Map<String, Double> getCommercialRateByCommercialCode(String commercialCode, String periodCode) {
+        QStoreCommercial storeCommercial = QStoreCommercial.storeCommercial;
+
+        // 서브쿼리에서 사용할 서브 쿼리용 서브패스 생성
+        com.querydsl.core.types.dsl.NumberPath<Long> allStore = Expressions.numberPath(Long.class, "allStore");
+        com.querydsl.core.types.dsl.NumberPath<Long> openedStore = Expressions.numberPath(Long.class, "openedStore");
+        com.querydsl.core.types.dsl.NumberPath<Long> closedStore = Expressions.numberPath(Long.class, "closedStore");
+
+        // 서브쿼리
+        Tuple res = queryFactory
+                .select(
+                        storeCommercial.commercialCode,
+                        storeCommercial.totalStore.sum().as("allStore"),
+                        storeCommercial.openedStore.sum().as("openedStore"),
+                        storeCommercial.closedStore.sum().as("closedStore")
+                )
+                .from(storeCommercial)
+                .where(storeCommercial.periodCode.eq(periodCode)
+                        .and(storeCommercial.commercialCode.eq(commercialCode)))
+                .groupBy(storeCommercial.commercialCode)
+                .fetchFirst();
+
+        Map<String, Double> map = new HashMap<>();
+        map.put("openedRate", res.get(allStore)==null? 0: res.get(openedStore).doubleValue() / res.get(allStore) * 100);
+        map.put("closedRate", res.get(allStore)==null? 0: res.get(closedStore).doubleValue() / res.get(allStore) * 100);
+
+        return map;
     }
 }

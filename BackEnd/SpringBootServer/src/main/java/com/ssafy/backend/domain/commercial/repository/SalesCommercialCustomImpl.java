@@ -42,6 +42,9 @@ public class SalesCommercialCustomImpl implements SalesCommercialCustom {
         }
 
         // 메인 쿼리 결과 계산
+        if (sumNumCommercial == 0){
+            return 0L;
+        }
         return sumTotalMonthSales / sumNumCommercial;
     }
 
@@ -72,7 +75,48 @@ public class SalesCommercialCustomImpl implements SalesCommercialCustom {
             sumNumCommercial += tuple.get(numCommercial);
         }
 
+        if (sumNumCommercial == 0){
+            return 0L;
+        }
         // 메인 쿼리 결과 계산
         return sumTotalMonthSales / sumNumCommercial;
+    }
+
+    @Override
+    public String findTopSalesCommercialInCommercialCodes(List<String> commercialCodes, String periodCode) {
+        QSalesCommercial salesCommercial = QSalesCommercial.salesCommercial;
+
+        // 쿼리 작성
+        String res = queryFactory
+                .select(salesCommercial.commercialCode)
+                .from(salesCommercial)
+                .where(salesCommercial.periodCode.eq(periodCode)
+                        .and(salesCommercial.commercialCode.in(commercialCodes)))
+                .groupBy(salesCommercial.commercialCode)
+                .orderBy(salesCommercial.monthSales.sum().desc())
+                .limit(1) // 가장 큰 값을 가진 한 개의 결과만 가져옴
+                .fetchFirst(); // 첫 번째 결과만 가져옴 (fetchOne()과 동일한 경우도 있음)
+
+        return res;
+    }
+
+    @Override
+    public Long findTopSalesByCommercialCode(String commercialCode) {
+        QSalesCommercial salesCommercial = QSalesCommercial.salesCommercial;
+
+        com.querydsl.core.types.dsl.NumberPath<Long> totalSales = Expressions.numberPath(Long.class, "totalSales");
+
+        // 쿼리 작성
+        Tuple tuple = queryFactory
+                .select(salesCommercial.commercialCode,
+                        salesCommercial.monthSales.sum().as("totalSales"))
+                .from(salesCommercial)
+                .where(salesCommercial.commercialCode.eq(commercialCode)
+                        .and(salesCommercial.periodCode.eq("20233")))
+                .groupBy(salesCommercial.commercialCode)
+                .orderBy(salesCommercial.monthSales.sum().desc())
+                .fetchFirst(); // 첫 번째 결과만 가져옴 (fetchOne()과 동일한 경우도 있음)
+
+        return tuple.get(totalSales);
     }
 }

@@ -10,4 +10,6 @@ public interface StoreCommercialCustom {
 
     Map<String, Long> getAdministrationStoreByServiceCode(List<String> commercialCodes, String periodCode);
     Map<String, Long> getMyStoreByServiceCode(String commercialCode, String periodCode);
+    Map<String, Double> getCommercialRateByCommercialCode(String commercialCode, String periodCode);
+
 }

@@ -498,11 +498,6 @@ public class CommercialServiceImpl implements CommercialService {
         kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
     }
 
-    private void saveDataForRecommendation(Long id, String commercialCode, String action) {
-        DataDocument dataDocument = new DataDocument(id, Long.parseLong(commercialCode), action);
-        dataRepository.save(dataDocument);
-    }
-
     @Override
     public List<CommercialAnalysisResponse> getMyAnalysisListByMemberId(Long memberId) {
         List<CommercialAnalysis> commercialAnalysisList = commercialAnalysisRepository.findByMemberIdOrderByCreatedAt(memberId);

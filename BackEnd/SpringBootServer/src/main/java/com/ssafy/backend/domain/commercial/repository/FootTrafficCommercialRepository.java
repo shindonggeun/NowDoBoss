@@ -18,4 +18,8 @@ public interface FootTrafficCommercialRepository extends JpaRepository<FootTraff
     @Query(value = "SELECT SUM(total_foot_traffic) / count(*) FROM foot_traffic_commercial WHERE commercial_code IN :commercialCodes " +
             " and period_code = :periodCode", nativeQuery = true)
     Long getAdministrationFootTrafficByPeriodCodeAndCommercialCode(List<String> commercialCodes, String periodCode);
+
+    @Query(value = "SELECT total_foot_traffic FROM foot_traffic_commercial WHERE commercial_code = :commercialCode " +
+            " and period_code = :periodCode", nativeQuery = true)
+    Long getCommercialFootTrafficByCommercialCode(String commercialCode, String periodCode);
 }

@@ -108,7 +108,7 @@ public class RecommendationServiceImpl implements RecommendationService{
                 .collectList()
                 .doOnNext(responses -> {
                     if (!responses.isEmpty()) {
-                        saveRecommendationsToRedis(id, responses);
+                        //saveRecommendationsToRedis(id, responses);
                     }
                 });
     }
@@ -280,7 +280,7 @@ public class RecommendationServiceImpl implements RecommendationService{
 
     public Mono<List<UserResponse>> sendToFastAPIServer(Long id) {
         // FastAPI 서버 URL 설정 - 로컬버전
-        //String fastApiUrl = "http://localhost:8000/recommend";
+        //String fastApiUrl = "http://localhost:8001/recommend";
 
         String fastApiUrl = "http://13.124.23.220:8000/recommend";
 

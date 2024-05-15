@@ -18,7 +18,10 @@ const WeekNumberChart = () => {
   return (
     <s.WeekNumberChart>
       <s.ChartTitle>요일별 매출건수</s.ChartTitle>
-      <s.ChartSubTitle>{maxLabel}요일 매출건수가 가장 높아요.</s.ChartSubTitle>
+      <s.ChartSubTitle>
+        <s.HighlightText>{maxLabel}요일</s.HighlightText> 매출건수가 가장
+        높아요.
+      </s.ChartSubTitle>
       <BarChart2
         labels={labels}
         values={values}

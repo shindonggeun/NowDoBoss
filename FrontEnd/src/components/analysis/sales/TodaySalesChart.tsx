@@ -19,15 +19,34 @@ const TodaySalesChart = () => {
   if (weekdaySum === 0 && weekendSum === 0) {
     chartSubTitle = '매출액 정보가 없어요.'
   } else if (weekdaySum === 0) {
-    chartSubTitle = '주말의 매출액이 100% 이에요.'
+    chartSubTitle = (
+      <>
+        주말의 매출액이 <s.HighlightText>100%</s.HighlightText> 이에요.
+      </>
+    )
   } else if (weekendSum === 0) {
-    chartSubTitle = '주중의 매출액이 100% 이에요.'
+    chartSubTitle = (
+      <>
+        주중의 매출액이 <s.HighlightText>100%</s.HighlightText> 이에요.
+      </>
+    )
   } else {
     const weekdayMultiplier = (weekdaySum / weekendSum).toFixed(1)
     chartSubTitle =
-      parseFloat(weekdayMultiplier) > 1
-        ? `주중의 매출액은 주말보다 약 ${weekdayMultiplier}배 더 많아요.`
-        : `주말의 매출액은 주중보다 약 ${(1 / parseFloat(weekdayMultiplier)).toFixed(1)}배 더 많아요.`
+      parseFloat(weekdayMultiplier) > 1 ? (
+        <>
+          주중의 매출액은 주말보다 약{' '}
+          <s.HighlightText>{weekdayMultiplier}배</s.HighlightText> 더 많아요.
+        </>
+      ) : (
+        <>
+          주말의 매출액은 주중보다 약{' '}
+          <s.HighlightText>
+            {(1 / parseFloat(weekdayMultiplier)).toFixed(1)}배
+          </s.HighlightText>{' '}
+          더 많아요.
+        </>
+      )
   }
 
   // 차트 props

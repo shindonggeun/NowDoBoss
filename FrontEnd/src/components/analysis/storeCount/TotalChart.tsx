@@ -35,7 +35,7 @@ const TotalChart = () => {
       <s.ChartTitle>선택 상권 총 점포 수</s.ChartTitle>
       <s.ChartSubTitle>
         선택하신 업종 {selectedService.serviceCodeName}과 유사한 업종 점포가{' '}
-        {totalStore}개 있어요.
+        <s.HighlightText>{totalStore}개</s.HighlightText> 있어요.
       </s.ChartSubTitle>
       <HorizontalBarChart
         labels={labels}

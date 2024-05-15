@@ -13,7 +13,9 @@ const CloseChart = () => {
       <s.ChartSubTitleWrap>
         <s.ChartSubTitle>{selectedService.serviceCodeName}의</s.ChartSubTitle>
         <s.ChartSubTitle>폐업률은</s.ChartSubTitle>
-        <s.ChartSubTitle>{closedRate}% 이에요.</s.ChartSubTitle>
+        <s.ChartSubTitle>
+          <s.HighlightText>{closedRate}%</s.HighlightText> 이에요.
+        </s.ChartSubTitle>
       </s.ChartSubTitleWrap>
     </s.CloseChart>
   )

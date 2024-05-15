@@ -19,7 +19,9 @@ const FranchiseChart = () => {
       <s.ChartSubTitleWrap>
         <s.ChartSubTitle>{selectedService.serviceCodeName}의</s.ChartSubTitle>
         <s.ChartSubTitle>프랜차이즈 점포는</s.ChartSubTitle>
-        <s.ChartSubTitle>{franchiseeStore}개 있어요.</s.ChartSubTitle>
+        <s.ChartSubTitle>
+          <s.HighlightText>{franchiseeStore}개</s.HighlightText> 있어요.
+        </s.ChartSubTitle>
       </s.ChartSubTitleWrap>
       <HalfDoughnutChart labels={labels} values={values} />
     </s.FranchiseChart>

@@ -1,6 +1,5 @@
 package com.ssafy.backend.domain.commercial.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalIncomeInfo;
 import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalSalesInfo;
 import com.ssafy.backend.domain.administration.entity.IncomeAdministration;
@@ -36,7 +35,6 @@ import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.C;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

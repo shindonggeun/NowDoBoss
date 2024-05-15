@@ -13,6 +13,8 @@ import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 import org.springframework.kafka.config.StreamsBuilderFactoryBean;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -25,8 +27,11 @@ public class KafkaStreamServiceImpl implements KafkaStreamService {
     public RankingResponse getRankings() {
         KafkaStreams kafkaStreams = factoryBean.getKafkaStreams();
         ReadOnlyKeyValueStore<String, Long> countsStore = kafkaStreams.store(
-                StoreQueryParameters.fromNameAndType("ranking", QueryableStoreTypes.keyValueStore())
+                StoreQueryParameters.fromNameAndType("analysis-ranking", QueryableStoreTypes.keyValueStore())
         );
+
+        LocalDate today = LocalDate.now();
+        String todayStr = today.format(DateTimeFormatter.ofPattern("yyyyMMdd")); // 날짜를 문자열로 변환
 
         Map<String, List<RankingDataInfo>> rankingsMap = new HashMap<>();
         rankingsMap.put("District", new ArrayList<>());
@@ -37,10 +42,17 @@ public class KafkaStreamServiceImpl implements KafkaStreamService {
         KeyValueIterator<String, Long> iter = countsStore.all();
         while (iter.hasNext()) {
             KeyValue<String, Long> entry = iter.next();
-            String[] parts = entry.key.split(":", 2);
-            if (parts.length == 2) {
-                rankingsMap.get(parts[0]).add(new RankingDataInfo(parts[1], entry.value));
+            log.info(entry.toString());
+            if (entry.key.endsWith(todayStr)) { // 키 끝부분에 오늘 날짜가 있는지 확인
+                String[] parts = entry.key.split(":", 3); // 키를 ":"로 분리
+                if (parts.length == 3) {
+                    rankingsMap.get(parts[0]).add(new RankingDataInfo(parts[1], entry.value));
+                }
             }
+//            String[] parts = entry.key.split(":", 2);
+//            if (parts.length == 2) {
+//                rankingsMap.get(parts[0]).add(new RankingDataInfo(parts[1], entry.value));
+//            }
         }
         iter.close();
 

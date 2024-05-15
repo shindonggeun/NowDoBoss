@@ -1,6 +1,5 @@
 package com.ssafy.backend.global.component.sse.controller;
 
-import com.ssafy.backend.global.common.dto.Message;
 import com.ssafy.backend.global.component.sse.service.SseEmitterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

@@ -121,6 +121,11 @@ export const RightWrap = styled.div`
   flex-direction: column;
   flex: 3;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 3%;
+  }
 `
 
 export const SummaryWrap = styled.div`
@@ -128,6 +133,11 @@ export const SummaryWrap = styled.div`
   box-sizing: border-box;
   gap: 1%;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+  }
 `
 
 export const FlowWrap = styled.div`
@@ -136,11 +146,18 @@ export const FlowWrap = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `
 
 export const FlowCard = styled.div`
   display: flex;
-  //margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 3%;
+  }
 `
 
 export const TipTitle = styled.div`
@@ -160,6 +177,10 @@ export const TipTitle = styled.div`
 
 export const TipBox = styled.div`
   display: flex;
+
+  @media (max-width: 768px) {
+    margin-bottom: 3%;
+  }
 `
 
 export const SalesCard = styled.div`

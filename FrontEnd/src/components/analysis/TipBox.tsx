@@ -10,13 +10,26 @@ const Container = styled.div`
   font-size: 15px;
   color: #333;
   background-color: #fff;
+
+  img {
+    position: absolute;
+    top: 5%;
+    left: 4%;
+    width: 25px;
+    height: 25px;
+  }
 `
 
 const TipBox = () => {
   return (
     <Container>
-      유동인구는 30대가 많아 다양한 라이프스타일을 반영한 맞춤형 서비스나 제품을
-      제공할 필요가 있어요.
+      <div>
+        <img src="/icons/check.png" alt="check" />
+      </div>
+      <div>
+        유동인구는 30대가 많아 다양한 라이프스타일을 반영한 맞춤형 서비스나
+        제품을 제공할 필요가 있어요.
+      </div>
     </Container>
   )
 }

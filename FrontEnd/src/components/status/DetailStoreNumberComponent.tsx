@@ -1,5 +1,5 @@
 import { DetailDataBody } from '@src/types/StatusType'
-import BarChart3 from '@src/common/BarChart3'
+import BarChart4 from '@src/common/BarChart4'
 import * as c from '@src/components/styles/status/DeatilComponentStyle'
 import ContainerBox from '@src/common/ContainerBox'
 
@@ -20,10 +20,19 @@ const DetailStoreNumberComponent = ({ props }: DetailStoreNumberProps) => {
         <c.AnalysiEemphasis>{StoreData[0].serviceCodeName}</c.AnalysiEemphasis>
         입니다.
       </c.AnalysisSubTitle>
-      <BarChart3
-        labels={StoreLabels}
+      <BarChart4
+        labels={[
+          'Top1',
+          'Top2',
+          'Top3',
+          'Top4',
+          'Top5',
+          'Top6',
+          'Top7',
+          'Top8',
+        ]}
         values={StoreValues}
-        minvalue={0}
+        infos={StoreLabels}
         dataLavel="점포수(개)"
       />
       <ContainerBox height={30} />

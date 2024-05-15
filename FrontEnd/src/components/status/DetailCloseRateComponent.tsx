@@ -16,7 +16,6 @@ const DetailCloseRateComponent = ({ props }: DetailCloseRateProps) => {
     props!.storeDistrictDetail.closedStoreAdministrationTopFiveList
   const CloseLabels = CloseData.map(data => data.administrationCodeName)
   const CloseRate = CloseData.map(data => data.curClosedRate)
-
   const ChangeData = props!.changeIndicatorDistrictDetail
 
   return (

@@ -21,7 +21,6 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
       [key]: value,
     }),
   )
-
   const PeriodValues = Object.values(PeriodData.data)
   const PeriodMinValue = Math.min(...PeriodValues) * 0.99
 
@@ -70,7 +69,7 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
         </c.AnalysisSubTitle>
         <BarChart3
           labels={PeriodLabels}
-          values={PeriodDataArray.map(item => Object.values(item)[0])}
+          values={PeriodValues}
           minvalue={PeriodMinValue}
           dataLavel="인구(명)"
         />

@@ -116,23 +116,70 @@ export const ShareBoxText = styled.div`
   font-weight: 500;
 `
 
+export const RightWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  box-sizing: border-box;
+`
+
+export const SummaryWrap = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  gap: 1%;
+  margin-bottom: 20px;
+`
+
+export const FlowWrap = styled.div`
+  display: flex;
+  flex: 3;
+  flex-direction: column;
+  box-sizing: border-box;
+  justify-content: space-between;
+`
+
+export const FlowCard = styled.div`
+  display: flex;
+  //margin-bottom: 20px;
+`
+
+export const TipTitle = styled.div`
+  color: #333;
+  font-size: 17px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  padding-left: 10px;
+
+  span {
+    position: relative;
+    color: #ed1c24;
+  }
+`
+
+export const TipBox = styled.div`
+  display: flex;
+`
+
+export const SalesCard = styled.div`
+  display: flex;
+  flex: 4;
+`
+
 export const WarningDiv = styled.div`
-    display: flex;
-    flex: 3;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 20px;
-/ background-color: #f8f9fa;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-    color: #495057;
-    font-size: 0.9rem;
-    font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
 `
 
 export const WarnTitle = styled.div`
-  color: #333; // 텍스트 색상
-  font-size: 1.2rem; // 폰트 크기
+  color: #333;
+  font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 1px;
 `

@@ -3,6 +3,7 @@ import MainIntroContainer from '@src/containers/main/MainIntroContainer'
 import MainStatusContainer from '@src/containers/main/MainStatusContainer'
 import MainAnalysisContainer from '@src/containers/main/MainAnalysisContainer'
 import MainRecommendContainer from '@src/containers/main/MainRecommendContainer'
+import MainMoreContainer from '@src/containers/main/MainMoreContainer'
 
 const MainContainer = () => {
   return (
@@ -11,6 +12,7 @@ const MainContainer = () => {
       <MainStatusContainer />
       <MainAnalysisContainer />
       <MainRecommendContainer />
+      <MainMoreContainer />
     </m.MainContainer>
   )
 }

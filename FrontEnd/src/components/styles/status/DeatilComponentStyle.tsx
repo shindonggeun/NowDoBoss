@@ -124,7 +124,7 @@ export const SummaryTextContainer = styled.div`
 export const SummaryList = styled.div`
   font-size: 1rem;
   color: #6a6a6a;
-  margin: 0.5rem 0;
+  margin: 5px 0;
 `
 
 export const DotIcon = styled.img`

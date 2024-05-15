@@ -28,7 +28,7 @@ export const SaveIcon = styled.img`
 
 export const CompareIcon = styled.img`
   width: 1.8rem;
-
+  margin-left: 10px;
   @media (max-width: 768px) {
     width: 1.5rem;
   }

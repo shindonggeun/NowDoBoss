@@ -16,7 +16,7 @@ filename = 'model_update_time.json'
 
 # 가중치 계산을 위한 UDF 정의
 def action_weight(action):
-    weights = {"click": 2, "search": 4, "simulation": 7, "save": 10}
+    weights = {"click": 2, "search": 4, "analysis": 7, "save": 10}
     return weights.get(action, 0)
 
 

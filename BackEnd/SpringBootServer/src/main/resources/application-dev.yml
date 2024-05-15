@@ -81,6 +81,10 @@ spring:
     baseline-on-migrate: true
     out-of-order: false
 
+  mvc:
+    async:
+      request-timeout: 3000000
+
 # log 관리
 logging:
   level:

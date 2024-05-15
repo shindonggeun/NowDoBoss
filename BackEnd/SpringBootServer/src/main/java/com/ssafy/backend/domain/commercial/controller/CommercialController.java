@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "상권", description = "상권 관련 API 입니다.")
 @RestController
@@ -88,13 +89,15 @@ public class CommercialController {
     )
     @GetMapping("/sales/{districtCode}/{administrationCode}/{commercialCode}/{serviceCode}")
     public ResponseEntity<Message<AllSalesResponse>> getAllSalesByPeriodAndDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
+            @AuthenticationPrincipal MemberLoginActive loginActive,
             @RequestParam(defaultValue = "20233") String periodCode,
             @PathVariable String districtCode,
             @PathVariable String administrationCode,
             @PathVariable String commercialCode,
             @PathVariable String serviceCode) {
+        Long memberId = Optional.ofNullable(loginActive).map(MemberLoginActive::id).orElse(0L);
         AllSalesResponse allSalesResponse = commercialService.getAllSalesByPeriodAndDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
-                periodCode, districtCode, administrationCode, commercialCode, serviceCode);
+                memberId, periodCode, districtCode, administrationCode, commercialCode, serviceCode);
         return ResponseEntity.ok().body(Message.success(allSalesResponse));
     }
 

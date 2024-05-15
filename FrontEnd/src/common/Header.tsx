@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { NavigateType } from '@src/types/GlobalType'
 // import LogoImg from '@src/assets/logo.svg'
@@ -8,20 +8,26 @@ import styled from 'styled-components'
 import HeaderDropdown from '@src/common/HeaderDropdown'
 import LogoutContainer from '@src/containers/User/LogoutContainer'
 
-const Container = styled.header`
+const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: #c4c4c4 1px solid;
+  border-bottom: ${props => (props.$isMain ? '' : '#c4c4c4 1px solid')};
   // 상단 고정하기 위한 코드
-  background-color: #fff;
+  background-color: ${props => (props.$isMain ? 'transparent' : '#fff')};
+  //background-color: #ffffff;
   z-index: 100;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   padding-inline: 3vw;
+  opacity: ${props => (props.$isTransparent ? 1 : 0)};
+  pointer-events: ${props => (props.$isTransparent ? 'auto' : 'none')};
+  transition:
+    opacity 0.3s,
+    background-color 0.3s;
 `
 
 const MenuListLeft = styled.div<{ isMenuOpen?: boolean }>`
@@ -52,12 +58,12 @@ const Menu = styled.div<{ $isActive?: boolean }>`
   align-items: center;
   cursor: pointer;
   font-weight: bold;
-  border-bottom: 3px solid ${props => (props.$isActive ? '#236cff' : 'white')};
+  border-bottom: 2px solid ${props => (props.$isActive ? '#236cff' : 'none')};
   color: ${props => (props.$isActive ? '#236cff' : 'black')};
 
   &:hover {
     color: #236cff;
-    border-bottom: 3px solid #236cff;
+    border-bottom: 2px solid #236cff;
   }
 
   @media (max-width: 1200px) {
@@ -107,6 +113,38 @@ const Header = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState<boolean>(false)
+
+  // 스크롤 내렸을 때 사라지게 하는 로직
+  const [isTransparent, setIsTransparent] = useState<boolean>(true)
+  const [isMain, setIsMain] = useState<boolean>(false)
+  const [lastScrollY, setLastScrollY] = useState<number>(0)
+
+  // 현재 스크롤과 이전 스크롤 상태 비교해서 올림, 내림 스크롤 판단하는 로직
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY
+    if (currentScrollY > lastScrollY) {
+      setIsTransparent(false)
+    } else {
+      setIsTransparent(true)
+    }
+    setLastScrollY(currentScrollY)
+  }, [lastScrollY])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [handleScroll, lastScrollY])
+
+  // 메인 페이지에서만 투명한 배경 설정
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setIsMain(true)
+    } else {
+      setIsMain(false)
+    }
+  }, [location.pathname])
 
   // 로그인 상태 확인 (localStorage 사용)
   const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
@@ -173,7 +211,7 @@ const Header = () => {
   }
 
   return (
-    <Container>
+    <Container $isTransparent={isTransparent} $isMain={isMain}>
       <LogoDiv onClick={() => goNavigate({ url: '/' })}>
         <Logo src={SlimLogoImg} alt="logo" />
       </LogoDiv>

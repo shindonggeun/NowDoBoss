@@ -8,12 +8,14 @@ const MainRecommendContainer = () => {
   const [isTopPassed, setIsTopPassed] = useState(false)
 
   useEffect(() => {
+    const lastCardElement = lastCardRef.current // 렌더링 시점의 lastCardRef.current를 변수에 할당
+
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
-          if (entry.intersectionRatio === 0.5) {
+          if (entry.intersectionRatio >= 0.8) {
             // lastCard가 완전히 보일 때만 isTopPassed를 false로 설정
-            setIsTopPassed(entry.intersectionRatio < 1)
+            setIsTopPassed(false)
           }
         })
       },
@@ -24,13 +26,13 @@ const MainRecommendContainer = () => {
       },
     )
 
-    if (lastCardRef.current) {
-      observer.observe(lastCardRef.current)
+    if (lastCardElement) {
+      observer.observe(lastCardElement)
     }
 
     return () => {
-      if (lastCardRef.current) {
-        observer.unobserve(lastCardRef.current)
+      if (lastCardElement) {
+        observer.unobserve(lastCardElement)
       }
     }
   }, [])

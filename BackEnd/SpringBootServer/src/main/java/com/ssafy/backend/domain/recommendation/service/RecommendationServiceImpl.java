@@ -280,7 +280,9 @@ public class RecommendationServiceImpl implements RecommendationService{
 
     public Mono<List<UserResponse>> sendToFastAPIServer(Long id) {
         // FastAPI 서버 URL 설정 - 로컬버전
-        String fastApiUrl = "http://localhost:8000/recommend";
+        //String fastApiUrl = "http://localhost:8000/recommend";
+
+        String fastApiUrl = "http://13.124.23.220:8000/recommend";
 
         // 요청에 필요한 데이터 구성
         UserRequest userRequest = new UserRequest(id);

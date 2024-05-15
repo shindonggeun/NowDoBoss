@@ -285,6 +285,7 @@ export type SelectContainerPropsType = {
 export type CategoryTitleCardProps = {
   src: string
   title: string
+  setPeriodCode: React.Dispatch<React.SetStateAction<string>>
 }
 
 export type SearchSectionPropsType = {

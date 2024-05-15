@@ -8,7 +8,8 @@ export const MainContainer = styled.div`
 // 페이지 별 기본 컨테이너 div
 export const Container = styled.div`
   width: 100vw;
-  height: calc(100vh - 70px);
+  //height: calc(100vh - 70px);
+  height: calc(100vh);
 
   margin: auto;
   @media only screen and (max-width: 992px) {
@@ -81,10 +82,14 @@ export const CardScroll = styled.div`
 
 // 이미지 넣을 card
 export const Card = styled.div`
-  width: 400px;
-  height: 450px;
-  margin: calc((100vh - 70px - 450px) / 2) 0;
-  border: 2px solid #d9d9d9;
-  background-color: #d9d9d9;
+  width: 620px;
+  height: 400px;
+  //margin: calc((100vh - 70px - 450px) / 2) 0;
+  margin: calc((100vh - 400px) / 2) 0;
+  border: 4px solid #d9d9d9;
+  //background-color: #d9d9d9;
   border-radius: 5px;
+`
+export const CardImg = styled.img`
+  width: 612px;
 `

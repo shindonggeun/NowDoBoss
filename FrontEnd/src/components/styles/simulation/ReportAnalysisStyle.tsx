@@ -85,7 +85,7 @@ export const AgeBar = styled.div<AgeBarType>`
       default:
         return 'background-color: blue;'
     }
-  }}
+  }};
 
   @media (max-width: 768px) {
     height: ${({ data }) => `${data * 1.2}rem`};

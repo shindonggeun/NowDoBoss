@@ -136,6 +136,27 @@ export interface SimulationReportType {
   }
 }
 
+export interface SimulationReportCompareData {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: SimulationReportType
+}
+
+// 시뮬레이션 비교 레포트 요청 데이터 타입
+export interface SimulationDataType {
+  isFranchisee: boolean | null
+  brandName: string | null
+  gugun: string
+  serviceCode: string
+  serviceCodeName: string
+  storeSize: number
+  floor: string
+  selectedType: string
+}
+
 // 시물레이션 결과 저장 요청 데이터 타입
 export interface SimulationSaveType {
   totalPrice: number

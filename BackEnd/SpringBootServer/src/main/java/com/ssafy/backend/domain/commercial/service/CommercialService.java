@@ -23,7 +23,7 @@ public interface CommercialService {
 
     CommercialFacilityResponse getFacilityByPeriodAndCommercialCode(String periodCode, String commercialCode);
 
-    CommercialAdministrationAreaResponse getAdministrationInfoByCommercialCode(String commercialCode);
+    CommercialAdministrationAreaResponse getAdministrationInfoByCommercialCode(Long memberId, String commercialCode);
 
     CommercialStoreResponse getStoreByPeriodAndCommercialCodeAndServiceCode(String periodCode, String commercialCode, String serviceCode);
 

@@ -134,8 +134,8 @@ public class RecommendationServiceImpl implements RecommendationService{
 
     private String getCode(UserResponse dto) {
         log.info("비교하기 행정동 코드 : {} {}", dto.commercialCode(), dto.userId());
-        log.info("구한 행정동 코드: {}", commercialService.getAdministrationInfoByCommercialCode(dto.commercialCode()).administrationCode());
-        return commercialService.getAdministrationInfoByCommercialCode(dto.commercialCode()).administrationCode();
+        log.info("구한 행정동 코드: {}", areaCommercialRepository.findByCommercialCode(dto.commercialCode()).administrationCode());
+        return areaCommercialRepository.findByCommercialCode(dto.commercialCode()).administrationCode();
     }
 
     private RecommendationResponse createRecommendationResponse(UserResponse dto, String periodCode) {

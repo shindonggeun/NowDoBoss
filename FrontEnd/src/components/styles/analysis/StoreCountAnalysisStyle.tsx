@@ -132,6 +132,6 @@ export const ErrBox = styled.div`
 `
 
 export const HighlightText = styled.span`
-  color: #2a65f0;
-  font-weight: 600;
+  color: #21b6bb;
+  font-weight: 500;
 `

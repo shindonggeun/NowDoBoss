@@ -80,11 +80,20 @@ const MainRecommendContainer = () => {
         </m.Text>
         <m.CardList>
           <m.CardScroll ref={cardScrollRef}>
-            <m.Card>카드</m.Card>
-            <m.Card>카드</m.Card>
-            <m.Card>카드</m.Card>
-            <m.Card>카드</m.Card>
-            <m.Card>카드</m.Card>
+            <m.Card>
+              <m.CardImg src="public/images/recommendGoo.png" />
+              자치구 선택
+            </m.Card>
+            <m.Card>
+              <m.CardImg src="public/images/recommendDong.png" />
+              행정동 선택
+            </m.Card>
+            <m.Card>
+              <m.CardImg src="public/images/recommendCommercial.png" />
+              상권 선택
+            </m.Card>
+            {/* <m.Card>카드</m.Card> */}
+            {/* <m.Card>카드</m.Card> */}
           </m.CardScroll>
         </m.CardList>
       </m.Content>

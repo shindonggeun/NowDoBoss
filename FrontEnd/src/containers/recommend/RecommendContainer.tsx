@@ -21,6 +21,7 @@ const RecommendContainer = () => {
     // isSubmit 상태가 변경될 때마다 shouldRender도 업데이트
     if (isSubmit) {
       setShouldRender(true)
+      setIsSubmit(false)
     }
   }, [isSubmit])
 
@@ -107,7 +108,7 @@ const RecommendContainer = () => {
   })
 
   useEffect(() => {
-    if (data) {
+    if (data?.dataBody) {
       setSelectedData(data.dataBody[0])
     }
   }, [data])
@@ -142,27 +143,30 @@ const RecommendContainer = () => {
           <ReduceButton isOpen={isOpen} setIsOpen={setIsOpen} />
         </r.ReduceButton>
       </r.SearchDiv>
-      {shouldRender && data && !isLoading && (
-        <r.Report
-          ref={reportRef}
-          $isSubmit={isSubmit}
-          onAnimationEnd={handleAnimationEnd} // 애니메이션 종료 이벤트 핸들러 추가
-        >
-          <r.ReportContainer>
-            <RecommendHeader
-              selectedTab={selectedTab}
-              setSelectedTab={setSelectedTab}
-              setSelectedData={setSelectedData}
-              handleTabClick={handleTabClick}
-              setIsSubmit={setIsSubmit}
-              data={data.dataBody}
-            />
-            <RecommendBody selectedData={selectedData} />
-            <RecommendBanner selectedData={selectedData} />
-            <RecommendBlueOcean selectedData={selectedData} />
-          </r.ReportContainer>
-        </r.Report>
-      )}
+      {shouldRender &&
+        data &&
+        !isLoading &&
+        selectedData.commercialCode !== 0 && (
+          <r.Report
+            ref={reportRef}
+            $isSubmit={isSubmit}
+            onAnimationEnd={handleAnimationEnd} // 애니메이션 종료 이벤트 핸들러 추가
+          >
+            <r.ReportContainer>
+              <RecommendHeader
+                selectedTab={selectedTab}
+                setSelectedTab={setSelectedTab}
+                setSelectedData={setSelectedData}
+                handleTabClick={handleTabClick}
+                setIsSubmit={setIsSubmit}
+                data={data.dataBody}
+              />
+              <RecommendBody selectedData={selectedData} />
+              <RecommendBanner selectedData={selectedData} />
+              <RecommendBlueOcean selectedData={selectedData} />
+            </r.ReportContainer>
+          </r.Report>
+        )}
     </r.Container>
   )
 }

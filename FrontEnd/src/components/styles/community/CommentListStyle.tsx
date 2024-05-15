@@ -62,7 +62,7 @@ export const CommentSubmit = styled.div<{ $isActive?: boolean }>`
   align-items: center;
   color: #ffffff;
   font-weight: 600;
-  width: 6%;
+  width: auto;
 
   @media only screen and (max-width: 700px) {
     font-size: 0.9rem;
@@ -74,7 +74,7 @@ export const CommentSubmit = styled.div<{ $isActive?: boolean }>`
   }
 `
 export const CommentTitle = styled.div`
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 600;
   margin: 0 0 2vh;
 `

@@ -35,7 +35,10 @@ const CategoryCard = () => {
   return (
     <e.CategoryCard>
       <e.ChartTitle>유형별 지출금액</e.ChartTitle>
-      <e.ChartSubTitle>{maxLabel} 관련 지출금액이 가장 높아요.</e.ChartSubTitle>
+      <e.ChartSubTitle>
+        <e.HighlightText>{maxLabel}</e.HighlightText> 관련 지출금액이 가장
+        높아요.
+      </e.ChartSubTitle>
       <HorizontalBarChart
         labels={labels}
         values={values}

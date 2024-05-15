@@ -12,7 +12,6 @@ const TodayChart = () => {
   const weekendSum = values.slice(5, 7).reduce((acc, curr) => acc + curr, 0) // 주말(토일) 합계
   const totalSum = weekdaySum + weekendSum // 총 합계
   const dailyAverage = Math.round(totalSum / 7).toLocaleString('ko-KR') // 일일 평균
-  const weekdayMultiplier = (weekdaySum / weekendSum).toFixed(1) // 주중/주말 비율
 
   // 백분율로 변환
   const weekdayPercentage = Math.round((weekdaySum / totalSum) * 100)
@@ -52,19 +51,53 @@ const TodayChart = () => {
     return ticks
   }
 
+  // 주중/주말 비율 계산 전에 0인지 확인
+  let chartSubTitle
+  if (weekdaySum === 0 && weekendSum === 0) {
+    chartSubTitle = '유동인구 정보가 없어요.'
+  } else if (weekdaySum === 0) {
+    chartSubTitle = (
+      <>
+        주말의 매출액이 <f.HighlightText>100%</f.HighlightText> 이에요.
+      </>
+    )
+  } else if (weekendSum === 0) {
+    chartSubTitle = (
+      <>
+        주중의 유동인구가 <f.HighlightText>100%</f.HighlightText> 이에요.
+      </>
+    )
+  } else {
+    const weekdayMultiplier = (weekdaySum / weekendSum).toFixed(1)
+    chartSubTitle =
+      parseFloat(weekdayMultiplier) > 1 ? (
+        <>
+          주중의 유동인구는 주말보다 약{' '}
+          <f.HighlightText>{weekdayMultiplier}배</f.HighlightText> 더 많아요.
+        </>
+      ) : (
+        <>
+          주말의 유동인구는 주중보다 약{' '}
+          <f.HighlightText>
+            {(1 / parseFloat(weekdayMultiplier)).toFixed(1)}배
+          </f.HighlightText>{' '}
+          더 많아요.
+        </>
+      )
+  }
+
   return (
     <f.TodayChart>
       <f.TodayTopContainer>
         <f.IconImg src="/images/flow_population.png" alt="flow_population" />
-        <f.Title>일일 평균 유동인구는 {dailyAverage} 명 입니다.</f.Title>
+        <f.Title>
+          일일 평균 유동인구는{' '}
+          <f.HighlightText>{dailyAverage}명</f.HighlightText> 입니다.
+        </f.Title>
       </f.TodayTopContainer>
       <f.Divider />
       <f.ChartTitle>주중/주말 유동인구</f.ChartTitle>
-      <f.ChartSubTitle>
-        {parseFloat(weekdayMultiplier) > 1
-          ? `주중의 유동인구가 주말보다 약 ${weekdayMultiplier}배 더 많아요.`
-          : `주말의 유동인구가 주중보다 약 ${(1 / parseFloat(weekdayMultiplier)).toFixed(1)}배 더 많아요.`}
-      </f.ChartSubTitle>
+      <f.ChartSubTitle>{chartSubTitle}</f.ChartSubTitle>
 
       <f.Wrap>
         <f.BoxContainer>

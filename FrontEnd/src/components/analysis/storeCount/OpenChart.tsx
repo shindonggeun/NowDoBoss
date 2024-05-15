@@ -13,7 +13,9 @@ const OpenChart = () => {
       <s.ChartSubTitleWrap>
         <s.ChartSubTitle>{selectedService.serviceCodeName}의</s.ChartSubTitle>
         <s.ChartSubTitle>개업률은</s.ChartSubTitle>
-        <s.ChartSubTitle>{openedRate}% 이에요.</s.ChartSubTitle>
+        <s.ChartSubTitle>
+          <s.HighlightText>{openedRate}%</s.HighlightText> 이에요.
+        </s.ChartSubTitle>
       </s.ChartSubTitleWrap>
     </s.OpenChart>
   )

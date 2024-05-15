@@ -54,7 +54,10 @@ const AgeChart = () => {
     <f.AgeChart>
       <f.ChartTitle>연령별 유동인구</f.ChartTitle>
       <f.ChartSubTitle>
-        {maxLabel} {maxGender} 유동인구가 가장 높아요.
+        <f.HighlightText>
+          {maxLabel} {maxGender}
+        </f.HighlightText>{' '}
+        유동인구가 가장 높아요.
       </f.ChartSubTitle>
       <RadarChart labels={labels} value1={maleValues} value2={femaleValues} />
     </f.AgeChart>

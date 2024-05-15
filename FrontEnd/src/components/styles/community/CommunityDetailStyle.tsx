@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 // MainContent
 export const Container = styled.div`
-  padding: 3vh 0;
+  padding-top: 3vh;
 
   @media only screen and (max-width: 820px) {
     padding: 3vh 5%;
@@ -73,18 +73,33 @@ export const ModalContent = styled.div`
   }
 `
 export const Title = styled.div`
-  margin-top: 2vh;
   font-size: 2rem;
   font-weight: 600;
 `
-export const Category = styled.div`
-  padding: 1vh 0;
+export const RowDiv = styled.div`
   display: flex;
-  font-weight: 500;
+  flex-direction: row;
+  justify-content: space-between;
+`
+export const Category = styled.div`
+  //padding: 1vh 0;
+  margin-top: 2vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  width: 6rem;
+  height: 1.6rem;
+  border: 2px solid rgb(253, 149, 73);
+  border-radius: 10px;
+  //background-color: rgb(253, 149, 73);
+  //color: #ffffff;
 `
 export const TimeAndCounting = styled.div`
-  padding: 0 0 2vh;
   font-weight: 600;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 `
 
 export const ImgDiv = styled.div`
@@ -122,7 +137,7 @@ export const WriterProfile = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 20px 0;
+  margin: 50px 0 0 0;
 `
 
 export const ProfileDiv = styled.div`
@@ -177,7 +192,7 @@ export const SubContent = styled.div`
   font-weight: 500;
 `
 export const Icon = styled.img`
-  padding: 0 2px 0 6px;
+  //padding: 0 8px 0 0;
   scale: 0.9;
 `
 export const AnotherCard = styled.div`

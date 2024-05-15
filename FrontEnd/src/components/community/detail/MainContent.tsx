@@ -1,7 +1,7 @@
 import * as m from '@src/components/styles/community/CommunityDetailStyle'
 import TimeCounting from 'time-counting'
 import GoBackButton from '@src/common/GoBackButton'
-import send_message from '@src/assets/send_message.svg'
+// import send_message from '@src/assets/send_message.svg'
 import { CommunityData } from '@src/types/CommunityType'
 import useCommunityStore from '@src/stores/communityStore'
 import { useState } from 'react'
@@ -20,10 +20,11 @@ interface TimeCountingOption {
 
 export type MainContentPropsType = {
   detailData: CommunityData
+  userId: number
 }
 
 const MainContent = (props: MainContentPropsType) => {
-  const { detailData } = props
+  const { detailData, userId } = props
   const navigate = useNavigate()
 
   const { categories, setModifyCommunityId } = useCommunityStore(state => ({
@@ -33,7 +34,7 @@ const MainContent = (props: MainContentPropsType) => {
   const matchedCategory = categories.find(
     category => category.value === detailData.category,
   )
-  const iconSrc = matchedCategory ? matchedCategory.iconInactive : ''
+  const iconSrc = matchedCategory ? matchedCategory.iconActive : ''
   const categoryKorean = matchedCategory ? matchedCategory.name : ''
   const [moreModal, setMoreModal] = useState<boolean>(false)
   // 생성 시간 보여주는 라이브러리 사용
@@ -94,13 +95,16 @@ const MainContent = (props: MainContentPropsType) => {
     <m.Container>
       <m.Header>
         <GoBackButton />
-        <m.More
-          onClick={() => {
-            setMoreModal(!moreModal)
-          }}
-        >
-          ∘∘∘
-        </m.More>
+        {userId === detailData.communityId && (
+          <m.More
+            onClick={() => {
+              setMoreModal(!moreModal)
+            }}
+          >
+            ∘∘∘
+          </m.More>
+        )}
+        {/* 수정, 삭제 모달 */}
         {moreModal ? (
           <m.MoreModal>
             <m.ModalTriangle />
@@ -126,17 +130,18 @@ const MainContent = (props: MainContentPropsType) => {
           ''
         )}
       </m.Header>
-
-      <m.Title>{detailData.title}</m.Title>
       <m.Category>
         <m.Icon src={iconSrc} />
         {categoryKorean}
       </m.Category>
-      <m.TimeAndCounting>
-        {/* 게시글 시간 아래에 넣으면 됩니다~ */}
-        {TimeCounting(detailData.createdAt, TimeOption)} ∙ 조회수{' '}
-        {detailData.readCount}
-      </m.TimeAndCounting>
+      <m.RowDiv>
+        <m.Title>{detailData.title}</m.Title>
+        <m.TimeAndCounting>
+          {/* 게시글 시간 아래에 넣으면 됩니다~ */}
+          {TimeCounting(detailData.createdAt, TimeOption)} ∙ 조회수{' '}
+          {detailData.readCount}
+        </m.TimeAndCounting>
+      </m.RowDiv>
 
       {detailData.images
         ? detailData.images.map(image => {
@@ -150,7 +155,7 @@ const MainContent = (props: MainContentPropsType) => {
 
       <m.Content>{detailData.content}</m.Content>
 
-      <m.TabName>작성자</m.TabName>
+      {/* <m.TabName>작성자</m.TabName> */}
       <m.WriterProfile>
         <m.ProfileDiv>
           {detailData.writerProfileImage ? (
@@ -160,10 +165,11 @@ const MainContent = (props: MainContentPropsType) => {
           )}
           <m.UserName>{detailData.writerNickname}</m.UserName>
         </m.ProfileDiv>
-        <m.ChatButton>
-          <m.ChatImg src={send_message} />
-          채팅하기
-        </m.ChatButton>
+
+        {/* <m.ChatButton> */}
+        {/*  <m.ChatImg src={send_message} /> */}
+        {/*  채팅하기 */}
+        {/* </m.ChatButton> */}
       </m.WriterProfile>
     </m.Container>
   )

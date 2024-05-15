@@ -105,7 +105,7 @@ function App() {
             <Route path="register" element={<CommunityRegisterPage />} />
             <Route path=":communityId" element={<CommunityDetailPage />} />
           </Route>
-          <Route path="/chatting/" element={<ChattingPage />}>
+          <Route path="/chatting/*" element={<ChattingPage />}>
             <Route path="list" element={<ChattingListPage />} />
             <Route path=":roomId" element={<ChattingDetailPage />} />
           </Route>

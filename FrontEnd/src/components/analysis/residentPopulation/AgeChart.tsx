@@ -24,7 +24,10 @@ const AgeChart = () => {
   return (
     <r.AgeChart>
       <r.ChartTitle>연령대별 상주인구</r.ChartTitle>
-      <r.ChartSubTitle>{maxLabel} 상주인구 비율이 가장 높아요.</r.ChartSubTitle>
+      <r.ChartSubTitle>
+        <r.HighlightText>{maxLabel}</r.HighlightText> 상주인구 비율이 가장
+        높아요.
+      </r.ChartSubTitle>
       <ComboChart
         labels={labels}
         value1={ageGroupPopulations}

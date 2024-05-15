@@ -101,7 +101,7 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       <CategoryTitleCard src="/images/sales.png" title="매출분석" />
       {totalSalesErr || salesErr ? (
         <s.ErrBox>
-          해당 분기에 해당하는 매출분석 데이터가 존재하지 않습니다.
+          해당 분기의 선택 업종 매출분석 데이터를 제공하지 않습니다.
         </s.ErrBox>
       ) : (
         <>

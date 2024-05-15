@@ -28,6 +28,7 @@ export const Div = styled.div``
 export const DetailContainer = styled.div`
   border-inline: 1px solid #d9d9d9;
   height: calc(100vh - 68px);
+  width: 100%;
 
   @media only screen and (max-width: 992px) {
     height: calc(100vh - 68px - 75px);

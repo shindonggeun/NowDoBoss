@@ -1,5 +1,5 @@
 import { customAxios } from '@src/util/auth/customAxios'
-
+import { AnalysisBookmarksDataType } from '@src/types/AnalysisType'
 // 업종 선택
 export const getServiceData = async (commercialCode: string) => {
   return customAxios
@@ -79,6 +79,16 @@ export const getTotalExpenditureData = async (
     .get(
       `/commercial/income/${districtCode}/${administrationCode}/${commercialCode}`,
     )
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
+// 북마크
+export const postAnalysisBookmarks = async (
+  data: AnalysisBookmarksDataType,
+) => {
+  return customAxios
+    .post(`/commercial/analysis`, data)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

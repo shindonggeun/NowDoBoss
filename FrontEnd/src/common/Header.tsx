@@ -21,6 +21,7 @@ const Container = styled.header`
   top: 0;
   left: 0;
   right: 0;
+  padding-inline: 3vw;
 `
 
 const MenuListLeft = styled.div<{ isMenuOpen?: boolean }>`
@@ -45,7 +46,7 @@ const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
 `
 const Menu = styled.div<{ $isActive?: boolean }>`
   height: 66px;
-  padding: 0 20px;
+  padding: 0 10px;
   font-size: 16px;
   display: flex;
   align-items: center;

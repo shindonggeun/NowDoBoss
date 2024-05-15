@@ -8,8 +8,9 @@ export const Container = styled.div`
 export const Textarea = styled.textarea`
   font-size: 1.2rem;
   resize: none;
-  width: calc(70% - 375px);
-  height: calc(10vh - 20px);
+  //width: calc(70% - 375px);
+  width: calc(100vw - 240px - 30% - 50px);
+  height: calc(15vh - 20px);
   font-weight: 600;
   border: 2px solid #d9d9d9;
   border-radius: 10px;
@@ -29,8 +30,8 @@ export const Textarea = styled.textarea`
   }
 
   @media only screen and (max-width: 992px) {
-    width: calc(100vw - 125px);
-    //margin: 20px 10px -5px 10px;
+    width: calc(100vw - 40px);
+    margin: 0 20px 20px;
   }
 `
 

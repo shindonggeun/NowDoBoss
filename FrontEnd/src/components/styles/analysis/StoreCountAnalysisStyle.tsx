@@ -18,7 +18,7 @@ export const TotalChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
   @media (max-width: 576px) {
@@ -44,7 +44,7 @@ export const FranchiseChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 `
 
@@ -60,7 +60,7 @@ export const OpenChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 `
 
@@ -71,7 +71,7 @@ export const CloseChart = styled.div`
   flex-direction: column;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 `
 
@@ -114,4 +114,24 @@ export const Label = styled.div`
 
 export const BarWrapper = styled.div`
   width: 80%;
+`
+
+export const ErrBox = styled.div`
+  display: flex;
+  height: 30vh;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  margin: 20px 0; // 상하 여백
+  font-size: 1rem; // 글자 크기
+  color: #ff0000; // 글자 색상
+  background-color: #fff0f0; // 배경 색상
+  border-radius: 10px; // 테두리 둥글기
+  border: 1px solid #ffd0d0; // 테두리 색상
+`
+
+export const HighlightText = styled.span`
+  color: #2a65f0;
+  font-weight: 600;
 `

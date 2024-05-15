@@ -263,6 +263,19 @@ export type TotalExpenditureDataBodyType = {
   commercialTotalIncomeInfo: CommercialTotalIncomeInfoType
 }
 
+// data type - 북마크
+export type AnalysisBookmarksDataType = {
+  districtCode: string
+  districtCodeName: string
+  administrationCode: string
+  administrationCodeName: string
+  commercialCode: string
+  commercialCodeName: string
+  serviceType: string
+  serviceCode: string
+  serviceCodeName: string
+}
+
 // props type
 export type SelectContainerPropsType = {
   setIsReady: React.Dispatch<React.SetStateAction<boolean>>
@@ -286,6 +299,10 @@ export type ChoiceServicePropsType = {
 
 export type ChoiceServiceDetailPropsType = {
   serviceList: SelectedServiceType[]
+}
+
+export type ResultIntroPropsType = {
+  handlePostAnalysisBookmarks: () => void
 }
 
 // store type

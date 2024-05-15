@@ -6,11 +6,23 @@ import CreateModal from '@src/components/chatting/CreateModal'
 import ChatSearchBar from '@src/components/chatting/ChatSearchBar'
 import penIcon from '@src/assets/pen.svg'
 import arrowRight from '@src/assets/arrow_right.svg'
+import NotLogin from '@src/common/swal/NotLogin'
 
 const ChattingNavbar = () => {
   const navigate = useNavigate()
   const { roomId } = useParams()
   const [modalOpen, setModalOpen] = useState(false)
+
+  // 로그인 상태 확인 (localStorage 사용)
+  const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
+
+  const handleCreateChatRoom = () => {
+    if (userLoggedIn) {
+      setModalOpen(true)
+    } else {
+      NotLogin(navigate)
+    }
+  }
 
   return (
     <c.Container>
@@ -30,14 +42,17 @@ const ChattingNavbar = () => {
           </c.ChatCard>
         </c.SmallLeft>
         <c.SmallRight>
-          <n.CreateButton onClick={() => setModalOpen(true)}>
+          <n.CreateButton onClick={() => handleCreateChatRoom()}>
             <c.Big>채팅방 생성하기</c.Big>
           </n.CreateButton>
 
-          {/* 검색창 */}
-          <n.Sub>나의 채팅방 목록</n.Sub>
-          <ChatSearchBar />
-          <c.CreateIcon src={penIcon} onClick={() => setModalOpen(true)} />
+          {userLoggedIn && (
+            <c.Col>
+              <n.Sub>나의 채팅방 목록</n.Sub>
+              <ChatSearchBar />
+            </c.Col>
+          )}
+          <c.CreateIcon src={penIcon} onClick={() => handleCreateChatRoom()} />
         </c.SmallRight>
       </c.Chatting>
 

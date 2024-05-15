@@ -39,7 +39,10 @@ const AgeChart = () => {
     <s.AgeChart>
       <s.ChartTitle>연령별 매출액</s.ChartTitle>
       <s.ChartSubTitle>
-        {maxLabel} {maxGender} 매출액이 가장 높아요.
+        <s.HighlightText>
+          {maxLabel} {maxGender}
+        </s.HighlightText>{' '}
+        매출액이 가장 높아요.
       </s.ChartSubTitle>
       <RadarChart labels={labels} value1={maleValues} value2={femaleValues} />
     </s.AgeChart>

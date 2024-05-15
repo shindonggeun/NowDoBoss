@@ -31,7 +31,6 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final ChatRoomRepository chatRoomRepository;
     private final MemberRepository memberRepository;
     private final KafkaProducer kafkaProducer;
-    private final ObjectMapper objectMapper;
     private final FirebaseService firebaseService;
 
     @Override
@@ -62,15 +61,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         chatMessageRepository.save(chatMessage);
         ChatMessageResponse chatMessageResponse = ChatMessageResponse.of(chatMessage);
 
-        try {
-            String response = objectMapper.writeValueAsString(chatMessageResponse);
-
-            // 카프카 이벤트 발생
-            kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC, response);
-
-        } catch (Exception ex) {
-            throw new ChatException(ChatErrorCode.SAVE_FAILED);
-        }
+        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC, chatMessageResponse);
 
         // topic : chat.room.{roomId}
         firebaseService.sendMessageByTopic(

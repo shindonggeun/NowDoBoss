@@ -18,13 +18,19 @@ const FlowPopulationAnalysisContainer = forwardRef(
     const setFlowPopulationDataBody = analysisStore(
       state => state.setFlowPopulationDataBody,
     )
+    const [periodCode, setPeriodCode] = useState('20233') // 유동인구 분기 코드
     const [errMsg, setErrMsg] = useState('') // 유동인구 에러 메세지
 
     // 유동인구
     const { data: FlowPopulationData, status: flowPopulationStatus } = useQuery(
       {
-        queryKey: ['GetFlowPopulationData', selectedCommercial.code],
-        queryFn: () => getFlowPopulationData(String(selectedCommercial.code)),
+        queryKey: [
+          'GetFlowPopulationData',
+          selectedCommercial.code,
+          periodCode,
+        ],
+        queryFn: () =>
+          getFlowPopulationData(String(selectedCommercial.code), periodCode),
         enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
       },
     )
@@ -49,7 +55,11 @@ const FlowPopulationAnalysisContainer = forwardRef(
 
     return (
       <div ref={ref}>
-        <CategoryTitleCard src="/images/flow_population.png" title="유동인구" />
+        <CategoryTitleCard
+          src="/images/flow_population.png"
+          title="유동인구"
+          setPeriodCode={setPeriodCode}
+        />
         {errMsg ? (
           <f.ErrBox>
             해당 분기의 선택 상권 유동인구 데이터를 제공하지 않습니다.

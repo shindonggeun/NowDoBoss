@@ -60,11 +60,27 @@ export const CardList = styled.div`
   justify-content: center;
   align-items: center;
 `
+export const CardScroll = styled.div`
+  max-height: 100%;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /*IE, Edge*/
+  scrollbar-width: none; /*Firefox*/
+  ::-webkit-scrollbar {
+    display: none; /*Chrome, Safari, Opera*/
+    width: 0;
+  }
+`
 
 export const Card = styled.div`
   width: 400px;
-  height: 450px;
+  height: calc(100vh - 70px);
   border: 2px solid #d9d9d9;
   background-color: #d9d9d9;
   border-radius: 5px;
+`
+
+export const Active = styled.div`
+  transform: translateY(0);
+  opacity: 1;
+  background-color: yellow;
 `

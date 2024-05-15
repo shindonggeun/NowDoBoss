@@ -55,8 +55,10 @@ public class KafkaConsumer {
     @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC_DATA)
     public void handleUserData(DataInfo message) {
         log.info("상업 분석 메시지 수신 : {}", message);
-        DataDocument dataDocument = new DataDocument(message.userId(), Long.parseLong(message.commercialCode()), message.action());
-        dataRepository.save(dataDocument);
+        if (!message.commercialCode().equals("0")) {
+            DataDocument dataDocument = new DataDocument(message.userId(), Long.parseLong(message.commercialCode()), message.action());
+            dataRepository.save(dataDocument);
+        }
     }
 
 }

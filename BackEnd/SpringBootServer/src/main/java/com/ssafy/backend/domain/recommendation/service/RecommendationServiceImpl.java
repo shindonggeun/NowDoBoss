@@ -62,7 +62,7 @@ public class RecommendationServiceImpl implements RecommendationService{
     public Mono<List<RecommendationResponse>> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
         String periodCode = "20233";
 
-        return fetchCommercialData(id, districtCode, administrationCode)
+        Mono<List<RecommendationResponse>> recommendationResponse = fetchCommercialData(id, districtCode, administrationCode)
                 .flatMapMany(Flux::fromIterable)
                 .filter(dto -> administrationCode != null && !administrationCode.isEmpty() && !administrationCode.equals("0") ?
                         getCode(dto).equals(administrationCode) :
@@ -75,6 +75,15 @@ public class RecommendationServiceImpl implements RecommendationService{
                         //saveRecommendationsToRedis(id, responses);
                     }
                 });
+
+        if (recommendationResponse.block().isEmpty()){
+            System.out.println("No data available, returning default response.");
+            UserResponse userResponse = makeBasicUserResponse(id, districtCode, administrationCode);
+            List<RecommendationResponse> res = new ArrayList<>();
+            res.add(createRecommendationResponse(userResponse, periodCode));
+            return Mono.just(res);
+        }
+        return recommendationResponse;
     }
 
     @Override
@@ -229,9 +238,9 @@ public class RecommendationServiceImpl implements RecommendationService{
 
     public Mono<List<UserResponse>> sendToFastAPIServer(Long id, String districtCode, String administrationCode) {
         // FastAPI 서버 URL 설정 - 로컬버전
-        String fastApiUrl = "http://localhost:8001/recommend";
+        //String fastApiUrl = "http://localhost:8001/recommend";
 
-        //String fastApiUrl = "http://13.124.23.220:8000/recommend";
+        String fastApiUrl = "http://13.124.23.220:8000/recommend";
 
         // 요청에 필요한 데이터 구성
         UserRequest userRequest = new UserRequest(id);

@@ -30,13 +30,13 @@ public class RecommendationController {
     )
     @GetMapping("/{districtCode}/{administrationCode}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public Mono<ResponseEntity<List<RecommendationResponse>>> getCommercialRecommendation(
+    public Mono<ResponseEntity<Message<List<RecommendationResponse>>>> getCommercialRecommendation(
             @AuthenticationPrincipal MemberLoginActive loginActive,
             @PathVariable String districtCode,
             @PathVariable String administrationCode) {
 
         return recommendationService.getTopThreeRecommendations(districtCode, administrationCode, loginActive.id())
-                .map(responses -> ResponseEntity.ok().body(responses))
+                .map(responses -> ResponseEntity.ok().body(Message.success(responses)))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 

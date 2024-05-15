@@ -1,7 +1,6 @@
 package com.ssafy.backend.global.component.kafka.processor;
 
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisKafkaRequest;
-import com.ssafy.backend.domain.commercial.dto.response.CommercialAnalysisResponse;
 import com.ssafy.backend.global.component.kafka.serde.JsonSerde;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serde;
@@ -11,9 +10,10 @@ import org.apache.kafka.streams.kstream.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,18 +28,21 @@ public class WordCountProcessor {
         KStream<String, CommercialAnalysisKafkaRequest> messageStream = streamsBuilder
                 .stream("commercial-analysis", Consumed.with(STRING_SERDE, COMMERCIAL_ANALYSIS_RESPONSE_SERDE));
 
-        // Log or inspect each message
-        messageStream.peek((key, value) -> log.info("Received message with key: {}, value: {}", key, value));
+        // Set the window to start from the beginning of today and last for 24 hours
+        TimeWindows dailyWindow = TimeWindows.ofSizeWithNoGrace(Duration.ofDays(1));
 
-        LocalDate today = LocalDate.now(); // 오늘 날짜를 LocalDate 객체로 저장
-
-        KTable<String, Long> wordCounts = messageStream
-                .filter((key, value) -> value.createdAt().toLocalDate().isEqual(today))
+        // Apply windowed operation
+        KTable<Windowed<String>, Long> wordCounts = messageStream
                 .flatMapValues(this::extractAndCategorizeValues)
                 .groupBy((key, word) -> word, Grouped.with(STRING_SERDE, STRING_SERDE))
-                .count(Materialized.as("analysis-ranking"));
+                .windowedBy(dailyWindow)
+                .count(Materialized.as("daily-ranking"));
 
-        wordCounts.toStream().to("commercial-analysis-output", Produced.with(STRING_SERDE, Serdes.Long()));
+        // 추출한 windowSize를 기반으로 Serde 생성
+        long windowSize = Duration.ofDays(1).toMillis(); // 하루 단위의 밀리세컨드
+
+        wordCounts.toStream()
+                .to("daily-analysis-output", Produced.with(WindowedSerdes.timeWindowedSerdeFrom(String.class, windowSize), Serdes.Long()));
     }
 
     private List<String> extractAndCategorizeValues(CommercialAnalysisKafkaRequest value) {
@@ -48,7 +51,6 @@ public class WordCountProcessor {
         categorizedWords.add("Administration:" + value.administrationCodeName());
         categorizedWords.add("Commercial:" + value.commercialCodeName());
         categorizedWords.add("Service:" + value.serviceCodeName());
-        categorizedWords.add("CreateAt:" + value.createdAt());
         return categorizedWords;
     }
 

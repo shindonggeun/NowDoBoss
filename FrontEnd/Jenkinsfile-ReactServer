@@ -52,6 +52,16 @@ pipeline {
             }
         }
 
+        stage('Cleanup') {
+            steps {
+                script {
+                    // nowdoboss_react 컨테이너를 종료하고 삭제합니다.
+                    sh "docker stop nowdoboss_react || true" // 컨테이너가 실행 중이지 않더라도 오류를 무시합니다.
+                    sh "docker rm nowdoboss_react || true" // 컨테이너를 삭제합니다.
+                }
+            }
+        }
+
         stage('SonarQube Analysis - ReactServer') {
             steps {
                 dir('FrontEnd') {    

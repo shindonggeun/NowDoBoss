@@ -88,6 +88,10 @@ spring:
   flyway:
     enabled: false  # Flyway 비활성화
 
+  mvc:
+    async:
+      request-timeout: 3000000
+
 # log 관리
 logging:
   level:

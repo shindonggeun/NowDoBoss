@@ -1,7 +1,7 @@
 
 from pydantic import BaseModel
 import spark_reco
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, BackgroundTasks
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import lit
 import json
@@ -20,14 +20,14 @@ class UserRequest(BaseModel):
 
 
 @app.post("/recommend")
-def recommend_commercial_areas(request: UserRequest):
+async def recommend_commercial_areas(request: UserRequest, background_tasks: BackgroundTasks):
     print("추천에 도착!") 
     try:
         # 요청 로그
         print(f"Received request: {request}")
         # 처리 로직
         spark = start_recommend_spark()
-        response = spark_reco.recommend_commercials(spark, request.userId)
+        response = await spark_reco.recommend_commercials(spark, request.userId, background_tasks)
         # 응답 로그
         print(f"Sending response: {response}")
         return response

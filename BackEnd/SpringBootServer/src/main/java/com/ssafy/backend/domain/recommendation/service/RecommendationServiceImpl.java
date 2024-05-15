@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.global.common.document.DataDocument;
 import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
+import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
 import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
 import reactor.core.publisher.Flux;
 
@@ -55,7 +56,6 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final RedisTemplate<String, String> redisTemplate;
     private final RecommendationRepository recommendationRepository;
     private final KafkaProducer kafkaProducer;
-    private final DataRepository dataRepository;
 
     @Override
     public Mono<List<RecommendationResponse>> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
@@ -127,8 +127,11 @@ public class RecommendationServiceImpl implements RecommendationService{
                     if (dto.commercialCode().equals(commercialCode)){
                         // 카프카 이벤트 발생
                         CommercialKafkaInfo commercialKafkaInfo = new CommercialKafkaInfo(id, "recommendation", 1L, commercialCode, System.currentTimeMillis());
-                        String response = objectMapper.writeValueAsString(commercialKafkaInfo);
-                        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_RECOMMENDATION, response);
+                        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_RECOMMENDATION, commercialKafkaInfo);
+
+                        // 추천용 데이터 카프카 토픽으로
+                        DataInfo dataInfo = new DataInfo(id, commercialCode, "save");
+                        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
 
                         try {
                             RecommendationDocument document = new RecommendationDocument(id, commercialCode);
@@ -181,10 +184,13 @@ public class RecommendationServiceImpl implements RecommendationService{
     }
 
     private String getCode(UserResponse dto) {
+        log.info("비교하기 행정동 코드 : {} {}", dto.commercialCode(), dto.userId());
+        log.info("구한 행정동 코드: {}", commercialService.getAdministrationInfoByCommercialCode(dto.commercialCode()).administrationCode());
         return commercialService.getAdministrationInfoByCommercialCode(dto.commercialCode()).administrationCode();
     }
 
     private RecommendationResponse createRecommendationResponse(UserResponse dto, String periodCode) {
+        log.info("관련 추천 상권 정보 구하기" );
         Long mySales = dto.totalSales();
         Long otherSales = salesCommercialRepository.getOtherSalesByPeriodCodeAndCommercialCode("20193");
         List<String> commercialCodes = getCommercialCodes(dto);
@@ -274,7 +280,9 @@ public class RecommendationServiceImpl implements RecommendationService{
 
     public Mono<List<UserResponse>> sendToFastAPIServer(Long id) {
         // FastAPI 서버 URL 설정 - 로컬버전
-        String fastApiUrl = "http://localhost:8000/recommend";
+        //String fastApiUrl = "http://localhost:8000/recommend";
+
+        String fastApiUrl = "http://13.124.23.220:8000/recommend";
 
         // 요청에 필요한 데이터 구성
         UserRequest userRequest = new UserRequest(id);

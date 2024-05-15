@@ -7,6 +7,7 @@ import com.ssafy.backend.domain.commercial.dto.response.CommercialKafkaInfo;
 import com.ssafy.backend.global.common.document.DataDocument;
 import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
+import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -20,7 +21,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class KafkaConsumer {
     private final SimpMessagingTemplate simpMessagingTemplate;
-    private final ObjectMapper objectMapper;
     private final DataRepository dataRepository;
 
     @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC)
@@ -35,11 +35,8 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC_RECOMMENDATION)
-    public void handleRecommendationInfo(String message) throws IOException {
+    public void handleRecommendationInfo(CommercialKafkaInfo message) throws IOException {
         log.info("추천 보관함 저장 메시지 이벤트 수신 : {}", message);
-        CommercialKafkaInfo commercialKafkaInfo = objectMapper.readValue(message, CommercialKafkaInfo.class);
-        DataDocument dataDocument = new DataDocument(commercialKafkaInfo.userId(), Long.parseLong(commercialKafkaInfo.commercialCode()), "save");
-        dataRepository.save(dataDocument);
 //        // FastAPI 서버 URL 설정 - 로컬버전
 //        String fastApiUrl = "http://localhost:8000/data";
 //
@@ -54,4 +51,12 @@ public class KafkaConsumer {
 //                .subscribe(response -> System.out.println("Response from FastAPI: " + response)); // 응답 출력
 
     }
+
+    @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC_DATA)
+    public void handleUserData(DataInfo message) {
+        log.info("상업 분석 메시지 수신 : {}", message);
+        DataDocument dataDocument = new DataDocument(message.userId(), Long.parseLong(message.commercialCode()), message.action());
+        dataRepository.save(dataDocument);
+    }
+
 }

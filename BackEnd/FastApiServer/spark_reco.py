@@ -13,63 +13,41 @@ from pyspark.sql import functions as F
 from pyspark.sql.functions import lit
 from pyspark.sql.utils import AnalysisException
 import concurrent.futures
-# from hdfs import InsecureClient
 import mongoDB
 import pandas as pd
+from fastapi import BackgroundTasks
 
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
 filename = 'model_update_time.json'
 model_path = "model"
 
 
-# 마지막 업데이트 시간을 불러오는 함수
-def load_last_update_time(file_path):
-    if os.path.exists(file_path):
-        with open(file_path, 'r') as f:
-            data = json.load(f)
-            return data['last_update_time']
-    else:
-        return None
+# # 마지막 업데이트 시간을 불러오는 함수
+# def load_last_update_time(file_path):
+#     if os.path.exists(file_path):
+#         with open(file_path, 'r') as f:
+#             data = json.load(f)
+#             return data['last_update_time']
+#     else:
+#         return None
 
 # 사용자 행동별 가중치 부여 함수
 def action_weight(action):
     weights = {"click": 2, "search":4, "analysis": 7, "save": 10}
     return weights.get(action, 0)
 
-# 사용자 별 상권 특징에 대한 가중치 정보
-def load_user_weights(spark, userId):
-    weights_path = "weight/user_weights.json"
-    try:
-        # 파일이 존재하는지 확인
-        user_weights = spark.read.json(weights_path)
-        # userId 컬럼이 없는 경우 빈 DataFrame 반환
-        if "userId" not in user_weights.columns:
-            print("Error: userId column not found in user weights DataFrame.")
-            return spark.createDataFrame([(userId, 0.0, 0.0, 0.0, 0.0, 0.0)], schema="userId long, totalTrafficFootValue double, totalSalesValue double, openedRateValue double, closedRateValue double, totalConsumptionValue double")
-        # userId에 해당하는 레코드 필터링
-        if user_weights.filter(user_weights.userId == userId).count() == 0:
-            print(f"User {userId} not found in user weights DataFrame.")
-            return spark.createDataFrame([(userId, 0.0, 0.0, 0.0, 0.0, 0.0)], schema="userId long, totalTrafficFootValue double, totalSalesValue double, openedRateValue double, closedRateValue double, totalConsumptionValue double")
-        user_weights = user_weights.filter(user_weights.userId == userId)
-        return user_weights.fillna(0, subset=["totalTrafficFootValue", "totalSalesValue", "openedRateValue", "closedRateValue", "totalConsumptionValue"])
-    except Exception as e:
-        print(f"Error loading user weights: {e}")
-        # 빈 JSON 파일 생성
-        with open(weights_path, 'w') as file:
-            json.dump({}, file)  # 비어있는 딕셔너리를 JSON 형식으로 저장
+async def update_weights_in_background(weights_dict):
+    # MongoDB 업데이트 함수 호출
+    mongoDB.update_weights(weights_dict)
 
-        # 파일이 존재하지 않는 경우 빈 DataFrame 반환
-        return spark.createDataFrame([(userId, 0.0, 0.0, 0.0, 0.0, 0.0)], schema="userId long, totalTrafficFootValue double, totalSalesValue double, openedRateValue double, closedRateValue double, totalConsumptionValue double")
-
-
-def train_model(df_actions):
+async def train_model(df_actions):
     # ALS 모델 설정
     als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="commercialCode", ratingCol="weight", coldStartStrategy="drop")
     # 데이터를 이용하여 모델 훈련
     model = als.fit(df_actions)
     return model
 
-def load_or_train_model(df_actions):
+async def load_or_train_model(df_actions):
     try:
         if os.path.exists(model_path):
             print(f"Loading existing model from {model_path}...")
@@ -77,80 +55,42 @@ def load_or_train_model(df_actions):
             print("Model loaded successfully.")
         else:
             print("No existing model found. Training new model.")
-            model = train_model(df_actions)
+            model = await train_model(df_actions)
             model.save(model_path)
             print(f"Model saved at: {model_path}")
     except Exception as e:
         print(f"Failed to load or train model: {e}")
         print("Training new model.")
-        model = train_model(df_actions)
+        model = await train_model(df_actions)
         model.write().overwrite().save(model_path)
         print(f"Model saved at: {model_path}")
     
     return model
 
-def update_user_weights(spark, userId, new_weights):
-    weights_path = "weight/user_weights.json"
-    try:
-        # 가중치 데이터 로드
-        user_weights_df = spark.read.json(weights_path)
-        
-        # DataFrame이 비어있는지 확인
-        if user_weights_df.count() == 0:
-            print("The weights file is empty. Creating new weights DataFrame.")
-            # 비어있을 경우 새로운 DataFrame 생성
-            new_row = spark.createDataFrame([(userId,) + tuple(new_weights.values())], schema="userId long, " + ", ".join(f"{key} double" for key in new_weights.keys()))
-        else:
-            # userId로 기존 데이터 필터링 및 제거
-            user_weights_df = user_weights_df.filter(user_weights_df.userId != userId)
-            new_row = spark.createDataFrame([new_weights])
-            new_row = new_row.withColumn("userId", lit(userId))  # userId 칼럼 추가
-            # 새로운 가중치 데이터와 기존 데이터 결합
-            new_row = user_weights_df.union(new_row)
 
-        # 결과를 JSON 파일로 저장
-        new_row.write.mode('overwrite').json(weights_path)
-        print(f"Updated or added weights for user {userId} successfully.")
-    except Exception as e:
-        print(f"Error processing weights file: {e}")
-        # 파일 처리 중 에러가 발생했을 때 처리 로직
-
-
-def recommend_commercials(spark, userId):
+async def recommend_commercials(spark, userId, background_tasks: BackgroundTasks):
     print("추천 메서드 안!")
 
-    # CSV 파일 읽기
-    df_actions = spark.read.csv("data/action_data.csv", header=True, inferSchema=True)
+    # 데이터 가져오기
+    mongo_data = await mongoDB.get_mongodb_data()
 
-    # df.show(n=5)
+    # 데이터프레임으로 변환
+    df = pd.DataFrame(mongo_data)
 
-    # print(df.show())
-    # #to_load_csv(spark)
-        
-    #이전 업데이트 시간 불러오기
-    last_update_time = load_last_update_time(filename)
-    print("Previous update time:", last_update_time)
+    # 데이터 확인
+    print(df)
+    # 필요한 열만 선택 (예: userId, action, commercialCode)
+    df_actions = df[['userId', 'commercialCode', 'action']]
+    print(df_actions)
 
+    # 판다스 데이터프레임을 스파크 데이터프레임으로 변환
+    sdf = spark.createDataFrame(df_actions)
 
-    # # 문자열 타입의 timestamp를 datetime으로 변환
-    df_actions = df_actions.withColumn("timestamp", to_timestamp(col("timestamp")))
+    # UDF를 사용하여 가중치 컬럼 추가
+    sdf = sdf.withColumn("weight", udf(action_weight, IntegerType())(col("action")))
 
-    # # 마지막 업데이트 시간 이후의 데이터만 필터링
-    #action_data = df_actions.filter(col("timestamp") > last_update_time)
-
-    # # 가장 최근 업데이트 timestamp 파일 시스템으로 가져오기 => 해당 timestamp 이후의 사용자 행동 데이터만 가져오기 위해
-    last_update_time = datetime.datetime.now().isoformat()
-    with open('model_update_time.json', 'w') as f:
-        json.dump({'last_update_time': last_update_time}, f)
-
-    action_columns = ["userId", "action", "commercialCode"]
-    df_actions = df_actions.select(*action_columns)
-
-    print(df_actions.show())
-
-    # # UDF 등록 및 가중치 열 추가
-    action_weight_udf = udf(action_weight, IntegerType())
-    df_actions = df_actions.withColumn("weight", action_weight_udf(col("action")))
+    # HDFS에서 모델 불러오기 + 학습 + 저장
+    model = await load_or_train_model(sdf)
 
     commercial_data_path = "data/commercial_data.csv"
 
@@ -158,11 +98,9 @@ def recommend_commercials(spark, userId):
     commercial_columns = ["commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption"]
     df_commercials = commercial_data.select(*commercial_columns)
 
-    model = load_or_train_model(df_actions)
-
     # 사용자별 상권 추천 - 추천 상권 개수는 추후 조정
     user_recommendations = model.recommendForAllUsers(20)
-    user_recommendations.show(truncate=False)
+    #user_recommendations.show(truncate=False)
 
     # # 'recommendations' 배열의 구조를 분해하여 'commercialCode'와 'rating'을 별도의 컬럼으로 생성
     recommendations_df = user_recommendations.withColumn("recommendation", explode("recommendations")).select(
@@ -179,7 +117,7 @@ def recommend_commercials(spark, userId):
     df_integrated_with_recommendations = df_integrated_with_recommendations[df_integrated_with_recommendations['userId'] == userId]
     
     # mongoDB에서 userId에 맞는 레코드 가져오기
-    user_weights = mongoDB.find_weights(userId)
+    user_weights = await mongoDB.find_weights(userId)
 
     # 문서를 데이터프레임으로 변환하기 전에 리스트로 묶기
     user_weights_df = pd.DataFrame([user_weights])  # 리스트로 묶어서 전달
@@ -229,8 +167,13 @@ def recommend_commercials(spark, userId):
     # 반환할 결과
     res = final_recommendations_sorted.toPandas().to_dict(orient="records")
 
-    print(res)
+    #print(res)
 
+    background_tasks.add_task(a, final_recommendations_sorted, spark, userId, user_weights, background_tasks)
+
+    return res  
+   
+async def a(final_recommendations_sorted, spark, userId, user_weights, background_tasks: BackgroundTasks):
     # 추천 점수와 각 특성 간의 상관관계 계산
     correlations = final_recommendations_sorted.select(
         corr("final_rating", "totalTrafficFoot").alias("corr_population"),
@@ -252,14 +195,7 @@ def recommend_commercials(spark, userId):
 
     # 새로운 가중치와 이전 가중치 점진적 업데이트 (50%만 반영)
     update_ratio = 0.5  # 새 가중치를 50% 반영
-    # updated_weights = {
-    #     "userId": new_weights["userId"],
-    #     "totalTrafficFootValue": float(user_weights.select("totalTrafficFootValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalTrafficFootValue"]) * update_ratio,
-    #     "totalSalesValue": float(user_weights.select("totalSalesValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalSalesValue"]) * update_ratio,
-    #     "openedRateValue": float(user_weights.select("openedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["openedRateValue"]) * update_ratio,
-    #     "closedRateValue": float(user_weights.select("closedRateValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["closedRateValue"]) * update_ratio,
-    #     "totalConsumptionValue": float(user_weights.select("totalConsumptionValue").collect()[0][0]) * (1 - update_ratio) + float(new_weights["totalConsumptionValue"]) * update_ratio
-    # }
+
     updated_weights = user_weights.withColumn(
         "totalTrafficFootValue", 
         (col("totalTrafficFootValue") * (1 - update_ratio)) + (lit(new_weights["totalTrafficFootValue"]) * update_ratio)
@@ -285,8 +221,4 @@ def recommend_commercials(spark, userId):
     # 모든 값들을 Python 기본 데이터 타입으로 변환 (예를 들어, float 변환 등)
     weights_dict = {key: float(value) for key, value in weights_row.items()}
 
-    # MongoDB 업데이트 함수 호출
-    mongoDB.update_weights(weights_dict)
-
-    return res  
-   
+    await mongoDB.update_weights(weights_dict)

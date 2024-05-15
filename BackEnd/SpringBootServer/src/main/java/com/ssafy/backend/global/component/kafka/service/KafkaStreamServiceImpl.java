@@ -7,12 +7,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StoreQueryParameters;
+import org.apache.kafka.streams.kstream.Windowed;
 import org.apache.kafka.streams.state.KeyValueIterator;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
+import org.apache.kafka.streams.state.ReadOnlyWindowStore;
 import org.springframework.kafka.config.StreamsBuilderFactoryBean;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -24,8 +30,12 @@ public class KafkaStreamServiceImpl implements KafkaStreamService {
     @Override
     public RankingResponse getRankings() {
         KafkaStreams kafkaStreams = factoryBean.getKafkaStreams();
-        ReadOnlyKeyValueStore<String, Long> countsStore = kafkaStreams.store(
-                StoreQueryParameters.fromNameAndType("ranking", QueryableStoreTypes.keyValueStore())
+        LocalDate today = LocalDate.now();
+        Instant startOfDay = today.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant endOfDay = today.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+
+        ReadOnlyWindowStore<String, Long> windowStore = kafkaStreams.store(
+                StoreQueryParameters.fromNameAndType("daily-ranking", QueryableStoreTypes.windowStore())
         );
 
         Map<String, List<RankingDataInfo>> rankingsMap = new HashMap<>();
@@ -34,12 +44,20 @@ public class KafkaStreamServiceImpl implements KafkaStreamService {
         rankingsMap.put("Commercial", new ArrayList<>());
         rankingsMap.put("Service", new ArrayList<>());
 
-        KeyValueIterator<String, Long> iter = countsStore.all();
+        KeyValueIterator<Windowed<String>, Long> iter = windowStore.fetchAll(startOfDay, endOfDay);
+
         while (iter.hasNext()) {
-            KeyValue<String, Long> entry = iter.next();
-            String[] parts = entry.key.split(":", 2);
+            KeyValue<Windowed<String>, Long> entry = iter.next();
+            String key = entry.key.key();
+            Long count = entry.value;
+
+            log.info(entry.toString());
+
+            String[] parts = key.split(":");
             if (parts.length == 2) {
-                rankingsMap.get(parts[0]).add(new RankingDataInfo(parts[1], entry.value));
+                String category = parts[0];
+                String name = parts[1];
+                rankingsMap.get(category).add(new RankingDataInfo(name, count));
             }
         }
         iter.close();

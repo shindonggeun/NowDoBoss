@@ -1,6 +1,5 @@
 package com.ssafy.backend.domain.commercial.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalIncomeInfo;
 import com.ssafy.backend.domain.administration.dto.info.AdministrationTotalSalesInfo;
 import com.ssafy.backend.domain.administration.entity.IncomeAdministration;
@@ -32,11 +31,11 @@ import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
 import com.ssafy.backend.global.common.document.DataDocument;
 import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
+import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
 import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.C;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -258,7 +257,7 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     public AllSalesResponse getAllSalesByPeriodAndDistrictCodeAndAdministrationCodeAndCommercialCodeAndServiceCode(
-            String periodCode, String districtCode, String administrationCode, String commercialCode, String serviceCode) {
+            Long memberId, String periodCode, String districtCode, String administrationCode, String commercialCode, String serviceCode) {
         SalesDistrict salesDistrict = salesDistrictRepository.findByPeriodCodeAndDistrictCodeAndServiceCode(periodCode, districtCode, serviceCode)
                 .orElseThrow(() -> new DistrictException(DistrictErrorCode.NOT_SALES));
 
@@ -295,6 +294,10 @@ public class CommercialServiceImpl implements CommercialService {
         );
 
         kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisKafkaRequest);
+
+        // 추천용 데이터 카프카 토픽으로
+        DataInfo dataInfo = new DataInfo(memberId,commercialCode, "analysis");
+        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
 
         return new AllSalesResponse(districtTotalSalesInfo, administrationTotalSalesInfo, commercialTotalSalesInfo);
     }
@@ -490,8 +493,9 @@ public class CommercialServiceImpl implements CommercialService {
 
         kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_ANALYSIS, analysisKafkaRequest);
 
-        // 추천용 데이터 저장
-        saveDataForRecommendation(memberId, commercialAnalysis.getCommercialCode(), "save");
+        // 추천용 데이터 카프카 토픽으로
+        DataInfo dataInfo = new DataInfo(memberId, analysisSaveRequest.commercialCode(), "save");
+        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
     }
 
     private void saveDataForRecommendation(Long id, String commercialCode, String action) {

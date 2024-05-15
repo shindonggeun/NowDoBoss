@@ -4,44 +4,14 @@ import { useEffect, useRef, useState } from 'react'
 const MainRecommendContainer = () => {
   const targetRef = useRef<HTMLDivElement>(null)
   const cardScrollRef = useRef<HTMLDivElement>(null)
-  const lastCardRef = useRef<HTMLDivElement>(null)
   const [isTopPassed, setIsTopPassed] = useState(false)
+  const [isBottomReached, setIsBottomReached] = useState(false)
 
-  useEffect(() => {
-    const lastCardElement = lastCardRef.current // 렌더링 시점의 lastCardRef.current를 변수에 할당
-
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.intersectionRatio >= 0.8) {
-            // lastCard가 완전히 보일 때만 isTopPassed를 false로 설정
-            setIsTopPassed(false)
-          }
-        })
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 1.0,
-      },
-    )
-
-    if (lastCardElement) {
-      observer.observe(lastCardElement)
-    }
-
-    return () => {
-      if (lastCardElement) {
-        observer.unobserve(lastCardElement)
-      }
-    }
-  }, [])
-
+  // 해당 컨테이너가 top을 찍었을 때 스크롤이 카드에 적용되도록 하는 로직
   useEffect(() => {
     const handleScroll = () => {
       if (targetRef.current) {
         const rect = targetRef.current.getBoundingClientRect()
-        // 해당 targetRef의 top과 내가 보고있는 top을 비교하는 부분
         if (rect.top < 150) {
           setIsTopPassed(true)
         } else {
@@ -56,14 +26,35 @@ const MainRecommendContainer = () => {
     }
   }, [])
 
+  // 카드 목록 스크롤이 맨 밑에 도달했을 때
+  useEffect(() => {
+    const CurrentScrollRef = cardScrollRef.current
+
+    const handleCardScroll = () => {
+      if (CurrentScrollRef) {
+        const { scrollTop, scrollHeight, clientHeight } = cardScrollRef.current
+        if (scrollTop + clientHeight >= scrollHeight) {
+          // 스크롤이 최하단에 도달했을 때
+          setIsBottomReached(true)
+        } else {
+          setIsBottomReached(false)
+        }
+      }
+    }
+
+    CurrentScrollRef?.addEventListener('scroll', handleCardScroll)
+    return () => {
+      CurrentScrollRef?.removeEventListener('scroll', handleCardScroll)
+    }
+  }, [])
+
+  // isTopPassed 값이 true이면 카드 scroll 내부가 스크롤 되게 하는 로직
   useEffect(() => {
     const handleGlobalWheel = (event: WheelEvent) => {
-      if (isTopPassed && cardScrollRef.current) {
-        // 방지하는 것을 주석처리하여 페이지 전체 스크롤을 방지하지 않습니다.
+      if (isTopPassed && !isBottomReached && cardScrollRef.current) {
         event.preventDefault()
         cardScrollRef.current.scrollBy({
-          top: event.deltaY, // deltaY 값으로 세로 스크롤
-          // behavior: 'smooth', // 부드러운 스크롤
+          top: event.deltaY,
         })
       }
     }
@@ -73,7 +64,7 @@ const MainRecommendContainer = () => {
     return () => {
       window.removeEventListener('wheel', handleGlobalWheel)
     }
-  }, [isTopPassed])
+  }, [isTopPassed, isBottomReached])
 
   return (
     <m.Container ref={targetRef}>
@@ -93,7 +84,7 @@ const MainRecommendContainer = () => {
             <m.Card>카드</m.Card>
             <m.Card>카드</m.Card>
             <m.Card>카드</m.Card>
-            <m.Card ref={lastCardRef}>카드</m.Card>
+            <m.Card>카드</m.Card>
           </m.CardScroll>
         </m.CardList>
       </m.Content>

@@ -147,3 +147,12 @@ export interface SimulationSaveType {
   storeSize: number
   floor: string
 }
+
+export interface SimulationSaveBody {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: SimulationSaveType[]
+}

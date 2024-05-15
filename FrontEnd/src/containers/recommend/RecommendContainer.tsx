@@ -63,9 +63,11 @@ const RecommendContainer = () => {
 
   useEffect(() => {
     setSubmitData({
-      // districtCode: selectedGoo.code,
-      districtCode: 11710,
-      administrationCode: 0,
+      districtCode: selectedGoo.code,
+      administrationCode: selectedDong.code,
+
+      // districtCode: 11710,
+      // administrationCode: 0,
     })
   }, [selectedDong.code, selectedGoo.code])
 

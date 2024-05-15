@@ -16,9 +16,13 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin
 
-# 설정 파일과 스크립트 추가
-COPY hadoop/ /hadoop/
+# 설정 파일과 및 setup-hadoop 쉘 스크립트 복사
+COPY core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
+COPY mapred-stie.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
+COPY yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
 COPY setup-hadoop.sh /usr/local/bin/setup-hadoop.sh
+
+# 해당 세팅 쉘 스크립트 실행
 RUN chmod +x /usr/local/bin/setup-hadoop.sh && /usr/local/bin/setup-hadoop.sh
 
 # SSH 구성

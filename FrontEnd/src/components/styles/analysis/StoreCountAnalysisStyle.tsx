@@ -130,3 +130,8 @@ export const ErrBox = styled.div`
   border-radius: 10px; // 테두리 둥글기
   border: 1px solid #ffd0d0; // 테두리 색상
 `
+
+export const HighlightText = styled.span`
+  color: #2a65f0;
+  font-weight: 600;
+`

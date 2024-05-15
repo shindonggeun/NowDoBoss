@@ -34,7 +34,11 @@ const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
 
   // 창업 시뮬레이션 비교하기 버튼 클릭 핸들러
   const handleSimulationCompareClick = () => {
-    navigate('/analysis/simulation/compare')
+    navigate(
+      '/analysis/simulation/compare',
+      // ,{ state: { res }
+      // location.state.res로 받음
+    )
   }
 
   // 레포트 분석 저장
@@ -100,8 +104,7 @@ const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
   }
 
   const onClickCompare = async () => {
-    handleSimulationCompareClick()
-    onClose()
+    await handleSimulationCompareClick()
   }
   return (
     <c.SelctionReportHeader>

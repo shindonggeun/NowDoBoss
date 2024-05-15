@@ -13,10 +13,10 @@ echo 'export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"' >> /root/.bashr
 
 source /root/.bashrc
 
-# hadoop 폴더내에 있는 구성 파일 복사
-cp /hadoop/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
-cp /hadoop/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
-cp /hadoop/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
+# common 폴더내에 있는 구성 파일 복사
+cp /common/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
+cp /common/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
+cp /common/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
 
 # masters와 workers 파일 설정
 echo "master1" > $HADOOP_HOME/etc/hadoop/masters

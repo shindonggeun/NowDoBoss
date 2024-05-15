@@ -11,8 +11,11 @@ services:
       - "29870:9870"    # NameNode Web UI
       - "28088:8088"    # ResourceManager Web UI
       - "29888:19888"   # MapReduce JobHistory Server Web UI
+    volumes:
+      - ssh_keys:/root/.ssh
     networks:
       - nowdoboss_net  # 사용할 네트워크를 지정합니다.
+    command: /bin/bash -c "/usr/local/bin/init-ssh-keys.sh"
 
   worker1:
     build: 
@@ -20,8 +23,11 @@ services:
       dockerfile: hd-base.Dockerfile
     container_name: worker1
     hostname: worker1
+    volumes:
+      - ssh_keys:/root/.ssh
     networks:
       - nowdoboss_net  # 사용할 네트워크를 지정합니다.
+    command: /bin/bash -c "/usr/local/bin/init-ssh-keys.sh"
 
   worker2:
     build: 
@@ -29,10 +35,17 @@ services:
       dockerfile: hd-base.Dockerfile
     container_name: worker2
     hostname: worker2
+    volumes:
+      - ssh_keys:/root/.ssh
     networks:
       - nowdoboss_net  # 사용할 네트워크를 지정합니다.
+    command: /bin/bash -c "/usr/local/bin/init-ssh-keys.sh"
 
 networks:
   nowdoboss_net:  # 사용할 네트워크를 정의합니다.
     name: nowdoboss_net
     driver: bridge
+
+volumes:
+  ssh_keys:
+    driver: local

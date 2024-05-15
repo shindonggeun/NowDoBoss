@@ -17,13 +17,14 @@ ENV HADOOP_HOME=/usr/local/hadoop
 ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin
 
 # 설정 파일과 및 setup-hadoop 쉘 스크립트 복사
-COPY core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
-COPY mapred-stie.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
-COPY yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
-COPY setup-hadoop.sh /usr/local/bin/setup-hadoop.sh
+COPY common/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
+COPY common/mapred-stie.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
+COPY common/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
+COPY common/setup-hadoop.sh /usr/local/bin/setup-hadoop.sh
+COPY common/init-ssh-keys.sh /usr/local/bin/init-ssh-keys.sh
 
-# 해당 세팅 쉘 스크립트 실행
-RUN chmod +x /usr/local/bin/setup-hadoop.sh && /usr/local/bin/setup-hadoop.sh
+# 쉘 스크립트 실행 권한 부여 및 실행
+RUN chmod +x /usr/local/bin/setup-hadoop.sh /usr/local/bin/init-ssh-keys.sh
 
 # SSH 구성
 RUN service ssh start

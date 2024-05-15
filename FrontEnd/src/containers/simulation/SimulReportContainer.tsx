@@ -60,7 +60,7 @@ const SimulReportContainer = () => {
   useEffect(() => {
     setTimeout(() => {
       setSpinner(false)
-    }, 2000)
+    }, 1500)
   }, [])
 
   return (

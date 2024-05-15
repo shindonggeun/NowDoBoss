@@ -25,6 +25,7 @@ import AnalysisPage from '@src/pages/AnalysisPage'
 import RecommendPage from '@src/pages/RecommendPage'
 import SimulationPage from '@src/pages/SimulationPage'
 import SimulationReportPage from '@src/pages/SimulationReportPage'
+import SimulationReportComparePage from '@src/pages/SimulationReportComparePage'
 import ChattingPage from '@src/pages/ChattingPage'
 import CommunityListPage from '@src/pages/CommunityListPage'
 import { useEffect } from 'react'
@@ -86,10 +87,18 @@ function App() {
               path="simulation/report"
               element={<SimulationReportPage />}
             />
+            <Route
+              path="simulation/compare"
+              element={<SimulationReportComparePage />}
+            />
           </Route>
           <Route path="/recommend" element={<RecommendPage />} />
           <Route path="/simulation" element={<SimulationPage />} />
           <Route path="/simulation/report" element={<SimulationReportPage />} />
+          <Route
+            path="/simulation/compare"
+            element={<SimulationReportComparePage />}
+          />
           {/* 커뮤니티 */}
           <Route path="/community/*" element={<CommunityPage />}>
             <Route path="list" element={<CommunityListPage />} />

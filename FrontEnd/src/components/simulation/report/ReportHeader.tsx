@@ -5,11 +5,12 @@ import SaveIcon from '@src/assets/saveMark.svg'
 import CompareIcon from '@src/assets/compare.svg'
 import Xmark from '@src/assets/xmark_solid_nomal.svg'
 import { useEffect, useState } from 'react'
-import useSimulationStore from '@src/stores/simulationStore'
-import useReportStore from '@src/stores/reportStore'
 import { useMutation } from '@tanstack/react-query'
 import { reportSave } from '@src/api/simulationApi'
+import useSimulationStore from '@src/stores/simulationStore'
+import useReportStore from '@src/stores/reportStore'
 import { SimulationSaveType } from '@src/types/SimulationType'
+import { useNavigate } from 'react-router-dom'
 
 const { Kakao } = window
 
@@ -27,8 +28,15 @@ const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
     bulidingSize,
     floor,
   } = useSimulationStore()
+  const navigate = useNavigate()
   const { sigungu } = useReportStore()
   const [isSaved, setIsSaved] = useState<boolean>(false)
+
+  // 창업 시뮬레이션 비교하기 버튼 클릭 핸들러
+  const handleSimulationCompareClick = () => {
+    navigate('/analysis/simulation/compare')
+  }
+
   // 레포트 분석 저장
   const { mutate: mutateSaveReport } = useMutation({
     mutationFn: reportSave,
@@ -55,11 +63,6 @@ const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
     if (!isSaved) {
       mutateSaveReport(saveReportData)
     }
-  }
-
-  const onClickCompare = () => {
-    console.log('임시 공유하기 버튼')
-    shareKakao()
   }
 
   useEffect(() => {
@@ -96,10 +99,14 @@ const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
     })
   }
 
+  const onClickCompare = async () => {
+    handleSimulationCompareClick()
+    onClose()
+  }
   return (
     <c.SelctionReportHeader>
       <c.SelctionReportContainer>
-        <c.HeaderLeft>
+        <c.HeaderLeft onClick={() => shareKakao()}>
           <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
         </c.HeaderLeft>
         <c.HeaderRight>

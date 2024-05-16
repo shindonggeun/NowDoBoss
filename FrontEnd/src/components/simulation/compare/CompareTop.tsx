@@ -23,6 +23,7 @@ const CompareTop = ({ savedList, setSelected }: CompareTopType) => {
       sx={{
         minWidth: 200,
         width: '45%',
+        fontFamily: 'Pretendard',
       }}
     >
       {savedList.map((data, i) => {
@@ -50,15 +51,13 @@ const CompareTop = ({ savedList, setSelected }: CompareTopType) => {
               component="span"
               sx={{ display: 'block', fontFamily: 'pretendard' }}
             >
-              {data.isFranchisee && (
-                <Typography
-                  component="span"
-                  level="title-sm"
-                  sx={{ fontWeight: 600 }}
-                >
-                  {data.brandName}
-                </Typography>
-              )}
+              <Typography
+                component="span"
+                level="title-sm"
+                sx={{ fontWeight: 600 }}
+              >
+                {data.isFranchisee ? `${data.brandName}` : '개인 창업'}
+              </Typography>
               <Typography component="span" level="title-sm">
                 {data.gugun}, {data.serviceCodeName}
               </Typography>

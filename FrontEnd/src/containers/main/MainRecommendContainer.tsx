@@ -33,7 +33,7 @@ const MainRecommendContainer = () => {
     const handleCardScroll = () => {
       if (CurrentScrollRef) {
         const { scrollTop, scrollHeight, clientHeight } = cardScrollRef.current
-        if (scrollTop + clientHeight >= scrollHeight) {
+        if (scrollTop + clientHeight + 100 >= scrollHeight) {
           // 스크롤이 최하단에 도달했을 때
           setIsBottomReached(true)
         } else {
@@ -81,15 +81,15 @@ const MainRecommendContainer = () => {
         <m.CardList>
           <m.CardScroll ref={cardScrollRef}>
             <m.Card>
-              <m.CardImg src="public/images/recommendGoo.png" />
+              <m.CardImg src="images/recommendGoo.png" />
               자치구 선택
             </m.Card>
             <m.Card>
-              <m.CardImg src="public/images/recommendDong.png" />
+              <m.CardImg src="images/recommendDong.png" />
               행정동 선택
             </m.Card>
             <m.Card>
-              <m.CardImg src="public/images/recommendCommercial.png" />
+              <m.CardImg src="images/recommendCommercial.png" />
               상권 선택
             </m.Card>
             {/* <m.Card>카드</m.Card> */}

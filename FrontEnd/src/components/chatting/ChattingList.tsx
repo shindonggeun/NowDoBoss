@@ -113,11 +113,12 @@ const ChattingList = () => {
                       <c.Content>
                         <a.Category>
                           <a.Icon src={iconSrc} />
-                          {categoryKorean}
+                          <a.VisibleName>{categoryKorean}</a.VisibleName>
                         </a.Category>
                       </c.Content>
                       <c.Content>
-                        멤버수 {article.memberCount} / {article.limit}
+                        <a.VisibleName>멤버수</a.VisibleName>
+                        {article.memberCount} / {article.limit}
                       </c.Content>
                     </c.Div>
                   </a.Header>

@@ -62,4 +62,14 @@ export const SubContent = styled.div`
   font-size: 1.7rem;
   text-align: center;
   line-height: 200%;
+  opacity: 0;
+  transform: translateY(50px);
+  transition:
+    opacity 2s ease-out,
+    transform 2s ease-out;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 `

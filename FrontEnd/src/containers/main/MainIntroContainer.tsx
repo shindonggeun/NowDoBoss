@@ -1,8 +1,42 @@
 import * as i from '@src/containers/main/MainIntroContainerStyle'
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
 
 const MainIntroContainer = () => {
   const navigate = useNavigate()
+  const subRef = useRef(null)
+
+  useEffect(() => {
+    const currentRef = subRef.current
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+          } else {
+            entry.target.classList.remove('visible')
+          }
+        })
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 1,
+      },
+    )
+
+    if (currentRef) {
+      observer.observe(currentRef)
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef)
+      }
+    }
+  }, [subRef])
+
   return (
     <i.Container>
       <i.Main>
@@ -23,7 +57,7 @@ const MainIntroContainer = () => {
         </i.ButtonDiv>
       </i.Main>
       <i.Sub>
-        <i.SubContent>
+        <i.SubContent ref={subRef}>
           서울의 상권 정보를 쉽게 파악하고 최적의 입지를 발견하세요.
           <br />
           지금까지 없었던 직관적이고 혁신적인 상권 분석 서비스,

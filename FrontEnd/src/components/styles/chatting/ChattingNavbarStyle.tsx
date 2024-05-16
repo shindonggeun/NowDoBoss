@@ -20,8 +20,6 @@ export const Container = styled.div`
     position: fixed;
     height: 8vh;
     padding: 5px 2vw;
-    background-color: #ffffff;
-    border-bottom: 1px solid #dee4ec;
   }
 `
 export const SmallLeft = styled.div`
@@ -38,7 +36,7 @@ export const SmallRight = styled.div`
     justify-content: right;
   }
 `
-export const Chatting = styled.div`
+export const Chatting = styled.div<{ $isTransparent: boolean }>`
   margin: 0 0 10px 0;
 
   @media only screen and (max-width: 992px) {
@@ -48,6 +46,13 @@ export const Chatting = styled.div`
     width: 100%;
     height: 10vh;
     margin: 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee4ec;
+    opacity: ${props => (props.$isTransparent ? 1 : 0)};
+    pointer-events: ${props => (props.$isTransparent ? 'auto' : 'none')};
+    transition:
+      opacity 0.3s,
+      background-color 0.3s;
   }
 `
 
@@ -203,7 +208,7 @@ export const Small = styled.div`
   }
 `
 
-export const CreateIcon = styled.img`
+export const CreateIcon = styled.img<{ $isTransparent: boolean }>`
   display: none;
 
   @media only screen and (max-width: 992px) {
@@ -211,6 +216,8 @@ export const CreateIcon = styled.img`
     cursor: pointer;
     scale: 1.5;
     padding: 0.25rem 0.5rem;
+    opacity: ${props => (props.$isTransparent ? 1 : 0)};
+    pointer-events: ${props => (props.$isTransparent ? 'auto' : 'none')};
   }
   @media only screen and (max-width: 540px) {
     display: flex;

@@ -1,6 +1,6 @@
 import * as c from '@src/components/styles/chatting/ChattingNavbarStyle'
 import * as n from '@src/components/styles/community/NavbarStyle'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import CreateModal from '@src/components/chatting/CreateModal'
 import ChatSearchBar from '@src/components/chatting/ChatSearchBar'
@@ -24,9 +24,31 @@ const ChattingNavbar = () => {
     }
   }
 
+  // 스크롤 내렸을 때 사라지게 하는 로직
+  const [isTransparent, setIsTransparent] = useState<boolean>(true)
+  const [lastScrollY, setLastScrollY] = useState<number>(0)
+
+  // 현재 스크롤과 이전 스크롤 상태 비교해서 올림, 내림 스크롤 판단하는 로직
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY
+    if (currentScrollY > lastScrollY) {
+      setIsTransparent(false)
+    } else {
+      setIsTransparent(true)
+    }
+    setLastScrollY(currentScrollY)
+  }, [lastScrollY])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [handleScroll, lastScrollY])
+
   return (
     <c.Container>
-      <c.Chatting>
+      <c.Chatting $isTransparent={isTransparent}>
         <c.SmallLeft>
           <n.Title>채팅</n.Title>
           {/* <n.Sub>회원들과 대화를 나눠보세요.</n.Sub> */}
@@ -52,7 +74,11 @@ const ChattingNavbar = () => {
               <ChatSearchBar />
             </c.Col>
           )}
-          <c.CreateIcon src={penIcon} onClick={() => handleCreateChatRoom()} />
+          <c.CreateIcon
+            src={penIcon}
+            onClick={() => handleCreateChatRoom()}
+            $isTransparent={isTransparent}
+          />
         </c.SmallRight>
       </c.Chatting>
 

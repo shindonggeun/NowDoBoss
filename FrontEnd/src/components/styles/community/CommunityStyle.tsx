@@ -169,6 +169,7 @@ export const Category = styled.div`
   color: #696d6e;
   display: flex;
   margin-left: -7px;
+  width: auto;
 `
 export const Body = styled.div`
   padding: 5px 0;

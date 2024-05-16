@@ -14,9 +14,12 @@ export const Title = styled.div`
 `
 
 export const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: 500;
   color: #696d6e;
-  margin: 5px;
+  margin: 5px 5px 5px 0;
 `
 
 export const Div = styled.div`

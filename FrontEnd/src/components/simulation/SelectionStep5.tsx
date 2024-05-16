@@ -9,10 +9,10 @@ import useReportStore from '@src/stores/reportStore'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import {
-  SimulationDataType,
+  SimulationDataTypes,
   StoreSizeDataBody,
 } from '@src/types/SimulationType'
-import { fetchStoreSize, reportCreate } from '@src/api/simulationApi'
+import { fetchStoreSize, reportCreates } from '@src/api/simulationApi'
 
 const SelectionStep5 = () => {
   const navigate = useNavigate()
@@ -54,7 +54,7 @@ const SelectionStep5 = () => {
 
   // 레포트 생성
   const { mutate: mutateCreateReport } = useMutation({
-    mutationFn: reportCreate,
+    mutationFn: reportCreates,
     onSuccess: res => {
       navigate('/analysis/simulation/report', { state: { res } })
     },
@@ -64,7 +64,7 @@ const SelectionStep5 = () => {
   })
 
   const goReportPage = () => {
-    const reportCreateData: SimulationDataType = {
+    const reportCreateData: SimulationDataTypes = {
       isFranchisee: isFranchise,
       brandName,
       gugun: sigungu,

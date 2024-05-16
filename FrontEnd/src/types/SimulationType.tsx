@@ -80,7 +80,7 @@ export interface FranchiseDataBody {
 }
 
 // 시뮬레이션 레포트 요청 데이터 타입
-export interface SimulationDataType {
+export interface SimulationDataTypes {
   isFranchisee: boolean | null
   brandName: string | null
   gugun: string

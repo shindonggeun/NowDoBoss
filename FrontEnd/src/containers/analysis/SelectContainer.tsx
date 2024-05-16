@@ -10,6 +10,7 @@ import SearchSection from '@src/components/analysis/SearchSection'
 import * as a from '@src/containers/analysis/SelectContainerStyle'
 import up_arrow from '@src/assets/arrow_up.svg'
 import down_arrow from '@src/assets/arrow_down.svg'
+import Banner from '@src/common/Banner'
 
 const SelectContainer = (props: SelectContainerPropsType) => {
   const { setIsReady, handleResultButtonClick } = props
@@ -56,6 +57,9 @@ const SelectContainer = (props: SelectContainerPropsType) => {
             setIsOpen={setIsOpen}
             handleResultButtonClick={handleResultButtonClick}
           />
+          <a.Banner>
+            <Banner />
+          </a.Banner>
         </a.Search>
         <a.ReduceBtnWrap>
           <a.ReduceBtn onClick={() => setIsOpen(!isOpen)}>

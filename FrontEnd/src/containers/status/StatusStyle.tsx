@@ -5,7 +5,8 @@ export const StatusContainer = styled.div`
   flex-direction: row;
   // 너비 어떻게??
   //width: window.innerWidth;
-  height: 90.5vh;
+  width: 100vw;
+  height: calc(100vh - 68px);
   overflow: hidden;
   //background-color: #ededef;
 
@@ -15,13 +16,12 @@ export const StatusContainer = styled.div`
 `
 
 export const Sidebar = styled.div`
-  min-width: 380px;
-  height: 70vh;
-  min-height: 70vh;
-  box-shadow: 10px 0 10px -5px rgba(130, 130, 130, 0.2);
+  width: 380px;
+  height: 520px;
+  box-shadow: 10px 10px 15px -5px rgba(0, 0, 0, 0.2);
   border: 1px solid #dce5f2;
   border-radius: 5px;
-  margin: 10px 50px;
+  margin: 10px 10px;
   background-color: white;
 
   @media (max-width: 768px) {
@@ -30,7 +30,11 @@ export const Sidebar = styled.div`
 `
 
 export const EmptyContainer = styled.div`
-  width: 700px;
+  width: 400px;
+`
+
+export const Banner = styled.div`
+  margin: 5px -10px;
 `
 
 export const Content = styled.div`

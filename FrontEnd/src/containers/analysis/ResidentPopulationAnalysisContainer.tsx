@@ -28,7 +28,10 @@ const ResidentPopulationAnalysisContainer = forwardRef(
           periodCode,
         ],
         queryFn: () =>
-          getResidentPopulationData(String(selectedCommercial.code)),
+          getResidentPopulationData(
+            String(selectedCommercial.code),
+            periodCode,
+          ),
         enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
       })
 

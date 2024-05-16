@@ -20,8 +20,6 @@ export const Container = styled.div`
     left: 0;
     height: 8vh;
     padding: 5px 20px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #dee4ec;
   }
 
   @media only screen and (max-width: 400px) {
@@ -29,7 +27,7 @@ export const Container = styled.div`
     width: 98vw;
   }
 `
-export const Community = styled.div`
+export const Community = styled.div<{ $isTransparent: boolean }>`
   margin: 0 0 10px 0;
   width: 200px;
   @media only screen and (max-width: 992px) {
@@ -39,6 +37,14 @@ export const Community = styled.div`
     width: 95vw;
     height: 10vh;
     margin: 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee4ec;
+
+    opacity: ${props => (props.$isTransparent ? 1 : 0)};
+    pointer-events: ${props => (props.$isTransparent ? 'auto' : 'none')};
+    transition:
+      opacity 0.3s,
+      background-color 0.3s;
   }
   @media only screen and (max-width: 500px) {
     display: flex;
@@ -103,7 +109,7 @@ export const CreateButton = styled.div`
   }
 `
 
-export const CreateIcon = styled.img`
+export const CreateIcon = styled.img<{ $isTransparent: boolean }>`
   display: none;
 
   @media only screen and (max-width: 992px) {
@@ -111,6 +117,8 @@ export const CreateIcon = styled.img`
     cursor: pointer;
     scale: 1.5;
     padding: 0.25rem 0.5rem;
+    opacity: ${props => (props.$isTransparent ? 1 : 0)};
+    pointer-events: ${props => (props.$isTransparent ? 'auto' : 'none')};
   }
 
   @media only screen and (max-width: 500px) {

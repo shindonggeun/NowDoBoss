@@ -37,6 +37,7 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       getSalesData(
         String(selectedCommercial.code),
         selectedService.serviceCode,
+        periodCode,
       ),
     enabled:
       selectedCommercial.code !== 0 && selectedService.serviceCode !== '', // 상권 코드가 0이거나 업종 코드가 없으면 호출하지 않는 조건
@@ -72,6 +73,7 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
         String(selectedDong.code),
         String(selectedCommercial.code),
         selectedService.serviceCode,
+        periodCode,
       ),
     enabled:
       selectedGoo.code !== 0 &&

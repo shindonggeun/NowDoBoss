@@ -4,12 +4,12 @@ export const Container = styled.div`
   position: fixed;
   top: 69px;
   left: 0;
-  width: 40vw;
-  height: 90vh;
+  width: 550px;
+  height: calc(100vh - 68px);
   z-index: 1000;
   background-color: white;
 
-  border: 10px solid white;
+  border: 2px solid white;
   border-left: none;
 
   border-top-right-radius: 15px;

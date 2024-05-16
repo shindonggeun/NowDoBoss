@@ -28,8 +28,6 @@ import com.ssafy.backend.domain.district.exception.DistrictErrorCode;
 import com.ssafy.backend.domain.district.exception.DistrictException;
 import com.ssafy.backend.domain.district.repository.IncomeDistrictRepository;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
-import com.ssafy.backend.global.common.document.DataDocument;
-import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
 import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
@@ -62,7 +60,6 @@ public class CommercialServiceImpl implements CommercialService {
     private final IncomeAdministrationRepository incomeAdministrationRepository;
     private final CommercialAnalysisRepository commercialAnalysisRepository;
     private final KafkaProducer kafkaProducer;
-    private final DataRepository dataRepository;
 
     @Override
     @Transactional(readOnly = true)

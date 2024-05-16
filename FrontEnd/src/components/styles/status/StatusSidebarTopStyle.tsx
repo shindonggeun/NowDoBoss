@@ -1,22 +1,29 @@
 import styled from 'styled-components'
 
-export const Container = styled.div``
+export const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`
 
 export const HeaderContainer = styled.div`
   background-color: #0066ff;
   display: flex;
   flex-direction: column;
   border-radius: 5px 5px 0 0;
-  padding: 15px 30px 10px 30px;
-  min-height: 8vh;
+  padding: 10px 10px 5px 20px;
+  height: 80px;
   color: white;
 `
 
 export const HeaderTitle = styled.div`
   text-align: start;
-  font-weight: 600;
-  font-size: 1.2rem;
-  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 1.4rem;
+`
+
+export const HeaderSubTitle = styled.div`
+  font-size: 0.9rem;
+  padding: 0 0 5px;
 `
 
 export const TabContainer = styled.div`
@@ -45,7 +52,7 @@ export const TabList = styled.div<{ selected: boolean }>`
 `
 
 export const TopListContainer = styled.div`
-  margin: 2vh 40px 1vh 40px;
+  margin: 10px 40px 10px 30px;
 `
 
 export const SeparateLine = styled.div`
@@ -62,8 +69,10 @@ export const Item = styled.div<ItemProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 1vh 0;
+  //margin: 1vh 0;
+  margin: 10px 0;
   padding-bottom: 5px;
+  font-weight: 500;
   border-bottom: ${props => (props.$islast ? 'none' : '1px solid #ABC4E9')};
   font-size: 0.9rem;
   animation: fadeInItem 0.2s ease-in-out ${props => props.index * 0.1}s forwards;
@@ -113,7 +122,7 @@ export const Rank = styled.div`
 `
 
 export const Name = styled.div`
-  font-weight: 600;
+  font-weight: 700;
   text-align: left;
 `
 

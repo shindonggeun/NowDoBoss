@@ -8,6 +8,7 @@ import StatusPolygonComponent from '@src/components/status/StatusPolygonComponen
 import StatusSidebarTopComponent from '@src/components/status/StatusSidebarTopComponent'
 import StatusDetailbarComponent from '@src/components/status/StatusDetailbarComponent'
 import useStateStore from '@src/stores/statusStore'
+import Banner from '@src/common/Banner'
 
 const StatusContainer = () => {
   const { selectedRegion } = useStateStore()
@@ -48,6 +49,9 @@ const StatusContainer = () => {
                 onClickSetTab={onClickSetTab}
                 onClickRegionCodeHandler={onClickRegionCodeHandler}
               />
+              <c.Banner>
+                <Banner />
+              </c.Banner>
             </c.Sidebar>
           )}
 

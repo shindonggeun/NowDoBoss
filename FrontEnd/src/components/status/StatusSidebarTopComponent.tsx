@@ -45,7 +45,9 @@ const StatusSidebarTopComponent = ({
     <h.Container>
       <h.HeaderContainer>
         <h.HeaderTitle>구별 상권 현황</h.HeaderTitle>
-        <div>아래의 구분을 선택하여 현황을 파악해보세요</div>
+        <h.HeaderSubTitle>
+          아래의 구분을 선택하여 현황을 파악해보세요
+        </h.HeaderSubTitle>
       </h.HeaderContainer>
       <h.TabContainer>
         {TopBarListInfos.map((item, i) => (

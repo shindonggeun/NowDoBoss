@@ -6,9 +6,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationAreaResponse;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
+import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
+import com.ssafy.backend.domain.commercial.exception.CommercialException;
 import com.ssafy.backend.domain.commercial.repository.*;
-import com.ssafy.backend.global.common.document.DataDocument;
-import com.ssafy.backend.global.common.repository.DataRepository;
+import com.ssafy.backend.domain.recommendation.exception.RecommendationErrorCode;
+import com.ssafy.backend.domain.recommendation.exception.RecommendationException;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
 import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
@@ -32,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -106,29 +107,30 @@ public class RecommendationServiceImpl implements RecommendationService{
                         DataInfo dataInfo = new DataInfo(id, commercialCode, "save");
                         kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
 
-                        try {
-                            RecommendationDocument document = new RecommendationDocument(id, commercialCode);
-                            recommendationRepository.save(document);
-                        } catch (MongoWriteException e) {
-                            if (e.getError().getCode() == 11000) {
-                                System.out.println("이미 저장된 추천입니다.");
-                            } else {
-                                throw e; // 다른 종류의 쓰기 에러 처리
-                            }
+                        boolean existAnalysis = recommendationRepository.existsByUserIdAndCommercialCode(commercialKafkaInfo.userId(), commercialKafkaInfo.commercialCode());
+
+                        if (existAnalysis) {
+                            throw new RecommendationException(RecommendationErrorCode.EXIST_ANALYSIS);
                         }
+
+
+                        RecommendationDocument document = RecommendationDocument.builder()
+                                .userId(id)
+                                .commercialCode(commercialCode)
+                                .build();
+                        recommendationRepository.save(document);
                         break;
                     }
                 }
             } catch (JsonProcessingException e) {
-                // JSON 역직렬화 실패 시 예외 처리
-                e.printStackTrace();
+                throw new RecommendationException(RecommendationErrorCode.JSON_PROCESSING);
             }
         }
     }
 
     @Override
     public void deleteCommercialRecommendation(String commercialCode, Long id) {
-        recommendationRepository.deleteByUserIdAndCommercialCodeAndType(id, commercialCode);
+        recommendationRepository.deleteByUserIdAndCommercialCode(id, commercialCode);
     }
 
     @Override
@@ -142,8 +144,8 @@ public class RecommendationServiceImpl implements RecommendationService{
     }
 
     private String getCode(UserResponse dto) {
-        log.info("비교하기 행정동 코드 : {} {}", dto.commercialCode(), dto.userId());
-        log.info("구한 행정동 코드: {}", areaCommercialRepository.findByCommercialCode(dto.commercialCode()).administrationCode());
+        //log.info("비교하기 행정동 코드 : {} {}", dto.commercialCode(), dto.userId());
+        //log.info("구한 행정동 코드: {}", areaCommercialRepository.findByCommercialCode(dto.commercialCode()).administrationCode());
         return areaCommercialRepository.findByCommercialCode(dto.commercialCode()).administrationCode();
     }
 

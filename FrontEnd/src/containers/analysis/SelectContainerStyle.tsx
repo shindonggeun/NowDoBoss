@@ -31,6 +31,11 @@ export const Search = styled.div`
   }
 `
 
+export const Banner = styled.div`
+  position: absolute;
+  z-index: 1;
+`
+
 export const ReduceBtnWrap = styled.div`
   position: absolute;
   z-index: 1;

@@ -25,14 +25,14 @@ public class SalesDistrictCustomRepositoryImpl implements SalesDistrictCustomRep
     public List<SalesDistrictTopTenResponse> getTopTenSalesDistrictByPeriodCode() {
         QSalesDistrict sd = QSalesDistrict.salesDistrict;
 
-        // 상위 판매 구역 이름을 가져오는 쿼리
-        List<String> topDistrictNames = queryFactory
-                .select(sd.districtCodeName)
-                .from(sd)
-                .where(sd.periodCode.eq("20233"))
-                .groupBy(sd.districtCodeName)
-                .orderBy(sd.monthSales.sum().desc())
-                .fetch();
+//        // 상위 판매 구역 이름을 가져오는 쿼리
+//        List<String> topDistrictNames = queryFactory
+//                .select(sd.districtCodeName)
+//                .from(sd)
+//                .where(sd.periodCode.eq("20233"))
+//                .groupBy(sd.districtCodeName)
+//                .orderBy(sd.monthSales.sum().desc())
+//                .fetch();
 
         // 상위 판매 구역 정보와 추가 계산을 포함하여 가져오는 쿼리
         List<Tuple> districtData = queryFactory
@@ -45,7 +45,7 @@ public class SalesDistrictCustomRepositoryImpl implements SalesDistrictCustomRep
                                 .multiply(100).as("totalRate")
                 )
                 .from(sd)
-                .where(sd.districtCodeName.in(topDistrictNames))
+//                .where(sd.districtCodeName.in(topDistrictNames))
                 .groupBy(sd.districtCode, sd.districtCodeName)
                 .orderBy(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.monthSales).otherwise(0L).sum().desc())
                 .fetch();

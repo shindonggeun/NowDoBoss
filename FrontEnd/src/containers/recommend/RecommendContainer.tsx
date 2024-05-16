@@ -11,17 +11,43 @@ import RecommendBody from '@src/components/recommend/RecommendBody'
 import RecommendBanner from '@src/components/recommend/RecommendBanner'
 import RecommendBlueOcean from '@src/components/recommend/RecommendBlueOcean'
 import { RecommendCommercialType } from '@src/types/MapType'
+import Banner from '@src/common/Banner'
 
 const RecommendContainer = () => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const [shouldRender, setShouldRender] = useState<boolean>(false)
   const reportRef = useRef<HTMLDivElement | null>(null)
+  const [selectedTab, setSelectedTab] = useState<string>('')
+  const [selectedData, setSelectedData] = useState<RecommendCommercialType>({
+    commercialCode: 0,
+    commercialCodeName: '',
+    salesCommercialInfo: {
+      mySales: 0,
+      administrationSales: 0,
+      otherSales: 0,
+    },
+    footTrafficCommercialInfo: {
+      myFootTraffic: 0,
+      administrationFootTraffic: 0,
+      otherFootTraffic: 0,
+    },
+    storeCommercialInfo: {
+      myStores: 0,
+      administrationStores: 0,
+      otherStores: 0,
+    },
+    closedRateCommercialInfo: {
+      myClosedRate: 0,
+      administrationClosedRate: 0,
+      otherClosedRate: 0,
+    },
+    blueOceanInfo: { string: 0 },
+  })
 
   useEffect(() => {
     // isSubmit 상태가 변경될 때마다 shouldRender도 업데이트
     if (isSubmit) {
       setShouldRender(true)
-      setIsSubmit(false)
     }
   }, [isSubmit])
 
@@ -46,6 +72,31 @@ const RecommendContainer = () => {
     // 애니메이션이 끝나면 shouldRender 상태를 false로 설정하여 컴포넌트를 제거
     if (!isSubmit) {
       setShouldRender(false)
+      setSelectedData({
+        commercialCode: 0,
+        commercialCodeName: '',
+        salesCommercialInfo: {
+          mySales: 0,
+          administrationSales: 0,
+          otherSales: 0,
+        },
+        footTrafficCommercialInfo: {
+          myFootTraffic: 0,
+          administrationFootTraffic: 0,
+          otherFootTraffic: 0,
+        },
+        storeCommercialInfo: {
+          myStores: 0,
+          administrationStores: 0,
+          otherStores: 0,
+        },
+        closedRateCommercialInfo: {
+          myClosedRate: 0,
+          administrationClosedRate: 0,
+          otherClosedRate: 0,
+        },
+        blueOceanInfo: { string: 0 },
+      })
     }
   }
 
@@ -76,39 +127,15 @@ const RecommendContainer = () => {
     queryKey: ['recommendCommercial'],
     queryFn: () => recommendCommercial(submitData),
     enabled: isSubmit,
+    staleTime: 0,
+    gcTime: 0,
   })
   // 11710
   // 11710610
 
-  const [selectedTab, setSelectedTab] = useState<string>('')
-  const [selectedData, setSelectedData] = useState<RecommendCommercialType>({
-    commercialCode: 0,
-    commercialCodeName: '',
-    salesCommercialInfo: {
-      mySales: 0,
-      administrationSales: 0,
-      otherSales: 0,
-    },
-    footTrafficCommercialInfo: {
-      myFootTraffic: 0,
-      administrationFootTraffic: 0,
-      otherFootTraffic: 0,
-    },
-    storeCommercialInfo: {
-      myStores: 0,
-      administrationStores: 0,
-      otherStores: 0,
-    },
-    closedRateCommercialInfo: {
-      myClosedRate: 0,
-      administrationClosedRate: 0,
-      otherClosedRate: 0,
-    },
-    blueOceanInfo: { string: 0 },
-  })
-
   useEffect(() => {
     if (data?.dataBody) {
+      setShouldRender(true)
       setSelectedData(data.dataBody[0])
     }
   }, [data])
@@ -138,6 +165,9 @@ const RecommendContainer = () => {
             setIsOpen={setIsOpen}
             selectedGoo={selectedGoo}
           />
+          <r.Banner>
+            <Banner />
+          </r.Banner>
         </r.Search>
         <r.ReduceButton>
           <ReduceButton isOpen={isOpen} setIsOpen={setIsOpen} />

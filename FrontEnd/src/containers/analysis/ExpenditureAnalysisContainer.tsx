@@ -31,7 +31,8 @@ const ExpenditureAnalysisContainer = forwardRef(
     // 지출내역
     const { data: ExpenditureData, status: expenditureStatus } = useQuery({
       queryKey: ['GetExpenditureData', selectedCommercial.code, periodCode],
-      queryFn: () => getExpenditureData(String(selectedCommercial.code)),
+      queryFn: () =>
+        getExpenditureData(String(selectedCommercial.code), periodCode),
       enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
     })
 
@@ -62,6 +63,7 @@ const ExpenditureAnalysisContainer = forwardRef(
             String(selectedGoo.code),
             String(selectedDong.code),
             String(selectedCommercial.code),
+            periodCode,
           ),
         enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
       })

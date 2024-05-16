@@ -1,18 +1,14 @@
 import * as m from '@src/containers/main/MainContainerStyle'
 import * as c from '@src/containers/main/MainStausContainerStyle'
+import { useState } from 'react'
+import MainCard1 from '@src/components/cards/MainCard1'
+import MainCard2 from '@src/components/cards/MainCard2'
+import MainCard3 from '@src/components/cards/MainCard3'
 
 const MainStatusContainer = () => {
-  // 동기화 함수
-  // function syncScroll() {
-  //   const cardList = document.querySelector('.cardList')
-  //   const scrollTop = window.scrollY || document.documentElement.scrollTop
-  //   const scrollAmount = scrollTop
-  //
-  //   // 가로 스크롤 컨테이너의 스크롤 위치를 조정합니다.
-  //   cardList.scrollLeft = scrollAmount
-  // }
-  //
-  // window.addEventListener('scroll', syncScroll)
+  const [animate, setAnimate] = useState(true)
+  const onStop = () => setAnimate(false)
+  const onRun = () => setAnimate(true)
 
   return (
     <m.Container>
@@ -27,15 +23,18 @@ const MainStatusContainer = () => {
           </m.TextContent>
         </m.Text>
         <c.CardList>
-          <div>
-            <c.Card>
-              <c.CardContainer>내용</c.CardContainer>
-            </c.Card>
-            <c.Card>dd</c.Card>
-            <c.Card>dd</c.Card>
-            <c.Card>dd</c.Card>
-            <c.Card>dd</c.Card>
-          </div>
+          <c.SlideWrapper onMouseEnter={onStop} onMouseLeave={onRun}>
+            <c.SlideOriginal $animate={animate}>
+              <MainCard1 />
+              <MainCard2 />
+              <MainCard3 />
+            </c.SlideOriginal>
+            <c.SlideClone $animate={animate}>
+              <MainCard1 />
+              <MainCard2 />
+              <MainCard3 />
+            </c.SlideClone>
+          </c.SlideWrapper>
         </c.CardList>
       </m.Content>
     </m.Container>

@@ -38,6 +38,14 @@ COPY hadoop/common/init-ssh-keys.sh /usr/local/bin/init-ssh-keys.sh
 COPY hadoop/common/collect-ssh-keys.sh /usr/local/bin/collect-ssh-keys.sh
 COPY hadoop/common/update-hosts.sh /usr/local/bin/update-hosts.sh
 
+# 하둡 마스터 노드 설정 파일 및 스크립트 복사
+COPY hadoop/master/hdfs-site.xml /usr/local/bin/master/hdfs-site.xml
+COPY hadoop/master/setup-master-hadoop-env.sh /usr/local/bin/master/setup-master-hadoop-env.sh
+
+# 하둡 워커 노드 설정 파일 및 스크립트 복사
+COPY hadoop/worker/hdfs-site.xml /usr/local/bin/worker/hdfs-site.xml
+COPY hadoop/worker/setup-worker-hadoop-env.sh /usr/local/bin/worker/setup-worker-hadoop-env.sh
+
 # 각 노드내에 스파크 설정 파일 및 스파크 관련 쉘 스크립트 복사
 COPY spark/spark-env.sh $SPARK_HOME/conf/spark-env.sh
 COPY spark/spark-defaults.conf $SPARK_HOME/conf/spark-defaults.conf
@@ -54,6 +62,8 @@ RUN chmod +x /usr/local/bin/start-master.sh
 RUN chmod +x /usr/local/bin/start-slave.sh
 RUN chmod +x /usr/local/bin/start-history-server.sh
 RUN chmod +x /usr/local/bin/create-hdfs-log-dir.sh
+RUN chmod +x /usr/local/bin/master/setup-master-hadoop-env.sh
+RUN chmod +x /usr/local/bin/worker/setup-worker-hadoop-env.sh
 
 
 # SSH 구성

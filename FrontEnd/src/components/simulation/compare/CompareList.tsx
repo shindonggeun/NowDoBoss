@@ -13,6 +13,14 @@ const CompareList = ({
   ReportData: SimulationReportType
   title: boolean
 }) => {
+  let TotalNumber
+  if (ReportData.totalPrice >= 10000) {
+    const billions = Math.floor(ReportData.totalPrice / 10000)
+    const millions = Math.floor(ReportData.totalPrice % 10000)
+    TotalNumber = `${billions}억 ${millions.toLocaleString()} 만원`
+  } else {
+    TotalNumber = `${ReportData.totalPrice.toLocaleString()} 만원`
+  }
   return (
     <c.ListContainer>
       {title && (
@@ -22,7 +30,7 @@ const CompareList = ({
       )}
       <c.ContainerBox height={40} min={40} />
       <c.Icon src={TotalPriceIcon} width={40} />
-      <c.TotalPrice>{ReportData.totalPrice.toLocaleString()} 만원</c.TotalPrice>
+      <c.TotalPrice>{TotalNumber}</c.TotalPrice>
 
       {title && (
         <c.BodyContainerTitle top={140} min={135}>

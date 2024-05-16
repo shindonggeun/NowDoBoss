@@ -16,8 +16,6 @@ services:
       - "18080:18080"  # Spark History Server
     volumes:
       - shared_keys:/shared_keys
-      - ./hadoop/master/hdfs-site.xml:/usr/local/bin/master/hdfs-site.xml
-      - ./hadoop/master/setup-master-hadoop-env.sh:/usr/local/bin/master/setup-master-hadoop-env.sh
     networks:
       nowdoboss_net:  # 사용할 네트워크를 지정합니다.
         ipv4_address: 172.24.0.100
@@ -41,8 +39,6 @@ services:
     hostname: worker1
     volumes:
       - shared_keys:/shared_keys
-      - ./hadoop/worker/hdfs-site.xml:/usr/local/bin/worker/hdfs-site.xml
-      - ./hadoop/worker/setup-worker-hadoop-env.sh:/usr/local/bin/worker/setup-worker-hadoop-env.sh
     networks:
       nowdoboss_net:  # 사용할 네트워크를 지정합니다.
         ipv4_address: 172.24.0.101
@@ -64,8 +60,6 @@ services:
     hostname: worker2
     volumes:
       - shared_keys:/shared_keys
-      - ./hadoop/worker/hdfs-site.xml:/usr/local/bin/worker/hdfs-site.xml
-      - ./hadoop/worker/setup-worker-hadoop-env.sh:/usr/local/bin/worker/setup-worker-hadoop-env.sh
     networks:
       nowdoboss_net:  # 사용할 네트워크를 지정합니다.
         ipv4_address: 172.24.0.102

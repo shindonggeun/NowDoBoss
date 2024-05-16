@@ -18,7 +18,7 @@ const FlowPopulationAnalysisContainer = forwardRef(
     const setFlowPopulationDataBody = analysisStore(
       state => state.setFlowPopulationDataBody,
     )
-    const [periodCode, setPeriodCode] = useState('20233') // 유동인구 분기 코드
+    const [periodCode, setPeriodCode] = useState('20233') // 분기 코드
     const [errMsg, setErrMsg] = useState('') // 유동인구 에러 메세지
 
     // 유동인구

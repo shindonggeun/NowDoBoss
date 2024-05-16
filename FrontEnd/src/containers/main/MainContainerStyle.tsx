@@ -7,7 +7,7 @@ export const MainContainer = styled.div`
 `
 // 페이지 별 기본 컨테이너 div
 export const Container = styled.div`
-  width: 100vw;
+  width: calc(100vw - 5px);
   //height: calc(100vh - 70px);
   height: calc(100vh);
 

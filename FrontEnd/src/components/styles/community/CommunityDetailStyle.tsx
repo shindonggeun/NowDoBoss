@@ -105,9 +105,10 @@ export const TimeAndCounting = styled.div`
 export const ImgDiv = styled.div`
   display: flex;
   justify-content: center;
+  margin: 2vh 0;
 `
 export const CommunityImage = styled.img`
-  max-height: 400px;
+  width: 80%;
 `
 
 export const Content = styled.div`

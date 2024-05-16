@@ -10,17 +10,17 @@ export const Container = styled.div`
 `
 
 export const Main = styled.div`
-  width: 100vw;
+  width: calc(100vw - 5px);
   //height: calc(100vh - 68px);
   height: calc(100vh);
+  scale: 1.005;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  //background-color: #dbe7ff;
   background-image: url(${BackgroundImage});
-  background-size: auto; /* 이미지가 전체를 덮도록 설정 */
-  background-position: center left; /* 이미지가 가운데 위치하도록 설정 */
+  background-size: cover; /* 이미지가 전체를 덮도록 설정 */
+  background-position: center; /* 이미지가 가운데 위치하도록 설정 */
   background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
   opacity: 0.85;
 `
@@ -48,7 +48,7 @@ export const MainButton = styled.div`
   }
 `
 export const Sub = styled.div`
-  width: 100vw;
+  width: calc(100vw - 5px);
   //height: calc(100vh - 70px);
   height: calc(100vh);
   display: flex;

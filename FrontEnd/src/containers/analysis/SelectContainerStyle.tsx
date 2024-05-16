@@ -34,6 +34,10 @@ export const Search = styled.div`
 export const Banner = styled.div`
   position: absolute;
   z-index: 1;
+
+  @media only screen and (max-width: 992px) {
+    display: none;
+  }
 `
 
 export const ReduceBtnWrap = styled.div`
@@ -63,24 +67,6 @@ export const ReduceBtn = styled.div`
 
 export const BtnImg = styled.img`
   scale: 1.3;
-`
-
-export const SimulationBtnWrap = styled.div`
-  position: absolute;
-  z-index: 1;
-  right: 100px;
-  width: 250px;
-  top: 0;
-  height: auto;
-
-  @media only screen and (max-width: 768px) {
-    left: 0;
-    top: 500px;
-  }
-
-  @media only screen and (max-width: 400px) {
-    top: 0;
-  }
 `
 export const SimulationBtn = styled.div`
   width: 100%;

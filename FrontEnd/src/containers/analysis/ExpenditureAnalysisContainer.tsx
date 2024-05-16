@@ -24,13 +24,15 @@ const ExpenditureAnalysisContainer = forwardRef(
     const setTotalExpenditureDataBody = analysisStore(
       state => state.setTotalExpenditureDataBody,
     )
+    const [periodCode, setPeriodCode] = useState('20233') // 분기 코드
     const [expenditureErr, setExpenditureErr] = useState('') // 지출내역 에러 메세지
     const [totalExpenditureErr, setTotalExpenditureErr] = useState('') // 지출내역 (총 지출 금액) 에러 메세지
 
     // 지출내역
     const { data: ExpenditureData, status: expenditureStatus } = useQuery({
-      queryKey: ['GetExpenditureData', selectedCommercial.code],
-      queryFn: () => getExpenditureData(String(selectedCommercial.code)),
+      queryKey: ['GetExpenditureData', selectedCommercial.code, periodCode],
+      queryFn: () =>
+        getExpenditureData(String(selectedCommercial.code), periodCode),
       enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
     })
 
@@ -61,6 +63,7 @@ const ExpenditureAnalysisContainer = forwardRef(
             String(selectedGoo.code),
             String(selectedDong.code),
             String(selectedCommercial.code),
+            periodCode,
           ),
         enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
       })
@@ -85,7 +88,11 @@ const ExpenditureAnalysisContainer = forwardRef(
 
     return (
       <div ref={ref}>
-        <CategoryTitleCard src="/images/expenditure.png" title="지출내역" />
+        <CategoryTitleCard
+          src="/images/expenditure.png"
+          title="지출내역"
+          setPeriodCode={setPeriodCode}
+        />
         {totalExpenditureErr || expenditureErr ? (
           <e.ErrBox>
             해당 분기의 선택 상권 지출분석 데이터를 제공하지 않습니다.

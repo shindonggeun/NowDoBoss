@@ -21,6 +21,7 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   const setTotalSalesDataBody = analysisStore(
     state => state.setTotalSalesDataBody,
   )
+  const [periodCode, setPeriodCode] = useState('20233') // 분기 코드
   const [salesErr, setSalesErr] = useState('') // 매출분석 에러 메세지
   const [totalSalesErr, setTotalSalesErr] = useState('') // 매출분석 (매출 총 금액) 에러 메세지
 
@@ -30,11 +31,13 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       'GetSalesData',
       selectedCommercial.code,
       selectedService.serviceCode,
+      periodCode,
     ],
     queryFn: () =>
       getSalesData(
         String(selectedCommercial.code),
         selectedService.serviceCode,
+        periodCode,
       ),
     enabled:
       selectedCommercial.code !== 0 && selectedService.serviceCode !== '', // 상권 코드가 0이거나 업종 코드가 없으면 호출하지 않는 조건
@@ -70,6 +73,7 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
         String(selectedDong.code),
         String(selectedCommercial.code),
         selectedService.serviceCode,
+        periodCode,
       ),
     enabled:
       selectedGoo.code !== 0 &&
@@ -98,7 +102,11 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
 
   return (
     <div ref={ref}>
-      <CategoryTitleCard src="/images/sales.png" title="매출분석" />
+      <CategoryTitleCard
+        src="/images/sales.png"
+        title="매출분석"
+        setPeriodCode={setPeriodCode}
+      />
       {totalSalesErr || salesErr ? (
         <s.ErrBox>
           해당 분기의 선택 업종 매출분석 데이터를 제공하지 않습니다.

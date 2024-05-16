@@ -6,16 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Document(collection = "data")
-@Data
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class DataDocument {
     @Id
     private Long userId;
     private Long commercialCode;
     private String action;
 
-    public DataDocument(Long userId, Long commercialCode, String action) {
-        this.userId = userId;
-        this.commercialCode = commercialCode;
-        this.action = action;
-    }
 }

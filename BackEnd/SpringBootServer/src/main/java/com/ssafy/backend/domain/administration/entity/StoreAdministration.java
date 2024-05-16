@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.administration.entity;
 import com.ssafy.backend.domain.district.entity.enums.ServiceType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
 import org.hibernate.annotations.Comment;
 
 @Entity
@@ -12,8 +13,8 @@ import org.hibernate.annotations.Comment;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = {
         @Index(name = "idx_period_code", columnList = "periodCode"),
+        @Index(name = "idx_service_code", columnList = "serviceCode"),
         @Index(name = "idx_administration_code", columnList = "administrationCode"),
-        @Index(name = "idx_service_code", columnList = "serviceCode")
 })
 public class StoreAdministration {
     @Id

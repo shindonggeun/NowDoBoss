@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CategoryTitleCardProps } from '@src/types/AnalysisType'
 import * as c from '@src/components/styles/analysis/CategoryTitleCardStyle'
 
@@ -6,27 +6,40 @@ const CategoryTitleCard = (props: CategoryTitleCardProps) => {
   const { src, title, setPeriodCode } = props
   const [selectedYear, setSelectedYear] = useState('2023')
   const [selectedQuarter, setSelectedQuarter] = useState('3')
-  // console.log(selectedYear, selectedQuarter)
-
-  let years
-  if (title === '집객시설') {
-    years = ['2020', '2021', '2022', '2023']
-  } else {
-    years = ['2019', '2020', '2021', '2022', '2023']
-  }
 
   let quarters
   if (selectedYear === '2023') {
     quarters = ['1', '2', '3']
-  } else if (title === '상주인구' && selectedYear === '2019') {
-    quarters = ['4']
-  } else if (title === '집객시설' && selectedYear === '2020') {
-    quarters = ['4']
   } else {
     quarters = ['1', '2', '3', '4']
   }
 
-  // 년도 선택 핸들러
+  const [availableYears, setAvailableYears] = useState([
+    '2020',
+    '2021',
+    '2022',
+    '2023',
+  ])
+
+  useEffect(() => {
+    // 4분기가 선택되면 2023년을 사용할 수 없게 함
+    if (selectedQuarter === '4') {
+      setAvailableYears(['2019', '2020', '2021', '2022'])
+      // 현재 선택된 년도가 2023년이면 자동으로 2022년으로 변경
+      if (selectedYear === '2023') {
+        setSelectedYear('2022')
+        setPeriodCode('20224') // 예: 2022년 4분기로 설정
+      }
+    } else {
+      // 4분기가 아닌 다른 분기를 선택하면 모든 년도를 사용할 수 있게 함
+      setAvailableYears(
+        title === '집객시설'
+          ? ['2020', '2021', '2022', '2023']
+          : ['2019', '2020', '2021', '2022', '2023'],
+      )
+    }
+  }, [selectedQuarter, selectedYear, setPeriodCode, title])
+
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newYear = e.target.value
     setSelectedYear(newYear) // 년도 상태 업데이트
@@ -46,7 +59,7 @@ const CategoryTitleCard = (props: CategoryTitleCardProps) => {
       <c.Title>{title}</c.Title>
       <c.DropdownContainer>
         <c.Dropdown onChange={handleYearChange} value={selectedYear}>
-          {years.map((year, index) => (
+          {availableYears.map((year, index) => (
             <option key={index} value={year}>
               {year}년
             </option>

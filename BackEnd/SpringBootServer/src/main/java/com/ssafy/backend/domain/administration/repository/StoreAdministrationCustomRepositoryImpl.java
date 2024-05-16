@@ -1,9 +1,7 @@
 package com.ssafy.backend.domain.administration.repository;
 
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.administration.dto.info.ClosedStoreAdministrationTopFiveInfo;
 import com.ssafy.backend.domain.administration.dto.info.OpenedStoreAdministrationTopFiveInfo;

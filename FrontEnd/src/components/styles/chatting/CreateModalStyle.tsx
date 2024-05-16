@@ -13,15 +13,15 @@ export const Title = styled.div`
 export const TitleInput = styled.textarea<{ $isActive?: boolean }>`
   font-weight: 500;
   font-size: 1rem;
-  width: 95%;
-  height: 32px;
+  width: 100%;
+  height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   resize: none;
   border: 0.15rem solid #d9d9d9;
   border-radius: 5px;
-  padding: 10px 0 0 20px;
+  padding: 10px 0 0 10px;
   color: #5f5f5f;
   &:hover {
     cursor: text;
@@ -34,15 +34,15 @@ export const TitleInput = styled.textarea<{ $isActive?: boolean }>`
 export const ContentInput = styled.textarea<{ $isActive?: boolean }>`
   font-weight: 500;
   font-size: 1rem;
-  width: 95%;
-  height: 100px;
+  width: 100%;
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   resize: none;
   border: 0.15rem solid #d9d9d9;
   border-radius: 5px;
-  padding: 10px 0 0 20px;
+  padding: 10px 0 0 10px;
   color: #5f5f5f;
   &:hover {
     cursor: text;
@@ -66,7 +66,7 @@ export const DropdownButton = styled.div`
   border-radius: 5px;
 `
 export const SelectedContent = styled.div`
-  padding-left: 20px;
+  padding-left: 10px;
   color: #5f5f5f;
 `
 export const DropdownIcon = styled.img`
@@ -103,8 +103,8 @@ export const DropdownContent = styled.div`
 export const NumberInput = styled.input<{ $isActive?: boolean }>`
   font-weight: 500;
   font-size: 1rem;
-  width: 95%;
-  height: 32px;
+  width: 100%;
+  height: 45px;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -2,10 +2,13 @@ import * as a from '@src/components/styles/community/CommunityStyle'
 import * as c from '@src/components/styles/chatting/ChattingListStyle'
 import useCommunityStore from '@src/stores/communityStore'
 import { useNavigate } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
-import { fetchChattingList } from '@src/api/chattingApi'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { enterChatRoom, fetchChattingList } from '@src/api/chattingApi'
 import { ChatListType } from '@src/types/ChattingType'
 import NotLogin from '@src/common/swal/NotLogin'
+import { subscribeTopic } from '@src/api/fcmApi'
+import firebase from 'firebase'
+import Swal from 'sweetalert2'
 
 // 로그인 한 사용자인지 확인
 const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
@@ -21,9 +24,60 @@ const ChattingList = () => {
     queryFn: () => fetchChattingList(0),
   })
 
+  // 방 들어갈 때 토픽 구독 로직
+  const { mutate: subscribeTopicMutation } = useMutation({
+    mutationKey: ['subscribeTopic'],
+    mutationFn: subscribeTopic,
+  })
+
+  const messaging = firebase.messaging()
+  const firebaseMessage = async (chatRoomId: number) => {
+    try {
+      const permission = await Notification.requestPermission()
+
+      if (permission === 'granted') {
+        console.log('Notification permission granted.')
+
+        // FCM 토큰을 가져옵니다.
+        messaging
+          .getToken()
+          .then(token => {
+            console.log('Token:', token)
+            subscribeTopicMutation({ token, topic: String(chatRoomId) })
+          })
+          .catch(err => {
+            console.error('Token retrieval failed:', err)
+          })
+      } else {
+        console.log('Unable to get permission to notify.')
+      }
+    } catch (error) {
+      console.error('Permission request failed', error)
+    }
+  }
+
+  // 채팅방 입장 mutate 로직
+  const { mutate: mutateEnterChatRoom } = useMutation({
+    mutationFn: enterChatRoom,
+    onSuccess: res => {
+      // 성공이면
+      if (res.dataHeader.successCode === 0) {
+        navigate(`/chatting/${res.dataBody.chatRoomId}`)
+      } else {
+        Swal.fire({
+          title: res.dataHeader.resultMessage,
+          icon: 'warning',
+          confirmButtonText: '확인',
+        })
+      }
+    },
+  })
+
   const handleClickCard = (chatRoomId: number) => {
     if (userLoggedIn) {
       window.scrollTo({ top: 0, behavior: 'instant' })
+      mutateEnterChatRoom(chatRoomId)
+      firebaseMessage(chatRoomId)
       navigate(`/chatting/${chatRoomId}`)
     } else {
       NotLogin(navigate)

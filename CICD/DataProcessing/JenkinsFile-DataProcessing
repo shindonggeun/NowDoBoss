@@ -44,7 +44,7 @@ pipeline {
 
                     if (isHadoopRunning_master1 == "" || isHadoopRunning_master1 == "" || isHadoopRunning_master1 == "") {
                         echo "하둡 + 스파크 dockerfile 빌드..."
-                        sh "docker-compose -f docker-compose-hadoopSpark.yml up --build -d"   
+                        sh "docker-compose -f ./CICD/DataProcessing/docker-compose-hadoopSpark.yml up --build -d"   
                     }
                 }
             }

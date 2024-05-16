@@ -46,6 +46,3 @@ hdfs dfs -ls /input
 hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.4.jar wordcount /input/README.txt ~/wordcount-output
 
 echo "설정이 완료되었습니다."
-
-# 무한 대기 프로세스 추가
-tail -f /dev/null

@@ -50,7 +50,12 @@ const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
     display: ${({ isMenuOpen }) => (isMenuOpen ? 'flex' : 'none')};
   }
 `
-const Menu = styled.div<{ $isActive?: boolean }>`
+
+const Menu = styled.div<{
+  $isActive?: boolean
+  $isMain?: boolean
+  $atTop?: boolean
+}>`
   height: 66px;
   padding: 0 10px;
   font-size: 16px;
@@ -58,12 +63,26 @@ const Menu = styled.div<{ $isActive?: boolean }>`
   align-items: center;
   cursor: pointer;
   font-weight: bold;
-  border-bottom: 2px solid ${props => (props.$isActive ? '#236cff' : 'none')};
-  color: ${props => (props.$isActive ? '#236cff' : 'black')};
+  border-bottom: 2px solid
+    ${props =>
+      props.$isActive
+        ? props.$isMain && props.$atTop
+          ? 'white'
+          : '#236cff'
+        : 'none'};
+  color: ${props =>
+    props.$isActive
+      ? props.$isMain && props.$atTop
+        ? 'white'
+        : '#236cff'
+      : props.$isMain && props.$atTop
+        ? 'white'
+        : 'black'};
 
   &:hover {
-    color: #236cff;
-    border-bottom: 2px solid #236cff;
+    color: ${props => (props.$isMain && props.$atTop ? 'white' : '#236cff')};
+    border-bottom: 2px solid
+      ${props => (props.$isMain && props.$atTop ? 'white' : '#236cff')};
   }
 
   @media (max-width: 1200px) {
@@ -117,11 +136,14 @@ const Header = () => {
   // 스크롤 내렸을 때 사라지게 하는 로직
   const [isTransparent, setIsTransparent] = useState<boolean>(true)
   const [isMain, setIsMain] = useState<boolean>(false)
+  const [atTop, setAtTop] = useState<boolean>(true)
   const [lastScrollY, setLastScrollY] = useState<number>(0)
 
   // 현재 스크롤과 이전 스크롤 상태 비교해서 올림, 내림 스크롤 판단하는 로직
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY
+    // 맨 위인지?
+    setAtTop(currentScrollY === 0)
     if (currentScrollY > lastScrollY) {
       setIsTransparent(false)
     } else {
@@ -221,6 +243,8 @@ const Header = () => {
           <Menu
             key={menuName}
             $isActive={activeMenu === menuName}
+            $isMain={isMain}
+            $atTop={atTop}
             onClick={() => handleMenuClick(menuName)}
           >
             {menuName}
@@ -236,17 +260,21 @@ const Header = () => {
           <>
             <Menu
               $isActive={activeMenu === '채팅'}
+              $isMain={isMain}
+              $atTop={atTop}
               onClick={() => handleMenuClick('채팅')}
             >
               채팅
             </Menu>
             <Menu
               $isActive={activeMenu === '프로필'}
+              $isMain={isMain}
+              $atTop={atTop}
               onClick={() => handleMenuClick('프로필')}
             >
               프로필
             </Menu>
-            <Menu>
+            <Menu $isMain={isMain} $atTop={atTop}>
               <LogoutContainer />
             </Menu>
           </>
@@ -255,6 +283,8 @@ const Header = () => {
             <Menu
               key={menuName}
               $isActive={activeMenu === menuName}
+              $isMain={isMain}
+              $atTop={atTop}
               onClick={() => handleMenuClick(menuName)}
             >
               {menuName}

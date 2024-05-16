@@ -18,6 +18,3 @@ echo "hdfs-site.xml 파일을 복사합니다."
 cp /usr/local/bin/worker/hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 
 echo "설정이 완료되었습니다."
-
-# 무한 대기 프로세스 추가
-tail -f /dev/null

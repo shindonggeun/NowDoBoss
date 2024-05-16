@@ -33,11 +33,6 @@ public class KafkaConsumer {
         log.info("상업 분석 메시지 수신 : {}", message);
     }
 
-    @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC_RECOMMENDATION)
-    public void handleRecommendationInfo(CommercialKafkaInfo message) {
-        log.info("추천 보관함 저장 메시지 이벤트 수신 : {}", message);
-    }
-
     @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC_DATA)
     public void handleUserData(DataInfo message) {
         log.info("상업 분석 메시지 수신 : {}", message);

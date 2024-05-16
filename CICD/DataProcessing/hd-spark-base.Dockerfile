@@ -38,13 +38,20 @@ COPY hadoop/common/update-hosts.sh /usr/local/bin/update-hosts.sh
 # 각 노드내에 스파크 설정 파일 및 스파크 관련 쉘 스크립트 복사
 COPY spark/spark-env.sh $SPARK_HOME/conf/spark-env.sh
 COPY spark/spark-defaults.conf $SPARK_HOME/conf/spark-defaults.conf
+COPY spark/start-master.sh /usr/local/bin/start-master.sh
+COPY spark/start-slave.sh /usr/local/bin/start-slave.sh
 COPY spark/start-history-server.sh /usr/local/bin/start-history-server.sh
+COPY spark/create-hdfs-log-dir.sh /usr/local/bin/create-hdfs-log-dir.sh
 
 # 쉘 스크립트 실행 권한 부여 및 실행
 RUN chmod +x /usr/local/bin/setup-hadoop.sh 
 RUN chmod +x /usr/local/bin/init-ssh-keys.sh /usr/local/bin/collect-ssh-keys.sh 
 RUN chmod +x /usr/local/bin/update-hosts.sh
+RUN chmod +x /usr/local/bin/start-master.sh
+RUN chmod +x /usr/local/bin/start-slave.sh
 RUN chmod +x /usr/local/bin/start-history-server.sh
+RUN chmod +x /usr/local/bin/create-hdfs-log-dir.sh
+
 
 # SSH 구성
 RUN service ssh start

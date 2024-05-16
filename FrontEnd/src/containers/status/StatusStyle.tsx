@@ -35,6 +35,10 @@ export const EmptyContainer = styled.div`
 
 export const Banner = styled.div`
   margin: 5px -10px;
+
+  @media only screen and (max-width: 992px) {
+    display: none;
+  }
 `
 
 export const Content = styled.div`

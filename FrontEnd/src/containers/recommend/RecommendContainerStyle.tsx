@@ -43,6 +43,7 @@ const EndBottomSlide = keyframes`
 
 export const Container = styled.div`
   position: relative;
+  width: 100vw;
 `
 export const MapDiv = styled.div`
   width: 100%;
@@ -54,6 +55,10 @@ export const SearchDiv = styled.div`
 export const Banner = styled.div`
   position: absolute;
   z-index: 1;
+
+  @media only screen and (max-width: 992px) {
+    display: none;
+  }
 `
 export const Search = styled.div`
   position: absolute;

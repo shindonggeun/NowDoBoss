@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const MainContainer = styled.div`
+  scroll-behavior: smooth;
   @media only screen and (max-width: 992px) {
     //
   }
@@ -14,6 +15,9 @@ export const Container = styled.div`
   margin: auto;
   @media only screen and (max-width: 992px) {
     //
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 `
 
@@ -25,6 +29,11 @@ export const Content = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media only screen and (max-width: 992px) {
+    flex-direction: column;
+    justify-content: center;
+  }
 `
 
 // 글로 소개하는 부분
@@ -35,6 +44,21 @@ export const Text = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 0 40px;
+
+  opacity: 0.1;
+  transform: translateY(50px);
+  transition:
+    opacity 2s ease-out,
+    transform 2s ease-out;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media only screen and (max-width: 992px) {
+    width: 100%;
+  }
 `
 
 // 파란색 부가 설명
@@ -58,6 +82,26 @@ export const TextContent = styled.div`
   color: #5f6c84;
 `
 
+// 바로가기 버튼
+export const BannerArrow = styled.div``
+
+// 바로가기 버튼
+export const GoButton = styled.div`
+  font-weight: 600;
+  font-size: 2rem;
+  margin: 10px 0 -10px 0;
+  color: #000000;
+  display: flex;
+
+  &:hover {
+    cursor: pointer;
+    // BannerArrow에만 호버 효과 적용
+    ${BannerArrow} {
+      transform: translateX(15px);
+      transition: transform 0.3s ease;
+    }
+  }
+`
 // 카드 들어가는 div
 export const CardList = styled.div`
   width: 50%;
@@ -72,6 +116,7 @@ export const CardList = styled.div`
 export const CardScroll = styled.div`
   max-height: 100%;
   overflow-y: scroll;
+  scroll-behavior: smooth;
   -ms-overflow-style: none; /*IE, Edge*/
   scrollbar-width: none; /*Firefox*/
   ::-webkit-scrollbar {
@@ -82,14 +127,27 @@ export const CardScroll = styled.div`
 
 // 이미지 넣을 card
 export const Card = styled.div`
-  width: 620px;
-  height: 400px;
+  width: 35vw;
+  height: auto;
   //margin: calc((100vh - 70px - 450px) / 2) 0;
   margin: calc((100vh - 400px) / 2) 0;
-  border: 4px solid #d9d9d9;
-  //background-color: #d9d9d9;
-  border-radius: 5px;
+
+  @media only screen and (max-width: 992px) {
+    margin: 0;
+    width: 100%;
+  }
 `
 export const CardImg = styled.img`
-  width: 612px;
+  width: 100%;
+  border: 2px solid #d9d9d9;
+  border-radius: 5px;
+`
+
+export const CardContent = styled.div`
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 2rem;
+  margin: 5px 0;
+  color: #4a4a4a;
 `

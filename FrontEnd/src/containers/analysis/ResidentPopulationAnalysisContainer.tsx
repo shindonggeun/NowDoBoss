@@ -16,12 +16,17 @@ const ResidentPopulationAnalysisContainer = forwardRef(
     const setResidentPopulationDataBody = analysisStore(
       state => state.setResidentPopulationDataBody,
     )
+    const [periodCode, setPeriodCode] = useState('20233') // 분기 코드
     const [errMsg, setErrMsg] = useState('')
 
     // 상주인구
     const { data: ResidentPopulationData, status: residentPopulationStatus } =
       useQuery({
-        queryKey: ['GetResidentPopulationData', selectedCommercial.code],
+        queryKey: [
+          'GetResidentPopulationData',
+          selectedCommercial.code,
+          periodCode,
+        ],
         queryFn: () =>
           getResidentPopulationData(String(selectedCommercial.code)),
         enabled: selectedCommercial.code !== 0, // 상권 코드가 0일때는 보내지 않는 조건
@@ -50,6 +55,7 @@ const ResidentPopulationAnalysisContainer = forwardRef(
         <CategoryTitleCard
           src="/images/resident_population.png"
           title="상주인구"
+          setPeriodCode={setPeriodCode}
         />
         {errMsg ? (
           <r.ErrBox>

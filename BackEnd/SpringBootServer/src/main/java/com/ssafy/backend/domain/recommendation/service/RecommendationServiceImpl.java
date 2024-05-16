@@ -104,7 +104,10 @@ public class RecommendationServiceImpl implements RecommendationService{
                         kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
 
                         try {
-                            RecommendationDocument document = new RecommendationDocument(id, commercialCode);
+                            RecommendationDocument document = RecommendationDocument.builder()
+                                    .userId(id)
+                                    .commercialCode(commercialCode)
+                                    .build();
                             recommendationRepository.save(document);
                         } catch (MongoWriteException e) {
                             if (e.getError().getCode() == 11000) {

@@ -39,8 +39,6 @@ public class DistrictServiceImpl implements DistrictService {
     private final SalesAdministrationRepository salesAdministrationRepository;
     private final AreaCommercialRepository areaCommercialRepository;
 
-    // 해당 데이터는 분기마다 직접 DB에 추가한다. 따라서 사용자로 인해 변경되거나 해서 DB, Redis 사이 정합성 문제가 발생하는 경우 적다.
-    // 굳이 동기화 처리 안해도 될 것 같다.
     @Override
     @Cacheable(value = "Contents", key = "'topTenDistrictsStaticKey'", cacheManager = "contentCacheManager")
     public DistrictTopTenResponse getTopTenDistricts() {

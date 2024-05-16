@@ -3,7 +3,8 @@ FROM ubuntu:latest
 
 # 필수 패키지 설치
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y curl openssh-server rsync wget vim iputils-ping htop openjdk-8-jdk python3 python3-pip
+RUN apt-get install -y curl openssh-server rsync wget vim iputils-ping htop openjdk-8-jdk python3 python3-pip python3-venv
+
 
 # 하둡 다운로드 및 설치
 RUN wget http://mirror.navercorp.com/apache/hadoop/common/hadoop-3.2.4/hadoop-3.2.4.tar.gz \
@@ -17,8 +18,10 @@ RUN wget https://archive.apache.org/dist/spark/spark-3.2.1/spark-3.2.1-bin-hadoo
     && rm spark-3.2.1-bin-hadoop3.2.tgz \
     && mv spark-3.2.1-bin-hadoop3.2 /usr/local/spark
 
-# PySpark 및 필요 라이브러리 설치
-RUN pip3 install pyspark
+# 가상 환경 생성 및 활성화, PySpark 및 필요 라이브러리 설치
+RUN python3 -m venv /opt/venv
+RUN /opt/venv/bin/pip install --upgrade pip
+RUN /opt/venv/bin/pip install pyspark
 
 # 환경변수 설정
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64

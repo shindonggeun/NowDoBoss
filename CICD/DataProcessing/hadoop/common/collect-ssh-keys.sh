@@ -1,5 +1,5 @@
 #!/bin/bash
-# collect-ssh--keys.sh
+# collect-ssh-keys.sh
 
 # SSH 설정 디렉터리 확인 및 생성
 mkdir -p /root/.ssh

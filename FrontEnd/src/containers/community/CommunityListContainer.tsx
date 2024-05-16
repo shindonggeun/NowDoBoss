@@ -14,21 +14,25 @@ const CommunityListContainer = () => {
 
   const location = useLocation()
 
+  // 커뮤니티 목록에 들어오면 스크롤 top으로 올리기
   useEffect(() => {
     if (location.pathname === '/community/list') {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }, [location])
 
+  // 커뮤니티 목록 호출 query
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['CommunityList'],
-    queryFn: () => fetchCommunityList(category.value),
+    queryFn: () => fetchCommunityList(category.value, 0),
   })
+
+  // 카테고리 바뀌면 목록 refetch
   useEffect(() => {
     refetch()
   }, [refetch, category])
 
-  // 인기 채팅방 불러오는 useQuery
+  // 인기 게시글 불러오는 useQuery
   const { data: popularData, isLoading: popularIsLoading } = useQuery({
     queryKey: ['fetchPopularArticle'],
     queryFn: () => fetchPopularArticle(),
@@ -41,11 +45,11 @@ const CommunityListContainer = () => {
           {!category.value ? (
             <c.List>
               <PopularList data={popularData.dataBody} />
-              <ArticleList articleList={data.dataBody} />
+              <ArticleList initialArticleList={data.dataBody} />
             </c.List>
           ) : (
             <c.Mid>
-              <ArticleList articleList={data.dataBody} />
+              <ArticleList initialArticleList={data.dataBody} />
             </c.Mid>
           )}
         </c.Div>

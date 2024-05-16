@@ -10,9 +10,9 @@ import {
 } from '@src/types/CommunityType'
 
 // 커뮤니티 목록 get api
-export const fetchCommunityList = async (category: string) => {
+export const fetchCommunityList = async (category: string, lastId: number) => {
   return customAxios
-    .get(`/community?category=${category}`)
+    .get(`/community?category=${category}&lastId=${lastId}`)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

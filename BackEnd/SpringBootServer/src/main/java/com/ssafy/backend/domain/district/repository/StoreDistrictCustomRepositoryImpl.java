@@ -26,14 +26,14 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
     public List<OpenedStoreDistrictTopTenResponse> getTopTenOpenedStoreDistrictByPeriodCode() {
         QStoreDistrict sd = QStoreDistrict.storeDistrict;
 
-        // 서브쿼리를 이용하여 top district 목록을 가져옴
-        List<String> topDistrictNames = queryFactory
-                .select(sd.districtCodeName)
-                .from(sd)
-                .where(sd.periodCode.eq("20233"))
-                .groupBy(sd.districtCodeName)
-                .orderBy(sd.openedStore.sum().divide(sd.totalStore.sum()).desc())
-                .fetch();
+//        // 서브쿼리를 이용하여 top district 목록을 가져옴
+//        List<String> topDistrictNames = queryFactory
+//                .select(sd.districtCodeName)
+//                .from(sd)
+//                .where(sd.periodCode.eq("20233"))
+//                .groupBy(sd.districtCodeName)
+//                .orderBy(sd.openedStore.sum().divide(sd.totalStore.sum()).desc())
+//                .fetch();
 
         List<Tuple> districtData = queryFactory
                 .select(sd.districtCode,
@@ -52,7 +52,7 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                                         .multiply(100)).multiply(100).as("totalRate")
                 )
                 .from(sd)
-                .where(sd.districtCodeName.in(topDistrictNames))
+//                .where(sd.districtCodeName.in(topDistrictNames))
                 .groupBy(sd.districtCode, sd.districtCodeName)
                 .orderBy(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.openedStore).otherwise(0L).sum()
                         .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum())
@@ -81,14 +81,14 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
     public List<ClosedStoreDistrictTopTenResponse> getTopTenClosedStoreDistrictByPeriodCode(){
         QStoreDistrict sd = QStoreDistrict.storeDistrict;
 
-        // 서브쿼리를 이용하여 top district 목록을 가져옴
-        List<String> topDistrictNames = queryFactory
-                .select(sd.districtCodeName)
-                .from(sd)
-                .where(sd.periodCode.eq("20233"))
-                .groupBy(sd.districtCodeName)
-                .orderBy(sd.closedStore.sum().divide(sd.totalStore.sum()).desc())
-                .fetch();
+//        // 서브쿼리를 이용하여 top district 목록을 가져옴
+//        List<String> topDistrictNames = queryFactory
+//                .select(sd.districtCodeName)
+//                .from(sd)
+//                .where(sd.periodCode.eq("20233"))
+//                .groupBy(sd.districtCodeName)
+//                .orderBy(sd.closedStore.sum().divide(sd.totalStore.sum()).desc())
+//                .fetch();
 
         List<Tuple> districtData = queryFactory
                 .select(sd.districtCode,
@@ -107,7 +107,7 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
                                         .multiply(100)).multiply(100).as("totalRate")
                 )
                 .from(sd)
-                .where(sd.districtCodeName.in(topDistrictNames))
+//                .where(sd.districtCodeName.in(topDistrictNames))
                 .groupBy(sd.districtCode, sd.districtCodeName)
                 .orderBy(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.closedStore).otherwise(0L).sum()
                         .divide(new CaseBuilder().when(sd.periodCode.eq("20233")).then(sd.totalStore).otherwise(0L).sum())

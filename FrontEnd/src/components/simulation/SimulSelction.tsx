@@ -15,30 +15,14 @@ interface SimulSelctionProps {
 }
 
 const SimulSelction = ({ onClose }: SimulSelctionProps) => {
-  const {
-    setIsFranchise,
-    setBrandName,
-    setCategory,
-    setSubCategoryName,
-    setSubCategoryCode,
-    setBulidingSize,
-    setFloor,
-  } = useSimulationStore()
-  const { setAddress, setQuery, setSido, setSigungu } = useReportStore()
   const [step, setStep] = useState<number>(1)
   const modalRef = useRef<HTMLDivElement>(null)
+  const { resetSimulButton } = useSimulationStore()
+  const { resetReportButton } = useReportStore()
+
   const resetButton = () => {
-    setIsFranchise(null)
-    setBrandName(null)
-    setCategory('')
-    setSubCategoryName('')
-    setSubCategoryCode('')
-    setBulidingSize(0)
-    setFloor('')
-    setAddress('')
-    setQuery('')
-    setSido('')
-    setSigungu('')
+    resetSimulButton()
+    resetReportButton()
   }
 
   const nextStep = () => {

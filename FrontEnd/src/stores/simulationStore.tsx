@@ -148,8 +148,7 @@ interface SimulationState {
   setFloor: (floor: string) => void
   updateStoreSize: StoreSizeState
   setUpdateStoreSize: (updateStoreSize: StoreSizeState) => void
-  // reportData: SimulationReportType
-  // setReportData: (reportData: SimulationReportType) => void
+  resetSimulButton: () => void
 }
 
 // 가게 정보 입력 저장
@@ -187,7 +186,16 @@ const useSimulationStore = create<SimulationState>(set => ({
     },
   },
   setUpdateStoreSize: data => set({ updateStoreSize: data }),
-  // reportData: {},
+
+  resetSimulButton: () => {
+    set({ isFranchise: null })
+    set({ brandName: null })
+    set({ category: '' })
+    set({ subCategoryName: '' })
+    set({ subCategoryCode: '' })
+    set({ bulidingSize: 0 })
+    set({ floor: '' })
+  },
 }))
 
 export default useSimulationStore

@@ -16,30 +16,13 @@ import ReportWarning from '@src/components/simulation/report/ReportWarning'
 import Snackbar from '@mui/joy/Snackbar'
 
 const SimulReportContainer = () => {
-  const {
-    setIsFranchise,
-    setBrandName,
-    setCategory,
-    setSubCategoryName,
-    setSubCategoryCode,
-    setBulidingSize,
-    setFloor,
-  } = useSimulationStore()
-  const { setAddress, setQuery, setSido, setSigungu } = useReportStore()
+  const { resetSimulButton } = useSimulationStore()
+  const { resetReportButton } = useReportStore()
   const location = useLocation()
 
   const resetButton = () => {
-    setIsFranchise(null)
-    setBrandName(null)
-    setCategory('')
-    setSubCategoryName('')
-    setSubCategoryCode('')
-    setBulidingSize(0)
-    setFloor('')
-    setAddress('')
-    setQuery('')
-    setSido('')
-    setSigungu('')
+    resetSimulButton()
+    resetReportButton()
   }
 
   const [isOpen, setIsOpen] = useState(true)

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
 import analysisStore from '@src/stores/analysisStore'
 import { getServiceData } from '@src/api/analysisApi'
@@ -18,13 +18,6 @@ const SelectContainer = (props: SelectContainerPropsType) => {
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
   const setServiceDataBody = analysisStore(state => state.setServiceDataBody)
   const selectedService = analysisStore(state => state.selectedService)
-
-  const navigate = useNavigate()
-
-  // 창업 시뮬레이션 바로가기 버튼 클릭 핸들러
-  const handleSimulationClick = () => {
-    navigate('/analysis/simulation')
-  }
 
   // 업종 선택
   const { data: ServiceData, status: serviceStatus } = useQuery({
@@ -70,11 +63,6 @@ const SelectContainer = (props: SelectContainerPropsType) => {
             )}
           </a.ReduceBtn>
         </a.ReduceBtnWrap>
-        <a.SimulationBtnWrap>
-          <a.SimulationBtn onClick={handleSimulationClick}>
-            창업 시뮬레이션 바로가기
-          </a.SimulationBtn>
-        </a.SimulationBtnWrap>
       </a.SearchDiv>
       <Outlet />
     </a.Container>

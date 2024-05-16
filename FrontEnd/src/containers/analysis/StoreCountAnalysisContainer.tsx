@@ -19,11 +19,12 @@ const StoreCountAnalysisContainer = forwardRef(
     const setStoreCountDataBody = analysisStore(
       state => state.setStoreCountDataBody,
     )
+    const [periodCode, setPeriodCode] = useState('20233') // 분기 코드
     const [errMsg, setErrMsg] = useState('')
 
     // 점포 수
     const { data: StoreCountData, status: storeCountStatus } = useQuery({
-      queryKey: ['GetStoreCountData', selectedCommercial.code],
+      queryKey: ['GetStoreCountData', selectedCommercial.code, periodCode],
       queryFn: () =>
         getStoreCountData(
           String(selectedCommercial.code),
@@ -53,7 +54,11 @@ const StoreCountAnalysisContainer = forwardRef(
 
     return (
       <div ref={ref}>
-        <CategoryTitleCard src="/images/store_count.png" title="점포 수" />
+        <CategoryTitleCard
+          src="/images/store_count.png"
+          title="점포 수"
+          setPeriodCode={setPeriodCode}
+        />
         {errMsg ? (
           <s.ErrBox>
             해당 분기의 업종 점포분석 데이터를 제공하지 않습니다.

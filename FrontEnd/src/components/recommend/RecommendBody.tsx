@@ -140,7 +140,7 @@ const RecommendBody = (props: RecommendBodyPropsType) => {
           Unit="%"
         />
         <ThreeBox
-          MainContent="상권 총 매출"
+          MainContent="총 매출"
           AroundData={selectedData.salesCommercialInfo.administrationSales / 4}
           CurrentData={selectedData.salesCommercialInfo.mySales / 4}
           SeoulData={selectedData.salesCommercialInfo.otherSales / 4}

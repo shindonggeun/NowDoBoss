@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 export const Container = styled.div`
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 
   @media only screen and (max-width: 550px) {
     width: 100%;
@@ -36,7 +36,8 @@ export const ComparisonBox = styled.div<{ $whatNumber: number }>`
   margin: 5px 0;
   font-size: 0.8rem;
   font-weight: 600;
-  width: 27%;
+  width: 32%;
+  height: 60px;
 
   @media only screen and (max-width: 400px) {
     font-size: 0.75rem;
@@ -67,7 +68,7 @@ export const SubTitle = styled.div`
   }
 `
 export const Content = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   padding-right: 3px;
   margin-bottom: -2px;
@@ -155,7 +156,7 @@ const ThreeBox = (props: ThreeBoxPropsType) => {
           </ComparisonData>
         </ComparisonBox>
         <ComparisonBox $whatNumber={3}>
-          00상권 {MainContent}
+          해당 추천 상권 {MainContent}
           <ComparisonData>
             <Content>{formatKRW(CurrentData)}</Content>
             {Unit}

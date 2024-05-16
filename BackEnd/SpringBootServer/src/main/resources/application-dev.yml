@@ -1,6 +1,6 @@
 server:
-  base-url: k10C208.p.ssafy.io
-  https-url: https://k10C208.p.ssafy.io
+  base-url: k10c208.p.ssafy.io
+  https-url: https://k10c208.p.ssafy.io
 
 spring:
   servlet:

@@ -3,7 +3,8 @@ FROM ubuntu:latest
 
 # 필수 패키지 설치
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y curl openssh-server rsync wget vim iputils-ping htop openjdk-8-jdk python3 python3-pip
+RUN apt-get install -y curl openssh-server rsync wget vim iputils-ping htop openjdk-8-jdk python3 python3-pip python3-venv
+
 
 # 하둡 다운로드 및 설치
 RUN wget http://mirror.navercorp.com/apache/hadoop/common/hadoop-3.2.4/hadoop-3.2.4.tar.gz \
@@ -17,8 +18,10 @@ RUN wget https://archive.apache.org/dist/spark/spark-3.2.1/spark-3.2.1-bin-hadoo
     && rm spark-3.2.1-bin-hadoop3.2.tgz \
     && mv spark-3.2.1-bin-hadoop3.2 /usr/local/spark
 
-# PySpark 및 필요 라이브러리 설치
-RUN pip3 install pyspark
+# 가상 환경 생성 및 활성화, PySpark 및 필요 라이브러리 설치
+RUN python3 -m venv /opt/venv
+RUN /opt/venv/bin/pip install --upgrade pip
+RUN /opt/venv/bin/pip install pyspark
 
 # 환경변수 설정
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -34,6 +37,14 @@ COPY hadoop/common/setup-hadoop.sh /usr/local/bin/setup-hadoop.sh
 COPY hadoop/common/init-ssh-keys.sh /usr/local/bin/init-ssh-keys.sh
 COPY hadoop/common/collect-ssh-keys.sh /usr/local/bin/collect-ssh-keys.sh
 COPY hadoop/common/update-hosts.sh /usr/local/bin/update-hosts.sh
+
+# 하둡 마스터 노드 설정 파일 및 스크립트 복사
+COPY hadoop/master/hdfs-site.xml /usr/local/bin/master/hdfs-site.xml
+COPY hadoop/master/setup-master-hadoop-env.sh /usr/local/bin/master/setup-master-hadoop-env.sh
+
+# 하둡 워커 노드 설정 파일 및 스크립트 복사
+COPY hadoop/worker/hdfs-site.xml /usr/local/bin/worker/hdfs-site.xml
+COPY hadoop/worker/setup-worker-hadoop-env.sh /usr/local/bin/worker/setup-worker-hadoop-env.sh
 
 # 각 노드내에 스파크 설정 파일 및 스파크 관련 쉘 스크립트 복사
 COPY spark/spark-env.sh $SPARK_HOME/conf/spark-env.sh
@@ -51,6 +62,8 @@ RUN chmod +x /usr/local/bin/start-master.sh
 RUN chmod +x /usr/local/bin/start-slave.sh
 RUN chmod +x /usr/local/bin/start-history-server.sh
 RUN chmod +x /usr/local/bin/create-hdfs-log-dir.sh
+RUN chmod +x /usr/local/bin/master/setup-master-hadoop-env.sh
+RUN chmod +x /usr/local/bin/worker/setup-worker-hadoop-env.sh
 
 
 # SSH 구성

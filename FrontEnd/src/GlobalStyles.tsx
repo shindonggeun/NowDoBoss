@@ -92,9 +92,8 @@ const GlobalStyles = createGlobalStyle`
         font-family: 'Pretendard', sans-serif;
         line-height: 1.5;
         font-weight: 400;
-        margin: 0;
         padding-top: 68px;
-        width: 100vw;
+        width: calc(100vw - 5px);
         height: calc(100vh - 68px);
         overflow-x: hidden;
     }

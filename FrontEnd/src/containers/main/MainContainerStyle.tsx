@@ -45,17 +45,6 @@ export const Text = styled.div`
   justify-content: center;
   padding: 0 40px;
 
-  opacity: 0.1;
-  transform: translateY(50px);
-  transition:
-    opacity 2s ease-out,
-    transform 2s ease-out;
-
-  &.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
   @media only screen and (max-width: 992px) {
     width: 100%;
   }

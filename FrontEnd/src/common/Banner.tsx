@@ -99,7 +99,10 @@ const Banner = () => {
   ]
 
   const filteredCardData = cardData.filter(card => {
-    if (location.pathname === '/analysis' && card.url === '/status') {
+    if (
+      (location.pathname === '/analysis' && card.url === '/status') ||
+      (location.pathname === '/analysis/simulation' && card.url === '/status')
+    ) {
       return false
     }
     if (

@@ -1,9 +1,9 @@
 import * as n from '@src/components/styles/community/NavbarStyle'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import useCommunityStore, { Category } from '@src/stores/communityStore'
 import { useNavigate } from 'react-router-dom'
 import penIcon from '@src/assets/pen.svg'
-import NotLogin from '@src/common/swal/NotLogin.tsx'
+import NotLogin from '@src/common/swal/NotLogin'
 
 export type NavBarPropsType = {
   setCategory: (category: Category) => void
@@ -38,9 +38,31 @@ const NavBar = (props: NavBarPropsType) => {
     }
   }
 
+  // 스크롤 내렸을 때 사라지게 하는 로직
+  const [isTransparent, setIsTransparent] = useState<boolean>(true)
+  const [lastScrollY, setLastScrollY] = useState<number>(0)
+
+  // 현재 스크롤과 이전 스크롤 상태 비교해서 올림, 내림 스크롤 판단하는 로직
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY
+    if (currentScrollY > lastScrollY) {
+      setIsTransparent(false)
+    } else {
+      setIsTransparent(true)
+    }
+    setLastScrollY(currentScrollY)
+  }, [lastScrollY])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [handleScroll, lastScrollY])
+
   return (
     <n.Container>
-      <n.Community>
+      <n.Community $isTransparent={isTransparent}>
         <n.Title>커뮤니티</n.Title>
         <n.Sub>
           관심사가 비슷한 회원들과 <br />
@@ -72,7 +94,11 @@ const NavBar = (props: NavBarPropsType) => {
           </n.Category>
         ))}
       </n.Community>
-      <n.CreateIcon src={penIcon} onClick={handleCreate} />
+      <n.CreateIcon
+        src={penIcon}
+        onClick={handleCreate}
+        $isTransparent={isTransparent}
+      />
     </n.Container>
   )
 }

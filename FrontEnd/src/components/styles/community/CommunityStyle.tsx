@@ -4,6 +4,10 @@ export const Container = styled.div`
   margin: 40px 0 0;
   min-height: 340px;
   width: 100%;
+
+  @media only screen and (max-width: 550px) {
+    margin: 0;
+  }
 `
 
 export const Context = styled.div`
@@ -72,6 +76,10 @@ export const CardTitle = styled.div`
   overflow: hidden; /* 내용이 너비를 넘어가면 숨김 처리 */
   text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
   min-height: 30px;
+  min-width: 60px;
+  @media only screen and (max-width: 520px) {
+    font-size: 1.2rem;
+  }
 `
 
 export const CardContent = styled.div`
@@ -98,6 +106,12 @@ export const CardCategory = styled.div`
 
 export const Icon = styled.img`
   scale: 80%;
+`
+
+export const VisibleName = styled.div`
+  @media only screen and (max-width: 500px) {
+    display: none;
+  }
 `
 
 export const CardSubContent = styled.div`
@@ -185,4 +199,8 @@ export const Img = styled.img`
   height: 80px;
   object-fit: cover;
   border-radius: 5px;
+
+  @media only screen and (max-width: 550px) {
+    width: 30%;
+  }
 `

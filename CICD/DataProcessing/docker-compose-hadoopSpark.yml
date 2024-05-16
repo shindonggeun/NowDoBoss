@@ -12,7 +12,7 @@ services:
       - "8088:8088"    # Hadoop ResourceManager Web UI
       - "19888:19888"  # Hadoop MapReduce JobHistory Server Web UI
       - "7077:7077"    # Spark Master Port
-      - "8080:8080"    # Spark Master Web UI
+      - "8870:8080"    # Spark Master Web UI
       - "18080:18080"  # Spark History Server
     volumes:
       - shared_keys:/shared_keys
@@ -28,6 +28,8 @@ services:
       /usr/local/bin/init-ssh-keys.sh &&
       /usr/local/bin/collect-ssh-keys.sh 3 &&
       /usr/local/bin/master/setup-master-hadoop-env.sh &&
+      /usr/local/bin/create-hdfs-log-dir.sh &&
+      /usr/local/bin/start-master.sh &&
       /usr/local/bin/start-history-server.sh
       "
 
@@ -50,7 +52,8 @@ services:
       /usr/local/bin/update-hosts.sh &&
       /usr/local/bin/init-ssh-keys.sh &&
       /usr/local/bin/collect-ssh-keys.sh 5 &&
-      /usr/local/bin/worker/setup-worker-hadoop-env.sh
+      /usr/local/bin/worker/setup-worker-hadoop-env.sh &&
+      /usr/local/bin/start-slave.sh
       "
 
   worker2:
@@ -72,7 +75,8 @@ services:
       /usr/local/bin/update-hosts.sh &&
       /usr/local/bin/init-ssh-keys.sh &&
       /usr/local/bin/collect-ssh-keys.sh 7 &&
-      /usr/local/bin/worker/setup-worker-hadoop-env.sh
+      /usr/local/bin/worker/setup-worker-hadoop-env.sh &&
+      /usr/local/bin/start-slave.sh
       "
 
 networks:

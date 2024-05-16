@@ -99,15 +99,15 @@ public class RecommendationServiceImpl implements RecommendationService{
                 });
                 for (RecommendationResponse dto: list){
                     if (dto.commercialCode().equals(commercialCode)){
-                        // 카프카 이벤트 발생
-                        CommercialKafkaInfo commercialKafkaInfo = new CommercialKafkaInfo(id, "recommendation", 1L, commercialCode, System.currentTimeMillis());
-                        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_RECOMMENDATION, commercialKafkaInfo);
+//                        // 카프카 이벤트 발생
+//                        CommercialKafkaInfo commercialKafkaInfo = new CommercialKafkaInfo(id, "recommendation", 1L, commercialCode, System.currentTimeMillis());
+//                        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_RECOMMENDATION, commercialKafkaInfo);
 
                         // 추천용 데이터 카프카 토픽으로
                         DataInfo dataInfo = new DataInfo(id, commercialCode, "save");
                         kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
 
-                        boolean existAnalysis = recommendationRepository.existsByUserIdAndCommercialCode(commercialKafkaInfo.userId(), commercialKafkaInfo.commercialCode());
+                        boolean existAnalysis = recommendationRepository.existsByUserIdAndCommercialCode(dataInfo.userId(), dataInfo.commercialCode());
 
                         if (existAnalysis) {
                             throw new RecommendationException(RecommendationErrorCode.EXIST_ANALYSIS);

@@ -341,9 +341,9 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     public CommercialAdministrationAreaResponse getAdministrationInfoByCommercialCode(Long memberId, String commercialCode) {
-        // 추천용 데이터 카프카 토픽으로
-        DataInfo dataInfo = new DataInfo(memberId,commercialCode, "click");
-        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
+//        // 추천용 데이터 카프카 토픽으로
+//        DataInfo dataInfo = new DataInfo(memberId,commercialCode, "click");
+//        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
 
         return areaCommercialRepository.findByCommercialCode(commercialCode);
     }

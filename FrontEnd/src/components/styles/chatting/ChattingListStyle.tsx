@@ -8,6 +8,9 @@ export const Title = styled.div`
   overflow: hidden; /* 내용이 너비를 넘어가면 숨김 처리 */
   text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
   min-height: 30px;
+  @media only screen and (max-width: 520px) {
+    font-size: 1.2rem;
+  }
 `
 
 export const Content = styled.div`

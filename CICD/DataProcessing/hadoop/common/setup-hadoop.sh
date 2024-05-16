@@ -1,4 +1,5 @@
 #!/bin/bash
+# setup-hadoop.sh
 
 # 환경변수 설정
 echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' >> /root/.bashrc
@@ -12,11 +13,6 @@ echo 'export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native' >> /root/.bas
 echo 'export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"' >> /root/.bashrc
 
 source /root/.bashrc
-
-# common 폴더내에 있는 구성 파일 복사
-cp /common/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
-cp /common/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
-cp /common/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
 
 # masters와 workers 파일 설정
 echo "master1" > $HADOOP_HOME/etc/hadoop/masters

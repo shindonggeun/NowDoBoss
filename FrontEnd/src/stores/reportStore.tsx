@@ -9,6 +9,7 @@ interface ReportState {
   setSido: (sido: string) => void
   sigungu: string
   setSigungu: (sigungu: string) => void
+  resetReportButton: () => void
 }
 
 const useReportStore = create<ReportState>(set => ({
@@ -20,6 +21,13 @@ const useReportStore = create<ReportState>(set => ({
   setSido: sido => set({ sido }),
   sigungu: '',
   setSigungu: sigungu => set({ sigungu }),
+
+  resetReportButton: () => {
+    set({ address: '' })
+    set({ query: '' })
+    set({ sido: '' })
+    set({ sigungu: '' })
+  },
 }))
 
 export default useReportStore

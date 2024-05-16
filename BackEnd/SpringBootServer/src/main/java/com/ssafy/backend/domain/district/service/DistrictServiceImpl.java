@@ -21,6 +21,7 @@ import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
 import com.ssafy.backend.domain.district.repository.StoreDistrictRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +40,7 @@ public class DistrictServiceImpl implements DistrictService {
     private final AreaCommercialRepository areaCommercialRepository;
 
     @Override
+    @Cacheable(value = "Contents", key = "'topTenDistrictsStaticKey'", cacheManager = "contentCacheManager")
     public DistrictTopTenResponse getTopTenDistricts() {
         // 유동 인구
         List<FootTrafficDistrictTopTenResponse> footTrafficInfoList = footTrafficDistrictRepository.getTopTenFootTrafficDistrictByPeriodCode();

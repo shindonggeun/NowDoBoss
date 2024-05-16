@@ -1,4 +1,4 @@
-import * as c from '@src/components/styles/simulation/CompareModalStyle.tsx'
+import * as c from '@src/components/styles/simulation/CompareModalStyle'
 import IconButton from '@mui/joy/IconButton'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Modal from '@mui/joy/Modal'
@@ -10,15 +10,17 @@ import DialogTitle from '@mui/joy/DialogTitle'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import ContainerBox from '@src/common/ContainerBox.tsx'
+import ContainerBox from '@src/common/ContainerBox'
 import CompareTop from '@src/components/simulation/compare/CompareTop'
 import {
   SimulationDataType,
   SimulationReportCompareData,
   SimulationSaveBody,
 } from '@src/types/SimulationType'
-import { fetchSavedList, reportCreate } from '@src/api/simulationApi.tsx'
-import CompareList from '@src/components/simulation/compare/CompareList.tsx'
+import { fetchSavedList, reportCreate } from '@src/api/simulationApi'
+import CompareList from '@src/components/simulation/compare/CompareList'
+import useSimulationStore from '@src/stores/simulationStore'
+import useReportStore from '@src/stores/reportStore'
 
 interface ModalType {
   layout: ModalDialogProps['layout'] | undefined
@@ -33,10 +35,17 @@ const SimulationReportCompare = ({ layout, setLayout }: ModalType) => {
   const [secondSelected, setSecondSelected] = useState<number | null>(null)
   const [secondReportData, setSecondReportData] =
     useState<SimulationReportCompareData | null>(null)
+  const { resetSimulButton } = useSimulationStore()
+  const { resetReportButton } = useReportStore()
+
+  const resetButton = () => {
+    resetSimulButton()
+    resetReportButton()
+  }
 
   useEffect(() => {
     setLayout('center')
-  }, [])
+  }, [setLayout])
 
   // 시뮬레이션 목록 리스트 조회
   const { data, isLoading } = useQuery<SimulationSaveBody>({
@@ -75,8 +84,7 @@ const SimulationReportCompare = ({ layout, setLayout }: ModalType) => {
 
       mutateCreateReport(reportCreateData)
     }
-    // console.log(firstReportData?.dataBody, '-----')
-  }, [firstSelected])
+  }, [data, firstSelected, mutateCreateReport])
 
   // 두번째 선택목록 반환 데이터
   useEffect(() => {
@@ -94,8 +102,7 @@ const SimulationReportCompare = ({ layout, setLayout }: ModalType) => {
 
       mutateCreateReport(reportCreateData)
     }
-    // console.log(secondReportData?.dataBody, '-----')
-  }, [secondSelected])
+  }, [data, mutateCreateReport, secondSelected])
 
   return (
     <Modal
@@ -110,6 +117,7 @@ const SimulationReportCompare = ({ layout, setLayout }: ModalType) => {
         <ModalClose
           onClick={() => {
             navigate('/analysis')
+            resetButton()
           }}
         />
         <IconButton
@@ -125,11 +133,15 @@ const SimulationReportCompare = ({ layout, setLayout }: ModalType) => {
             position: 'absolute',
             left: '58px',
             top: '14px',
-            fontFamily: 'pretendard',
+            fontFamily: 'Pretendard',
           }}
         >
           창업 비용 비교하기
         </DialogTitle>
+        <c.CompareTitleContainer>
+          <c.CompareTitle>창업준비의 모든비용</c.CompareTitle>
+          <c.CompareTitle>한눈에 비교하기</c.CompareTitle>
+        </c.CompareTitleContainer>
         {data && !isLoading && (
           <c.CheckContainer>
             <CompareTop
@@ -144,38 +156,34 @@ const SimulationReportCompare = ({ layout, setLayout }: ModalType) => {
         )}
 
         <c.BodyContainer>
-          <c.BodyContainerRight>
-            <List
-              sx={{
-                overflow: 'scroll',
-                mx: 'calc(-1 * var(--ModalDialog-padding))',
-                px: 'var(--ModalDialog-padding)',
-                '&::-webkit-scrollbar': {
-                  display: 'none',
-                },
-              }}
-            >
-              <c.CheckContainer>
+          <List
+            sx={{
+              overflow: 'scroll',
+              minHeight: '50vh',
+              maxHeight: '70vh',
+              mx: 'calc(-1 * var(--ModalDialog-padding))',
+              px: 'var(--ModalDialog-padding)',
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
+            }}
+          >
+            <c.CheckContainer>
+              <c.BodyFlex>
                 {firstReportData !== null && (
-                  <CompareList ReportData={firstReportData.dataBody} />
+                  <CompareList ReportData={firstReportData.dataBody} title />
                 )}
-                <c.BodyContainerLeft>
-                  <c.TextCenter>
-                    <c.BodyContainerText>전체 창업 비용</c.BodyContainerText>
-                    <c.BodyContainerText>임대료</c.BodyContainerText>
-                    <c.BodyContainerText>보증금</c.BodyContainerText>
-                    <c.BodyContainerText>인테리어 비용</c.BodyContainerText>
-                    <c.BodyContainerText>가맹 부담금</c.BodyContainerText>
-                    <c.BodyContainerText>권리금</c.BodyContainerText>
-                  </c.TextCenter>
-                </c.BodyContainerLeft>
-
+              </c.BodyFlex>
+              <c.BodyFlex>
                 {secondReportData !== null && (
-                  <CompareList ReportData={secondReportData.dataBody} />
+                  <CompareList
+                    ReportData={secondReportData.dataBody}
+                    title={false}
+                  />
                 )}
-              </c.CheckContainer>
-            </List>
-          </c.BodyContainerRight>
+              </c.BodyFlex>
+            </c.CheckContainer>
+          </List>
         </c.BodyContainer>
       </ModalDialog>
     </Modal>

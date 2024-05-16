@@ -11,6 +11,12 @@ RUN wget http://mirror.navercorp.com/apache/hadoop/common/hadoop-3.2.4/hadoop-3.
     && rm hadoop-3.2.4.tar.gz \
     && mv hadoop-3.2.4 /usr/local/hadoop
 
+# Spark 다운로드 및 설치
+RUN wget https://downloads.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz \
+    && tar zxvf spark-3.2.1-bin-hadoop3.2.tgz \
+    && rm spark-3.2.1-bin-hadoop3.2.tgz \
+    && mv spark-3.2.1-bin-hadoop3.2 /usr/local/spark
+
 # 환경변수 설정
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV HADOOP_HOME=/usr/local/hadoop

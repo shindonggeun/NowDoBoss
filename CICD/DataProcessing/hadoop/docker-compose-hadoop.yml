@@ -8,9 +8,9 @@ services:
     container_name: master1
     hostname: master1
     ports:
-      - "29870:9870"    # NameNode Web UI
-      - "28088:8088"    # ResourceManager Web UI
-      - "29888:19888"   # MapReduce JobHistory Server Web UI
+      - "9870:9870"    # NameNode Web UI
+      - "8088:8088"    # ResourceManager Web UI
+      - "19888:19888"   # MapReduce JobHistory Server Web UI
     volumes:
       - shared_keys:/shared_keys
       - ./master/hdfs-site.xml:/usr/local/bin/master/hdfs-site.xml

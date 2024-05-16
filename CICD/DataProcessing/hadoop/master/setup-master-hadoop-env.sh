@@ -35,6 +35,10 @@ hdfs namenode -format
 echo "하둡 클러스터를 시작합니다."
 start-all.sh
 
+# JobHistoryServer 시작
+echo "JobHistoryServer를 시작합니다."
+mapred --daemon start historyserver
+
 echo "WordCount 예제를 실행합니다."
 hdfs dfs -mkdir /input
 hdfs dfs -copyFromLocal /usr/local/hadoop/README.txt /input

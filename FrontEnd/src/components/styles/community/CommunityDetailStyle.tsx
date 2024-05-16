@@ -7,6 +7,10 @@ export const Container = styled.div`
   @media only screen and (max-width: 820px) {
     padding: 3vh 5%;
   }
+
+  @media only screen and (max-width: 550px) {
+    padding: 2vh 5%;
+  }
 `
 
 export const Header = styled.div`
@@ -80,6 +84,10 @@ export const RowDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media only screen and (max-width: 550px) {
+    flex-direction: column;
+  }
 `
 export const Category = styled.div`
   //padding: 1vh 0;
@@ -94,6 +102,10 @@ export const Category = styled.div`
   border-radius: 10px;
   //background-color: rgb(253, 149, 73);
   //color: #ffffff;
+
+  @media only screen and (max-width: 550px) {
+    margin: 5px;
+  }
 `
 export const TimeAndCounting = styled.div`
   font-weight: 600;
@@ -139,6 +151,10 @@ export const WriterProfile = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin: 50px 0 0 0;
+
+  @media only screen and (max-width: 550px) {
+    margin-top: 20px;
+  }
 `
 
 export const ProfileDiv = styled.div`

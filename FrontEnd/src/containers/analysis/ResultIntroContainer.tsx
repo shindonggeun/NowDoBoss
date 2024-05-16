@@ -41,9 +41,9 @@ const ResultIntroContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       <r.ImgDiv>
         <img src="/images/Buildings.png" alt="buildings" />
       </r.ImgDiv>
-      <r.ResultWrap>
-        <r.IntroTitle>분석 리포트</r.IntroTitle>
-      </r.ResultWrap>
+      {/* <r.ResultWrap> */}
+      {/*  <r.IntroTitle>분석 리포트</r.IntroTitle> */}
+      {/* </r.ResultWrap> */}
       <ResultIntro handlePostAnalysisBookmarks={handlePostAnalysisBookmarks} />
     </r.Container>
   )

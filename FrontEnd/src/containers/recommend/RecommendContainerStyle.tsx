@@ -51,11 +51,15 @@ export const SearchDiv = styled.div`
   display: flex;
   flex-direction: row;
 `
+export const Banner = styled.div`
+  position: absolute;
+  z-index: 1;
+`
 export const Search = styled.div`
   position: absolute;
   z-index: 1;
   top: 0;
-  width: 320px;
+  width: 400px;
   height: auto;
 
   @media only screen and (max-width: 400px) {
@@ -69,7 +73,7 @@ export const Search = styled.div`
 export const ReduceButton = styled.div`
   position: absolute;
   z-index: 1;
-  left: 320px;
+  left: 400px;
   top: 0;
   height: auto;
 
@@ -101,7 +105,7 @@ export const Report = styled.div<{ $isSubmit: boolean }>`
 `
 
 export const ReportContainer = styled.div`
-  width: 500px;
+  width: 550px;
   height: auto;
   border: 2px solid #d9d9d9;
   background-color: white;

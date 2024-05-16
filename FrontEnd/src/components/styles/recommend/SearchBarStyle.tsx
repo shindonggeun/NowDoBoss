@@ -15,4 +15,5 @@ export const ContentSlide = styled.div`
 export const Content = styled.div<{ $isSelect: boolean }>`
   pointer-events: ${props => (props.$isSelect ? '' : 'none')};
   opacity: ${props => (props.$isSelect ? '' : '0.4')};
+  margin: 0 25px;
 `

@@ -133,7 +133,7 @@ export const SummaryHeader = styled.div`
 export const HighLight = styled.div`
   display: flex;
   align-items: center;
-  width: 5rem;
+  width: 10rem;
   background-color: #fdffc7;
   font-size: 1.1rem;
   font-weight: 700;
@@ -152,6 +152,7 @@ export const LightIcon = styled.img`
 
 export const SummaryContent = styled.div`
   padding: 5px 20px 10px;
+  line-height: 2;
 
   b {
     font-weight: 700;
@@ -199,6 +200,8 @@ export const SubContent = styled.div`
 export const Chart = styled.div`
   width: auto;
   height: auto;
+  display: flex;
+  justify-content: center;
 
   margin: 20px;
 `

@@ -1,14 +1,15 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-import time
-import json, datetime
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, udf, to_timestamp
 from pyspark.sql.types import IntegerType
 import mongoDB
 import pandas as pd
 import spark_reco
-import server
-import sched
+from motor.motor_asyncio import AsyncIOMotorClient
+import asyncio
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import mongoDB
+
 
 model_path = "model"
 filename = 'model_update_time.json'
@@ -22,7 +23,7 @@ def action_weight(action):
 
 
 #스케줄 실행 코드 
-def scheduler(): 
+async def scheduler(): 
     # 출력할 문구 
     print("Scheduler is alive!") 
     spark = SparkSession.builder \
@@ -38,10 +39,15 @@ def scheduler():
     # print("Previous update time:", last_update_time)
 
     # 데이터 가져오기
-    mongo_data = mongoDB.get_mongodb_data()
+    mongo_data = await mongoDB.get_mongodb_data()
 
     # 데이터프레임으로 변환
     df = pd.DataFrame(mongo_data)
+
+    if df.empty:
+        print("유저 데이터 없음")
+        return
+
 
     # 데이터 확인
     print(df)
@@ -56,17 +62,17 @@ def scheduler():
     sdf = sdf.withColumn("weight", udf(action_weight, IntegerType())(col("action")))
 
     # HDFS에서 모델 불러오기 + 학습 + 저장
-    model = spark_reco.load_or_train_model(sdf)
+    model = await spark_reco.load_or_train_model(sdf)
 
-    spark.stop()
+    #spark.stop()
     
 # timezone을 설정해두지 않으면 경고문구가 뜰 수 있다! 
 # BackgroundScheduler을 통해 schedule 인스턴스를 생성한다. 
-schedule = BackgroundScheduler(daemon=True, timezone='Asia/Seoul') 
+schedule = AsyncIOScheduler(daemon=True, timezone='Asia/Seoul') 
     
 # 추가하고 싶은 작업을 add_job 매서드를 통해 설정한다. 
 # 이 코드는 2초 간격으로 실행하라는 의미이다 
-schedule.add_job(scheduler, 'cron', hour='17',minute='32', id='test') 
+schedule.add_job(scheduler, 'cron', hour='01',minute='32', id='test') 
     
 # 스케줄을 start()로 호출한다 
 schedule.start()

@@ -77,6 +77,10 @@ async def recommend_commercials(spark, userId, background_tasks: BackgroundTasks
     # 데이터프레임으로 변환
     df = pd.DataFrame(mongo_data)
 
+    if df.empty:
+        print("유저 데이터 없음")
+        return
+
     # 데이터 확인
     print(df)
     # 필요한 열만 선택 (예: userId, action, commercialCode)

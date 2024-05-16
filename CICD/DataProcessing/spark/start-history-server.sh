@@ -9,6 +9,8 @@ $SPARK_HOME/sbin/start-history-server.sh
 hdfs dfs -mkdir -p /input
 hdfs dfs -copyFromLocal $SPARK_HOME/README.md /input
 
+hdfs dfs -mkdir -p /output
+
 # Spark 애플리케이션 실행
 $SPARK_HOME/bin/spark-submit \
   --class org.apache.spark.examples.JavaWordCount \

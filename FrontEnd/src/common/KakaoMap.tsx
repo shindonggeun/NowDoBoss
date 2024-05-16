@@ -330,13 +330,20 @@ const KakaoMap = () => {
             ? loadData.map((code, index) => {
                 // 색상 배열 정의
                 const colors = [
-                  '#bbe0ff',
-                  '#98c6ff',
+                  '#4975ff',
+                  '#4680ff',
                   '#7ca4ff',
-                  '#b6d4fd',
                   '#679cff',
                   '#8296ff',
                 ]
+                // const colors = [
+                //     '#bbe0ff',
+                //     '#98c6ff',
+                //     '#7ca4ff',
+                //     '#b6d4fd',
+                //     '#679cff',
+                //     '#8296ff',
+                //   ]
                 // index에 따라 색상을 순환시키기 위한 계산
                 const colorIndex = index % colors.length
                 // 현재 폴리곤의 색상
@@ -346,7 +353,7 @@ const KakaoMap = () => {
                   <Polygon
                     key={code.name}
                     path={code.path}
-                    strokeWeight={3} // 선의 두께입니다
+                    strokeWeight={2} // 선의 두께입니다
                     strokeColor={fillColor} // 선의 색깔입니다
                     strokeOpacity={0.5} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
                     strokeStyle="longdash" // 선의 스타일입니다

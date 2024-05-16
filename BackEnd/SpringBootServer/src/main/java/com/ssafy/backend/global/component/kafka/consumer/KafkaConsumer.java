@@ -1,6 +1,5 @@
 package com.ssafy.backend.global.component.kafka.consumer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.chat.dto.response.ChatMessageResponse;
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisKafkaRequest;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialKafkaInfo;

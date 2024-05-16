@@ -2,10 +2,8 @@ package com.ssafy.backend.domain.district.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.backend.domain.district.dto.info.StoreDistrictTotalTopEightInfo;
 import com.ssafy.backend.domain.district.dto.response.ClosedStoreDistrictTopTenResponse;
@@ -25,15 +23,6 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
     @Override
     public List<OpenedStoreDistrictTopTenResponse> getTopTenOpenedStoreDistrictByPeriodCode() {
         QStoreDistrict sd = QStoreDistrict.storeDistrict;
-
-//        // 서브쿼리를 이용하여 top district 목록을 가져옴
-//        List<String> topDistrictNames = queryFactory
-//                .select(sd.districtCodeName)
-//                .from(sd)
-//                .where(sd.periodCode.eq("20233"))
-//                .groupBy(sd.districtCodeName)
-//                .orderBy(sd.openedStore.sum().divide(sd.totalStore.sum()).desc())
-//                .fetch();
 
         List<Tuple> districtData = queryFactory
                 .select(sd.districtCode,
@@ -81,15 +70,6 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
     public List<ClosedStoreDistrictTopTenResponse> getTopTenClosedStoreDistrictByPeriodCode(){
         QStoreDistrict sd = QStoreDistrict.storeDistrict;
 
-//        // 서브쿼리를 이용하여 top district 목록을 가져옴
-//        List<String> topDistrictNames = queryFactory
-//                .select(sd.districtCodeName)
-//                .from(sd)
-//                .where(sd.periodCode.eq("20233"))
-//                .groupBy(sd.districtCodeName)
-//                .orderBy(sd.closedStore.sum().divide(sd.totalStore.sum()).desc())
-//                .fetch();
-
         List<Tuple> districtData = queryFactory
                 .select(sd.districtCode,
                         sd.districtCodeName,
@@ -135,15 +115,6 @@ public class StoreDistrictCustomRepositoryImpl implements StoreDistrictCustomRep
     @Override
     public List<StoreDistrictTotalTopEightInfo> getTopEightTotalStoreByServiceCode(String periodCode, String districtCode) {
         QStoreDistrict storeDistrict = QStoreDistrict.storeDistrict;
-        //QStoreDistrict s = new QStoreDistrict("s");
-
-//        SubQueryExpression<Long> periodCode20232Query = JPAExpressions
-//                .select(s.totalStore)
-//                .from(s)
-//                .where(s.periodCode.eq("20224")
-//                        .and(s.districtCode.eq(districtCode))
-//                        .and(s.serviceType.isNotNull())
-//                        .and(s.serviceCode.eq(storeDistrict.serviceCode))); // 서비스 코드 일치 조건 추가
 
         return queryFactory
                 .select(Projections.constructor(

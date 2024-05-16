@@ -1,6 +1,5 @@
 package com.ssafy.backend.global.component.kafka.producer;
 
-import com.ssafy.backend.domain.commercial.document.CommercialAnalysis;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;

@@ -13,7 +13,7 @@ import org.hibernate.annotations.Comment;
 @Table(indexes = {
         @Index(name = "idx_period_code", columnList = "periodCode"),
         @Index(name = "idx_administration_code", columnList = "administrationCode"),
-        @Index(name = "idx_service_code", columnList = "serviceCode")
+        @Index(name = "idx_service_code", columnList = "serviceCode"),
 })
 public class SalesAdministration {
     @Id

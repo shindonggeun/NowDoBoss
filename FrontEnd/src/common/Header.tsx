@@ -8,9 +8,11 @@ import styled from 'styled-components'
 import HeaderDropdown from '@src/common/HeaderDropdown'
 import LogoutContainer from '@src/containers/User/LogoutContainer'
 import useCommunityStore from '@src/stores/communityStore'
+import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 
 import three_line from '@src/assets/three_line.svg'
 import three_line_gray from '@src/assets/three_line_gray.svg'
+import analysisStore from '@src/stores/analysisStore'
 
 const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   height: 70px;
@@ -67,21 +69,21 @@ const Menu = styled.div<{
   align-items: center;
   cursor: pointer;
   font-weight: bold;
-  border-bottom: 2px solid
-    ${props =>
-      props.$isActive
-        ? props.$isMain && props.$atTop
-          ? 'white'
-          : '#236cff'
-        : 'none'};
-  color: ${props =>
-    props.$isActive
-      ? props.$isMain && props.$atTop
-        ? 'white'
-        : '#236cff'
+
+  ${props => {
+    const isWhite = props.$isMain && props.$atTop ? 'white' : '#236cff'
+    const borderBottomColor = props.$isActive ? isWhite : 'none'
+    const textColor = props.$isActive
+      ? isWhite
       : props.$isMain && props.$atTop
         ? 'white'
-        : 'black'};
+        : 'black'
+
+    return `
+      border-bottom: 2px solid ${borderBottomColor};
+      color: ${textColor};
+    `
+  }}
 
   &:hover {
     color: ${props => (props.$isMain && props.$atTop ? 'white' : '#236cff')};
@@ -163,19 +165,46 @@ const Header = () => {
     }
   }, [handleScroll, lastScrollY])
 
+  // 상권 분석이나 상권 추천 페이지 이동 시 드롭다운 데이터 초기화 하기 위한 store
+  const { setSelectedGoo, setSelectedDong, setSelectedCommercial } =
+    useSelectPlaceStore(state => ({
+      setSelectedGoo: state.setSelectedGoo,
+      setSelectedDong: state.setSelectedDong,
+      setSelectedCommercial: state.setSelectedCommercial,
+    }))
+
+  // 상권 분석 페이지 이동 시 드롭다운 데이터 초기화 하기 위한 store
+  const { setSelectedServiceType } = analysisStore(state => ({
+    setSelectedServiceType: state.setSelectedServiceType,
+  }))
+
   // 메인 페이지에서만 투명한 배경 설정
   useEffect(() => {
     if (location.pathname === '/') {
       setIsMain(true)
+    } else if (
+      location.pathname === '/analysis' ||
+      location.pathname === '/recommend'
+    ) {
+      setSelectedGoo({ name: '행정구', code: 0 })
+      setSelectedDong({ name: '행정동', code: 0 })
+      setSelectedCommercial({ name: '상권', code: 0 })
+      setSelectedServiceType('')
+      setIsMain(false)
     } else {
       setIsMain(false)
     }
-  }, [location.pathname])
+  }, [
+    location.pathname,
+    setSelectedCommercial,
+    setSelectedDong,
+    setSelectedGoo,
+    setSelectedServiceType,
+  ])
 
   // 로그인 상태 확인 (localStorage 사용)
   const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const LocationData = [
     {
       name: '상권현황',

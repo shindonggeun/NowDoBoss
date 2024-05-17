@@ -1,26 +1,26 @@
+import React, { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
-import userStore from '@src/stores/userStore'
 import { loginUser } from '@src/api/userApi'
+import { saveFcmToken } from '@src/api/fcmApi'
 import InfoSection from '@src/components/User/InfoSection'
-import EmailInputSection from '@src/components/User/LogIn/EmailInputSection'
-import PwInputSection from '@src/components/User/LogIn/PwInputSection'
+import EmailInput from '@src/components/User/EmailInput'
+import PasswordInput from '@src/components/profile/PasswordInput'
 import AskSection from '@src/components/User/AskSection'
 import SocialLoginContainer from '@src/containers/User/SocialLoginContainer'
 import * as u from '@src/containers/User/UserContainerStyle'
 import Swal from 'sweetalert2'
 import firebase from 'firebase'
-import { useEffect } from 'react'
-import { saveFcmToken } from '@src/api/fcmApi'
 
 // firebase config 불러오기
 
 const LoginContainer = () => {
-  const loginData = userStore(state => state.loginData)
-  const setMemberInfo = userStore(state => state.setMemberInfo)
   const [, setCookie] = useCookies(['accessToken'])
   const navigate = useNavigate()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('') // 에러 메시지 상태
 
   // fcm 서비스 워커 등록 로직
   const registerServiceWorker = () => {
@@ -88,7 +88,7 @@ const LoginContainer = () => {
     mutationFn: loginUser,
     onSuccess: res => {
       if (res.dataHeader.successCode === 1) {
-        console.log(`로그인 실패 ${res.dataHeader.resultMessage}`)
+        setErrorMessage(res.dataHeader.resultMessage)
       } else {
         // 쿠키에 accessToken 저장 (7일 동안 유지)
         const { accessToken } = res.dataBody.tokenInfo
@@ -104,9 +104,6 @@ const LoginContainer = () => {
         const { memberInfo } = res.dataBody
         localStorage.setItem('memberInfo', JSON.stringify(memberInfo))
         localStorage.setItem('isLogIn', 'true')
-
-        // 회원정보 상태관리 추가
-        setMemberInfo(memberInfo)
 
         const Toast = Swal.mixin({
           toast: true,
@@ -131,8 +128,15 @@ const LoginContainer = () => {
     },
   })
 
-  const handleLoginUser = () => {
-    LoginUser(loginData)
+  const handleLoginUser = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const data = {
+      email,
+      password,
+    }
+
+    LoginUser(data)
+    setErrorMessage('') // 에러 메시지 초기화
   }
 
   return (
@@ -142,15 +146,35 @@ const LoginContainer = () => {
           title="Welecome back!"
           subtitle="로그인 후 다양한 서비스를 이용하세요."
         />
-        <EmailInputSection />
-        <PwInputSection />
-        <u.Btn marginTop="6%" onClick={handleLoginUser}>
-          Log In
-        </u.Btn>
+
+        <u.Form onSubmit={handleLoginUser}>
+          {errorMessage && <u.ErrorMsg>{errorMessage}</u.ErrorMsg>}
+          <EmailInput
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            id="email"
+            placeholder="이메일"
+          />
+          <u.InputContainer>
+            <PasswordInput
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              id="password"
+              placeholder="비밀번호"
+            />
+            <u.InputMsg>영문, 숫자, 특수문자 포함 8~16자</u.InputMsg>
+          </u.InputContainer>
+          <u.Btn type="submit">Log In</u.Btn>
+        </u.Form>
+
         <AskSection title="아직 회원이 아니신가요?" subtitle="Sign up" />
         <SocialLoginContainer state="login" />
       </u.LeftWrap>
-      <u.RightWrap />
+      <u.RightWrap>
+        <u.ImgDiv>
+          <img src="/gifs/buildings.gif" alt="img" />
+        </u.ImgDiv>
+      </u.RightWrap>
     </u.Container>
   )
 }

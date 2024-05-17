@@ -85,8 +85,12 @@ const ChoicePlace = () => {
           indicator={<KeyboardArrowDown />}
           sx={{
             paddingRight: '5px',
-            width: location.pathname === '/recommend' ? '160px' : '100px',
-            maxWidth: location.pathname === '/recommend' ? '160px' : '108px',
+            width: location.pathname === '/recommend' ? '160px' : '94px',
+            maxWidth: location.pathname === '/recommend' ? '160px' : '100px',
+
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
             [`& .${selectClasses.indicator}`]: {
               transition: '0.2s',
               [`&.${selectClasses.expanded}`]: {
@@ -123,9 +127,10 @@ const ChoicePlace = () => {
             </Option>
           ))}
         </Select>
-
         {/* 행정동 드롭다운 */}
+
         <Select
+          disabled={selectedGoo.name === '행정구'}
           placeholder={selectedDong.name}
           value={selectedDong.name}
           indicator={<KeyboardArrowDown />}
@@ -166,18 +171,20 @@ const ChoicePlace = () => {
             </Option>
           ))}
         </Select>
-
         {location.pathname === '/recommend' ? (
           ''
         ) : (
           <Select
+            disabled={
+              selectedGoo.name === '행정구' || selectedDong.name === '행정동'
+            }
             placeholder={selectedCommercial.name}
             value={selectedCommercial.name}
             indicator={<KeyboardArrowDown />}
             sx={{
               paddingRight: '5px',
-              minWidth: '140px',
-              maxWidth: '150px',
+              minWidth: '135px',
+              maxWidth: '135px',
               marginLeft: '5px',
               [`& .${selectClasses.indicator}`]: {
                 transition: '0.2s',
@@ -213,20 +220,6 @@ const ChoicePlace = () => {
               </Option>
             ))}
           </Select>
-
-          // <Dropdown
-          //   onClick={() => {
-          //     if (selectedDong.name !== '행정동') {
-          //       setDropdownCommercialOpen(!dropdownCommercialOpen)
-          //     } else {
-          //       console.log(' 동을 먼저 선택해주세요')
-          //     }
-          //   }}
-          // >
-          //   {/* 상권 드롭다운 */}
-          //   <SelectedDistrict>{selectedCommercial.name}</SelectedDistrict>
-          //   <ArrowIcon src={down_arrow} />
-          // </Dropdown>
         )}
       </SelectPlace>
     </Place>

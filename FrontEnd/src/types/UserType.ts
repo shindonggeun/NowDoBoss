@@ -49,13 +49,11 @@ export type UserStoreType = {
   loginData: LoginDataType
   emailError: EmailErrorType
   signUpError: SignUpErrorType
-  memberInfo: MemberInfoType
   setSignUpData: (fieldName: keyof SignUpDataType, value: string) => void
   setEmailCode: (code: string) => void
   setLoginData: (fieldName: keyof LoginDataType, value: string) => void
   setEmailError: (fieldName: keyof EmailErrorType, value: string) => void
   setSignUpError: (fieldName: keyof SignUpErrorType, value: string) => void
-  setMemberInfo: (dataBody: MemberInfoType) => void
 }
 
 // prop type

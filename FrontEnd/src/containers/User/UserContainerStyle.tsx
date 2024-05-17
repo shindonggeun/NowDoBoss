@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 0 5%;
+  padding: 0 5%;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -18,42 +18,78 @@ export const LeftWrap = styled.div`
   gap: 10px;
 `
 
+export const Form = styled.form`
+  width: 100%;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media (max-width: 425px) {
+    gap: 10px;
+  }
+`
+
+export const ErrorMsg = styled.div`
+  padding: 10px;
+  font-size: 0.9rem;
+  background-color: #ffebee;
+  color: #d32f2f;
+  border-left: 5px solid #d32f2f;
+  animation: fadeIn 0.5s;
+`
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1px; // 이 값은 원하는 간격에 따라 조절 가능
+`
+
+export const InputMsg = styled.div`
+  font-size: 0.8rem;
+  color: #666;
+  margin-left: 3px;
+`
+
+export const Btn = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  display: flex;
+  flex: 1;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #d4e5f9;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2a7de1;
+
+  &:hover {
+    background-color: #6797da;
+  }
+`
+
 export const RightWrap = styled.div`
+  display: flex;
   flex: 3;
-  background-color: #888888;
+  padding: 0 5%;
 
   @media (max-width: 768px) {
     display: none;
   }
 `
 
-interface BtnProps {
-  marginTop?: string
-  disabled?: boolean
-}
-
-export const Btn = styled.div<BtnProps>`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 500;
+export const ImgDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
-  ${({ marginTop }) => marginTop && `margin-top: ${marginTop};`};
-  ${props =>
-    props.disabled &&
-    css`
-      opacity: 0.5;
-    `}
+  width: 100%;
+  box-sizing: border-box;
 
-  background-color: #236cff;
-  color: white;
-  height: 30px;
-
-  &:hover {
-    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  img {
+    width: 100%;
+    height: auto;
   }
 `

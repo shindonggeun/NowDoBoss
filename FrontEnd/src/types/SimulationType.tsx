@@ -93,6 +93,15 @@ export interface SimulationDataTypes {
 // [NOTE] 레포트 타입
 
 export interface SimulationReportType {
+  request: {
+    isFranchisee: boolean | null
+    brandName: string | null
+    gugun: string
+    serviceCode: string
+    serviceCodeName: string
+    storeSize: number
+    floor: string
+  }
   totalPrice: number
   keyMoneyInfo: {
     keyMoneyRatio: number
@@ -169,11 +178,37 @@ export interface SimulationSaveType {
   floor: string
 }
 
+// 시뮬 저장목롤 불러온 값
+export interface SimulationSavedType {
+  id: number
+  memberId: number
+  totalPrice: number
+  isFranchisee: boolean
+  brandName: string | null
+  gugun: string
+  serviceCode: string
+  serviceCodeName: string
+  storeSize: number
+  floor: string
+}
+
+export interface SimulationInfoType {
+  page: number
+  size: number
+  totalElements: number
+  totalPages: number
+}
+
+export interface SimulationMySavedType {
+  data: SimulationSavedType[]
+  pageInfo: SimulationInfoType[]
+}
+
 export interface SimulationSaveBody {
   dataHeader: {
     successCode: number
     resultCode: null
     resultMessage: null
   }
-  dataBody: SimulationSaveType[]
+  dataBody: SimulationMySavedType
 }

@@ -7,6 +7,10 @@ import SlimLogoImg from '@src/assets/logo_slim.svg'
 import styled from 'styled-components'
 import HeaderDropdown from '@src/common/HeaderDropdown'
 import LogoutContainer from '@src/containers/User/LogoutContainer'
+import useCommunityStore from '@src/stores/communityStore'
+
+import three_line from '@src/assets/three_line.svg'
+import three_line_gray from '@src/assets/three_line_gray.svg'
 
 const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   height: 70px;
@@ -211,6 +215,10 @@ const Header = () => {
     },
   ]
 
+  const { setSelectedCategory } = useCommunityStore(state => ({
+    setSelectedCategory: state.setSelectedCategory,
+  }))
+
   // 경로에 따라 activeMenu 설정
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -224,6 +232,15 @@ const Header = () => {
     const menuItem = LocationData.find(item => item.name === menuName)
     if (menuItem) {
       navigate(menuItem.location)
+      // 커뮤니티를 클릭했을 때 selectedCategory 설정
+      if (menuName === '커뮤니티') {
+        setSelectedCategory({
+          name: '전체보기',
+          value: '',
+          iconActive: three_line,
+          iconInactive: three_line_gray,
+        })
+      }
     }
     setActiveMenu(menuName)
   }

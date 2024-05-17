@@ -53,7 +53,7 @@ const DetailAnalysisComponent = () => {
   }
 
   return (
-    <>
+    <div>
       {!ServiceLoading && ServiceData && !SaleLoading && SaleData ? (
         <div>
           <c.AnalysisTitle>매출 분석</c.AnalysisTitle>
@@ -129,7 +129,7 @@ const DetailAnalysisComponent = () => {
       ) : (
         <div />
       )}
-    </>
+    </div>
   )
 }
 

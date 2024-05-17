@@ -54,7 +54,7 @@ const SimulReportContainer = () => {
             <ReportHeader
               onClose={onClose}
               onClickAlram={onClickAlram}
-              totalPrice={location.state.res.dataBody.totalPrice}
+              ReportData={location.state.res.dataBody}
             />
             {spinner ? (
               <SearchLoading />

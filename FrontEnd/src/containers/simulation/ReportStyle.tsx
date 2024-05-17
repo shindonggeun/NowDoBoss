@@ -57,7 +57,7 @@ export const SummaryHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1.7rem 1rem;
+  margin: 1.5rem 1rem 1rem 1rem;
   position: relative;
 
   @media (max-width: 768px) {
@@ -144,6 +144,7 @@ export const BodyBottomLeft = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 10px 0 15px 0;
 `
 
 export const BodyBottomRight = styled.div`
@@ -152,7 +153,7 @@ export const BodyBottomRight = styled.div`
   flex-direction: column;
   align-items: flex-start;
   border-left: 1px solid #e0e0e0;
-  padding: 1rem 2rem;
+  padding: 10px 2rem 15px 2rem;
 `
 
 export const BottomText = styled.div`

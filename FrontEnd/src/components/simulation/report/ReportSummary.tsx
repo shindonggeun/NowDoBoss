@@ -1,7 +1,5 @@
 import * as c from '@src/containers/simulation/ReportStyle'
 import LightIcon from '@src/assets/lightBulbIcon.svg'
-import SimulationStore from '@src/stores/simulationStore'
-import ReportStore from '@src/stores/reportStore'
 import { SimulationReportType } from '@src/types/SimulationType'
 
 const reportSummary = ({
@@ -9,11 +7,13 @@ const reportSummary = ({
 }: {
   ReportData: SimulationReportType
 }) => {
-  const { isFranchise, brandName, subCategoryName, bulidingSize, floor } =
-    SimulationStore()
-  const { query } = ReportStore()
-
   const TotalPrice = ReportData.totalPrice
+  const isFranchise = ReportData.request.isFranchisee
+  const { brandName } = ReportData.request
+  const subCategoryName = ReportData.request.serviceCodeName
+  const bulidingSize = ReportData.request.storeSize
+  const { floor } = ReportData.request
+  const { gugun } = ReportData.request
 
   let formattedNumber
   if (TotalPrice >= 10000) {
@@ -48,8 +48,8 @@ const reportSummary = ({
               ))}
             </c.BodyBottomLeft>
             <c.BodyBottomRight>
-              <c.BottomText>{isFranchise ? brandName : null}</c.BottomText>
-              <c.BottomText>{query.split('서울특별시')}</c.BottomText>
+              {isFranchise ? <c.BottomText>{brandName}</c.BottomText> : null}
+              <c.BottomText>{gugun}</c.BottomText>
               <c.BottomText>{subCategoryName}</c.BottomText>
               <c.BottomText>{bulidingSize}㎡</c.BottomText>
               <c.BottomText>{floor}</c.BottomText>

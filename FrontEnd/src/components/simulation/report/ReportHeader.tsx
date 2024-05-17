@@ -7,9 +7,10 @@ import Xmark from '@src/assets/xmark_solid_nomal.svg'
 import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { reportSave } from '@src/api/simulationApi'
-import useSimulationStore from '@src/stores/simulationStore'
-import useReportStore from '@src/stores/reportStore'
-import { SimulationSaveType } from '@src/types/SimulationType'
+import {
+  SimulationReportType,
+  SimulationSaveType,
+} from '@src/types/SimulationType'
 import { useNavigate } from 'react-router-dom'
 
 const { Kakao } = window
@@ -17,19 +18,18 @@ const { Kakao } = window
 interface HeaderType {
   onClose: () => void
   onClickAlram: (data: boolean) => void
-  totalPrice: number
+  ReportData: SimulationReportType
 }
-const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
-  const {
-    isFranchise,
-    brandName,
-    subCategoryName,
-    subCategoryCode,
-    bulidingSize,
-    floor,
-  } = useSimulationStore()
+const ReportHeader = ({ onClose, ReportData, onClickAlram }: HeaderType) => {
+  const isFranchise = ReportData.request.isFranchisee
+  const { brandName } = ReportData.request
+  const subCategoryName = ReportData.request.serviceCodeName
+  const subCategoryCode = ReportData.request.serviceCode
+  const bulidingSize = ReportData.request.storeSize
+  const { floor } = ReportData.request
+  const { gugun } = ReportData.request
   const navigate = useNavigate()
-  const { sigungu } = useReportStore()
+
   const [isSaved, setIsSaved] = useState<boolean>(false)
 
   // 창업 시뮬레이션 비교하기 버튼 클릭 핸들러
@@ -51,10 +51,10 @@ const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
   const onClickSave = () => {
     setIsSaved(!isSaved)
     const saveReportData: SimulationSaveType = {
-      totalPrice,
+      totalPrice: ReportData.totalPrice,
       isFranchisee: isFranchise!,
       brandName,
-      gugun: sigungu,
+      gugun,
       serviceCode: subCategoryCode,
       serviceCodeName: subCategoryName,
       storeSize: bulidingSize,

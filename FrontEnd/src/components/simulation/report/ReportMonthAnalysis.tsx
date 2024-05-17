@@ -1,5 +1,4 @@
 import * as c from '@src/components/styles/simulation/ReportAnalysisStyle'
-import useReportStore from '@src/stores/reportStore'
 import { SimulationReportType } from '@src/types/SimulationType'
 
 const ReportMonthAnalysis = ({
@@ -7,7 +6,7 @@ const ReportMonthAnalysis = ({
 }: {
   ReportData: SimulationReportType
 }) => {
-  const { sigungu } = useReportStore()
+  const { gugun } = ReportData.request
   const { peakSeasons } = ReportData.monthAnalysisInfo
   const { offPeakSeasons } = ReportData.monthAnalysisInfo
 
@@ -16,7 +15,7 @@ const ReportMonthAnalysis = ({
     <c.Container>
       <c.Title>성수기 비성수기 분석</c.Title>
       <c.SubTitle>
-        {sigungu}의<c.Emphasis> 성수기는 {peakSeasons.join(',')}월</c.Emphasis>{' '}
+        {gugun}의<c.Emphasis> 성수기는 {peakSeasons.join(',')}월</c.Emphasis>{' '}
         이고
         <c.Emphasis> 비성수기는 {offPeakSeasons.join(',')}월</c.Emphasis>입니다.
       </c.SubTitle>

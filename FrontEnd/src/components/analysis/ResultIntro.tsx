@@ -90,7 +90,7 @@ const ResultIntro = (props: ResultIntroPropsType) => {
           </r.SalesCard>
         </r.SummaryWrap>
         <r.WarningDiv>
-          <r.WarnTitle>책임의 한계 안내</r.WarnTitle>
+          <r.WarnTitle>종합의견</r.WarnTitle>
           <r.Text>
             본 보고서는 서울특별시의 선택 상권분석을 돕기 위해 제공하는
             정보입니다. 소상공인마당 공공데이터에서 수집된 신회할만한 자료 및

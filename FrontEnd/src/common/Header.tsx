@@ -69,21 +69,21 @@ const Menu = styled.div<{
   align-items: center;
   cursor: pointer;
   font-weight: bold;
-
-  ${props => {
-    const isWhite = props.$isMain && props.$atTop ? 'white' : '#236cff'
-    const borderBottomColor = props.$isActive ? isWhite : 'none'
-    const textColor = props.$isActive
-      ? isWhite
+  border-bottom: 2px solid
+    ${props =>
+      props.$isActive
+        ? props.$isMain && props.$atTop
+          ? 'white'
+          : '#236cff'
+        : 'none'};
+  color: ${props =>
+    props.$isActive
+      ? props.$isMain && props.$atTop
+        ? 'white'
+        : '#236cff'
       : props.$isMain && props.$atTop
         ? 'white'
-        : 'black'
-
-    return `
-      border-bottom: 2px solid ${borderBottomColor};
-      color: ${textColor};
-    `
-  }}
+        : 'black'};
 
   &:hover {
     color: ${props => (props.$isMain && props.$atTop ? 'white' : '#236cff')};
@@ -141,7 +141,6 @@ const Header = () => {
 
   // 스크롤 내렸을 때 사라지게 하는 로직
   const [isTransparent, setIsTransparent] = useState<boolean>(true)
-  const [isMain, setIsMain] = useState<boolean>(false)
   const [atTop, setAtTop] = useState<boolean>(true)
   const [lastScrollY, setLastScrollY] = useState<number>(0)
 
@@ -180,9 +179,7 @@ const Header = () => {
 
   // 메인 페이지에서만 투명한 배경 설정
   useEffect(() => {
-    if (location.pathname === '/') {
-      setIsMain(true)
-    } else if (
+    if (
       location.pathname === '/analysis' ||
       location.pathname === '/recommend'
     ) {
@@ -190,9 +187,6 @@ const Header = () => {
       setSelectedDong({ name: '행정동', code: 0 })
       setSelectedCommercial({ name: '상권', code: 0 })
       setSelectedServiceType('')
-      setIsMain(false)
-    } else {
-      setIsMain(false)
     }
   }, [
     location.pathname,
@@ -279,7 +273,10 @@ const Header = () => {
   }
 
   return (
-    <Container $isTransparent={isTransparent} $isMain={isMain}>
+    <Container
+      $isTransparent={isTransparent}
+      $isMain={location.pathname === '/'}
+    >
       <LogoDiv onClick={() => goNavigate({ url: '/' })}>
         <Logo src={SlimLogoImg} alt="logo" />
       </LogoDiv>
@@ -289,7 +286,7 @@ const Header = () => {
           <Menu
             key={menuName}
             $isActive={activeMenu === menuName}
-            $isMain={isMain}
+            $isMain={location.pathname === '/'}
             $atTop={atTop}
             onClick={() => handleMenuClick(menuName)}
           >
@@ -306,7 +303,7 @@ const Header = () => {
           <>
             <Menu
               $isActive={activeMenu === '채팅'}
-              $isMain={isMain}
+              $isMain={location.pathname === '/'}
               $atTop={atTop}
               onClick={() => handleMenuClick('채팅')}
             >
@@ -314,13 +311,13 @@ const Header = () => {
             </Menu>
             <Menu
               $isActive={activeMenu === '프로필'}
-              $isMain={isMain}
+              $isMain={location.pathname === '/'}
               $atTop={atTop}
               onClick={() => handleMenuClick('프로필')}
             >
               프로필
             </Menu>
-            <Menu $isMain={isMain} $atTop={atTop}>
+            <Menu $isMain={location.pathname === '/'} $atTop={atTop}>
               <LogoutContainer />
             </Menu>
           </>
@@ -329,7 +326,7 @@ const Header = () => {
             <Menu
               key={menuName}
               $isActive={activeMenu === menuName}
-              $isMain={isMain}
+              $isMain={location.pathname === '/'}
               $atTop={atTop}
               onClick={() => handleMenuClick(menuName)}
             >

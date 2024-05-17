@@ -5,6 +5,8 @@ FROM ubuntu:latest
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y curl openssh-server rsync wget vim iputils-ping htop openjdk-8-jdk python3 python3-pip python3-venv
 
+# python 명령어를 python3로 링크
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # 하둡 다운로드 및 설치
 RUN wget http://mirror.navercorp.com/apache/hadoop/common/hadoop-3.2.4/hadoop-3.2.4.tar.gz \

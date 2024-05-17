@@ -101,8 +101,10 @@ const DetailCommercialComponent = ({ props }: DetailCommercialProps) => {
           <c.SummaryTextContainer>
             <c.DotIcon src={Dot} alt="dot" />
             <c.SummaryList>
-              <c.SummaryEmphasis>{TopSaleAreaSummary}</c.SummaryEmphasis>의
-              매출이 가장 높습니다.
+              <c.SummaryEmphasis>
+                {TopSaleAreaSummary.replace('?', ',')}
+              </c.SummaryEmphasis>
+              의 매출이 가장 높습니다.
             </c.SummaryList>
           </c.SummaryTextContainer>
           <c.SummaryTextContainer>
@@ -135,9 +137,13 @@ const DetailCommercialComponent = ({ props }: DetailCommercialProps) => {
             <c.DotIcon src={Dot} alt="dot" />
             <c.SummaryList>
               가장 개업률이 높은 동네는{' '}
-              <c.SummaryEmphasis>{OpenSummary}</c.SummaryEmphasis>
+              <c.SummaryEmphasis>
+                {OpenSummary.replace('?', ',')}
+              </c.SummaryEmphasis>
               이며, 폐업률이 높은 동네는{' '}
-              <c.SummaryEmphasis>{CloseSummary}</c.SummaryEmphasis>
+              <c.SummaryEmphasis>
+                {CloseSummary.replace('?', ',')}
+              </c.SummaryEmphasis>
               입니다.
             </c.SummaryList>
           </c.SummaryTextContainer>

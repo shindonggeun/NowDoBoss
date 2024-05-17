@@ -8,6 +8,8 @@ import com.ssafy.backend.domain.simulation.dto.response.SearchFranchiseeResponse
 import com.ssafy.backend.domain.simulation.dto.response.SimulationDocumentResponse;
 import com.ssafy.backend.domain.simulation.dto.response.SimulationResponse;
 import com.ssafy.backend.domain.simulation.dto.response.StoreResponse;
+import com.ssafy.backend.global.common.dto.PageResponse;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -16,5 +18,5 @@ public interface SimulationService {
     StoreResponse selectStoreSize(String serviceCode);
     SimulationResponse simulate(SimulationRequest request);
     void createSimulation(Long memberId, CreateSimulationRequest request);
-    List<SimulationDocumentResponse> selectSimulation(Long memberId);
+    PageResponse<SimulationDocumentResponse> selectSimulation(Long memberId, int page, int size);
 }

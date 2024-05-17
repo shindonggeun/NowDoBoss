@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.simulation.dto.response;
 
 import com.ssafy.backend.domain.simulation.dto.info.*;
+import com.ssafy.backend.domain.simulation.dto.request.SimulationRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SimulationResponse {
+    private SimulationRequest request;
+
     // 전체 비용, 단위: 원
     private Long totalPrice;
 

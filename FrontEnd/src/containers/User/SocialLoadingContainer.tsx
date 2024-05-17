@@ -3,12 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { socialLoginUser } from '@src/api/userApi'
 import { useQuery } from '@tanstack/react-query'
 import { useCookies } from 'react-cookie'
-import userStore from '@src/stores/userStore'
+import MainContainer from '@src/containers/main/MainContainer'
 import Swal from 'sweetalert2'
 
 const SocialLoadingContainer = () => {
-  const setMemberInfo = userStore(state => state.setMemberInfo)
-
   const [, setCookie] = useCookies(['accessToken'])
   const navigate = useNavigate()
   const { provider } = useParams()
@@ -36,9 +34,6 @@ const SocialLoadingContainer = () => {
         localStorage.setItem('memberInfo', JSON.stringify(memberInfo))
         localStorage.setItem('isLogIn', 'true')
 
-        // 회원정보 상태관리 추가
-        setMemberInfo(memberInfo)
-
         const Toast = Swal.mixin({
           toast: true,
           position: 'bottom-end',
@@ -62,7 +57,7 @@ const SocialLoadingContainer = () => {
     }
   }, [data, setCookie, navigate])
 
-  return <>소셜 로그인 중입니다.</>
+  return <MainContainer />
 }
 
 export default SocialLoadingContainer

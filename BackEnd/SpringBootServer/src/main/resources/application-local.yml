@@ -37,6 +37,7 @@ spring:
 #        - 'classpath:/db/dummy/FOREIGN_KEY_CHECKS_0.sql'
 #        - 'classpath:/db/dummy/db_dump.sql'
 #        - 'classpath:/db/dummy/db_dump1.sql'
+#        - 'classpath:/db/dummy/db_dump2.sql'
 #        - 'classpath:/db/dummy/FOREIGN_KEY_CHECKS_1.sql'
 
   # NoSQL setting

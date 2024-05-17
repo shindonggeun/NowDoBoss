@@ -1,5 +1,5 @@
 import * as c from '@src/components/styles/status/StatusPolygonStyle'
-import seoul from '@src/components/status/sig_seoul_geojson.json'
+import seoul from '@src/datas/sig_seoul_geojson.json'
 import * as d3 from 'd3'
 import { TopList, TopListItem } from '@src/types/StatusType'
 import { useEffect, useState } from 'react'

@@ -111,7 +111,7 @@ export const OrTextWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 32px 0;
+  margin: 24px 0 14px;
 `
 
 export const ButtonWrapper = styled.div`
@@ -128,9 +128,9 @@ export const ButtonWrapper = styled.div`
 export const GoogleBtn = styled.img.attrs({
   src: GoogleBtnImage,
 })`
-  width: 60%;
+  width: 50%;
   height: auto;
-  min-width: 300px; /* 최소 너비 설정 */
+  min-width: 275px; /* 최소 너비 설정 */
   cursor: pointer;
 
   &:hover {
@@ -150,9 +150,9 @@ export const GoogleBtn = styled.img.attrs({
 export const NaverBtn = styled.img.attrs({
   src: NaverBtnImage,
 })`
-  width: 60%;
+  width: 50%;
   height: auto;
-  min-width: 300px; /* 최소 너비 설정 */
+  min-width: 275px; /* 최소 너비 설정 */
   cursor: pointer;
 
   &:hover {
@@ -172,9 +172,9 @@ export const NaverBtn = styled.img.attrs({
 export const KakaoBtn = styled.img.attrs({
   src: KakaoBtnImage,
 })`
-  width: 60%;
+  width: 50%;
   height: auto;
-  min-width: 300px; /* 최소 너비 설정 */
+  min-width: 275px; /* 최소 너비 설정 */
   cursor: pointer;
 
   &:hover {

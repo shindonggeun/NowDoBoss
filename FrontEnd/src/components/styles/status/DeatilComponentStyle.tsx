@@ -37,7 +37,7 @@ export const MixInnerConatiner2 = styled.div`
 `
 
 export const AnalysisText = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #5057ff;
   margin-bottom: 1rem;
@@ -73,6 +73,7 @@ export const AnalysisContainer = styled.div`
 
 export const AnalysisRank = styled.div`
   width: 1.2rem;
+  font-size: 14px;
 `
 
 export const AnalysisData = styled.div`
@@ -80,6 +81,7 @@ export const AnalysisData = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  font-size: 14px;
 `
 
 export const AnalysisDataLeft = styled.div`
@@ -113,6 +115,7 @@ export const SummaryTitleEmphasis = styled.span`
 
 export const SummaryEmphasis = styled.span`
   color: #5057ff;
+  font-weight: 510;
 `
 
 export const SummaryTextContainer = styled.div`
@@ -129,4 +132,9 @@ export const SummaryList = styled.div`
 
 export const DotIcon = styled.img`
   width: 1rem;
+`
+
+// 간단요약
+export const SumContainer = styled.div`
+  margin: 20px 0;
 `

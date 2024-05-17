@@ -28,24 +28,14 @@ export const SlideList = styled.div`
   z-index: 2;
   transition: 0.3s;
   transform: scale(1);
-
+  background-color: white;
   border-radius: 20px;
-  color: rgba(186, 209, 255, 0.4);
-  box-shadow: 0 0 30px 10px;
+  color: #f0f5ff;
+  box-shadow: 0 0 30px 20px;
   margin: 20px 20px;
 
   &:hover {
     transform: scale(1.1);
-    //&::after {
-    //  content: '';
-    //  position: absolute;
-    //  top: 0;
-    //  left: 0;
-    //  bottom: 0;
-    //  right: 0;
-    //  width: 100%;
-    //  height: 100%;
-    //}
   }
 `
 
@@ -71,19 +61,6 @@ export const SlideOriginal = styled.div<{ $animate: boolean }>`
   position: relative;
   animation: 50s linear infinite normal none running ${infiniteAnimation1};
   animation-play-state: ${props => (props.$animate ? 'running' : 'paused')};
-
-  //&::before {
-  //  content: '';
-  //  display: block;
-  //  width: 100%;
-  //  height: 1px;
-  //  position: absolute;
-  //  top: 50%;
-  //  left: 50%;
-  //  transform: translate(-50%, -50%);
-  //  background-color: #bbb;
-  //  z-index: 1;
-  //}
 `
 
 const infiniteAnimation2 = keyframes`
@@ -102,19 +79,6 @@ export const SlideClone = styled.div<{ $animate: boolean }>`
   position: relative;
   animation: 50s linear infinite normal none running ${infiniteAnimation2};
   animation-play-state: ${props => (props.$animate ? 'running' : 'paused')};
-
-  //&::before {
-  //  content: '';
-  //  display: block;
-  //  width: 100%;
-  //  height: 1px;
-  //  position: absolute;
-  //  top: 50%;
-  //  left: 50%;
-  //  transform: translate(-50%, -50%);
-  //  background-color: #bbb;
-  //  z-index: 1;
-  //}
 `
 
 export const Card = styled.div`

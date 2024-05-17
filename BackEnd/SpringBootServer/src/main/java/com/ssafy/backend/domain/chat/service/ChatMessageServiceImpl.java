@@ -64,11 +64,11 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC, chatMessageResponse);
 
         // topic : chat.room.{roomId}
-        firebaseService.sendMessageByTopic(
-                FcmTopicRequest.builder()
-                        .title(chatMessage.getChatRoom().getName())
-                        .body(chatMessage.getContent())
-                        .topicName("chat.room." + chatMessage.getChatRoom().getId())
-                        .build());
+//        firebaseService.sendMessageByTopic(
+//                FcmTopicRequest.builder()
+//                        .title(chatMessage.getChatRoom().getName())
+//                        .body(chatMessage.getContent())
+//                        .topicName("chat.room." + chatMessage.getChatRoom().getId())
+//                        .build());
     }
 }

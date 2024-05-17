@@ -83,7 +83,7 @@ const RadarChart = (props: RaderChartProps) => {
     },
   }
 
-  return <Radar data={data} options={options} />
+  return <Radar key={JSON.stringify(data)} data={data} options={options} />
 }
 
 export default RadarChart

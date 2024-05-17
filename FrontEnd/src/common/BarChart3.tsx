@@ -88,7 +88,14 @@ const BarChart3 = (props: BarChartProps) => {
     },
   ]
 
-  return <Bar options={options} data={data} plugins={plugins} />
+  return (
+    <Bar
+      key={JSON.stringify(data)}
+      options={options}
+      data={data}
+      plugins={plugins}
+    />
+  )
 }
 
 export default BarChart3

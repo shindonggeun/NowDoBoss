@@ -11,7 +11,7 @@ const ReportMyGoal = ({ ReportData }: { ReportData: SimulationReportType }) => {
     if (GoalPrice > 10000) {
       const billions = Math.floor(GoalPrice / 10000)
       const millions = Math.floor(GoalPrice % 10000)
-      return `${billions}억 ${millions.toLocaleString()} '만원'}`
+      return `${billions}억 ${millions.toLocaleString()} '만원'`
     }
     return `${GoalPrice.toLocaleString()} ${GoalPrice === 0 ? '원' : '만원'}`
   }

@@ -4,52 +4,27 @@ import DetailStoreNumberComponent from '@src/components/status/DetailStoreNumber
 import DetailOpenRateComponent from '@src/components/status/DetailOpenRateComponent'
 import DetailCloseRateComponent from '@src/components/status/DetailCloseRateComponent'
 import DetailAnalysisComponent from '@src/components/status/DetailAnalysisComponent'
-import DetailCommercialComponent from '@src/components/status/DetailCommercialComponent'
-import CircleLoading from '@src/common/CircleLoading'
 import Xmark from 'src/assets/xmark_solid_nomal.svg'
 import bookmark from 'src/assets/bookmark.svg'
 import { useRef, useState, useEffect, useMemo } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { fetchStatusDetail } from '@src/api/statusApi'
 import useStateStore from '@src/stores/statusStore'
-import { StatusResponse } from '@src/types/StatusType'
 
-interface StatusDetailbarProps {
-  regionCode: number | null
-}
-
-const StatusDetailbarComponent = ({ regionCode }: StatusDetailbarProps) => {
+const StatusDetailbarComponent = () => {
   const { selectedRegion, setSelectedRegion } = useStateStore()
   const scrollRef = useRef<HTMLDivElement[]>([])
   const detailbarRef = useRef<HTMLDivElement>(null)
 
-  // API 호출
-  const { data, isLoading, refetch } = useQuery<StatusResponse>({
-    queryKey: ['StatusDetailAnalysis'],
-    queryFn: () => fetchStatusDetail(Number(regionCode)),
-    enabled: !!regionCode,
-  })
-  useEffect(() => {
-    refetch()
-  }, [refetch, regionCode])
-
-  let DeatilData: any = null
-  if (data) {
-    DeatilData = data.dataBody
-  }
-
   const categories = useMemo(
     () => [
-      {
-        name: '핵심요약',
-        component: DetailCommercialComponent,
-      },
+      // {
+      //   name: '간단요약',
+      //   component: DetailSummaryComponent,
+      // },
       {
         name: '유동인구',
         component: DetailPopulationComponent,
       },
       {
-        // <todo> % 비율말고 data 값 받아오기
         name: '점포수',
         component: DetailStoreNumberComponent,
       },
@@ -65,6 +40,10 @@ const StatusDetailbarComponent = ({ regionCode }: StatusDetailbarProps) => {
         name: '매출분석',
         component: DetailAnalysisComponent,
       },
+      // {
+      //   name: '요약',
+      //   component: DetailCommercialComponent,
+      // },
     ],
     [],
   )
@@ -111,13 +90,6 @@ const StatusDetailbarComponent = ({ regionCode }: StatusDetailbarProps) => {
     }
   }, [])
 
-  const [spinner, setSpinner] = useState(true)
-  useEffect(() => {
-    setTimeout(() => {
-      setSpinner(false)
-    }, 1100)
-  }, [])
-
   return (
     <c.Container ref={detailbarRef}>
       <c.FixedCategoryBar>
@@ -144,28 +116,22 @@ const StatusDetailbarComponent = ({ regionCode }: StatusDetailbarProps) => {
           ))}
         </c.BarInnerContainer>
       </c.FixedCategoryBar>
-      {!isLoading && data && !spinner ? (
-        <>
-          {/* <p>선택한 지역구 코드: {regionCode} </p> */}
-          {categories.map((category, index) => (
-            <div key={index}>
-              <c.SeparateLine />
-              <c.TabBarContainer
-                ref={el => {
-                  if (el) scrollRef.current[index] = el
-                }}
-              >
-                <category.component props={DeatilData} />
-                {/* <category.component /> */}
-              </c.TabBarContainer>
-            </div>
-          ))}
-        </>
-      ) : (
-        <c.LoadingContainer>
-          <CircleLoading />
-        </c.LoadingContainer>
-      )}
+
+      <>
+        {/* <p>선택한 지역구 코드: {regionCode} </p> */}
+        {categories.map((category, index) => (
+          <div key={index}>
+            <c.SeparateLine />
+            <c.TabBarContainer
+              ref={el => {
+                if (el) scrollRef.current[index] = el
+              }}
+            >
+              <category.component />
+            </c.TabBarContainer>
+          </div>
+        ))}
+      </>
     </c.Container>
   )
 }

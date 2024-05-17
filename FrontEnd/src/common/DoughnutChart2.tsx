@@ -203,10 +203,10 @@ const DoughnutChart = (props: DoughnutPropsType) => {
 
   return (
     <Doughnut
+      key={JSON.stringify(data)}
       data={data}
       options={options}
       plugins={plugins}
-      key={textCenter}
     />
   )
 }

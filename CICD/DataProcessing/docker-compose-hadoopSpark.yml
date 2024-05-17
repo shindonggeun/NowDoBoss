@@ -75,7 +75,7 @@ services:
 
 networks:
   nowdoboss_data_net:  # 사용할 네트워크를 정의합니다.
-    name: nowdoboss_net
+    name: nowdoboss_data_net
     driver: bridge
     ipam:
       config:

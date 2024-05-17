@@ -55,6 +55,14 @@ export const SubText = styled.p`
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 160%;
+  margin-bottom: 40px;
+`
+
+export const TextStopBtn = styled.div`
+  width: 17px;
+  height: 17px;
+  box-sizing: border-box;
+  background: url('/icons/pause.png') no-repeat center center / 17px 17px;
 `
 
 export const ImgBox = styled.div`
@@ -224,7 +232,6 @@ export const Sub = styled.div`
   display: flex;
   padding: 5% 1%;
   background-color: #fcfdff;
-  box-shadow: 0 2px 8px rgba(116, 130, 164, 0.1);
 `
 
 export const SubSub = styled.div`
@@ -277,6 +284,20 @@ export const ImgDiv = styled.div`
 `
 
 export const ChartImgDiv = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+`
+
+export const MapImgDiv = styled.div`
   width: 100%;
   height: auto;
   display: flex;

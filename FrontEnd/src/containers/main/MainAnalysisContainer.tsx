@@ -22,6 +22,7 @@ const MainAnalysisContainer = () => {
                 최적의 상권을 발견하세요.
                 <br />
               </a.SubText>
+              <a.TextStopBtn />
             </a.TextWrap>
           </a.TextDiv>
           <a.ImgBox>
@@ -91,12 +92,27 @@ const MainAnalysisContainer = () => {
           </a.ImgDiv>
         </a.SubInnerBox>
       </a.Sub>
-      <a.SubSub>
-        <a.SubInnerBox>
-          <a.ImgDiv>카카오</a.ImgDiv>
-          <a.ContentDiv>바로가기 설명</a.ContentDiv>
-        </a.SubInnerBox>
-      </a.SubSub>
+      {/* <a.SubSub> */}
+      {/*  <a.SubInnerBox> */}
+      {/*    <a.ImgDiv> */}
+      {/*      <a.MapImgDiv> */}
+      {/*        <img src="/images/main_recommend_goo.png" alt="map" /> */}
+      {/*      </a.MapImgDiv> */}
+      {/*    </a.ImgDiv> */}
+      {/*    <a.ContentDiv> */}
+      {/*      <div> */}
+      {/*        <h2> */}
+      {/*          상권의 동향을 <br /> */}
+      {/*          한눈에 파악하세요. <br /> */}
+      {/*        </h2> */}
+      {/*        <p> */}
+      {/*          차트 분석을 통해 시장 트렌드를 정확히 이해하고, <br /> */}
+      {/*          경쟁 우위에 있는 위치를 발견해보세요. */}
+      {/*        </p> */}
+      {/*      </div> */}
+      {/*    </a.ContentDiv> */}
+      {/*  </a.SubInnerBox> */}
+      {/* </a.SubSub> */}
     </a.Container>
   )
 }

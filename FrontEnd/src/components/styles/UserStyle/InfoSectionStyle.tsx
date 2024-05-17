@@ -10,6 +10,11 @@ export const Title = styled.div`
   font-size: 2.5rem;
   font-weight: 600;
   margin-bottom: 0.1rem;
+  line-height: normal;
+
+  @media (max-width: 768px) {
+    line-height: 1.2;
+  }
 `
 
 export const Subtitle = styled.div`

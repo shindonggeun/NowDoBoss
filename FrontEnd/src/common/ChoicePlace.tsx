@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 import analysisStore from '@src/stores/analysisStore'
@@ -29,17 +29,6 @@ const SelectPlace = styled.div`
 
 const ChoicePlace = () => {
   const location = useLocation()
-
-  // 상권 추천 페이지인지 확인하는 로직
-  const [isRecommendPage, setIsRecommendPage] = useState(false)
-
-  useEffect(() => {
-    if (location.pathname === '/recommend') {
-      setIsRecommendPage(true)
-    } else {
-      setIsRecommendPage(false)
-    }
-  }, [location])
 
   // store에 저장된 구 데이터와 선택한 구, 동, 상권 값 가져올 store
   const {
@@ -81,15 +70,9 @@ const ChoicePlace = () => {
     }
   }, [commercialListData, dongListData, setSaveDongList, setSaveCommercialList])
 
-  // // 지도 선택 시 선택된 값 바뀌었을 때 드롭다운에도 갱신
-  // useEffect(() => {
-  //   setSelectedGoo(selectedGoo.name)
-  //   setSelectedDong(selectedDong.name)
-  //   setSelectedCommercial(selectedCommercial.name)
-  // }, [selectedGoo, selectedDong, selectedCommercial])
   return (
     <Place>
-      {isRecommendPage ? (
+      {location.pathname === '/recommend' ? (
         ''
       ) : (
         <Content>분석하고 싶은 상권을 선택해주세요.</Content>
@@ -102,8 +85,8 @@ const ChoicePlace = () => {
           indicator={<KeyboardArrowDown />}
           sx={{
             paddingRight: '5px',
-            width: isRecommendPage ? '160px' : '100px',
-            maxWidth: isRecommendPage ? '160px' : '108px',
+            width: location.pathname === '/recommend' ? '160px' : '100px',
+            maxWidth: location.pathname === '/recommend' ? '160px' : '108px',
             [`& .${selectClasses.indicator}`]: {
               transition: '0.2s',
               [`&.${selectClasses.expanded}`]: {
@@ -147,9 +130,9 @@ const ChoicePlace = () => {
           value={selectedDong.name}
           indicator={<KeyboardArrowDown />}
           sx={{
-            paddingRight: isRecommendPage ? '10px' : '5px',
-            width: isRecommendPage ? '165px' : '100px',
-            maxWidth: isRecommendPage ? '165px' : '110px',
+            paddingRight: location.pathname === '/recommend' ? '10px' : '5px',
+            width: location.pathname === '/recommend' ? '165px' : '100px',
+            maxWidth: location.pathname === '/recommend' ? '165px' : '110px',
             marginLeft: '5px',
             [`& .${selectClasses.indicator}`]: {
               transition: '0.2s',
@@ -184,7 +167,7 @@ const ChoicePlace = () => {
           ))}
         </Select>
 
-        {isRecommendPage ? (
+        {location.pathname === '/recommend' ? (
           ''
         ) : (
           <Select

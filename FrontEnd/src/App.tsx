@@ -1,5 +1,11 @@
 import { CookiesProvider } from 'react-cookie'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+  matchPath,
+} from 'react-router-dom'
 import GlobalStyles from '@src/GlobalStyles.tsx'
 import Header from '@src/common/Header'
 import MainPage from '@src/pages/MainPage'
@@ -52,11 +58,28 @@ function App() {
     setScreenSize()
   })
 
+  // 헤더 사용하지 않는 페이지 예외 적용
+  const ConditionalHeader = () => {
+    const location = useLocation()
+    const currentPathname = location.pathname
+
+    if (
+      // matchPath(비교 경로, 현재 경로)
+      matchPath('/login', currentPathname) ||
+      matchPath('/register', currentPathname) ||
+      matchPath('/account-deleted', currentPathname)
+    ) {
+      return null
+    }
+    return <Header />
+  }
+
   return (
     <CookiesProvider>
       <GlobalStyles />
       <BrowserRouter>
-        <Header />
+        <ConditionalHeader />
+
         <Routes>
           <Route path="/" element={<MainPage />} />
           {/* 회원 */}

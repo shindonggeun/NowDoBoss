@@ -9,10 +9,12 @@ import com.ssafy.backend.domain.simulation.dto.response.SimulationResponse;
 import com.ssafy.backend.domain.simulation.dto.response.StoreResponse;
 import com.ssafy.backend.domain.simulation.service.SimulationService;
 import com.ssafy.backend.global.common.dto.Message;
+import com.ssafy.backend.global.common.dto.PageResponse;
 import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -74,9 +76,11 @@ public class SimulationController {
     )
     @GetMapping
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<SimulationDocumentResponse>>> selectSimulation(@AuthenticationPrincipal MemberLoginActive loginActive) {
+    public ResponseEntity<Message<PageResponse<SimulationDocumentResponse>>> selectSimulation(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                                                              @RequestParam(defaultValue = "0") int page,
+                                                                                              @RequestParam(defaultValue = "10") int size) {
 
-        List<SimulationDocumentResponse> response = simulationService.selectSimulation(loginActive.id());
+        PageResponse<SimulationDocumentResponse> response = simulationService.selectSimulation(loginActive.id(), page, size);
         return ResponseEntity.ok().body(Message.success(response));
     }
 }

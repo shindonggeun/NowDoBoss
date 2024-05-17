@@ -1,132 +1,60 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  position: relative;
+  width: 100%;
 `
 
-export const LoginContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+export const Input = styled.input`
   width: 100%;
-  margin-bottom: 3%;
+  padding: 10px 40px 10px 10px;
+  margin: 8px 0;
+  display: inline-block; // 인라인 블록 디스플레이
+  border: 1px solid #ccc; // 테두리 설정
+  border-radius: 5px;
+  box-sizing: border-box;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+
+  &:focus {
+    outline: none;
+    border: none #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
 `
+
 export const CheckIconWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 2%;
-`
-
-export const InputTitle = styled.div`
-  margin-bottom: 1%;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-`
-
-export const HalfInput = styled.input`
-  padding: 0.5rem 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  flex: 1;
-
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  }
-`
-
-export const CodeContainer = styled.div`
-  margin-top: 1%;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
-
-export const EmailFirstRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 1%;
-`
-
-export const EmailSecondRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 1%;
-  width: 100%;
-`
-
-export const EmailFlex2Input = styled.input`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  flex: 2;
-
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  }
-`
-
-export const EmailFlex1Input = styled.input`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  flex: 1;
-
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  }
-`
-
-export const Btn = styled.div`
-  padding: 0.4rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 50%; // 부모 컨테이너 대비 상단에서 50% 위치
+  right: 10px;
+  transform: translateY(-40%); // 본인 높이의 50%만큼 위로 이동
   cursor: pointer;
-  flex: 1;
+`
 
-  transition: background-color 0.2s;
+export const BtnIconWrap = styled.div`
+  position: absolute;
+  top: 50%; // 부모 컨테이너 대비 상단에서 50% 위치
+  right: 10px;
+  transform: translateY(-50%); // 본인 높이의 50%만큼 위로 이동
+  cursor: pointer;
+`
+
+export const CheckBtn = styled.div`
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 3px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 10px;
 
   &:hover {
-    background-color: #f0f0f0;
+    background-color: #0056b3;
   }
 
-  &:active {
-    background-color: #e0e0e0;
+  &:focus {
+    outline: none;
   }
-
-  @media (max-width: 768px) {
-    font-size: 0.8rem;
-  }
-`
-
-export const ErrMsg = styled.span`
-  color: #dc3545;
-  font-size: 0.9rem;
-  margin-top: 4px;
 `

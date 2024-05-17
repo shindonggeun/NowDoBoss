@@ -15,18 +15,11 @@ const SignUpContainer = () => {
           subtitle="환영합니다! 회원가입 후 다양한 기능을 이용하세요."
         />
         <SocialLoginContainer state="register" />
-        <button
-          type="submit"
-          style={{
-            width: '60%',
-            height: 'auto',
-            alignItems: 'center',
-            alignSelf: 'center',
-          }}
-          onClick={() => navigate('/register/general')}
-        >
-          ID/PW 회원가입
-        </button>
+        <u.GeneralBtnDiv>
+          <u.GeneralBtn onClick={() => navigate('/register/general')}>
+            ID/PW 회원가입
+          </u.GeneralBtn>
+        </u.GeneralBtnDiv>
         <AskSection title="계정이 이미 있으신가요?" subtitle="Log In" />
       </u.LeftWrap>
       <u.RightWrap>

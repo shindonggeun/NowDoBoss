@@ -31,6 +31,7 @@ import CommunityListPage from '@src/pages/CommunityListPage'
 import { useEffect } from 'react'
 import ChattingListPage from '@src/pages/ChattingListPage'
 import ChattingDetailPage from '@src/pages/ChattingDetailPage'
+import './index.css'
 
 // firebase config 파일 실행
 import '@src/util/auth/firebaseMessage'

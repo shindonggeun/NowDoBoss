@@ -1,9 +1,9 @@
 import * as m from '@src/containers/main/MainContainerStyle'
 import * as c from '@src/containers/main/MainStausContainerStyle'
 import { useState } from 'react'
-import MainCard1 from '@src/components/cards/MainCard1'
-import MainCard2 from '@src/components/cards/MainCard2'
-import MainCard3 from '@src/components/cards/MainCard3'
+import MainCard1 from '@src/components/main/status/MainCard1'
+import MainCard2 from '@src/components/main/status/MainCard2'
+import MainCard3 from '@src/components/main/status/MainCard3'
 
 const MainStatusContainer = () => {
   const [animate, setAnimate] = useState(true)

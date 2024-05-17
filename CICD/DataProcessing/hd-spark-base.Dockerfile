@@ -29,6 +29,9 @@ ENV HADOOP_HOME=/usr/local/hadoop
 ENV SPARK_HOME=/usr/local/spark
 ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
+# 디렉토리 생성
+RUN mkdir -p /usr/local/bin /usr/local/bin/master /usr/local/bin/worker
+
 # 공통적으로 사용되는 하둡 설정 파일(.xml)과 및 쉘 스크립트 복사
 COPY hadoop/common/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
 COPY hadoop/common/mapred-stie.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml

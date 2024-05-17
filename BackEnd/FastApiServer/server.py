@@ -49,6 +49,56 @@ async def receive_data(request: Request):
 def test():
     print("테스트중!")
 
+
+@app.get("/hdfs-test")
+async def hdfs_test():
+    try:
+        # Spark 세션 시작
+        spark = start_spark_session()
+
+        # HDFS 연결 테스트
+        hdfs_path = "hdfs://master1:9000/"
+        fs = spark._jvm.org.apache.hadoop.fs.FileSystem.get(spark._jsc.hadoopConfiguration())
+        path = spark._jvm.org.apache.hadoop.fs.Path(hdfs_path)
+
+        if fs.exists(path):
+            files = [f.getPath().toString() for f in fs.listStatus(path)]
+            return {"message": "HDFS 연결 성공", "files": files}
+        else:
+            return {"message": "HDFS 경로가 존재하지 않음"}
+    except Exception as e:
+        # 에러 로그
+        print(f"Error occurred: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/recommend-test")
+async def recommend_commercial_areas(commercial_code: int):
+    try:
+        # Spark 세션 시작
+        spark = start_spark_session()
+
+        # HDFS에서 데이터 읽기
+        df = spark.read.csv("hdfs://master1:9000/data/localfile.csv", header=True)
+
+        # user_id로 필터링
+        result = df.filter(df["commercialCode"] == commercial_code).collect()
+
+        # 결과 반환
+        if result:
+            return {"commercialCode": result[0]["commercial"], "id": result[0]["commercialCode"]}
+        else:
+            return {"message": "Commercial not found"}
+    except Exception as e:
+        # 에러 로그
+        print(f"Error occurred: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+def start_spark_session():
+    spark = SparkSession.builder \
+        .appName("FastAPI-Spark Integration") \
+        .getOrCreate()
+    return spark
+
 def start_recommend_spark():
     # SparkSession 생성
     spark = SparkSession.builder \

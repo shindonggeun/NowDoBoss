@@ -90,7 +90,7 @@ const ExpenditureAnalysisContainer = forwardRef(
       <div ref={ref}>
         <CategoryTitleCard
           src="/images/expenditure.png"
-          title="지출내역"
+          title="지출분석"
           setPeriodCode={setPeriodCode}
         />
         {totalExpenditureErr || expenditureErr ? (

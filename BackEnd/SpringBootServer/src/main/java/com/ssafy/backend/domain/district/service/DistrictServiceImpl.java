@@ -88,6 +88,47 @@ public class DistrictServiceImpl implements DistrictService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public ChangeIndicatorDistrictResponse getDistrictChangeIndicatorDetail(String districtCode) {
+        return getChangeIndicatorDistrict("20233", districtCode);
+    }
+
+    @Override
+    public FootTrafficDistrictDetailResponse getDistrictFootTrafficDetail(String districtCode) {
+        return getFootTrafficDetails(districtCode, "20233");
+    }
+
+    @Override
+    public List<StoreDistrictTotalTopEightInfo> getDistrictTotalStoreDetail(String districtCode) {
+        return storeDistrictRepository.getTopEightTotalStoreByServiceCode("20233", districtCode);
+    }
+
+    @Override
+    public List<ClosedStoreAdministrationTopFiveInfo> getDistrictClosedStoreDetail(String districtCode) {
+        // 지역구 코드로 해당 지역구에 속하는 행정동 코드 리스트 가져오기
+        List<String> allAdministrationCodes = getAdministrationCodes(districtCode);
+        return storeAdministrationRepository.getTopFiveClosedRateAdministration(allAdministrationCodes, "20233");
+    }
+
+    @Override
+    public List<OpenedStoreAdministrationTopFiveInfo> getDistrictOpenedStoreDetail(String districtCode) {
+        // 지역구 코드로 해당 지역구에 속하는 행정동 코드 리스트 가져오기
+        List<String> allAdministrationCodes = getAdministrationCodes(districtCode);
+        return storeAdministrationRepository.getTopFiveOpenedRateAdministration(allAdministrationCodes, "20233");
+    }
+
+    @Override
+    public List<SalesDistrictMonthSalesTopFiveInfo> getDistrictSalesDetailByServiceCode(String districtCode) {
+        return salesDistrictRepository.getTopFiveMonthSalesByServiceCode(districtCode, "20233");
+    }
+
+    @Override
+    public List<SalesAdministrationTopFiveInfo> getDistrictSalesDetailByAdministrationCode(String districtCode) {
+        // 지역구 코드로 해당 지역구에 속하는 행정동 코드 리스트 가져오기
+        List<String> allAdministrationCodes = getAdministrationCodes(districtCode);
+        return salesAdministrationRepository.getTopFiveSalesAdministrationByAdministrationCode(allAdministrationCodes, "20233");
+    }
+
     private ChangeIndicatorDistrictResponse getChangeIndicatorDistrict(String periodCode, String districtCode) {
         ChangeDistrict changeDistrict = changeDistrictRepository.findByPeriodCodeAndDistrictCode(periodCode, districtCode);
         return new ChangeIndicatorDistrictResponse(changeDistrict.getChangeIndicator(), changeDistrict.getChangeIndicatorName(), changeDistrict.getOpenedMonths(), changeDistrict.getClosedMonths());

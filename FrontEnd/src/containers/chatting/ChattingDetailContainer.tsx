@@ -59,7 +59,6 @@ const ChattingDetailContainer = () => {
     mutationKey: ['sendTopic'],
     mutationFn: sendTopic,
   })
-
   // 메세지 보내기
   const sendMessage = useCallback(
     (type: string, content: string) => {
@@ -79,7 +78,7 @@ const ChattingDetailContainer = () => {
         if (roomId) {
           // fcm topic에 알림 보내기
           sendTopicMutation({
-            title: roomData.name,
+            title: roomData.dataBody.name,
             body: content,
             topicName: roomId,
           })

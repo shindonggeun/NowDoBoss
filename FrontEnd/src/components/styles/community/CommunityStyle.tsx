@@ -18,10 +18,10 @@ export const Context = styled.div`
 
 export const Title = styled.div`
   font-weight: 600;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
 
   b {
-    color: #0051ff;
+    color: #ff0000;
   }
 
   @media only screen and (max-width: 456px) {
@@ -109,7 +109,7 @@ export const Icon = styled.img`
 `
 
 export const VisibleName = styled.div`
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 550px) {
     display: none;
   }
 `
@@ -126,7 +126,7 @@ export const ArticlesContainer = styled.div`
 `
 
 export const ArticleContainer = styled.div`
-  border-bottom: 2px solid #e0e6ee;
+  border-top: 0.08rem solid #e0e6ee;
   padding: 20px 30px;
 
   &:hover {

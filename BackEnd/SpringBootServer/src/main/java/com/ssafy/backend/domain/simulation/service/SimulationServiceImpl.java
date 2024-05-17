@@ -143,6 +143,7 @@ public class SimulationServiceImpl implements SimulationService {
         List<FranchiseeInfo> franchisees = franchiseeRepository.findByServiceCode(franchiseePrice, totalPrice, request.serviceCode());
 
         return SimulationResponse.builder()
+                .request(request)
                 .totalPrice(totalPrice/TEN_THOUSAND_MULTIPLIER) // 원
                 .keyMoneyInfo(keyMoneyInfo)
                 .detail(detailInfo)

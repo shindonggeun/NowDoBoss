@@ -27,7 +27,7 @@ const Content = styled.div``
 
 const Title = styled.div`
   font-weight: 600;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
 `
 const SubTitle = styled.div`
   font-size: 0.9rem;

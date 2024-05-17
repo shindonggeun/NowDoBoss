@@ -10,7 +10,7 @@ const Container = styled.div`
   margin: 0 10px;
   border-radius: 5px;
   width: 380px;
-  padding: 5px;
+  padding: 3px 5px;
   display: flex;
   flex-direction: column;
   border: 1px solid #dce5f2;
@@ -33,7 +33,7 @@ const Left = styled.div`
   justify-content: space-between;
 `
 const Icon = styled.img`
-  scale: 0.8;
+  scale: 0.7;
   margin: -5px 0;
 `
 const Content = styled.div`
@@ -43,6 +43,8 @@ const Content = styled.div`
 `
 const Title = styled.div`
   font-weight: 700;
+  font-size: 0.95rem;
+
   b {
     color: #236cff;
   }
@@ -143,26 +145,30 @@ const Banner = () => {
   }, [cardData, location.pathname])
 
   return (
-    <Container>
-      {cardDataList.map((card: SelectData, index) => (
-        <Div key={card.url}>
-          <Card onClick={() => navigate(card.url)}>
-            <Left>
-              <Icon src={card.icon} />
-              <Content>
-                <Title>
-                  <b>{card.blueTitle}</b>
-                  {card.title}
-                </Title>
-                <SubTitle>{card.subTitle}</SubTitle>
-              </Content>
-            </Left>
-            <Arrow src={RightArrow} />
-          </Card>
-          {index < cardDataList.length - 1 && <Divider />}
-        </Div>
-      ))}
-    </Container>
+    <Div>
+      {cardDataList[0].id !== 0 && (
+        <Container>
+          {cardDataList.map((card: SelectData, index) => (
+            <Div key={card.url}>
+              <Card onClick={() => navigate(card.url)}>
+                <Left>
+                  <Icon src={card.icon} />
+                  <Content>
+                    <Title>
+                      <b>{card.blueTitle}</b>
+                      {card.title}
+                    </Title>
+                    <SubTitle>{card.subTitle}</SubTitle>
+                  </Content>
+                </Left>
+                <Arrow src={RightArrow} />
+              </Card>
+              {index < cardDataList.length - 1 && <Divider />}
+            </Div>
+          ))}
+        </Container>
+      )}
+    </Div>
   )
 }
 

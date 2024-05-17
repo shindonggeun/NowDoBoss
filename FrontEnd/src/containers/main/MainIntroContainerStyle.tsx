@@ -55,7 +55,12 @@ export const Sub = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #eef4ff;
+  background: linear-gradient(180deg, #f6f8fa 0%, rgba(246, 248, 251, 0) 100%),
+    radial-gradient(
+      100% 252.63% at 0% 100%,
+      rgba(204, 217, 249, 0.802885) 0%,
+      rgba(255, 241, 230, 0.804027) 100%
+    );
 `
 export const SubContent = styled.div`
   font-weight: 700;

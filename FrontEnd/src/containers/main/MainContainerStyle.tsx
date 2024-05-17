@@ -52,23 +52,28 @@ export const Text = styled.div`
 
 // 파란색 부가 설명
 export const BlueText = styled.div`
-  font-weight: 400;
-  font-size: 1.5rem;
-  color: #336cd1;
+  color: #336dd3;
+  margin-bottom: 12px;
+  font-size: 1.25rem;
 `
 
 // 제목
 export const Title = styled.div`
+  color: #191f28;
+  margin-bottom: 16px;
+  font-size: 2.5rem;
   font-weight: 700;
-  font-size: 3.2rem;
-  margin: 10px 0 15px 0;
+  word-break: keep-all;
+  line-height: 140%;
 `
 
 // 설명
 export const TextContent = styled.div`
+  color: #606d85;
+  font-size: 1.5rem;
   font-weight: 600;
-  font-size: 2rem;
-  color: #5f6c84;
+  line-height: 160%;
+  margin-bottom: 40px;
 `
 
 // 바로가기 버튼
@@ -77,14 +82,14 @@ export const BannerArrow = styled.div``
 // 바로가기 버튼
 export const GoButton = styled.div`
   font-weight: 600;
-  font-size: 2rem;
-  margin: 10px 0 -10px 0;
-  color: #000000;
+  font-size: 1.5rem;
+  color: #333;
   display: flex;
 
   &:hover {
     cursor: pointer;
     // BannerArrow에만 호버 효과 적용
+
     ${BannerArrow} {
       transform: translateX(15px);
       transition: transform 0.3s ease;
@@ -108,6 +113,7 @@ export const CardScroll = styled.div`
   scroll-behavior: smooth;
   -ms-overflow-style: none; /*IE, Edge*/
   scrollbar-width: none; /*Firefox*/
+
   ::-webkit-scrollbar {
     display: none; /*Chrome, Safari, Opera*/
     width: 0;

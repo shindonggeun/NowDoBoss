@@ -57,7 +57,7 @@ const StoreCountAnalysisContainer = forwardRef(
       <div ref={ref}>
         <CategoryTitleCard
           src="/images/store_count.png"
-          title="점포 수"
+          title="점포분석"
           setPeriodCode={setPeriodCode}
         />
         {errMsg ? (

@@ -98,6 +98,7 @@ const ChoicePlace = () => {
       <SelectPlace>
         <Select
           placeholder={selectedGoo.name}
+          value={selectedGoo.name}
           indicator={<KeyboardArrowDown />}
           sx={{
             paddingRight: '5px',
@@ -143,6 +144,7 @@ const ChoicePlace = () => {
         {/* 행정동 드롭다운 */}
         <Select
           placeholder={selectedDong.name}
+          value={selectedDong.name}
           indicator={<KeyboardArrowDown />}
           sx={{
             paddingRight: isRecommendPage ? '10px' : '5px',
@@ -187,6 +189,7 @@ const ChoicePlace = () => {
         ) : (
           <Select
             placeholder={selectedCommercial.name}
+            value={selectedCommercial.name}
             indicator={<KeyboardArrowDown />}
             sx={{
               paddingRight: '5px',

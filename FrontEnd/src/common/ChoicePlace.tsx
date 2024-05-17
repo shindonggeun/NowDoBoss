@@ -87,23 +87,26 @@ const ChoicePlace = () => {
             paddingRight: '5px',
             width: location.pathname === '/recommend' ? '160px' : '94px',
             maxWidth: location.pathname === '/recommend' ? '160px' : '100px',
-
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            fontFamily: 'Pretendard',
+            fontWeight: 600,
+            fontSize: '14px',
             [`& .${selectClasses.indicator}`]: {
               transition: '0.2s',
               [`&.${selectClasses.expanded}`]: {
                 transform: 'rotate(-180deg)',
               },
             },
-            fontFamily: 'Pretendard',
-            fontWeight: 600,
-            fontSize: '14px',
           }}
         >
           {goosData.map(option => (
             <Option
+              style={{
+                fontFamily: 'Pretendard',
+                fontSize: '14px',
+              }}
               value={option.gooCode}
               key={option.gooCode}
               onClick={() => {
@@ -138,6 +141,9 @@ const ChoicePlace = () => {
             paddingRight: location.pathname === '/recommend' ? '10px' : '5px',
             width: location.pathname === '/recommend' ? '165px' : '100px',
             maxWidth: location.pathname === '/recommend' ? '165px' : '110px',
+            fontFamily: 'Pretendard',
+            fontWeight: 600,
+            fontSize: '14px',
             marginLeft: '5px',
             [`& .${selectClasses.indicator}`]: {
               transition: '0.2s',
@@ -145,13 +151,14 @@ const ChoicePlace = () => {
                 transform: 'rotate(-180deg)',
               },
             },
-            fontFamily: 'Pretendard',
-            fontWeight: 600,
-            fontSize: '14px',
           }}
         >
           {dongListData?.dataBody.map(option => (
             <Option
+              style={{
+                fontFamily: 'Pretendard',
+                fontSize: '14px',
+              }}
               value={option.administrationCode}
               key={option.administrationCode}
               onClick={() => {
@@ -186,19 +193,23 @@ const ChoicePlace = () => {
               minWidth: '135px',
               maxWidth: '135px',
               marginLeft: '5px',
+              fontFamily: 'Pretendard',
+              fontWeight: 600,
+              fontSize: '14px',
               [`& .${selectClasses.indicator}`]: {
                 transition: '0.2s',
                 [`&.${selectClasses.expanded}`]: {
                   transform: 'rotate(-180deg)',
                 },
               },
-              fontFamily: 'Pretendard',
-              fontWeight: 600,
-              fontSize: '14px',
             }}
           >
             {commercialListData?.dataBody.map(option => (
               <Option
+                style={{
+                  fontFamily: 'Pretendard',
+                  fontSize: '14px',
+                }}
                 value={option.commercialCode}
                 key={option.commercialCode}
                 onClick={() => {

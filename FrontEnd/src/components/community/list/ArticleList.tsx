@@ -7,10 +7,12 @@ import { fetchCommunityList } from '@src/api/communityApi'
 
 export type ArticleListPropsType = {
   initialArticleList: CommunityListData
+  hasMoreData: boolean
+  setHasMoreData: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const ArticleList = (props: ArticleListPropsType) => {
-  const { initialArticleList } = props
+  const { initialArticleList, hasMoreData, setHasMoreData } = props
   const { categories, category } = useCommunityStore(state => ({
     categories: state.categories,
     category: state.selectedCategory,
@@ -18,18 +20,27 @@ const ArticleList = (props: ArticleListPropsType) => {
   const navigate = useNavigate()
 
   const lastCardRef = useRef(null)
-  const [articleList, setArticleList] = useState(initialArticleList)
-  const [hasMoreData, setHasMoreData] = useState(true)
+  const [articleList, setArticleList] = useState<CommunityListData>([])
+
+  // 가져온 값으로 채우기
+  useEffect(() => {
+    setArticleList([])
+    setArticleList(prevArticleList => [
+      ...prevArticleList,
+      ...initialArticleList,
+    ])
+  }, [initialArticleList])
 
   useEffect(() => {
     const currentRef = lastCardRef.current
-
     const observer = new IntersectionObserver(
       async entries => {
+        // ref가 존재하는지 (배열이 존재하는지) + 가져온 데이터가 빈 배열인지
         if (entries[0].isIntersecting && hasMoreData) {
           const lastId = articleList[articleList.length - 1].communityId
           const newArticles = await fetchCommunityList(category.value, lastId)
-          if (!newArticles.dataBody[0]) {
+
+          if (!articleList || !newArticles.dataBody[0]) {
             setHasMoreData(false)
           } else {
             setArticleList(prevArticleList => [
@@ -55,14 +66,7 @@ const ArticleList = (props: ArticleListPropsType) => {
         observer.unobserve(currentRef)
       }
     }
-  }, [lastCardRef, articleList, hasMoreData, category.value])
-
-  useEffect(() => {
-    // If the fetched articleList is empty, set hasMoreData to false
-    if (articleList.length === 0) {
-      setHasMoreData(false)
-    }
-  }, [articleList])
+  }, [lastCardRef, articleList, hasMoreData, category.value, setHasMoreData])
 
   return (
     <a.Container>
@@ -76,8 +80,8 @@ const ArticleList = (props: ArticleListPropsType) => {
             const iconSrc = matchedCategory ? matchedCategory.iconInactive : ''
             const categoryKorean = matchedCategory ? matchedCategory.name : ''
 
-            const isLastElement = index === articleList.length - 1
-
+            const isLastElement =
+              index === articleList.length - 1 && articleList.length >= 5
             return (
               <a.ArticleContainer
                 ref={isLastElement ? lastCardRef : null}

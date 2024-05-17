@@ -50,6 +50,7 @@ public class SalesAdministrationCustomRepositoryImpl implements SalesAdministrat
                 .where(sa.administrationCode.in(topAdministrationCodes))
                 .groupBy(sa.administrationCode, sa.administrationCodeName )
                 .orderBy(new CaseBuilder().when(sa.periodCode.eq(periodCode)).then(sa.monthSales).otherwise(0L).sum().desc())
+                .limit(5)
                 .fetch();
     }
 }

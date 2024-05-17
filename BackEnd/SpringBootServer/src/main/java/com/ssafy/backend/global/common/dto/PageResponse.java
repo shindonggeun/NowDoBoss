@@ -1,5 +1,6 @@
 package com.ssafy.backend.global.common.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,19 +29,13 @@ public class PageResponse<T> {
     }
 
     @Getter
+    @Builder
     @NoArgsConstructor
+    @AllArgsConstructor
     private static class PageInfo {
         private int page;   // 페이지 번호
         private int size;   // 페이지 크기
         private int totalElements;    // 현재 페이지에 나올 데이터 수
         private int totalPages;    // 전체 페이지 번호
-
-        @Builder
-        public PageInfo(int page, int size, int totalElements, int totalPages) {
-            this.page = page + 1;
-            this.size = size;
-            this.totalElements = totalElements;
-            this.totalPages = totalPages;
-        }
     }
 }

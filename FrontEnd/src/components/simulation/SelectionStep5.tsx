@@ -121,7 +121,7 @@ const SelectionStep5 = () => {
             <c.Emphasis>층수</c.Emphasis>를 선택해 주세요
           </c.Title>
           <c.FloorContainer>
-            {['1층', '1층이상'].map(value => (
+            {['1층', '1층이외'].map(value => (
               <c.SelectButton
                 key={value}
                 size="m"

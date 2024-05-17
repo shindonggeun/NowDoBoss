@@ -60,7 +60,7 @@ const DetailAnalysisComponent = () => {
           <c.AnalysisSubTitle>
             가장 많은 매출이 높은 동네는{' '}
             <c.AnalysiEemphasis>
-              {TopSalesArea![0].administrationCodeName.replace('?', ',')}
+              {TopSalesArea![0].administrationCodeName.replace(/\?/g, ',')}
             </c.AnalysiEemphasis>
             이며, 매출 높은 업종은{' '}
             <c.AnalysiEemphasis>
@@ -74,7 +74,7 @@ const DetailAnalysisComponent = () => {
             <c.MixInnerConatiner2>
               <c.AnalysisText>매출 높은 동네 Top 5</c.AnalysisText>
               {TopSalesArea!.map((list, i) => {
-                const name = list.administrationCodeName.replace('?', ',')
+                const name = list.administrationCodeName.replace(/\?/g, ',')
                 const rate = list.monthSalesChangeRate.toFixed(1)
                 const isup = list.monthSalesChangeRate >= 0
                 return (

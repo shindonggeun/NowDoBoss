@@ -61,6 +61,7 @@ export const AnalysisSubTitle = styled.div`
 
 export const AnalysiEemphasis = styled.span`
   color: #5057ff;
+  font-weight: 600;
 `
 
 export const AnalysisContainer = styled.div`

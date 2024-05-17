@@ -32,12 +32,12 @@ const DetailStoreNumberComponent = () => {
   }
 
   return (
-    <>
+    <div>
       {!isLoading && data ? (
         <div>
           <c.AnalysisTitle>점포수 분석</c.AnalysisTitle>
           <c.AnalysisSubTitle>
-            가장 많은 업종은
+            가장 많은 업종은{' '}
             <c.AnalysiEemphasis>
               {StoreData![0].serviceCodeName}
             </c.AnalysiEemphasis>
@@ -63,7 +63,7 @@ const DetailStoreNumberComponent = () => {
       ) : (
         <div />
       )}
-    </>
+    </div>
   )
 }
 

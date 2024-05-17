@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import RightArrow from '@src/assets/arrow_right.svg'
 import GrayRound from '@src/assets/gray_round.svg'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
 
 const Container = styled.div`
   background-color: white;
@@ -59,64 +60,91 @@ const Divider = styled.div`
   //margin: 10px 0;
 `
 
+export type SelectData = {
+  id: number
+  icon: string
+  blueTitle: string
+  title: string
+  subTitle: string
+  url: string
+}
+
 const Banner = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const cardData = [
+  const [cardDataList, setCardDataList] = useState<SelectData[]>([
     {
-      id: 1,
-      icon: GrayRound,
-      blueTitle: '분석하고 싶은 상권',
-      title: '이 있나요?',
-      subTitle: '원하는 상권의 데이터를 볼 수 있어요',
-      url: '/analysis',
+      id: 0,
+      icon: '',
+      blueTitle: '',
+      title: '',
+      subTitle: '',
+      url: '',
     },
-    {
-      id: 2,
-      icon: GrayRound,
-      blueTitle: '상권을 추천',
-      title: '받고 싶으신가요?',
-      subTitle: '원하는 지역의 상권을 추천해드려요',
-      url: '/recommend',
-    },
-    {
-      id: 3,
-      icon: GrayRound,
-      blueTitle: '넓은 범위로 비교',
-      title: '해보고 싶으신가요?',
-      subTitle: '원하는 자치구의 데이터를 볼 수 있어요',
-      url: '/status',
-    },
+  ])
 
-    {
-      id: 4,
-      icon: GrayRound,
-      blueTitle: '창업 비용을 계산',
-      title: '해보고 싶으신가요?',
-      subTitle: '시뮬레이션을 통해 비용을 예상해봐요',
-      url: '/analysis/simulation',
-    },
-  ]
+  const cardData = useMemo(
+    () => [
+      {
+        id: 1,
+        icon: GrayRound,
+        blueTitle: '분석하고 싶은 상권',
+        title: '이 있나요?',
+        subTitle: '원하는 상권의 데이터를 볼 수 있어요',
+        url: '/analysis',
+      },
+      {
+        id: 2,
+        icon: GrayRound,
+        blueTitle: '상권을 추천',
+        title: '받고 싶으신가요?',
+        subTitle: '원하는 지역의 상권을 추천해드려요',
+        url: '/recommend',
+      },
+      {
+        id: 3,
+        icon: GrayRound,
+        blueTitle: '넓은 범위로 비교',
+        title: '해보고 싶으신가요?',
+        subTitle: '원하는 자치구의 데이터를 볼 수 있어요',
+        url: '/status',
+      },
 
-  const filteredCardData = cardData.filter(card => {
-    if (
-      (location.pathname === '/analysis' && card.url === '/status') ||
-      (location.pathname === '/analysis/simulation' && card.url === '/status')
-    ) {
-      return false
-    }
-    if (
-      location.pathname === '/status' &&
-      card.url === '/analysis/simulation'
-    ) {
-      return false
-    }
-    return card.url !== location.pathname
-  })
+      {
+        id: 4,
+        icon: GrayRound,
+        blueTitle: '창업 비용을 계산',
+        title: '해보고 싶으신가요?',
+        subTitle: '시뮬레이션을 통해 비용을 예상해봐요',
+        url: '/analysis/simulation',
+      },
+    ],
+    [],
+  )
+
+  useEffect(() => {
+    const filteredCardData = cardData.filter(card => {
+      if (
+        location.pathname === '/analysis' ||
+        location.pathname === '/analysis/simulation'
+      ) {
+        // For both '/analysis' and '/analysis/simulation', include only specific cards
+        return card.url === '/recommend' || card.url === '/analysis/simulation'
+      }
+      if (
+        location.pathname === '/status' &&
+        card.url === '/analysis/simulation'
+      ) {
+        return false
+      }
+      return card.url !== location.pathname
+    })
+    setCardDataList(filteredCardData)
+  }, [cardData, location.pathname])
 
   return (
     <Container>
-      {filteredCardData.map((card, index) => (
+      {cardDataList.map((card: SelectData, index) => (
         <Div key={card.url}>
           <Card onClick={() => navigate(card.url)}>
             <Left>
@@ -131,7 +159,7 @@ const Banner = () => {
             </Left>
             <Arrow src={RightArrow} />
           </Card>
-          {index < filteredCardData.length - 1 && <Divider />}
+          {index < cardDataList.length - 1 && <Divider />}
         </Div>
       ))}
     </Container>

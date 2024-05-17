@@ -1,17 +1,18 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
-  padding: 0 5%;
-
+  padding: 0 10%;
+  margin-top: 1%;
   @media (max-width: 768px) {
     flex-direction: column;
   }
 `
 
 export const LeftWrap = styled.div`
-  flex: 2;
+  flex: 3;
   padding: 0 5%;
   display: flex;
   flex-direction: column;
@@ -61,6 +62,7 @@ export const Btn = styled.button`
   justify-content: center;
   border: none;
   border-radius: 5px;
+  transition: background-color 0.3s;
   background-color: #d4e5f9;
   font-size: 14px;
   font-weight: 600;
@@ -68,12 +70,13 @@ export const Btn = styled.button`
 
   &:hover {
     background-color: #6797da;
+    color: white;
   }
 `
 
 export const RightWrap = styled.div`
   display: flex;
-  flex: 3;
+  flex: 4;
   padding: 0 5%;
 
   @media (max-width: 768px) {
@@ -92,4 +95,34 @@ export const ImgDiv = styled.div`
     width: 100%;
     height: auto;
   }
+`
+
+export const GeneralBtn = styled.div`
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #d4e5f9;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2a7de1;
+
+  &:hover {
+    background-color: #6797da;
+    color: white;
+  }
+`
+
+export const GeneralBtnDiv = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `

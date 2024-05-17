@@ -20,8 +20,12 @@ import com.ssafy.backend.domain.simulation.repository.FranchiseeRepository;
 import com.ssafy.backend.domain.simulation.repository.RentRepository;
 import com.ssafy.backend.domain.simulation.repository.ServiceRepository;
 import com.ssafy.backend.domain.simulation.repository.SimulationRepository;
+import com.ssafy.backend.global.common.dto.PageResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -143,6 +147,7 @@ public class SimulationServiceImpl implements SimulationService {
         List<FranchiseeInfo> franchisees = franchiseeRepository.findByServiceCode(franchiseePrice, totalPrice, request.serviceCode());
 
         return SimulationResponse.builder()
+                .request(request)
                 .totalPrice(totalPrice/TEN_THOUSAND_MULTIPLIER) // 원
                 .keyMoneyInfo(keyMoneyInfo)
                 .detail(detailInfo)
@@ -204,9 +209,11 @@ public class SimulationServiceImpl implements SimulationService {
     }
 
     @Override
-    public List<SimulationDocumentResponse> selectSimulation(Long memberId) {
-        return simulationRepository.findByMemberId(memberId).stream().map(
-                s -> new SimulationDocumentResponse(s)
-        ).toList();
+    public PageResponse<SimulationDocumentResponse> selectSimulation(Long memberId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<SimulationDocumentResponse> response = simulationRepository.findAll(pageable)
+                .map(SimulationDocumentResponse::new);
+
+        return PageResponse.of(response);
     }
 }

@@ -41,7 +41,7 @@ const CommunityDetailContainer = () => {
   const { data: SameCategoryListData, isLoading: SameCategoryListIsLoading } =
     useQuery({
       queryKey: ['CommunityDetail', category],
-      queryFn: () => fetchCommunityList(category),
+      queryFn: () => fetchCommunityList(category, 0),
     })
 
   const { data: PopularData, isLoading: PopularIsLoading } = useQuery({

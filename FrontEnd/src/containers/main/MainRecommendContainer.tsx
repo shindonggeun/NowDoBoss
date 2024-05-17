@@ -16,7 +16,7 @@ const MainRecommendContainer = () => {
       if (targetRef.current) {
         const rect = targetRef.current.getBoundingClientRect()
         // rect.top이 -150에서 150일 때, 현재 화면에서 해당 위치에 있을 때만 활성화하면 되네 ㅠㅠ
-        if (rect.top < 200 && rect.top > -200) {
+        if (rect.top < 150 && rect.top > -150) {
           setIsTopPassed(true)
         } else {
           setIsTopPassed(false)
@@ -60,7 +60,7 @@ const MainRecommendContainer = () => {
       if (isTopPassed && cardScrollRef.current) {
         event.preventDefault()
         cardScrollRef.current.scrollBy({
-          top: event.deltaY * 2,
+          top: event.deltaY * 1.5,
           behavior: 'smooth',
         })
       }

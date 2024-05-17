@@ -6,7 +6,7 @@ import * as c from '@src/components/styles/status/DeatilComponentStyle'
 import UpIcon from '@src/assets/top_arrow_up.svg'
 import DownIcon from '@src/assets/top_arrow_down.svg'
 import ContainerBox from '@src/common/ContainerBox'
-import useStateStore from '@src/stores/statusStore.tsx'
+import useStateStore from '@src/stores/statusStore'
 import { useQuery } from '@tanstack/react-query'
 import { fetchStatusSale, fetchStatusService } from '@src/api/statusApi'
 import { useEffect } from 'react'
@@ -100,7 +100,7 @@ const DetailAnalysisComponent = () => {
             <c.MixInnerConatiner2>
               <c.AnalysisText>매출 높은 업종 Top 5</c.AnalysisText>
               {TopSalesStore!.map((list, i) => {
-                const name = list.serviceCodeName.replace('?', ',')
+                const name = list.serviceCodeName.replace(/\?/g, ',')
                 const rate = list.monthSalesChangeRate.toFixed(1)
                 const isup = list.monthSalesChangeRate >= 0
                 return (

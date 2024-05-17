@@ -33,7 +33,7 @@ const PieChart = (props: PieChartProps) => {
       intersect: false,
     },
     layout: {
-      padding: 50,
+      padding: 10,
     },
     plugins: {
       legend: {

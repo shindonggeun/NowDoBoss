@@ -12,7 +12,7 @@ export const MixConatiner = styled.div`
 
 export const MixInnerConatiner = styled.div`
   flex: 1;
-  width: 17rem;
+  min-width: 100px;
   margin: 0 auto;
 
   @media (max-width: 30rem) {

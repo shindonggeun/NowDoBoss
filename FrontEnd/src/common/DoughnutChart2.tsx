@@ -63,7 +63,7 @@ const DoughnutChart = (props: DoughnutPropsType) => {
       afterDraw: (chart: ChartJS<'doughnut', number[], unknown>) => {
         const { ctx } = chart
         ctx.save()
-        ctx.font = 'bolder 14px sans-serif'
+        ctx.font = 'bolder 14px Pretendard'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         ctx.fillText(
@@ -79,7 +79,7 @@ const DoughnutChart = (props: DoughnutPropsType) => {
       afterDraw: (chart: ChartJS<'doughnut', number[], unknown>) => {
         const { ctx } = chart
         ctx.save()
-        ctx.font = '11px sans-serif'
+        ctx.font = '11px Pretendard'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         ctx.fillText(

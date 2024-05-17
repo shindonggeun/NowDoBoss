@@ -142,3 +142,75 @@ export interface StatusResponse {
   }
   dataBody: DetailDataBody
 }
+
+// [NOTE] 상권현황 상세 분리
+
+// 유동인구
+export interface FootPrintResponse {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: FootTrafficDistrictDetail
+}
+
+// 변화지표
+export interface ChangeIndicatorResponse {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: ChangeIndicatorDistrictDetail
+}
+
+// 점포수
+export interface TopEightListResponse {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: StoreDistrictTotalTopEightList[]
+}
+
+// 개업률
+export interface StoreOpenResponse {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: OpenedStoreAdministrationTopFiveList[]
+}
+
+// 폐업률
+export interface StoreCloseResponse {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: ClosedStoreAdministrationTopFiveList[]
+}
+
+// 자치구 업종별 매출상세
+export interface SaleServiceTopFiveResponse {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: SalesDistrictSalesTopFiveList[]
+}
+
+// 자치구 행정동별 매출상세
+export interface SalesAdministrationTopFiveResponse {
+  dataHeader: {
+    successCode: number
+    resultCode: null
+    resultMessage: null
+  }
+  dataBody: SalesAdministrationTopFiveList[]
+}

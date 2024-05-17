@@ -5,6 +5,7 @@ import DetailOpenRateComponent from '@src/components/status/DetailOpenRateCompon
 import DetailCloseRateComponent from '@src/components/status/DetailCloseRateComponent'
 import DetailAnalysisComponent from '@src/components/status/DetailAnalysisComponent'
 import DetailCommercialComponent from '@src/components/status/DetailCommercialComponent'
+import DetailSummaryComponent from '@src/components/status/DetailSummaryComponent'
 import CircleLoading from '@src/common/CircleLoading'
 import Xmark from 'src/assets/xmark_solid_nomal.svg'
 import bookmark from 'src/assets/bookmark.svg'
@@ -41,7 +42,11 @@ const StatusDetailbarComponent = ({ regionCode }: StatusDetailbarProps) => {
   const categories = useMemo(
     () => [
       {
-        name: '핵심요약',
+        name: '간단요약',
+        component: DetailSummaryComponent,
+      },
+      {
+        name: '요약',
         component: DetailCommercialComponent,
       },
       {
@@ -49,7 +54,6 @@ const StatusDetailbarComponent = ({ regionCode }: StatusDetailbarProps) => {
         component: DetailPopulationComponent,
       },
       {
-        // <todo> % 비율말고 data 값 받아오기
         name: '점포수',
         component: DetailStoreNumberComponent,
       },

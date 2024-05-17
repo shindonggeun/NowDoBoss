@@ -116,7 +116,7 @@ const CreateModal = (props: CreateModalPropsType) => {
       >
         <Box sx={style}>
           <c.CreateModal>채팅방 생성하기</c.CreateModal>
-          <c.Title>채팅방 이름</c.Title>
+          <c.Title>채팅방 이름 (최대 20자)</c.Title>
           <c.TitleInput
             $isActive={nameValue.length > 0}
             placeholder="채팅방 이름을 입력해주세요."
@@ -126,12 +126,12 @@ const CreateModal = (props: CreateModalPropsType) => {
               setNameValue(e.target.value)
             }}
           />
-          <c.Title>채팅방 소개</c.Title>
+          <c.Title>채팅방 소개 (최대 40자)</c.Title>
           <c.ContentInput
             $isActive={introductionValue.length > 0}
             placeholder="채팅방을 간단히 소개해주세요."
             defaultValue={introductionValue}
-            maxLength={49}
+            maxLength={39}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
               setIntroductionValue(e.target.value)
             }}

@@ -11,8 +11,7 @@ import useStateStore from '@src/stores/statusStore'
 import Banner from '@src/common/Banner'
 
 const StatusContainer = () => {
-  const { selectedRegion } = useStateStore()
-  const [regionCode, setRegionCode] = useState<number | null>(null) // 지역 선택
+  const { selectedRegion, setRegionCode } = useStateStore()
   const [tab, setTab] = useState<number>(0)
 
   const onClickSetTab = (data: number) => {
@@ -27,6 +26,7 @@ const StatusContainer = () => {
     queryKey: ['StatusTopList'],
     queryFn: () => fetchTopList(),
   })
+
   useEffect(() => {
     refetch()
   }, [refetch, tab])
@@ -35,9 +35,7 @@ const StatusContainer = () => {
     <div>
       {!isLoading && data ? (
         <c.StatusContainer>
-          {selectedRegion && (
-            <StatusDetailbarComponent regionCode={regionCode} />
-          )}
+          {selectedRegion && <StatusDetailbarComponent />}
 
           {selectedRegion ? (
             <c.EmptyContainer />

@@ -17,12 +17,16 @@ export const WeekData: WeekDays = {
 interface StatusState {
   selectedRegion: string | null
   setSelectedRegion: (selectedRegion: string | null) => void
+  regionCode: number | null
+  setRegionCode: (regionCode: number | null) => void
 }
 
 // 가게 정보 입력 저장
 const useStateStore = create<StatusState>(set => ({
   selectedRegion: null,
   setSelectedRegion: selectedRegion => set({ selectedRegion }),
+  regionCode: null,
+  setRegionCode: regionCode => set({ regionCode }),
 }))
 
 export default useStateStore

@@ -15,8 +15,18 @@ const AskSection = (props: AskSectionPropsType) => {
 
   return (
     <a.Container>
-      <a.Title>{title}</a.Title>
-      <a.Subtitle onClick={goPage}>{subtitle}</a.Subtitle>
+      <a.FirstWrap>
+        <a.TitleDiv>
+          <a.Title>{title}</a.Title>
+          <a.Subtitle onClick={goPage}>{subtitle}</a.Subtitle>
+        </a.TitleDiv>
+        <a.Back onClick={() => navigate(-1)}>Back</a.Back>
+      </a.FirstWrap>
+      <a.SecondWrap>
+        <a.ViewTitle onClick={() => navigate('/')}>
+          계정없이 서비스 둘러보기
+        </a.ViewTitle>
+      </a.SecondWrap>
     </a.Container>
   )
 }

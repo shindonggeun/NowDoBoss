@@ -102,8 +102,8 @@ const ChoicePlace = () => {
           indicator={<KeyboardArrowDown />}
           sx={{
             paddingRight: '5px',
-            width: isRecommendPage ? '135px' : '100px',
-            maxWidth: isRecommendPage ? '135px' : '108px',
+            width: isRecommendPage ? '160px' : '100px',
+            maxWidth: isRecommendPage ? '160px' : '108px',
             [`& .${selectClasses.indicator}`]: {
               transition: '0.2s',
               [`&.${selectClasses.expanded}`]: {
@@ -148,8 +148,8 @@ const ChoicePlace = () => {
           indicator={<KeyboardArrowDown />}
           sx={{
             paddingRight: isRecommendPage ? '10px' : '5px',
-            width: isRecommendPage ? '140px' : '100px',
-            maxWidth: isRecommendPage ? '140px' : '110px',
+            width: isRecommendPage ? '165px' : '100px',
+            maxWidth: isRecommendPage ? '165px' : '110px',
             marginLeft: '5px',
             [`& .${selectClasses.indicator}`]: {
               transition: '0.2s',

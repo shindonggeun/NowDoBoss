@@ -33,7 +33,7 @@ const PieChart = (props: PieChartProps) => {
       intersect: false,
     },
     layout: {
-      padding: 30,
+      padding: 50,
     },
     plugins: {
       legend: {
@@ -80,7 +80,14 @@ const PieChart = (props: PieChartProps) => {
     },
   ]
 
-  return <Pie data={data} options={options} plugins={plugins} />
+  return (
+    <Pie
+      key={JSON.stringify(data)}
+      data={data}
+      options={options}
+      plugins={plugins}
+    />
+  )
 }
 
 export default PieChart

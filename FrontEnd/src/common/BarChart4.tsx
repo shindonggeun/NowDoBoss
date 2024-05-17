@@ -48,8 +48,8 @@ const BarChart4 = (props: BarChartProps) => {
     layout: {
       padding: {
         top: 20,
-        left: 15,
-        right: 15,
+        left: 25,
+        right: 25,
       },
     },
     scales: {
@@ -96,14 +96,21 @@ const BarChart4 = (props: BarChartProps) => {
           ctx.fillText(
             `${data.datasets[0].data[index].toLocaleString()}개`,
             datapoint.x,
-            datapoint.y + 20,
+            datapoint.y + 22,
           )
         })
       },
     },
   ]
 
-  return <Bar options={options} data={data} plugins={plugins} />
+  return (
+    <Bar
+      key={JSON.stringify(data)}
+      options={options}
+      data={data}
+      plugins={plugins}
+    />
+  )
 }
 
 export default BarChart4

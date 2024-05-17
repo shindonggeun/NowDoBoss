@@ -69,7 +69,7 @@ const AreaChart = (props: AreaChartPropsType) => {
       },
     },
   }
-  return <Line options={options} data={data} />
+  return <Line key={JSON.stringify(data)} options={options} data={data} />
 }
 
 export default AreaChart

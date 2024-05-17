@@ -5,7 +5,7 @@ interface CategoryType {
 }
 
 export const Container = styled.div`
-  width: 240px;
+  width: 200px;
   position: absolute;
   height: calc(100vh - 65px);
   //border-right: 1px solid #d9d9d9;
@@ -117,11 +117,12 @@ export const RightArrow = styled.img`
 // 카테고리 및 채팅 목록으로 재사용
 export const ChatCard = styled.div<CategoryType>`
   font-weight: 600;
-  padding: 15px 10px;
+  padding: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  border-bottom: 0.08rem solid #dee4ec;
   color: ${props => (props.$isChoice ? 'black' : 'gray')};
   background-color: ${props => (props.$isChoice ? '#F5F5F5' : 'none')};
   border-radius: ${props => (props.$isChoice ? '5px' : 'none')};
@@ -132,9 +133,11 @@ export const ChatCard = styled.div<CategoryType>`
     border-radius: 5px;
 
     // BannerArrow에만 호버 효과 적용
+
     ${RightArrow} {
       transform: translateX(10px);
       transition: transform 0.3s ease;
+      border-bottom: none;
     }
   }
 
@@ -228,4 +231,16 @@ export const CreateIcon = styled.img<{ $isTransparent: boolean }>`
 export const Col = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+export const Sub = styled.div`
+  padding-bottom: 10px;
+  font-size: 1.1rem;
+  color: #555555;
+  font-weight: 600;
+  margin: 10px 0 0 20px;
+
+  @media only screen and (max-width: 992px) {
+    display: none;
+  }
 `

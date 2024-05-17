@@ -11,7 +11,7 @@ export const HeaderContainer = styled.div`
   flex-direction: column;
   border-radius: 5px 5px 0 0;
   padding: 10px 10px 5px 20px;
-  height: 80px;
+  height: 75px;
   color: white;
 `
 
@@ -23,7 +23,7 @@ export const HeaderTitle = styled.div`
 
 export const HeaderSubTitle = styled.div`
   font-size: 0.9rem;
-  padding: 0 0 5px;
+  padding-bottom: 3px;
 `
 
 export const TabContainer = styled.div`
@@ -35,7 +35,7 @@ export const TabContainer = styled.div`
 `
 
 export const TabLists = styled.div`
-  margin-top: 5px;
+  margin-top: 3px;
 `
 
 export const TabList = styled.div<{ selected: boolean }>`
@@ -69,9 +69,8 @@ export const Item = styled.div<ItemProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  //margin: 1vh 0;
-  margin: 10px 0;
-  padding-bottom: 5px;
+  margin: 6px 0;
+  padding-bottom: 6px;
   font-weight: 500;
   border-bottom: ${props => (props.$islast ? 'none' : '1px solid #ABC4E9')};
   font-size: 0.9rem;

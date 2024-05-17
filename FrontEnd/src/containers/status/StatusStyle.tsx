@@ -17,7 +17,7 @@ export const StatusContainer = styled.div`
 
 export const Sidebar = styled.div`
   width: 380px;
-  height: 520px;
+  height: 475px;
   box-shadow: 10px 10px 15px -5px rgba(0, 0, 0, 0.2);
   border: 1px solid #dce5f2;
   border-radius: 5px;

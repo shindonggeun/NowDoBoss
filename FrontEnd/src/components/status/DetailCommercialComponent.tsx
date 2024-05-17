@@ -57,7 +57,7 @@ const DetailCommercialComponent = ({ props }: DetailCommercialProps) => {
       <h.SummaryHeader>
         <h.LightIcon src={ThumbUp} alt="close" />
 
-        <h.HighLight>핵심 요약</h.HighLight>
+        <h.HighLight>한줄 요약</h.HighLight>
       </h.SummaryHeader>
       <c.SummaryContainer>
         <c.SummaryTitle>

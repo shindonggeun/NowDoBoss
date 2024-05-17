@@ -70,7 +70,7 @@ const DetailPopulationComponent = ({ props }: DetailPopulationProps) => {
         <BarChart3
           labels={PeriodLabels}
           values={PeriodValues}
-          minvalue={PeriodMinValue}
+          minvalue={Math.floor(PeriodMinValue)}
           dataLavel="인구(명)"
         />
         <ContainerBox height={30} />

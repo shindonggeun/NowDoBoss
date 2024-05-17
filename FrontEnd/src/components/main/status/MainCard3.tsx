@@ -1,8 +1,8 @@
 import * as c from '@src/containers/main/MainStausContainerStyle'
 import ContainerBox from '@src/common/ContainerBox'
-import seoul from '@src/components/status/sig_seoul_geojson.json'
 import * as d3 from 'd3'
 import { useState } from 'react'
+import seoul from '../../../datas/sig_seoul_geojson.json'
 
 const MainCard3 = () => {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)

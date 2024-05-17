@@ -4,6 +4,7 @@ import GlobalStyles from '@src/GlobalStyles.tsx'
 import Header from '@src/common/Header'
 import MainPage from '@src/pages/MainPage'
 import SignUpPage from '@src/pages/SignUpPage'
+import SignUpGeneralPage from '@src/pages/SignUpGeneralPage'
 import LoginPage from '@src/pages/LoginPage'
 import SocialLoadingPage from '@src/pages/SocialLoadingPage'
 import ProfilePage from '@src/pages/ProfilePage'
@@ -60,6 +61,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           {/* 회원 */}
           <Route path="/register" element={<SignUpPage />} />
+          <Route path="/register/general" element={<SignUpGeneralPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/member/loading/:provider"

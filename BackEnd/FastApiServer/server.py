@@ -49,6 +49,34 @@ async def receive_data(request: Request):
 def test():
     print("테스트중!")
 
+@app.get("/recommend-test")
+async def recommend_commercial_areas(commercial_code: int):
+    try:
+        # Spark 세션 시작
+        spark = start_spark_session()
+
+        # HDFS에서 데이터 읽기
+        df = spark.read.csv("hdfs://master1:9000/data/localfile.csv", header=True)
+
+        # user_id로 필터링
+        result = df.filter(df["commercialCode"] == commercial_code).collect()
+
+        # 결과 반환
+        if result:
+            return {"commercialCode": result[0]["commercial"], "id": result[0]["commercialCode"]}
+        else:
+            return {"message": "Commercial not found"}
+    except Exception as e:
+        # 에러 로그
+        print(f"Error occurred: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+def start_spark_session():
+    spark = SparkSession.builder \
+        .appName("FastAPI-Spark Integration") \
+        .getOrCreate()
+    return spark
+
 def start_recommend_spark():
     # SparkSession 생성
     spark = SparkSession.builder \

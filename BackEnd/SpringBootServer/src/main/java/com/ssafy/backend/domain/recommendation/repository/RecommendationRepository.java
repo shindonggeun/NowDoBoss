@@ -15,4 +15,6 @@ public interface RecommendationRepository extends MongoRepository<Recommendation
 
     boolean existsByUserIdAndCommercialCode(Long userId, String commercialCode);
 
+    void deleteByUserId(Long userId);
+
 }

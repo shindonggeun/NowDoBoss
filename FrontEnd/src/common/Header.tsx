@@ -4,15 +4,18 @@ import { NavigateType } from '@src/types/GlobalType'
 // import LogoImg from '@src/assets/logo.svg'
 import SlimLogoImg from '@src/assets/logo_slim.svg'
 // import BlueLogoImg from '@src/assets/logo_blue.svg'
+import BlueChatImg from '@src/assets/chatBlue.svg'
+import ChatImg from '@src/assets/chatHeader.svg'
+import WhiteChatImg from '@src/assets/chatWhite.svg'
 import styled from 'styled-components'
 import HeaderDropdown from '@src/common/HeaderDropdown'
-import LogoutContainer from '@src/containers/User/LogoutContainer'
 import useCommunityStore from '@src/stores/communityStore'
 import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 
 import three_line from '@src/assets/three_line.svg'
 import three_line_gray from '@src/assets/three_line_gray.svg'
 import analysisStore from '@src/stores/analysisStore'
+import { Avatar } from '@mui/joy'
 
 const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   height: 70px;
@@ -99,6 +102,8 @@ const Menu = styled.div<{
 
 const LogoDiv = styled.div``
 
+const Icon = styled.img``
+
 const Logo = styled.img`
   scale: 0.7;
   margin: 7px 0 0 0;
@@ -143,6 +148,8 @@ const Header = () => {
   const [isTransparent, setIsTransparent] = useState<boolean>(true)
   const [atTop, setAtTop] = useState<boolean>(true)
   const [lastScrollY, setLastScrollY] = useState<number>(0)
+  // 프로필 이미지 저장
+  const [profileImg, setProfileImg] = useState<string | undefined>(undefined)
 
   // 현재 스크롤과 이전 스크롤 상태 비교해서 올림, 내림 스크롤 판단하는 로직
   const handleScroll = useCallback(() => {
@@ -198,6 +205,17 @@ const Header = () => {
 
   // 로그인 상태 확인 (localStorage 사용)
   const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
+
+  // 프로필 이미지 가져오기
+  useEffect(() => {
+    if (userLoggedIn) {
+      const memberInfo = localStorage.getItem('memberInfo')
+      if (memberInfo) {
+        const { profileImage } = JSON.parse(memberInfo)
+        setProfileImg(profileImage)
+      }
+    }
+  }, [userLoggedIn])
 
   const LocationData = [
     {
@@ -299,28 +317,34 @@ const Header = () => {
       <BlankDiv />
 
       <MenuListRight>
+        <Menu
+          $isActive={activeMenu === '채팅'}
+          $isMain={location.pathname === '/'}
+          $atTop={atTop}
+          onClick={() => {
+            handleMenuClick('채팅')
+            window.location.reload()
+          }}
+        >
+          <Icon
+            src={
+              location.pathname === '/' && atTop
+                ? WhiteChatImg
+                : location.pathname === '/chatting/list'
+                  ? BlueChatImg
+                  : ChatImg
+            }
+          />
+        </Menu>
         {userLoggedIn ? (
-          <>
-            <Menu
-              $isActive={activeMenu === '채팅'}
-              $isMain={location.pathname === '/'}
-              $atTop={atTop}
-              onClick={() => handleMenuClick('채팅')}
-            >
-              채팅
-            </Menu>
-            <Menu
-              $isActive={activeMenu === '프로필'}
-              $isMain={location.pathname === '/'}
-              $atTop={atTop}
-              onClick={() => handleMenuClick('프로필')}
-            >
-              프로필
-            </Menu>
-            <Menu $isMain={location.pathname === '/'} $atTop={atTop}>
-              <LogoutContainer />
-            </Menu>
-          </>
+          <Menu
+            $isActive={activeMenu === '프로필'}
+            $isMain={location.pathname === '/'}
+            $atTop={atTop}
+            onClick={() => handleMenuClick('프로필')}
+          >
+            <Avatar src={profileImg} />
+          </Menu>
         ) : (
           ['로그인', '회원가입'].map(menuName => (
             <Menu

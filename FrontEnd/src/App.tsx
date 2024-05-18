@@ -32,6 +32,7 @@ import { useEffect } from 'react'
 import ChattingListPage from '@src/pages/ChattingListPage'
 import ChattingDetailPage from '@src/pages/ChattingDetailPage'
 import './index.css'
+import './sweetalert2.css'
 
 // firebase config 파일 실행
 import '@src/util/auth/firebaseMessage'

@@ -12,7 +12,12 @@ import { Bar } from 'react-chartjs-2'
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 type BarChartPropsType = {
-  blueOceanArray: { name: string; count: number }[]
+  blueOceanArray: {
+    serviceCodeName: string
+    myStore: number
+    totalStore: number
+    storeRate: number
+  }[]
 }
 
 const BarChart = (props: BarChartPropsType) => {
@@ -89,17 +94,17 @@ const BarChart = (props: BarChartPropsType) => {
           display: false, // Y축 그리드 라인 없애기
         },
         min: 0, // Y축의 최소값 설정
-        max: blueOceanArray[0].count, // Y축의 최대값 설정 (이 값을 조정하여 시각적 차이를 조절)
+        max: blueOceanArray[0].storeRate, // Y축의 최대값 설정 (이 값을 조정하여 시각적 차이를 조절)
       },
     },
   }
 
   const labels = [
-    `${blueOceanArray[0].name}`,
-    blueOceanArray[1].name,
-    blueOceanArray[2].name,
-    blueOceanArray[3].name,
-    blueOceanArray[4].name,
+    `${blueOceanArray[0].serviceCodeName}`,
+    blueOceanArray[1].serviceCodeName,
+    blueOceanArray[2].serviceCodeName,
+    blueOceanArray[3].serviceCodeName,
+    blueOceanArray[4].serviceCodeName,
   ]
 
   const data = {
@@ -108,11 +113,11 @@ const BarChart = (props: BarChartPropsType) => {
       {
         label: '해당 매장 추천율',
         data: [
-          blueOceanArray[0].count,
-          blueOceanArray[1].count,
-          blueOceanArray[2].count,
-          blueOceanArray[3].count,
-          blueOceanArray[4].count,
+          blueOceanArray[0].storeRate,
+          blueOceanArray[1].storeRate,
+          blueOceanArray[2].storeRate,
+          blueOceanArray[3].storeRate,
+          blueOceanArray[4].storeRate,
         ],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',

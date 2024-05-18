@@ -201,7 +201,7 @@ const Header = () => {
 
   const LocationData = [
     {
-      name: '상권현황',
+      name: '구별현황',
       location: '/status',
     },
     {
@@ -282,7 +282,7 @@ const Header = () => {
       </LogoDiv>
 
       <MenuListLeft>
-        {['상권현황', '상권분석', '상권추천', '커뮤니티'].map(menuName => (
+        {['구별현황', '상권분석', '상권추천', '커뮤니티'].map(menuName => (
           <Menu
             key={menuName}
             $isActive={activeMenu === menuName}

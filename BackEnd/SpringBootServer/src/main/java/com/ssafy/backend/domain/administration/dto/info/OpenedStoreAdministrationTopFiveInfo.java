@@ -6,6 +6,6 @@ import lombok.Builder;
 public record OpenedStoreAdministrationTopFiveInfo(
         String administrationCode,
         String administrationCodeName,
-        Double curOpenedRate
+        Long curOpenedRate
 ) {
 }

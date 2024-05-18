@@ -1,4 +1,9 @@
 package com.ssafy.backend.domain.community.dto.request;
 
-public record UpdateCommentRequest(String content) {
+import jakarta.validation.constraints.NotBlank;
+
+public record UpdateCommentRequest(
+        @NotBlank(message = "내용을 입력해주세요")
+        String content
+) {
 }

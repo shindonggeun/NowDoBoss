@@ -7,6 +7,7 @@ from pyspark.sql.functions import lit
 import json
 from pymongo import MongoClient
 import scheduler
+from hdfs import InsecureClient
 
 app = FastAPI()
 
@@ -15,13 +16,16 @@ app = FastAPI()
 #     .appName("FastAPI-Spark Integration") \
 #     .getOrCreate()
 
+class Item(BaseModel):
+    data: str
+
 class UserRequest(BaseModel):
     userId: int
 
 
 @app.post("/recommend")
 async def recommend_commercial_areas(request: UserRequest, background_tasks: BackgroundTasks):
-    print("추천에 도착!") 
+    print("추천에 도착!")
     try:
         # 요청 로그
         print(f"Received request: {request}")
@@ -49,54 +53,62 @@ async def receive_data(request: Request):
 def test():
     print("테스트중!")
 
-
-@app.get("/hdfs-test")
-async def hdfs_test():
-    try:
-        # Spark 세션 시작
-        spark = start_spark_session()
-
-        # HDFS 연결 테스트
-        hdfs_path = "hdfs://master1:9000/"
-        fs = spark._jvm.org.apache.hadoop.fs.FileSystem.get(spark._jsc.hadoopConfiguration())
-        path = spark._jvm.org.apache.hadoop.fs.Path(hdfs_path)
-
-        if fs.exists(path):
-            files = [f.getPath().toString() for f in fs.listStatus(path)]
-            return {"message": "HDFS 연결 성공", "files": files}
-        else:
-            return {"message": "HDFS 경로가 존재하지 않음"}
-    except Exception as e:
-        # 에러 로그
-        print(f"Error occurred: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
-
 @app.get("/recommend-test")
-async def recommend_commercial_areas(commercial_code: int):
+async def recommend_commercial_areas():
+    # Spark 세션 생성
+    spark = start_recommend_spark()
+
+    # DataFrame으로 HDFS 파일 읽기
+    df = spark.read.csv("hdfs://172.24.48.100:9000/data/commercial_data.csv", header=True, inferSchema=True)
+
+    # 데이터 출력
+    df.show()
+    return {"status": "success", "data": df.collect()}
+
+@app.get("/test-spark-connection")
+async def test_spark_connection():
     try:
-        # Spark 세션 시작
-        spark = start_spark_session()
+        # Spark 세션 생성
+        spark = start_recommend_spark()
 
-        # HDFS에서 데이터 읽기
-        df = spark.read.csv("hdfs://master1:9000/data/localfile.csv", header=True)
+        # 간단한 DataFrame 생성
+        data = [("Alice", 34), ("Bob", 45), ("Cathy", 29)]
+        columns = ["Name", "Age"]
+        df = spark.createDataFrame(data, columns)
 
-        # user_id로 필터링
-        result = df.filter(df["commercialCode"] == commercial_code).collect()
+        # DataFrame 출력
+        df.show()
 
-        # 결과 반환
-        if result:
-            return {"commercialCode": result[0]["commercial"], "id": result[0]["commercialCode"]}
-        else:
-            return {"message": "Commercial not found"}
+        # Spark 세션 중지
+        spark.stop()
+
+        return {"status": "success", "message": "Spark session created and DataFrame displayed successfully"}
+
     except Exception as e:
         # 에러 로그
         print(f"Error occurred: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 def start_spark_session():
+    # hdfs_path = "hdfs://master1:9000/"
+
+    # spark = SparkSession.builder \
+    #     .appName("FastAPI-Spark Integration") \
+    #     .master("spark://172.24.48.100:7077") \
+    #     .getOrCreate()
+
+    # Spark 세션 생성
     spark = SparkSession.builder \
-        .appName("FastAPI-Spark Integration") \
+        .appName("MyApp") \
+        .master("spark://172.24.48.100:7077") \
+        .config("spark.executor.memory", "2g") \
+        .config("spark.executor.cores", "2") \
+        .config("spark.driver.memory", "2g") \
         .getOrCreate()
+
+    # Hadoop 파일 시스템 설정
+    hadoop_conf = spark._jsc.hadoopConfiguration()
+    hadoop_conf.set("fs.defaultFS", "hdfs://172.24.48.100:9000")
     return spark
 
 def start_recommend_spark():

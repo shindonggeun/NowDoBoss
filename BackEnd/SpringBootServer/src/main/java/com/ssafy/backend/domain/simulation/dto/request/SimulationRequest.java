@@ -6,8 +6,6 @@ public record SimulationRequest(
         // if 프랜차이즈 여부 false : 프랜차이즈 브랜드 명 null
         Boolean isFranchisee,
         String brandName,
-        // 위치 (시 구 동)
-//        LocationInfo location,
         String gugun,
 
         // 업종 코드

@@ -1,9 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import analysisStore from '@src/stores/analysisStore'
+import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
 
 const TodayChart = () => {
-  const { flowPopulationDataBody } = analysisStore()
+  const flowPopulationDataBody = analysisStore(
+    state => state.flowPopulationDataBody,
+  )
+  const setFlowSummary = useAnalysisSummaryStore(state => state.setFlowSummary)
+
   const values: number[] = Object.values(
     flowPopulationDataBody.dayOfWeekFootTraffic,
   )
@@ -16,6 +21,20 @@ const TodayChart = () => {
   // 백분율로 변환
   const weekdayPercentage = Math.round((weekdaySum / totalSum) * 100)
   const weekendPercentage = Math.round((weekendSum / totalSum) * 100)
+
+  // 요약 상태 업데이트
+  useEffect(() => {
+    setFlowSummary('daily', dailyAverage)
+    if (weekdaySum > weekendSum) {
+      setFlowSummary('maxWeek', '주중')
+      setFlowSummary('minWeek', '주말')
+      setFlowSummary('ratio', (weekdaySum / weekendSum).toFixed(1))
+    } else {
+      setFlowSummary('maxWeek', '주말')
+      setFlowSummary('minWeek', '주중')
+      setFlowSummary('ratio', (weekendSum / weekdaySum).toFixed(1))
+    }
+  }, [dailyAverage, setFlowSummary, weekdaySum, weekendSum])
 
   const lineRef = useRef<HTMLDivElement>(null)
   const [lineWidth, setLineWidth] = useState(0)

@@ -4,6 +4,7 @@ package com.ssafy.backend.domain.recommendation.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.backend.domain.commercial.dto.info.BlueOceanInfo;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationAreaResponse;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
 import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
@@ -169,7 +170,7 @@ public class RecommendationServiceImpl implements RecommendationService{
 
         StoreCommercialInfo storeCommercialInfo = getStoreCommercialInfo(dto, periodCode);
         ClosedRateCommercialInfo closedRateCommercialInfo = getClosedRateCommercialInfo(dto, periodCode);
-        Map<String, Double> sortedMyRate = getBlueOceanAnalysis(dto, commercialCodes, periodCode);
+        List<BlueOceanInfo> sortedMyRate = getBlueOceanAnalysis(dto, commercialCodes, periodCode);
 
         return new RecommendationResponse(dto.commercialCode(),
                 areaCommercialRepository.findCommercialCodeNameByCommercialCode(dto.commercialCode()),
@@ -203,7 +204,7 @@ public class RecommendationServiceImpl implements RecommendationService{
         return new ClosedRateCommercialInfo(myClosedRate, (double) administrationStoresMap.get("administrationClosedRate"), (double) otherStoresMap.get("otherClosedRate"));
     }
 
-    private Map<String, Double> getBlueOceanAnalysis(UserResponse dto, List<String> commercialCodes, String periodCode) {
+    private List<BlueOceanInfo> getBlueOceanAnalysis(UserResponse dto, List<String> commercialCodes, String periodCode) {
         commercialCodes.add(dto.commercialCode());
         Map<String, Long> totalMap = storeCommercialRepository.getAdministrationStoreByServiceCode(commercialCodes, periodCode);
         Map<String, Long> myMap = storeCommercialRepository.getMyStoreByServiceCode(dto.commercialCode(), periodCode);
@@ -215,7 +216,17 @@ public class RecommendationServiceImpl implements RecommendationService{
                 myRate.put(str, 1.0 / (totalMap.get(str) + 1.0) * 100);
             }
         }
-        return sortAndLimitBlueOceanResults(myRate);
+        myRate = sortAndLimitBlueOceanResults(myRate);
+
+        List<BlueOceanInfo> blueOceanInfos = new ArrayList<>();
+        for (String str: myRate.keySet()){
+            if (myMap.get(str) == null){
+                blueOceanInfos.add(new BlueOceanInfo(str, 1L, totalMap.get(str)+1, myRate.get(str)));
+                continue;
+            }
+            blueOceanInfos.add(new BlueOceanInfo(str, myMap.get(str), totalMap.get(str), myRate.get(str)));
+        }
+        return blueOceanInfos;
     }
 
     private Map<String, Double> sortAndLimitBlueOceanResults(Map<String, Double> myRate) {
@@ -235,7 +246,7 @@ public class RecommendationServiceImpl implements RecommendationService{
         for (Map.Entry<String, Double> entry : list) {
             sortedMyRate.put(entry.getKey(), entry.getValue());
             c++;
-            if (c == 10) {
+            if (c == 5) {
                 break;
             }
         }

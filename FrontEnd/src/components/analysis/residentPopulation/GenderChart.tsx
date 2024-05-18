@@ -38,8 +38,8 @@ const GenderChart = () => {
     <r.GenderChart>
       <r.ChartTitle>남/녀 상주인구</r.ChartTitle>
       <r.ChartSubTitle>
-        {minLabel}의 상주인구가 {maxLabel}보다 약{' '}
-        <r.HighlightText>{ratio}배</r.HighlightText>더 많아요.
+        {maxLabel}의 상주인구가 {minLabel}보다 약{' '}
+        <r.HighlightText>{ratio}배 </r.HighlightText>더 많아요.
       </r.ChartSubTitle>
       <DoughnutChart labels={labels} value={value} textCenter={textCenter} />
     </r.GenderChart>

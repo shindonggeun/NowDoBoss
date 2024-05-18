@@ -35,6 +35,7 @@ import ChattingDetailPage from '@src/pages/ChattingDetailPage'
 
 // firebase config 파일 실행
 import '@src/util/auth/firebaseMessage'
+import ReportKakaoSharePage from '@src/pages/ReportKakaoSharePage.tsx'
 
 declare global {
   interface Window {
@@ -111,6 +112,8 @@ function App() {
             <Route path="list" element={<ChattingListPage />} />
             <Route path=":roomId" element={<ChattingDetailPage />} />
           </Route>
+          {/*  시뮬레이션 카카오 공유 페이지 */}
+          <Route path="share/:token" element={<ReportKakaoSharePage />} />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

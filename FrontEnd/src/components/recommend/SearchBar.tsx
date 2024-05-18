@@ -25,6 +25,7 @@ const SearchBar = (props: SearchBarPropsType) => {
   const onClickSubmit = () => {
     if (userLoggedIn) {
       setIsSubmit(true)
+      setIsOpen(true)
     } else {
       NotLogin(navigate)
     }

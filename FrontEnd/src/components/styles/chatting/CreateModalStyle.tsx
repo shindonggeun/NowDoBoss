@@ -121,7 +121,7 @@ export const NumberInput = styled.input<{ $isActive?: boolean }>`
   }
 `
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled.button<{ $isValid: boolean }>`
   color: #5f5f5f;
   font-family: inherit;
   display: inline-block;
@@ -129,7 +129,6 @@ export const SubmitButton = styled.button`
   height: 2.6em;
   line-height: 2.5em;
   overflow: hidden;
-  cursor: pointer;
   margin: 20px 0;
   font-size: 17px;
   z-index: 1;
@@ -153,11 +152,11 @@ export const SubmitButton = styled.button`
   }
 
   &:hover {
-    color: white;
-
+    color: ${({ $isValid }) => ($isValid ? 'white' : '#5f5f5f')};
+    cursor: ${({ $isValid }) => ($isValid ? 'pointer' : '')};
     &::before {
-      top: -30px;
-      left: -30px;
+      top: ${({ $isValid }) => ($isValid ? '-30px' : '100%')};
+      left: ${({ $isValid }) => ($isValid ? '-30px' : '100%')};
     }
   }
 `

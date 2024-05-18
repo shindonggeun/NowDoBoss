@@ -6,13 +6,10 @@ import useCommunityStore from '@src/stores/communityStore'
 import * as c from '@src/containers/community/CommunityContainerStyle'
 import PopularList from '@src/components/community/list/PopularList'
 import { useLocation } from 'react-router-dom'
-import three_line from '@src/assets/three_line.svg'
-import three_line_gray from '@src/assets/three_line_gray.svg'
 
 const CommunityListContainer = () => {
-  const { category, setSelectedCategory } = useCommunityStore(state => ({
+  const { category } = useCommunityStore(state => ({
     category: state.selectedCategory,
-    setSelectedCategory: state.setSelectedCategory,
   }))
 
   const location = useLocation()
@@ -21,15 +18,9 @@ const CommunityListContainer = () => {
   // 커뮤니티 목록에 들어오면 스크롤 top으로 올리기
   useEffect(() => {
     if (location.pathname === '/community/list') {
-      setSelectedCategory({
-        name: '전체보기',
-        value: '',
-        iconActive: three_line,
-        iconInactive: three_line_gray,
-      })
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
-  }, [location, setSelectedCategory])
+  }, [location])
 
   // 커뮤니티 목록 호출 query
   const { data, isLoading, refetch } = useQuery({
@@ -74,7 +65,7 @@ const CommunityListContainer = () => {
           )}
         </c.Div>
       ) : (
-        <c.Div>데이터가 없습니다 ㅠㅠ</c.Div>
+        <c.Div />
       )}
     </c.Div>
   )

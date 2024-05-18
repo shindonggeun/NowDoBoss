@@ -2,7 +2,7 @@ import { Box, Modal } from '@mui/material'
 import * as c from '@src/components/styles/chatting/CreateModalStyle'
 import arrow_up from '@src/assets/arrow_up.svg'
 import arrow_down from '@src/assets/arrow_down.svg'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createChatRoom } from '@src/api/chattingApi'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
@@ -41,7 +41,7 @@ const CreateModal = (props: CreateModalPropsType) => {
   const [outputCategoryValue, setOutputCategoryValue] =
     useState<string>('카테고리를 선택해주세요.')
   const [selectedCategoryValue, setSelectedCategoryValue] = useState<string>('')
-  const [selectedLimitValue, setSelectedLimitValue] = useState<number>(0)
+  const [selectedLimitValue, setSelectedLimitValue] = useState<number>(2)
 
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const categories = [
@@ -51,6 +51,23 @@ const CreateModal = (props: CreateModalPropsType) => {
     { name: '동업제안', value: 'PARTNERSHIP' },
     { name: '창업고민', value: 'START_UP' },
   ]
+
+  const [isValid, setIsValid] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (
+      nameValue &&
+      introductionValue &&
+      selectedCategoryValue &&
+      selectedLimitValue > 1 &&
+      selectedLimitValue < 601
+    ) {
+      setIsValid(true)
+    } else {
+      setIsValid(false)
+    }
+  }, [nameValue, introductionValue, selectedCategoryValue, selectedLimitValue])
+
   // 방 들어갈 때 토픽 구독 로직
   const { mutate: subscribeTopicMutation } = useMutation({
     mutationKey: ['subscribeTopic'],
@@ -116,7 +133,7 @@ const CreateModal = (props: CreateModalPropsType) => {
       >
         <Box sx={style}>
           <c.CreateModal>채팅방 생성하기</c.CreateModal>
-          <c.Title>채팅방 이름</c.Title>
+          <c.Title>채팅방 이름 (최대 20자)</c.Title>
           <c.TitleInput
             $isActive={nameValue.length > 0}
             placeholder="채팅방 이름을 입력해주세요."
@@ -126,12 +143,12 @@ const CreateModal = (props: CreateModalPropsType) => {
               setNameValue(e.target.value)
             }}
           />
-          <c.Title>채팅방 소개</c.Title>
+          <c.Title>채팅방 소개 (최대 40자)</c.Title>
           <c.ContentInput
             $isActive={introductionValue.length > 0}
             placeholder="채팅방을 간단히 소개해주세요."
             defaultValue={introductionValue}
-            maxLength={49}
+            maxLength={39}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
               setIntroductionValue(e.target.value)
             }}
@@ -181,10 +198,12 @@ const CreateModal = (props: CreateModalPropsType) => {
               onClick={() => {
                 handleSubmit()
               }}
+              disabled={!isValid}
+              $isValid={isValid}
             >
               완료
             </c.SubmitButton>
-            <c.SubmitButton onClick={() => setModalOpen(false)}>
+            <c.SubmitButton onClick={() => setModalOpen(false)} $isValid>
               취소
             </c.SubmitButton>
           </c.ButtonDiv>

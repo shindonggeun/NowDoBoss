@@ -129,7 +129,7 @@ public class CommunityController {
     @PatchMapping("/{communityId}/comment/{commentId}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> updateComment(@PathVariable Long commentId,
-                                        @RequestBody UpdateCommentRequest request) {
+                                        @Validated @RequestBody UpdateCommentRequest request) {
         commentService.updateComment(commentId, request);
         return ResponseEntity.ok().body(Message.success());
     }

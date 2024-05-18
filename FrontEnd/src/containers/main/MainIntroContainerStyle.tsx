@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import BackgroundImage from 'public/images/background.png'
+// import BackgroundImage from 'public/images/background.png'
+import BackgroundImage from 'public/images/background123.png'
 
 export const Container = styled.div`
   margin-top: -68px;
@@ -17,7 +18,6 @@ export const Main = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   background-image: url(${BackgroundImage});
   background-size: cover; /* 이미지가 전체를 덮도록 설정 */
   background-position: center; /* 이미지가 가운데 위치하도록 설정 */
@@ -26,13 +26,14 @@ export const Main = styled.div`
 `
 export const MainContent = styled.div`
   font-weight: 700;
-  font-size: 2.5rem;
-  text-align: left;
+  font-size: 3rem;
+  padding-left: 12vw;
 `
 export const ButtonDiv = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: left;
+  padding-left: 12vw;
 `
 export const MainButton = styled.div`
   background-color: #236eff;

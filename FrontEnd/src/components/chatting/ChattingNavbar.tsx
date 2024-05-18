@@ -70,8 +70,11 @@ const ChattingNavbar = () => {
 
           {userLoggedIn && (
             <c.Col>
-              <n.Sub>나의 채팅방 목록</n.Sub>
-              <ChatSearchBar />
+              <c.Sub>나의 채팅방 목록</c.Sub>
+
+              <c.ChatList>
+                <ChatSearchBar />
+              </c.ChatList>
             </c.Col>
           )}
           <c.CreateIcon

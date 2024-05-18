@@ -7,6 +7,12 @@ import SlimLogoImg from '@src/assets/logo_slim.svg'
 import styled from 'styled-components'
 import HeaderDropdown from '@src/common/HeaderDropdown'
 import LogoutContainer from '@src/containers/User/LogoutContainer'
+import useCommunityStore from '@src/stores/communityStore'
+import useSelectPlaceStore from '@src/stores/selectPlaceStore'
+
+import three_line from '@src/assets/three_line.svg'
+import three_line_gray from '@src/assets/three_line_gray.svg'
+import analysisStore from '@src/stores/analysisStore'
 
 const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   height: 70px;
@@ -135,7 +141,6 @@ const Header = () => {
 
   // 스크롤 내렸을 때 사라지게 하는 로직
   const [isTransparent, setIsTransparent] = useState<boolean>(true)
-  const [isMain, setIsMain] = useState<boolean>(false)
   const [atTop, setAtTop] = useState<boolean>(true)
   const [lastScrollY, setLastScrollY] = useState<number>(0)
 
@@ -159,22 +164,44 @@ const Header = () => {
     }
   }, [handleScroll, lastScrollY])
 
+  // 상권 분석이나 상권 추천 페이지 이동 시 드롭다운 데이터 초기화 하기 위한 store
+  const { setSelectedGoo, setSelectedDong, setSelectedCommercial } =
+    useSelectPlaceStore(state => ({
+      setSelectedGoo: state.setSelectedGoo,
+      setSelectedDong: state.setSelectedDong,
+      setSelectedCommercial: state.setSelectedCommercial,
+    }))
+
+  // 상권 분석 페이지 이동 시 드롭다운 데이터 초기화 하기 위한 store
+  const { setSelectedServiceType } = analysisStore(state => ({
+    setSelectedServiceType: state.setSelectedServiceType,
+  }))
+
   // 메인 페이지에서만 투명한 배경 설정
   useEffect(() => {
-    if (location.pathname === '/') {
-      setIsMain(true)
-    } else {
-      setIsMain(false)
+    if (
+      location.pathname === '/analysis' ||
+      location.pathname === '/recommend'
+    ) {
+      setSelectedGoo({ name: '행정구', code: 0 })
+      setSelectedDong({ name: '행정동', code: 0 })
+      setSelectedCommercial({ name: '상권', code: 0 })
+      setSelectedServiceType('')
     }
-  }, [location.pathname])
+  }, [
+    location.pathname,
+    setSelectedCommercial,
+    setSelectedDong,
+    setSelectedGoo,
+    setSelectedServiceType,
+  ])
 
   // 로그인 상태 확인 (localStorage 사용)
   const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const LocationData = [
     {
-      name: '상권현황',
+      name: '구별현황',
       location: '/status',
     },
     {
@@ -211,6 +238,10 @@ const Header = () => {
     },
   ]
 
+  const { setSelectedCategory } = useCommunityStore(state => ({
+    setSelectedCategory: state.setSelectedCategory,
+  }))
+
   // 경로에 따라 activeMenu 설정
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -224,6 +255,15 @@ const Header = () => {
     const menuItem = LocationData.find(item => item.name === menuName)
     if (menuItem) {
       navigate(menuItem.location)
+      // 커뮤니티를 클릭했을 때 selectedCategory 설정
+      if (menuName === '커뮤니티') {
+        setSelectedCategory({
+          name: '전체보기',
+          value: '',
+          iconActive: three_line,
+          iconInactive: three_line_gray,
+        })
+      }
     }
     setActiveMenu(menuName)
   }
@@ -233,17 +273,20 @@ const Header = () => {
   }
 
   return (
-    <Container $isTransparent={isTransparent} $isMain={isMain}>
+    <Container
+      $isTransparent={isTransparent}
+      $isMain={location.pathname === '/'}
+    >
       <LogoDiv onClick={() => goNavigate({ url: '/' })}>
         <Logo src={SlimLogoImg} alt="logo" />
       </LogoDiv>
 
       <MenuListLeft>
-        {['상권현황', '상권분석', '상권추천', '커뮤니티'].map(menuName => (
+        {['구별현황', '상권분석', '상권추천', '커뮤니티'].map(menuName => (
           <Menu
             key={menuName}
             $isActive={activeMenu === menuName}
-            $isMain={isMain}
+            $isMain={location.pathname === '/'}
             $atTop={atTop}
             onClick={() => handleMenuClick(menuName)}
           >
@@ -260,7 +303,7 @@ const Header = () => {
           <>
             <Menu
               $isActive={activeMenu === '채팅'}
-              $isMain={isMain}
+              $isMain={location.pathname === '/'}
               $atTop={atTop}
               onClick={() => handleMenuClick('채팅')}
             >
@@ -268,13 +311,13 @@ const Header = () => {
             </Menu>
             <Menu
               $isActive={activeMenu === '프로필'}
-              $isMain={isMain}
+              $isMain={location.pathname === '/'}
               $atTop={atTop}
               onClick={() => handleMenuClick('프로필')}
             >
               프로필
             </Menu>
-            <Menu $isMain={isMain} $atTop={atTop}>
+            <Menu $isMain={location.pathname === '/'} $atTop={atTop}>
               <LogoutContainer />
             </Menu>
           </>
@@ -283,7 +326,7 @@ const Header = () => {
             <Menu
               key={menuName}
               $isActive={activeMenu === menuName}
-              $isMain={isMain}
+              $isMain={location.pathname === '/'}
               $atTop={atTop}
               onClick={() => handleMenuClick(menuName)}
             >

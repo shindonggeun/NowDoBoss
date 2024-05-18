@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -27,7 +28,7 @@ public class ShareController {
             description = "공유 데이터를 저장하는 기능입니다."
     )
     @PostMapping
-    public ResponseEntity<Message<LinkTokenResponse>> share(@RequestBody CreateShareRequest request) {
+    public ResponseEntity<Message<LinkTokenResponse>> share(@Validated @RequestBody CreateShareRequest request) {
         Map<String, Object> inputs = request.getInput();
         for (Map.Entry<String, Object> entry : inputs.entrySet()) {
             log.info("key : {}, value : {}", entry.getKey(), entry.getValue());

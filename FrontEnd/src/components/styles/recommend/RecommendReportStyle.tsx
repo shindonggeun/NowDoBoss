@@ -1,33 +1,11 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  width: 500px;
-  height: auto;
-  border: 2px solid #d9d9d9;
-  background-color: white;
-  border-radius: 0 5px 5px 0;
-  box-shadow: 10px 15px 15px -5px rgba(0, 0, 0, 0.2);
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  max-height: calc(100vh - 75px);
-
-  @media only screen and (max-width: 680px) {
-    font-size: 0.9rem;
-    top: auto;
-    bottom: 0;
-    width: 100%;
-    max-height: 60vh;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: 20px;
-    box-shadow: none;
-  }
-`
 export const Header = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 10px 10px 5px 5px;
+  align-items: center;
+  padding: 10px 10px 5px 15px;
   border-radius: 0 5px 0 0;
 
   border-bottom: 2px solid #236cff;
@@ -39,14 +17,15 @@ export const Header = styled.div`
 `
 
 export const Icon = styled.img`
-  scale: 0.8;
+  scale: 0.7;
   margin: -3px;
 `
 
 export const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: end;
+  justify-content: center;
+  align-items: center;
 `
 export const Content = styled.div``
 
@@ -54,49 +33,63 @@ export const HeaderTitle = styled.div`
   font-weight: 600;
   font-size: 1.4rem;
 `
-export const SubTitle = styled.div`
-  font-size: 0.9rem;
-  padding: 0 0 5px;
-`
-export const CloseButton = styled.div`
-  background-color: #e2ebf7;
-  border-radius: 100%;
-
-  color: #236cff;
-  font-weight: 600;
-  width: 2.2rem;
-  height: 2.2rem;
-  font-size: 1.3rem;
+export const RightHeader = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
-  user-select: none;
+  justify-content: center;
+`
 
-  &:hover {
-    background-color: #cfdcff;
-    color: #236cff;
+export const HeaderIcon = styled.div<{ $isLoading: boolean }>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding-right: 10px;
+
+  &:hover && $isLoading===false {
+    cursor: pointer;
+    scale: 1.05;
   }
+`
 
-  &:active {
-    background-color: #78a1ff;
-    color: #e2ebf7;
-    //box-shadow: 0 0 0 2px #e2ebf7;
+export const SaveIcon = styled.img`
+  width: 1.2rem;
+  margin-right: 0.4rem;
+
+  @media (max-width: 768px) {
+    width: 1rem;
   }
 `
 
 export const FixedHeader = styled.div`
   position: fixed;
   width: 99.3%;
+  height: auto;
   top: 2px;
   z-index: 2;
-  background-color: white;
   border-top-right-radius: 20px;
 `
 export const TabBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  background-color: white;
   //border-bottom: 2px solid #999999;
+`
+export const CloseIcon = styled.img`
+  width: 1rem;
+  margin: 10px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+
+  &:hover {
+    border-radius: 100%;
+  }
 `
 export const Tab = styled.div<{ $selectedTab: boolean }>`
   padding: 10px 20px;
@@ -243,4 +236,20 @@ export const BannerContent = styled.div`
   b {
     color: #0066ff;
   }
+`
+
+// 로딩 페이지 style 설정
+
+export const LoadingContainer = styled.div`
+  width: 100%;
+  height: calc(100vh - 68px);
+`
+
+export const LoadingContent = styled.div`
+  margin-top: 60px;
+  height: 91%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `

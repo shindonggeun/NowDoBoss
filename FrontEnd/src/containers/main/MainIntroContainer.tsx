@@ -43,7 +43,8 @@ const MainIntroContainer = () => {
         <i.MainContent>
           서울시 상권을 한눈에!
           <br />
-          상권분석의 A부터 Z 까지, 나도보스와 함께하세요.
+          상권분석의 A부터 Z까지,
+          <br /> NowDoBoss와 함께하세요.
         </i.MainContent>
         <i.ButtonDiv>
           <i.MainButton

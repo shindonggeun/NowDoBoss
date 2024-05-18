@@ -10,10 +10,11 @@ export const Container = styled.div<{ $isOpen: boolean }>`
 export const Header = styled.div``
 export const ContentSlide = styled.div`
   background-color: white;
+  margin-top: 15px;
 `
 
 export const Content = styled.div<{ $isSelect: boolean }>`
   pointer-events: ${props => (props.$isSelect ? '' : 'none')};
   opacity: ${props => (props.$isSelect ? '' : '0.4')};
-  margin: 0 25px;
+  margin: 15px 10px;
 `

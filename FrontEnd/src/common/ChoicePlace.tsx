@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 import analysisStore from '@src/stores/analysisStore'
@@ -29,17 +29,6 @@ const SelectPlace = styled.div`
 
 const ChoicePlace = () => {
   const location = useLocation()
-
-  // 상권 추천 페이지인지 확인하는 로직
-  const [isRecommendPage, setIsRecommendPage] = useState(false)
-
-  useEffect(() => {
-    if (location.pathname === '/recommend') {
-      setIsRecommendPage(true)
-    } else {
-      setIsRecommendPage(false)
-    }
-  }, [location])
 
   // store에 저장된 구 데이터와 선택한 구, 동, 상권 값 가져올 store
   const {
@@ -81,15 +70,9 @@ const ChoicePlace = () => {
     }
   }, [commercialListData, dongListData, setSaveDongList, setSaveCommercialList])
 
-  // // 지도 선택 시 선택된 값 바뀌었을 때 드롭다운에도 갱신
-  // useEffect(() => {
-  //   setSelectedGoo(selectedGoo.name)
-  //   setSelectedDong(selectedDong.name)
-  //   setSelectedCommercial(selectedCommercial.name)
-  // }, [selectedGoo, selectedDong, selectedCommercial])
   return (
     <Place>
-      {isRecommendPage ? (
+      {location.pathname === '/recommend' ? (
         ''
       ) : (
         <Content>분석하고 싶은 상권을 선택해주세요.</Content>
@@ -98,24 +81,32 @@ const ChoicePlace = () => {
       <SelectPlace>
         <Select
           placeholder={selectedGoo.name}
+          value={selectedGoo.name}
           indicator={<KeyboardArrowDown />}
           sx={{
             paddingRight: '5px',
-            width: isRecommendPage ? '135px' : '100px',
-            maxWidth: isRecommendPage ? '135px' : '108px',
+            width: location.pathname === '/recommend' ? '160px' : '94px',
+            maxWidth: location.pathname === '/recommend' ? '160px' : '100px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            fontFamily: 'Pretendard',
+            fontWeight: 600,
+            fontSize: '14px',
             [`& .${selectClasses.indicator}`]: {
               transition: '0.2s',
               [`&.${selectClasses.expanded}`]: {
                 transform: 'rotate(-180deg)',
               },
             },
-            fontFamily: 'Pretendard',
-            fontWeight: 600,
-            fontSize: '14px',
           }}
         >
           {goosData.map(option => (
             <Option
+              style={{
+                fontFamily: 'Pretendard',
+                fontSize: '14px',
+              }}
               value={option.gooCode}
               key={option.gooCode}
               onClick={() => {
@@ -139,15 +130,20 @@ const ChoicePlace = () => {
             </Option>
           ))}
         </Select>
-
         {/* 행정동 드롭다운 */}
+
         <Select
+          disabled={selectedGoo.name === '행정구'}
           placeholder={selectedDong.name}
+          value={selectedDong.name}
           indicator={<KeyboardArrowDown />}
           sx={{
-            paddingRight: isRecommendPage ? '10px' : '5px',
-            width: isRecommendPage ? '140px' : '100px',
-            maxWidth: isRecommendPage ? '140px' : '110px',
+            paddingRight: location.pathname === '/recommend' ? '10px' : '5px',
+            width: location.pathname === '/recommend' ? '165px' : '100px',
+            maxWidth: location.pathname === '/recommend' ? '165px' : '110px',
+            fontFamily: 'Pretendard',
+            fontWeight: 600,
+            fontSize: '14px',
             marginLeft: '5px',
             [`& .${selectClasses.indicator}`]: {
               transition: '0.2s',
@@ -155,13 +151,14 @@ const ChoicePlace = () => {
                 transform: 'rotate(-180deg)',
               },
             },
-            fontFamily: 'Pretendard',
-            fontWeight: 600,
-            fontSize: '14px',
           }}
         >
           {dongListData?.dataBody.map(option => (
             <Option
+              style={{
+                fontFamily: 'Pretendard',
+                fontSize: '14px',
+              }}
               value={option.administrationCode}
               key={option.administrationCode}
               onClick={() => {
@@ -181,31 +178,38 @@ const ChoicePlace = () => {
             </Option>
           ))}
         </Select>
-
-        {isRecommendPage ? (
+        {location.pathname === '/recommend' ? (
           ''
         ) : (
           <Select
+            disabled={
+              selectedGoo.name === '행정구' || selectedDong.name === '행정동'
+            }
             placeholder={selectedCommercial.name}
+            value={selectedCommercial.name}
             indicator={<KeyboardArrowDown />}
             sx={{
               paddingRight: '5px',
-              minWidth: '140px',
-              maxWidth: '150px',
+              minWidth: '135px',
+              maxWidth: '135px',
               marginLeft: '5px',
+              fontFamily: 'Pretendard',
+              fontWeight: 600,
+              fontSize: '14px',
               [`& .${selectClasses.indicator}`]: {
                 transition: '0.2s',
                 [`&.${selectClasses.expanded}`]: {
                   transform: 'rotate(-180deg)',
                 },
               },
-              fontFamily: 'Pretendard',
-              fontWeight: 600,
-              fontSize: '14px',
             }}
           >
             {commercialListData?.dataBody.map(option => (
               <Option
+                style={{
+                  fontFamily: 'Pretendard',
+                  fontSize: '14px',
+                }}
                 value={option.commercialCode}
                 key={option.commercialCode}
                 onClick={() => {
@@ -227,20 +231,6 @@ const ChoicePlace = () => {
               </Option>
             ))}
           </Select>
-
-          // <Dropdown
-          //   onClick={() => {
-          //     if (selectedDong.name !== '행정동') {
-          //       setDropdownCommercialOpen(!dropdownCommercialOpen)
-          //     } else {
-          //       console.log(' 동을 먼저 선택해주세요')
-          //     }
-          //   }}
-          // >
-          //   {/* 상권 드롭다운 */}
-          //   <SelectedDistrict>{selectedCommercial.name}</SelectedDistrict>
-          //   <ArrowIcon src={down_arrow} />
-          // </Dropdown>
         )}
       </SelectPlace>
     </Place>

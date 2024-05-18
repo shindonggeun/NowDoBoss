@@ -8,78 +8,6 @@ const GlobalStyles = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
     }
-    
-    @font-face {
-        font-family: "Pretendard";
-        font-style: normal;
-        font-weight: 100;
-        src: url('/fonts/Pretendard-Thin.woff2') format('woff2');
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: "Pretendard";
-        font-style: normal;
-        font-weight: 200;
-        src: url('/fonts/Pretendard-ExtraLight.woff2') format('woff2');
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: "Pretendard";
-        font-style: normal;
-        font-weight: 300;
-        src: url('/fonts/Pretendard-Light.woff2') format('woff2');
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: "Pretendard";
-        font-style: normal;
-        font-weight: 400;
-        src: url('/fonts/Pretendard-Regular.woff2') format('woff2');
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: "Pretendard";
-        font-style: normal;
-        font-weight: 500;
-        src: url('/fonts/Pretendard-Medium.woff2') format('woff2');
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: "Pretendard";
-        font-style: normal;
-        font-weight: 600;
-        src: url('/fonts/Pretendard-SemiBold.woff2') format('woff2');
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: "Pretendard";
-        font-style: normal;
-        font-weight: 700;
-        src: url('/fonts/Pretendard-Bold.woff2') format('woff2');
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: "Pretendard";
-        font-style: normal;
-        font-weight: 800;
-        src: url('/fonts/Pretendard-ExtraBold.woff2') format('woff2');
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: "Pretendard";
-        font-style: normal;
-        font-weight: 900;
-        src: url('/fonts/Pretendard-Black.woff2') format('woff2');
-        font-display: swap;
-    }
 
     html {
         font-family: 'Pretendard', sans-serif;
@@ -138,26 +66,6 @@ const GlobalStyles = createGlobalStyle`
     /* 스크롤바 핸들을 호버 시 스타일 */
     ::-webkit-scrollbar-thumb:hover {
         background: #999;
-    }
-    
-    // swal2 node modules 들어가서 찾아온 icon 경로
-    div:where(.swal2-icon).swal2-warning.swal2-icon-show {
-        animation: swal2-animate-error-icon 0.5s;
-        width: 100%;
-        top: 15px;
-    }
-
-    // swal2 기본 버튼 색상 변경 로직
-    div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
-        border: 0;
-        border-radius: 0.25em;
-        background: initial;
-        background-color: #233eff;
-        color: #fff;
-        font-size: 1em;
-    }
-    div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm:focus {
-        box-shadow: 0 0 0 3px rgba(35, 62, 225, 0.5);
     }
 
 `

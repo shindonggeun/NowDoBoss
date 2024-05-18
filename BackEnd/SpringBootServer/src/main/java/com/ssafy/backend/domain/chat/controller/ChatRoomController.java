@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,9 +31,7 @@ public class ChatRoomController {
             description = "채팅방 목록을 조회하는 기능입니다."
     )
     @GetMapping
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<ChatRoomListResponse>>> selectMyChatRooms(@AuthenticationPrincipal MemberLoginActive loginActive,
-                                                           Long lastId) {
+    public ResponseEntity<Message<List<ChatRoomListResponse>>> selectMyChatRooms(Long lastId) {
         List<ChatRoomListResponse> response = chatRoomService.selectChatRooms(lastId);
         return ResponseEntity.ok().body(Message.success(response));
     }
@@ -67,7 +66,7 @@ public class ChatRoomController {
     @PostMapping
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<CreateChatRoomResponse>> createChatRoom(@AuthenticationPrincipal MemberLoginActive loginActive,
-                                                        @RequestBody CreateChatRoomRequest request) {
+                                                        @Validated @RequestBody CreateChatRoomRequest request) {
 
         Long chatRoomId = chatRoomService.createChatRoom(loginActive.id(), request);
         CreateChatRoomResponse response = new CreateChatRoomResponse(chatRoomId);

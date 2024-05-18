@@ -9,6 +9,8 @@ const ChatSearchBar = () => {
   const navigate = useNavigate()
   const { roomId } = useParams()
   const [userId, setUserId] = useState(0)
+  // 마지막 카드의 아이디값
+  const [lastId, setLastId] = useState<number>(0)
   const [searchContent, setSearchContent] = useState<string>('')
   const [debouncedSearchContent] = useDebounce(searchContent, 500)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -34,11 +36,18 @@ const ChatSearchBar = () => {
     }
   }, [])
 
+  const lastCardRef = useRef(null)
+  const [hasMoreData, setHasMoreData] = useState(true)
+  const [articleList, setArticleList] = useState<
+    { id: number; name: string }[]
+  >([])
+
   // 내 채팅방 목록 불러오는 로직
-  const { data, isLoading } = useQuery({
-    queryKey: ['fetchMyRooms', debouncedSearchContent],
-    queryFn: () => fetchMyRooms(debouncedSearchContent),
-    enabled: !!userId,
+  const { data } = useQuery({
+    queryKey: ['fetchMyRooms', lastId, debouncedSearchContent],
+    queryFn: () =>
+      fetchMyRooms({ lastId, searchContent: debouncedSearchContent }),
+    enabled: !!userId || hasMoreData,
   })
 
   useEffect(() => {
@@ -47,19 +56,70 @@ const ChatSearchBar = () => {
     }
   }, [data])
 
+  // 가져온 값으로 채우기
+  useEffect(() => {
+    if (data?.dataBody) {
+      setArticleList([])
+      setArticleList(prevArticleList => [...prevArticleList, ...data.dataBody])
+    }
+  }, [data])
+
+  useEffect(() => {
+    const currentRef = lastCardRef.current
+    const observer = new IntersectionObserver(
+      async entries => {
+        // ref가 존재하는지 (배열이 존재하는지) + 가져온 데이터가 빈 배열인지
+        if (entries[0].isIntersecting && hasMoreData) {
+          setLastId(articleList[articleList.length - 1].id)
+          const newArticles = await fetchMyRooms({ lastId, searchContent })
+
+          if (!newArticles.dataBody.length) {
+            setHasMoreData(false)
+          } else {
+            setArticleList(prevArticleList => [
+              ...prevArticleList,
+              ...newArticles.dataBody,
+            ])
+          }
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 1,
+      },
+    )
+
+    if (currentRef) {
+      observer.observe(currentRef)
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef)
+      }
+    }
+  }, [articleList, hasMoreData, lastCardRef, lastId, searchContent])
+
+  // 카드 목록 반복하는 로직 재사용을 위한 분리
   const renderChatCards = () =>
-    data.dataBody.map((chatCard: { id: number; name: string }) => (
-      <c.ChatCard
-        key={chatCard.id}
-        $isChoice={roomId === chatCard.id.toString()}
-        onClick={() => {
-          setIsOpen(false)
-          navigate(`/chatting/${chatCard.id}`)
-        }}
-      >
-        <c.Text>{chatCard.name}</c.Text>
-      </c.ChatCard>
-    ))
+    articleList.map((chatCard: { id: number; name: string }, index: number) => {
+      const isLastElement =
+        index === articleList.length - 1 && articleList.length >= 5
+      return (
+        <c.ChatCard
+          ref={isLastElement ? lastCardRef : null}
+          key={chatCard.id}
+          $isChoice={roomId === chatCard.id.toString()}
+          onClick={() => {
+            setIsOpen(false)
+            navigate(`/chatting/${chatCard.id}`)
+          }}
+        >
+          <c.Text>{chatCard.name}</c.Text>
+        </c.ChatCard>
+      )
+    })
 
   // 작은 화면일 때 모달 이외의 부분을 누르면 해당 컴포넌트 닫기
   useEffect(() => {
@@ -94,14 +154,14 @@ const ChatSearchBar = () => {
             onChange={e => setSearchContent(e.target.value)}
           />
         </c.Group>
-        {data &&
-          !isLoading &&
+        {Array.isArray(articleList) &&
+          articleList.length > 0 &&
           (isMobile ? (
             isOpen && (
               <c.ChatListDiv ref={modalRef}>{renderChatCards()}</c.ChatListDiv>
             )
           ) : (
-            <c.Div>{renderChatCards()}</c.Div>
+            <c.ChatListColDiv>{renderChatCards()}</c.ChatListColDiv>
           ))}
       </c.RowDiv>
     </c.Div>

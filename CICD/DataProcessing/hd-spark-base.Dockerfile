@@ -5,6 +5,8 @@ FROM ubuntu:latest
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y curl openssh-server rsync wget vim iputils-ping htop openjdk-8-jdk python3 python3-pip python3-venv
 
+# python 명령어를 python3로 링크
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # 하둡 다운로드 및 설치
 RUN wget http://mirror.navercorp.com/apache/hadoop/common/hadoop-3.2.4/hadoop-3.2.4.tar.gz \
@@ -27,6 +29,7 @@ RUN /opt/venv/bin/pip install pyspark
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV SPARK_HOME=/usr/local/spark
+ENV PYSPARK_PYTHON=/opt/venv/bin/python
 ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
 # 디렉토리 생성

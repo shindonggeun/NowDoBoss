@@ -72,7 +72,7 @@ schedule = AsyncIOScheduler(daemon=True, timezone='Asia/Seoul')
     
 # 추가하고 싶은 작업을 add_job 매서드를 통해 설정한다. 
 # 이 코드는 2초 간격으로 실행하라는 의미이다 
-schedule.add_job(scheduler, 'cron', hour='01',minute='32', id='test') 
+schedule.add_job(scheduler, 'cron', hour='17',minute='25', id='test') 
     
 # 스케줄을 start()로 호출한다 
 schedule.start()

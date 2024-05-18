@@ -67,7 +67,7 @@ export const Search = styled.div`
   width: 400px;
   height: auto;
 
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 500px) {
     font-size: 0.9rem;
     top: auto;
     bottom: 0;
@@ -82,7 +82,7 @@ export const ReduceButton = styled.div`
   top: 0;
   height: auto;
 
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 500px) {
     display: none;
   }
 `
@@ -111,7 +111,7 @@ export const Report = styled.div<{ $isSubmit: boolean }>`
 
 export const ReportContainer = styled.div`
   width: 550px;
-  height: auto;
+  height: calc(100vh - 68px);
   border: 2px solid #d9d9d9;
   background-color: white;
   border-radius: 0 5px 5px 0;
@@ -119,7 +119,6 @@ export const ReportContainer = styled.div`
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  max-height: calc(100vh - 75px);
 
   @media only screen and (max-width: 680px) {
     font-size: 0.9rem;
@@ -132,3 +131,5 @@ export const ReportContainer = styled.div`
     box-shadow: none;
   }
 `
+
+export const Div = styled.div``

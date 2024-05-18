@@ -25,8 +25,8 @@ update_host() {
 }
 
 # IP 주소와 호스트명을 사용하여 업데이트
-update_host "172.24.0.100" "master1"
-update_host "172.24.0.101" "worker1"
-update_host "172.24.0.102" "worker2"
+update_host "172.24.48.100" "master1"
+update_host "172.24.48.101" "worker1"
+update_host "172.24.48.102" "worker2"
 
 echo "/etc/hosts 파일이 업데이트되었습니다."

@@ -1,6 +1,5 @@
 import * as c from '@src/components/styles/simulation/ReportAnalysisStyle'
 import { SimulationReportType } from '@src/types/SimulationType'
-import ReportStore from '@src/stores/reportStore'
 // import blueCheck from '@src/assets/blue_check_icon.svg'
 import greenCheck from '@src/assets/green_check_icon.svg'
 import ContainerBox from '@src/common/ContainerBox'
@@ -18,7 +17,8 @@ const ReportKeyMoney = ({
 }: {
   ReportData: SimulationReportType
 }) => {
-  const { sigungu } = ReportStore()
+  const { gugun } = ReportData.request
+
   const Keymoney = ReportData.keyMoneyInfo
 
   return (
@@ -36,7 +36,7 @@ const ReportKeyMoney = ({
           할 수 있습니다.
         </c.GrayBoxText>
         <c.GrayBoxText>
-          {sigungu}에서{' '}
+          {gugun}에서{' '}
           <c.GrayBoxTextEmphasis>
             권리금이 발생한 거래 비율은 {Keymoney.keyMoneyRatio}%
           </c.GrayBoxTextEmphasis>

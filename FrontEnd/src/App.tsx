@@ -1,5 +1,5 @@
 import { CookiesProvider } from 'react-cookie'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import GlobalStyles from '@src/GlobalStyles.tsx'
 import MainPage from '@src/pages/MainPage'
 import SignUpPage from '@src/pages/SignUpPage'
@@ -31,6 +31,7 @@ import CommunityListPage from '@src/pages/CommunityListPage'
 import { useEffect } from 'react'
 import ChattingListPage from '@src/pages/ChattingListPage'
 import ChattingDetailPage from '@src/pages/ChattingDetailPage'
+import ReportKakaoSharePage from '@src/pages/ReportKakaoSharePage'
 import SweetAlert2 from '@src/SweetAlert2'
 import './index.css'
 
@@ -39,6 +40,7 @@ import '@src/util/auth/firebaseMessage'
 
 // 헤더 여부 설정하는 파일
 import ConditionalHeader from '@src/util/ConditionalHeader'
+import useAutoRefreshToken from '@src/util/auth/useAutoRefreshToken'
 
 declare global {
   interface Window {
@@ -47,6 +49,9 @@ declare global {
 }
 
 function App() {
+  // accessToken 만료 여부 체크 로직
+  useAutoRefreshToken()
+
   function setScreenSize() {
     const vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty('--vh', `${vh}px`)
@@ -62,64 +67,61 @@ function App() {
     <CookiesProvider>
       <GlobalStyles />
       <SweetAlert2 />
-      <BrowserRouter>
-        <ConditionalHeader />
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          {/* 회원 */}
-          <Route path="/register" element={<SignUpPage />} />
-          <Route path="/register/general" element={<SignUpGeneralPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/member/loading/:provider"
-            element={<SocialLoadingPage />}
-          />
-          <Route path="/profile/*" element={<ProfilePage />}>
-            <Route path="bookmarks" element={<BookmarksPage />}>
-              <Route path="" element={<BookmarksListPage />} />
-              <Route path="analysis" element={<AnalysisBookmarksPage />} />
-              <Route path="recommend" element={<RecommendBookmarksPage />} />
-              <Route path="simulation" element={<SimulationBookmarksPage />} />
-            </Route>
-            <Route path="settings/*" element={<SettingsPage />}>
-              <Route path="edit" element={<EditProfilePage />} />
-              <Route path="change-password" element={<ChangePasswordPage />} />
-              <Route path="withdraw" element={<WithdrawPage />} />
-            </Route>
+      <ConditionalHeader />
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        {/* 회원 */}
+        <Route path="/register" element={<SignUpPage />} />
+        <Route path="/register/general" element={<SignUpGeneralPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/member/loading/:provider"
+          element={<SocialLoadingPage />}
+        />
+        <Route path="/profile/*" element={<ProfilePage />}>
+          <Route path="bookmarks" element={<BookmarksPage />}>
+            <Route path="" element={<BookmarksListPage />} />
+            <Route path="analysis" element={<AnalysisBookmarksPage />} />
+            <Route path="recommend" element={<RecommendBookmarksPage />} />
+            <Route path="simulation" element={<SimulationBookmarksPage />} />
           </Route>
-          <Route path="/account-deleted" element={<AccountDeletedPage />} />
-          {/* 상권 */}
-          <Route path="/status" element={<StatusPage />} />
-          <Route path="/analysis" element={<AnalysisPage />}>
-            <Route path="simulation" element={<SimulationPage />} />
-            <Route
-              path="simulation/report"
-              element={<SimulationReportPage />}
-            />
-            <Route
-              path="simulation/compare"
-              element={<SimulationReportComparePage />}
-            />
+          <Route path="settings/*" element={<SettingsPage />}>
+            <Route path="edit" element={<EditProfilePage />} />
+            <Route path="change-password" element={<ChangePasswordPage />} />
+            <Route path="withdraw" element={<WithdrawPage />} />
           </Route>
-          <Route path="/recommend" element={<RecommendPage />} />
-          <Route path="/simulation" element={<SimulationPage />} />
-          <Route path="/simulation/report" element={<SimulationReportPage />} />
+        </Route>
+        <Route path="/account-deleted" element={<AccountDeletedPage />} />
+        {/* 상권 */}
+        <Route path="/status" element={<StatusPage />} />
+        <Route path="/analysis" element={<AnalysisPage />}>
+          <Route path="simulation" element={<SimulationPage />} />
+          <Route path="simulation/report" element={<SimulationReportPage />} />
           <Route
-            path="/simulation/compare"
+            path="simulation/compare"
             element={<SimulationReportComparePage />}
           />
-          {/* 커뮤니티 */}
-          <Route path="/community/*" element={<CommunityPage />}>
-            <Route path="list" element={<CommunityListPage />} />
-            <Route path="register" element={<CommunityRegisterPage />} />
-            <Route path=":communityId" element={<CommunityDetailPage />} />
-          </Route>
-          <Route path="/chatting/*" element={<ChattingPage />}>
-            <Route path="list" element={<ChattingListPage />} />
-            <Route path=":roomId" element={<ChattingDetailPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+        </Route>
+        <Route path="/recommend" element={<RecommendPage />} />
+        <Route path="/simulation" element={<SimulationPage />} />
+        <Route path="/simulation/report" element={<SimulationReportPage />} />
+        <Route
+          path="/simulation/compare"
+          element={<SimulationReportComparePage />}
+        />
+        {/* 커뮤니티 */}
+        <Route path="/community/*" element={<CommunityPage />}>
+          <Route path="list" element={<CommunityListPage />} />
+          <Route path="register" element={<CommunityRegisterPage />} />
+          <Route path=":communityId" element={<CommunityDetailPage />} />
+        </Route>
+        <Route path="/chatting/*" element={<ChattingPage />}>
+          <Route path="list" element={<ChattingListPage />} />
+          <Route path=":roomId" element={<ChattingDetailPage />} />
+        </Route>
+        {/*  시뮬레이션 카카오 공유 페이지 */}
+        <Route path="/share/:token" element={<ReportKakaoSharePage />} />
+      </Routes>
     </CookiesProvider>
   )
 }

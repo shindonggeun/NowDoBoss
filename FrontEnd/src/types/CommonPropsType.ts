@@ -23,6 +23,7 @@ export type DoughnutChartPropsType = {
   labels: string[]
   value: number[]
   textCenter: string
+  subTextCenter: string
 }
 
 export type HalfDoughnutChartPropsType = {

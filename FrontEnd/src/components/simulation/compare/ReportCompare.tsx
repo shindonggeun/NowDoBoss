@@ -47,10 +47,10 @@ const SimulationReportCompare = ({ layout, setLayout }: ModalType) => {
     setLayout('center')
   }, [setLayout])
 
-  // 시뮬레이션 목록 리스트 조회
+  // 시뮬레이션 목록 리스트 조회 - 무한스크롤? 처리
   const { data, isLoading } = useQuery<SimulationSaveBody>({
     queryKey: ['SavedSimulationLists'],
-    queryFn: () => fetchSavedList(),
+    queryFn: () => fetchSavedList(0, 10),
   })
 
   // 레포트 생성
@@ -72,13 +72,13 @@ const SimulationReportCompare = ({ layout, setLayout }: ModalType) => {
   useEffect(() => {
     if (data && firstSelected !== null) {
       const reportCreateData: SimulationDataType = {
-        isFranchisee: data.dataBody[firstSelected].isFranchisee,
-        brandName: data.dataBody[firstSelected].brandName,
-        gugun: data.dataBody[firstSelected].gugun,
-        serviceCode: data.dataBody[firstSelected].serviceCode,
-        serviceCodeName: data.dataBody[firstSelected].serviceCode,
-        storeSize: data.dataBody[firstSelected].storeSize,
-        floor: data.dataBody[firstSelected].floor,
+        isFranchisee: data.dataBody.data[firstSelected].isFranchisee,
+        brandName: data.dataBody.data[firstSelected].brandName,
+        gugun: data.dataBody.data[firstSelected].gugun,
+        serviceCode: data.dataBody.data[firstSelected].serviceCode,
+        serviceCodeName: data.dataBody.data[firstSelected].serviceCode,
+        storeSize: data.dataBody.data[firstSelected].storeSize,
+        floor: data.dataBody.data[firstSelected].floor,
         selectedType: 'first',
       }
 
@@ -90,13 +90,13 @@ const SimulationReportCompare = ({ layout, setLayout }: ModalType) => {
   useEffect(() => {
     if (data && secondSelected !== null) {
       const reportCreateData: SimulationDataType = {
-        isFranchisee: data.dataBody[secondSelected].isFranchisee,
-        brandName: data.dataBody[secondSelected].brandName,
-        gugun: data.dataBody[secondSelected].gugun,
-        serviceCode: data.dataBody[secondSelected].serviceCode,
-        serviceCodeName: data.dataBody[secondSelected].serviceCode,
-        storeSize: data.dataBody[secondSelected].storeSize,
-        floor: data.dataBody[secondSelected].floor,
+        isFranchisee: data.dataBody.data[secondSelected].isFranchisee,
+        brandName: data.dataBody.data[secondSelected].brandName,
+        gugun: data.dataBody.data[secondSelected].gugun,
+        serviceCode: data.dataBody.data[secondSelected].serviceCode,
+        serviceCodeName: data.dataBody.data[secondSelected].serviceCode,
+        storeSize: data.dataBody.data[secondSelected].storeSize,
+        floor: data.dataBody.data[secondSelected].floor,
         selectedType: 'second',
       }
 

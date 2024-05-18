@@ -53,6 +53,12 @@ export const Container = styled.div`
 
   @media (max-width: 768px) {
     width: 90vw;
+
+    ::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera에 대한 모바일 설정 */
+    }
+    -ms-overflow-style: none; /* IE와 Edge에 대한 모바일 설정 */
+    scrollbar-width: none; /* Firefox에 대한 모바일 설정 */
   }
 `
 
@@ -88,6 +94,10 @@ export const SelctionReportHeader = styled.div`
   left: 0;
   right: 0;
   z-index: 1000;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 `
 
 export const SelctionReportContainer = styled.div`

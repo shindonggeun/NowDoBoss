@@ -3,10 +3,10 @@ import Box from '@mui/joy/Box'
 import Typography from '@mui/joy/Typography'
 import Chip from '@mui/joy/Chip'
 import Select from '@mui/joy/Select'
-import { SimulationSaveType } from '@src/types/SimulationType'
+import { SimulationMySavedType } from '@src/types/SimulationType'
 
 interface CompareTopType {
-  savedList: SimulationSaveType[]
+  savedList: SimulationMySavedType
   setSelected: (value: number | null) => void
 }
 const CompareTop = ({ savedList, setSelected }: CompareTopType) => {
@@ -26,7 +26,7 @@ const CompareTop = ({ savedList, setSelected }: CompareTopType) => {
         fontFamily: 'Pretendard',
       }}
     >
-      {savedList.map((data, i) => {
+      {savedList.data.map((data, i) => {
         const label = `${
           data.isFranchisee ? `${data.brandName}, ` : ''
         } ${data.gugun}, ${data.serviceCodeName}`
@@ -42,7 +42,7 @@ const CompareTop = ({ savedList, setSelected }: CompareTopType) => {
         }
         return (
           <Option
-            key={i}
+            key={data.id}
             value={i}
             label={label}
             onClick={() => setSelected(i)}

@@ -11,9 +11,10 @@ import ReportMonthAnalysis from '@src/components/simulation/report/ReportMonthAn
 import ReportKeyMoney from '@src/components/simulation/report/ReportKeyMoney'
 import ReportMyGoal from '@src/components/simulation/report/ReportMyGoal'
 import ReportFranchise from '@src/components/simulation/report/ReportFranchise'
-import SearchLoading from '@src/common/SearchLoading'
 import ReportWarning from '@src/components/simulation/report/ReportWarning'
-import Snackbar from '@mui/joy/Snackbar'
+import SearchLoading from '@src/common/SearchLoading'
+import SnackBarFail from '@src/common/SnackBarFail'
+import SnackBarSuccess from '@src/common/SnackBarSuccess'
 
 const SimulReportContainer = () => {
   const { resetSimulButton } = useSimulationStore()
@@ -28,9 +29,13 @@ const SimulReportContainer = () => {
   const [isOpen, setIsOpen] = useState(true)
   const navigate = useNavigate()
   const [alramOpen, setAlramOpen] = useState(false)
+  const [alramFail, setAlramFail] = useState(false)
 
   const onClickAlram = (data: boolean) => {
     setAlramOpen(data)
+  }
+  const onClickFail = (data: boolean) => {
+    setAlramFail(data)
   }
 
   const onClose = () => {
@@ -54,7 +59,8 @@ const SimulReportContainer = () => {
             <ReportHeader
               onClose={onClose}
               onClickAlram={onClickAlram}
-              totalPrice={location.state.res.dataBody.totalPrice}
+              onClickFail={onClickFail}
+              ReportData={location.state.res.dataBody}
             />
             {spinner ? (
               <SearchLoading />
@@ -76,18 +82,8 @@ const SimulReportContainer = () => {
               </c.FadeInContainer>
             )}
           </c.Container>
-          <Snackbar
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            autoHideDuration={1100}
-            open={alramOpen}
-            variant="soft"
-            color="primary"
-            onClose={() => {
-              setAlramOpen(false)
-            }}
-          >
-            분석 결과가 저장되었습니다!
-          </Snackbar>
+          <SnackBarSuccess alramOpen={alramOpen} onClickAlram={onClickAlram} />
+          <SnackBarFail alramFail={alramFail} onClickFail={onClickFail} />
         </c.Overlay>
       )}
     </div>

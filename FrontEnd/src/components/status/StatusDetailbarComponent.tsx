@@ -4,6 +4,7 @@ import DetailStoreNumberComponent from '@src/components/status/DetailStoreNumber
 import DetailOpenRateComponent from '@src/components/status/DetailOpenRateComponent'
 import DetailCloseRateComponent from '@src/components/status/DetailCloseRateComponent'
 import DetailAnalysisComponent from '@src/components/status/DetailAnalysisComponent'
+import DetailCommercialComponent from '@src/components/status/DetailCommercialComponent'
 import Xmark from 'src/assets/xmark_solid_nomal.svg'
 import bookmark from 'src/assets/bookmark.svg'
 import { useRef, useState, useEffect, useMemo } from 'react'
@@ -40,10 +41,10 @@ const StatusDetailbarComponent = () => {
         name: '매출분석',
         component: DetailAnalysisComponent,
       },
-      // {
-      //   name: '요약',
-      //   component: DetailCommercialComponent,
-      // },
+      {
+        name: '요약',
+        component: DetailCommercialComponent,
+      },
     ],
     [],
   )

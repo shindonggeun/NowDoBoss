@@ -19,9 +19,23 @@ const SocialLoadingContainer = () => {
 
   useEffect(() => {
     if (data) {
+      // 실패
       if (data.dataHeader.successCode === 1) {
-        console.log('로그인실패 : ', data.dataHeader.resultMessage)
-      } else {
+        Swal.fire({
+          title: '이미 가입되어 있는 이메일입니다.',
+          text: '로그인하여 다양한 서비스를 이용하세요.',
+          icon: 'warning',
+          confirmButtonText: '확인',
+        }).then(res => {
+          if (res.value) {
+            navigate('/login')
+          }
+        })
+
+        navigate('/login')
+      }
+      // 성공
+      else {
         // 쿠키에 accessToken 저장 (7일 동안 유지)
         const { accessToken } = data.dataBody.tokenInfo
         setCookie('accessToken', accessToken, {

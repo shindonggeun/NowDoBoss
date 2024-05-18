@@ -65,33 +65,6 @@ export const AgeDetail = styled.div`
   align-items: center;
 `
 
-interface AgeBarType {
-  rank: string
-  data: number
-}
-export const AgeBar = styled.div<AgeBarType>`
-  margin: 1rem;
-  width: 2.5vw;
-  height: ${({ data }) => `${data * 1.5}rem`};
-
-  ${({ rank }) => {
-    switch (rank) {
-      case 'first':
-        return 'background-color: #1C42C9;'
-      case 'second':
-        return 'background-color: #5472DD;'
-      case 'third':
-        return 'background-color: #A2ACCD;'
-      default:
-        return 'background-color: blue;'
-    }
-  }};
-
-  @media (max-width: 768px) {
-    height: ${({ data }) => `${data * 1.2}rem`};
-  }
-`
-
 export const GenderContainer = styled.div`
   flex: 1;
   display: flex;
@@ -255,6 +228,9 @@ export const FranchiseHeader = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  @media (max-width: 768px) {
+    padding: 0 10px;
+  }
 `
 
 export const FranchiseHeaderLeft = styled.div`
@@ -330,6 +306,9 @@ export const FranchiseContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   margin: 1rem 0;
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 `
 
 export const FranchiseBox = styled.div`

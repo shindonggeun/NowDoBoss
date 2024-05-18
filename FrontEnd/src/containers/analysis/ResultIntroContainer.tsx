@@ -5,6 +5,7 @@ import analysisStore from '@src/stores/analysisStore'
 import { postAnalysisBookmarks } from '@src/api/analysisApi'
 import { AnalysisBookmarksDataType } from '@src/types/AnalysisType'
 import ResultIntro from '@src/components/analysis/ResultIntro'
+import WarningBox from '@src/components/analysis/WarningBox'
 import * as r from '@src/containers/analysis/ResultInroContainerStyle'
 
 const ResultIntroContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
@@ -41,6 +42,7 @@ const ResultIntroContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
         <img src="/images/Buildings.png" alt="buildings" />
       </r.ImgDiv>
       <ResultIntro handlePostAnalysisBookmarks={handlePostAnalysisBookmarks} />
+      <WarningBox />
     </r.Container>
   )
 })

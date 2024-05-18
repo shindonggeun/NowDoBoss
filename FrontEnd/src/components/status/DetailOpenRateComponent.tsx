@@ -64,7 +64,7 @@ const DetailOpenRateComponent = () => {
           <c.MixInnerConatiner>
             <c.AnalysisTitle>개업률 분석</c.AnalysisTitle>
             <c.AnalysisSubTitle>
-              개업률이 가장 높은 동은
+              개업률이 가장 높은 동은{' '}
               <c.AnalysiEemphasis>
                 {OpenData![0].administrationCodeName}
               </c.AnalysiEemphasis>
@@ -79,7 +79,7 @@ const DetailOpenRateComponent = () => {
             />
           </c.MixInnerConatiner>
           <c.MixInnerConatiner>
-            <c.AnalysisTitle>평균 영업 영업개월</c.AnalysisTitle>
+            <c.AnalysisTitle>평균 운영 영업개월</c.AnalysisTitle>
             <c.AnalysisSubTitle>
               운영 영업개월은 서울시 평균보다
               <c.AnalysiEemphasis>

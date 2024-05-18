@@ -7,6 +7,7 @@ import TripleBar from '@src/common/TripleBarChart'
 const ReportGender = ({ ReportData }: { ReportData: SimulationReportType }) => {
   const GendarAndAgeDInfo = ReportData.genderAndAgeAnalysisInfo
 
+  const Category = ReportData.request.serviceCodeName
   const AgeInfos = [
     {
       rank: 'second',
@@ -29,7 +30,7 @@ const ReportGender = ({ ReportData }: { ReportData: SimulationReportType }) => {
     <c.Container>
       <c.Title>고객남여, 연령대별 분석</c.Title>
       <c.SubTitle>
-        베이커리는 <c.Emphasis>{GendarAndAgeDInfo.first.name}</c.Emphasis>와
+        {Category}는 <c.Emphasis>{GendarAndAgeDInfo.first.name}</c.Emphasis>와
         <c.Emphasis>
           {GendarAndAgeDInfo.maleSalesPercent >
           GendarAndAgeDInfo.femaleSalesPercent

@@ -1,14 +1,15 @@
 import * as c from '@src/components/styles/simulation/ReportDetailStyle'
 import LightIcon from '@src/assets/lightBulbIcon.svg'
-import useSimulationStore from '@src/stores/simulationStore'
 import { SimulationReportType } from '@src/types/SimulationType'
 
 const ReportDetail = ({ ReportData }: { ReportData: SimulationReportType }) => {
-  const { isFranchise } = useSimulationStore()
+  const isFranchise = ReportData.request.isFranchisee
+
   type DetailType = {
     name: string
     detail: string
   }
+
   // 단위면적당 임대료 계산
   const rentPriceCalcul = Math.floor(
     ReportData.detail.rentPrice / 3.3,

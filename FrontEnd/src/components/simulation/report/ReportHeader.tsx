@@ -4,32 +4,41 @@ import SaveCheckIcon from '@src/assets/saveCheckMark.svg'
 import SaveIcon from '@src/assets/saveMark.svg'
 import CompareIcon from '@src/assets/compare.svg'
 import Xmark from '@src/assets/xmark_solid_nomal.svg'
+import KakaoBtn from '@src/assets/kakaoSmBtn.png'
 import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { reportSave } from '@src/api/simulationApi'
-import useSimulationStore from '@src/stores/simulationStore'
-import useReportStore from '@src/stores/reportStore'
-import { SimulationSaveType } from '@src/types/SimulationType'
+import {
+  SimulationReportType,
+  SimulationSaveType,
+} from '@src/types/SimulationType'
 import { useNavigate } from 'react-router-dom'
+import { reportKaKaoUrl } from '@src/api/kakaoShareApi'
+import { SimulationDataType } from '@src/types/KaKaoShareType'
 
 const { Kakao } = window
 
 interface HeaderType {
   onClose: () => void
   onClickAlram: (data: boolean) => void
-  totalPrice: number
+  onClickFail: (data: boolean) => void
+  ReportData: SimulationReportType
 }
-const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
-  const {
-    isFranchise,
-    brandName,
-    subCategoryName,
-    subCategoryCode,
-    bulidingSize,
-    floor,
-  } = useSimulationStore()
+const ReportHeader = ({
+  onClose,
+  ReportData,
+  onClickAlram,
+  onClickFail,
+}: HeaderType) => {
+  const isFranchise = ReportData.request.isFranchisee
+  const { brandName } = ReportData.request
+  const subCategoryName = ReportData.request.serviceCodeName
+  const subCategoryCode = ReportData.request.serviceCode
+  const bulidingSize = ReportData.request.storeSize
+  const { floor } = ReportData.request
+  const { gugun } = ReportData.request
   const navigate = useNavigate()
-  const { sigungu } = useReportStore()
+
   const [isSaved, setIsSaved] = useState<boolean>(false)
 
   // 창업 시뮬레이션 비교하기 버튼 클릭 핸들러
@@ -40,21 +49,26 @@ const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
   // 레포트 분석 저장
   const { mutate: mutateSaveReport } = useMutation({
     mutationFn: reportSave,
-    onSuccess: () => {
-      onClickAlram(true)
+    onSuccess: res => {
+      if (res.status === 500) {
+        onClickFail(true)
+      }
+      if (res.dataHeader && res.dataHeader.successCode) {
+        onClickAlram(true)
+        setIsSaved(!isSaved)
+      }
     },
     onError: error => {
-      console.error(error)
+      console.log(error)
     },
   })
 
   const onClickSave = () => {
-    setIsSaved(!isSaved)
     const saveReportData: SimulationSaveType = {
-      totalPrice,
+      totalPrice: ReportData.totalPrice,
       isFranchisee: isFranchise!,
       brandName,
-      gugun: sigungu,
+      gugun,
       serviceCode: subCategoryCode,
       serviceCodeName: subCategoryName,
       storeSize: bulidingSize,
@@ -71,44 +85,63 @@ const ReportHeader = ({ onClose, totalPrice, onClickAlram }: HeaderType) => {
     // console.log(Kakao.isInitialized())
   }, [])
 
-  // const localUrl = 'http://localhost:5173/analysis'
-  const serverUrl = 'https://k10c208.p.ssafy.io/analysis'
-
-  const shareKakao = () => {
-    Kakao.Share.sendDefault({
-      objectType: 'feed',
-      content: {
-        title: '나도 창업 할 수 있다!!!',
-        description: '테스트중~~',
-        imageUrl:
-          'https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg',
-        link: {
-          mobileWebUrl: serverUrl,
-          webUrl: serverUrl,
-        },
+  // 카카오톡 share 탬플릿
+  const serverUrl = 'http://localhost:5173'
+  // const serverUrl = 'https://k10c208.p.ssafy.io'
+  const shareKakao = (data: string) => {
+    window.Kakao.Link.sendCustom({
+      templateId: 107914,
+      templateArgs: {
+        Server_Url: serverUrl,
+        // Path: 'api/v1/share',
+        Path: 'share',
+        Token: data,
       },
-      buttons: [
-        {
-          title: 'Now Do Boss',
-          link: {
-            mobileWebUrl: serverUrl,
-            webUrl: serverUrl,
-          },
-        },
-      ],
     })
   }
+
+  // 카톡 공유 temp
+  const { mutate: mutateKakaoReport } = useMutation({
+    mutationFn: reportKaKaoUrl,
+    onSuccess: res => {
+      shareKakao(res.dataBody.token)
+    },
+    onError: error => {
+      console.error(error)
+    },
+  })
 
   const onClickCompare = async () => {
     await handleSimulationCompareClick()
   }
+
+  const onClickShare = () => {
+    const reportCreateData: SimulationDataType = {
+      url: `${serverUrl}/api/v1/analysis/simulation/report`,
+      input: {
+        isFranchisee: isFranchise,
+        brandName,
+        gugun,
+        serviceCode: subCategoryCode,
+        serviceCodeName: subCategoryName,
+        storeSize: bulidingSize,
+        floor,
+      },
+    }
+    mutateKakaoReport(reportCreateData)
+  }
+
   return (
     <c.SelctionReportHeader>
       <c.SelctionReportContainer>
-        <c.HeaderLeft onClick={() => shareKakao()}>
+        <c.HeaderLeft>
           <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
         </c.HeaderLeft>
         <c.HeaderRight>
+          <h.HeaderIcon onClick={onClickShare}>
+            <h.KakaoIcon src={KakaoBtn} alt="kakao" />
+            공유하기
+          </h.HeaderIcon>
           <h.HeaderIcon onClick={onClickSave}>
             {isSaved ? (
               <h.SaveIcon src={SaveCheckIcon} alt="saveCheck" />

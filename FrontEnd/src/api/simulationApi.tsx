@@ -51,9 +51,9 @@ export const reportSave = async (data: SimulationSaveType) => {
 }
 
 // 시뮬레이션 저장 목록 조회
-export const fetchSavedList = async () => {
+export const fetchSavedList = async (page: number, size: number) => {
   return customAxios
-    .get(`/simulation`)
+    .get(`/simulation?page=${page}&size=${size}`)
     .then(res => res.data)
     .catch(err => console.log(err))
 }

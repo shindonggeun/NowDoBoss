@@ -4,6 +4,7 @@ package com.ssafy.backend.domain.recommendation.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.backend.domain.commercial.dto.info.BlueOceanInfo;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationAreaResponse;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
 import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
@@ -11,6 +12,8 @@ import com.ssafy.backend.domain.commercial.exception.CommercialException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.recommendation.exception.RecommendationErrorCode;
 import com.ssafy.backend.domain.recommendation.exception.RecommendationException;
+import com.ssafy.backend.global.common.document.DataDocument;
+import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
 import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
@@ -56,8 +59,8 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final AreaCommercialRepository areaCommercialRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private final RecommendationRepository recommendationRepository;
-    private final KafkaProducer kafkaProducer;
     private final IncomeCommercialRepository incomeCommercialRepository;
+    private final DataRepository dataRepository;
 
     @Override
     public Mono<List<RecommendationResponse>> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
@@ -73,7 +76,7 @@ public class RecommendationServiceImpl implements RecommendationService{
                 .collectList()
                 .doOnNext(responses -> {
                     if (!responses.isEmpty()) {
-                        //saveRecommendationsToRedis(id, responses);
+                        saveRecommendationsToRedis(id, responses);
                     }
                 });
 
@@ -99,20 +102,22 @@ public class RecommendationServiceImpl implements RecommendationService{
                 });
                 for (RecommendationResponse dto: list){
                     if (dto.commercialCode().equals(commercialCode)){
-//                        // 카프카 이벤트 발생
-//                        CommercialKafkaInfo commercialKafkaInfo = new CommercialKafkaInfo(id, "recommendation", 1L, commercialCode, System.currentTimeMillis());
-//                        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_RECOMMENDATION, commercialKafkaInfo);
-
-                        // 추천용 데이터 카프카 토픽으로
                         DataInfo dataInfo = new DataInfo(id, commercialCode, "save");
-                        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
-
+                        // 추천 정보 저장 중복 체크
                         boolean existAnalysis = recommendationRepository.existsByUserIdAndCommercialCode(dataInfo.userId(), dataInfo.commercialCode());
 
                         if (existAnalysis) {
                             throw new RecommendationException(RecommendationErrorCode.EXIST_ANALYSIS);
                         }
 
+                        if (!dataInfo.commercialCode().equals("0")) {
+                            DataDocument dataDocument = DataDocument.builder()
+                                    .userId(dataInfo.userId())
+                                    .commercialCode(Long.parseLong(dataInfo.commercialCode()))
+                                    .action(dataInfo.action())
+                                    .build();
+                            dataRepository.save(dataDocument);
+                        }
 
                         RecommendationDocument document = RecommendationDocument.builder()
                                 .userId(id)
@@ -165,7 +170,7 @@ public class RecommendationServiceImpl implements RecommendationService{
 
         StoreCommercialInfo storeCommercialInfo = getStoreCommercialInfo(dto, periodCode);
         ClosedRateCommercialInfo closedRateCommercialInfo = getClosedRateCommercialInfo(dto, periodCode);
-        Map<String, Double> sortedMyRate = getBlueOceanAnalysis(dto, commercialCodes, periodCode);
+        List<BlueOceanInfo> sortedMyRate = getBlueOceanAnalysis(dto, commercialCodes, periodCode);
 
         return new RecommendationResponse(dto.commercialCode(),
                 areaCommercialRepository.findCommercialCodeNameByCommercialCode(dto.commercialCode()),
@@ -199,7 +204,7 @@ public class RecommendationServiceImpl implements RecommendationService{
         return new ClosedRateCommercialInfo(myClosedRate, (double) administrationStoresMap.get("administrationClosedRate"), (double) otherStoresMap.get("otherClosedRate"));
     }
 
-    private Map<String, Double> getBlueOceanAnalysis(UserResponse dto, List<String> commercialCodes, String periodCode) {
+    private List<BlueOceanInfo> getBlueOceanAnalysis(UserResponse dto, List<String> commercialCodes, String periodCode) {
         commercialCodes.add(dto.commercialCode());
         Map<String, Long> totalMap = storeCommercialRepository.getAdministrationStoreByServiceCode(commercialCodes, periodCode);
         Map<String, Long> myMap = storeCommercialRepository.getMyStoreByServiceCode(dto.commercialCode(), periodCode);
@@ -211,7 +216,17 @@ public class RecommendationServiceImpl implements RecommendationService{
                 myRate.put(str, 1.0 / (totalMap.get(str) + 1.0) * 100);
             }
         }
-        return sortAndLimitBlueOceanResults(myRate);
+        myRate = sortAndLimitBlueOceanResults(myRate);
+
+        List<BlueOceanInfo> blueOceanInfos = new ArrayList<>();
+        for (String str: myRate.keySet()){
+            if (myMap.get(str) == null){
+                blueOceanInfos.add(new BlueOceanInfo(str, 1L, totalMap.get(str)+1, myRate.get(str)));
+                continue;
+            }
+            blueOceanInfos.add(new BlueOceanInfo(str, myMap.get(str), totalMap.get(str), myRate.get(str)));
+        }
+        return blueOceanInfos;
     }
 
     private Map<String, Double> sortAndLimitBlueOceanResults(Map<String, Double> myRate) {
@@ -231,7 +246,7 @@ public class RecommendationServiceImpl implements RecommendationService{
         for (Map.Entry<String, Double> entry : list) {
             sortedMyRate.put(entry.getKey(), entry.getValue());
             c++;
-            if (c == 10) {
+            if (c == 5) {
                 break;
             }
         }
@@ -240,9 +255,9 @@ public class RecommendationServiceImpl implements RecommendationService{
 
     public Mono<List<UserResponse>> sendToFastAPIServer(Long id, String districtCode, String administrationCode) {
         // FastAPI 서버 URL 설정 - 로컬버전
-        //String fastApiUrl = "http://localhost:8001/recommend";
+        String fastApiUrl = "http://localhost:8001/recommend";
 
-        String fastApiUrl = "http://13.124.23.220:8000/recommend";
+//        String fastApiUrl = "http://13.124.23.220:8000/recommend";
 
         // 요청에 필요한 데이터 구성
         UserRequest userRequest = new UserRequest(id);
@@ -317,10 +332,10 @@ public class RecommendationServiceImpl implements RecommendationService{
             // responses를 JSON 형식으로 직렬화
             String jsonResponses = objectMapper.writeValueAsString(responses);
             // 레디스에 저장
-            redisTemplate.opsForValue().set("recommendation:" + userId, jsonResponses, 1, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set("recommendation:" + userId, jsonResponses, 10, TimeUnit.MINUTES);
         } catch (JsonProcessingException e) {
             // JSON 직렬화 실패 시 예외 처리
-            e.printStackTrace();
+            throw new RecommendationException(RecommendationErrorCode.JSON_PROCESSING);
         }
     }
 

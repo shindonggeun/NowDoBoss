@@ -100,12 +100,7 @@ const HorizontalBarChart = (props: HorizontalBarChartPropsType) => {
         const { ctx } = chart
         ctx.save()
         chart.getDatasetMeta(0).data.forEach((dataPoint, index) => {
-          // ctx.font = 'bold 11px sans-serif'
-          // ctx.fillStyle = 'grey'
-          // ctx.textAlign = 'right'
-          // ctx.fillText(data.labels[index], dataPoint.x - 6, dataPoint.y + 2)
-
-          ctx.font = 'bold 12px sans-serif'
+          ctx.font = 'bolder 12px pretendard'
           ctx.fillStyle = 'rgba(0, 0, 0, 1)'
           ctx.textAlign = 'left'
           ctx.fillText(

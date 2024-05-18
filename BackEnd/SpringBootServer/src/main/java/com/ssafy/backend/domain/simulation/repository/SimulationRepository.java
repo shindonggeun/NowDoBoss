@@ -11,4 +11,6 @@ public interface SimulationRepository extends MongoRepository<SimulationDocument
     boolean existsBySimulationDocument(SimulationDocument info);
 
     List<SimulationDocument> findByMemberId(Long memberId);
+
+    void deleteByMemberId(Long memberId);
 }

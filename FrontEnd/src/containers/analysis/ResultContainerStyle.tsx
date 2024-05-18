@@ -16,7 +16,6 @@ export const Container = styled.div`
 export const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 10vh;
   box-sizing: border-box;
   height: auto;
   padding-left: 15%;

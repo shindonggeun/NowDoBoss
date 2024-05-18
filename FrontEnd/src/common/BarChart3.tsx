@@ -75,14 +75,18 @@ const BarChart3 = (props: BarChartProps) => {
         const { ctx } = chart
         ctx.save()
         chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
-          ctx.font = 'bolder 12px pretendard'
+          const formattedPrices = data.datasets[0].data.map(price => {
+            if (price > 100000000) {
+              const billions = Math.floor(price / 100000000)
+              const millions = Math.floor(Math.floor(price % 100000000) / 10000)
+              return `${billions}억 ${millions.toLocaleString()} 만원`
+            }
+            return `${Math.floor(price / 10000).toLocaleString()} ${price === 0 ? '원' : '만원'}`
+          })
+          ctx.font = 'bolder 12px Pretendard'
           ctx.fillStyle = '#22222'
           ctx.textAlign = 'center'
-          ctx.fillText(
-            `${Math.floor(data.datasets[0].data[index] / 10000).toLocaleString()}만명`,
-            datapoint.x,
-            datapoint.y - 10,
-          )
+          ctx.fillText(formattedPrices[index], datapoint.x, datapoint.y - 10)
         })
       },
     },

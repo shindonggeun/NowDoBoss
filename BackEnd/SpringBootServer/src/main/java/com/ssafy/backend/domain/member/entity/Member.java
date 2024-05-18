@@ -1,12 +1,20 @@
 package com.ssafy.backend.domain.member.entity;
 
+import com.ssafy.backend.domain.chat.entity.ChatMessage;
+import com.ssafy.backend.domain.chat.entity.ChatRoomMember;
+import com.ssafy.backend.domain.community.entity.Comments;
+import com.ssafy.backend.domain.community.entity.Community;
 import com.ssafy.backend.domain.member.dto.MemberUpdateRequest;
 import com.ssafy.backend.domain.member.entity.enums.MemberRole;
 import com.ssafy.backend.global.common.entity.BaseEntity;
+import com.ssafy.backend.global.component.firebase.entity.DeviceToken;
 import com.ssafy.backend.global.component.oauth.vendor.enums.OAuthDomain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -52,6 +60,21 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Comment("소셜 로그인 제공업체")
     private OAuthDomain oAuthDomain;
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatMessage> chatMessages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatRoomMember> chatRoomMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DeviceToken> deviceTokens = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Community> communities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comments> comments = new ArrayList<>();
 
     public void updateProfileImageAndNickname(MemberUpdateRequest updateRequest) {
         this.nickname = updateRequest.nickname();

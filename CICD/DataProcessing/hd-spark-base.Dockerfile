@@ -29,6 +29,7 @@ RUN /opt/venv/bin/pip install pyspark
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV SPARK_HOME=/usr/local/spark
+ENV PYSPARK_PYTHON=/opt/venv/bin/python
 ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
 # 디렉토리 생성

@@ -67,7 +67,7 @@ const DetailCloseRateComponent = () => {
             <c.MixInnerConatiner>
               <c.AnalysisTitle>폐업률 분석</c.AnalysisTitle>
               <c.AnalysisSubTitle>
-                폐업률이 가장 높은 동은
+                폐업률이 가장 높은 동은{' '}
                 <c.AnalysiEemphasis>
                   {CloseData![0].administrationCodeName}
                 </c.AnalysiEemphasis>

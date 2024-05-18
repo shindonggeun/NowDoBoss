@@ -28,7 +28,7 @@ const ReportFranchise = ({
           const millions = Math.floor(franchise.totalPrice % 10000)
           formattedNumber = `${billions}억 ${millions.toLocaleString()} 만원`
         } else {
-          formattedNumber = `${franchise.totalPrice.toLocaleString()} 만원`
+          formattedNumber = `${franchise.totalPrice.toLocaleString()} ${franchise.totalPrice === 0 ? '원' : '만원'}`
         }
 
         const isUp = MyTotalPrice - franchise.totalPrice > 0
@@ -74,7 +74,8 @@ const ReportFranchise = ({
                 <c.FranchiseBox key={index}>
                   <div>{info.name}</div>
                   <c.FranchiseDetailPrice>
-                    {info.price.toLocaleString()}만원
+                    {info.price.toLocaleString()}
+                    {info.price === 0 ? '원' : '만원'}
                   </c.FranchiseDetailPrice>
                 </c.FranchiseBox>
               ))}

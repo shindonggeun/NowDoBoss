@@ -1,5 +1,9 @@
 package com.ssafy.backend.global.component.email.service;
 
+import com.ssafy.backend.domain.member.entity.Member;
+import com.ssafy.backend.domain.member.exception.MemberErrorCode;
+import com.ssafy.backend.domain.member.exception.MemberException;
+import com.ssafy.backend.domain.member.repository.MemberRepository;
 import com.ssafy.backend.global.component.email.repository.EmailRepository;
 import com.ssafy.backend.global.exception.GlobalErrorCode;
 import com.ssafy.backend.global.exception.GlobalException;
@@ -25,6 +29,7 @@ import java.util.Random;
 public class EmailServiceImpl implements EmailService {
     private final EmailRepository emailRepository; // 이메일 인증 코드 저장소
     private final JavaMailSender javaMailSender; // 이메일 발송을 위한 JavaMailSender
+    private final MemberRepository memberRepository;
 
     private static final int EXPIRES_MIN = 5; // 인증 코드의 유효 시간(분)
 
@@ -40,15 +45,24 @@ public class EmailServiceImpl implements EmailService {
             return Mono.error(new GlobalException(GlobalErrorCode.INVALID_EMAIL_ADDRESS));
         }
 
-        Mono.fromRunnable(() -> {
-            String emailCode = createKey();
-            MimeMessage mimeMessage = createMessage(toEmail, emailCode);
-            javaMailSender.send(mimeMessage); // 블로킹 호출
-            emailRepository.save(toEmail, emailCode, EXPIRES_MIN); // 블로킹 호출
-        }).subscribeOn(Schedulers.boundedElastic()).subscribe();
+        return Mono.defer(() -> {
+            // 이메일 중복 체크를 비동기적으로 수행
+            return Mono.fromCallable(() -> memberRepository.existsByEmail(toEmail))
+                    .subscribeOn(Schedulers.boundedElastic())
+                    .flatMap(exists -> {
+                        if (exists) {
+                            return Mono.error(new MemberException(MemberErrorCode.EXIST_MEMBER_EMAIL));
+                        }
 
-        // 클라이언트에게 즉시 성공 응답을 반환
-        return Mono.empty();
+                        // 이메일 코드 생성 및 전송을 비동기적으로 수행
+                        return Mono.fromRunnable(() -> {
+                            String emailCode = createKey();
+                            MimeMessage mimeMessage = createMessage(toEmail, emailCode);
+                            javaMailSender.send(mimeMessage); // 블로킹 호출
+                            emailRepository.save(toEmail, emailCode, EXPIRES_MIN); // 블로킹 호출
+                        }).subscribeOn(Schedulers.boundedElastic()).then();
+                    });
+        });
     }
 
     /**

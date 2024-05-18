@@ -67,7 +67,7 @@ export const Search = styled.div`
   width: 400px;
   height: auto;
 
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 500px) {
     font-size: 0.9rem;
     top: auto;
     bottom: 0;
@@ -82,7 +82,7 @@ export const ReduceButton = styled.div`
   top: 0;
   height: auto;
 
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 500px) {
     display: none;
   }
 `

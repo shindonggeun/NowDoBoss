@@ -31,7 +31,6 @@ public class ChatRoomController {
             description = "채팅방 목록을 조회하는 기능입니다."
     )
     @GetMapping
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<List<ChatRoomListResponse>>> selectMyChatRooms(@AuthenticationPrincipal MemberLoginActive loginActive,
                                                            Long lastId) {
         List<ChatRoomListResponse> response = chatRoomService.selectChatRooms(lastId);

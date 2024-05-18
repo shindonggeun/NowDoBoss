@@ -57,11 +57,11 @@ export const SlickChild = styled.div`
 `
 export const ChatCard = styled.div`
   border: 2px solid #d9d9d9;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
   //-3px -3px 5px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
   width: auto;
-  height: auto;
+  height: 200px;
   padding: 15px 30px;
   margin: 10px 4px;
   min-height: 155px;
@@ -109,10 +109,13 @@ export const Icon = styled.img`
 `
 
 export const VisibleName = styled.div`
+  margin-right: 2px;
   @media only screen and (max-width: 550px) {
     display: none;
   }
 `
+
+export const Div = styled.div``
 
 export const CardSubContent = styled.div`
   font-weight: 500;

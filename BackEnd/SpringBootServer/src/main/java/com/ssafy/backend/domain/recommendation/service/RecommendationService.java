@@ -15,4 +15,6 @@ public interface RecommendationService {
     void deleteCommercialRecommendation(String commercialCode, Long id);
 
     List<RecommendationDocument> getSavedCommercialRecommendationList(Long id);
+    RecommendationResponse getSavedCommercialDetail(Long userId, String commercialCode);
+
 }

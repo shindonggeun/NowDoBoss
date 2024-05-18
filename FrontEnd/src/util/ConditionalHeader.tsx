@@ -1,4 +1,4 @@
-import { useLocation, matchPath } from 'react-router-dom'
+import { matchPath, useLocation } from 'react-router-dom'
 import Header from '@src/common/Header'
 
 // 헤더 사용하지 않는 페이지 예외 적용
@@ -9,6 +9,7 @@ const ConditionalHeader = () => {
   if (
     matchPath('/login', currentPathname) ||
     matchPath('/register', currentPathname) ||
+    matchPath('/register/general', currentPathname) ||
     matchPath('/account-deleted', currentPathname)
   ) {
     return null

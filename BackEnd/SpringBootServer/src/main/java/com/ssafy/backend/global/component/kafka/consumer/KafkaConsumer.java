@@ -33,17 +33,17 @@ public class KafkaConsumer {
         log.info("상업 분석 메시지 수신 : {}", message);
     }
 
-    @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC_DATA)
-    public void handleUserData(DataInfo message) {
-        log.info("상업 분석 메시지 수신 : {}", message);
-        if (!message.commercialCode().equals("0")) {
-            DataDocument dataDocument = DataDocument.builder()
-                    .userId(message.userId())
-                    .commercialCode(Long.parseLong(message.commercialCode()))
-                    .action(message.action())
-                    .build();
-            dataRepository.save(dataDocument);
-        }
-    }
+//    @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC_DATA)
+//    public void handleUserData(DataInfo message) {
+//        log.info("상업 분석 메시지 수신 : {}", message);
+////        if (!message.commercialCode().equals("0")) {
+////            DataDocument dataDocument = DataDocument.builder()
+////                    .userId(message.userId())
+////                    .commercialCode(Long.parseLong(message.commercialCode()))
+////                    .action(message.action())
+////                    .build();
+////            dataRepository.save(dataDocument);
+////        }
+//    }
 
 }

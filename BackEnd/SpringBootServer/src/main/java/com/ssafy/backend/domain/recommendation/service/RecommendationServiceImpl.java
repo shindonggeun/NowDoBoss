@@ -11,6 +11,8 @@ import com.ssafy.backend.domain.commercial.exception.CommercialException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.recommendation.exception.RecommendationErrorCode;
 import com.ssafy.backend.domain.recommendation.exception.RecommendationException;
+import com.ssafy.backend.global.common.document.DataDocument;
+import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
 import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
@@ -56,8 +58,8 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final AreaCommercialRepository areaCommercialRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private final RecommendationRepository recommendationRepository;
-    private final KafkaProducer kafkaProducer;
     private final IncomeCommercialRepository incomeCommercialRepository;
+    private final DataRepository dataRepository;
 
     @Override
     public Mono<List<RecommendationResponse>> getTopThreeRecommendations(String districtCode, String administrationCode, Long id) {
@@ -73,7 +75,7 @@ public class RecommendationServiceImpl implements RecommendationService{
                 .collectList()
                 .doOnNext(responses -> {
                     if (!responses.isEmpty()) {
-                        //saveRecommendationsToRedis(id, responses);
+                        saveRecommendationsToRedis(id, responses);
                     }
                 });
 
@@ -99,20 +101,22 @@ public class RecommendationServiceImpl implements RecommendationService{
                 });
                 for (RecommendationResponse dto: list){
                     if (dto.commercialCode().equals(commercialCode)){
-//                        // 카프카 이벤트 발생
-//                        CommercialKafkaInfo commercialKafkaInfo = new CommercialKafkaInfo(id, "recommendation", 1L, commercialCode, System.currentTimeMillis());
-//                        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_RECOMMENDATION, commercialKafkaInfo);
-
-                        // 추천용 데이터 카프카 토픽으로
                         DataInfo dataInfo = new DataInfo(id, commercialCode, "save");
-                        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
-
+                        // 추천 정보 저장 중복 체크
                         boolean existAnalysis = recommendationRepository.existsByUserIdAndCommercialCode(dataInfo.userId(), dataInfo.commercialCode());
 
                         if (existAnalysis) {
                             throw new RecommendationException(RecommendationErrorCode.EXIST_ANALYSIS);
                         }
 
+                        if (!dataInfo.commercialCode().equals("0")) {
+                            DataDocument dataDocument = DataDocument.builder()
+                                    .userId(dataInfo.userId())
+                                    .commercialCode(Long.parseLong(dataInfo.commercialCode()))
+                                    .action(dataInfo.action())
+                                    .build();
+                            dataRepository.save(dataDocument);
+                        }
 
                         RecommendationDocument document = RecommendationDocument.builder()
                                 .userId(id)
@@ -317,10 +321,10 @@ public class RecommendationServiceImpl implements RecommendationService{
             // responses를 JSON 형식으로 직렬화
             String jsonResponses = objectMapper.writeValueAsString(responses);
             // 레디스에 저장
-            redisTemplate.opsForValue().set("recommendation:" + userId, jsonResponses, 1, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set("recommendation:" + userId, jsonResponses, 10, TimeUnit.MINUTES);
         } catch (JsonProcessingException e) {
             // JSON 직렬화 실패 시 예외 처리
-            e.printStackTrace();
+            throw new RecommendationException(RecommendationErrorCode.JSON_PROCESSING);
         }
     }
 

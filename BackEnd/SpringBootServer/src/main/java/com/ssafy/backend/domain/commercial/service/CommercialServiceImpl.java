@@ -28,6 +28,8 @@ import com.ssafy.backend.domain.district.exception.DistrictErrorCode;
 import com.ssafy.backend.domain.district.exception.DistrictException;
 import com.ssafy.backend.domain.district.repository.IncomeDistrictRepository;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
+import com.ssafy.backend.global.common.document.DataDocument;
+import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
 import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
@@ -60,6 +62,7 @@ public class CommercialServiceImpl implements CommercialService {
     private final IncomeAdministrationRepository incomeAdministrationRepository;
     private final CommercialAnalysisRepository commercialAnalysisRepository;
     private final KafkaProducer kafkaProducer;
+    private final DataRepository dataRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -294,7 +297,14 @@ public class CommercialServiceImpl implements CommercialService {
 
         // 추천용 데이터 카프카 토픽으로
         DataInfo dataInfo = new DataInfo(memberId,commercialCode, "analysis");
-        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
+        if (!dataInfo.commercialCode().equals("0")) {
+            DataDocument dataDocument = DataDocument.builder()
+                    .userId(dataInfo.userId())
+                    .commercialCode(Long.parseLong(dataInfo.commercialCode()))
+                    .action(dataInfo.action())
+                    .build();
+            dataRepository.save(dataDocument);
+        }
 
         return new AllSalesResponse(districtTotalSalesInfo, administrationTotalSalesInfo, commercialTotalSalesInfo);
     }
@@ -496,7 +506,14 @@ public class CommercialServiceImpl implements CommercialService {
 
         // 추천용 데이터 카프카 토픽으로
         DataInfo dataInfo = new DataInfo(memberId, analysisSaveRequest.commercialCode(), "save");
-        kafkaProducer.publish(KafkaConstants.KAFKA_TOPIC_DATA, dataInfo);
+        if (!dataInfo.commercialCode().equals("0")) {
+            DataDocument dataDocument = DataDocument.builder()
+                    .userId(dataInfo.userId())
+                    .commercialCode(Long.parseLong(dataInfo.commercialCode()))
+                    .action(dataInfo.action())
+                    .build();
+            dataRepository.save(dataDocument);
+        }
     }
 
     @Override

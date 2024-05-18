@@ -32,15 +32,16 @@ import CommunityListPage from '@src/pages/CommunityListPage'
 import { useEffect } from 'react'
 import ChattingListPage from '@src/pages/ChattingListPage'
 import ChattingDetailPage from '@src/pages/ChattingDetailPage'
+import ReportKakaoSharePage from '@src/pages/ReportKakaoSharePage'
 import SweetAlert2 from '@src/SweetAlert2'
 import './index.css'
 
 // firebase config 파일 실행
 import '@src/util/auth/firebaseMessage'
-import ReportKakaoSharePage from '@src/pages/ReportKakaoSharePage.tsx'
 
 // 헤더 여부 설정하는 파일
 import ConditionalHeader from '@src/util/ConditionalHeader'
+import useAutoRefreshToken from '@src/util/auth/useAutoRefreshToken'
 
 declare global {
   interface Window {
@@ -124,7 +125,6 @@ function App() {
           </Route>
           {/*  시뮬레이션 카카오 공유 페이지 */}
           <Route path="share/:token" element={<ReportKakaoSharePage />} />
-
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

@@ -49,6 +49,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RecommendationServiceImpl implements RecommendationService{
 
+    private final WebClient webClient;
     private final CommercialService commercialService;
     private final SalesCommercialRepository salesCommercialRepository;
     private final FootTrafficCommercialRepository footTrafficCommercialRepository;
@@ -257,21 +258,15 @@ public class RecommendationServiceImpl implements RecommendationService{
     }
 
     public Mono<List<UserResponse>> sendToFastAPIServer(Long id, String districtCode, String administrationCode) {
-        // FastAPI 서버 URL 설정 - 로컬버전
-        String fastApiUrl = "http://localhost:8001/recommend";
-
-//        String fastApiUrl = "http://13.124.23.220:8000/recommend";
+        String fastApiUrl = "/recommend";
 
         // 요청에 필요한 데이터 구성
         UserRequest userRequest = new UserRequest(id);
 
-        // WebClient 생성
-        WebClient webClient = WebClient.create();
-
         return webClient.post()
                 .uri(fastApiUrl)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(new UserRequest(id)))
+                .body(BodyInserters.fromValue(userRequest))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<UserResponse>>() {})
                 .doOnNext(result -> {

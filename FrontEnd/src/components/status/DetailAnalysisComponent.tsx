@@ -6,7 +6,7 @@ import * as c from '@src/components/styles/status/DeatilComponentStyle'
 import UpIcon from '@src/assets/top_arrow_up.svg'
 import DownIcon from '@src/assets/top_arrow_down.svg'
 import ContainerBox from '@src/common/ContainerBox'
-import useStateStore from '@src/stores/statusStore.tsx'
+import useStateStore from '@src/stores/statusStore'
 import { useQuery } from '@tanstack/react-query'
 import { fetchStatusSale, fetchStatusService } from '@src/api/statusApi'
 import { useEffect } from 'react'
@@ -53,7 +53,7 @@ const DetailAnalysisComponent = () => {
   }
 
   return (
-    <>
+    <div>
       {!ServiceLoading && ServiceData && !SaleLoading && SaleData ? (
         <div>
           <c.AnalysisTitle>매출 분석</c.AnalysisTitle>
@@ -129,7 +129,7 @@ const DetailAnalysisComponent = () => {
       ) : (
         <div />
       )}
-    </>
+    </div>
   )
 }
 

@@ -29,6 +29,7 @@ import com.ssafy.backend.domain.district.exception.DistrictException;
 import com.ssafy.backend.domain.district.repository.IncomeDistrictRepository;
 import com.ssafy.backend.domain.district.repository.SalesDistrictRepository;
 import com.ssafy.backend.global.common.document.DataDocument;
+import com.ssafy.backend.global.common.dto.PageResponse;
 import com.ssafy.backend.global.common.repository.DataRepository;
 import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
@@ -37,6 +38,9 @@ import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Point;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -517,23 +521,24 @@ public class CommercialServiceImpl implements CommercialService {
     }
 
     @Override
-    public List<CommercialAnalysisResponse> getMyAnalysisListByMemberId(Long memberId) {
-        List<CommercialAnalysis> commercialAnalysisList = commercialAnalysisRepository.findByMemberIdOrderByCreatedAt(memberId);
+    public PageResponse<CommercialAnalysisResponse> getMyAnalysisListByMemberId(Long memberId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CommercialAnalysis> commercialAnalysisPage = commercialAnalysisRepository.findByMemberIdOrderByCreatedAt(memberId, pageable);
 
-        return commercialAnalysisList.stream()
-                .map(ca -> new CommercialAnalysisResponse(
-                        ca.getDistrictCode(),
-                        ca.getDistrictCodeName(),
-                        ca.getAdministrationCode(),
-                        ca.getAdministrationCodeName(),
-                        ca.getCommercialCode(),
-                        ca.getCommercialCodeName(),
-                        ca.getServiceType(),
-                        ca.getServiceCode(),
-                        ca.getServiceCodeName(),
-                        ca.getCreatedAt()
-                ))
-                .toList();
+        Page<CommercialAnalysisResponse> responsePage = commercialAnalysisPage.map(ca -> new CommercialAnalysisResponse(
+                ca.getDistrictCode(),
+                ca.getDistrictCodeName(),
+                ca.getAdministrationCode(),
+                ca.getAdministrationCodeName(),
+                ca.getCommercialCode(),
+                ca.getCommercialCodeName(),
+                ca.getServiceType(),
+                ca.getServiceCode(),
+                ca.getServiceCodeName(),
+                ca.getCreatedAt()
+        ));
+
+        return PageResponse.of(responsePage);
     }
 
 

@@ -17,11 +17,11 @@ interface BarChartProps {
   labels: string[]
   values: number[]
   datasetsLabel: string
-  pluginUnit: string
+  pluginValues: string[]
 }
 
 const BarChartCompare2 = (props: BarChartProps) => {
-  const { labels, values, datasetsLabel, pluginUnit } = props
+  const { labels, values, datasetsLabel, pluginValues } = props
 
   const data = {
     labels,
@@ -51,9 +51,9 @@ const BarChartCompare2 = (props: BarChartProps) => {
     },
     layout: {
       padding: {
-        top: 20,
-        left: 20,
-        right: 20,
+        top: 50,
+        left: 30,
+        right: 30,
       },
     },
     plugins: {
@@ -97,11 +97,7 @@ const BarChartCompare2 = (props: BarChartProps) => {
           ctx.font = 'bolder 14px sans-serif'
           ctx.fillStyle = data.datasets[0].borderColor[index]
           ctx.textAlign = 'center'
-          ctx.fillText(
-            `${values[index].toLocaleString()}${pluginUnit}`,
-            datapoint.x,
-            datapoint.y - 10,
-          )
+          ctx.fillText(`${pluginValues[index]}`, datapoint.x, datapoint.y - 10)
         })
       },
     },

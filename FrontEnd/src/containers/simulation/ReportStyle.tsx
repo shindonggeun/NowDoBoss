@@ -20,7 +20,7 @@ export const SummaryContainer = styled.div`
 export const SaveIcon = styled.img`
   width: 1.2rem;
   margin-right: 0.4rem;
-
+  margin-left: 10px;
   @media (max-width: 768px) {
     width: 1rem;
   }
@@ -31,6 +31,7 @@ export const CompareIcon = styled.img`
   margin-left: 10px;
   @media (max-width: 768px) {
     width: 1.5rem;
+    margin-left: 7px;
   }
 `
 
@@ -51,6 +52,15 @@ export const HeaderIcon = styled.div`
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
+`
+
+export const KakaoIcon = styled.img`
+  width: 1.5rem;
+  margin-right: 0.4rem;
+
+  @media (max-width: 768px) {
+    width: 1.2rem;
+  }
 `
 
 export const SummaryHeader = styled.div`

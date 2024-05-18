@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import analysisStore from '@src/stores/analysisStore'
+import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import RadarChart from '@src/common/RadarChart'
 import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
 
@@ -6,6 +8,7 @@ const AgeChart = () => {
   const flowPopulationDataBody = analysisStore(
     state => state.flowPopulationDataBody,
   )
+  const setFlowSummary = useAnalysisSummaryStore(state => state.setFlowSummary)
 
   const labels: string[] = ['10대', '20대', '30대', '40대', '50대', '60대 이상']
 
@@ -49,6 +52,12 @@ const AgeChart = () => {
 
   const maxGender = maxMaleValue > maxFemaleValue ? '남성' : '여성'
   const maxLabel = maxMaleValue > maxFemaleValue ? maxMaleLabel : maxFemaleLabel
+
+  // 요약 상태 업데이트
+  useEffect(() => {
+    setFlowSummary('age', maxLabel)
+    setFlowSummary('gender', maxGender)
+  }, [flowPopulationDataBody, maxLabel, maxGender, setFlowSummary])
 
   return (
     <f.AgeChart>

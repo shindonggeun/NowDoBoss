@@ -67,26 +67,6 @@ const GlobalStyles = createGlobalStyle`
     ::-webkit-scrollbar-thumb:hover {
         background: #999;
     }
-    
-    // swal2 node modules 들어가서 찾아온 icon 경로
-    div:where(.swal2-icon).swal2-warning.swal2-icon-show {
-        animation: swal2-animate-error-icon 0.5s;
-        width: 100%;
-        top: 15px;
-    }
-
-    // swal2 기본 버튼 색상 변경 로직
-    div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
-        border: 0;
-        border-radius: 0.25em;
-        background: initial;
-        background-color: #233eff;
-        color: #fff;
-        font-size: 1em;
-    }
-    div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm:focus {
-        box-shadow: 0 0 0 3px rgba(35, 62, 225, 0.5);
-    }
 
 `
 

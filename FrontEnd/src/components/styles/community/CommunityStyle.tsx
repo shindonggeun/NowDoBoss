@@ -162,6 +162,12 @@ export const ProfileImg = styled.img`
   border-radius: 100%;
   margin-right: 10px;
 `
+export const AvatarDiv = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-right: 10px;
+`
 export const ProfileContent = styled.div``
 export const Name = styled.div`
   margin: -1px 0 -5px;

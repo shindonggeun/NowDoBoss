@@ -87,7 +87,11 @@ export const CommentContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `
-export const CommentUser = styled.div``
+export const CommentImgDiv = styled.div``
+
+export const CommentUser = styled.div`
+  margin-left: 10px;
+`
 
 export const ModDiv = styled.div`
   display: flex;
@@ -103,12 +107,10 @@ export const ModButton = styled.div`
   }
 `
 
-export const CommentProfile = styled.div`
+export const CommentProfile = styled.img`
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
-  background-color: #acacac;
-  width: 3rem;
-  height: 3rem;
-  margin-right: 1rem;
 `
 export const CommentName = styled.div`
   font-weight: 600;
@@ -121,5 +123,6 @@ export const CommentTime = styled.div`
   margin-bottom: 5px;
 `
 export const CommentContent = styled.div`
-  margin-left: 4rem;
+  margin-left: 5px;
+  font-size: 1.3rem;
 `

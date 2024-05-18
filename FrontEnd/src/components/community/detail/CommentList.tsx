@@ -16,6 +16,7 @@ import {
 import Swal from 'sweetalert2'
 import NotLogin from '@src/common/swal/NotLogin'
 import { useNavigate } from 'react-router-dom'
+import { Avatar } from '@mui/joy'
 
 interface CommentPropsType {
   communityId: string | undefined
@@ -154,7 +155,13 @@ const CommentList = (props: CommentPropsType) => {
             <c.CommentCard key={commentData.commentId}>
               <c.CommentContainer>
                 <c.CommentContainer>
-                  <c.CommentProfile />
+                  <c.CommentImgDiv>
+                    {commentData.writerProfileImage ? (
+                      <c.CommentProfile src={commentData.writerProfileImage} />
+                    ) : (
+                      <Avatar />
+                    )}
+                  </c.CommentImgDiv>
                   <c.CommentUser>
                     <c.CommentName>{commentData.writerNickname}</c.CommentName>
                     {/* <m.CommentTime>2024-03-12 16:40</m.CommentTime> */}

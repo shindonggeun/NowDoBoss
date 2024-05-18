@@ -9,6 +9,7 @@ import Swal from 'sweetalert2'
 import { useMutation } from '@tanstack/react-query'
 import { articleDelete } from '@src/api/communityApi'
 import { useNavigate } from 'react-router-dom'
+import { Avatar } from '@mui/joy'
 
 interface TimeCountingOption {
   objectTime: Date
@@ -161,7 +162,7 @@ const MainContent = (props: MainContentPropsType) => {
           {detailData.writerProfileImage ? (
             <m.UserProfileImg src={detailData.writerProfileImage} />
           ) : (
-            <m.UserImgDefault />
+            <Avatar />
           )}
           <m.UserName>{detailData.writerNickname}</m.UserName>
         </m.ProfileDiv>

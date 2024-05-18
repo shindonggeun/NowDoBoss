@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { CommunityListData } from '@src/types/CommunityType'
 import { useEffect, useRef, useState } from 'react'
 import { fetchCommunityList } from '@src/api/communityApi'
+import { Avatar } from '@mui/joy'
 
 export type ArticleListPropsType = {
   initialArticleList: CommunityListData
@@ -93,11 +94,13 @@ const ArticleList = (props: ArticleListPropsType) => {
               >
                 <a.Header>
                   <a.Profile>
-                    <a.ProfileImg
-                      src={
-                        article.profileImage ? article.profileImage : undefined
-                      }
-                    />
+                    {article.profileImage ? (
+                      <a.ProfileImg src={article.profileImage} />
+                    ) : (
+                      <a.AvatarDiv>
+                        <Avatar />
+                      </a.AvatarDiv>
+                    )}
                     <a.ProfileContent>
                       <a.Name>{article.writerNickname}</a.Name>
                       <a.Category>

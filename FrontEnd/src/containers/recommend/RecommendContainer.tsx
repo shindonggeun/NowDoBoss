@@ -42,7 +42,14 @@ const RecommendContainer = () => {
       administrationClosedRate: 0,
       otherClosedRate: 0,
     },
-    blueOceanInfo: { string: 0 },
+    blueOceanInfo: [
+      {
+        serviceCodeName: '',
+        myStore: 0,
+        totalStore: 0,
+        storeRate: 0,
+      },
+    ],
   })
 
   useEffect(() => {
@@ -96,7 +103,14 @@ const RecommendContainer = () => {
           administrationClosedRate: 0,
           otherClosedRate: 0,
         },
-        blueOceanInfo: { string: 0 },
+        blueOceanInfo: [
+          {
+            serviceCodeName: '',
+            myStore: 0,
+            totalStore: 0,
+            storeRate: 0,
+          },
+        ],
       })
     }
   }

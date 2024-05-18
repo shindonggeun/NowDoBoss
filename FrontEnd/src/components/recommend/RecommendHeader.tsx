@@ -92,7 +92,7 @@ const RecommendHeader = (props: RecommendReportPropsType) => {
   // 저장 목록과 상권 코드 비교해서 저장된 데이터인지 확인 후 버튼 활성화
   useEffect(() => {
     if (saveListData?.dataBody) {
-      const isDataSaved = saveListData.dataBody.data.some(
+      const isDataSaved = saveListData.dataBody.some(
         (savedData: { userId: number; commercialCode: string }) =>
           Number(savedData.commercialCode) ===
           Number(selectedData.commercialCode),

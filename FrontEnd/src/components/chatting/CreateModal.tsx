@@ -2,7 +2,7 @@ import { Box, Modal } from '@mui/material'
 import * as c from '@src/components/styles/chatting/CreateModalStyle'
 import arrow_up from '@src/assets/arrow_up.svg'
 import arrow_down from '@src/assets/arrow_down.svg'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createChatRoom } from '@src/api/chattingApi'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
@@ -41,7 +41,7 @@ const CreateModal = (props: CreateModalPropsType) => {
   const [outputCategoryValue, setOutputCategoryValue] =
     useState<string>('카테고리를 선택해주세요.')
   const [selectedCategoryValue, setSelectedCategoryValue] = useState<string>('')
-  const [selectedLimitValue, setSelectedLimitValue] = useState<number>(0)
+  const [selectedLimitValue, setSelectedLimitValue] = useState<number>(2)
 
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const categories = [
@@ -51,6 +51,23 @@ const CreateModal = (props: CreateModalPropsType) => {
     { name: '동업제안', value: 'PARTNERSHIP' },
     { name: '창업고민', value: 'START_UP' },
   ]
+
+  const [isValid, setIsValid] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (
+      nameValue &&
+      introductionValue &&
+      selectedCategoryValue &&
+      selectedLimitValue > 1 &&
+      selectedLimitValue < 601
+    ) {
+      setIsValid(true)
+    } else {
+      setIsValid(false)
+    }
+  }, [nameValue, introductionValue, selectedCategoryValue, selectedLimitValue])
+
   // 방 들어갈 때 토픽 구독 로직
   const { mutate: subscribeTopicMutation } = useMutation({
     mutationKey: ['subscribeTopic'],
@@ -181,10 +198,12 @@ const CreateModal = (props: CreateModalPropsType) => {
               onClick={() => {
                 handleSubmit()
               }}
+              disabled={!isValid}
+              $isValid={isValid}
             >
               완료
             </c.SubmitButton>
-            <c.SubmitButton onClick={() => setModalOpen(false)}>
+            <c.SubmitButton onClick={() => setModalOpen(false)} $isValid>
               취소
             </c.SubmitButton>
           </c.ButtonDiv>

@@ -31,8 +31,8 @@ import CommunityListPage from '@src/pages/CommunityListPage'
 import { useEffect } from 'react'
 import ChattingListPage from '@src/pages/ChattingListPage'
 import ChattingDetailPage from '@src/pages/ChattingDetailPage'
+import SweetAlert2 from '@src/SweetAlert2'
 import './index.css'
-import './sweetalert2.css'
 
 // firebase config 파일 실행
 import '@src/util/auth/firebaseMessage'
@@ -59,6 +59,7 @@ function App() {
   return (
     <CookiesProvider>
       <GlobalStyles />
+      <SweetAlert2 />
       <BrowserRouter>
         <ConditionalHeader />
         <Routes>

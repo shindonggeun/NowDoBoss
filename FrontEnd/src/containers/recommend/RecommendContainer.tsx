@@ -5,12 +5,13 @@ import SearchBar from '@src/components/recommend/SearchBar'
 import ReduceButton from '@src/common/ReduceButton'
 import { useQuery } from '@tanstack/react-query'
 import { recommendCommercial } from '@src/api/recommendApi'
-import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 import RecommendHeader from '@src/components/recommend/RecommendHeader'
 import RecommendBody from '@src/components/recommend/RecommendBody'
 import RecommendBanner from '@src/components/recommend/RecommendBanner'
 import RecommendBlueOcean from '@src/components/recommend/RecommendBlueOcean'
+import LoadingComponent from '@src/components/recommend/LoadingComponent'
 import { RecommendCommercialType } from '@src/types/MapType'
+import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 import Banner from '@src/common/Banner'
 
 const RecommendContainer = () => {
@@ -173,30 +174,39 @@ const RecommendContainer = () => {
           <ReduceButton isOpen={isOpen} setIsOpen={setIsOpen} />
         </r.ReduceButton>
       </r.SearchDiv>
-      {shouldRender &&
-        data &&
-        !isLoading &&
-        selectedData.commercialCode !== 0 && (
-          <r.Report
-            ref={reportRef}
-            $isSubmit={isSubmit}
-            onAnimationEnd={handleAnimationEnd} // 애니메이션 종료 이벤트 핸들러 추가
-          >
-            <r.ReportContainer>
-              <RecommendHeader
-                selectedTab={selectedTab}
-                setSelectedTab={setSelectedTab}
-                setSelectedData={setSelectedData}
-                handleTabClick={handleTabClick}
-                setIsSubmit={setIsSubmit}
-                data={data.dataBody}
-              />
-              <RecommendBody selectedData={selectedData} />
-              <RecommendBanner selectedData={selectedData} />
-              <RecommendBlueOcean selectedData={selectedData} />
-            </r.ReportContainer>
-          </r.Report>
-        )}
+      {shouldRender && (
+        <r.Report
+          ref={reportRef}
+          $isSubmit={isSubmit}
+          onAnimationEnd={handleAnimationEnd} // 애니메이션 종료 이벤트 핸들러 추가
+        >
+          <r.ReportContainer>
+            {shouldRender &&
+            data &&
+            !isLoading &&
+            selectedData.commercialCode !== 0 ? (
+              <r.Div>
+                <RecommendHeader
+                  selectedTab={selectedTab}
+                  setSelectedTab={setSelectedTab}
+                  selectedData={selectedData}
+                  setSelectedData={setSelectedData}
+                  handleTabClick={handleTabClick}
+                  setIsSubmit={setIsSubmit}
+                  data={data.dataBody}
+                />
+                <RecommendBody selectedData={selectedData} />
+                <RecommendBanner selectedData={selectedData} />
+                <RecommendBlueOcean selectedData={selectedData} />
+              </r.Div>
+            ) : (
+              <r.Div>
+                <LoadingComponent setIsSubmit={setIsSubmit} />
+              </r.Div>
+            )}
+          </r.ReportContainer>
+        </r.Report>
+      )}
     </r.Container>
   )
 }

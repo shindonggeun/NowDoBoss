@@ -122,7 +122,7 @@ const ArticleList = (props: ArticleListPropsType) => {
             )
           })
         ) : (
-          <div>더 이상 불러올 데이터가 없습니다.</div>
+          <div />
         )}
       </a.ArticlesContainer>
     </a.Container>

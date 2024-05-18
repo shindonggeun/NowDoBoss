@@ -9,6 +9,7 @@ import NotLogin from '@src/common/swal/NotLogin'
 import { subscribeTopic } from '@src/api/fcmApi'
 import firebase from 'firebase'
 import Swal from 'sweetalert2'
+import { useEffect, useRef, useState } from 'react'
 
 // 로그인 한 사용자인지 확인
 const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
@@ -19,9 +20,14 @@ const ChattingList = () => {
   }))
   const navigate = useNavigate()
 
-  const { data, isLoading } = useQuery({
+  const lastCardRef = useRef(null)
+  const [hasMoreData, setHasMoreData] = useState(true)
+  const [articleList, setArticleList] = useState<ChatListType[]>([])
+
+  const { data } = useQuery({
     queryKey: ['fetchChattingList'],
     queryFn: () => fetchChattingList(0),
+    enabled: hasMoreData,
   })
 
   // 방 들어갈 때 토픽 구독 로직
@@ -36,23 +42,22 @@ const ChattingList = () => {
       const permission = await Notification.requestPermission()
 
       if (permission === 'granted') {
-        console.log('Notification permission granted.')
+        // console.log('Notification permission granted.')
 
         // FCM 토큰을 가져옵니다.
-        messaging
-          .getToken()
-          .then(token => {
-            console.log('Token:', token)
-            subscribeTopicMutation({ token, topic: String(chatRoomId) })
-          })
-          .catch(err => {
-            console.error('Token retrieval failed:', err)
-          })
-      } else {
-        console.log('Unable to get permission to notify.')
+        messaging.getToken().then(token => {
+          // console.log('Token:', token)
+          subscribeTopicMutation({ token, topic: String(chatRoomId) })
+        })
+        // .catch(err => {
+        //   // console.error('Token retrieval failed:', err)
+        // })
       }
+      // else {
+      // console.log('Unable to get permission to notify.')
+      // }
     } catch (error) {
-      console.error('Permission request failed', error)
+      // console.error('Permission request failed', error)
     }
   }
 
@@ -83,13 +88,57 @@ const ChattingList = () => {
       NotLogin(navigate)
     }
   }
+  // 가져온 값으로 채우기
+  useEffect(() => {
+    if (data?.dataBody) {
+      setArticleList([])
+      setArticleList(prevArticleList => [...prevArticleList, ...data.dataBody])
+    }
+  }, [data])
+
+  useEffect(() => {
+    const currentRef = lastCardRef.current
+    const observer = new IntersectionObserver(
+      async entries => {
+        // ref가 존재하는지 (배열이 존재하는지) + 가져온 데이터가 빈 배열인지
+        if (entries[0].isIntersecting && hasMoreData) {
+          const lastId = articleList[articleList.length - 1].chatRoomId
+          const newArticles = await fetchChattingList(lastId)
+
+          if (!articleList || !newArticles.dataBody[0]) {
+            setHasMoreData(false)
+          } else {
+            setArticleList(prevArticleList => [
+              ...prevArticleList,
+              ...newArticles.dataBody,
+            ])
+          }
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 1,
+      },
+    )
+
+    if (currentRef) {
+      observer.observe(currentRef)
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef)
+      }
+    }
+  }, [lastCardRef, articleList, hasMoreData, setHasMoreData])
 
   return (
     <a.Container>
       {/*  게시글 목록 */}
       <a.ArticlesContainer>
-        {data && !isLoading
-          ? data.dataBody?.map((article: ChatListType) => {
+        {Array.isArray(articleList) && articleList.length > 0
+          ? articleList?.map((article: ChatListType, index: number) => {
               // 카테고리 이미지를 find 함수를 사용해 category name 과 일치하는 이미지 불러오기
               const matchedCategory = categories.find(
                 category => category.value === article.category,
@@ -98,8 +147,12 @@ const ChattingList = () => {
                 ? matchedCategory.iconInactive
                 : ''
               const categoryKorean = matchedCategory ? matchedCategory.name : ''
+
+              const isLastElement =
+                index === articleList.length - 1 && articleList.length >= 5
               return (
                 <a.ArticleContainer
+                  ref={isLastElement ? lastCardRef : null}
                   key={article.chatRoomId}
                   onClick={() => {
                     handleClickCard(article.chatRoomId)

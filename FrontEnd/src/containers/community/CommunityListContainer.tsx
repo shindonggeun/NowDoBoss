@@ -65,7 +65,7 @@ const CommunityListContainer = () => {
           )}
         </c.Div>
       ) : (
-        <c.Div>데이터가 없습니다 ㅠㅠ</c.Div>
+        <c.Div />
       )}
     </c.Div>
   )

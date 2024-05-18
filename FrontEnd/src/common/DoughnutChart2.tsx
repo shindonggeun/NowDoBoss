@@ -18,7 +18,7 @@ const DoughnutChart = (props: DoughnutPropsType) => {
     labels,
     datasets: [
       {
-        label: '비율 (%)',
+        label: '점포수',
         data: value,
         backgroundColor: [
           'rgba(4, 191, 218, 0.4)',

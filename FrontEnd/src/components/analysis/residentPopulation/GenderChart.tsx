@@ -21,7 +21,8 @@ const GenderChart = () => {
 
   const labels: string[] = ['남성', '여성']
   const value: number[] = [malePercentage, femalePercentage]
-  const textCenter = `총 상주인구 수 : ${totalResidentPopulation}명`
+  const textCenter = `${totalResidentPopulation}명`
+  const subTextCenter = '총 상주인구 수'
 
   const maxValue = Math.max(malePercentage, femalePercentage)
   const minValue = Math.min(malePercentage, femalePercentage)
@@ -39,9 +40,14 @@ const GenderChart = () => {
       <r.ChartTitle>남/녀 상주인구</r.ChartTitle>
       <r.ChartSubTitle>
         {maxLabel}의 상주인구가 {minLabel}보다 약{' '}
-        <r.HighlightText>{ratio}배 </r.HighlightText>더 많아요.
+        <r.HighlightText>{ratio}배</r.HighlightText> 더 많아요.
       </r.ChartSubTitle>
-      <DoughnutChart labels={labels} value={value} textCenter={textCenter} />
+      <DoughnutChart
+        labels={labels}
+        value={value}
+        textCenter={textCenter}
+        subTextCenter={subTextCenter}
+      />
     </r.GenderChart>
   )
 }

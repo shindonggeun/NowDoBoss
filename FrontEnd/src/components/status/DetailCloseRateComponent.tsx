@@ -51,7 +51,9 @@ const DetailCloseRateComponent = () => {
 
   if (ClosedData) {
     CloseData = ClosedData.dataBody
-    CloseLabels = CloseData.map(data => data.administrationCodeName)
+    CloseLabels = CloseData.map(data =>
+      data.administrationCodeName.replace(/\?/g, ','),
+    )
     CloseRate = CloseData.map(data => data.curClosedRate)
   }
 
@@ -69,7 +71,7 @@ const DetailCloseRateComponent = () => {
               <c.AnalysisSubTitle>
                 폐업률이 가장 높은 동은{' '}
                 <c.AnalysiEemphasis>
-                  {CloseData![0].administrationCodeName}
+                  {CloseData![0].administrationCodeName.replace(/\?/g, ',')}
                 </c.AnalysiEemphasis>
                 입니다
               </c.AnalysisSubTitle>
@@ -78,7 +80,10 @@ const DetailCloseRateComponent = () => {
                 labels={CloseLabels!}
                 value={CloseRate!}
                 subTextCenter="폐업률 1위"
-                textCenter={CloseData![0].administrationCodeName}
+                textCenter={CloseData![0].administrationCodeName.replace(
+                  /\?/g,
+                  ',',
+                )}
               />
             </c.MixInnerConatiner>
             <c.MixInnerConatiner>

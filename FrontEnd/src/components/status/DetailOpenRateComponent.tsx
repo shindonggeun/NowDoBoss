@@ -48,7 +48,9 @@ const DetailOpenRateComponent = () => {
 
   if (OpendData) {
     OpenData = OpendData.dataBody
-    OpenLabels = OpenData.map(data => data.administrationCodeName)
+    OpenLabels = OpenData.map(data =>
+      data.administrationCodeName.replace(/\?/g, ','),
+    )
     OpenRate = OpenData.map(data => data.curOpenedRate)
   }
 
@@ -66,7 +68,7 @@ const DetailOpenRateComponent = () => {
             <c.AnalysisSubTitle>
               개업률이 가장 높은 동은{' '}
               <c.AnalysiEemphasis>
-                {OpenData![0].administrationCodeName}
+                {OpenData![0].administrationCodeName.replace(/\?/g, ',')}
               </c.AnalysiEemphasis>
               입니다
             </c.AnalysisSubTitle>
@@ -75,7 +77,10 @@ const DetailOpenRateComponent = () => {
               labels={OpenLabels!}
               value={OpenRate!}
               subTextCenter="개업률 1위"
-              textCenter={OpenData![0].administrationCodeName}
+              textCenter={OpenData![0].administrationCodeName.replace(
+                /\?/g,
+                ',',
+              )}
             />
           </c.MixInnerConatiner>
           <c.MixInnerConatiner>

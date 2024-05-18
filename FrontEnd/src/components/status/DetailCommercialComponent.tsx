@@ -67,18 +67,26 @@ const DetailCommercialComponent = () => {
         .split('age')[1]
         .toString()
     OpenSummary =
-      data.dataBody.storeDistrictDetail.openedStoreAdministrationTopFiveList[0]
-        .administrationCodeName
+      data.dataBody.storeDistrictDetail.openedStoreAdministrationTopFiveList[0].administrationCodeName.replace(
+        /\?/g,
+        ',',
+      )
 
     CloseSummary =
-      data.dataBody.storeDistrictDetail.closedStoreAdministrationTopFiveList[0]
-        .administrationCodeName
+      data.dataBody.storeDistrictDetail.closedStoreAdministrationTopFiveList[0].administrationCodeName.replace(
+        /\?/g,
+        ',',
+      )
     TopSaleStoreSummary =
-      data.dataBody.salesDistrictDetail.salesDistrictSalesTopFiveList[0]
-        .serviceCodeName
+      data.dataBody.salesDistrictDetail.salesDistrictSalesTopFiveList[0].serviceCodeName.replace(
+        /\?/g,
+        ',',
+      )
     TopSaleAreaSummary =
-      data.dataBody.salesDistrictDetail.salesAdministrationTopFiveList[0]
-        .administrationCodeName
+      data.dataBody.salesDistrictDetail.salesAdministrationTopFiveList[0].administrationCodeName.replace(
+        /\?/g,
+        ',',
+      )
     OpenMonthSummary =
       data.dataBody.changeIndicatorDistrictDetail.openedMonths >= 106
         ? '높고'

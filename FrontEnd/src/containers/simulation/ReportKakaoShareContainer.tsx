@@ -2,8 +2,8 @@ import { useMutation } from '@tanstack/react-query'
 import { fetchKaKaoUrl } from '@src/api/kakaoShareApi'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { reportCreates } from '@src/api/simulationApi.tsx'
-import { SimulationDataTypes } from '@src/types/SimulationType.tsx'
+import { reportCreates } from '@src/api/simulationApi'
+import { SimulationDataTypes } from '@src/types/SimulationType'
 
 const ReportKakaoShareContainer = () => {
   const navigate = useNavigate()
@@ -42,8 +42,8 @@ const ReportKakaoShareContainer = () => {
 
   useEffect(() => {
     mutateCreateKakaoReport(location.pathname.split('/share/')[1])
-  }, [])
-  return <div>임시 페이지~~</div>
+  }, [location.pathname, mutateCreateKakaoReport])
+  return <div />
 }
 
 export default ReportKakaoShareContainer

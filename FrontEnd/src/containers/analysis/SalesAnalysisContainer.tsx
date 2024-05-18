@@ -1,7 +1,10 @@
 import { forwardRef, Ref, useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
-import analysisStore from '@src/stores/analysisStore'
+import analysisStore, {
+  initialSalesDataBody,
+  initialTotalSalesDataBody,
+} from '@src/stores/analysisStore'
 import { getSalesData, getTotalSalesData } from '@src/api/analysisApi'
 import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
 import ExpectChart from '@src/components/analysis/sales/ExpectChart'
@@ -54,6 +57,7 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       salesStatus === 'success' &&
       SalesData?.dataHeader.successCode === 1
     ) {
+      setSalesDataBody(initialSalesDataBody) // 요약 상태를 위한 업데이트
       setSalesErr(SalesData.dataHeader.resultMessage)
     }
   }, [salesStatus, SalesData]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -96,6 +100,7 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
       totalSalesStatus === 'success' &&
       TotalSalesData?.dataHeader.successCode === 1
     ) {
+      setTotalSalesDataBody(initialTotalSalesDataBody) // 요약 상태를 위한 업데이트
       setTotalSalesErr(TotalSalesData.dataHeader.resultMessage)
     }
   }, [totalSalesStatus, TotalSalesData]) // eslint-disable-line react-hooks/exhaustive-deps

@@ -8,7 +8,6 @@ import { SimulationDataTypes } from '@src/types/SimulationType'
 const ReportKakaoShareContainer = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  console.log(location.pathname.split('/share/')[1], '234')
 
   const { mutate: mutateCreateReport } = useMutation({
     mutationFn: reportCreates,

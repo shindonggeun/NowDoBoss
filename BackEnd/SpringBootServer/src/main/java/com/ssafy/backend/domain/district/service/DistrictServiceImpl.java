@@ -40,7 +40,7 @@ public class DistrictServiceImpl implements DistrictService {
     private final AreaCommercialRepository areaCommercialRepository;
 
     @Override
-    @Cacheable(value = "Contents", key = "'topTenDistrictsStaticKey'", cacheManager = "contentCacheManager")
+    @Cacheable(value = "Contents", key = "'districts:top10'", cacheManager = "contentCacheManager")
     public DistrictTopTenResponse getTopTenDistricts() {
         // 유동 인구
         List<FootTrafficDistrictTopTenResponse> footTrafficInfoList = footTrafficDistrictRepository.getTopTenFootTrafficDistrictByPeriodCode();
@@ -50,6 +50,8 @@ public class DistrictServiceImpl implements DistrictService {
         List<OpenedStoreDistrictTopTenResponse> openedStoreInfoList = storeDistrictRepository.getTopTenOpenedStoreDistrictByPeriodCode();
         // 폐업률
         List<ClosedStoreDistrictTopTenResponse> closedStoreInfoList = storeDistrictRepository.getTopTenClosedStoreDistrictByPeriodCode();
+
+        log.info("========================= 자치구 Top 10");
 
         return new DistrictTopTenResponse(footTrafficInfoList, salesInfoList, openedStoreInfoList, closedStoreInfoList);
     }

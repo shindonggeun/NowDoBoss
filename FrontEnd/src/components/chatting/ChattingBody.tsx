@@ -3,6 +3,7 @@ import { PromiseMessageType } from '@src/types/ChattingType'
 import { useEffect, useRef } from 'react'
 import { format, isSameDay, parseISO } from 'date-fns'
 import { ko } from 'date-fns/locale'
+import { Avatar } from '@mui/joy'
 
 export type ChattingBodyPropsType = {
   messages: PromiseMessageType[]
@@ -72,15 +73,20 @@ const ChattingBody = (props: ChattingBodyPropsType) => {
             )}
             <c.MessageDiv $isMe={myMessage}>
               <c.ImgDiv>
-                <c.ProfileImg
-                  src={
-                    message.senderProfileImage
-                      ? message.senderProfileImage
-                      : 'none'
-                  }
-                  $isMe={myMessage}
-                  $same={same}
-                />
+                {message.senderProfileImage ? (
+                  <c.ProfileImg
+                    src={message.senderProfileImage}
+                    $isMe={myMessage}
+                    $same={same}
+                  />
+                ) : (
+                  !myMessage &&
+                  !same && (
+                    <c.AvatarDiv>
+                      <Avatar />
+                    </c.AvatarDiv>
+                  )
+                )}
               </c.ImgDiv>
               <c.ContentDiv>
                 <c.SenderName $isMe={myMessage} $same={same}>

@@ -4,6 +4,7 @@ import com.ssafy.backend.domain.recommendation.document.RecommendationDocument;
 import com.ssafy.backend.domain.recommendation.dto.response.RecommendationResponse;
 import com.ssafy.backend.domain.recommendation.service.RecommendationService;
 import com.ssafy.backend.global.common.dto.Message;
+import com.ssafy.backend.global.common.dto.PageResponse;
 import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -70,9 +71,10 @@ public class RecommendationController {
     )
     @GetMapping("/save/list")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<RecommendationDocument>>> getSavedCommercialRecommendationList(
-            @AuthenticationPrincipal MemberLoginActive loginActive) {
-        return ResponseEntity.ok().body(Message.success(recommendationService.getSavedCommercialRecommendationList(loginActive.id())));
+    public ResponseEntity<Message<PageResponse<RecommendationDocument>>> getSavedCommercialRecommendationList(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                                                                                @RequestParam(defaultValue = "0") int page,
+                                                                                                                @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok().body(Message.success(recommendationService.getSavedCommercialRecommendationList(loginActive.id(), page, size)));
     }
 
     @Operation(

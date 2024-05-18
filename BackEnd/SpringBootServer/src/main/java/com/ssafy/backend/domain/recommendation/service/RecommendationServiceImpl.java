@@ -7,22 +7,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.commercial.dto.info.BlueOceanInfo;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationAreaResponse;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
-import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
-import com.ssafy.backend.domain.commercial.exception.CommercialException;
 import com.ssafy.backend.domain.commercial.repository.*;
 import com.ssafy.backend.domain.recommendation.dto.info.*;
 import com.ssafy.backend.domain.recommendation.exception.RecommendationErrorCode;
 import com.ssafy.backend.domain.recommendation.exception.RecommendationException;
 import com.ssafy.backend.global.common.document.DataDocument;
+import com.ssafy.backend.global.common.dto.PageResponse;
 import com.ssafy.backend.global.common.repository.DataRepository;
-import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
-import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Flux;
 
-import com.mongodb.MongoWriteException;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAreaResponse;
-import com.ssafy.backend.domain.commercial.dto.response.CommercialKafkaInfo;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
 import com.ssafy.backend.domain.recommendation.document.RecommendationDocument;
 import com.ssafy.backend.domain.recommendation.dto.request.UserRequest;
@@ -144,8 +142,10 @@ public class RecommendationServiceImpl implements RecommendationService{
     }
 
     @Override
-    public List<RecommendationDocument> getSavedCommercialRecommendationList(Long id) {
-        return recommendationRepository.findByUserId(id);
+    public PageResponse<RecommendationDocument> getSavedCommercialRecommendationList(Long id, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<RecommendationDocument> response = recommendationRepository.findByUserId(pageable, id);
+        return PageResponse.of(response);
     }
 
     private Mono<List<UserResponse>> fetchCommercialData(Long id, String districtCode, String administrationCode) {

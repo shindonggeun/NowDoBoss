@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.recommendation.service;
 
 import com.ssafy.backend.domain.recommendation.document.RecommendationDocument;
 import com.ssafy.backend.domain.recommendation.dto.response.RecommendationResponse;
+import com.ssafy.backend.global.common.dto.PageResponse;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface RecommendationService {
 
     void deleteCommercialRecommendation(String commercialCode, Long id);
 
-    List<RecommendationDocument> getSavedCommercialRecommendationList(Long id);
+    PageResponse<RecommendationDocument> getSavedCommercialRecommendationList(Long id, int page, int size);
     RecommendationResponse getSavedCommercialDetail(Long userId, String commercialCode);
 
 }

@@ -12,6 +12,8 @@ import {
   SimulationSaveType,
 } from '@src/types/SimulationType'
 import { useNavigate } from 'react-router-dom'
+import { reportKaKaoUrl } from '@src/api/kakaoShareApi'
+import { SimulationDataType } from '@src/types/KaKaoShareType'
 
 const { Kakao } = window
 
@@ -71,41 +73,56 @@ const ReportHeader = ({ onClose, ReportData, onClickAlram }: HeaderType) => {
     // console.log(Kakao.isInitialized())
   }, [])
 
-  // const localUrl = 'http://localhost:5173/analysis'
-  const serverUrl = 'https://k10c208.p.ssafy.io/analysis'
-
-  const shareKakao = () => {
-    Kakao.Share.sendDefault({
-      objectType: 'feed',
-      content: {
-        title: '나도 창업 할 수 있다!!!',
-        description: '테스트중~~',
-        imageUrl:
-          'https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg',
-        link: {
-          mobileWebUrl: serverUrl,
-          webUrl: serverUrl,
-        },
+  // 카카오톡 share 탬플릿
+  // const serverUrl = 'http://localhost:5173'
+  const serverUrl = 'https://k10c208.p.ssafy.io'
+  const shareKakao = (data: string) => {
+    window.Kakao.Link.sendCustom({
+      templateId: 107914,
+      templateArgs: {
+        Server_Url: serverUrl,
+        // Path: 'api/v1/share',
+        Path: 'share',
+        Token: data,
       },
-      buttons: [
-        {
-          title: 'Now Do Boss',
-          link: {
-            mobileWebUrl: serverUrl,
-            webUrl: serverUrl,
-          },
-        },
-      ],
     })
   }
+
+  // 카톡 공유 temp
+  const { mutate: mutateKakaoReport } = useMutation({
+    mutationFn: reportKaKaoUrl,
+    onSuccess: res => {
+      shareKakao(res.dataBody.token)
+    },
+    onError: error => {
+      console.error(error)
+    },
+  })
 
   const onClickCompare = async () => {
     await handleSimulationCompareClick()
   }
+
+  const onClickShare = () => {
+    const reportCreateData: SimulationDataType = {
+      url: `${serverUrl}/api/v1/analysis/simulation/report`,
+      input: {
+        isFranchisee: isFranchise,
+        brandName,
+        gugun,
+        serviceCode: subCategoryCode,
+        serviceCodeName: subCategoryName,
+        storeSize: bulidingSize,
+        floor,
+      },
+    }
+    mutateKakaoReport(reportCreateData)
+  }
+
   return (
     <c.SelctionReportHeader>
       <c.SelctionReportContainer>
-        <c.HeaderLeft onClick={() => shareKakao()}>
+        <c.HeaderLeft onClick={() => onClickShare()}>
           <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
         </c.HeaderLeft>
         <c.HeaderRight>

@@ -59,3 +59,11 @@ export const socialLoginUser = async (oAuthDomain: string, code: string) => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// AccessToken 재발급
+export const reissueAccessToken = async (memberEmail: string) => {
+  return customAxios
+    .post(`/member/reissue/accessToken/${memberEmail}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

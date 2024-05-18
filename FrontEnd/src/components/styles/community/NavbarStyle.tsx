@@ -91,7 +91,7 @@ export const CreateButton = styled.div`
   font-weight: 600;
   font-size: 1.2rem;
   color: #ffffff;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 15px 0;
 
   b {

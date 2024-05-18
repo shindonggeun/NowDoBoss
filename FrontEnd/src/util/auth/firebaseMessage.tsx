@@ -11,4 +11,6 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_REACT_FIREBASE_MEASUREMENT_ID,
 }
 
-firebase.initializeApp(firebaseConfig)
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig)
+}

@@ -184,40 +184,53 @@
 
 ## ✏️ 기술 특이점
 
-### 기술 특이점 1
+### ALS 알고리즘 기반 협업 필터링
 
-- 도메인 대기능 소개
-  - 해당 도메인에 따른 소기능 소개
-  - 해당 도메인에 따른 소기능 소개
-  - 해당 도메인에 따른 소기능 소개
+- 실시간 데이터 추천: Hadoop HDFS에 저장된 대량의 상권 데이터들과 Kafka를 통한 실시간 데이터를 기반으로 상권 추천
+- 효율적인 데이터 처리: Spark를 활용하여 데이터를 빠르고 효율적으로 처리하며, 사용자별 맞춤형 가중치를 적용하여 개개인의 특성에 맞는 상권을 추천
+- 실시간 학습 모델 업데이트: 추천 결과를 기반으로 가중치를 점진적으로 업데이트하여 학습 모델을 실시간으로 반영
 
-### 기술 특이점 2
+### 대량의 상권 데이터 병렬 처리
 
-- 도메인 대기능 소개
-  - 해당 도메인에 따른 소기능 소개
-  - 해당 도메인에 따른 소기능 소개
-  - 해당 도메인에 따른 소기능 소개
+- 분산 저장 및 처리: Hadoop을 이용하여 대량의 상권 데이터를 분산 저장 및 처리하며, Spark를 활용하여 데이터 분석 및 머신러닝 모델을 적용
+- 분산 클러스터 적용: Hadoop과 Spark의 분산 클러스터를 적용하여 대규모 데이터의 병렬 처리를 강화, 이를 통한 데이터 처리 속도 및 분석 정확도 극대화
+- FastAPI와의 연동: FastAPI 서버와 PySpark를 연동하여 데이터 처리와 분석 결과를 빠르고 효율적으로 제공
 
-### 기술 특이점 3
+### Kafka 분산 클러스터 적용 및 실시간 사용자 행동 분석
 
-- 도메인 대기능 소개
-  - 해당 도메인에 따른 소기능 소개
-  - 해당 도메인에 따른 소기능 소개
-  - 해당 도메인에 따른 소기능 소개
+- 분산 클러스터 구축: 3대의 Kafka 분산 클러스터를 적용하여 높은 가용성과 안정성을 보장, 이를 통해 대규모 데이터 스트림을 실시간으로 처리하고 분석 가능
+- 실시간 행동 분석: Kafka의 KStreams를 이용하여 사용자의 실시간 행동을 분석하며, 이를 인기 검색어에 반영
 
-### 기술 특이점 4
+### 캐싱을 통한 성능 개선
 
-- 도메인 대기능 소개
-  - 해당 도메인에 따른 소기능 소개
-  - 해당 도메인에 따른 소기능 소개
-  - 해당 도메인에 따른 소기능 소개
+- Redis 캐싱: Redis를 이용한 캐싱 처리를 통해 데이터 접근 속도를 대폭 향상시키며, cache warming을 통해 초기 조회 성능을 개선
+- Client 캐싱: ReactQuery를 이용한 Client 측 캐싱 처리를 통해 사용자가 보다 빠르게 데이터를 조회 할 수 있도록 함
 
-### 기술 특이점 5
+### 실시간 인기 자치구, 행정동, 상권 순위 기능
 
-- 도메인 대기능 소개
-  - 해당 도메인에 따른 소기능 소개
-  - 해당 도메인에 따른 소기능 소개
-  - 해당 도메인에 따른 소기능 소개
+- 실시간 인기 데이터 추출: Kafka의 Kstreams를 이용하여 Kafka Store에 저장된 사용자의 실시간 행동 분석 데이터(하루치)를 WordCount를 적용하여 인기 데이터를 추출
+- 정기적인 데이터 갱신: Spring Scheduler를 이용하여 10분마다 실시간 인기 자치구, 행정동, 상권 순위 데이터를 갱신, 갱신된 데이터는 SSE(Server-Sent Evenets) 통신을 통해 사용자에게 실시간으로 제공
+
+### WebSocket, STOMP, Kafka를 활용한 실시간 채팅 기능
+
+- 실시간 채팅 지원: WebSocket과 STOMP 프로토콜을 활용하여 실시간 채팅 기능을 구현
+- Kafka 연동: Kafka를 통해 채팅 메시지를 분산 처리 하여 높은 확장성과 안정성 보장
+
+### Spirng security + JWT 기술
+
+- 강화된 보안: Spring Security와 JWT를 활용하여 로그인한 사용자의 인증 및 요청 검증을 수행, 모든 인바운드 요청에 대해 JWT의 유효성을 검사하여 보안을 강화
+- 유효성 검증: Spring JwtAuthenticationFilter를 통해 유효한 JWT를 검사하고, 유효한 경우 사용자의 인증 정보를 SecurityContext에 저장
+- API 접근 권한 관리: 사용자의 인증 정보를 기반으로 API 접근 권한을 부여하여 보안성을 높임
+
+### Spring WebFlux
+
+- 반응형 프로그래밍: Spring WebFlux의 WebClient, Mono, Flux를 사용하여 반응형으로 프로그래밍, 비동기적이고 비차단적인(non-blocking) I/O를 사용하여 높은 동시성을 지원
+- 높은 응답성: 비차단 I/O를 통해 더 적은 리소스로 더 많은 요청을 동시에 처리하며, 로드가 심한 경우에도 애플리케이션의 응답성을 유지
+
+### Zustand 상태관리
+
+- 상태관리 최적화: Zustand를 사용하여 클라이언트 측 상태 관리를 최적화 
+- 비동기 데이터 처리: ReactQuery와 결합하여 비동기 데이터 처리를 효과적으로 관리하며, 사용자 경험을 개선
 
 ## ✨ 서비스 화면
 
@@ -227,8 +240,8 @@
 - 반응형 및 다크모드 지원 (전체 페이지에서 동일하게 지원)
 
 <div width="100%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/8762558d-1a59-4bc5-8245-86bfbea43228" width="75%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/db805fa2-c740-44fd-a9a9-196ce495f432" width="20%">
+<img src="" width="75%">
+<img src="" width="20%">
 </div>
 
 ### 메인화면
@@ -246,8 +259,8 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/0655af22-7f2d-4d88-a8c4-9b0553f7b23d" width="75%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/d3be5517-91b5-437c-9808-e31dad122c9b" width="20%">
+<img src="" width="75%">
+<img src="" width="20%">
 </div>
 
 ### 구별 현황 화면
@@ -265,8 +278,8 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/6b546cbc-48ad-49e4-b41c-d754cfaeb580" width="75%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/88ddea47-b9af-444a-a1a5-168848db9fd2" width="20%">
+<img src="" width="75%">
+<img src="" width="20%">
 </div>
 
 ### 상권 분석 화면
@@ -285,9 +298,8 @@
 
 
 <div width="100%">
-<img src="./exec/C107_myWord.png" width="50%" />
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/5794b60c-69ac-4100-94cf-08145dc79f45" width="75%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/857ed6db-61b9-49b1-8f67-81713ea0c2ef" width="20%">
+<img src="" width="75%">
+<img src="" width="20%">
 </div>
 
 ### 창업 시뮬레이션 화면
@@ -305,8 +317,8 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/7e525e3c-b247-473a-8561-b8903ae32fe6" width="75%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/4a43ceb2-7409-4fb3-ada4-0f8242d24956" width="20%">
+<img src="" width="75%">
+<img src="" width="20%">
 </div>
 
 ### 상권 추천 화면
@@ -324,7 +336,8 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="./exec/C107_chatList.png" width="75%">
+<img src="" width="75%">
+<img src="" width="20%">
 </div>
 
 ### 커뮤니티 화면
@@ -342,8 +355,8 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/611b1b63-524c-470b-86ae-13026a324771" width="75%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/870e5f46-373e-4e26-bd0d-22d9f06c2308" width="20%">
+<img src="" width="75%">
+<img src="" width="20%">
 </div>
 
 ### 채팅 화면
@@ -361,8 +374,8 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/09745b25-2bc4-40a2-9531-a3d688908de9" width="75%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/4ece02c6-3c9b-48e7-8c96-7649b9b27a19" width="20%">
+<img src="" width="75%">
+<img src="" width="20%">
 </div>
 
 ### 프로필 화면
@@ -381,8 +394,8 @@
 
 
 <div width="100%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/13816b75-f0cd-4d1a-85c3-eec1f0fe9359" width="75%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/0974c960-50fd-42fa-8937-dbeab52557ac" width="20%">
+<img src="" width="75%">
+<img src="" width="20%">
 </div>
 
 ### 일반 회원가입 화면
@@ -401,9 +414,9 @@
 
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="https://github.com/gisun55555/reactshop2/assets/139519062/4c640fc5-764d-4702-981c-e762c89a39f0" width="31%">
-    <img src="https://github.com/gisun55555/reactshop2/assets/139519062/f40c1372-e892-45f7-89f6-4477e49d45f0" width="31%">
-    <img src="https://github.com/gisun55555/reactshop2/assets/139519062/f46100bb-8c09-4870-9bb9-c830b8cead58" width="31%">
+    <img src="" width="31%">
+    <img src="" width="31%">
+    <img src="" width="31%">
 </div>
 
 ### 로그인 화면
@@ -421,7 +434,7 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="https://github.com/gisun55555/reactshop2/assets/139519062/7323e8a9-0483-41ae-a3ba-19180d8b235a" width="100%">
+<img src="" width="100%">
 </div>
 
 

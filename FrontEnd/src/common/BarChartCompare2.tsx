@@ -40,6 +40,7 @@ const BarChartCompare2 = (props: BarChartProps) => {
           'rgba(255, 168, 74, 1)',
         ],
         borderWidth: 1,
+        borderRadius: 10,
       },
     ],
   }
@@ -94,7 +95,7 @@ const BarChartCompare2 = (props: BarChartProps) => {
         const { ctx } = chart
         ctx.save()
         chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
-          ctx.font = 'bolder 14px sans-serif'
+          ctx.font = 'bolder 12px pretendard'
           ctx.fillStyle = data.datasets[0].borderColor[index]
           ctx.textAlign = 'center'
           ctx.fillText(`${pluginValues[index]}`, datapoint.x, datapoint.y - 10)

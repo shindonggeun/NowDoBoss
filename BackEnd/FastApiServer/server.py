@@ -7,7 +7,6 @@ from pyspark.sql.functions import lit
 import json
 from pymongo import MongoClient
 import scheduler
-from hdfs import InsecureClient
 
 app = FastAPI()
 

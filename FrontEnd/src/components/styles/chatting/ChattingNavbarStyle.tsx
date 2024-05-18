@@ -45,7 +45,7 @@ export const Chatting = styled.div<{ $isTransparent: boolean }>`
     justify-content: space-between;
     width: 100%;
     height: 10vh;
-    margin: 0;
+    margin-top: 25px;
     background-color: #ffffff;
     border-bottom: 1px solid #dee4ec;
     opacity: ${props => (props.$isTransparent ? 1 : 0)};
@@ -98,6 +98,9 @@ export const Input = styled.input`
     background-color: #fff;
   }
 
+  @media only screen and (max-width: 992px) {
+    height: 40px;
+  }
   @media only screen and (max-width: 540px) {
     height: 35px;
   }
@@ -173,6 +176,9 @@ export const ChatListDiv = styled.div`
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); // 살짝 그림자 효과 추가
 
+  @media only screen and (max-width: 992px) {
+    width: 220px;
+  }
   @media only screen and (max-width: 480px) {
     width: 140px;
   }
@@ -244,6 +250,10 @@ export const Col = styled.div`
 
 export const ChatList = styled.div`
   height: calc(100vh - 350px);
+
+  @media only screen and (max-width: 992px) {
+    height: auto;
+  }
 `
 
 export const Sub = styled.div`

@@ -170,8 +170,10 @@ const ChattingList = () => {
                         </a.Category>
                       </c.Content>
                       <c.Content>
-                        <a.VisibleName>멤버수</a.VisibleName>
-                        {article.memberCount} / {article.limit}
+                        <a.VisibleName>인원 </a.VisibleName>
+                        <a.Div>
+                          {article.memberCount} / {article.limit}
+                        </a.Div>
                       </c.Content>
                     </c.Div>
                   </a.Header>

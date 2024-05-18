@@ -361,7 +361,7 @@ const KakaoMap = () => {
                     // fillColor={isMouseOver ? '#70ff5c' : '#A2FF99'} // 채우기 색깔입니다
                     fillColor={fillColor} // 채우기 색깔입니다
                     zIndex={100}
-                    fillOpacity={isMouseOver === code.name ? 0.8 : 0.2} // 채우기 불투명도입니다
+                    fillOpacity={isMouseOver === code.name ? 0.8 : 0.1} // 채우기 불투명도입니다
                     onMouseover={() => {
                       // setMouseOverLatLng(code.center)
                       return setIsMouseOver(code.name)

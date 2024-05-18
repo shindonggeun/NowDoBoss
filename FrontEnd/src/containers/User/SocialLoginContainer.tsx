@@ -10,6 +10,7 @@ interface Props {
 
 const SocialLoginContainer = (props: Props) => {
   const { state } = props
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent)
 
   const { mutate: GetSocialAuthUrl } = useMutation({
     mutationKey: ['GetSocialAuthUrl'],
@@ -28,16 +29,18 @@ const SocialLoginContainer = (props: Props) => {
   const messaging = firebase.messaging()
 
   const firebaseMessage = async () => {
-    try {
-      const permission = await Notification.requestPermission()
-      if (permission === 'granted') {
-        // FCM 토큰을 가져옵니다.
-        messaging.getToken().then(token => {
-          saveFcmTokenMutation(token)
-        })
+    if (!isIOS) {
+      try {
+        const permission = await Notification.requestPermission()
+        if (permission === 'granted') {
+          // FCM 토큰을 가져옵니다.
+          messaging.getToken().then(token => {
+            saveFcmTokenMutation(token)
+          })
+        }
+      } catch (error) {
+        console.error('Permission request failed', error)
       }
-    } catch (error) {
-      console.error('Permission request failed', error)
     }
   }
 

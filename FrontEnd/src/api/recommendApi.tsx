@@ -1,4 +1,5 @@
 import { customAxios } from '@src/util/auth/customAxios'
+import { PromiseSaveListType } from '@src/types/GlobalType'
 
 // 상권 추천 get api
 export const recommendCommercial = async (codes: {
@@ -39,7 +40,7 @@ export const recommendDelete = async (codes: {
 }
 
 // 추천 상권 저장 목록 조회 get api
-export const recommendSaveList = async () => {
+export const recommendSaveList = async (): Promise<PromiseSaveListType> => {
   return customAxios
     .get(`/recommendation/save/list`)
     .then(res => res.data)

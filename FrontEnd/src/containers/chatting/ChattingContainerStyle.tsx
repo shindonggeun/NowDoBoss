@@ -19,7 +19,7 @@ export const Context = styled.div`
 
 export const MainContentDiv = styled.div`
   margin: 3% 0 3% 5%;
-  width: 90%;
+  width: 80%;
 
   @media only screen and (max-width: 992px) {
     margin: 3%;

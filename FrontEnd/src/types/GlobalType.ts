@@ -9,15 +9,13 @@ export type PromiseSaveListType = {
     resultMessage: null
   }
   dataBody: {
-    data: {
-      userId: number
-      commercialCode: string
-      commercialCodeName: string
-      districtCode: string
-      districtCodeName: string
-      administrationCode: string
-      administrationCodeName: string
-      createdAt: string
-    }[]
-  }
+    userId: number
+    commercialCode: string
+    commercialCodeName: string
+    districtCode: string
+    districtCodeName: string
+    administrationCode: string
+    administrationCodeName: string
+    createdAt: string
+  }[]
 }

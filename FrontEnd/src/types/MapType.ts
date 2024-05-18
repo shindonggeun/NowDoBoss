@@ -101,5 +101,10 @@ export type RecommendCommercialType = {
     administrationClosedRate: number
     otherClosedRate: number
   }
-  blueOceanInfo: { string: number }
+  blueOceanInfo: {
+    serviceCodeName: string
+    myStore: number
+    totalStore: number
+    storeRate: number
+  }[]
 }

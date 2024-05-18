@@ -4,6 +4,7 @@ import SaveCheckIcon from '@src/assets/saveCheckMark.svg'
 import SaveIcon from '@src/assets/saveMark.svg'
 import CompareIcon from '@src/assets/compare.svg'
 import Xmark from '@src/assets/xmark_solid_nomal.svg'
+import KakaoBtn from '@src/assets/kakaoSmBtn.png'
 import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { reportSave } from '@src/api/simulationApi'
@@ -20,9 +21,15 @@ const { Kakao } = window
 interface HeaderType {
   onClose: () => void
   onClickAlram: (data: boolean) => void
+  onClickFail: (data: boolean) => void
   ReportData: SimulationReportType
 }
-const ReportHeader = ({ onClose, ReportData, onClickAlram }: HeaderType) => {
+const ReportHeader = ({
+  onClose,
+  ReportData,
+  onClickAlram,
+  onClickFail,
+}: HeaderType) => {
   const isFranchise = ReportData.request.isFranchisee
   const { brandName } = ReportData.request
   const subCategoryName = ReportData.request.serviceCodeName
@@ -42,16 +49,21 @@ const ReportHeader = ({ onClose, ReportData, onClickAlram }: HeaderType) => {
   // 레포트 분석 저장
   const { mutate: mutateSaveReport } = useMutation({
     mutationFn: reportSave,
-    onSuccess: () => {
-      onClickAlram(true)
+    onSuccess: res => {
+      if (res.status === 500) {
+        onClickFail(true)
+      }
+      if (res.dataHeader && res.dataHeader.successCode) {
+        onClickAlram(true)
+        setIsSaved(!isSaved)
+      }
     },
     onError: error => {
-      console.error(error)
+      console.log(error)
     },
   })
 
   const onClickSave = () => {
-    setIsSaved(!isSaved)
     const saveReportData: SimulationSaveType = {
       totalPrice: ReportData.totalPrice,
       isFranchisee: isFranchise!,
@@ -74,8 +86,8 @@ const ReportHeader = ({ onClose, ReportData, onClickAlram }: HeaderType) => {
   }, [])
 
   // 카카오톡 share 탬플릿
-  // const serverUrl = 'http://localhost:5173'
-  const serverUrl = 'https://k10c208.p.ssafy.io'
+  const serverUrl = 'http://localhost:5173'
+  // const serverUrl = 'https://k10c208.p.ssafy.io'
   const shareKakao = (data: string) => {
     window.Kakao.Link.sendCustom({
       templateId: 107914,
@@ -122,10 +134,14 @@ const ReportHeader = ({ onClose, ReportData, onClickAlram }: HeaderType) => {
   return (
     <c.SelctionReportHeader>
       <c.SelctionReportContainer>
-        <c.HeaderLeft onClick={() => onClickShare()}>
+        <c.HeaderLeft>
           <c.HeaderTitle>창업 시뮬레이션</c.HeaderTitle>
         </c.HeaderLeft>
         <c.HeaderRight>
+          <h.HeaderIcon onClick={onClickShare}>
+            <h.KakaoIcon src={KakaoBtn} alt="kakao" />
+            공유하기
+          </h.HeaderIcon>
           <h.HeaderIcon onClick={onClickSave}>
             {isSaved ? (
               <h.SaveIcon src={SaveCheckIcon} alt="saveCheck" />

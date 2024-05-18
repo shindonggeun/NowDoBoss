@@ -155,7 +155,7 @@ const StatusPolygonComponent = ({
         fontFamily: 'pretender',
         fontWeight: '600',
         fill: 'white',
-        fontSize: window.innerWidth >= 850 ? '0.8rem' : '0.4rem',
+        fontSize: window.innerWidth >= 800 ? '0.8rem' : '0.5rem',
         textAnchor: 'middle',
         top: '10px',
         position: 'relative',

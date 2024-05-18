@@ -211,6 +211,7 @@ export const Traffic = styled.div`
   }
   @media only screen and (width < 550px) {
     display: flex;
+    min-width: auto;
   }
 `
 

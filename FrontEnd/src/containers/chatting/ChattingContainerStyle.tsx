@@ -4,10 +4,12 @@ export const SideBar = styled.div`
   position: fixed;
   z-index: 10;
   width: 250px;
+  height: calc(100vh - 68px);
 
   @media only screen and (max-width: 992px) {
     position: static; // 화면 너비가 992px 이하일 때는 고정 위치 해제
     width: 100vw;
+    height: auto;
   }
 `
 

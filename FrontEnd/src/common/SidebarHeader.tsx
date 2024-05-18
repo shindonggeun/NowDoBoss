@@ -39,9 +39,9 @@ const CloseButton = styled.div`
 
   color: #333333;
   font-weight: 600;
-  width: 2.2rem;
-  height: 2.2rem;
-  font-size: 1.3rem;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.1rem;
   display: flex;
   justify-content: center;
   align-items: center;

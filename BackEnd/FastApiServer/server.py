@@ -65,26 +65,6 @@ async def recommend_commercial_areas():
     df.show()
     return {"status": "success", "data": df.collect()}
 
-    # try:
-    #     # Spark 세션 시작
-    #     spark = start_spark_session()
-    #
-    #     # HDFS에서 데이터 읽기
-    #     df = spark.read.csv("hdfs://172.24.48.100:9000/user/root/commercial_data.csv", header=True)
-    #     print(df.show())
-    #     # # user_id로 필터링
-    #     # result = df.filter(df["commercialCode"] == commercial_code).collect()
-    #     #
-    #     # # 결과 반환
-    #     # if result:
-    #     #     return {"commercialCode": result[0]["commercial"], "id": result[0]["commercialCode"]}
-    #     # else:
-    #     #     return {"message": "Commercial not found"}
-    # except Exception as e:
-    #     # 에러 로그
-    #     print(f"Error occurred: {str(e)}")
-    #    raise HTTPException(status_code=500, detail=str(e))
-
 @app.get("/test-spark-connection")
 async def test_spark_connection():
     try:

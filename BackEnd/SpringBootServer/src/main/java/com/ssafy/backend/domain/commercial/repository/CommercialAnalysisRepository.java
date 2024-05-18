@@ -12,4 +12,6 @@ public interface CommercialAnalysisRepository extends MongoRepository<Commercial
             String districtCode, String administrationCode, String commercialCode, String serviceCode);
 
     List<CommercialAnalysis> findByMemberIdOrderByCreatedAt(Long memberId);
+
+    void deleteByMemberId(Long memberId);
 }

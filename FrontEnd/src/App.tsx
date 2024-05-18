@@ -1,7 +1,6 @@
 import { CookiesProvider } from 'react-cookie'
 import { Route, Routes } from 'react-router-dom'
 import GlobalStyles from '@src/GlobalStyles.tsx'
-import Header from '@src/common/Header'
 import MainPage from '@src/pages/MainPage'
 import SignUpPage from '@src/pages/SignUpPage'
 import SignUpGeneralPage from '@src/pages/SignUpGeneralPage'
@@ -67,7 +66,6 @@ function App() {
       <GlobalStyles />
       <SweetAlert2 />
       <ConditionalHeader />
-      <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
         {/* 회원 */}

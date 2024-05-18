@@ -1,10 +1,13 @@
 package com.ssafy.backend.domain.member.service;
 
+import com.ssafy.backend.domain.commercial.repository.CommercialAnalysisRepository;
 import com.ssafy.backend.domain.member.dto.*;
 import com.ssafy.backend.domain.member.entity.Member;
 import com.ssafy.backend.domain.member.exception.MemberErrorCode;
 import com.ssafy.backend.domain.member.exception.MemberException;
 import com.ssafy.backend.domain.member.repository.MemberRepository;
+import com.ssafy.backend.domain.recommendation.repository.RecommendationRepository;
+import com.ssafy.backend.domain.simulation.repository.SimulationRepository;
 import com.ssafy.backend.global.component.jwt.repository.RefreshTokenRepository;
 import com.ssafy.backend.global.component.jwt.service.JwtTokenService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,9 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenService jwtTokenService;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final SimulationRepository simulationRepository;
+    private final RecommendationRepository recommendationRepository;
+    private final CommercialAnalysisRepository commercialAnalysisRepository;
 
     @Override
     public void signupMember(MemberSignupRequest signupRequest) {
@@ -80,6 +86,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void deleteMember(Long memberId) {
+        // MongoDB에 저장된 데이터 삭제
+        simulationRepository.deleteByMemberId(memberId);
+        recommendationRepository.deleteByUserId(memberId);
+        commercialAnalysisRepository.deleteByMemberId(memberId);
+
+        // JPA에 저장된 데이터 삭제
         memberRepository.deleteById(memberId);
     }
 

@@ -211,7 +211,7 @@ public class SimulationServiceImpl implements SimulationService {
     @Override
     public PageResponse<SimulationDocumentResponse> selectSimulation(Long memberId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<SimulationDocumentResponse> response = simulationRepository.findAll(pageable)
+        Page<SimulationDocumentResponse> response = simulationRepository.findByMemberId(memberId, pageable)
                 .map(SimulationDocumentResponse::new);
 
         return PageResponse.of(response);

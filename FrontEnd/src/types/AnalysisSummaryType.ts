@@ -11,7 +11,7 @@ export type FlowSummaryType = {
 
 export type SalesSummaryType = {
   total: string
-  monthly: string
+  count: string
   average: string
   gender: string
   age: string

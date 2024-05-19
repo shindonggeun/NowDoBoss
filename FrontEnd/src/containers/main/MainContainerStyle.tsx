@@ -11,6 +11,7 @@ export const Container = styled.div`
   width: calc(100vw - 5px);
   //height: calc(100vh - 70px);
   height: calc(100vh);
+  display: flex;
 
   margin: auto;
   @media only screen and (max-width: 992px) {
@@ -26,6 +27,7 @@ export const Content = styled.div`
   height: 100%;
   margin: 0 10%;
   //background-color: #d9d9d9;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -44,10 +46,6 @@ export const Text = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 0 40px;
-
-  @media only screen and (max-width: 992px) {
-    width: 100%;
-  }
 `
 
 // 파란색 부가 설명
@@ -104,20 +102,8 @@ export const CardList = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
-
-// overflow-y 적용 할 스크롤 div
-export const CardScroll = styled.div`
-  max-height: 100%;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
-  -ms-overflow-style: none; /*IE, Edge*/
-  scrollbar-width: none; /*Firefox*/
-
-  ::-webkit-scrollbar {
-    display: none; /*Chrome, Safari, Opera*/
-    width: 0;
-  }
+  overflow-y: auto;
+  padding: 2rem;
 `
 
 // 이미지 넣을 card
@@ -126,6 +112,10 @@ export const Card = styled.div`
   height: auto;
   //margin: calc((100vh - 70px - 450px) / 2) 0;
   margin: calc((100vh - 400px) / 2) 0;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 
   @media only screen and (max-width: 992px) {
     margin: 0;
@@ -134,6 +124,7 @@ export const Card = styled.div`
 `
 export const CardImg = styled.img`
   width: 100%;
+  height: auto;
   border: 2px solid #d9d9d9;
   border-radius: 5px;
 `
@@ -145,4 +136,18 @@ export const CardContent = styled.div`
   font-size: 2rem;
   margin: 5px 0;
   color: #4a4a4a;
+`
+
+export const Recommend = styled.div`
+  opacity: 0;
+  transform: translateY(100px);
+  transition:
+    opacity 1s ease-out,
+    transform 1s ease-out;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+    align-items: center;
+  }
 `

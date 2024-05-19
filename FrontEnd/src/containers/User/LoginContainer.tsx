@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { useCookies } from 'react-cookie'
 import { loginUser } from '@src/api/userApi'
 import { saveFcmToken } from '@src/api/fcmApi'
 import InfoSection from '@src/components/User/InfoSection'
@@ -16,7 +15,6 @@ import firebase from 'firebase'
 // firebase config 불러오기
 
 const LoginContainer = () => {
-  const [, setCookie] = useCookies(['accessToken'])
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -93,12 +91,6 @@ const LoginContainer = () => {
       if (res.dataHeader.successCode === 1) {
         setErrorMessage(res.dataHeader.resultMessage)
       } else {
-        // 쿠키에 accessToken 저장 (7일 동안 유지)
-        const { accessToken } = res.dataBody.tokenInfo
-        setCookie('accessToken', accessToken, {
-          path: '/',
-        })
-
         // 로그인 성공하면 fcm 토큰 요청 함수 실행, 안에서 토큰 저장 로직 실행
         firebaseMessage()
 

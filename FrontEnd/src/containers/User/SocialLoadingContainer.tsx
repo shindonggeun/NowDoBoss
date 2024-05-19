@@ -2,12 +2,10 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { socialLoginUser } from '@src/api/userApi'
 import { useQuery } from '@tanstack/react-query'
-import { useCookies } from 'react-cookie'
 import MainContainer from '@src/containers/main/MainContainer'
 import Swal from 'sweetalert2'
 
 const SocialLoadingContainer = () => {
-  const [, setCookie] = useCookies(['accessToken'])
   const navigate = useNavigate()
   const { provider } = useParams()
   const code = new URL(document.location.toString()).searchParams.get('code')
@@ -36,12 +34,6 @@ const SocialLoadingContainer = () => {
       }
       // 성공
       else {
-        // 쿠키에 accessToken 저장 (7일 동안 유지)
-        const { accessToken } = data.dataBody.tokenInfo
-        setCookie('accessToken', accessToken, {
-          path: '/',
-        })
-
         // 로컬 스토리지에 memberInfo 및 로그인 여부 저장
         const { memberInfo } = data.dataBody
         localStorage.setItem('memberInfo', JSON.stringify(memberInfo))
@@ -68,7 +60,7 @@ const SocialLoadingContainer = () => {
         navigate('/')
       }
     }
-  }, [data, setCookie, navigate])
+  }, [data, navigate])
 
   return <MainContainer />
 }

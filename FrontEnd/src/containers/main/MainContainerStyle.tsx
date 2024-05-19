@@ -94,40 +94,6 @@ export const GoButton = styled.div`
     }
   }
 `
-// 카드 들어가는 div
-export const CardList = styled.div`
-  width: 50%;
-  //background-color: #96ff89;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto;
-  padding: 2rem;
-`
-
-// 이미지 넣을 card
-export const Card = styled.div`
-  width: 35vw;
-  height: auto;
-  //margin: calc((100vh - 70px - 450px) / 2) 0;
-  margin: calc((100vh - 400px) / 2) 0;
-  background: #f8f9fa;
-  padding: 1rem;
-  border-radius: 0.25rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-
-  @media only screen and (max-width: 992px) {
-    margin: 0;
-    width: 100%;
-  }
-`
-export const CardImg = styled.img`
-  width: 100%;
-  height: auto;
-  border: 2px solid #d9d9d9;
-  border-radius: 5px;
-`
 
 export const CardContent = styled.div`
   display: flex;
@@ -149,6 +115,10 @@ export const Recommend = styled.div`
     opacity: 1;
     transform: translateY(0);
     align-items: center;
+  }
+
+  @media only screen and (max-width: 992px) {
+    height: 400vh;
   }
 `
 

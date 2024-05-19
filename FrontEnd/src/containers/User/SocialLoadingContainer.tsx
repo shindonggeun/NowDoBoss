@@ -39,7 +39,6 @@ const SocialLoadingContainer = () => {
         // 쿠키에 accessToken 저장 (7일 동안 유지)
         const { accessToken } = data.dataBody.tokenInfo
         setCookie('accessToken', accessToken, {
-          maxAge: 60 * 60 * 24 * 7,
           path: '/',
         })
 

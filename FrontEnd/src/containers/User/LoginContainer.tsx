@@ -96,7 +96,6 @@ const LoginContainer = () => {
         // 쿠키에 accessToken 저장 (7일 동안 유지)
         const { accessToken } = res.dataBody.tokenInfo
         setCookie('accessToken', accessToken, {
-          maxAge: 60 * 60 * 24 * 7,
           path: '/',
         })
 

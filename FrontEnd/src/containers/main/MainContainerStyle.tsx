@@ -27,12 +27,14 @@ export const Content = styled.div`
   height: 100%;
   margin: 0 10%;
   //background-color: #d9d9d9;
-  width: 100%;
+  width: calc(80% - 5px);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
   @media only screen and (max-width: 992px) {
+    margin: 10px 0;
+    width: calc(100vw - 5px);
     flex-direction: column;
     justify-content: center;
   }
@@ -46,6 +48,12 @@ export const Text = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 0 40px;
+
+  @media only screen and (max-width: 992px) {
+    width: calc(100% - 5px);
+    padding: 0;
+    align-items: center;
+  }
 `
 
 // 파란색 부가 설명
@@ -53,6 +61,10 @@ export const BlueText = styled.div`
   color: #336dd3;
   margin-bottom: 12px;
   font-size: 1.25rem;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 1rem;
+  }
 `
 
 // 제목
@@ -63,6 +75,13 @@ export const Title = styled.div`
   font-weight: 700;
   word-break: keep-all;
   line-height: 140%;
+
+  @media only screen and (max-width: 992px) {
+    font-size: 2rem;
+  }
+  @media only screen and (max-width: 700px) {
+    font-size: 2rem;
+  }
 `
 
 // 설명
@@ -72,10 +91,18 @@ export const TextContent = styled.div`
   font-weight: 600;
   line-height: 160%;
   margin-bottom: 40px;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 1.2rem;
+  }
 `
 
 // 바로가기 버튼
-export const BannerArrow = styled.div``
+export const BannerArrow = styled.div`
+  @media only screen and (max-width: 600px) {
+    scale: 0.9;
+  }
+`
 
 // 바로가기 버튼
 export const GoButton = styled.div`
@@ -92,6 +119,10 @@ export const GoButton = styled.div`
       transform: translateX(15px);
       transition: transform 0.3s ease;
     }
+  }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 1.2rem;
   }
 `
 
@@ -175,10 +206,17 @@ export const EctTextContent = styled.div`
   line-height: 160%;
   margin-bottom: 40px;
   text-align: center;
+
+  @media only screen and (max-width: 1200px) {
+    font-size: 1.2rem;
+  }
+  @media only screen and (max-width: 992px) {
+    font-size: 1rem;
+  }
 `
 
 export const EctCardContainer = styled.div`
-  width: 100%;
+  width: calc(100% - 5px);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -216,7 +254,7 @@ export const EctCard = styled.div<{ $isup: boolean }>`
 `
 
 export const EctCardContent = styled.div`
-  width: 100%;
+  width: calc(100% - 5px);
   display: flex;
   flex-direction: column;
   justify-content: center;

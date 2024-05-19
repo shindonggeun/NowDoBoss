@@ -9,15 +9,6 @@ type RecommendBlueOceanPropsType = {
 const RecommendBlueOcean = (props: RecommendBlueOceanPropsType) => {
   const { selectedData } = props
 
-  // // 배열 내림차순으로 정렬
-  // const blueOceanArray = Object.entries(selectedData.blueOceanInfo)
-  //   .map(([name, count]) => ({
-  //     name,
-  //     count: parseFloat(count.toFixed(1)), // count 값을 소수점 첫째 자리까지 반올림
-  //   }))
-  //   .sort((a, b) => b.count - a.count)
-  //   .slice(0, 5)
-
   return (
     <r.Div>
       <r.BlueOcean>

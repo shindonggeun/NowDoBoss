@@ -54,7 +54,13 @@ const MainIntroContainer = () => {
           >
             상권 분석하기
           </i.MainButton>
-          <i.MainButton>이용 가이드</i.MainButton>
+          <i.MainButton
+            onClick={() => {
+              navigate('/analysis/simulation')
+            }}
+          >
+            창업 시뮬레이션
+          </i.MainButton>
         </i.ButtonDiv>
       </i.Main>
       <i.Sub>

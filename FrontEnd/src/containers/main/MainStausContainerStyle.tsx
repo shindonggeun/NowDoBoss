@@ -13,6 +13,11 @@ export const CardList = styled.div`
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
+
+  @media only screen and (max-width: 992px) {
+    width: calc(100vw - 5px);
+    margin: 0;
+  }
 `
 
 export const SlideWrapper = styled.div`

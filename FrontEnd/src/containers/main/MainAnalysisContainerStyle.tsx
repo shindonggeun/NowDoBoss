@@ -96,6 +96,10 @@ export const BlueText = styled.div`
   color: #336dd3;
   margin-bottom: 12px;
   font-size: 1.25rem;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 1rem;
+  }
 `
 
 export const MainText = styled.div`
@@ -105,6 +109,10 @@ export const MainText = styled.div`
   font-weight: 700;
   word-break: keep-all;
   line-height: 140%;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 2rem;
+  }
 `
 
 export const SubText = styled.p`
@@ -113,6 +121,10 @@ export const SubText = styled.p`
   font-weight: 600;
   line-height: 160%;
   margin-bottom: 40px;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 1.2rem;
+  }
 `
 
 export const TextStopBtn = styled.div`
@@ -280,8 +292,13 @@ export const SubInnerBox = styled.div`
   height: 100%;
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
   align-items: center;
   box-sizing: border-box;
+
+  @media only screen and (max-width: 1015px) {
+    flex-direction: column;
+  }
 `
 
 export const ContentDiv = styled.div`
@@ -305,6 +322,31 @@ export const ContentDiv = styled.div`
     font-size: 1.3rem;
     line-height: 2.15rem;
     margin-bottom: 12px;
+  }
+
+  @media only screen and (max-width: 992px) {
+    font-size: 0.8rem;
+    h2 {
+      font-size: 3rem;
+      line-height: 3.5rem;
+      margin-bottom: 30px;
+    }
+
+    p {
+      font-size: 1.2rem;
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    font-size: 0.8rem;
+    h2 {
+      font-size: 2rem;
+      line-height: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1rem;
+    }
   }
 `
 

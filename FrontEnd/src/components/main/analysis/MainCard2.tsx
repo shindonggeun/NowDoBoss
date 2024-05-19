@@ -2,19 +2,19 @@ import * as a from '@src/containers/main/MainAnalysisContainerStyle'
 
 const MainCard2 = () => {
   return (
-    <a.Card>
-      <a.CardTextDiv>
-        <p>유동인구</p>
+    <a.BlueCard>
+      <a.BlueCardTextDiv>
+        <p>간편한 요약 정보</p>
         <h4>
-          원하는 지역의 <br />
-          뜨는 업종을 <br />
-          간편하게 살펴볼 수 있어요!
+          복잡한 데이터를 <br />
+          한눈에 이해할 수 있는 <br />
+          요약 정보를 제공해요.
         </h4>
-      </a.CardTextDiv>
+      </a.BlueCardTextDiv>
       <a.CardImgDiv>
-        <a.CardImg />
+        <a.SpeakerCardImg />
       </a.CardImgDiv>
-    </a.Card>
+    </a.BlueCard>
   )
 }
 

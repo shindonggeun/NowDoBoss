@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { useCookies } from 'react-cookie'
 import { deleteAccount } from '@src/api/profileApi'
+import { logoutUser } from '@src/api/userApi'
 import * as w from '@src/containers/profile/WithdrawContainerStyle'
 import { deleteFcmToken } from '@src/api/fcmApi'
 import firebase from 'firebase'
 
 const WithdrawContainer = () => {
   const queryClient = useQueryClient()
-  const [, , removeCookie] = useCookies(['accessToken'])
   const navigate = useNavigate()
   const [isAgreed, setIsAgreed] = useState(false)
+
+  const { mutate: LogoutUser } = useMutation({
+    mutationKey: ['logoutUser'],
+    mutationFn: logoutUser,
+  })
 
   // 동의 체크 여부 토글 함수
   const handleAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,9 +28,7 @@ const WithdrawContainer = () => {
     mutationFn: deleteAccount,
     onSuccess: res => {
       if (res.dataHeader.successCode === 0) {
-        // 쿠키에서 accessToken 삭제
-        removeCookie('accessToken', { path: '/' })
-
+        LogoutUser()
         // 로컬 스토리지에서 memberInfo 및 로그인 여부 삭제
         localStorage.removeItem('memberInfo')
         localStorage.removeItem('isLogIn')

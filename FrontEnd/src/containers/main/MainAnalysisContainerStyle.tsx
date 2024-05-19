@@ -1,4 +1,52 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
+const infiniteAnimation1 = keyframes`
+    0% {
+        transform: translateY(0%);
+    }
+    50% {
+        transform: translateY(-100%);
+    }
+    50.1% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+`
+
+const infiniteAnimation2 = keyframes`
+    0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(-200%);
+    }
+`
+
+const infiniteAnimation5 = keyframes`
+    0% {
+        transform: translateX(0%);
+    }
+    50% {
+        transform: translateX(-100%);
+    }
+    50.1% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+`
+
+const infiniteAnimation6 = keyframes`
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-200%);
+    }
+`
 
 export const Container = styled.div`
   display: flex;
@@ -6,21 +54,18 @@ export const Container = styled.div`
 `
 
 export const Main = styled.div`
-  height: calc(100vh);
-  position: relative;
-  display: flex;
-  padding: 5% 0 5% 2%;
-  background-color: #fcfdff;
-`
+    height: calc(100vh);
+    position: relative;
+    display: flex;
+    padding: 3% 0 3% 2%;
+    background-color: #fcfdff;
+    align-items: center;
 
-export const InnerBox = styled.div`
-  margin: 0 auto;
-  width: 1200px;
-  height: 600px;
-  justify-content: space-between;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
+    @media (max-width: 1200px) {
+        flex-direction: column;
+        height: auto;
+
+        padding: 5%;
 `
 
 export const TextDiv = styled.div`
@@ -28,6 +73,18 @@ export const TextDiv = styled.div`
   width: 50%;
   display: flex;
   flex-direction: column;
+  padding-left: 10%;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    margin-bottom: 20vh;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  @media (max-width: 576px) {
+    margin-bottom: 10vh;
+  }
 `
 
 export const TextWrap = styled.div`
@@ -69,31 +126,21 @@ export const ImgBox = styled.div`
   width: 50%;
   height: 600px;
   display: flex;
-  justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  flex-direction: row;
-`
-export const Fix = styled.div`
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-`
-
-export const Rel = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-`
-
-export const BoxWrap = styled.div`
-  position: absolute;
-  width: 1200px;
-  height: 100%;
-  box-sizing: border-box;
-  display: flex;
   justify-content: space-around;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    padding: 0;
+    justify-content: space-around;
+  }
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    height: auto;
+    gap: 5vh;
+  }
 `
 
 // 슬라이더
@@ -101,88 +148,81 @@ export const CardWrap = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  width: 380px;
+  width: 50%;
+  max-width: 350px;
   height: 100%;
   overflow-y: hidden;
-  /* position: absolute; */
   cursor: default;
   box-shadow: 0 0 42px rgb(134 171 224 / 10%);
 
-  @keyframes infiniteAnimation1 {
-    0% {
-      transform: translateY(0%);
-    }
-    50% {
-      transform: translateY(-100%);
-    }
-    50.1% {
-      transform: translateY(100%);
-    }
-    100% {
-      transform: translateY(0%);
-    }
+  @media (max-width: 1200px) {
+    width: 100%;
   }
 
-  @keyframes infiniteAnimation2 {
-    0% {
-      transform: translateY(0%);
-    }
-    100% {
-      transform: translateY(-200%);
-    }
-  }
-
-  @keyframes infiniteAnimation3 {
-    0% {
-      transform: translateY(0%);
-    }
-    50% {
-      transform: translateY(100%);
-    }
-    50.1% {
-      transform: translateY(-100%);
-    }
-    100% {
-      transform: translateY(0%);
-    }
-  }
-
-  @keyframes infiniteAnimation4 {
-    0% {
-      transform: translateY(0%);
-    }
-    100% {
-      transform: translateY(200%);
-    }
+  @media (max-width: 992px) {
+    flex-direction: row;
+    max-width: 1200px;
+    height: 400px;
+    overflow-x: hidden;
+    gap: 2vh;
   }
 `
 
 export const OriginalCardDiv = styled.div`
   display: flex;
   flex-direction: column;
-  animation: 25s linear infinite normal none running infiniteAnimation1;
+  animation: 35s linear infinite normal none running ${infiniteAnimation1};
+
+  @media (max-width: 992px) {
+    flex-direction: row;
+    gap: 2vh;
+    animation: 50s linear infinite normal none running ${infiniteAnimation5};
+  }
 `
 
 export const CloneCardDiv = styled.div`
   display: flex;
   flex-direction: column;
-  animation: 25s linear infinite normal none running infiniteAnimation2;
+  animation: 35s linear infinite normal none running ${infiniteAnimation2};
+
+  @media (max-width: 992px) {
+    flex-direction: row;
+    gap: 2vh;
+    animation: 50s linear infinite normal none running ${infiniteAnimation6};
+  }
 `
 
 export const DescOriginalCardDiv = styled.div`
   display: flex;
   flex-direction: column;
-  animation: 25s linear infinite normal none running infiniteAnimation3;
+  animation: 35s linear infinite normal none running ${infiniteAnimation1};
+  animation-direction: reverse;
+
+  @media (max-width: 992px) {
+    flex-direction: row;
+    gap: 2vh;
+    animation: 50s linear infinite normal none running ${infiniteAnimation5};
+    animation-direction: reverse;
+  }
 `
 
 export const DescCloneCardDiv = styled.div`
   display: flex;
   flex-direction: column;
-  animation: 25s linear infinite normal none running infiniteAnimation4;
+  animation: 35s linear infinite normal none running ${infiniteAnimation2};
+  animation-direction: reverse;
+
+  @media (max-width: 992px) {
+    flex-direction: row;
+    gap: 2vh;
+    animation: 50s linear infinite normal none running ${infiniteAnimation6};
+    animation-direction: reverse;
+  }
 `
 
 export const Card = styled.div`
   width: 100%;
+  min-width: 350px;
   height: 400px !important;
   margin-bottom: 20px;
   display: flex;
@@ -232,14 +272,6 @@ export const Sub = styled.div`
   display: flex;
   padding: 5% 1%;
   background-color: #fcfdff;
-`
-
-export const SubSub = styled.div`
-  height: calc(100vh);
-  position: relative;
-  display: flex;
-  padding: 5% 1%;
-  background-color: #f0f5ff;
 `
 
 export const SubInnerBox = styled.div`
@@ -297,16 +329,55 @@ export const ChartImgDiv = styled.div`
   }
 `
 
-export const MapImgDiv = styled.div`
+export const BlueCard = styled.div`
   width: 100%;
-  height: auto;
+  min-width: 350px;
+  height: 400px !important;
+  margin-bottom: 20px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  justify-content: space-between;
+  background-color: #1f65fd;
+  border-radius: 14px;
+  box-shadow: 0 0 42px rgb(134 171 224 / 10%);
+`
 
-  img {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
+export const BlueCardTextDiv = styled.div`
+  padding: 32px 28px;
+  box-sizing: border-box;
+  border: 0;
+
+  p {
+    color: #bbfffb;
+    font-weight: 400;
+    font-size: 1.125rem;
+    margin-bottom: 8px;
+    word-break: keep-all;
   }
+
+  h4 {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.4rem;
+    word-break: keep-all;
+  }
+`
+
+export const SpeakerCardImg = styled.div`
+  background: url('/images/speaker.png') no-repeat 50% 50% / contain;
+  height: 200px;
+  box-sizing: border-box;
+`
+
+export const ChartCardImg = styled.div`
+  background: url('/images/chart.png') no-repeat 50% 50% / contain;
+  height: 200px;
+  box-sizing: border-box;
+`
+
+export const Card4Img = styled.div`
+  background: url('/images/awards.png') no-repeat 50% 50% / contain;
+  height: 200px;
+  box-sizing: boder-box;
 `

@@ -20,6 +20,7 @@ export const Header = styled.div`
   align-items: center;
   font-weight: 600;
   position: relative;
+  margin: 10px 0;
 `
 export const MoreModal = styled.div`
   position: absolute;
@@ -79,6 +80,9 @@ export const ModalContent = styled.div`
 export const Title = styled.div`
   font-size: 2rem;
   font-weight: 600;
+  @media only screen and (max-width: 550px) {
+    width: 50%;
+  }
 `
 export const RowDiv = styled.div`
   display: flex;
@@ -86,12 +90,11 @@ export const RowDiv = styled.div`
   justify-content: space-between;
 
   @media only screen and (max-width: 550px) {
-    flex-direction: column;
   }
 `
 export const Category = styled.div`
   //padding: 1vh 0;
-  margin-top: 2vh;
+  margin-top: 1vh;
   display: flex;
   justify-content: center;
   align-items: center;

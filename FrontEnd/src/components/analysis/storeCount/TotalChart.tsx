@@ -1,5 +1,5 @@
 import analysisStore from '@src/stores/analysisStore'
-import HorizontalBarChart from '@src/common/HorizontalBarChart'
+import PieChart3 from '@src/common/PieChart3'
 import * as s from '@src/components/styles/analysis/StoreCountAnalysisStyle'
 
 const TotalChart = () => {
@@ -15,20 +15,31 @@ const TotalChart = () => {
   const initiallabels = storeCountDataBody.sameStoreInfos.map(
     info => info.serviceCodeName,
   )
-  const values = storeCountDataBody.sameStoreInfos.map(info => info.totalStore)
+  let values = storeCountDataBody.sameStoreInfos.map(info => info.totalStore)
+
+  // values를 내림차순으로 정렬
+  values.sort((a, b) => b - a)
+
+  // values 길이가 6보다 크면, 상위 5개와 나머지의 합으로 재구성
+  if (values.length > 6) {
+    const topFiveValues = values.slice(0, 5)
+    const othersSum = values.slice(5).reduce((acc, current) => acc + current, 0)
+    values = [...topFiveValues, othersSum]
+  }
 
   // 레이블의 최대 길이를 정하고, 넘어가는 경우 자르고 "..."을 추가하는 함수
   function truncateLabels(labels: string[], maxLength: number) {
     return labels.map(label => {
-      // 레이블이 최대 길이보다 짧거나 같으면 그대로 반환
       if (label.length <= maxLength) return label
-      // 레이블이 최대 길이보다 길면, 지정된 길이까지 자르고 "..."을 추가
       return `${label.substring(0, maxLength)}...`
     })
   }
 
-  // 함수 사용하여 레이블 처리
-  const labels = truncateLabels(initiallabels, 6)
+  // 함수 사용하여 레이블 처리. '기타' 레이블도 추가해야 함
+  let labels = truncateLabels(initiallabels, 6)
+  if (labels.length > 6) {
+    labels = [...labels.slice(0, 5), '기타']
+  }
 
   return (
     <s.TotalChart>
@@ -37,14 +48,7 @@ const TotalChart = () => {
         선택하신 업종 {selectedService.serviceCodeName}과 유사한 업종 점포가{' '}
         <s.HighlightText>{totalStore}개</s.HighlightText> 있어요.
       </s.ChartSubTitle>
-      <HorizontalBarChart
-        labels={labels}
-        values={values}
-        datasetsLabel="점포 수(개)"
-        aspectRatio={1.7}
-        xDisplay={false}
-        pluginUnit="개"
-      />
+      <PieChart3 value={values} labels={labels} />
     </s.TotalChart>
   )
 }

@@ -29,8 +29,8 @@ const WeekChart = () => {
     <f.WeekChart>
       <f.ChartTitle>요일별 유동인구</f.ChartTitle>
       <f.ChartSubTitle>
-        <f.HighlightText>{maxLabel}요일</f.HighlightText>
-        유동인구가 가장 높아요.
+        <f.HighlightText>{maxLabel}요일</f.HighlightText> 유동인구가 가장
+        높아요.
       </f.ChartSubTitle>
       <BarChart2
         labels={labels}

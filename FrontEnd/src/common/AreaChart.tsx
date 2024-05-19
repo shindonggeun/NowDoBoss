@@ -35,8 +35,9 @@ const AreaChart = (props: AreaChartPropsType) => {
         fill: true, // 면적 차트를 위한 설정
         backgroundColor: 'rgba(255, 159, 64, 0.2)',
         borderColor: 'rgba(255, 159, 64, 1)',
-        borderWidth: 1,
+        borderWidth: 0.5,
         tension: 0.4, // 선 곡률 (0에서 1 사이의 값)
+        pointRadius: 0, // 꼭짓점들을 보이지 않게 설정
       },
     ],
   }
@@ -51,7 +52,6 @@ const AreaChart = (props: AreaChartPropsType) => {
     plugins: {
       legend: {
         display: false,
-        position: 'top' as const,
       },
     },
     scales: {

@@ -40,7 +40,7 @@ const TodayNumberChart = () => {
       parseFloat(weekdayMultiplier) > 1 ? (
         <>
           주중의 매출건수는 주말보다 약{' '}
-          <s.HighlightText>{weekdayMultiplier}배</s.HighlightText>더 많아요.
+          <s.HighlightText>{weekdayMultiplier}배</s.HighlightText> 더 많아요.
         </>
       ) : (
         <>
@@ -104,6 +104,10 @@ const TodayNumberChart = () => {
     )
   }, [weekdaySum, weekendSum, totalSum, totalSales, setSalesSummary])
 
+  const backgroundColor = ['rgba(75,192,192,0.2)', 'rgba(255, 159, 64, 0.2)']
+
+  const borderColor = ['rgba(75, 192, 192, 1)', 'rgba(255, 159, 64, 1)']
+
   return (
     <s.TodayNumberChart>
       <s.ChartTitle>주중/주말 매출건수</s.ChartTitle>
@@ -115,6 +119,8 @@ const TodayNumberChart = () => {
         aspectRatio={4}
         xDisplay={false}
         pluginUnit="건"
+        backgroundColor={backgroundColor}
+        borderColor={borderColor}
       />
     </s.TodayNumberChart>
   )

@@ -35,8 +35,7 @@ const WeekSalesChart = () => {
     <s.WeekSalesChart>
       <s.ChartTitle>요일별 매출액</s.ChartTitle>
       <s.ChartSubTitle>
-        <s.HighlightText>{maxLabel}요일</s.HighlightText>
-        매출액이 가장 높아요.
+        <s.HighlightText>{maxLabel}요일</s.HighlightText> 매출액이 가장 높아요.
       </s.ChartSubTitle>
       <BarChart2
         labels={labels}

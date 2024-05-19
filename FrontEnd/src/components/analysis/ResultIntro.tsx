@@ -69,9 +69,6 @@ const ResultIntro = (props: ResultIntroPropsType) => {
             </r.BookmarksDiv>
           )}
         </r.InfoDiv>
-        <r.ShareBox>
-          <r.ShareBoxText>카카오톡 공유 바로가기</r.ShareBoxText>
-        </r.ShareBox>
       </r.LeftWrap>
       <r.RightWrap>
         <r.SummaryWrap>

@@ -14,9 +14,9 @@ const SideBar = () => {
   return (
     <s.Container>
       <s.MenuItem
-        onClick={() => navigate('/profile/bookmarks')}
+        onClick={() => navigate('/profile/bookmarks/analysis')}
         style={{
-          fontWeight: isActive('/profile/bookmarks') ? '600' : '400',
+          fontWeight: isActive('/profile/bookmarks/') ? '600' : '400',
         }}
       >
         북마크

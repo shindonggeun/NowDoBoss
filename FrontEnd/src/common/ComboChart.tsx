@@ -26,21 +26,21 @@ const ComboChart = (props: ComboChartPropsType) => {
   const { labels, value1, value2 } = props
 
   const backgroundColors = [
-    'rgba(255, 99, 132, 0.2)',
-    'rgba(255, 159, 64, 0.2)',
-    'rgba(255, 206, 86, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(54, 162, 235, 0.2)',
-    'rgba(153, 102, 255, 0.2)',
+    'rgba(33, 150, 243, 0.2)',
+    'rgba(156, 39, 176, 0.2',
+    'rgba(76, 175, 80, 0.2)',
+    ' rgba(255, 193, 7, 0.2)',
+    'rgba(121, 85, 72, 0.2)',
+    'rgba(96, 125, 139, 0.2) ',
   ]
 
   const borderColors = [
-    'rgba(255, 99, 132, 1)',
-    'rgba(255, 159, 64, 1)',
-    'rgba(255, 206, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(153, 102, 255, 1)',
+    'rgba(33, 150, 243, 1)',
+    'rgba(156, 39, 176, 1)',
+    'rgba(76, 175, 80, 1)',
+    'rgba(255, 193, 7, 1)',
+    'rgba(121, 85, 72, 1)',
+    ' rgba(96, 125, 139, 1)',
   ]
 
   const data: ChartData<'bar' | 'line', number[], string> = {
@@ -53,13 +53,15 @@ const ComboChart = (props: ComboChartPropsType) => {
         backgroundColor: value1.map((_, index) => backgroundColors[index]),
         borderColor: value1.map((_, index) => borderColors[index]),
         borderWidth: 0.5,
+        borderRadius: 10,
+        barThickness: 40,
       },
       {
         type: 'line' as const,
         label: '비율 (%)',
         data: value2,
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)',
+        backgroundColor: 'rgba(230, 126, 34, 0.8)',
+        borderColor: 'rgba(230, 126, 34, 1)',
         borderWidth: 1.5,
         fill: false,
         yAxisID: 'y-axis-2',
@@ -78,6 +80,12 @@ const ComboChart = (props: ComboChartPropsType) => {
       legend: {
         display: false,
         position: 'top' as const,
+      },
+    },
+    layout: {
+      padding: {
+        left: 20,
+        right: 20,
       },
     },
     scales: {

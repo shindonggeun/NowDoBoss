@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 // import BackgroundImage from 'public/images/background.png'
 import BackgroundImage from 'public/images/background123.png'
 
@@ -66,6 +66,8 @@ export const ButtonDiv = styled.div`
   flex-direction: row;
   justify-content: left;
   padding-left: 12vw;
+  gap: 10px;
+  margin-top: 15px;
   @media only screen and (max-width: 1200px) {
     padding-left: 10vw;
     font-size: 0.9rem;
@@ -95,7 +97,7 @@ export const MainButton = styled.div`
   background-color: #236eff;
   color: white;
   border-radius: 10px;
-  padding: 12px 15px;
+  //padding: 12px 15px;
   margin: 15px;
   transition: all 0.3s ease-in-out; /* 부드러운 트랜지션 효과 */
 
@@ -113,6 +115,78 @@ export const MainButton = styled.div`
     padding: 8px 10px;
   }
 `
+// 버튼에 적용될 애니메이션 정의
+const shineAnimation = keyframes`
+  0% {
+    left: -100px;
+  }
+
+  60% {
+    left: 100%;
+  }
+
+  to {
+    left: 100%;
+  }
+`
+
+export const Button = styled.button`
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  padding-block: 0.5rem;
+  padding-inline: 1.25rem;
+  background-color: #236eff;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffff;
+  gap: 10px;
+  font-weight: 600;
+  border: 3px solid #ffffff4d;
+  outline: none;
+  overflow: hidden;
+  font-size: 15px;
+
+  &:hover {
+    transform: scale(1.05);
+    border-color: #fff9;
+  }
+
+  &:hover::before {
+    animation: ${shineAnimation} 1.5s ease-out infinite;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100%;
+    background-image: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0) 70%
+    );
+    top: 0;
+    left: -100px;
+    opacity: 0.6;
+  }
+`
+
+// Styled Icon 컴포넌트
+export const Icon = styled.svg`
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease-in-out;
+
+  ${Button}:hover & {
+    transform: translate(4px);
+  }
+`
+
 export const Sub = styled.div`
   width: calc(100vw - 5px);
   //height: calc(100vh - 70px);
@@ -138,11 +212,6 @@ export const SubContent = styled.div`
   transition:
     opacity 2s ease-out,
     transform 2s ease-out;
-
-  &.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
 
   @media only screen and (max-width: 1200px) {
     font-size: 1.5rem;

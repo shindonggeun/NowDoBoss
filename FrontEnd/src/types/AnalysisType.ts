@@ -276,6 +276,20 @@ export type AnalysisBookmarksDataType = {
   serviceCodeName: string
 }
 
+// 북마크 반환 데이터
+export type AnalysisBookmarksResDataType = {
+  districtCode: string
+  districtCodeName: string
+  administrationCode: string
+  administrationCodeName: string
+  commercialCode: string
+  commercialCodeName: string
+  serviceType: string
+  serviceCode: string
+  serviceCodeName: string
+  createdAt: string
+}
+
 // props type
 export type SelectContainerPropsType = {
   setIsReady: React.Dispatch<React.SetStateAction<boolean>>

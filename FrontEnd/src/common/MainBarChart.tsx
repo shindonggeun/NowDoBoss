@@ -49,14 +49,15 @@ const MainBarChart = (props: MainBarChartType) => {
     interaction: {
       intersect: false,
     },
+
     plugins: {
       legend: {
         display: false,
         position: 'top' as const,
       },
-    },
-    tooltip: {
-      enabled: false, // 툴팁 비활성화
+      tooltip: {
+        enabled: false, // 툴팁 비활성화
+      },
     },
     layout: {
       padding: {

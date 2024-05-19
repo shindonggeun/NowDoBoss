@@ -7,27 +7,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.commercial.dto.info.BlueOceanInfo;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAdministrationAreaResponse;
 import com.ssafy.backend.domain.commercial.entity.AreaCommercial;
-import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
-import com.ssafy.backend.domain.commercial.exception.CommercialException;
 import com.ssafy.backend.domain.commercial.repository.*;
+import com.ssafy.backend.domain.recommendation.dto.info.*;
 import com.ssafy.backend.domain.recommendation.exception.RecommendationErrorCode;
 import com.ssafy.backend.domain.recommendation.exception.RecommendationException;
 import com.ssafy.backend.global.common.document.DataDocument;
+import com.ssafy.backend.global.common.dto.PageResponse;
 import com.ssafy.backend.global.common.repository.DataRepository;
-import com.ssafy.backend.global.component.kafka.KafkaConstants;
 import com.ssafy.backend.global.component.kafka.dto.info.DataInfo;
-import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Flux;
 
-import com.mongodb.MongoWriteException;
 import com.ssafy.backend.domain.commercial.dto.response.CommercialAreaResponse;
-import com.ssafy.backend.domain.commercial.dto.response.CommercialKafkaInfo;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
 import com.ssafy.backend.domain.recommendation.document.RecommendationDocument;
-import com.ssafy.backend.domain.recommendation.dto.info.ClosedRateCommercialInfo;
-import com.ssafy.backend.domain.recommendation.dto.info.FootTrafficCommercialInfo;
-import com.ssafy.backend.domain.recommendation.dto.info.SalesCommercialInfo;
-import com.ssafy.backend.domain.recommendation.dto.info.StoreCommercialInfo;
 import com.ssafy.backend.domain.recommendation.dto.request.UserRequest;
 import com.ssafy.backend.domain.recommendation.dto.response.RecommendationResponse;
 import com.ssafy.backend.domain.recommendation.dto.response.UserResponse;
@@ -42,6 +37,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -52,6 +49,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RecommendationServiceImpl implements RecommendationService{
 
+    private final WebClient webClient;
     private final CommercialService commercialService;
     private final SalesCommercialRepository salesCommercialRepository;
     private final FootTrafficCommercialRepository footTrafficCommercialRepository;
@@ -76,7 +74,7 @@ public class RecommendationServiceImpl implements RecommendationService{
                 .collectList()
                 .doOnNext(responses -> {
                     if (!responses.isEmpty()) {
-                        saveRecommendationsToRedis(id, responses);
+                        saveRecommendationsToRedis(id, districtCode, administrationCode, responses);
                     }
                 });
 
@@ -93,14 +91,14 @@ public class RecommendationServiceImpl implements RecommendationService{
     @Override
     public void saveCommercialRecommendation(String commercialCode, Long id) {
         String jsonResponses = redisTemplate.opsForValue().get("recommendation:" + id);
-        log.info("레디스에서 가져오기 {}", jsonResponses);
         if (jsonResponses != null) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 // JSON 데이터를 List<RecommendationResponse> 객체로 역직렬화하여 반환
-                List<RecommendationResponse> list = objectMapper.readValue(jsonResponses, new TypeReference<>() {
+                RecommendationCommercialInfo info = objectMapper.readValue(jsonResponses, new TypeReference<>() {
                 });
-                for (RecommendationResponse dto: list){
+
+                for (RecommendationResponse dto: info.recommendationResponse()){
                     if (dto.commercialCode().equals(commercialCode)){
                         DataInfo dataInfo = new DataInfo(id, commercialCode, "save");
                         // 추천 정보 저장 중복 체크
@@ -122,6 +120,12 @@ public class RecommendationServiceImpl implements RecommendationService{
                         RecommendationDocument document = RecommendationDocument.builder()
                                 .userId(id)
                                 .commercialCode(commercialCode)
+                                .commercialCodeName(dto.commercialCodeName())
+                                .districtCode(info.districtCode())
+                                .districtCodeName(info.districtCodeName())
+                                .administrationCode(info.administrationCode())
+                                .administrationCodeName(info.administrationCodeName())
+                                .createdAt(LocalDateTime.now())
                                 .build();
                         recommendationRepository.save(document);
                         break;
@@ -139,8 +143,10 @@ public class RecommendationServiceImpl implements RecommendationService{
     }
 
     @Override
-    public List<RecommendationDocument> getSavedCommercialRecommendationList(Long id) {
-        return recommendationRepository.findByUserId(id);
+    public PageResponse<RecommendationDocument> getSavedCommercialRecommendationList(Long id, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<RecommendationDocument> response = recommendationRepository.findByUserId(pageable, id);
+        return PageResponse.of(response);
     }
 
     private Mono<List<UserResponse>> fetchCommercialData(Long id, String districtCode, String administrationCode) {
@@ -149,8 +155,6 @@ public class RecommendationServiceImpl implements RecommendationService{
     }
 
     private String getCode(UserResponse dto) {
-        //log.info("비교하기 행정동 코드 : {} {}", dto.commercialCode(), dto.userId());
-        //log.info("구한 행정동 코드: {}", areaCommercialRepository.findByCommercialCode(dto.commercialCode()).administrationCode());
         return areaCommercialRepository.findByCommercialCode(dto.commercialCode()).administrationCode();
     }
 
@@ -254,21 +258,15 @@ public class RecommendationServiceImpl implements RecommendationService{
     }
 
     public Mono<List<UserResponse>> sendToFastAPIServer(Long id, String districtCode, String administrationCode) {
-        // FastAPI 서버 URL 설정 - 로컬버전
-        String fastApiUrl = "http://localhost:8001/recommend";
-
-//        String fastApiUrl = "http://13.124.23.220:8000/recommend";
+        String fastApiUrl = "/recommend";
 
         // 요청에 필요한 데이터 구성
         UserRequest userRequest = new UserRequest(id);
 
-        // WebClient 생성
-        WebClient webClient = WebClient.create();
-
         return webClient.post()
                 .uri(fastApiUrl)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(new UserRequest(id)))
+                .body(BodyInserters.fromValue(userRequest))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<UserResponse>>() {})
                 .doOnNext(result -> {
@@ -315,8 +313,18 @@ public class RecommendationServiceImpl implements RecommendationService{
         }
     }
 
+    @Override
+    public RecommendationResponse getSavedCommercialDetail(Long userId, String commercialCode){
+        return createRecommendationResponse(getUserResponse(userId, Arrays.asList(commercialCode)), "20233");
+    }
+
     private UserResponse getUserResponse(Long userId, List<String> commercialCodes){
-        String commercialCode = salesCommercialRepository.findTopSalesCommercialInCommercialCodes(commercialCodes, "20233");
+        String commercialCode = "";
+        if (commercialCodes.size() == 1){
+            commercialCode = commercialCodes.get(0);
+        } else {
+            commercialCode = salesCommercialRepository.findTopSalesCommercialInCommercialCodes(commercialCodes, "20233");
+        }
         Long sales = salesCommercialRepository.findTopSalesByCommercialCode(commercialCode);
         Long footTraffic = footTrafficCommercialRepository.getCommercialFootTrafficByCommercialCode(commercialCode, "20233");
         Double openedRate = storeCommercialRepository.getCommercialRateByCommercialCode(commercialCode, "20233").get("openedRate");
@@ -325,12 +333,21 @@ public class RecommendationServiceImpl implements RecommendationService{
         return new UserResponse(userId, commercialCode, footTraffic, sales, openedRate, closedRate, consumption, 0.0);
     }
 
-    public void saveRecommendationsToRedis(long userId, List<RecommendationResponse> responses) {
+    public void saveRecommendationsToRedis(long userId, String districtCode, String administrationCode, List<RecommendationResponse> responses) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
+            String administrationCodeName = "";
+            if (administrationCode.equals("0")){
+                administrationCodeName = "전체";
+            } else {
+                administrationCodeName = areaCommercialRepository.findAdministrationCodeNameByAdministrationCode(administrationCode);
+            }
+            String districtCodeName = areaCommercialRepository.findDistrictCodeNameByDistrictCode(districtCode);
+
             // responses를 JSON 형식으로 직렬화
-            String jsonResponses = objectMapper.writeValueAsString(responses);
+            RecommendationCommercialInfo recommendationCommercialInfo = new RecommendationCommercialInfo(userId, districtCode, districtCodeName, administrationCode, administrationCodeName, responses);
+            String jsonResponses = objectMapper.writeValueAsString(recommendationCommercialInfo);
             // 레디스에 저장
             redisTemplate.opsForValue().set("recommendation:" + userId, jsonResponses, 10, TimeUnit.MINUTES);
         } catch (JsonProcessingException e) {

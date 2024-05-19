@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.commercial.service;
 
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
+import com.ssafy.backend.global.common.dto.PageResponse;
 
 import java.util.List;
 
@@ -34,5 +35,5 @@ public interface CommercialService {
 
     void saveAnalysis(Long memberId, CommercialAnalysisSaveRequest analysisSaveRequest);
 
-    List<CommercialAnalysisResponse> getMyAnalysisListByMemberId(Long memberId);
+    PageResponse<CommercialAnalysisResponse> getMyAnalysisListByMemberId(Long memberId, int page, int size);
 }

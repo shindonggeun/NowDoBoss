@@ -1,6 +1,7 @@
 server:
   base-url: k10c208.p.ssafy.io
   https-url: https://k10c208.p.ssafy.io
+  fastapi-url: http://13.124.23.220:8000
 
 spring:
   servlet:

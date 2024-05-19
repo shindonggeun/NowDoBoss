@@ -9,6 +9,7 @@ export const Container = styled.div`
   height: calc(100vh - 68px);
   border: 2px solid white;
   border-left: none;
+  z-index: 10;
 
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;

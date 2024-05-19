@@ -20,7 +20,7 @@ const initialFlowSummary: FlowSummaryType = {
 
 const initialSalesSummary: SalesSummaryType = {
   total: '',
-  monthly: '',
+  count: '',
   average: '',
   gender: '',
   age: '',
@@ -33,8 +33,8 @@ const initialStoreSummary: StoreSummaryType = {
 }
 
 const initialResidentSummary: ResidentSummaryType = {
-  gender: '',
-  age: '',
+  gender: '남성',
+  age: '40대',
 }
 
 const useAnalysisSummaryStore = create<UseAnalysisSummaryStoreType>(set => ({

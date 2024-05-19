@@ -1,10 +1,14 @@
+import { useEffect } from 'react'
 import analysisStore from '@src/stores/analysisStore'
+import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import BarChartCompare2 from '@src/common/BarChartCompare2'
 import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
 
 const ExpectChart = () => {
   const totalSalesDataBody = analysisStore(state => state.totalSalesDataBody)
-
+  const setSalesSummary = useAnalysisSummaryStore(
+    state => state.setSalesSummary,
+  )
   const formatSalesAmount = (amount: number) => {
     // 만원 미만일 경우 원 단위로 표시
     if (amount < 10000) {
@@ -76,6 +80,14 @@ const ExpectChart = () => {
       totalSalesDataBody.administrationTotalSalesInfo.totalSales) *
     100
   ).toFixed(2)
+
+  // 요약 상태 업데이트
+  useEffect(() => {
+    setSalesSummary(
+      'total',
+      formatSalesAmount(totalSalesDataBody.commercialTotalSalesInfo.totalSales),
+    )
+  }, [totalSalesDataBody.commercialTotalSalesInfo.totalSales, setSalesSummary])
 
   return (
     <s.ExpectChart>

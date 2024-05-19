@@ -1,8 +1,9 @@
 import styled, { keyframes } from 'styled-components'
 
 export const CardList = styled.div`
-  width: 90%;
-  margin: 8% 0;
+  width: 60%;
+  padding: 8% 0;
+  margin-right: 40px;
 
   overflow-x: auto;
   overflow-y: hidden;

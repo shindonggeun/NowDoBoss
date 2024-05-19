@@ -53,7 +53,7 @@ const ReportHeader = ({
       if (res.status === 500) {
         onClickFail(true)
       }
-      if (res.dataHeader && res.dataHeader.successCode) {
+      if (res.dataHeader && res.dataHeader.successCode === 0) {
         onClickAlram(true)
         setIsSaved(!isSaved)
       }
@@ -86,8 +86,8 @@ const ReportHeader = ({
   }, [])
 
   // 카카오톡 share 탬플릿
-  const serverUrl = 'http://localhost:5173'
-  // const serverUrl = 'https://k10c208.p.ssafy.io'
+  // const serverUrl = 'http://localhost:5173'
+  const serverUrl = 'https://k10c208.p.ssafy.io'
   const shareKakao = (data: string) => {
     window.Kakao.Link.sendCustom({
       templateId: 107914,

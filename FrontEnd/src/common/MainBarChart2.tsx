@@ -60,7 +60,7 @@ const MainBarChart2 = (props: MainBarChartType) => {
     },
     layout: {
       padding: {
-        top: 20,
+        top: 10,
         left: 10,
         right: 10,
       },

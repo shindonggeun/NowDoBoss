@@ -105,7 +105,7 @@ const ChatSearchBar = () => {
   const renderChatCards = () =>
     articleList.map((chatCard: { id: number; name: string }, index: number) => {
       const isLastElement =
-        index === articleList.length - 1 && articleList.length >= 5
+        index === articleList.length - 1 && articleList.length >= 8
       return (
         <c.ChatCard
           ref={isLastElement ? lastCardRef : null}

@@ -131,7 +131,8 @@ const Banner = () => {
     const filteredCardData = cardData.filter(card => {
       if (
         location.pathname === '/analysis' ||
-        location.pathname === '/analysis/simulation'
+        location.pathname === '/analysis/simulation' ||
+        location.pathname === '/analysis/simulation/report'
       ) {
         // For both '/analysis' and '/analysis/simulation', include only specific cards
         return card.url === '/recommend' || card.url === '/analysis/simulation'

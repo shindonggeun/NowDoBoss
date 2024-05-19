@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import FlowPopulationAnalysisContainer from '@src/containers/analysis/FlowPopulationAnalysisContainer'
-import FacilitiesAnalysis from '@src/components/analysis/facilities/FacilitiesAnalysis'
 import StoreCountAnalysisContainer from '@src/containers/analysis/StoreCountAnalysisContainer'
 import SalesAnalysisContainer from '@src/containers/analysis/SalesAnalysisContainer'
 import ResidentPopulationAnalysisContainer from '@src/containers/analysis/ResidentPopulationAnalysisContainer'
@@ -12,19 +11,11 @@ import * as a from '@src/containers/analysis/ResultContainerStyle'
 const ResultContainer = () => {
   // 카테고리별 컴포넌트로 이동하기 위한 ref
   const flowRef = useRef<HTMLDivElement>(null)
-  const facilitiesRef = useRef<HTMLDivElement>(null)
   const storeRef = useRef<HTMLDivElement>(null)
   const salesRef = useRef<HTMLDivElement>(null)
   const residentRef = useRef<HTMLDivElement>(null)
   const expenditureRef = useRef<HTMLDivElement>(null)
-  const refArr = [
-    flowRef,
-    facilitiesRef,
-    storeRef,
-    salesRef,
-    residentRef,
-    expenditureRef,
-  ]
+  const refArr = [flowRef, storeRef, salesRef, residentRef, expenditureRef]
 
   // 카테고리별 컴포넌트로 이동 함수
   const moveTo = (index: number) => {
@@ -38,7 +29,7 @@ const ResultContainer = () => {
 
   useEffect(() => {
     const handleShowButton = () => {
-      if (window.scrollY > 1350) {
+      if (window.scrollY > 1670) {
         setShowButton(true)
       } else {
         setShowButton(false)
@@ -56,7 +47,6 @@ const ResultContainer = () => {
       {showButton && <SideBarMenu moveTo={moveTo} />}
       <a.MainDiv>
         <FlowPopulationAnalysisContainer ref={flowRef} />
-        <FacilitiesAnalysis ref={facilitiesRef} />
         <StoreCountAnalysisContainer ref={storeRef} />
         <SalesAnalysisContainer ref={salesRef} />
         <ResidentPopulationAnalysisContainer ref={residentRef} />

@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 import RightArrow from '@src/assets/arrow_right.svg'
-import GrayRound from '@src/assets/gray_round.svg'
+import map from '@src/assets/banner_map.svg'
+import calc from '@src/assets/banner_calc.svg'
+import light from '@src/assets/banner_light.svg'
+import report from '@src/assets/banner_report.svg'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -33,7 +36,7 @@ const Left = styled.div`
   justify-content: space-between;
 `
 const Icon = styled.img`
-  scale: 0.7;
+  scale: 0.6;
   margin: -5px 0;
 `
 const Content = styled.div`
@@ -89,7 +92,7 @@ const Banner = () => {
     () => [
       {
         id: 1,
-        icon: GrayRound,
+        icon: report,
         blueTitle: '분석하고 싶은 상권',
         title: '이 있나요?',
         subTitle: '원하는 상권의 데이터를 볼 수 있어요',
@@ -97,7 +100,7 @@ const Banner = () => {
       },
       {
         id: 2,
-        icon: GrayRound,
+        icon: light,
         blueTitle: '상권을 추천',
         title: '받고 싶으신가요?',
         subTitle: '원하는 지역의 상권을 추천해드려요',
@@ -105,7 +108,7 @@ const Banner = () => {
       },
       {
         id: 3,
-        icon: GrayRound,
+        icon: map,
         blueTitle: '넓은 범위로 비교',
         title: '해보고 싶으신가요?',
         subTitle: '원하는 자치구의 데이터를 볼 수 있어요',
@@ -114,7 +117,7 @@ const Banner = () => {
 
       {
         id: 4,
-        icon: GrayRound,
+        icon: calc,
         blueTitle: '창업 비용을 계산',
         title: '해보고 싶으신가요?',
         subTitle: '시뮬레이션을 통해 비용을 예상해봐요',

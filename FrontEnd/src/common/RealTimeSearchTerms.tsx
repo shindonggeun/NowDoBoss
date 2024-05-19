@@ -44,6 +44,8 @@ interface RankingsResponse {
   }
 }
 
+const { VITE_REACT_API_URL } = import.meta.env
+
 const RealTimeSearchTerms: React.FC = () => {
   const [index, setIndex] = useState(0)
   const [realTimeData, setRealTimeData] = useState<
@@ -53,7 +55,7 @@ const RealTimeSearchTerms: React.FC = () => {
   useEffect(() => {
     // 1. 초기 백엔드 서버로부터 SSE 스트림에 연결을 하기 위한 초기 설정
     const eventSource: EventSource = new EventSource(
-      'http://localhost:8080/api/v1/sse/subscribe',
+      `${VITE_REACT_API_URL}/sse/subscribe`,
     )
 
     // 2. 초기 데이터 받기 용도 (SSE 연결되면 바로 보내주는 데이터)

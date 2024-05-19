@@ -40,7 +40,6 @@ import '@src/util/auth/firebaseMessage'
 
 // 헤더 여부 설정하는 파일
 import ConditionalHeader from '@src/util/ConditionalHeader'
-import useAutoRefreshToken from '@src/util/auth/useAutoRefreshToken'
 
 declare global {
   interface Window {
@@ -49,9 +48,6 @@ declare global {
 }
 
 function App() {
-  // accessToken 만료 여부 체크 로직
-  useAutoRefreshToken()
-
   function setScreenSize() {
     const vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty('--vh', `${vh}px`)

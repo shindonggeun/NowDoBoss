@@ -2,6 +2,7 @@ import * as r from '@src/components/styles/recommend/RecommendReportStyle'
 import report from '@src/assets/report.svg'
 import SaveIcon from '@src/assets/saveMark.svg'
 import Xmark from '@src/assets/xmark_solid_nomal.svg'
+import LoadingSpinner from '@src/common/LoadingSpinner'
 
 type RecommendReportPropsType = {
   setIsSubmit: React.Dispatch<React.SetStateAction<boolean>>
@@ -33,7 +34,9 @@ const LoadingComponent = (props: RecommendReportPropsType) => {
           </r.RightHeader>
         </r.Header>
       </r.FixedHeader>
-      <r.LoadingContent>로딩스피너 뱅글뱅글</r.LoadingContent>
+      <r.LoadingContent>
+        <LoadingSpinner />
+      </r.LoadingContent>
     </r.LoadingContainer>
   )
 }

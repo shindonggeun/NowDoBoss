@@ -125,8 +125,6 @@ const ThreeBox = (props: ThreeBoxPropsType) => {
       setIs(false)
     }
   }, [MainContent])
-  console.log(CurrentData)
-  console.log(formatKRW(CurrentData))
 
   return (
     <Container>

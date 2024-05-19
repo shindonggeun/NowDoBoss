@@ -16,6 +16,7 @@ import three_line from '@src/assets/three_line.svg'
 import three_line_gray from '@src/assets/three_line_gray.svg'
 import analysisStore from '@src/stores/analysisStore'
 import { Avatar } from '@mui/joy'
+import RealTimeSearchTerms from '@src/common/RealTimeSearchTerms'
 
 const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   height: 70px;
@@ -42,7 +43,7 @@ const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
 const MenuListLeft = styled.div<{ isMenuOpen?: boolean }>`
   display: flex;
 
-  @media (max-width: 992px) {
+  @media (max-width: 1015px) {
     flex-direction: column;
     display: ${({ isMenuOpen }) => (isMenuOpen ? 'flex' : 'none')};
   }
@@ -54,7 +55,7 @@ const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
   justify-content: right;
   margin: 0 0.5rem;
 
-  @media (max-width: 992px) {
+  @media (max-width: 1015px) {
     flex-direction: column;
     display: ${({ isMenuOpen }) => (isMenuOpen ? 'flex' : 'none')};
   }
@@ -116,7 +117,7 @@ const HamburgerMenu = styled.div`
   position: absolute;
   right: 0;
 
-  @media (max-width: 992px) {
+  @media (max-width: 1015px) {
     display: block; // 화면 너비가 1200px 이하일 경우 햄버거 메뉴 표시
     justify-content: right;
     cursor: pointer;
@@ -136,6 +137,24 @@ const DropdownMenu = styled.div`
 
 const BlankDiv = styled.div`
   flex-grow: 1;
+`
+
+// 실시간 검색창
+const RealTimeSearchBar = styled.div<{
+  $isMain?: boolean
+  $atTop?: boolean
+}>`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  color: ${props => (props.$isMain && props.$atTop ? 'white' : '')};
+`
+
+const RealTimeTitle = styled.div`
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0 0 0 15px;
 `
 
 const Header = () => {
@@ -315,8 +334,12 @@ const Header = () => {
 
       <BlankDiv />
       <BlankDiv />
-
       <MenuListRight>
+        <RealTimeSearchBar $isMain={location.pathname === '/'} $atTop={atTop}>
+          <RealTimeTitle>실시간 인기 검색어</RealTimeTitle>
+
+          <RealTimeSearchTerms />
+        </RealTimeSearchBar>
         <Menu
           $isActive={activeMenu === '채팅'}
           $isMain={location.pathname === '/'}

@@ -573,7 +573,7 @@
 
 ## System Architecture
 
-![System Architecture](docs/C208_System_Architecture.png)
+![System Architecture](docs/images/C208_System_Architecture.png)
 
 ## 역할 분담
 

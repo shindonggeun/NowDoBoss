@@ -63,10 +63,10 @@ pipeline {
                         sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d redis"
                     }
 
-                    if (isSonarQubeRunning == "") {
-                        echo "sonarqube 관련 dockerfile 빌드..."
-                        sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d sonarqube"
-                    }
+                    // if (isSonarQubeRunning == "") {
+                    //     echo "sonarqube 관련 dockerfile 빌드..."
+                    //     sh "docker-compose -f ./CICD/Util/docker-compose.yml up --build -d sonarqube"
+                    // }
 
                     // kafka 분산 클러스터 구성
                     if (isZookeeperRunning == "" || isKafkaRunning_1 == "" || isKafkaRunning_2 == "" || isKafkaRunning_3 == "" || isKafkaUiRunning == "") {

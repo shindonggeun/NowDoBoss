@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -28,9 +29,18 @@ public class KafkaStreamServiceImpl implements KafkaStreamService {
     @Override
     public RankingResponse getRankings() {
         KafkaStreams kafkaStreams = factoryBean.getKafkaStreams();
-        LocalDate today = LocalDate.now();
-        Instant startOfDay = today.atStartOfDay(ZoneId.systemDefault()).toInstant();
-        Instant endOfDay = today.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+
+        // 한국 시간대로 설정
+        ZoneId zoneId = ZoneId.systemDefault();
+
+        // 이틀 전 자정부터 내일 자정까지 설정
+        LocalDateTime twoDaysAgoMidnight = LocalDate.now().minusDays(1).atStartOfDay();
+        Instant startOfTwoDaysAgo = twoDaysAgoMidnight.atZone(zoneId).toInstant();
+
+        LocalDateTime tomorrowMidnight = LocalDate.now().plusDays(1).atStartOfDay();
+        Instant endOfTomorrow = tomorrowMidnight.atZone(zoneId).toInstant();
+
+        log.info("Fetching data from window store from {} to {}", startOfTwoDaysAgo, endOfTomorrow);
 
         ReadOnlyWindowStore<String, Long> windowStore = kafkaStreams.store(
                 StoreQueryParameters.fromNameAndType("daily-ranking", QueryableStoreTypes.windowStore())
@@ -42,7 +52,7 @@ public class KafkaStreamServiceImpl implements KafkaStreamService {
         rankingsMap.put("Commercial", new ArrayList<>());
         rankingsMap.put("Service", new ArrayList<>());
 
-        KeyValueIterator<Windowed<String>, Long> iter = windowStore.fetchAll(startOfDay, endOfDay);
+        KeyValueIterator<Windowed<String>, Long> iter = windowStore.fetchAll(startOfTwoDaysAgo, endOfTomorrow);
 
         while (iter.hasNext()) {
             KeyValue<Windowed<String>, Long> entry = iter.next();

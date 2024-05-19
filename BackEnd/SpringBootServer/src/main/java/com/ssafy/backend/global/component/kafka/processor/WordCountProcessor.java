@@ -48,6 +48,7 @@ public class WordCountProcessor {
         categorizedWords.add("Administration:" + value.administrationCodeName());
         categorizedWords.add("Commercial:" + value.commercialCodeName());
         categorizedWords.add("Service:" + value.serviceCodeName());
+        log.info("Categorized Values: {}", categorizedWords);
         return categorizedWords;
     }
 

@@ -30,6 +30,8 @@ const ReportHeader = ({
   onClickAlram,
   onClickFail,
 }: HeaderType) => {
+  const userLoggedIn = localStorage.getItem('isLogIn') === 'true' // 로그인 상태 확인 (localStorage 사용)
+
   const isFranchise = ReportData.request.isFranchisee
   const { brandName } = ReportData.request
   const subCategoryName = ReportData.request.serviceCodeName
@@ -43,7 +45,11 @@ const ReportHeader = ({
 
   // 창업 시뮬레이션 비교하기 버튼 클릭 핸들러
   const handleSimulationCompareClick = () => {
-    navigate('/analysis/simulation/compare')
+    if (userLoggedIn) {
+      navigate('/analysis/simulation/compare')
+    } else {
+      onClickFail(true)
+    }
   }
 
   // 레포트 분석 저장

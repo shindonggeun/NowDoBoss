@@ -106,7 +106,7 @@ const RealTimeSearchTerms: React.FC = () => {
   })
   return (
     <div>
-      {realTimeData && realTimeData.commercialRankings[0] ? (
+      {realTimeData && realTimeData.commercialRankings.length > 0 ? (
         <Container>
           {transitions((style, i) => (
             <SearchTerm

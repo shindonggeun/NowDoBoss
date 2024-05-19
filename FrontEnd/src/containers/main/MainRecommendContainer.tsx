@@ -1,86 +1,17 @@
 import * as m from '@src/containers/main/MainContainerStyle'
-import { useEffect, useRef, useState } from 'react'
+import * as r from '@src/containers/main/MainRecommendContainerStyle'
 import { useNavigate } from 'react-router-dom'
+import ContainerBox from '@src/common/ContainerBox'
+import MainBarChart2 from '@src/common/MainBarChart2'
+import MainBarChart3 from '@src/common/MainBarChart3'
 
 const MainRecommendContainer = () => {
   const navigate = useNavigate()
-  const targetRef = useRef<HTMLDivElement>(null)
-  const cardScrollRef = useRef<HTMLDivElement>(null)
-  const [isTopPassed, setIsTopPassed] = useState(false)
-  const [isBottomReached, setIsBottomReached] = useState(false)
-  const [isAtTop, setIsAtTop] = useState(true)
-
-  // 해당 컨테이너가 top을 찍었을 때 스크롤이 카드에 적용되도록 하는 로직
-  useEffect(() => {
-    const handleScroll = () => {
-      if (targetRef.current) {
-        const rect = targetRef.current.getBoundingClientRect()
-        // rect.top이 -150에서 150일 때, 현재 화면에서 해당 위치에 있을 때만 활성화하면 되네 ㅠㅠ
-        if (rect.top < 150 && rect.top > -150) {
-          setIsTopPassed(true)
-        } else {
-          setIsTopPassed(false)
-        }
-      }
-    }
-    window.addEventListener('scroll', handleScroll)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  // 카드 목록 스크롤이 맨 밑에 도달했을 때
-  useEffect(() => {
-    const CurrentScrollRef = cardScrollRef.current
-
-    const handleCardScroll = () => {
-      if (CurrentScrollRef) {
-        const { scrollTop, scrollHeight, clientHeight } = cardScrollRef.current
-        // 스크롤이 최상단 도달했을 때
-        setIsAtTop(scrollTop === 0)
-        if (scrollTop + clientHeight + 100 >= scrollHeight) {
-          // 스크롤이 최하단에 도달했을 때
-          setIsBottomReached(true)
-        } else {
-          setIsBottomReached(false)
-        }
-      }
-    }
-
-    CurrentScrollRef?.addEventListener('scroll', handleCardScroll)
-    return () => {
-      CurrentScrollRef?.removeEventListener('scroll', handleCardScroll)
-    }
-  }, [isAtTop, isBottomReached, isTopPassed])
-
-  // isTopPassed 값이 true이면 카드 scroll 내부가 스크롤 되게 하는 로직
-  useEffect(() => {
-    const handleGlobalWheel = (event: WheelEvent) => {
-      if (isTopPassed && cardScrollRef.current) {
-        event.preventDefault()
-        cardScrollRef.current.scrollBy({
-          top: event.deltaY * 1.5,
-          behavior: 'smooth',
-        })
-      }
-      if (isAtTop || isBottomReached) {
-        setIsTopPassed(false)
-        window.removeEventListener('wheel', handleGlobalWheel)
-      }
-    }
-
-    window.addEventListener('wheel', handleGlobalWheel, { passive: false })
-
-    return () => {
-      window.removeEventListener('wheel', handleGlobalWheel)
-    }
-  }, [isTopPassed, isBottomReached, isAtTop])
 
   return (
-    <m.Container ref={targetRef}>
-      <m.Content>
-        <m.Text>
+    <r.Container>
+      <r.Content>
+        <r.Text>
           <m.BlueText>Market Recommend Report</m.BlueText>
           <m.Title>상권추천 보고서</m.Title>
           <m.TextContent>
@@ -92,29 +23,50 @@ const MainRecommendContainer = () => {
             추천받으러 가기 &nbsp;&nbsp;
             <m.BannerArrow>→</m.BannerArrow>{' '}
           </m.GoButton>
-        </m.Text>
-        <m.CardList>
-          <m.CardScroll ref={cardScrollRef}>
-            <m.Card>
-              <m.CardImg src="images/recommend_map.png" />
-              <m.CardContent>지역 선택 →</m.CardContent>
-            </m.Card>
-            <m.Card>
-              <m.CardImg src="images/recommend_summary.png" />
-              <m.CardContent>추천 상권 요약</m.CardContent>
-            </m.Card>
-            <m.Card>
-              <m.CardImg src="images/recommend_box.png" />
-              <m.CardContent>타 상권 비교</m.CardContent>
-            </m.Card>
-            <m.Card>
-              <m.CardImg src="images/recommend_blueocean.png" />
-              <m.CardContent>블루오션 Top5</m.CardContent>
-            </m.Card>
-          </m.CardScroll>
-        </m.CardList>
-      </m.Content>
-    </m.Container>
+        </r.Text>
+        <r.CardList>
+          <r.Page>
+            <r.Card>
+              <r.HeaderText>타 상권 대비 유동인구</r.HeaderText>
+              <r.TitleText>추천 상권 유동인구 476만명</r.TitleText>
+              <r.SubTitleText>380만명 더 많습니다</r.SubTitleText>
+              <ContainerBox height={150} />
+              <r.RowDiv>
+                <r.CardImg src="images/threeChartImg.png" />
+              </r.RowDiv>
+            </r.Card>
+          </r.Page>
+          <r.Page>
+            <r.Card>
+              <r.HeaderText>타 상권 대비 총 매출</r.HeaderText>
+              <r.TitleText>추천 상권 총 매출 280억</r.TitleText>
+              <r.SubTitleText>150억 더 많습니다</r.SubTitleText>
+              <ContainerBox height={100} />
+              <r.Degree>
+                <MainBarChart3
+                  labels={['', '', '', '', '', '']}
+                  values={[45, 55, 60, 50, 45, 38, 35]}
+                />
+              </r.Degree>
+            </r.Card>
+          </r.Page>
+          <r.Page>
+            <r.Card>
+              <r.HeaderText>블루오션</r.HeaderText>
+              <r.TitleText>
+                주변 상권에 많지만 <br /> 해당상권에 적은 업종 제안
+              </r.TitleText>
+              <r.SubTitleText>380만명 더 많습니다</r.SubTitleText>
+              <ContainerBox height={120} />
+              <MainBarChart2
+                labels={['', '', '', '', '', '']}
+                values={[60, 55, 50, 45, 35, 30, 25]}
+              />
+            </r.Card>
+          </r.Page>
+        </r.CardList>
+      </r.Content>
+    </r.Container>
   )
 }
 

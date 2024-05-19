@@ -56,7 +56,9 @@ const BarChart = (props: BarChartPropsType) => {
           if (dataValue !== null) {
             const text = String(index + 1) // 데이터 값을 문자열로 변환
             const textY =
-              y + height / 9 + ctx.measureText(text).actualBoundingBoxAscent / 2
+              y +
+              height / 10 +
+              ctx.measureText(text).actualBoundingBoxAscent / 2
             ctx.fillText(`Top${text}`, x, textY)
           }
         })
@@ -94,7 +96,7 @@ const BarChart = (props: BarChartPropsType) => {
           display: false, // Y축 그리드 라인 없애기
         },
         min: 0, // Y축의 최소값 설정
-        max: blueOceanArray[0].storeRate, // Y축의 최대값 설정 (이 값을 조정하여 시각적 차이를 조절)
+        max: blueOceanArray[5].storeRate, // Y축의 최대값 설정 (이 값을 조정하여 시각적 차이를 조절)
       },
     },
   }

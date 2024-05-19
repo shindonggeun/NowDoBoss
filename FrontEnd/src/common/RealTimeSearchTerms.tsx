@@ -104,10 +104,9 @@ const RealTimeSearchTerms: React.FC = () => {
     leave: { opacity: 0, transform: 'translate3d(0,-20px,0)' },
     config: { duration: 500 },
   })
-
   return (
     <div>
-      {realTimeData ? (
+      {realTimeData && realTimeData.commercialRankings[0] ? (
         <Container>
           {transitions((style, i) => (
             <SearchTerm

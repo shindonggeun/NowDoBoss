@@ -1,80 +1,17 @@
 import { create } from 'zustand'
-import {
-  EmailErrorType,
-  LoginDataType,
-  SignUpDataType,
-  SignUpErrorType,
-  UserStoreType,
-} from '@src/types/UserType'
+import { UserStoreType } from '@src/types/UserType'
 
-// 초기 상태
-const initialSignUpData: SignUpDataType = {
-  name: '',
-  nickname: '',
-  email: '',
-  password: '',
-  profileImage: null,
+// 쿠키 값을 가져오는 함수
+export const getCookie = (name: string): string | null => {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop()?.split(';').shift() || null
+  return null
 }
 
-const initialLoginData: LoginDataType = {
-  email: '',
-  password: '',
-}
-
-const initialEmailError: EmailErrorType = {
-  emailErr: '',
-  codeErr: '',
-}
-
-const initialSignUpError: SignUpErrorType = {
-  emailError: '',
-  passwordError: '',
-  nameError: '',
-  nicknameError: '',
-}
-
-// store
 const userStore = create<UserStoreType>(set => ({
-  signUpData: initialSignUpData,
-  emailCode: '',
-  loginData: initialLoginData,
-  emailError: initialEmailError,
-  signUpError: initialSignUpError,
-  setSignUpData: (fieldName: keyof SignUpDataType, value: string) => {
-    set(state => ({
-      signUpData: {
-        ...state.signUpData,
-        [fieldName]: value,
-      },
-    }))
-  },
-  setEmailCode: (code: string) => {
-    set({ emailCode: code })
-  },
-  setLoginData: (fieldName: keyof LoginDataType, value: string) => {
-    set(state => ({
-      loginData: {
-        ...state.loginData,
-        [fieldName]: value,
-      },
-    }))
-  },
-  setEmailError: (fieldName: keyof EmailErrorType, value: string) => {
-    set(state => ({
-      emailError: {
-        ...state.emailError,
-        [fieldName]: value,
-      },
-    }))
-  },
-  setSignUpError: (fieldName: keyof SignUpErrorType, value: string) => {
-    set(state => ({
-      signUpError: {
-        ...state.signUpError,
-        [fieldName]: value,
-      },
-    }))
-  },
+  isLogin: getCookie('accessToken') !== null,
+  setIsLogin: (isLogin: boolean) => set(() => ({ isLogin })),
 }))
 
 export default userStore

@@ -110,3 +110,11 @@ export const postAnalysisBookmarks = async (
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 북마크 조회
+export const GetAnalysisBookmarks = async (page: number, size: number) => {
+  return customAxios
+    .get(`/commercial/analysis-list?page=${page}&size=${size}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

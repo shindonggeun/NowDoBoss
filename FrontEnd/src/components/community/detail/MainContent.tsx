@@ -91,12 +91,11 @@ const MainContent = (props: MainContentPropsType) => {
       }
     })
   }
-
   return (
     <m.Container>
       <m.Header>
         <GoBackButton />
-        {userId === detailData.communityId && (
+        {userId === detailData.writerId && (
           <m.More
             onClick={() => {
               setMoreModal(!moreModal)

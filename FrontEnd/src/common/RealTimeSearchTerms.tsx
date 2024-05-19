@@ -75,7 +75,7 @@ const RealTimeSearchTerms: React.FC = () => {
       if (data) {
         setRealTimeData(data.dataBody)
       }
-      // console.log('Specific ranking update:', data)
+      console.log('Specific ranking update:', data)
     })
     // 4. 예외 처리 및 연결 종료
     // 클라이언트가 페이지를 나가거나 새로고침할 경우, 연결은 자동으로 종료
@@ -88,9 +88,10 @@ const RealTimeSearchTerms: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (realTimeData && realTimeData.commercialRankings.length > 0) {
-        setIndex(
-          prevIndex => (prevIndex + 1) % realTimeData.commercialRankings.length,
-        )
+        const dataLength = realTimeData.commercialRankings.length
+        const sliceLength = dataLength > 10 ? 10 : dataLength
+
+        setIndex(prevIndex => (prevIndex + 1) % sliceLength)
       }
     }, 2000)
 
@@ -104,14 +105,24 @@ const RealTimeSearchTerms: React.FC = () => {
     leave: { opacity: 0, transform: 'translate3d(0,-20px,0)' },
     config: { duration: 500 },
   })
+
+  let slicedData: RankingData[] = []
+  if (realTimeData) {
+    if (realTimeData.commercialRankings.length > 10) {
+      slicedData = realTimeData.commercialRankings.slice(0, 10)
+    } else {
+      slicedData = realTimeData.commercialRankings
+    }
+  }
+
   return (
     <div>
-      {realTimeData && realTimeData.commercialRankings.length > 0 ? (
+      {slicedData.length > 0 ? (
         <Container>
           {transitions((style, i) => (
             <SearchTerm
               style={style}
-            >{`${i + 1}. ${realTimeData.commercialRankings[i].name}`}</SearchTerm>
+            >{`${i + 1}. ${slicedData[i].name}`}</SearchTerm>
           ))}
         </Container>
       ) : null}

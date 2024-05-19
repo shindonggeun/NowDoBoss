@@ -2,19 +2,19 @@ import * as a from '@src/containers/main/MainAnalysisContainerStyle'
 
 const MainCard3 = () => {
   return (
-    <a.Card>
-      <a.CardTextDiv>
-        <p>으악!</p>
+    <a.BlueCard>
+      <a.BlueCardTextDiv>
+        <p>카테고리별 차트 분석</p>
         <h4>
-          원하는 지역의 <br />
-          뜨는 업종을 <br />
-          간편하게 살펴볼 수 있어요!
+          다양한 지표를 차트로 <br />
+          시각화하여 <br />
+          쉽게 이해할 수 있어요!
         </h4>
-      </a.CardTextDiv>
+      </a.BlueCardTextDiv>
       <a.CardImgDiv>
-        <a.CardImg />
+        <a.ChartCardImg />
       </a.CardImgDiv>
-    </a.Card>
+    </a.BlueCard>
   )
 }
 

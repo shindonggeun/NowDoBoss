@@ -46,3 +46,11 @@ export const recommendSaveList = async (): Promise<PromiseSaveListType> => {
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 추천 상권 저장 목록 조회 get api
+export const recommendSaveDetail = async () => {
+  return customAxios
+    .get(`/recommendation/save/detail`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

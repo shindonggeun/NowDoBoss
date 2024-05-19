@@ -84,8 +84,7 @@ type ThreeBoxPropsType = {
 
 // 단위 수정
 export const formatKRW = (number: number) => {
-  // const isNegative = number < 0 // 음수인지 확인
-  const absNumber = Math.abs(number) // 절대값 취하기
+  const absNumber = Math.abs(number)
   const roundNumber = (num: number, decimalPlaces: number) => {
     const factor = 10 ** decimalPlaces
     return Math.round(num * factor) / factor
@@ -97,15 +96,13 @@ export const formatKRW = (number: number) => {
     formattedNumber = `${(absNumber / 1e4).toFixed(0)}만`
   } else {
     const billion = Math.floor(absNumber / 1e8)
-    const million = ((absNumber % 1e8) / 1e4).toFixed(0)
-    if (million === '0') {
+    const million = Math.floor((absNumber % 1e8) / 1e4)
+    if (million === 0) {
       formattedNumber = `${billion}억`
     } else {
       formattedNumber = `${billion}억 ${million}만`
     }
   }
-  // 음수인 경우 결과에 '-' 추가
-  // return isNegative ? `-${formattedNumber}` : formattedNumber
   return formattedNumber
 }
 
@@ -128,6 +125,8 @@ const ThreeBox = (props: ThreeBoxPropsType) => {
       setIs(false)
     }
   }, [MainContent])
+  console.log(CurrentData)
+  console.log(formatKRW(CurrentData))
 
   return (
     <Container>

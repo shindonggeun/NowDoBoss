@@ -12,13 +12,13 @@ const ReportDetail = ({ ReportData }: { ReportData: SimulationReportType }) => {
 
   // 단위면적당 임대료 계산
   const rentPriceCalcul = Math.floor(
-    ReportData.detail.rentPrice / 3.3,
+    (ReportData.detail.rentPrice * 3.3) / ReportData.request.storeSize,
   ).toLocaleString()
 
   const DetailInfos: DetailType[] = [
     {
       name: '첫 월 임대료',
-      detail: `단위면적(3.3㎡)당 ${rentPriceCalcul}원`,
+      detail: `단위면적(3.3㎡)당 ${rentPriceCalcul}만원`,
     },
     { name: '보증금', detail: '월 임대료 * 10개월' },
     { name: '인테리어 비용', detail: '단위면적(3.3㎡)당 인테리어 비용' },

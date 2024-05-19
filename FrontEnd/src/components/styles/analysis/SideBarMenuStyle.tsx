@@ -19,10 +19,11 @@ export const Top = styled.button`
   padding: 20px 60px 20px 10px;
   height: auto;
   background-color: #fff;
-  border: 1px solid rgb(202, 190, 169);
-  border-radius: 10px;
+  border-radius: 5px;
   outline: none;
   cursor: pointer;
+  border: 2px solid #2a65f0; /* 파란색 테두리 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 파란색 계열의 그림자 */
 
   @media (max-width: 1245px) {
     padding: 20px 50px 20px 10px;

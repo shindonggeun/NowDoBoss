@@ -33,6 +33,7 @@ import ChattingListPage from '@src/pages/ChattingListPage'
 import ChattingDetailPage from '@src/pages/ChattingDetailPage'
 import ReportKakaoSharePage from '@src/pages/ReportKakaoSharePage'
 import SweetAlert2 from '@src/SweetAlert2'
+import JSConfetti from 'js-confetti'
 import './index.css'
 
 // firebase config 파일 실행
@@ -46,6 +47,9 @@ declare global {
     Kakao: any
   }
 }
+
+// 축하 이벤트 시 사용할 confetti
+export const confetti = new JSConfetti()
 
 function App() {
   function setScreenSize() {

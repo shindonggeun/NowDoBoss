@@ -11,11 +11,10 @@ const SideBarMenu = (props: PropsType) => {
     <s.Container>
       <s.Top>
         <s.MenuItem onClick={() => moveTo(0)}>유동인구</s.MenuItem>
-        <s.MenuItem onClick={() => moveTo(1)}>집객시설</s.MenuItem>
-        <s.MenuItem onClick={() => moveTo(2)}>점포분석</s.MenuItem>
-        <s.MenuItem onClick={() => moveTo(3)}>매출분석</s.MenuItem>
-        <s.MenuItem onClick={() => moveTo(4)}>상주인구</s.MenuItem>
-        <s.MenuItem onClick={() => moveTo(5)}>지출분석</s.MenuItem>
+        <s.MenuItem onClick={() => moveTo(1)}>점포분석</s.MenuItem>
+        <s.MenuItem onClick={() => moveTo(2)}>매출분석</s.MenuItem>
+        <s.MenuItem onClick={() => moveTo(3)}>상주인구</s.MenuItem>
+        <s.MenuItem onClick={() => moveTo(4)}>지출분석</s.MenuItem>
       </s.Top>
     </s.Container>
   )

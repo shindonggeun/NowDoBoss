@@ -43,10 +43,10 @@ export const subCategories: SubCategoryType = {
   서비스: [
     { name: '세탁소', code: 'CS200031' },
     { name: '부동산중개업', code: 'CS200033' },
-    { name: '일반의원', code: 'CS200006' },
     { name: '여관', code: 'CS200034' },
     { name: '자동차수리', code: 'CS200025' },
     { name: '미용실', code: 'CS200028' },
+    // { name: '일반의원', code: 'CS200006' },
     // { name: '치과의원', code: 'CS200007' },
     // { name: '한의원', code: 'CS200008' },
     // { name: '가전제품수리', code: 'CS200032' },

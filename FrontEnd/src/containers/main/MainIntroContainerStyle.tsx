@@ -174,6 +174,38 @@ export const Button = styled.button`
     left: -100px;
     opacity: 0.6;
   }
+  //
+  //@media only screen and (max-width: 1200px) {
+  //  font-size: 1.5rem;
+  //}
+  @media only screen and (max-width: 1100px) {
+    font-size: 0.9rem;
+  }
+  @media only screen and (max-width: 800px) {
+    font-size: 0.8rem;
+    padding-block: 0.4rem;
+    padding-inline: 1rem;
+  }
+  @media only screen and (max-width: 700px) {
+    font-size: 0.7rem;
+    padding-block: 0.3rem;
+    padding-inline: 0.8rem;
+  }
+  @media only screen and (max-width: 600px) {
+    font-size: 0.65rem;
+    padding-block: 0.25rem;
+    padding-inline: 0.7rem;
+  }
+  @media only screen and (max-width: 530px) {
+    font-size: 0.6rem;
+    padding-block: 0.2rem;
+    padding-inline: 0.6rem;
+  }
+  @media only screen and (max-width: 440px) {
+    font-size: 0.45rem;
+    padding-block: 0.2rem;
+    padding-inline: 0.5rem;
+  }
 `
 
 // Styled Icon 컴포넌트

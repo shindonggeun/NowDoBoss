@@ -9,8 +9,6 @@ type RecommendBlueOceanPropsType = {
 const RecommendBlueOcean = (props: RecommendBlueOceanPropsType) => {
   const { selectedData } = props
 
-  console.log(selectedData)
-
   // // 배열 내림차순으로 정렬
   // const blueOceanArray = Object.entries(selectedData.blueOceanInfo)
   //   .map(([name, count]) => ({

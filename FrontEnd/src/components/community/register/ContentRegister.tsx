@@ -1,4 +1,3 @@
-import GoBackButton from '@src/common/GoBackButton'
 import * as c from '@src/components/styles/community/CommunityRegisterStyle'
 import React, { useEffect, useState } from 'react'
 import arrow_down from '@src/assets/arrow_down.svg'
@@ -14,10 +13,36 @@ import {
 } from '@src/api/communityApi'
 import Swal from 'sweetalert2'
 import { ImageType } from '@src/types/CommunityType'
+import arrow_left from '@src/assets/arrow_left.svg'
+import styled from 'styled-components'
 
 interface ContentRegisterPropsType {
   modifyCommunityId: number
 }
+
+const BackButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    img {
+      scale: 1;
+    }
+    div {
+      font-weight: 600;
+      font-size: 18px;
+    }
+  }
+`
+const BackIcon = styled.img`
+  scale: 0.8;
+  color: red;
+`
+
+const GoBack = styled.div`
+  font-weight: 500;
+`
 
 const ContentRegister = (props: ContentRegisterPropsType) => {
   const { modifyCommunityId } = props
@@ -209,10 +234,18 @@ const ContentRegister = (props: ContentRegisterPropsType) => {
     }
   }
 
+  const handleGoBack = () => {
+    navigate('community/list')
+    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 300)
+  }
+
   return (
     <c.Container>
       <c.Header>
-        <GoBackButton />
+        <BackButton onClick={handleGoBack}>
+          <BackIcon src={arrow_left} />
+          <GoBack>목록으로 돌아가기</GoBack>
+        </BackButton>
 
         {/* 제출 버튼 */}
         <c.SubmitButton

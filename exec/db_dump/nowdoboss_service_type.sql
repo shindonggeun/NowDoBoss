@@ -1,0 +1,58 @@
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+--
+-- Host: k10c208.p.ssafy.io    Database: nowdoboss
+-- ------------------------------------------------------
+-- Server version	8.0.36-0ubuntu0.20.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `service_type`
+--
+
+DROP TABLE IF EXISTS `service_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `service_type` (
+  `key_money` int NOT NULL COMMENT '권리금 수준 평균, 단위: 만원',
+  `key_money_level` decimal(10,2) DEFAULT NULL COMMENT '권리금 수준 ㎡당 평균, 만원/㎡',
+  `key_money_ratio` decimal(10,2) DEFAULT NULL COMMENT '권리금 유 비율',
+  `large_size` int NOT NULL COMMENT '대형 크기(m²)',
+  `medium_size` int NOT NULL COMMENT '중형 크기(m²)',
+  `small_size` int NOT NULL COMMENT '소형 크기(m²)',
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '서비스 아이디',
+  `service_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '업종 코드',
+  `service_code_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '업종 이름',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `service_type`
+--
+
+LOCK TABLES `service_type` WRITE;
+/*!40000 ALTER TABLE `service_type` DISABLE KEYS */;
+INSERT INTO `service_type` VALUES (5670,75.30,75.40,86,61,35,1,'CS100010','커피-음료'),(5670,75.30,75.40,94,65,36,2,'CS100001','한식음식점'),(5053,114.90,29.20,495,297,66,3,'CS300001','슈퍼마켓'),(5670,75.30,75.40,98,68,38,4,'CS100002','중식음식점'),(5670,75.30,75.40,58,46,34,5,'CS100003','일식음식점'),(2970,46.30,48.90,165,99,66,6,'CS200028','미용실'),(4723,27.30,54.60,198,100,66,7,'CS200003','예술학원'),(5670,75.30,75.40,49,38,28,8,'CS100008','분식전문점'),(5670,75.30,75.40,96,69,42,9,'CS100004','양식음식점'),(5670,75.30,75.40,133,92,50,10,'CS100006','패스트푸드점'),(5670,75.30,75.40,51,39,26,11,'CS100007','치킨전문점'),(5670,75.30,75.40,112,77,43,12,'CS100009','호프-간이주점'),(5670,75.30,75.40,72,52,32,13,'CS100005','제과점'),(4723,27.30,54.60,198,100,66,14,'CS200005','스포츠 강습'),(2970,46.30,48.90,297,231,99,15,'CS200019','PC방'),(2970,46.30,48.90,198,100,66,16,'CS200001','일반교습학원'),(2970,46.30,48.90,198,100,66,17,'CS200002','외국어학원'),(5053,114.90,29.20,165,132,83,18,'CS300007','수산물판매'),(2970,46.30,48.90,297,165,66,19,'CS200025','자동차수리'),(5053,114.90,29.20,165,132,66,20,'CS300022','화장품'),(5053,114.90,29.20,165,116,66,21,'CS300010','일반의류'),(5053,114.90,29.20,165,132,83,22,'CS300002','편의점'),(2970,46.30,48.90,165,132,66,23,'CS300029','애완동물'),(5053,114.90,29.20,165,115,66,24,'CS300016','안경'),(4150,130.50,63.60,165,116,50,25,'CS200033','부동산중개업'),(2970,46.30,48.90,150,80,40,26,'CS200037','노래방'),(5670,75.30,75.40,231,165,99,27,'CS200034','여관'),(2970,46.30,48.90,100,50,30,28,'CS200031','세탁소'),(5043,78.00,51.20,165,132,66,29,'CS300025','자전거 및 기타운송장비'),(5053,114.90,29.20,165,132,66,30,'CS300018','의약품');
+/*!40000 ALTER TABLE `service_type` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-05-19 21:38:18

@@ -4,10 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1cf45ef0-d421-4978-8f7e-78a55f3e7c16" name="Changes" comment="[FE] feat: fcm api 작성">
+    <list default="true" id="1cf45ef0-d421-4978-8f7e-78a55f3e7c16" name="Changes" comment="[FE] fix: 커뮤니티 및 실시간 수정 수정">
+      <change afterPath="$PROJECT_DIR$/docs/images/C208_System_Architecture.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/10기_자율PJT_포팅_메뉴얼_C208.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_area_commercial.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_area_district.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_change_district.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_chat_message.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_chat_room.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_chat_room_member.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_comment.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_community.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_device_token.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_facility_commercial.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_flyway_schema_history.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_foot_traffic_commercial.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_foot_traffic_district.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_franchisee.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_image.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_income_administration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_income_commercial.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_income_district.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_member.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_population_commercial.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_rent.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_sales_administration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_sales_commercial.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_sales_district.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_service_type.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_share.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_startup_support.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_store_administration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_store_commercial.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exec/db_dump/nowdoboss_store_district.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/api/chattingApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/api/chattingApi.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/src/components/chatting/ChattingList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/components/chatting/ChattingList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/FastApiServer/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/FastApiServer/scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/src/common/BarChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/src/common/BarChart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +48,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/fe-live-rank" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitToolBoxStore">
@@ -27,12 +65,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/fe-fcm" />
-                    <option name="lastUsedInstant" value="1715576686" />
+                    <option name="branchName" value="feature/fe-fix" />
+                    <option name="lastUsedInstant" value="1716119634" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1715576640" />
+                    <option name="lastUsedInstant" value="1716118157" />
                   </RecentBranch>
                 </list>
               </option>
@@ -51,6 +89,9 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2gOAmPUPfZVpQRcVyIHkN0YUABB" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -60,7 +101,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "git-widget-placeholder": "feature/fe-fcm",
+    "git-widget-placeholder": "feature/fe-fix 병합 중",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -79,6 +120,7 @@
       <updated>1715558416695</updated>
       <workItem from="1715558419750" duration="16108000" />
       <workItem from="1715595836293" duration="20349000" />
+      <workItem from="1716132163484" duration="31000" />
     </task>
     <task id="LOCAL-00001" summary="[FE] fix: 카카오맵 app key 수정">
       <option name="closed" value="true" />
@@ -248,7 +290,55 @@
       <option name="project" value="LOCAL" />
       <updated>1715618851983</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="[FE] chore: react-spring 모듈 설치">
+      <option name="closed" value="true" />
+      <created>1716118580540</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1716118580540</updated>
+    </task>
+    <task id="LOCAL-00023" summary="[FE] fix: api 주소 env로 변경">
+      <option name="closed" value="true" />
+      <created>1716119634519</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1716119634519</updated>
+    </task>
+    <task id="LOCAL-00024" summary="[FE] fix: 메인 인트로, 추천 반응형 적용">
+      <option name="closed" value="true" />
+      <created>1716123403010</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1716123403010</updated>
+    </task>
+    <task id="LOCAL-00025" summary="[FE] fix: 커뮤니티 수정버튼 안보이는 에러 수정">
+      <option name="closed" value="true" />
+      <created>1716124106420</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1716124106420</updated>
+    </task>
+    <task id="LOCAL-00026" summary="[FE] fix: 커뮤니티 스타일 수정">
+      <option name="closed" value="true" />
+      <created>1716124114902</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1716124114902</updated>
+    </task>
+    <task id="LOCAL-00027" summary="[FE] fix: 커뮤니티 및 실시간 수정 수정">
+      <option name="closed" value="true" />
+      <created>1716131441485</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1716131441485</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -266,7 +356,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="[FE] fix: 카카오맵 app key 수정" />
     <MESSAGE value="[FE] chore: debounce 모듈 설치" />
     <MESSAGE value="[FE] fix: 채팅 네비바 반응형 로직 수정" />
     <MESSAGE value="[FE] fix: 내 채팅방 목록 조회 api 수정" />
@@ -286,6 +375,12 @@
     <MESSAGE value="[FE] feat: fcm 구독, 알림 type 생성" />
     <MESSAGE value="[FE] feat: fcm topic 구독 구현" />
     <MESSAGE value="[FE] feat: fcm api 작성" />
-    <option name="LAST_COMMIT_MESSAGE" value="[FE] feat: fcm api 작성" />
+    <MESSAGE value="[FE] chore: react-spring 모듈 설치" />
+    <MESSAGE value="[FE] fix: api 주소 env로 변경" />
+    <MESSAGE value="[FE] fix: 메인 인트로, 추천 반응형 적용" />
+    <MESSAGE value="[FE] fix: 커뮤니티 수정버튼 안보이는 에러 수정" />
+    <MESSAGE value="[FE] fix: 커뮤니티 스타일 수정" />
+    <MESSAGE value="[FE] fix: 커뮤니티 및 실시간 수정 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="[FE] fix: 커뮤니티 및 실시간 수정 수정" />
   </component>
 </project>

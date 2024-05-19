@@ -147,7 +147,7 @@ const RealTimeSearchTerms: React.FC = () => {
       if (data) {
         setRealTimeData(data.dataBody)
       }
-      console.log('Specific ranking update:', data)
+      // console.log('Specific ranking update:', data)
     })
     // 4. 예외 처리 및 연결 종료
     // 클라이언트가 페이지를 나가거나 새로고침할 경우, 연결은 자동으로 종료
@@ -187,9 +187,6 @@ const RealTimeSearchTerms: React.FC = () => {
       slicedData = realTimeData.commercialRankings
     }
   }
-
-  console.log(slicedData)
-  console.log(realTimeData)
 
   return (
     <div

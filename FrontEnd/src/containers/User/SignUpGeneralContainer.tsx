@@ -14,6 +14,8 @@ import PasswordInput from '@src/components/profile/PasswordInput'
 import RepeatPwInput from '@src/components/User/RepeatPwInput'
 import AskSection from '@src/components/User/AskSection'
 import * as u from '@src/containers/User/UserContainerStyle'
+import { confetti } from '@src/App'
+import Swal from 'sweetalert2'
 
 const SignUpGeneralContainer = () => {
   const navigate = useNavigate()
@@ -29,6 +31,25 @@ const SignUpGeneralContainer = () => {
   const [isMatch, setIsMatch] = useState<boolean>(false) // 인증 코드 검증 여부
   const [isCollect, setIsCollect] = useState<boolean>(false) // 비밀번호 확인 성공 여부
   const [errorMessage, setErrorMessage] = useState('') // 에러 메시지 상태
+
+  // confetti 함수
+  const handleConfetti = () => {
+    confetti.addConfetti({
+      confettiColors: [
+        '#ff00ff', // 핑크
+        '#ffff00', // 노랑
+        '#00ff00', // 녹색
+        '#00ffff', // 청록
+        '#0000ff', // 파랑
+        '#ff0000', // 빨강
+        '#800080', // 보라
+        '#ffa500', // 주황
+        '#008000', // 초록
+      ],
+      confettiRadius: 5,
+      confettiNumber: 800,
+    })
+  }
 
   // 이메일 인증코드 발송
   const { mutate: SendEmailVerificationCode } = useMutation({
@@ -82,7 +103,24 @@ const SignUpGeneralContainer = () => {
     onSuccess: res => {
       // 성공했을 때
       if (res.dataHeader.successCode === 0) {
-        alert('회원가입을 축하합니다! 로그인 후 이용해주세요.')
+        handleConfetti()
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: toast => {
+            const toastElement = toast
+            toastElement.onmouseenter = Swal.stopTimer
+            toastElement.onmouseleave = Swal.resumeTimer
+          },
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: '회원가입을 축하합니다!',
+        })
         navigate('/login')
       }
       // 실패 - 1. 중복된 이메일

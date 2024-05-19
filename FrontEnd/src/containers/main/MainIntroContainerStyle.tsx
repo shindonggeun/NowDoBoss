@@ -213,6 +213,11 @@ export const SubContent = styled.div`
     opacity 2s ease-out,
     transform 2s ease-out;
 
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   @media only screen and (max-width: 1200px) {
     font-size: 1.5rem;
   }

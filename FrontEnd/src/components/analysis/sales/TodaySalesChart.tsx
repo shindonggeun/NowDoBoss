@@ -53,6 +53,8 @@ const TodaySalesChart = () => {
   const labels = ['주중', '주말']
   const values = [weekdaySum, weekendSum]
   const percentageValues = [weekdayPercentage, weekendPercentage]
+  const backgroundColor = ['rgba(75,192,192,0.2)', 'rgba(255, 159, 64, 0.2)']
+  const borderColor = ['rgba(75, 192, 192, 1)', 'rgba(255, 159, 64, 1)']
 
   return (
     <s.TodaySalesChart>
@@ -66,6 +68,8 @@ const TodaySalesChart = () => {
         xDisplay={false}
         pluginUnit=""
         pluginValues={percentageValues}
+        backgroundColor={backgroundColor}
+        borderColor={borderColor}
       />
     </s.TodaySalesChart>
   )

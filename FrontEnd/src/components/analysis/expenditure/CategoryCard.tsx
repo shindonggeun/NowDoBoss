@@ -32,6 +32,30 @@ const CategoryCard = () => {
     Math.round((value / totalSum) * 100),
   )
 
+  const backgroundColor = [
+    'rgba(33, 150, 243, 0.2)', // 파란색
+    'rgba(156, 39, 176, 0.2)', // 보라색
+    'rgba(0, 150, 136, 0.2)', // 틸색
+    'rgba(205, 220, 57, 0.2)', // 라임색
+    'rgba(255, 193, 7, 0.2)', // 앰버색
+    'rgba(255, 87, 34, 0.2)', // 오렌지색
+    'rgba(121, 85, 72, 0.2)', // 브라운색
+    'rgba(96, 125, 139, 0.2)', // 블루 그레이
+    'rgba(233, 30, 99, 0.2)', // 핑크색
+  ]
+
+  const borderColor = [
+    'rgba(33, 150, 243, 1)', // 파란색
+    'rgba(156, 39, 176, 1)', // 보라색
+    'rgba(0, 150, 136, 1)', // 틸색
+    'rgba(205, 220, 57, 1)', // 라임색
+    'rgba(255, 193, 7, 1)', // 앰버색
+    'rgba(255, 87, 34, 1)', // 오렌지색
+    'rgba(121, 85, 72, 1)', // 브라운색
+    'rgba(96, 125, 139, 1)', // 블루 그레이
+    'rgba(233, 30, 99, 1)', // 핑크색
+  ]
+
   return (
     <e.CategoryCard>
       <e.ChartTitle>유형별 지출금액</e.ChartTitle>
@@ -47,6 +71,8 @@ const CategoryCard = () => {
         xDisplay={false}
         pluginUnit=""
         pluginValues={percentageValues}
+        backgroundColor={backgroundColor}
+        borderColor={borderColor}
       />
     </e.CategoryCard>
   )

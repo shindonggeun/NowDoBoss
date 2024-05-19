@@ -45,4 +45,6 @@ export type HorizontalBarChartPropsType = {
   xDisplay: boolean
   pluginUnit: string
   pluginValues?: number[]
+  backgroundColor: string[]
+  borderColor: string[]
 }

@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import * as s from '@src/components/styles/profile/SideBarStyle'
+import LogoutContainer from '@src/containers/User/LogoutContainer'
 
 const SideBar = () => {
   const navigate = useNavigate()
@@ -29,7 +30,9 @@ const SideBar = () => {
       >
         개인 정보 설정
       </s.MenuItem>
-      <s.MenuItem>로그아웃</s.MenuItem>
+      <s.MenuItem>
+        <LogoutContainer />
+      </s.MenuItem>
     </s.Container>
   )
 }

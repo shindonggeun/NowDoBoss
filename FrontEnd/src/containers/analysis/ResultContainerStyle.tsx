@@ -19,6 +19,7 @@ export const MainDiv = styled.div`
   box-sizing: border-box;
   height: auto;
   padding-left: 15%;
+  margin-bottom: 5%;
 
   @media (max-width: 992px) {
     padding-left: 0;

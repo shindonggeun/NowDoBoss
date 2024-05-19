@@ -12,18 +12,6 @@ export type LoginDataType = {
   password: string
 }
 
-export type EmailErrorType = {
-  emailErr: string
-  codeErr: string
-}
-
-export type SignUpErrorType = {
-  emailError: string
-  passwordError: string
-  nameError: string
-  nicknameError: string
-}
-
 export type MemberInfoType = {
   id: number | null
   name: string
@@ -44,16 +32,8 @@ export type VerifyEmailVerificationCodePathsType = {
 
 // store type
 export type UserStoreType = {
-  signUpData: SignUpDataType
-  emailCode: string
-  loginData: LoginDataType
-  emailError: EmailErrorType
-  signUpError: SignUpErrorType
-  setSignUpData: (fieldName: keyof SignUpDataType, value: string) => void
-  setEmailCode: (code: string) => void
-  setLoginData: (fieldName: keyof LoginDataType, value: string) => void
-  setEmailError: (fieldName: keyof EmailErrorType, value: string) => void
-  setSignUpError: (fieldName: keyof SignUpErrorType, value: string) => void
+  isLogin: boolean
+  setIsLogin: (isLogin: boolean) => void
 }
 
 // prop type
@@ -65,13 +45,4 @@ export type InfoSectionPropsType = {
 export type AskSectionPropsType = {
   title: string
   subtitle: string
-}
-
-export type EmailInputSectionPropsType = {
-  handleSendEmailCode: () => void
-  codeSuccessCode: number
-}
-
-export type CodeInputSectionPropsType = {
-  handleVerifyEmailCode: () => void
 }

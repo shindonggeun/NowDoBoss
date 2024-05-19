@@ -47,11 +47,7 @@ const ExpectChart = () => {
     return `${Math.floor(tenThousands)}만원`
   }
 
-  const labels: string[] = [
-    totalSalesDataBody.districtTotalSalesInfo.districtCodeName,
-    totalSalesDataBody.administrationTotalSalesInfo.administrationCodeName,
-    totalSalesDataBody.commercialTotalSalesInfo.commercialCodeName,
-  ]
+  const labels: string[] = ['자치구', '행정동', '상권']
 
   const values: number[] = [
     totalSalesDataBody.districtTotalSalesInfo.totalSales,

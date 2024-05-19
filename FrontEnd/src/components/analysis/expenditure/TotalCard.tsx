@@ -50,11 +50,7 @@ const TotalCard = () => {
     return `${Math.floor(tenThousands)}만원`
   }
 
-  const labels: string[] = [
-    districtTotalIncomeInfo.districtCodeName,
-    administrationTotalIncomeInfo.administrationCodeName,
-    commercialTotalIncomeInfo.commercialCodeName,
-  ]
+  const labels: string[] = ['자치구', '행정동', '상권']
 
   const values = [
     districtTotalIncomeInfo.totalPrice,

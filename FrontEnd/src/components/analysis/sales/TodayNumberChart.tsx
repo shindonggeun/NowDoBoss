@@ -40,7 +40,7 @@ const TodayNumberChart = () => {
       parseFloat(weekdayMultiplier) > 1 ? (
         <>
           주중의 매출건수는 주말보다 약{' '}
-          <s.HighlightText>{weekdayMultiplier}배</s.HighlightText>더 많아요.
+          <s.HighlightText>{weekdayMultiplier}배</s.HighlightText> 더 많아요.
         </>
       ) : (
         <>

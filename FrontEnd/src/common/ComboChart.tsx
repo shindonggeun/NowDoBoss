@@ -26,21 +26,21 @@ const ComboChart = (props: ComboChartPropsType) => {
   const { labels, value1, value2 } = props
 
   const backgroundColors = [
-    'rgba(103, 128, 159, 0.2)', // 10대 (연한 청회색)
-    'rgba(241, 196, 15, 0.2)', // 20대 (연한 노란색)
-    'rgba(231, 76, 60, 0.2)', // 30대 (연한 붉은색)
-    'rgba(46, 204, 113, 0.2)', // 40대 (연한 녹색)
-    'rgba(52, 152, 219, 0.2)', // 50대 (연한 파란색)
-    'rgba(155, 89, 182, 0.2)', // 60대 (연한 보라색)
+    'rgba(33, 150, 243, 0.2)',
+    'rgba(156, 39, 176, 0.2',
+    'rgba(76, 175, 80, 0.2)',
+    ' rgba(255, 193, 7, 0.2)',
+    'rgba(121, 85, 72, 0.2)',
+    'rgba(96, 125, 139, 0.2) ',
   ]
 
   const borderColors = [
-    'rgba(103, 128, 159, 1)', // 10대 (청회색)
-    'rgba(241, 196, 15, 1)', // 20대 (노란색)
-    'rgba(231, 76, 60, 1)', // 30대 (붉은색)
-    'rgba(46, 204, 113, 1)', // 40대 (녹색)
-    'rgba(52, 152, 219, 1)', // 50대 (파란색)
-    'rgba(155, 89, 182, 1)', // 60대 (보라색)
+    'rgba(33, 150, 243, 1)',
+    'rgba(156, 39, 176, 1)',
+    'rgba(76, 175, 80, 1)',
+    'rgba(255, 193, 7, 1)',
+    'rgba(121, 85, 72, 1)',
+    ' rgba(96, 125, 139, 1)',
   ]
 
   const data: ChartData<'bar' | 'line', number[], string> = {
@@ -84,8 +84,8 @@ const ComboChart = (props: ComboChartPropsType) => {
     },
     layout: {
       padding: {
-        left: 10,
-        right: 10,
+        left: 20,
+        right: 20,
       },
     },
     scales: {
@@ -96,7 +96,7 @@ const ComboChart = (props: ComboChartPropsType) => {
       },
       y: {
         type: 'linear' as const,
-        display: false,
+        display: true,
         position: 'left',
       },
       'y-axis-2': {

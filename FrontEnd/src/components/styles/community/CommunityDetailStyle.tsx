@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 // MainContent
 export const Container = styled.div`
-  padding-top: 3vh;
+  //padding-top: 2vh;
 
   @media only screen and (max-width: 820px) {
     padding: 3vh 5%;
@@ -117,14 +117,14 @@ export const TimeAndCounting = styled.div`
 export const ImgDiv = styled.div`
   display: flex;
   justify-content: center;
-  margin: 2vh 0;
+  margin: 3vh 0;
 `
 export const CommunityImage = styled.img`
   width: 80%;
 `
 
 export const Content = styled.div`
-  padding: 2vh 0;
+  padding: 3vh 0;
 `
 
 // SubContent
@@ -176,29 +176,9 @@ export const UserImgDefault = styled.div`
   border-radius: 100%;
 `
 export const UserName = styled.div`
-  font-size: 20px;
+  font-size: 1rem;
   font-weight: 600;
   margin: 0 0.5rem;
-`
-export const ChatButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #236cff;
-  color: white;
-  border-radius: 10px;
-  padding: 0 0.5rem;
-  height: 34px;
-
-  &:hover {
-    cursor: pointer;
-  }
-  &:active {
-    background-color: #1a53ff;
-  }
-`
-export const ChatImg = styled.img`
-  margin-top: -4px;
 `
 export const SameCategoryList = styled.div`
   padding: 20px 0;
@@ -207,26 +187,54 @@ export const SubContent = styled.div`
   color: #707882;
   display: flex;
   font-weight: 500;
+  margin: -2px 0 0 5px;
+  font-size: 0.9rem;
 `
 export const Icon = styled.img`
   //padding: 0 8px 0 0;
-  scale: 0.9;
+  scale: 0.8;
 `
 export const AnotherCard = styled.div`
   padding: 5px 10px;
+  margin: 10px 0;
+  border-bottom: 2px solid #f3f3f3;
   cursor: pointer;
+
   &:hover {
     background-color: #fafafa;
   }
 `
 export const SubCardContent = styled.div`
-  margin: 5px 0 5px 40px;
+  margin: 5px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `
 export const SubCardTitle = styled.div`
   font-weight: 500;
+  font-size: 1.5rem;
+  width: 70%;
+  -webkit-box-orient: vertical; /* 내용을 세로 방향으로 정렬 */
+  overflow: hidden; /* 넘치는 내용 숨김 처리 */
+  text-overflow: ellipsis; /* 넘치는 내용을 ...으로 표시 */
+
+  @media only screen and (max-width: 600px) {
+    width: 60%;
+    font-size: 1.2rem;
+  }
+  @media only screen and (max-width: 450px) {
+    width: 40%;
+    font-size: 1.2rem;
+  }
 `
-export const SubCardDetail = styled.div``
-export const Div = styled.div``
+export const Div = styled.div`
+  margin-left: 5px;
+  align-items: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+`
 
 export const GotoCard = styled.div`
   color: #707882;

@@ -85,3 +85,18 @@ export const CardDiv = styled.div`
   justify-content: center;
   align-items: center;
 `
+
+export const ErrBox = styled.div`
+  display: flex;
+  height: 25vh;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  margin: 20px auto; // 상하 여백
+  font-size: 0.9rem; // 글자 크기
+  color: #ff0000; // 글자 색상
+  background-color: #fff0f0; // 배경 색상
+  border-radius: 10px; // 테두리 둥글기
+  border: 1px solid #ffd0d0; // 테두리 색상
+`

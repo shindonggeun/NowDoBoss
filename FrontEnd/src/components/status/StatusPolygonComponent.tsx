@@ -29,8 +29,22 @@ const StatusPolygonComponent = ({
       setHeight(window.innerHeight * 0.8)
       if (window.innerWidth > 1400) {
         setScale(window.innerWidth * 60)
-      } else if (window.innerWidth > 800) {
+      } else if (window.innerWidth > 900) {
         setScale(80000)
+      } else if (window.innerWidth > 800) {
+        setScale(70000)
+      } else if (window.innerWidth > 750) {
+        setScale(65000)
+      } else if (window.innerWidth > 650) {
+        setScale(60000)
+      } else if (window.innerWidth > 600) {
+        setScale(55000)
+      } else if (window.innerWidth > 550) {
+        setScale(50000)
+        setWidth(450)
+      } else if (window.innerWidth > 300) {
+        setScale(45000)
+        setWidth(450)
       } else {
         setWidth(window.innerWidth)
         setHeight(window.innerHeight)
@@ -141,7 +155,7 @@ const StatusPolygonComponent = ({
         fontFamily: 'pretender',
         fontWeight: '600',
         fill: 'white',
-        fontSize: window.innerWidth >= 600 ? '13px' : '0.5rem',
+        fontSize: window.innerWidth >= 800 ? '0.8rem' : '0.5rem',
         textAnchor: 'middle',
         top: '10px',
         position: 'relative',
@@ -207,7 +221,7 @@ const StatusPolygonComponent = ({
       <g key={index}>
         <rect
           key={index}
-          x={width - 200}
+          x={width - 180}
           y={
             height -
             legendData.length * (legendHeight + spacing) +
@@ -217,9 +231,10 @@ const StatusPolygonComponent = ({
           height={legendHeight}
           fill={color}
           opacity={0.8}
+          display={window.innerWidth > 550 ? '' : 'none'}
         />
         <text
-          x={width - 200 + legendWidth + textOffset}
+          x={width - 180 + legendWidth + textOffset}
           y={
             height -
             legendData.length * (legendHeight + spacing) +
@@ -227,7 +242,8 @@ const StatusPolygonComponent = ({
             legendHeight / 2
           }
           alignmentBaseline="middle"
-          style={{ fontSize: '12px' }}
+          style={{ fontSize: window.innerWidth > 800 ? '12px' : '10px' }}
+          display={window.innerWidth > 550 ? '' : 'none'}
         >
           {legendLabels[tab][index]}
         </text>

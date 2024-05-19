@@ -4,6 +4,7 @@ import com.ssafy.backend.domain.recommendation.document.RecommendationDocument;
 import com.ssafy.backend.domain.recommendation.dto.response.RecommendationResponse;
 import com.ssafy.backend.domain.recommendation.service.RecommendationService;
 import com.ssafy.backend.global.common.dto.Message;
+import com.ssafy.backend.global.common.dto.PageResponse;
 import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -70,8 +71,21 @@ public class RecommendationController {
     )
     @GetMapping("/save/list")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<RecommendationDocument>>> getSavedCommercialRecommendationList(
-            @AuthenticationPrincipal MemberLoginActive loginActive) {
-        return ResponseEntity.ok().body(Message.success(recommendationService.getSavedCommercialRecommendationList(loginActive.id())));
+    public ResponseEntity<Message<PageResponse<RecommendationDocument>>> getSavedCommercialRecommendationList(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                                                                                @RequestParam(defaultValue = "0") int page,
+                                                                                                                @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok().body(Message.success(recommendationService.getSavedCommercialRecommendationList(loginActive.id(), page, size)));
+    }
+
+    @Operation(
+            summary = "보관함에 저장된 상권 추천 리스트에서 특정 추천 상권 정보 조회",
+            description = "해당 유저가 저장한 추천 상권 리스트에서 특정 추천 상권 정보 조히"
+    )
+    @GetMapping("/save/detail/{commercialCode}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<RecommendationResponse>> getSavedCommercialRecommendationDetail(
+            @AuthenticationPrincipal MemberLoginActive loginActive,
+            @PathVariable String commercialCode) {
+        return ResponseEntity.ok().body(Message.success(recommendationService.getSavedCommercialDetail(loginActive.id(), commercialCode)));
     }
 }

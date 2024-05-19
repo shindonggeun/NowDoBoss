@@ -2,13 +2,21 @@ import { useEffect, useRef, useState } from 'react'
 import SelectContainer from '@src/containers/analysis/SelectContainer'
 import ResultIntroContainer from '@src/containers/analysis/ResultIntroContainer'
 import ResultContainer from '@src/containers/analysis/ResultContainer'
+import NotLogin from '@src/common/swal/NotLogin'
+import { useNavigate } from 'react-router-dom'
 
 const AnalysisContainer = () => {
   const [isReady, setIsReady] = useState(false)
   const resultIntroContainerRef = useRef<HTMLDivElement>(null)
+  const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
+  const navigate = useNavigate()
 
   const handleResultButtonClick = () => {
-    setIsReady(true)
+    if (!userLoggedIn) {
+      NotLogin(navigate)
+    } else {
+      setIsReady(true)
+    }
   }
 
   useEffect(() => {

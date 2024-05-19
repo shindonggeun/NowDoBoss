@@ -2,6 +2,7 @@ import * as s from '@src/components/styles/community/CommunityDetailStyle'
 import { useNavigate } from 'react-router-dom'
 import useCommunityStore from '@src/stores/communityStore'
 import { PopularType } from '@src/types/ChattingType'
+import { Avatar } from '@mui/joy'
 
 type SubContentPropsType = {
   title: string
@@ -37,7 +38,11 @@ const SubContent = (props: SubContentPropsType) => {
               onClick={() => handleCardClick(article.communityId)}
             >
               <s.ProfileDiv>
-                <s.UserProfileImg src={article.profileImage} />
+                {article.profileImage ? (
+                  <s.UserProfileImg src={article.profileImage} />
+                ) : (
+                  <Avatar />
+                )}
                 <s.Div>
                   <s.UserName>{article.writerNickname}</s.UserName>
                   <s.SubContent>
@@ -48,7 +53,6 @@ const SubContent = (props: SubContentPropsType) => {
               </s.ProfileDiv>
               <s.SubCardContent>
                 <s.SubCardTitle>{article.title}</s.SubCardTitle>
-                <s.SubCardDetail>{article.content}</s.SubCardDetail>
                 <s.GotoCard>게시글 보러가기 -{'>'}</s.GotoCard>
               </s.SubCardContent>
             </s.AnotherCard>

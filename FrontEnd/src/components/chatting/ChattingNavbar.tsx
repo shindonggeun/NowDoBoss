@@ -15,7 +15,6 @@ const ChattingNavbar = () => {
 
   // 로그인 상태 확인 (localStorage 사용)
   const userLoggedIn = localStorage.getItem('isLogIn') === 'true'
-
   const handleCreateChatRoom = () => {
     if (userLoggedIn) {
       setModalOpen(true)

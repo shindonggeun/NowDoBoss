@@ -188,39 +188,25 @@ export const SalesCard = styled.div`
   flex: 4;
 `
 
-export const WarningDiv = styled.div`
+export const SummaryBox = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   padding: 20px;
-  background-color: #f8f9fa;
-  border: 1px solid #ced4da;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
   border-radius: 5px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem; // 모바일 화면에서 폰트 크기 조정
+    padding: 15px;
+  }
 `
 
-export const WarnTitle = styled.div`
-  color: #333;
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 1px;
+export const HighlightedText = styled.span`
+  color: #007bff; // 예시 색상
+  font-weight: 600; // 굵은 폰트
+  font-size: 1rem; // 조금 더 큰 폰트 크기
 `
-
-export const Text = styled.div`
-  display: flex;
-  color: #333;
-  font-size: 0.9rem;
-`
-
-// export const WarningDiv = styled.div`
-//   display: flex;
-//   flex: 3;
-//   flex-direction: column;
-//   box-sizing: border-box;
-//   padding: 20px; // 내부 padding 추가
-//   background-color: #fff3cd; // 경고색 배경
-//   border: 1px solid #ffeeba; // 테두리 색상 조정
-//   border-radius: 5px; // 모서리 둥글게 처리
-//   color: #856404; // 경고 텍스트 색상 조정
-//   font-size: 0.9rem;
-//   font-weight: 400;
-// `

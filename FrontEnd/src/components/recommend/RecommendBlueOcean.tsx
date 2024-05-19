@@ -9,14 +9,16 @@ type RecommendBlueOceanPropsType = {
 const RecommendBlueOcean = (props: RecommendBlueOceanPropsType) => {
   const { selectedData } = props
 
-  // 배열 내림차순으로 정렬
-  const blueOceanArray = Object.entries(selectedData.blueOceanInfo)
-    .map(([name, count]) => ({
-      name,
-      count: parseFloat(count.toFixed(1)), // count 값을 소수점 첫째 자리까지 반올림
-    }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 5)
+  console.log(selectedData)
+
+  // // 배열 내림차순으로 정렬
+  // const blueOceanArray = Object.entries(selectedData.blueOceanInfo)
+  //   .map(([name, count]) => ({
+  //     name,
+  //     count: parseFloat(count.toFixed(1)), // count 값을 소수점 첫째 자리까지 반올림
+  //   }))
+  //   .sort((a, b) => b.count - a.count)
+  //   .slice(0, 5)
 
   return (
     <r.Div>
@@ -27,13 +29,26 @@ const RecommendBlueOcean = (props: RecommendBlueOceanPropsType) => {
         </r.SubContent>
       </r.BlueOcean>
       <r.Chart>
-        {blueOceanArray[1] && <BarChart blueOceanArray={blueOceanArray} />}
+        {selectedData.blueOceanInfo[1] && (
+          <BarChart blueOceanArray={selectedData.blueOceanInfo} />
+        )}
       </r.Chart>
       <r.CountDiv>
-        {blueOceanArray[1] &&
-          blueOceanArray.map(blueOcean => {
-            return <r.Blue key={blueOcean.name}>{blueOcean.count}%</r.Blue>
-          })}
+        {selectedData.blueOceanInfo[1] &&
+          selectedData.blueOceanInfo.map(
+            (blueOcean: {
+              serviceCodeName: string
+              myStore: number
+              totalStore: number
+              storeRate: number
+            }) => {
+              return (
+                <r.Blue key={blueOcean.serviceCodeName}>
+                  {parseFloat(blueOcean.storeRate.toFixed(1))}%
+                </r.Blue>
+              )
+            },
+          )}
       </r.CountDiv>
     </r.Div>
   )

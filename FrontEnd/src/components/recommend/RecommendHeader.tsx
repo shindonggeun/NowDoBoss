@@ -94,7 +94,8 @@ const RecommendHeader = (props: RecommendReportPropsType) => {
     if (saveListData?.dataBody) {
       const isDataSaved = saveListData.dataBody.some(
         (savedData: { userId: number; commercialCode: string }) =>
-          Number(savedData.commercialCode) === selectedData.commercialCode,
+          Number(savedData.commercialCode) ===
+          Number(selectedData.commercialCode),
       )
       setIsSaved(isDataSaved)
     }

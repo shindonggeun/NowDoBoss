@@ -49,6 +49,10 @@ export const ProfileImg = styled.img<{ $isMe: boolean; $same: boolean }>`
   border-radius: 15px;
   display: ${props => (props.$isMe || props.$same ? 'none' : '')};
 `
+export const AvatarDiv = styled.div`
+  width: 50px;
+  height: 50px;
+`
 export const SenderName = styled.div<{ $isMe: boolean; $same: boolean }>`
   font-weight: 600;
   display: ${props => (props.$isMe || props.$same ? 'none' : '')};

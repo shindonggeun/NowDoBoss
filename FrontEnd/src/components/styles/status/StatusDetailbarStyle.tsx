@@ -4,13 +4,12 @@ export const Container = styled.div`
   position: fixed;
   top: 69px;
   left: 0;
-  width: 550px;
-  height: calc(100vh - 68px);
-  z-index: 1000;
   background-color: white;
-
+  width: 600px;
+  height: calc(100vh - 68px);
   border: 2px solid white;
   border-left: none;
+  z-index: 10;
 
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
@@ -25,17 +24,24 @@ export const Container = styled.div`
     display: none;
   }
 
-  @media (max-width: 768px) {
-    top: -10px;
-    width: 100%;
-    height: 100vh;
+  @media only screen and (max-width: 1080px) {
+    width: 500px;
+  }
+  @media only screen and (max-width: 800px) {
+    width: 100vw;
+  }
+  @media only screen and (max-width: 550px) {
+    top: auto;
+    bottom: 0;
+    width: 100vw;
+    height: 60vh;
   }
 `
 
 export const FixedCategoryBar = styled.div`
   position: sticky;
   top: 0;
-  z-index: 1010;
+  z-index: 10;
   width: 100%;
 `
 
@@ -84,6 +90,7 @@ export const BarInnerContainer = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   background-color: white;
+  width: 100%;
 `
 
 interface BarInnerTextProps {

@@ -64,7 +64,7 @@ const initialFlowPopulationDataBody: FlowPopulationDataBodyType = {
 }
 
 // 초기 상태 - 매출분석
-const initialSalesDataBody: SalesDataBodyType = {
+export const initialSalesDataBody: SalesDataBodyType = {
   timeSalesInfo: {
     sales00: 0,
     sales06: 0,
@@ -129,7 +129,7 @@ const initialSalesDataBody: SalesDataBodyType = {
 }
 
 // 초기 상태 - 매출분석 (매출 총 금액)
-const initialTotalSalesDataBody: TotalSalesDataBodyType = {
+export const initialTotalSalesDataBody: TotalSalesDataBodyType = {
   districtTotalSalesInfo: {
     districtCode: '',
     districtCodeName: '',

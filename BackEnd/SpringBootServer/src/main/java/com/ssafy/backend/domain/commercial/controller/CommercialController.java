@@ -4,6 +4,7 @@ import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveReq
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
 import com.ssafy.backend.global.common.dto.Message;
+import com.ssafy.backend.global.common.dto.PageResponse;
 import com.ssafy.backend.global.component.jwt.security.MemberLoginActive;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -194,13 +195,15 @@ public class CommercialController {
 
     @Operation(
             summary = "나의 상권 분석 리스트 조회",
-            description = "마이페이지에서 나의 상권 분석 리스트를 조회하는 기능입니다."
+            description = "마이페이지에서 나의 상권 분석 리스트를 조회하는 기능입니다. 페이지네이션을 적용하였습니다."
     )
     @GetMapping("/analysis-list")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<List<CommercialAnalysisResponse>>> getMyAnalysisListByMemberId(
-            @AuthenticationPrincipal MemberLoginActive loginActive) {
-        List<CommercialAnalysisResponse> analysisResponseList = commercialService.getMyAnalysisListByMemberId(loginActive.id());
-        return ResponseEntity.ok().body(Message.success(analysisResponseList));
+    public ResponseEntity<Message<PageResponse<CommercialAnalysisResponse>>> getMyAnalysisListByMemberId(
+            @AuthenticationPrincipal MemberLoginActive loginActive,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        PageResponse<CommercialAnalysisResponse> analysisResponsePage = commercialService.getMyAnalysisListByMemberId(loginActive.id(), page, size);
+        return ResponseEntity.ok().body(Message.success(analysisResponsePage));
     }
 }

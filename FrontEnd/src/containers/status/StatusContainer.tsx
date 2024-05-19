@@ -35,11 +35,8 @@ const StatusContainer = () => {
     <div>
       {!isLoading && data ? (
         <c.StatusContainer>
-          {selectedRegion && <StatusDetailbarComponent />}
-
-          {selectedRegion ? (
-            <c.EmptyContainer />
-          ) : (
+          {/* 기본적으로 있을 상권 현황 및 배너 */}
+          <c.LeftDiv>
             <c.Sidebar>
               <StatusSidebarTopComponent
                 TopLists={data.dataBody}
@@ -47,19 +44,26 @@ const StatusContainer = () => {
                 onClickSetTab={onClickSetTab}
                 onClickRegionCodeHandler={onClickRegionCodeHandler}
               />
-              <c.Banner>
-                <Banner />
-              </c.Banner>
             </c.Sidebar>
-          )}
+            <c.Banner>
+              <Banner />
+            </c.Banner>
+          </c.LeftDiv>
 
-          <c.Content>
+          {/* 폴리곤 맵 */}
+          <c.PoligonMap>
             <StatusPolygonComponent
               tab={tab}
               TopLists={data.dataBody}
               onClickRegionCodeHandler={onClickRegionCodeHandler}
             />
-          </c.Content>
+          </c.PoligonMap>
+          {/* 분석 결과 모달창 */}
+          {selectedRegion && (
+            <c.Report>
+              <StatusDetailbarComponent />
+            </c.Report>
+          )}
         </c.StatusContainer>
       ) : (
         <div />

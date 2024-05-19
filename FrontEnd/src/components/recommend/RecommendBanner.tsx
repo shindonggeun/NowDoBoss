@@ -46,10 +46,12 @@ const RecommendBanner = (props: RecommendBannerPropsType) => {
       )
       // 행정동 8코드의 앞 5자리는 속한 행정구라서, 행정구 정보 찾아서 store에 저장해서 드롭다운 갱신
       if (foundDistrict) {
-        setSelectedGoo({
-          name: foundDistrict.gooName,
-          code: foundDistrict.gooCode,
-        })
+        setTimeout(() => {
+          setSelectedGoo({
+            name: foundDistrict.gooName,
+            code: foundDistrict.gooCode,
+          })
+        }, 1000)
       }
     },
     [goosData, setSelectedGoo],
@@ -59,10 +61,12 @@ const RecommendBanner = (props: RecommendBannerPropsType) => {
   useEffect(() => {
     if (commercialCode !== 0 && DongData) {
       ReCallBeforeData(DongData.dataBody.administrationCode)
-      setSelectedDong({
-        name: DongData.dataBody.administrationCodeName,
-        code: DongData.dataBody.administrationCode,
-      })
+      setTimeout(() => {
+        setSelectedDong({
+          name: DongData.dataBody.administrationCodeName,
+          code: DongData.dataBody.administrationCode,
+        })
+      }, 1000)
       navigate('/analysis')
     }
   }, [DongData, ReCallBeforeData, commercialCode, navigate, setSelectedDong])
@@ -70,10 +74,12 @@ const RecommendBanner = (props: RecommendBannerPropsType) => {
   return (
     <r.GoAnalysis
       onClick={() => {
-        setSelectedCommercial({
-          name: selectedData.commercialCodeName,
-          code: selectedData.commercialCode,
-        }) // 상권 코드 저장해서 동 정보 호출
+        setTimeout(() => {
+          setSelectedCommercial({
+            name: selectedData.commercialCodeName,
+            code: selectedData.commercialCode,
+          }) // 상권 코드 저장해서 동 정보 호출
+        }, 1000)
         setCommercialCode(selectedData.commercialCode)
       }}
     >

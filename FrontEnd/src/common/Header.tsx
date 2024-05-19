@@ -264,7 +264,7 @@ const Header = () => {
     },
     {
       name: '프로필',
-      location: '/profile/bookmarks',
+      location: '/profile/bookmarks/analysis',
     },
     {
       name: '로그인',
@@ -372,7 +372,7 @@ const Header = () => {
             $atTop={atTop}
             onClick={() => handleMenuClick('프로필')}
           >
-            <Avatar src={profileImg} />
+            <Avatar src={profileImg} sx={{ width: 35, height: 35 }} />
           </Menu>
         ) : (
           ['로그인', '회원가입'].map(menuName => (

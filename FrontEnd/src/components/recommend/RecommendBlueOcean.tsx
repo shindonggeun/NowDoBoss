@@ -28,7 +28,7 @@ const RecommendBlueOcean = (props: RecommendBlueOceanPropsType) => {
       </r.BlueOcean>
       <r.Chart>
         {selectedData.blueOceanInfo[1] && (
-          <BarChart blueOceanArray={selectedData.blueOceanInfo} />
+          <BarChart blueOceanInfo={selectedData.blueOceanInfo} />
         )}
       </r.Chart>
       <r.CountDiv>

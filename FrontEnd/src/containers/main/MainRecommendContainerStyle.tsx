@@ -9,6 +9,7 @@ export const Container = styled.div`
 
   margin: auto;
   @media only screen and (max-width: 992px) {
+    //height: calc(400vh);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,6 +46,7 @@ export const Text = styled.div`
   @media only screen and (max-width: 992px) {
     position: unset;
     width: calc(100vw - 5px);
+    height: 80vh;
     margin: 4rem 0;
     padding: 0;
     align-items: center;
@@ -64,9 +66,9 @@ export const CardList = styled.div`
 
   @media only screen and (max-width: 992px) {
     width: calc(100vw - 5px);
+    height: 200vh;
     margin: 0;
     padding: 0;
-    height: 200vh;
     align-items: center;
   }
 `
@@ -92,6 +94,7 @@ export const Card = styled.div`
   @media only screen and (max-width: 992px) {
     margin: 0;
     width: 100%;
+    height: auto;
   }
 `
 export const CardImg = styled.img`
@@ -132,4 +135,10 @@ export const RowDiv = styled.div`
 export const Degree = styled.div`
   width: 300px;
   height: 500px;
+
+  @media only screen and (max-width: 992px) {
+    margin: 0;
+    width: 100%;
+    height: auto;
+  }
 `

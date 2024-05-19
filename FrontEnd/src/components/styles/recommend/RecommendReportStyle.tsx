@@ -252,4 +252,5 @@ export const LoadingContent = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  scale: 1.5;
 `

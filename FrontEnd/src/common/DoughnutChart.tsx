@@ -12,8 +12,8 @@ const DoughnutChart = (props: DoughnutChartPropsType) => {
       {
         label: '비율 (%)',
         data: value,
-        backgroundColor: ['rgba(251, 103, 202, 0.4)', 'rgba(55, 97, 247, 0.4)'],
-        borderColor: ['rgba(251, 103, 202, 1)', 'rgba(55, 97, 247, 1)'],
+        backgroundColor: ['rgba(55, 97, 247, 0.4)', 'rgba(251, 103, 202, 0.4)'],
+        borderColor: ['rgba(55, 97, 247, 1)', 'rgba(251, 103, 202, 1)'],
         borderWidth: 0.5,
         cutout: '65%',
       },

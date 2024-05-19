@@ -43,9 +43,9 @@ const MainCard3 = () => {
     <div>
       <c.SlideList>
         <c.Card>
-          <c.HeaderText>서울시 폴리곤</c.HeaderText>
+          <c.HeaderText>구별 현황 분석</c.HeaderText>
           <c.TitleText>서울시 폴리곤</c.TitleText>
-          <c.SubTitleText>서울시 폴리곤</c.SubTitleText>
+          <c.SubTitleText>평균매출 Top</c.SubTitleText>
           <ContainerBox height={30} />
           <svg width={300} height={210}>
             {countries}

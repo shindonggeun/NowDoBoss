@@ -24,30 +24,6 @@ const infiniteAnimation2 = keyframes`
     }
 `
 
-const infiniteAnimation3 = keyframes`
-    0% {
-        transform: translateY(0%);
-    }
-    50% {
-        transform: translateY(100%);
-    }
-    50.1% {
-        transform: translateY(-100%);
-    }
-    100% {
-        transform: translateY(0%);
-    }
-`
-
-const infiniteAnimation4 = keyframes`
-    0% {
-        transform: translateY(0%);
-    }
-    100% {
-        transform: translateY(200%);
-    }
-`
-
 const infiniteAnimation5 = keyframes`
     0% {
         transform: translateX(0%);
@@ -69,30 +45,6 @@ const infiniteAnimation6 = keyframes`
     }
     100% {
         transform: translateX(-200%);
-    }
-`
-
-const infiniteAnimation5Reverse = keyframes`
-    0% {
-        transform: translateX(0%);
-    }
-    50% {
-        transform: translateX(100%);
-    }
-    50.1% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(0%);
-    }
-`
-
-const infiniteAnimation6Reverse = keyframes`
-    0% {
-        transform: translateX(0%);
-    }
-    100% {
-        transform: translateX(200%);
     }
 `
 
@@ -209,9 +161,10 @@ export const CardWrap = styled.div`
 
   @media (max-width: 992px) {
     flex-direction: row;
-    max-width: 100%;
+    max-width: 1200px;
     height: 400px;
     overflow-x: hidden;
+    gap: 2vh;
   }
 `
 
@@ -230,7 +183,7 @@ export const OriginalCardDiv = styled.div`
 export const CloneCardDiv = styled.div`
   display: flex;
   flex-direction: column;
-  animation: 40s linear infinite normal none running ${infiniteAnimation2};
+  animation: 35s linear infinite normal none running ${infiniteAnimation2};
 
   @media (max-width: 992px) {
     flex-direction: row;
@@ -242,25 +195,28 @@ export const CloneCardDiv = styled.div`
 export const DescOriginalCardDiv = styled.div`
   display: flex;
   flex-direction: column;
-  animation: 40s linear infinite normal none running ${infiniteAnimation3};
+  animation: 35s linear infinite normal none running ${infiniteAnimation1};
+  animation-direction: reverse;
 
   @media (max-width: 992px) {
     flex-direction: row;
     gap: 2vh;
-    animation: 50s linear infinite normal none running
-      ${infiniteAnimation5Reverse};
+    animation: 50s linear infinite normal none running ${infiniteAnimation5};
+    animation-direction: reverse;
   }
 `
 
 export const DescCloneCardDiv = styled.div`
   display: flex;
   flex-direction: column;
-  animation: 100s linear infinite normal none running ${infiniteAnimation4};
+  animation: 35s linear infinite normal none running ${infiniteAnimation2};
+  animation-direction: reverse;
+
   @media (max-width: 992px) {
     flex-direction: row;
     gap: 2vh;
-    animation: 50s linear infinite normal none running
-      ${infiniteAnimation6Reverse};
+    animation: 50s linear infinite normal none running ${infiniteAnimation6};
+    animation-direction: reverse;
   }
 `
 

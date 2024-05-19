@@ -13,9 +13,7 @@ const MainAnalysisContainer = () => {
             <a.BlueText>Market Analysis Report</a.BlueText>
             <a.MainText>상권분석 리포트</a.MainText>
             <a.SubText>
-              인구분석부터 매출정보까지,
-              <br />
-              핵심 정보를 한눈에!
+              인구분석부터 매출정보까지, 핵심 정보를 한눈에!
               <br />
               지금 바로 당신의 비즈니스를 위한
               <br />
@@ -42,16 +40,16 @@ const MainAnalysisContainer = () => {
 
           <a.CardWrap>
             <a.DescOriginalCardDiv>
-              <MainCard3 />
-              <MainCard4 />
               <MainCard1 />
               <MainCard2 />
+              <MainCard4 />
+              <MainCard3 />
             </a.DescOriginalCardDiv>
             <a.DescCloneCardDiv>
-              <MainCard3 />
-              <MainCard4 />
               <MainCard1 />
               <MainCard2 />
+              <MainCard4 />
+              <MainCard3 />
             </a.DescCloneCardDiv>
           </a.CardWrap>
         </a.ImgBox>

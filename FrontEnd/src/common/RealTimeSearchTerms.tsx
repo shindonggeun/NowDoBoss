@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   position: relative;
-  overflow: hidden;
+  //overflow: hidden;
   height: 30px;
   width: 280px; // 원하는 너비로 설정
   padding: 0 15px;
@@ -16,6 +16,77 @@ const SearchTerm = styled(animated.div)`
   text-align: left;
   font-size: 1.1rem;
   font-weight: bold;
+`
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 38px; // 컨테이너 바로 아래에 위치하게 설정
+  right: 0;
+  width: auto;
+  background: white;
+  color: black;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  font-size: 0.8rem;
+  justify-content: center;
+  &:hover {
+    cursor: pointer;
+  }
+`
+
+const DropdownItem = styled.div`
+  padding: 3px 3px 3px 6px;
+  min-width: 100px;
+  overflow-x: unset;
+  font-weight: 500;
+
+  width: auto;
+  &:hover {
+    background: #f0f0f0;
+  }
+`
+const DropdownItemCom = styled.div`
+  padding: 3px 3px 3px 6px;
+  min-width: 150px;
+  overflow-x: unset;
+  font-weight: 500;
+
+  width: auto;
+  &:hover {
+    background: #f0f0f0;
+  }
+`
+const List = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const DropdownTitle = styled.div`
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px 5px 0 0;
+  background-color: #236cff;
+  color: #ffffff;
+`
+const ListTitle = styled.div`
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 5px;
+  border-bottom: 1px solid #efefef;
+`
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const ColDiv = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 
 // 실시간 검색어 순위 데이터 정의
@@ -51,6 +122,7 @@ const RealTimeSearchTerms: React.FC = () => {
   const [realTimeData, setRealTimeData] = useState<
     RankingSaveData | undefined
   >()
+  const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
     // 1. 초기 백엔드 서버로부터 SSE 스트림에 연결을 하기 위한 초기 설정
@@ -85,6 +157,7 @@ const RealTimeSearchTerms: React.FC = () => {
     }
   }, [])
 
+  // 10위까지로 자르기 위한 로직
   useEffect(() => {
     const interval = setInterval(() => {
       if (realTimeData && realTimeData.commercialRankings.length > 0) {
@@ -115,8 +188,20 @@ const RealTimeSearchTerms: React.FC = () => {
     }
   }
 
+  console.log(slicedData)
+  console.log(realTimeData)
+
   return (
-    <div>
+    <div
+      onMouseEnter={() => {
+        console.log('Mouse Entered')
+        setIsHovered(true)
+      }}
+      onMouseLeave={() => {
+        console.log('Mouse Left')
+        setIsHovered(false)
+      }}
+    >
       {slicedData.length > 0 ? (
         <Container>
           {transitions((style, i) => (
@@ -124,6 +209,55 @@ const RealTimeSearchTerms: React.FC = () => {
               style={style}
             >{`${i + 1}. ${slicedData[i].name}`}</SearchTerm>
           ))}
+          {isHovered && (
+            <DropdownMenu>
+              <ColDiv>
+                <DropdownTitle>실시간 검색 순위</DropdownTitle>
+                <ListContainer>
+                  <List>
+                    <ListTitle>인기 자치구</ListTitle>
+                    {realTimeData?.districtRankings
+                      .slice(0, 10)
+                      .map((item, i) => (
+                        <DropdownItem
+                          key={i}
+                        >{`${i + 1}. ${item.name}`}</DropdownItem>
+                      ))}
+                  </List>
+                  <List>
+                    <ListTitle>인기 행정동</ListTitle>
+                    {realTimeData?.administrationRankings
+                      .slice(0, 10)
+                      .map((item, i) => (
+                        <DropdownItem
+                          key={i}
+                        >{`${i + 1}. ${item.name}`}</DropdownItem>
+                      ))}
+                  </List>
+                  <List>
+                    <ListTitle>인기 상권</ListTitle>
+                    {realTimeData?.commercialRankings
+                      .slice(0, 10)
+                      .map((item, i) => (
+                        <DropdownItemCom
+                          key={i}
+                        >{`${i + 1}. ${item.name}`}</DropdownItemCom>
+                      ))}
+                  </List>
+                  <List>
+                    <ListTitle>인기 업종</ListTitle>
+                    {realTimeData?.serviceRankings
+                      .slice(0, 10)
+                      .map((item, i) => (
+                        <DropdownItem
+                          key={i}
+                        >{`${i + 1}. ${item.name}`}</DropdownItem>
+                      ))}
+                  </List>
+                </ListContainer>
+              </ColDiv>
+            </DropdownMenu>
+          )}
         </Container>
       ) : null}
     </div>

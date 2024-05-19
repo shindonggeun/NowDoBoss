@@ -44,7 +44,7 @@ const MainIntroContainer = () => {
           서울시 상권을 한눈에!
           <br />
           상권분석의 A부터 Z까지,
-          <br /> NowDoBoss와 함께하세요.
+          <br /> <b>NowDoBoss</b>와 함께하세요.
         </i.MainContent>
         <i.ButtonDiv>
           <i.MainButton

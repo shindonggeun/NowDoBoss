@@ -29,6 +29,9 @@ export const MainContent = styled.div`
   font-weight: 700;
   font-size: 3rem;
   padding-left: 12vw;
+  b {
+    color: #236cff;
+  }
   @media only screen and (max-width: 1200px) {
     padding-left: 10vw;
     font-size: 2.8rem;

@@ -45,7 +45,7 @@ spring:
       database: nowdoboss
       username: ENC(HCA76XKCm3EAyKYZMHarEA==)      # MongoDB 사용자명
       password: ENC(rMkrszz21CppZdoiySe8+F5hTbW9bu+y)  # MongoDB 비밀번호
-      authentication-database: ENC(QZmnPdoEpApLGhTvt4c0Kg==)
+      authentication-database: admin
 
   # Java Mail Sender setting (Google Mail)
   mail:

@@ -42,7 +42,6 @@ public class KafkaStreamServiceImpl implements KafkaStreamService {
 
         log.info("Fetching data from window store from {} to {}", startOfYesterday, endOfToday);
 
-
         ReadOnlyWindowStore<String, Long> windowStore = kafkaStreams.store(
                 StoreQueryParameters.fromNameAndType("daily-ranking-stream", QueryableStoreTypes.windowStore())
         );

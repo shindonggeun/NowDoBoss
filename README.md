@@ -512,10 +512,15 @@
 - MUI
 - Styled Components
 - React-router-dom
-- AWS Polly
-- React-speech-recognition
-- webStomp-client
-- ApexCharts
+- ChartJs
+- D3Js
+- StompJs
+- SockJs
+- FCM
+- ReactSpring
+- SonarQube Scanner
+- ESLint Config Airbnb
+- Prettier
 
 ### Back-End
 

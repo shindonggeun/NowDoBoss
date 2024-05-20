@@ -43,10 +43,10 @@ spring:
       host: ${server.base-url}
       port: 27017
       database: nowdoboss
-      username: ssafy  # MongoDB 사용자명
-      password: ssafy!2341234  # MongoDB 비밀번호
-      authentication-database: admin
-      
+      username: ENC(HCA76XKCm3EAyKYZMHarEA==)      # MongoDB 사용자명
+      password: ENC(rMkrszz21CppZdoiySe8+F5hTbW9bu+y)  # MongoDB 비밀번호
+      authentication-database: ENC(QZmnPdoEpApLGhTvt4c0Kg==)
+
   # Java Mail Sender setting (Google Mail)
   mail:
     host: smtp.gmail.com

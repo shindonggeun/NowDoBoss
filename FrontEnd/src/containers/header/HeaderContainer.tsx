@@ -162,7 +162,7 @@ const RealTimeTitle = styled.div`
   padding: 0 0 0 15px;
 `
 
-const Header = () => {
+const HeaderContainer = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const navigate = useNavigate()
   const location = useLocation()
@@ -410,4 +410,4 @@ const Header = () => {
     </Container>
   )
 }
-export default Header
+export default HeaderContainer

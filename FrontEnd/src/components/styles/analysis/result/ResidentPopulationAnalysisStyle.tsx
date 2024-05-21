@@ -15,16 +15,29 @@ export const Chart = styled.div`
   @media (max-width: 576px) {
     width: 100%;
   }
+
+  @media (max-width: 480px) {
+    margin-top: 1vh;
+    padding: 12px 12px 5px;
+  }
 `
 
 export const ChartTitle = styled.div`
   font-size: 0.8rem;
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+  }
 `
 
 export const ChartSubTitle = styled.div`
   font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 10px;
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `
 
 export const ErrBox = styled.div`

@@ -9,6 +9,10 @@ export const Container = styled.div`
   padding: 20px 24px;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 576px) {
+    padding: 2%;
+  }
 `
 
 export const TitleDiv = styled.div`

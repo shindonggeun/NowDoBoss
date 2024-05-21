@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const TotalChart = styled.div`
-  //width: 55%;
   width: 100%;
   margin-top: 2vh;
 
@@ -13,8 +12,9 @@ export const TotalChart = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
-  @media (max-width: 576px) {
-    width: 100%;
+  @media (max-width: 480px) {
+    margin-top: 1vh;
+    padding: 12px 12px 5px;
   }
 `
 
@@ -24,8 +24,13 @@ export const FirstRightWrap = styled.div`
   display: flex;
   gap: 10px;
 
-  @media (max-width: 576px) {
-    width: 100%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 1vh;
+    gap: 0;
   }
 `
 
@@ -38,6 +43,14 @@ export const FranchiseChart = styled.div`
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px 12px 5px;
+  }
 `
 
 export const StatusWrap = styled.div`
@@ -45,6 +58,15 @@ export const StatusWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2vh;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 1vh;
+  }
 `
 
 export const OpenChart = styled.div`
@@ -56,6 +78,10 @@ export const OpenChart = styled.div`
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 12px 12px 5px;
+  }
 `
 
 export const CloseChart = styled.div`
@@ -67,10 +93,28 @@ export const CloseChart = styled.div`
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 12px 12px 5px;
+  }
 `
 
 export const ChartTitle = styled.div`
   font-size: 0.8rem;
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+  }
+`
+
+export const ChartSubTitle = styled.div`
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `
 
 export const ChartSubTitleWrap = styled.div`
@@ -78,9 +122,13 @@ export const ChartSubTitleWrap = styled.div`
   flex-direction: column;
 `
 
-export const ChartSubTitle = styled.span`
+export const InfoText = styled.div`
   font-size: 1.2rem;
   font-weight: 500;
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `
 
 export const ErrBox = styled.div`

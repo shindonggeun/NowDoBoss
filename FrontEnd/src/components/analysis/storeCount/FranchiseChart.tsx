@@ -62,20 +62,20 @@ const FranchiseChart = () => {
     <s.FranchiseChart>
       <s.ChartTitle>프랜차이즈 점포 수</s.ChartTitle>
       <s.ChartSubTitleWrap>
-        <s.ChartSubTitle>{selectedService.serviceCodeName}의</s.ChartSubTitle>
+        <s.InfoText>{selectedService.serviceCodeName}의</s.InfoText>
         {franchiseeStore > 0 ? (
           <>
-            <s.ChartSubTitle>프랜차이즈 점포는</s.ChartSubTitle>
-            <s.ChartSubTitle>
+            <s.InfoText>프랜차이즈 점포는</s.InfoText>
+            <s.InfoText>
               <s.HighlightText>{franchiseeStore}개</s.HighlightText> 있어요.
-            </s.ChartSubTitle>
+            </s.InfoText>
           </>
         ) : (
           <>
-            <s.ChartSubTitle>프랜차이즈 점포는</s.ChartSubTitle>
-            <s.ChartSubTitle>
+            <s.InfoText>프랜차이즈 점포는</s.InfoText>
+            <s.InfoText>
               <s.HighlightText>없어요.</s.HighlightText>
-            </s.ChartSubTitle>
+            </s.InfoText>
           </>
         )}
       </s.ChartSubTitleWrap>

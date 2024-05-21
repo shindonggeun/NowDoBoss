@@ -11,11 +11,11 @@ const CloseChart = () => {
     <s.CloseChart>
       <s.ChartTitle>폐업률</s.ChartTitle>
       <s.ChartSubTitleWrap>
-        <s.ChartSubTitle>{selectedService.serviceCodeName}의</s.ChartSubTitle>
-        <s.ChartSubTitle>폐업률은</s.ChartSubTitle>
-        <s.ChartSubTitle>
+        <s.InfoText>{selectedService.serviceCodeName}의</s.InfoText>
+        <s.InfoText>폐업률은</s.InfoText>
+        <s.InfoText>
           <s.HighlightText>{closedRate}%</s.HighlightText> 이에요.
-        </s.ChartSubTitle>
+        </s.InfoText>
       </s.ChartSubTitleWrap>
     </s.CloseChart>
   )

@@ -15,7 +15,7 @@ const TopSection = () => {
         <t.Divider>|</t.Divider>
         <t.Title>{selectedService.serviceCodeName}</t.Title>
       </t.TitleDiv>
-      <div onClick={() => navigate('/analysis')}>닫기버튼</div>
+      <div onClick={() => navigate('/analysis')}>닫기</div>
     </t.Container>
   )
 }

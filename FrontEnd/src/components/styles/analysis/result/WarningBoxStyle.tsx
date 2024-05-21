@@ -8,6 +8,10 @@ export const Container = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.09);
   border-radius: 5px;
   background-color: #ffffff;
+
+  @media (max-width: 480px) {
+    padding: 12px;
+  }
 `
 
 export const TitleContainer = styled.div`

@@ -15,16 +15,29 @@ export const Container = styled.div`
   @media (max-width: 576px) {
     width: 100%;
   }
+
+  @media (max-width: 480px) {
+    margin-top: 1vh;
+    padding: 12px 12px 5px;
+  }
 `
 
 export const ChartTitle = styled.div`
   font-size: 0.8rem;
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+  }
 `
 
 export const ChartSubTitle = styled.div`
   font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 10px;
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `
 
 export const Divider = styled.div`
@@ -61,11 +74,18 @@ export const Wrap = styled.div`
   padding: 10px 20px;
 
   @media (max-width: 768px) {
+    margin-top: 20px;
     padding: 8px 15px; /* 화면이 768px 이하일 때 여백 조정 */
   }
 
   @media (max-width: 576px) {
+    margin-top: 15px;
     padding: 5px 10px; /* 화면이 576px 이하일 때 여백 조정 */
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 0;
+    margin-bottom: 10px;
   }
 `
 
@@ -122,18 +142,26 @@ export const TickLabel = styled.div`
 export const TodayTopContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 10px;
 `
 
 export const IconImg = styled.img`
   width: 24px;
   height: 24px;
   margin-right: 8px;
+
+  @media (max-width: 480px) {
+    width: 20px;
+    height: 20px;
+  }
 `
 
 export const Title = styled.div`
   font-size: 1.2rem;
   font-weight: 500;
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `
 
 export const ErrBox = styled.div`

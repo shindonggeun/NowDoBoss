@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
 
   @media (max-width: 768px) {
-    flex-direction: row;
+    display: none;
   }
 `
 

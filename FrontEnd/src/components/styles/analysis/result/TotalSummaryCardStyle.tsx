@@ -15,6 +15,10 @@ export const Container = styled.div`
     font-size: 0.8rem;
     padding: 15px;
   }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `
 
 export const TitleContainer = styled.div`

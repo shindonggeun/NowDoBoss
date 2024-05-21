@@ -34,6 +34,7 @@ export const SmallRight = styled.div`
     display: flex;
     align-items: center;
     justify-content: right;
+    margin-right:;
   }
 `
 export const Chatting = styled.div<{ $isTransparent: boolean }>`
@@ -233,13 +234,19 @@ export const CreateIcon = styled.img<{ $isTransparent: boolean }>`
     display: flex;
     cursor: pointer;
     scale: 1.5;
-    padding: 0.25rem 0.5rem;
+    padding: 0 1rem 0 1rem;
     opacity: ${props => (props.$isTransparent ? 1 : 0)};
     pointer-events: ${props => (props.$isTransparent ? 'auto' : 'none')};
   }
   @media only screen and (max-width: 540px) {
     display: flex;
     scale: 1.2;
+    padding: 0 1rem 0 0.5rem;
+  }
+  @media only screen and (max-width: 400px) {
+    display: flex;
+    scale: 1.2;
+    padding: 0 0.7rem 0 0.2rem;
   }
 `
 
@@ -257,11 +264,11 @@ export const ChatList = styled.div`
 `
 
 export const Sub = styled.div`
-  padding-bottom: 10px;
   font-size: 1.1rem;
   color: #555555;
   font-weight: 600;
-  margin: 10px 0 0 20px;
+  padding: 10px 0 10px 20px;
+  border-top: 0.08rem solid #dee4ec;
 
   @media only screen and (max-width: 992px) {
     display: none;

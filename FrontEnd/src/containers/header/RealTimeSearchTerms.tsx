@@ -106,14 +106,14 @@ const Header = styled.div`
   background-color: #236cff;
   color: #ffffff;
 `
-const SmallContent = styled.div`
-  font-weight: 500;
-  font-size: 0.8rem;
-  margin: 0 10px 5px;
-  display: flex;
-  justify-content: end;
-  align-items: end;
-`
+// const SmallContent = styled.div`
+//   font-weight: 500;
+//   font-size: 0.8rem;
+//   margin: 0 10px 5px;
+//   display: flex;
+//   justify-content: end;
+//   align-items: end;
+// `
 
 // 실시간 검색어 순위 데이터 정의
 interface RankingData {
@@ -266,6 +266,10 @@ const RealTimeSearchTerms = (props: RealTimeSearchTermsPropsType) => {
     } else if (fetchKoreaData?.dataBody?.administrationCode) {
       navigate('/analysis')
       setTimeout(() => {
+        setSelectedCommercial({
+          name: '자치구',
+          code: 0,
+        })
         setSelectedDong({
           name: fetchKoreaData?.dataBody.administrationCodeName,
           code: fetchKoreaData?.dataBody.administrationCode,
@@ -280,6 +284,14 @@ const RealTimeSearchTerms = (props: RealTimeSearchTermsPropsType) => {
     } else if (fetchKoreaData?.dataBody?.districtCode) {
       navigate('/analysis')
       setTimeout(() => {
+        setSelectedCommercial({
+          name: '자치구',
+          code: 0,
+        })
+        setSelectedDong({
+          name: '행정동',
+          code: 0,
+        })
         setSelectedGoo({
           name: fetchKoreaData?.dataBody.districtCodeName,
           code: fetchKoreaData?.dataBody.districtCode,
@@ -303,8 +315,8 @@ const RealTimeSearchTerms = (props: RealTimeSearchTermsPropsType) => {
             <DropdownMenu>
               <ColDiv>
                 <Header>
-                  <DropdownTitle>실시간 검색 순위</DropdownTitle>
-                  <SmallContent>5분 주기 갱신</SmallContent>
+                  <DropdownTitle>5분 주기 실시간 검색 순위</DropdownTitle>
+                  {/* <SmallContent>5분 주기 갱신</SmallContent> */}
                 </Header>
                 <ListContainer>
                   <List>

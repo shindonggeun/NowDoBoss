@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  padding: 0 4vh 3vh 0;
+  //padding: 0 4vh 3vh 0;
 
   @media only screen and (max-width: 992px) {
     //padding: 75px 10vw 0;

@@ -98,8 +98,8 @@ async def recommend_commercials(spark, userId, background_tasks: BackgroundTasks
 
     commercial_data_path = "data/commercial_data.csv"
 
-    # commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
-    commercial_data = spark.read.csv("hdfs://master1:9000/data/commercial_data.csv", header=True, inferSchema=True)
+    commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
+    # commercial_data = spark.read.csv("hdfs://master1:9000/data/commercial_data.csv", header=True, inferSchema=True)
     commercial_columns = ["commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption"]
     df_commercials = commercial_data.select(*commercial_columns)
 

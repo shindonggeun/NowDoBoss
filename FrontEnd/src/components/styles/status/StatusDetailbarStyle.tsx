@@ -110,7 +110,6 @@ export const BarInnerText = styled.div<BarInnerTextProps>`
 `
 
 export const TabBarContainer = styled.div`
-  scroll-margin-top: 130px;
   margin: 0 20px;
 `
 
@@ -118,6 +117,7 @@ export const SeparateLine = styled.div`
   width: 100%;
   height: 0.8rem;
   background-color: #f7f7f7;
+  scroll-margin-top: 100px;
 `
 
 export const LoadingContainer = styled.div`

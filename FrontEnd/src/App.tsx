@@ -22,6 +22,7 @@ import CommunityRegisterPage from '@src/pages/CommunityRegisterPage'
 import CommunityDetailPage from '@src/pages/CommunityDetailPage'
 import StatusPage from '@src/pages/StatusPage'
 import AnalysisPage from '@src/pages/AnalysisPage'
+import AnalysisResultPage from '@src/pages/AnalysisResultPage'
 import RecommendPage from '@src/pages/RecommendPage'
 import SimulationPage from '@src/pages/SimulationPage'
 import SimulationReportPage from '@src/pages/SimulationReportPage'
@@ -95,6 +96,7 @@ function App() {
         {/* 상권 */}
         <Route path="/status" element={<StatusPage />} />
         <Route path="/analysis" element={<AnalysisPage />}>
+          <Route path="result" element={<AnalysisResultPage />} />
           <Route path="simulation" element={<SimulationPage />} />
           <Route path="simulation/report" element={<SimulationReportPage />} />
           <Route

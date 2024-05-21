@@ -19,7 +19,7 @@ from fastapi import BackgroundTasks
 
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
 filename = 'model_update_time.json'
-model_path = "hdfs://master1:9000/model"
+model_path = "model"
 
 
 # # 마지막 업데이트 시간을 불러오는 함수

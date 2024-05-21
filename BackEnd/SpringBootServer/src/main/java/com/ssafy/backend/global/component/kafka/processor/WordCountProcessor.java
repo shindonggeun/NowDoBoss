@@ -25,8 +25,9 @@ public class WordCountProcessor {
         KStream<String, CommercialAnalysisKafkaRequest> messageStream = streamsBuilder
                 .stream("commercial-analysis", Consumed.with(STRING_SERDE, COMMERCIAL_ANALYSIS_RESPONSE_SERDE));
 
-        // 하루 윈도우 설정
-        TimeWindows dailyWindow = TimeWindows.ofSizeWithNoGrace(Duration.ofDays(1));
+        // 하루 윈도우 설정 (슬라이딩 윈도우)
+        TimeWindows dailyWindow = TimeWindows.ofSizeAndGrace(Duration.ofDays(1), Duration.ofMinutes(1))
+                .advanceBy(Duration.ofHours(1));
 
         // Apply windowed operation
         KTable<Windowed<String>, Long> wordCounts = messageStream

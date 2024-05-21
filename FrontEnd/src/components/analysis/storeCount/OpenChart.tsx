@@ -11,11 +11,11 @@ const OpenChart = () => {
     <s.OpenChart>
       <s.ChartTitle>개업률</s.ChartTitle>
       <s.ChartSubTitleWrap>
-        <s.ChartSubTitle>{selectedService.serviceCodeName}의</s.ChartSubTitle>
-        <s.ChartSubTitle>개업률은</s.ChartSubTitle>
-        <s.ChartSubTitle>
+        <s.InfoText>{selectedService.serviceCodeName}의</s.InfoText>
+        <s.InfoText>개업률은</s.InfoText>
+        <s.InfoText>
           <s.HighlightText>{openedRate}%</s.HighlightText> 이에요.
-        </s.ChartSubTitle>
+        </s.InfoText>
       </s.ChartSubTitleWrap>
     </s.OpenChart>
   )

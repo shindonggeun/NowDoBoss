@@ -40,8 +40,6 @@ const BarChartCompare2 = (props: BarChartProps) => {
           'rgba(255, 159, 64, 1)',
         ],
         borderWidth: 0.5,
-        borderRadius: 10,
-        barThickness: 45,
       },
     ],
   }

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import analysisStore from '@src/stores/analysisStore'
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
-import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
+import * as f from '@src/components/styles/analysis/result/ChartCardStyle'
 
 const TodayChart = () => {
   const flowPopulationDataBody = analysisStore(
@@ -106,7 +106,7 @@ const TodayChart = () => {
   }
 
   return (
-    <f.TodayChart>
+    <f.Container>
       <f.TodayTopContainer>
         <f.IconImg src="/images/flow_population.png" alt="flow_population" />
         <f.Title>
@@ -143,7 +143,7 @@ const TodayChart = () => {
           {lineWidth && renderTicks()}
         </f.HorizontalLine>
       </f.Wrap>
-    </f.TodayChart>
+    </f.Container>
   )
 }
 

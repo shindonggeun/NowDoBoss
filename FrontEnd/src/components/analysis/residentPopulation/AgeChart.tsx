@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import analysisStore from '@src/stores/analysisStore'
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import ComboChart from '@src/common/ComboChart'
-import * as r from '@src/components/styles/analysis/ResidentPopulationAnalysisStyle'
+import * as r from '@src/components/styles/analysis/result/ResidentPopulationAnalysisStyle'
 
 const AgeChart = () => {
   const residentPopulationDataBody = analysisStore(
@@ -34,7 +34,7 @@ const AgeChart = () => {
   }, [residentPopulationDataBody, maxLabel, setResidentSummary])
 
   return (
-    <r.AgeChart>
+    <r.Chart>
       <r.ChartTitle>연령대별 상주인구</r.ChartTitle>
       <r.ChartSubTitle>
         <r.HighlightText>{maxLabel} </r.HighlightText>
@@ -45,7 +45,7 @@ const AgeChart = () => {
         value1={ageGroupPopulations}
         value2={ageGroupProportions}
       />
-    </r.AgeChart>
+    </r.Chart>
   )
 }
 

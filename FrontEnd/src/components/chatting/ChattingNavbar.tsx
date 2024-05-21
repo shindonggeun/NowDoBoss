@@ -49,7 +49,7 @@ const ChattingNavbar = () => {
     <c.Container>
       <c.Chatting $isTransparent={isTransparent}>
         <c.SmallLeft>
-          <n.Title>채팅</n.Title>
+          <n.Title onClick={() => navigate('/chatting/list')}>채팅</n.Title>
           {/* <n.Sub>회원들과 대화를 나눠보세요.</n.Sub> */}
           <c.ChatCard
             $isChoice={!roomId}

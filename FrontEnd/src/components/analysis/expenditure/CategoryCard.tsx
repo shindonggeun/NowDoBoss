@@ -1,6 +1,6 @@
 import analysisStore from '@src/stores/analysisStore'
 import HorizontalBarChart from '@src/common/HorizontalBarChart'
-import * as e from '@src/components/styles/analysis/ExpenditureAnalysisStyle'
+import * as e from '@src/components/styles/analysis/result/ExpenditureAnalysisStyle'
 
 const CategoryCard = () => {
   const expenditureDataBody = analysisStore(state => state.expenditureDataBody)

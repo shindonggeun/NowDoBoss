@@ -24,7 +24,7 @@ const HalfDoughnutChart = (props: HalfDoughnutChartPropsType) => {
 
   const options = {
     responsive: true, // 차트가 반응형으로 동작하도록 설정
-    aspectRatio: 3, // 가로세로비 조정
+    aspectRatio: 2.6, // 가로세로비 조정
     // maintainAspectRatio: true, // 종횡비 유지 설정
     // hover했을 때 데이터 값이 보이도록 설정
     interaction: {
@@ -33,7 +33,7 @@ const HalfDoughnutChart = (props: HalfDoughnutChartPropsType) => {
     plugins: {
       legend: {
         display: true,
-        position: 'top' as const,
+        position: 'left' as const,
       },
     },
   }

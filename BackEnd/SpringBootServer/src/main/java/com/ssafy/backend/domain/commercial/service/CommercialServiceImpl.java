@@ -12,6 +12,7 @@ import com.ssafy.backend.domain.commercial.document.CommercialAnalysis;
 import com.ssafy.backend.domain.commercial.dto.info.*;
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisKafkaRequest;
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
+import com.ssafy.backend.domain.commercial.dto.request.ConversionCodeRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
@@ -37,6 +38,7 @@ import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -67,6 +69,43 @@ public class CommercialServiceImpl implements CommercialService {
     private final CommercialAnalysisRepository commercialAnalysisRepository;
     private final KafkaProducer kafkaProducer;
     private final DataRepository dataRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public ConversionCodeResponse conversionCodeToCodeName(ConversionCodeRequest request) {
+
+        // 자치구 변환
+        String districtCodeName = areaCommercialRepository.findDistrictCodeNameByDistrictCode(request.districtCode());
+
+        // 행정동 변환
+        String administrationCodeName = convertAdministrationCodeToAdministrationCodeName(request.administrationCode());
+
+        // 상권 변환
+        String commercialCodName = convertCommercialCodeToCommercialCodeName(request.commercialCod());
+
+        return ConversionCodeResponse.builder()
+                .districtCode(request.districtCode())
+                .districtCodeName(districtCodeName)
+                .administrationCode(request.administrationCode())
+                .administrationCodeName(administrationCodeName)
+                .commercialCod(request.commercialCod())
+                .commercialCodName(commercialCodName)
+                .build();
+    }
+
+    private String convertAdministrationCodeToAdministrationCodeName(final String administrationCode) {
+        if (StringUtils.isBlank(administrationCode)) {
+            return null;
+        }
+        return areaCommercialRepository.findAdministrationCodeNameByAdministrationCode(administrationCode);
+    }
+
+    private String convertCommercialCodeToCommercialCodeName(final String commercialCode) {
+        if (StringUtils.isBlank(commercialCode)) {
+            return null;
+        }
+        return areaCommercialRepository.findCommercialCodeNameByCommercialCode(commercialCode);
+    }
 
     @Override
     @Transactional(readOnly = true)

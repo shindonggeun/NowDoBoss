@@ -24,4 +24,6 @@ public interface AreaCommercialRepository extends JpaRepository<AreaCommercial, 
 
     @Query(value = "SELECT DISTINCT administration_code_name FROM area_commercial WHERE administration_code = :administrationCode", nativeQuery = true)
     String findAdministrationCodeNameByAdministrationCode(String administrationCode);
+
+
 }

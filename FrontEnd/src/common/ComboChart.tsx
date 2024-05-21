@@ -53,8 +53,6 @@ const ComboChart = (props: ComboChartPropsType) => {
         backgroundColor: value1.map((_, index) => backgroundColors[index]),
         borderColor: value1.map((_, index) => borderColors[index]),
         borderWidth: 0.5,
-        borderRadius: 10,
-        barThickness: 40,
       },
       {
         type: 'line' as const,
@@ -71,8 +69,6 @@ const ComboChart = (props: ComboChartPropsType) => {
 
   const options: ChartOptions<'bar' | 'line'> = {
     responsive: true, // 차트가 반응형으로 동작하도록 설정
-    // maintainAspectRatio: true, // 종횡비 유지 설정
-    // hover했을 때 데이터 값이 보이도록 설정
     interaction: {
       intersect: false,
     },

@@ -1,6 +1,6 @@
 import analysisStore from '@src/stores/analysisStore'
 import BarChartCompare2 from '@src/common/BarChartCompare2'
-import * as e from '@src/components/styles/analysis/ExpenditureAnalysisStyle'
+import * as e from '@src/components/styles/analysis/result/ExpenditureAnalysisStyle'
 
 const TotalCard = () => {
   const totalExpenditureDataBody = analysisStore(

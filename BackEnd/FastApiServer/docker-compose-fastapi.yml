@@ -15,3 +15,5 @@ services:
 
 networks:
   nowdoboss_data_net:  # 사용할 네트워크를 정의합니다. 여기서는 기본 설정을 사용합니다.
+    name: nowdoboss_data_net
+    driver: bridge

@@ -1,18 +1,9 @@
 import styled from 'styled-components'
 
-export const FirstLowContainer = styled.div`
-  margin-top: 15px;
-  margin-bottom: 15px;
-  display: flex;
-  gap: 10px;
+export const TotalCard = styled.div`
+  width: 100%;
+  margin-top: 2vh;
 
-  @media (max-width: 576px) {
-    flex-direction: column;
-  }
-`
-
-export const AgeChart = styled.div`
-  width: 50%;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -26,8 +17,10 @@ export const AgeChart = styled.div`
   }
 `
 
-export const GenderChart = styled.div`
-  width: 50%;
+export const CategoryCard = styled.div`
+  width: 100%;
+  margin-top: 2vh;
+
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -38,6 +31,24 @@ export const GenderChart = styled.div`
 
   @media (max-width: 576px) {
     width: 100%;
+  }
+`
+
+export const AddBox = styled.div`
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  border: 2px solid #e0e0e0;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+  padding: 10px 15px;
+  margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 576px) {
+    margin-bottom: 10px;
   }
 `
 

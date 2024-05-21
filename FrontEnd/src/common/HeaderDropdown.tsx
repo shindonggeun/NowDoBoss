@@ -8,7 +8,9 @@ const DropdownBox = styled.div`
   right: 0;
   width: 100%;
   border: 0.15rem solid #d9d9d9;
-  border-radius: 5px;
+  border-radius: 10px;
+  z-index: 10;
+  background-color: white;
 `
 const DropdownContent = styled.div`
   width: 100%;
@@ -16,7 +18,6 @@ const DropdownContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
   color: #5f5f5f;
   cursor: pointer;
 

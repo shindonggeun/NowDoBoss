@@ -1,7 +1,7 @@
 package com.ssafy.backend.domain.commercial.controller;
 
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
-import com.ssafy.backend.domain.commercial.dto.request.ConversionCodeRequest;
+import com.ssafy.backend.domain.commercial.dto.request.ConversionCodeNameRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
 import com.ssafy.backend.global.common.dto.Message;
@@ -31,9 +31,9 @@ public class CommercialController {
             description = "자치구, 행정도, 상권 코드를 통해 코드명을 조회하는 기능입니다."
     )
     @GetMapping("/code-name")
-    public ResponseEntity<Message<ConversionCodeResponse>> getCodeName(@Validated ConversionCodeRequest request) {
+    public ResponseEntity<Message<ConversionCodeResponse>> getCodeByCodeName(@Validated ConversionCodeNameRequest request) {
 
-        ConversionCodeResponse response = commercialService.conversionCodeToCodeName(request);
+        ConversionCodeResponse response = commercialService.conversionCodeNameToCode(request);
 
         return ResponseEntity.ok().body(Message.success(response));
     }

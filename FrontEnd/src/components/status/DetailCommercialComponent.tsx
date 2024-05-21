@@ -9,9 +9,13 @@ import ContainerBox from '@src/common/ContainerBox'
 import { useQuery } from '@tanstack/react-query'
 import { fetchStatusDetail } from '@src/api/statusApi'
 import { useEffect } from 'react'
+import * as s from '@src/components/styles/analysis/SummaryCardStyle'
+import SummaryIconCard from '@src/common/StatusSummaryIconCard'
+import open from '@src/assets/openIcon.png'
+import close from '@src/assets/closeIcon.png'
+import shop from '@src/assets/shopIcon.svg'
 
 const DetailCommercialComponent = () => {
-  const { selectedRegion } = useStateStore()
   const { regionCode } = useStateStore()
 
   // api 호출
@@ -25,7 +29,6 @@ const DetailCommercialComponent = () => {
     refetch()
   }, [refetch, regionCode])
 
-  let ChangeSummary
   let PeriodSummary
   let TimeSummary
   let TimeStart
@@ -34,16 +37,14 @@ const DetailCommercialComponent = () => {
   let DetailSummary
   let GenderSummary
   let AgeSummary
+  let AgeRange
   let OpenSummary
   let CloseSummary
   let TopSaleStoreSummary
-  let TopSaleAreaSummary
   let OpenMonthSummary
   let CloseMonthSummary
 
   if (data) {
-    ChangeSummary =
-      data.dataBody.changeIndicatorDistrictDetail.changeIndicatorName
     PeriodSummary =
       data.dataBody.footTrafficDistrictDetail.footTrafficDistrictListByPeriod
         .summary
@@ -66,6 +67,11 @@ const DetailCommercialComponent = () => {
       data.dataBody.footTrafficDistrictDetail.footTrafficDistrictListByAge.summary
         .split('age')[1]
         .toString()
+    AgeRange =
+      data.dataBody.footTrafficDistrictDetail.footTrafficDistrictListByAge
+        .summary === 'age60'
+        ? '대 이상'
+        : '대'
     OpenSummary =
       data.dataBody.storeDistrictDetail.openedStoreAdministrationTopFiveList[0].administrationCodeName.replace(
         /\?/g,
@@ -82,11 +88,7 @@ const DetailCommercialComponent = () => {
         /\?/g,
         ',',
       )
-    TopSaleAreaSummary =
-      data.dataBody.salesDistrictDetail.salesAdministrationTopFiveList[0].administrationCodeName.replace(
-        /\?/g,
-        ',',
-      )
+
     OpenMonthSummary =
       data.dataBody.changeIndicatorDistrictDetail.openedMonths >= 106
         ? '높고'
@@ -104,110 +106,116 @@ const DetailCommercialComponent = () => {
           <ContainerBox height={15} />
           <h.SummaryHeader>
             <h.LightIcon src={ThumbUp} alt="close" />
-
-            <h.HighLight>한줄 요약</h.HighLight>
+            <h.HighLight>핵심 요약</h.HighLight>
           </h.SummaryHeader>
-          <c.SummaryContainer>
-            <c.SummaryTitle>
-              <c.SummaryTitleEmphasis>{selectedRegion}</c.SummaryTitleEmphasis>
-              의 상권변화는{' '}
-              <c.SummaryEmphasis>{ChangeSummary}</c.SummaryEmphasis>
-              입니다.
-            </c.SummaryTitle>
-            <div>
-              <c.SummaryTextContainer>
-                <c.DotIcon src={Dot} alt="dot" />
-                <c.SummaryList>
-                  전분기 대비 유동인구가{' '}
-                  <c.SummaryEmphasis>{PeriodSummary}</c.SummaryEmphasis>
-                  했습니다.
-                </c.SummaryList>
-              </c.SummaryTextContainer>
-              <c.SummaryTextContainer>
-                <c.DotIcon src={Dot} alt="dot" />
-                <c.SummaryList>
-                  유동인구는{' '}
-                  <c.SummaryEmphasis>
-                    {TimeStart}~{TimeEnd}시
-                  </c.SummaryEmphasis>
-                  에 가장 많고,{' '}
-                  <c.SummaryEmphasis>
-                    {GenderSummary === 'femail' ? '여성' : '남성'}
-                  </c.SummaryEmphasis>
-                  과 <c.SummaryEmphasis>{AgeSummary}</c.SummaryEmphasis>대가
-                  주를 이룹니다.
-                </c.SummaryList>
-              </c.SummaryTextContainer>
+          <ContainerBox height={20} />
+          <c.SummaryTitle>
+            <c.SummaryEmphasis>한눈에</c.SummaryEmphasis>알아볼 수 있도록 정리해
+            왔어요
+          </c.SummaryTitle>
 
-              <c.SummaryTextContainer>
-                <c.DotIcon src={Dot} alt="dot" />
-                <c.SummaryList>
-                  가장 붐비는 요일은
-                  <c.SummaryEmphasis>{WeekData[DaySummary!]}</c.SummaryEmphasis>
-                  입니다.
-                </c.SummaryList>
-              </c.SummaryTextContainer>
-              <c.SummaryTextContainer>
-                <c.DotIcon src={Dot} alt="dot" />
-                <c.SummaryList>
-                  <c.SummaryEmphasis>
-                    {TopSaleAreaSummary!.replace('?', ',')}
-                  </c.SummaryEmphasis>
-                  의 매출이 가장 높습니다.
-                </c.SummaryList>
-              </c.SummaryTextContainer>
-              <c.SummaryTextContainer>
-                <c.DotIcon src={Dot} alt="dot" />
-                <c.SummaryList>
-                  가장 매출이 높은 업종은{' '}
-                  <c.SummaryEmphasis>{TopSaleStoreSummary}</c.SummaryEmphasis>
-                  입니다.
-                </c.SummaryList>
-              </c.SummaryTextContainer>
-              <c.SummaryTextContainer>
-                <c.DotIcon src={Dot} alt="dot" />
-                <c.SummaryList>
-                  주요 업종은{' '}
-                  <c.SummaryEmphasis>
-                    {DetailSummary![0].serviceCodeName}
-                  </c.SummaryEmphasis>
-                  이며, 그다음으로는{' '}
-                  <c.SummaryEmphasis>
-                    {DetailSummary![1].serviceCodeName}
-                  </c.SummaryEmphasis>
-                  ,{' '}
-                  <c.SummaryEmphasis>
-                    {DetailSummary![2].serviceCodeName}
-                  </c.SummaryEmphasis>{' '}
-                  입니다.
-                </c.SummaryList>
-              </c.SummaryTextContainer>
-              <c.SummaryTextContainer>
-                <c.DotIcon src={Dot} alt="dot" />
-                <c.SummaryList>
-                  개업률이 높은 동네는{' '}
-                  <c.SummaryEmphasis>
-                    {OpenSummary!.replace('?', ',')}
-                  </c.SummaryEmphasis>
-                  이며, 폐업률이 높은 동네는{' '}
-                  <c.SummaryEmphasis>
-                    {CloseSummary!.replace('?', ',')}
-                  </c.SummaryEmphasis>
-                  입니다.
-                </c.SummaryList>
-              </c.SummaryTextContainer>
-              <c.SummaryTextContainer>
-                <c.DotIcon src={Dot} alt="dot" />
-                <c.SummaryList>
-                  평균 운영 영업개월은 서울시보다{'  '}
-                  <c.SummaryEmphasis>{OpenMonthSummary}</c.SummaryEmphasis>,
-                  평균 폐업 영업개월은 서울시보다{' '}
-                  <c.SummaryEmphasis>{CloseMonthSummary}</c.SummaryEmphasis>.
-                </c.SummaryList>
-              </c.SummaryTextContainer>
-            </div>
-          </c.SummaryContainer>
-          <ContainerBox height={10} />
+          <c.SumContainer>
+            <s.Container>
+              <s.CardWrap>
+                <s.CardDiv>
+                  <SummaryIconCard
+                    title="가장 많은 성별"
+                    icon="/icons/toilet.png"
+                    text={GenderSummary === 'femail' ? '여성' : '남성'}
+                  />
+                </s.CardDiv>
+                <s.CardDiv>
+                  <SummaryIconCard
+                    title="가장 많은 연령대"
+                    icon="/icons/three_people.png"
+                    text={`${AgeSummary}${AgeRange}`}
+                  />
+                </s.CardDiv>
+                <s.CardDiv>
+                  <SummaryIconCard
+                    title="가장 많은 시간대"
+                    icon="/icons/clock.png"
+                    text={`${TimeStart}~${TimeEnd}시`}
+                  />
+                </s.CardDiv>
+                <s.CardDiv>
+                  <SummaryIconCard
+                    title="가장 많은 요일"
+                    icon="/icons/calendar.png"
+                    text={WeekData[DaySummary!]}
+                  />
+                </s.CardDiv>
+              </s.CardWrap>
+
+              <s.CardWrap>
+                <s.CardDiv>
+                  <SummaryIconCard
+                    title="개업률 높은 동네"
+                    icon={open}
+                    text={OpenSummary!}
+                  />
+                </s.CardDiv>
+                <s.CardDiv>
+                  <SummaryIconCard
+                    title="폐업률 높은 동네"
+                    icon={close}
+                    text={`${CloseSummary!}`}
+                  />
+                </s.CardDiv>
+                <s.CardDiv>
+                  <SummaryIconCard
+                    title="매출 높은 업종"
+                    icon={shop}
+                    text={TopSaleStoreSummary!}
+                  />
+                </s.CardDiv>
+              </s.CardWrap>
+            </s.Container>
+          </c.SumContainer>
+
+          <div>
+            <c.SummaryContainer>
+              <div>
+                <c.SummaryTextContainer>
+                  <c.DotIcon src={Dot} alt="dot" />
+                  <c.SummaryList>
+                    전분기 대비 유동인구가{' '}
+                    <c.SummaryEmphasis>{PeriodSummary}</c.SummaryEmphasis>
+                    했습니다.
+                  </c.SummaryList>
+                </c.SummaryTextContainer>
+                <c.SummaryTextContainer>
+                  <c.DotIcon src={Dot} alt="dot" />
+                  <c.SummaryList>
+                    주요 업종은{' '}
+                    <c.SummaryEmphasis>
+                      {DetailSummary![0].serviceCodeName}
+                    </c.SummaryEmphasis>
+                    이며, 그다음으로는{' '}
+                    <c.SummaryEmphasis>
+                      {DetailSummary![1].serviceCodeName}
+                    </c.SummaryEmphasis>
+                    ,{' '}
+                    <c.SummaryEmphasis>
+                      {DetailSummary![2].serviceCodeName}
+                    </c.SummaryEmphasis>{' '}
+                    입니다.
+                  </c.SummaryList>
+                </c.SummaryTextContainer>
+
+                <c.SummaryTextContainer>
+                  <c.DotIcon src={Dot} alt="dot" />
+                  <c.SummaryList>
+                    평균 운영 영업개월은 서울시보다{'  '}
+                    <c.SummaryEmphasis>{OpenMonthSummary}</c.SummaryEmphasis>,
+                    평균 폐업 영업개월은 서울시보다{' '}
+                    <c.SummaryEmphasis>{CloseMonthSummary}</c.SummaryEmphasis>.
+                  </c.SummaryList>
+                </c.SummaryTextContainer>
+              </div>
+            </c.SummaryContainer>
+            <ContainerBox height={10} />
+          </div>
         </div>
       ) : (
         <div />

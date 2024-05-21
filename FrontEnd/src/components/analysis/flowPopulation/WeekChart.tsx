@@ -1,6 +1,6 @@
 import analysisStore from '@src/stores/analysisStore'
 import BarChart2 from '@src/common/BarChart2'
-import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
+import * as c from '@src/components/styles/analysis/result/ChartCardStyle'
 
 const WeekChart = () => {
   const { flowPopulationDataBody } = analysisStore()
@@ -26,12 +26,12 @@ const WeekChart = () => {
   )
 
   return (
-    <f.WeekChart>
-      <f.ChartTitle>요일별 유동인구</f.ChartTitle>
-      <f.ChartSubTitle>
-        <f.HighlightText>{maxLabel}요일</f.HighlightText> 유동인구가 가장
+    <c.Container>
+      <c.ChartTitle>요일별 유동인구</c.ChartTitle>
+      <c.ChartSubTitle>
+        <c.HighlightText>{maxLabel}요일</c.HighlightText> 유동인구가 가장
         높아요.
-      </f.ChartSubTitle>
+      </c.ChartSubTitle>
       <BarChart2
         labels={labels}
         values={values}
@@ -40,7 +40,7 @@ const WeekChart = () => {
         pluginUnit="명"
         pluginValues={pluginValues}
       />
-    </f.WeekChart>
+    </c.Container>
   )
 }
 

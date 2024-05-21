@@ -1,12 +1,14 @@
 # 우분투 베이스 이미지 사용
 FROM ubuntu:latest
 
-# 필수 패키지 설치
+# 필수 패키지 설치 및 deadsnakes PPA 추가
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y curl openssh-server rsync wget vim iputils-ping htop openjdk-8-jdk python3 python3-pip python3-venv
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt-get update && apt-get install -y curl openssh-server rsync wget vim iputils-ping htop openjdk-8-jdk python3.12 python3.12-venv python3.12-dev python3-pip
 
-# python 명령어를 python3로 링크
-RUN ln -s /usr/bin/python3 /usr/bin/python
+# python 명령어를 python3.10로 링크
+RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
 # 하둡 다운로드 및 설치
 RUN wget http://mirror.navercorp.com/apache/hadoop/common/hadoop-3.2.4/hadoop-3.2.4.tar.gz \
@@ -15,21 +17,22 @@ RUN wget http://mirror.navercorp.com/apache/hadoop/common/hadoop-3.2.4/hadoop-3.
     && mv hadoop-3.2.4 /usr/local/hadoop
 
 # Spark 다운로드 및 설치
-RUN wget https://archive.apache.org/dist/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz \
-    && tar zxvf spark-3.2.1-bin-hadoop3.2.tgz \
-    && rm spark-3.2.1-bin-hadoop3.2.tgz \
-    && mv spark-3.2.1-bin-hadoop3.2 /usr/local/spark
+RUN wget https://archive.apache.org/dist/spark/spark-3.4.0/spark-3.4.0-bin-hadoop3.tgz \
+    && tar zxvf spark-3.4.0-bin-hadoop3.tgz \
+    && rm spark-3.4.0-bin-hadoop3.tgz \
+    && mv spark-3.4.0-bin-hadoop3 /usr/local/spark
 
 # 가상 환경 생성 및 활성화, PySpark 및 필요 라이브러리 설치
-RUN python3 -m venv /opt/venv
+RUN python3.12 -m venv /opt/venv
 RUN /opt/venv/bin/pip install --upgrade pip
-RUN /opt/venv/bin/pip install pyspark
+RUN /opt/venv/bin/pip install pyspark==3.4.0 numpy==1.26.4 pandas==2.0.3
 
 # 환경변수 설정
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV SPARK_HOME=/usr/local/spark
 ENV PYSPARK_PYTHON=/opt/venv/bin/python
+ENV PYSPARK_DRIVER_PYTHON=/opt/venv/bin/python
 ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
 # 디렉토리 생성
@@ -55,6 +58,7 @@ COPY hadoop/worker/setup-worker-hadoop-env.sh /usr/local/bin/worker/setup-worker
 # 각 노드내에 스파크 설정 파일 및 스파크 관련 쉘 스크립트 복사
 COPY spark/spark-env.sh $SPARK_HOME/conf/spark-env.sh
 COPY spark/spark-defaults.conf $SPARK_HOME/conf/spark-defaults.conf
+COPY spark/history-server.conf $SPARK_HOME/conf/history-server.conf
 COPY spark/start-master.sh /usr/local/bin/start-master.sh
 COPY spark/start-slave.sh /usr/local/bin/start-slave.sh
 COPY spark/start-history-server.sh /usr/local/bin/start-history-server.sh

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import analysisStore from '@src/stores/analysisStore'
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import HalfDoughnutChart from '@src/common/HalfDoughnutChart'
-import * as s from '@src/components/styles/analysis/StoreCountAnalysisStyle'
+import * as s from '@src/components/styles/analysis/result/StoreCountAnalysisStyle'
 
 const FranchiseChart = () => {
   const selectedService = analysisStore(state => state.selectedService)

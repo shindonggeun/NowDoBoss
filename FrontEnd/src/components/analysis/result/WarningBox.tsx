@@ -1,4 +1,4 @@
-import * as w from '@src/components/styles/analysis/WarningBoxStyle'
+import * as w from '@src/components/styles/analysis/result/WarningBoxStyle'
 
 const WarningBox = () => {
   return (

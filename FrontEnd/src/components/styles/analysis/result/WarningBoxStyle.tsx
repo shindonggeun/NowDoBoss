@@ -4,11 +4,10 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  margin-top: 10vh;
   padding: 20px;
-  background-color: #f8f9fa;
-  border: 1px solid #ced4da;
+  border: 1px solid rgba(0, 0, 0, 0.09);
   border-radius: 5px;
+  background-color: #ffffff;
 `
 
 export const TitleContainer = styled.div`

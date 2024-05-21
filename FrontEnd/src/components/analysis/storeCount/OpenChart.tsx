@@ -1,5 +1,5 @@
 import analysisStore from '@src/stores/analysisStore'
-import * as s from '@src/components/styles/analysis/StoreCountAnalysisStyle'
+import * as s from '@src/components/styles/analysis/result/StoreCountAnalysisStyle'
 
 const OpenChart = () => {
   const selectedService = analysisStore(state => state.selectedService)

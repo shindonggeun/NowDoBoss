@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import analysisStore from '@src/stores/analysisStore'
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import AreaChart from '@src/common/AreaChart'
-import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
+import * as c from '@src/components/styles/analysis/result/ChartCardStyle'
 
 const TimeChart = () => {
   const { flowPopulationDataBody } = analysisStore()
@@ -58,21 +58,21 @@ const TimeChart = () => {
   }, [flowPopulationDataBody, setFlowSummary])
 
   return (
-    <f.TimeChart>
-      <f.ChartTitle>시간대별 유동인구</f.ChartTitle>
-      <f.ChartSubTitle>
-        <f.HighlightText>{flowSummary.time}</f.HighlightText> 유동인구가 가장
+    <c.Container>
+      <c.ChartTitle>시간대별 유동인구</c.ChartTitle>
+      <c.ChartSubTitle>
+        <c.HighlightText>{flowSummary.time}</c.HighlightText> 유동인구가 가장
         높아요.
-      </f.ChartSubTitle>
-      <f.AddBox>
-        <f.HighlightText>{flowSummary.time}</f.HighlightText> 유동인구가 가장
+      </c.ChartSubTitle>
+      <c.AddBox>
+        <c.HighlightText>{flowSummary.time}</c.HighlightText> 유동인구가 가장
         높습니다. {flowSummary.timeInfo}가 활발한 상권입니다.
-      </f.AddBox>
+      </c.AddBox>
       <AreaChart
         labels={labels}
         values={Object.values(flowPopulationDataBody.timeSlotFootTraffic)}
       />
-    </f.TimeChart>
+    </c.Container>
   )
 }
 

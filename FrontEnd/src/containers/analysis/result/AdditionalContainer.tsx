@@ -1,23 +1,22 @@
-import { forwardRef, Ref, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import selectPlaceStore from '@src/stores/selectPlaceStore'
 import analysisStore from '@src/stores/analysisStore'
 import { postAnalysisBookmarks } from '@src/api/analysisApi'
+import SaveModal from '@src/components/analysis/result/SaveModal'
 import { AnalysisBookmarksDataType } from '@src/types/AnalysisType'
-import ResultIntro from '@src/components/analysis/ResultIntro'
-import WarningBox from '@src/components/analysis/WarningBox'
-import SaveModal from '@src/components/analysis/SaveModal'
-import * as r from '@src/containers/analysis/ResultInroContainerStyle'
-import { confetti } from '@src/App'
+import * as a from '@src/containers/analysis/result/AdditionalContainerStyle'
+import { confetti } from '@src/App.tsx'
 
-const ResultIntroContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
+const AdditionalContainer = () => {
   const selectedGoo = selectPlaceStore(state => state.selectedGoo)
   const selectedDong = selectPlaceStore(state => state.selectedDong)
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
   const selectedService = analysisStore(state => state.selectedService)
 
   const navigate = useNavigate()
+
   const [showModal, setShowModal] = useState(false) // 분석 결과 저장 모달 상태
   const [modalTitle, setModalTitle] = useState('')
   const [modalContent, setModalContent] = useState('')
@@ -85,10 +84,13 @@ const ResultIntroContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   }
 
   return (
-    <r.Container ref={ref}>
-      <r.ImgDiv>
-        <img src="/images/Buildings.png" alt="buildings" />
-      </r.ImgDiv>
+    <a.Container>
+      <a.BookmarksDiv onClick={() => handlePostAnalysisBookmarks()}>
+        <a.BookmarkText>분석 리포트 저장하기</a.BookmarkText>
+      </a.BookmarksDiv>
+      <a.BookmarksDiv>
+        <a.BookmarkText>카카오톡 공유하기</a.BookmarkText>
+      </a.BookmarksDiv>
       {showModal && (
         <SaveModal
           title={modalTitle}
@@ -97,11 +99,8 @@ const ResultIntroContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
           onConfirm={handleGoToBookmarks}
         />
       )}
-      <ResultIntro handlePostAnalysisBookmarks={handlePostAnalysisBookmarks} />
-      <WarningBox />
-    </r.Container>
+    </a.Container>
   )
-})
+}
 
-ResultIntroContainer.displayName = 'ResultIntroContainer'
-export default ResultIntroContainer
+export default AdditionalContainer

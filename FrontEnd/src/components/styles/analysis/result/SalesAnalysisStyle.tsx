@@ -1,18 +1,9 @@
 import styled from 'styled-components'
 
-export const FirstLowContainer = styled.div`
-  margin-top: 15px;
-  margin-bottom: 15px;
-  display: flex;
-  gap: 10px;
+export const ExpectChart = styled.div`
+  width: 100%;
+  margin-top: 2vh;
 
-  @media (max-width: 576px) {
-    flex-direction: column;
-  }
-`
-
-export const TotalCard = styled.div`
-  width: 50%;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -26,8 +17,76 @@ export const TotalCard = styled.div`
   }
 `
 
-export const CategoryCard = styled.div`
-  width: 50%;
+export const AgeChart = styled.div`
+  width: 100%;
+  margin-top: 2vh;
+
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-sizing: border-box;
+
+  @media (max-width: 576px) {
+    width: 100%;
+  }
+`
+
+export const TodaySalesChart = styled.div`
+  width: 100%;
+  margin-top: 2vh;
+
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-sizing: border-box;
+
+  @media (max-width: 576px) {
+    width: 100%;
+  }
+`
+export const TodayNumberChart = styled.div`
+  width: 100%;
+  margin-top: 2vh;
+
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-sizing: border-box;
+
+  @media (max-width: 576px) {
+    width: 100%;
+  }
+`
+
+export const WeekSalesChart = styled.div`
+  width: 100%;
+  margin-top: 2vh;
+
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-sizing: border-box;
+
+  @media (max-width: 576px) {
+    width: 100%;
+  }
+`
+export const WeekNumberChart = styled.div`
+  width: 100%;
+  margin-top: 2vh;
+
   background-color: #ffffff;
   display: flex;
   flex-direction: column;

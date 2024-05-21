@@ -15,7 +15,7 @@ hdfs dfs -mkdir -p /output
 $SPARK_HOME/bin/spark-submit \
   --class org.apache.spark.examples.JavaWordCount \
   --master spark://master1:7077 \
-  $SPARK_HOME/examples/jars/spark-examples_2.12-3.2.1.jar \
+  $SPARK_HOME/examples/jars/spark-examples_2.12-3.4.0.jar \
   hdfs://master1:9000/input/README.md hdfs://master1:9000/output
 
 # 결과 확인

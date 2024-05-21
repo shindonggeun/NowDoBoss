@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import analysisStore from '@src/stores/analysisStore'
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import BarChart2 from '@src/common/BarChart2'
-import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
+import * as s from '@src/components/styles/analysis/result/SalesAnalysisStyle'
 
 const WeekSalesChart = () => {
   const salesDataBody = analysisStore(state => state.salesDataBody)

@@ -1,4 +1,4 @@
-import * as s from '@src/components/styles/analysis/SummaryCardStyle'
+import * as s from '@src/components/styles/analysis/result/SummaryCardStyle'
 import * as c from '@src/components/styles/status/DeatilComponentStyle'
 import SummaryIconCard from '@src/common/StatusSummaryIconCard'
 import { DetailDataBody } from '@src/types/StatusType'

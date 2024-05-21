@@ -36,12 +36,16 @@ export const MarginLeft = styled.div`
   @media only screen and (max-width: 992px) {
     margin-left: 0;
     width: 100vw;
-    margin-top: 75px;
+    margin-top: 68px;
   }
 `
 
 export const Context = styled.div`
   width: 100%;
+  height: calc(100vh - 68px - 30px);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `
 
 // detail style
@@ -60,6 +64,10 @@ export const Div = styled.div``
 export const Mid = styled.div`
   margin: 3% 5%;
   width: 100%;
+  height: calc(100vh - 68px);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 
   @media only screen and (max-width: 992px) {
     margin: 3% 10%;
@@ -69,6 +77,10 @@ export const Mid = styled.div`
 export const List = styled.div`
   margin: 3% 5%;
   width: 80%;
+  height: calc(100vh - 68px - 30px);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 
   @media only screen and (max-width: 992px) {
     margin: 3% 10%;

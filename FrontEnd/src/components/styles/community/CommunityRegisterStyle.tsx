@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  padding: 0 0 3vh;
+  padding: 0 4vh 3vh 0;
 
   @media only screen and (max-width: 992px) {
     //padding: 75px 10vw 0;
@@ -14,9 +14,7 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3vh 0;
   background-color: #ffffff;
-  top: 72px;
   position: sticky;
 `
 export const SubmitButton = styled.div<{ $isValid: boolean }>`
@@ -105,7 +103,7 @@ export const ContentInput = styled.textarea<{ $isActive?: boolean }>`
   border: none;
   resize: none;
   width: 100%;
-  height: 30vh;
+  height: 25vh;
   font-weight: 600;
   // color: ${props => (props.$isActive ? '#626262' : 'red')};
 

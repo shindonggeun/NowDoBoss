@@ -81,7 +81,7 @@ export const Title = styled.div`
   font-size: 2rem;
   font-weight: 600;
   @media only screen and (max-width: 550px) {
-    width: 50%;
+    //width: 50%;
   }
 `
 export const RowDiv = styled.div`

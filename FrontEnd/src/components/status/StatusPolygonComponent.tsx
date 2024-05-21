@@ -44,7 +44,7 @@ const StatusPolygonComponent = ({
         setWidth(450)
       } else if (window.innerWidth > 300) {
         setScale(45000)
-        setWidth(450)
+        setWidth(425)
       } else {
         setWidth(window.innerWidth)
         setHeight(window.innerHeight)

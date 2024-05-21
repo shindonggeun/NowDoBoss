@@ -19,7 +19,7 @@ from fastapi import BackgroundTasks
 
 # 모델 최신 업데이트 시간 저장할 파일 경로 설정
 filename = 'model_update_time.json'
-model_path = "model"
+model_path = "hdfs://master1:9000/model"
 
 
 # # 마지막 업데이트 시간을 불러오는 함수
@@ -98,7 +98,8 @@ async def recommend_commercials(spark, userId, background_tasks: BackgroundTasks
 
     commercial_data_path = "data/commercial_data.csv"
 
-    commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
+    # commercial_data = spark.read.csv(commercial_data_path, header=True, inferSchema=True)
+    commercial_data = spark.read.csv("hdfs://master1:9000/data/commercial_data.csv", header=True, inferSchema=True)
     commercial_columns = ["commercialCode", "totalTrafficFoot", "totalSales", "openedRate", "closedRate", "totalConsumption"]
     df_commercials = commercial_data.select(*commercial_columns)
 

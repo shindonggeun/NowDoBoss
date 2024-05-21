@@ -86,7 +86,7 @@ const AdditionalContainer = () => {
   return (
     <a.Container>
       <a.BookmarksDiv onClick={() => handlePostAnalysisBookmarks()}>
-        <a.BookmarkText>분석 리포트 저장하기</a.BookmarkText>
+        <a.BookmarkText>분석 결과 북마크</a.BookmarkText>
       </a.BookmarksDiv>
       <a.BookmarksDiv>
         <a.BookmarkText>카카오톡 공유하기</a.BookmarkText>

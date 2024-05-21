@@ -15,6 +15,10 @@ export const BookmarksDiv = styled.div`
   &:hover {
     background-color: rgba(102, 102, 102, 0.6); /* 호버 시 배경색 변경 */
   }
+
+  @media (max-width: 768px) {
+    padding: 5px 0;
+  }
 `
 
 export const BookmarkText = styled.div`
@@ -25,5 +29,9 @@ export const BookmarkText = styled.div`
 
   &:hover {
     color: #cccccc; /* 호버 시 텍스트 색상 변경 */
+  }
+
+  @media (max-width: 425px) {
+    font-size: 0.9rem;
   }
 `

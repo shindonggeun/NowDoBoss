@@ -6,16 +6,16 @@ import analysisStore, {
   initialTotalSalesDataBody,
 } from '@src/stores/analysisStore'
 import { getSalesData, getTotalSalesData } from '@src/api/analysisApi'
-import CategoryTitleCard from '@src/components/analysis/CategoryTitleCard'
+import CategoryTitleCard from '@src/components/analysis/result/CategoryTitleCard'
 import ExpectChart from '@src/components/analysis/sales/ExpectChart'
 import AgeChart from '@src/components/analysis/sales/AgeChart'
 import TodaySalesChart from '@src/components/analysis/sales/TodaySalesChart'
 import TodayNumberChart from '@src/components/analysis/sales/TodayNumberChart'
 import WeekSalesChart from '@src/components/analysis/sales/WeekSalesChart'
 import WeekNumberChart from '@src/components/analysis/sales/WeekNumberChart'
-import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
+import * as s from '@src/components/styles/analysis/result/SalesAnalysisStyle'
 
-const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
+const SalesContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   const selectedGoo = selectPlaceStore(state => state.selectedGoo)
   const selectedDong = selectPlaceStore(state => state.selectedDong)
   const selectedCommercial = selectPlaceStore(state => state.selectedCommercial)
@@ -118,23 +118,17 @@ const SalesAnalysisContainer = forwardRef((_, ref: Ref<HTMLDivElement>) => {
         </s.ErrBox>
       ) : (
         <>
-          <s.FirstLowContainer>
-            <ExpectChart />
-            <AgeChart />
-          </s.FirstLowContainer>
-          <s.SecondLowContainer>
-            <TodaySalesChart />
-            <TodayNumberChart />
-          </s.SecondLowContainer>
-          <s.ThirdLowContainer>
-            <WeekSalesChart />
-            <WeekNumberChart />
-          </s.ThirdLowContainer>
+          <ExpectChart />
+          <AgeChart />
+          <TodaySalesChart />
+          <WeekSalesChart />
+          <TodayNumberChart />
+          <WeekNumberChart />
         </>
       )}
     </div>
   )
 })
 
-SalesAnalysisContainer.displayName = 'SalesAnalysisContainer'
-export default SalesAnalysisContainer
+SalesContainer.displayName = 'SalesContainer'
+export default SalesContainer

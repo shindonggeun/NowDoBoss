@@ -3,8 +3,18 @@ import pandas as pd
 from pyspark.sql import Row
 from motor.motor_asyncio import AsyncIOMotorClient
 
-#client = AsyncIOMotorClient("mongodb://localhost:27017/")
-client = AsyncIOMotorClient("mongodb://k10C208.p.ssafy.io:27017/")
+# 연결에 필요한 정보
+authenticationDatabase = "admin"
+username = "ssafy"
+password = "ssafy!2341234"
+host = "k10c208.p.ssafy.io"
+port = 27017
+
+# MongoDB 연결 URL 설정
+url = f"mongodb://{username}:{password}@{host}:{port}/{authenticationDatabase}"
+
+# AsyncIOMotorClient를 사용하여 MongoDB에 연결
+client = AsyncIOMotorClient(url)
 db = client.nowdoboss  # 데이터베이스 선택
 
 async def get_mongodb_data():

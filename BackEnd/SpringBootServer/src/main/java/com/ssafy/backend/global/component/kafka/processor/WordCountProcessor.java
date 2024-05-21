@@ -25,15 +25,15 @@ public class WordCountProcessor {
         KStream<String, CommercialAnalysisKafkaRequest> messageStream = streamsBuilder
                 .stream("commercial-analysis", Consumed.with(STRING_SERDE, COMMERCIAL_ANALYSIS_RESPONSE_SERDE));
 
-        // Set the window to start from the beginning of today and last for 24 hours
-        TimeWindows dailyWindow = TimeWindows.ofSizeWithNoGrace(Duration.ofDays(1));
+        // 하루 윈도우 설정
+        TimeWindows dailyWindow = TimeWindows.ofSizeAndGrace(Duration.ofDays(1), Duration.ZERO);
 
         // Apply windowed operation
         KTable<Windowed<String>, Long> wordCounts = messageStream
                 .flatMapValues(this::extractAndCategorizeValues)
                 .groupBy((key, word) -> word, Grouped.with(STRING_SERDE, STRING_SERDE))
                 .windowedBy(dailyWindow)
-                .count(Materialized.as("daily-ranking"));
+                .count(Materialized.as("daily-ranking-stream"));
 
         // 추출한 windowSize를 기반으로 Serde 생성
         long windowSize = Duration.ofDays(1).toMillis(); // 하루 단위의 밀리세컨드

@@ -3,11 +3,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { NavigateType } from '@src/types/GlobalType'
 // import LogoImg from '@src/assets/logo.svg'
 // import SlimLogoImg from '@src/assets/logo_slim.svg'
-import BlueLogoImg from '@src/assets/logo_blue.svg'
-import WhiteLogo from '@src/assets/whiteLogo.svg'
-import BlueChatImg from '@src/assets/chatBlue.svg'
-import ChatImg from '@src/assets/chatHeader.svg'
-import WhiteChatImg from '@src/assets/chatWhite.svg'
+// import LogoImg from '@src/assets/logo.svg'
+// import BlueLogoImg from '@src/assets/logo_blue.svg'
+import NavyLogoImg from '@src/assets/logo_navy.svg'
+import WhiteLogo from '@src/assets/logo_white.svg'
+import ChatImg from '@src/assets/msg_black.svg'
+import BlueChatImg from '@src/assets/msg_navy.svg'
+import WhiteChatImg from '@src/assets/msg_white.svg'
 import styled from 'styled-components'
 import HeaderDropdown from '@src/common/HeaderDropdown'
 import useCommunityStore from '@src/stores/communityStore'
@@ -54,7 +56,7 @@ const MenuListRight = styled.div<{ isMenuOpen?: boolean }>`
   width: auto;
   display: flex;
   justify-content: right;
-  margin: 0 0.5rem;
+  //margin: 0 0.5rem;
 
   @media (max-width: 1015px) {
     flex-direction: column;
@@ -79,21 +81,21 @@ const Menu = styled.div<{
       props.$isActive
         ? props.$isMain && props.$atTop
           ? 'white'
-          : '#236cff'
+          : '#1549B5'
         : 'none'};
   color: ${props =>
     props.$isActive
       ? props.$isMain && props.$atTop
         ? 'white'
-        : '#236cff'
+        : '#1549B5'
       : props.$isMain && props.$atTop
         ? 'white'
         : 'black'};
 
   &:hover {
-    color: ${props => (props.$isMain && props.$atTop ? 'white' : '#236cff')};
+    color: ${props => (props.$isMain && props.$atTop ? 'white' : '#1549B5')};
     border-bottom: 2px solid
-      ${props => (props.$isMain && props.$atTop ? 'white' : '#236cff')};
+      ${props => (props.$isMain && props.$atTop ? 'white' : '#1549B5')};
   }
 
   @media (max-width: 1200px) {
@@ -107,8 +109,8 @@ const LogoDiv = styled.div``
 const Icon = styled.img``
 
 const Logo = styled.img`
-  scale: 0.7;
-  margin: 7px 0 0 0;
+  scale: 1;
+  margin: 7px 20px 0 0;
   cursor: pointer;
 `
 
@@ -117,12 +119,14 @@ const HamburgerMenu = styled.div`
   display: none;
   position: absolute;
   right: 0;
+  height: 68px;
 
   @media (max-width: 1015px) {
-    display: block; // 화면 너비가 1200px 이하일 경우 햄버거 메뉴 표시
-    justify-content: right;
+    display: flex; // 화면 너비가 1200px 이하일 경우 햄버거 메뉴 표시
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    margin-right: 2vw;
+    margin-right: 3vw;
   }
 `
 const DropdownMenu = styled.div`
@@ -130,9 +134,9 @@ const DropdownMenu = styled.div`
   top: 0;
   right: 0;
 
-  margin-top: 176px;
-  border-radius: 5px;
-  width: 200px;
+  margin-top: 170px;
+  border-radius: 20px;
+  width: 150px;
   height: 100px;
 `
 
@@ -320,7 +324,7 @@ const Header = () => {
         {location.pathname === '/' && atTop ? (
           <Logo src={WhiteLogo} alt="logo" />
         ) : (
-          <Logo src={BlueLogoImg} alt="logo" />
+          <Logo src={NavyLogoImg} alt="logo" />
         )}
       </LogoDiv>
 

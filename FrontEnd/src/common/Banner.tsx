@@ -131,6 +131,7 @@ const Banner = () => {
     const filteredCardData = cardData.filter(card => {
       if (
         location.pathname === '/analysis' ||
+        location.pathname === '/analysis/result' ||
         location.pathname === '/analysis/simulation' ||
         location.pathname === '/analysis/simulation/report'
       ) {

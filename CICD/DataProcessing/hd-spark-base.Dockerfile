@@ -25,7 +25,7 @@ RUN wget https://archive.apache.org/dist/spark/spark-3.4.0/spark-3.4.0-bin-hadoo
 # 가상 환경 생성 및 활성화, PySpark 및 필요 라이브러리 설치
 RUN python3.12 -m venv /opt/venv
 RUN /opt/venv/bin/pip install --upgrade pip
-RUN /opt/venv/bin/pip install pyspark==3.4.0 numpy==1.26.4 pandas 2.0.3
+RUN /opt/venv/bin/pip install pyspark==3.4.0 numpy==1.26.4 pandas==2.0.3
 
 # 환경변수 설정
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64

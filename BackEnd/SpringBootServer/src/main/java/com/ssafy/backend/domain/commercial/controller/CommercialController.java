@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.commercial.controller;
 
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
+import com.ssafy.backend.domain.commercial.dto.request.ConversionCodeRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.service.CommercialService;
 import com.ssafy.backend.global.common.dto.Message;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +25,18 @@ import java.util.Optional;
 @RequestMapping("/api/v1/commercial")
 public class CommercialController {
     private final CommercialService commercialService;
+
+    @Operation(
+            summary = "자치구, 행정동, 상권 코드명 조회",
+            description = "자치구, 행정도, 상권 코드를 통해 코드명을 조회하는 기능입니다."
+    )
+    @GetMapping("/code-name")
+    public ResponseEntity<Message<ConversionCodeResponse>> getCodeName(@Validated ConversionCodeRequest request) {
+
+        ConversionCodeResponse response = commercialService.conversionCodeToCodeName(request);
+
+        return ResponseEntity.ok().body(Message.success(response));
+    }
 
     @Operation(
             summary = "해당 자치구에 포함된 행정동 목록 조회",

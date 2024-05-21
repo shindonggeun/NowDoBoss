@@ -1,10 +1,10 @@
 import * as c from '@src/components/styles/status/StatusDetailbarStyle'
 import DetailPopulationComponent from '@src/components/status/DetailPopulationComponent'
 import DetailStoreNumberComponent from '@src/components/status/DetailStoreNumberComponent'
-import DetailOpenRateComponent from '@src/components/status/DetailOpenRateComponent'
-import DetailCloseRateComponent from '@src/components/status/DetailCloseRateComponent'
 import DetailAnalysisComponent from '@src/components/status/DetailAnalysisComponent'
 import DetailCommercialComponent from '@src/components/status/DetailCommercialComponent'
+import DetailOpenCloseComponent from '@src/components/status/DetailOpenCloseComponent'
+// import DetailSummaryComponent from '@src/components/status/DetailSummaryComponent'
 import Xmark from 'src/assets/xmark_solid_nomal.svg'
 import bookmark from 'src/assets/bookmark.svg'
 import { useRef, useState, useEffect, useMemo } from 'react'
@@ -20,17 +20,12 @@ const StatusDetailbarComponent = () => {
 
   const categories = useMemo(
     () => [
-      // {
-      //   id: ,
-      //   name: '간단요약',
-      //   component: DetailSummaryComponent,
-      // },
       { id: 0, name: '유동인구', component: DetailPopulationComponent },
       { id: 1, name: '점포수', component: DetailStoreNumberComponent },
-      { id: 2, name: '개업률', component: DetailOpenRateComponent },
-      { id: 3, name: '폐업률', component: DetailCloseRateComponent },
+      { id: 2, name: '개업률/폐업률', component: DetailOpenCloseComponent },
       { id: 4, name: '매출분석', component: DetailAnalysisComponent },
-      { id: 5, name: '요약', component: DetailCommercialComponent },
+      { id: 5, name: '핵심요약', component: DetailCommercialComponent },
+      // { id: 5, name: 'delete', component: DetailSummaryComponent },
     ],
     [],
   )

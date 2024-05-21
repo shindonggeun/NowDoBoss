@@ -10,10 +10,6 @@ export const Overlay = styled.div`
   right: 0;
   background: rgba(0, 0, 0, 0.4);
   z-index: 9999;
-
-  .scroll-locked {
-    overflow: hidden;
-  }
 `
 
 const fadeIn = keyframes`
@@ -38,7 +34,7 @@ export const Container = styled.div`
   left: 50%;
   width: 100%;
   max-width: 63rem;
-  height: 87vh;
+  height: 90vh;
   border-radius: 10px;
   background-color: #fff;
 
@@ -82,8 +78,16 @@ export const LeftDiv = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
-    border-radius: 10px 10px 0 0;
+    flex-direction: row;
     height: 15vh;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 24px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  @media (max-width: 576px) {
+    padding: 3%;
   }
 `
 
@@ -111,6 +115,12 @@ export const SideContentDiv = styled.div`
   height: 100%;
   margin-bottom: 2vh;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    margin-bottom: 0;
+    align-items: center;
+    height: auto;
+  }
 `
 
 export const RightDiv = styled.div`
@@ -137,4 +147,12 @@ export const ContentDiv = styled.div`
   gap: 3vh;
   padding: 24px;
   box-sizing: border-box;
+
+  @media (max-width: 576px) {
+    padding: 2%;
+  }
+
+  @media (max-width: 480px) {
+    gap: 2vh;
+  }
 `

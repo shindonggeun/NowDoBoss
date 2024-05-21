@@ -1,5 +1,5 @@
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
-import * as t from '@src/components/styles/analysis/TotalSummaryCardStyle'
+import * as t from '@src/components/styles/analysis/result/TotalSummaryCardStyle.tsx'
 
 const TotalSummaryCard = () => {
   const flowSummary = useAnalysisSummaryStore(state => state.flowSummary)
@@ -11,7 +11,7 @@ const TotalSummaryCard = () => {
   const tips = storeSummary.tip.split('. ').filter(tip => tip.trim() !== '')
 
   return (
-    <div>
+    <t.Container>
       <t.TitleContainer>
         <t.TitleImage src="/icons/bulb.png" alt="" />
         <t.Title>종합의견</t.Title>
@@ -48,7 +48,7 @@ const TotalSummaryCard = () => {
           ))}
         </t.CategoryWrap>
       </t.TextBox>
-    </div>
+    </t.Container>
   )
 }
 

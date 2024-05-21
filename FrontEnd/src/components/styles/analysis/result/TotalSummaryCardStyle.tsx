@@ -1,5 +1,22 @@
 import styled from 'styled-components'
 
+export const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 5px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    padding: 15px;
+  }
+`
+
 export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
@@ -48,7 +65,7 @@ export const Category = styled.div`
 export const Text = styled.div`
   display: flex;
   color: #333;
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin-bottom: 6px;
 
   @media (max-width: 768px) {

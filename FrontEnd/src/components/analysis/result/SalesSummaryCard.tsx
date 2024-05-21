@@ -1,6 +1,6 @@
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import SummaryIconCard from '@src/common/SummaryIconCard'
-import * as s from '@src/components/styles/analysis/SummaryCardStyle'
+import * as s from '@src/components/styles/analysis/result/SummaryCardStyle'
 
 const SalesSummaryCard = () => {
   const salesSummary = useAnalysisSummaryStore(state => state.salesSummary)

@@ -1,5 +1,5 @@
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
-import * as t from '@src/components/styles/analysis/result/TotalSummaryCardStyle.tsx'
+import * as t from '@src/components/styles/analysis/result/TotalSummaryCardStyle'
 
 const TotalSummaryCard = () => {
   const flowSummary = useAnalysisSummaryStore(state => state.flowSummary)

@@ -9,6 +9,10 @@ export const Container = styled.div`
   border-radius: 5px;
   padding: 20px 0;
   background-color: #ffffff;
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `
 
 export const Title = styled.div`
@@ -17,6 +21,10 @@ export const Title = styled.div`
   font-size: 1.1rem;
   font-weight: 500;
   color: #333;
+
+  @media (max-width: 480px) {
+    padding: 0 0 10px;
+  }
 `
 
 export const CardWrap = styled.div`
@@ -24,6 +32,10 @@ export const CardWrap = styled.div`
   padding: 15px 20px;
   display: flex;
   box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 0;
+  }
 `
 
 export const SalesWrap = styled.div`
@@ -32,10 +44,19 @@ export const SalesWrap = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 0;
+  }
 `
 
 export const SalesSummary = styled.div`
   padding: 0 20px;
+
+  @media (max-width: 480px) {
+    padding: 0 10px;
+    margin-bottom: 10px;
+  }
 `
 
 export const TotalDiv = styled.div`
@@ -56,6 +77,10 @@ export const SalesList = styled.div`
   position: relative;
   padding: 5px 0 0 20px;
   box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 5px 0 0 10px;
+  }
 `
 
 export const SalesDiv = styled.div`

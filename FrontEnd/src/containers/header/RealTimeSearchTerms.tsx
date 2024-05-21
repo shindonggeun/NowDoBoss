@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTransition, animated } from 'react-spring'
 import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import { fetchKorean } from '@src/api/mapApi.tsx'
+import { useNavigate } from 'react-router-dom'
+import useSelectPlaceStore from '@src/stores/selectPlaceStore.tsx'
 
 const Container = styled.div`
   position: relative;
@@ -34,9 +38,6 @@ const DropdownMenu = styled.div`
   padding: 5px;
   font-size: 0.8rem;
   justify-content: center;
-  &:hover {
-    cursor: pointer;
-  }
 `
 
 const DropdownItem = styled.div`
@@ -48,6 +49,10 @@ const DropdownItem = styled.div`
   width: auto;
   &:hover {
     background: #f0f0f0;
+    cursor: pointer;
+  }
+  &:active {
+    background: #d9d9d9;
   }
 `
 const DropdownItemCom = styled.div`
@@ -59,6 +64,10 @@ const DropdownItemCom = styled.div`
   width: auto;
   &:hover {
     background: #f0f0f0;
+    cursor: pointer;
+  }
+  &:active {
+    background: #d9d9d9;
   }
 `
 const List = styled.div`
@@ -88,6 +97,13 @@ const ColDiv = styled.div`
   display: flex;
   flex-direction: column;
 `
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const SmallContent = styled.div`
+  font-size: 0.7;
+`
 
 // 실시간 검색어 순위 데이터 정의
 interface RankingData {
@@ -116,13 +132,16 @@ interface RankingsResponse {
 }
 
 const { VITE_REACT_API_URL } = import.meta.env
-
-const RealTimeSearchTerms: React.FC = () => {
+type RealTimeSearchTermsPropsType = {
+  isHovered: boolean
+}
+const RealTimeSearchTerms = (props: RealTimeSearchTermsPropsType) => {
+  const { isHovered } = props
   const [index, setIndex] = useState(0)
   const [realTimeData, setRealTimeData] = useState<
     RankingSaveData | undefined
   >()
-  const [isHovered, setIsHovered] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     // 1. 초기 백엔드 서버로부터 SSE 스트림에 연결을 하기 위한 초기 설정
@@ -188,17 +207,80 @@ const RealTimeSearchTerms: React.FC = () => {
     }
   }
 
+  // 저장버튼 누를 때 필요한 선택한 구, 동 코드 가져오기 위한 store 호출
+  const { setSelectedGoo, setSelectedDong, setSelectedCommercial } =
+    useSelectPlaceStore(state => ({
+      setSelectedGoo: state.setSelectedGoo,
+      setSelectedDong: state.setSelectedDong,
+      setSelectedCommercial: state.setSelectedCommercial,
+    }))
+
+  const [koreanData, setKoreanData] = useState<string>('')
+  const [koreanType, setKoreanType] = useState<string>('')
+
+  const { data: fetchKoreaData } = useQuery({
+    queryKey: [fetchKorean, koreanData, koreanType],
+    queryFn: () => fetchKorean(koreanData, koreanType),
+    enabled: !!koreanData || !!koreanType,
+    gcTime: 0,
+  })
+
+  const handleClickItem = useCallback(
+    (koreanName: string, district: string) => {
+      setKoreanData(koreanName)
+      setKoreanType(district)
+    },
+    [],
+  )
+
+  useEffect(() => {
+    if (fetchKoreaData?.dataBody?.commercialCode) {
+      navigate('/analysis')
+      setTimeout(() => {
+        setSelectedCommercial({
+          name: fetchKoreaData?.dataBody?.commercialCodeName,
+          code: fetchKoreaData?.dataBody?.commercialCode,
+        })
+        setSelectedDong({
+          name: fetchKoreaData?.dataBody.administrationCodeName,
+          code: fetchKoreaData?.dataBody.administrationCode,
+        })
+        setSelectedGoo({
+          name: fetchKoreaData?.dataBody.districtCodeName,
+          code: fetchKoreaData?.dataBody.districtCode,
+        })
+        setKoreanData('')
+        setKoreanType('')
+      }, 1000)
+    } else if (fetchKoreaData?.dataBody?.administrationCode) {
+      navigate('/analysis')
+      setTimeout(() => {
+        setSelectedDong({
+          name: fetchKoreaData?.dataBody.administrationCodeName,
+          code: fetchKoreaData?.dataBody.administrationCode,
+        })
+        setSelectedGoo({
+          name: fetchKoreaData?.dataBody.districtCodeName,
+          code: fetchKoreaData?.dataBody.districtCode,
+        })
+        setKoreanData('')
+        setKoreanType('')
+      }, 1000)
+    } else if (fetchKoreaData?.dataBody?.districtCode) {
+      navigate('/analysis')
+      setTimeout(() => {
+        setSelectedGoo({
+          name: fetchKoreaData?.dataBody.districtCodeName,
+          code: fetchKoreaData?.dataBody.districtCode,
+        })
+        setKoreanData('')
+        setKoreanType('')
+      }, 1000)
+    }
+  }, [fetchKoreaData])
+
   return (
-    <div
-      onMouseEnter={() => {
-        console.log('Mouse Entered')
-        setIsHovered(true)
-      }}
-      onMouseLeave={() => {
-        console.log('Mouse Left')
-        setIsHovered(false)
-      }}
-    >
+    <div>
       {slicedData.length > 0 ? (
         <Container>
           {transitions((style, i) => (
@@ -209,17 +291,25 @@ const RealTimeSearchTerms: React.FC = () => {
           {isHovered && (
             <DropdownMenu>
               <ColDiv>
-                <DropdownTitle>실시간 검색 순위</DropdownTitle>
+                <Header>
+                  <DropdownTitle>실시간 검색 순위</DropdownTitle>
+                  <SmallContent>5분 주기 갱신</SmallContent>
+                </Header>
                 <ListContainer>
                   <List>
                     <ListTitle>인기 자치구</ListTitle>
                     {realTimeData?.districtRankings
                       .slice(0, 10)
-                      .map((item, i) => (
-                        <DropdownItem
-                          key={i}
-                        >{`${i + 1}. ${item.name}`}</DropdownItem>
-                      ))}
+                      .map((item, i) => {
+                        return (
+                          <DropdownItem
+                            key={i}
+                            onClick={() => {
+                              handleClickItem(item.name, 'district')
+                            }}
+                          >{`${i + 1}. ${item.name}`}</DropdownItem>
+                        )
+                      })}
                   </List>
                   <List>
                     <ListTitle>인기 행정동</ListTitle>
@@ -228,6 +318,9 @@ const RealTimeSearchTerms: React.FC = () => {
                       .map((item, i) => (
                         <DropdownItem
                           key={i}
+                          onClick={() => {
+                            handleClickItem(item.name, 'administration')
+                          }}
                         >{`${i + 1}. ${item.name}`}</DropdownItem>
                       ))}
                   </List>
@@ -238,6 +331,9 @@ const RealTimeSearchTerms: React.FC = () => {
                       .map((item, i) => (
                         <DropdownItemCom
                           key={i}
+                          onClick={() => {
+                            handleClickItem(item.name, 'commercial ')
+                          }}
                         >{`${i + 1}. ${item.name}`}</DropdownItemCom>
                       ))}
                   </List>

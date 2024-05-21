@@ -176,6 +176,10 @@ const HeaderContainer = () => {
   // 프로필 이미지 저장
   const [profileImg, setProfileImg] = useState<string | undefined>(undefined)
 
+  // 호버시 적용
+
+  const [isHovered, setIsHovered] = useState(false)
+
   // 현재 스크롤과 이전 스크롤 상태 비교해서 올림, 내림 스크롤 판단하는 로직
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY
@@ -346,10 +350,20 @@ const HeaderContainer = () => {
       <BlankDiv />
       <BlankDiv />
       <MenuListRight>
-        <RealTimeSearchBar $isMain={location.pathname === '/'} $atTop={atTop}>
+        {/* 실시간 인기 검색어 */}
+        <RealTimeSearchBar
+          $isMain={location.pathname === '/'}
+          $atTop={atTop}
+          onMouseEnter={() => {
+            setIsHovered(true)
+          }}
+          onMouseLeave={() => {
+            setIsHovered(false)
+          }}
+        >
           <RealTimeTitle>실시간 인기 검색어</RealTimeTitle>
 
-          <RealTimeSearchTerms />
+          <RealTimeSearchTerms isHovered={isHovered} />
         </RealTimeSearchBar>
         <Menu
           $isActive={activeMenu === '채팅'}

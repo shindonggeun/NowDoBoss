@@ -22,7 +22,7 @@ const DoughnutChart = (props: DoughnutChartPropsType) => {
 
   const options = {
     responsive: true,
-    aspectRatio: 2,
+    aspectRatio: 1.8,
     interaction: {
       intersect: false,
     },

@@ -54,18 +54,17 @@ const RadarChart = (props: RadarChartPropsType) => {
 
   const options = {
     responsive: true, // 차트가 반응형으로 동작하도록 설정
-    // maintainAspectRatio: true, // 종횡비 유지 설정
-    // hover했을 때 데이터 값이 보이도록 설정
+    aspectRatio: 1.8,
     interaction: {
       intersect: false,
     },
     layout: {
-      padding: 20,
+      padding: 10,
     },
     plugins: {
       legend: {
         display: true,
-        position: 'top' as const,
+        position: 'right' as const,
       },
     },
     scales: {

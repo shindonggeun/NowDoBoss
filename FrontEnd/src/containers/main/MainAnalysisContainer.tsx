@@ -54,27 +54,27 @@ const MainAnalysisContainer = () => {
           </a.CardWrap>
         </a.ImgBox>
       </a.Main>
-      <a.Sub>
-        <a.SubInnerBox>
-          <a.ContentDiv>
-            <div>
-              <h2>
-                상권의 동향을 <br />
-                한눈에 파악하세요. <br />
-              </h2>
-              <p>
-                차트 분석을 통해 시장 트렌드를 정확히 이해하고, <br />
-                경쟁 우위에 있는 위치를 발견해보세요.
-              </p>
-            </div>
-          </a.ContentDiv>
-          <a.ImgDiv>
-            <a.ChartImgDiv>
-              <img src="/gifs/charts.gif" alt="charts" />
-            </a.ChartImgDiv>
-          </a.ImgDiv>
-        </a.SubInnerBox>
-      </a.Sub>
+      {/* <a.Sub> */}
+      {/*  <a.SubInnerBox> */}
+      {/*    <a.ContentDiv> */}
+      {/*      <div> */}
+      {/*        <h2> */}
+      {/*          상권의 동향을 <br /> */}
+      {/*          한눈에 파악하세요. <br /> */}
+      {/*        </h2> */}
+      {/*        <p> */}
+      {/*          차트 분석을 통해 시장 트렌드를 정확히 이해하고, <br /> */}
+      {/*          경쟁 우위에 있는 위치를 발견해보세요. */}
+      {/*        </p> */}
+      {/*      </div> */}
+      {/*    </a.ContentDiv> */}
+      {/*    <a.ImgDiv> */}
+      {/*      <a.ChartImgDiv> */}
+      {/*        <img src="/gifs/charts.gif" alt="charts" /> */}
+      {/*      </a.ChartImgDiv> */}
+      {/*    </a.ImgDiv> */}
+      {/*  </a.SubInnerBox> */}
+      {/* </a.Sub> */}
     </a.Container>
   )
 }

@@ -37,6 +37,7 @@ async def recommend_commercial_areas(request: UserRequest, background_tasks: Bac
         print(f"Error occurred: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.post("/data")
 async def receive_data(request: Request):
     body = await request.body()
@@ -50,12 +51,19 @@ async def recommend_commercial_areas():
     # Spark 세션 생성
     spark = start_recommend_spark()
 
-    # DataFrame으로 HDFS 파일 읽기
-    df = spark.read.csv("hdfs://master1:9000/data/commercial_data.csv", header=True, inferSchema=True)
+    try:
+        # DataFrame으로 HDFS 파일 읽기
+        df = spark.read.csv("hdfs://master1:9000/data/commercial_data.csv", header=True, inferSchema=True)
 
-    # 데이터 출력
-    df.show()
-    return {"status": "success", "data": df.collect()}
+        # 데이터 출력
+        df.show()
+        return {"status": "success", "data": df.collect()}
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        # Spark 세션 종료
+        spark.stop()
 
 @app.get("/test-spark-connection")
 async def test_spark_connection():
@@ -71,15 +79,14 @@ async def test_spark_connection():
         # DataFrame 출력
         df.show()
 
-        # Spark 세션 중지
-        spark.stop()
-
         return {"status": "success", "message": "Spark session created and DataFrame displayed successfully"}
-
     except Exception as e:
         # 에러 로그
         print(f"Error occurred: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        # Spark 세션 종료
+        spark.stop()
 
 def start_recommend_spark():
     spark = SparkSession.builder \

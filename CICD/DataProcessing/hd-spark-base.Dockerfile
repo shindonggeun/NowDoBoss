@@ -58,6 +58,7 @@ COPY hadoop/worker/setup-worker-hadoop-env.sh /usr/local/bin/worker/setup-worker
 # 각 노드내에 스파크 설정 파일 및 스파크 관련 쉘 스크립트 복사
 COPY spark/spark-env.sh $SPARK_HOME/conf/spark-env.sh
 COPY spark/spark-defaults.conf $SPARK_HOME/conf/spark-defaults.conf
+COPY spark/history-server.conf $SPARK_HOME/conf/history-server.conf
 COPY spark/start-master.sh /usr/local/bin/start-master.sh
 COPY spark/start-slave.sh /usr/local/bin/start-slave.sh
 COPY spark/start-history-server.sh /usr/local/bin/start-history-server.sh

@@ -5,6 +5,7 @@ from fastapi import FastAPI, Request, HTTPException, BackgroundTasks
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import lit
 import json
+import scheduler
 
 app = FastAPI()
 

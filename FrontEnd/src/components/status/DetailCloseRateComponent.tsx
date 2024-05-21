@@ -18,7 +18,7 @@ const DetailCloseRateComponent = () => {
   const { selectedRegion, regionCode } = useStateStore()
 
   // api 호출
-  // 개업률
+  // 폐업률
   const {
     data: ClosedData,
     isLoading: CloseLoading,
@@ -61,6 +61,7 @@ const DetailCloseRateComponent = () => {
   if (IndicatorData) {
     ChangeData = IndicatorData.dataBody
   }
+
   return (
     <div>
       {!CloseLoading && ClosedData && !IndicatorLoading && IndicatorData ? (

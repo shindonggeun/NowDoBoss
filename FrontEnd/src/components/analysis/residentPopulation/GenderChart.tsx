@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import analysisStore from '@src/stores/analysisStore'
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import DoughnutChart from '@src/common/DoughnutChart'
-import * as r from '@src/components/styles/analysis/ResidentPopulationAnalysisStyle'
+import * as r from '@src/components/styles/analysis/result/ResidentPopulationAnalysisStyle'
 
 const GenderChart = () => {
   const residentPopulationDataBody = analysisStore(
@@ -36,7 +36,7 @@ const GenderChart = () => {
   }, [residentPopulationDataBody, maxLabel, setResidentSummary])
 
   return (
-    <r.GenderChart>
+    <r.Chart>
       <r.ChartTitle>남/녀 상주인구</r.ChartTitle>
       <r.ChartSubTitle>
         {maxLabel}의 상주인구가 {minLabel}보다 약{' '}
@@ -48,7 +48,7 @@ const GenderChart = () => {
         textCenter={textCenter}
         subTextCenter={subTextCenter}
       />
-    </r.GenderChart>
+    </r.Chart>
   )
 }
 

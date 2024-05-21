@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { CategoryTitleCardProps } from '@src/types/AnalysisType'
-import * as c from '@src/components/styles/analysis/CategoryTitleCardStyle'
+import * as c from '@src/components/styles/analysis/result/CategoryTitleCardStyle'
 
 const CategoryTitleCard = (props: CategoryTitleCardProps) => {
   const { src, title, setPeriodCode } = props

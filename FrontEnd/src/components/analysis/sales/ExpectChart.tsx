@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import analysisStore from '@src/stores/analysisStore'
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import BarChartCompare2 from '@src/common/BarChartCompare2'
-import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
+import * as s from '@src/components/styles/analysis/result/SalesAnalysisStyle'
 
 const ExpectChart = () => {
   const totalSalesDataBody = analysisStore(state => state.totalSalesDataBody)

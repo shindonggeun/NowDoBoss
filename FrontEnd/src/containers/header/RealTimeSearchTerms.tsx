@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from 'react'
 import { useTransition, animated } from 'react-spring'
 import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
-import { fetchKorean } from '@src/api/mapApi.tsx'
+import { fetchKorean } from '@src/api/mapApi'
 import { useNavigate } from 'react-router-dom'
-import useSelectPlaceStore from '@src/stores/selectPlaceStore.tsx'
+import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 
 const Container = styled.div`
   position: relative;
@@ -77,11 +77,10 @@ const List = styled.div`
 const DropdownTitle = styled.div`
   font-weight: 600;
   font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 5px;
-  border-radius: 5px 5px 0 0;
-  background-color: #236cff;
-  color: #ffffff;
 `
 const ListTitle = styled.div`
   font-weight: 600;
@@ -100,9 +99,20 @@ const ColDiv = styled.div`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  //align-items: center;
+  padding: 5px;
+  border-radius: 5px 5px 0 0;
+  background-color: #236cff;
+  color: #ffffff;
 `
 const SmallContent = styled.div`
-  font-size: 0.7;
+  font-weight: 500;
+  font-size: 0.8rem;
+  margin: 0 10px 5px;
+  display: flex;
+  justify-content: end;
+  align-items: end;
 `
 
 // 실시간 검색어 순위 데이터 정의
@@ -132,6 +142,7 @@ interface RankingsResponse {
 }
 
 const { VITE_REACT_API_URL } = import.meta.env
+
 type RealTimeSearchTermsPropsType = {
   isHovered: boolean
 }
@@ -251,7 +262,7 @@ const RealTimeSearchTerms = (props: RealTimeSearchTermsPropsType) => {
         })
         setKoreanData('')
         setKoreanType('')
-      }, 1000)
+      }, 500)
     } else if (fetchKoreaData?.dataBody?.administrationCode) {
       navigate('/analysis')
       setTimeout(() => {
@@ -265,7 +276,7 @@ const RealTimeSearchTerms = (props: RealTimeSearchTermsPropsType) => {
         })
         setKoreanData('')
         setKoreanType('')
-      }, 1000)
+      }, 500)
     } else if (fetchKoreaData?.dataBody?.districtCode) {
       navigate('/analysis')
       setTimeout(() => {
@@ -275,7 +286,7 @@ const RealTimeSearchTerms = (props: RealTimeSearchTermsPropsType) => {
         })
         setKoreanData('')
         setKoreanType('')
-      }, 1000)
+      }, 500)
     }
   }, [fetchKoreaData])
 

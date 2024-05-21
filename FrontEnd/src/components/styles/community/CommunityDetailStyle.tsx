@@ -247,6 +247,8 @@ export const Div = styled.div`
     scale: 1.1;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
   }
 `
 

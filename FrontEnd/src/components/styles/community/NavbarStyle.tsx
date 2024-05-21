@@ -20,6 +20,7 @@ export const Container = styled.div`
     left: 0;
     height: 8vh;
     padding: 5px 20px;
+    border-bottom: 1px solid #dee4ec;
   }
 
   @media only screen and (max-width: 400px) {
@@ -35,10 +36,9 @@ export const Community = styled.div<{ $isTransparent: boolean }>`
     align-items: center;
     justify-content: left;
     width: 95vw;
-    height: 10vh;
+    height: 5vh;
     margin: 0;
     background-color: #ffffff;
-    border-bottom: 1px solid #dee4ec;
 
     opacity: ${props => (props.$isTransparent ? 1 : 0)};
     pointer-events: ${props => (props.$isTransparent ? 'auto' : 'none')};
@@ -50,7 +50,7 @@ export const Community = styled.div<{ $isTransparent: boolean }>`
     display: flex;
     align-items: center;
     width: 100vw;
-    height: 10vh;
+    height: 5vh;
     margin: 0;
   }
 `

@@ -55,8 +55,9 @@ export const MainContentDiv = styled.div`
   padding: 10px 0;
 
   @media only screen and (max-width: 992px) {
-    margin: 0 10%;
-    width: 80%;
+    margin: 0 5%;
+
+    width: 90%;
   }
 `
 
@@ -72,7 +73,7 @@ export const Mid = styled.div`
 
   @media only screen and (max-width: 992px) {
     margin: 3% 10%;
-    width: 80%;
+    width: 100%;
   }
 `
 export const List = styled.div`

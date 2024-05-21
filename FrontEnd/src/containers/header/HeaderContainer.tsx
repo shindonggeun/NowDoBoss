@@ -152,7 +152,7 @@ const RealTimeSearchBar = styled.div<{
 }>`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: right;
   align-items: start;
   color: ${props => (props.$isMain && props.$atTop ? 'white' : '')};
 `
@@ -348,23 +348,23 @@ const HeaderContainer = () => {
       </MenuListLeft>
 
       <BlankDiv />
-      <BlankDiv />
-      <MenuListRight>
-        {/* 실시간 인기 검색어 */}
-        <RealTimeSearchBar
-          $isMain={location.pathname === '/'}
-          $atTop={atTop}
-          onMouseEnter={() => {
-            setIsHovered(true)
-          }}
-          onMouseLeave={() => {
-            setIsHovered(false)
-          }}
-        >
-          <RealTimeTitle>실시간 인기 검색어</RealTimeTitle>
+      {/* <BlankDiv /> */}
+      {/* 실시간 인기 검색어 */}
+      <RealTimeSearchBar
+        $isMain={location.pathname === '/'}
+        $atTop={atTop}
+        onMouseEnter={() => {
+          setIsHovered(true)
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false)
+        }}
+      >
+        <RealTimeTitle>실시간 인기 검색어</RealTimeTitle>
 
-          <RealTimeSearchTerms isHovered={isHovered} />
-        </RealTimeSearchBar>
+        <RealTimeSearchTerms isHovered={isHovered} />
+      </RealTimeSearchBar>
+      <MenuListRight>
         <Menu
           $isActive={activeMenu === '채팅'}
           $isMain={location.pathname === '/'}

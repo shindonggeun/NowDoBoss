@@ -105,6 +105,9 @@ const Header = styled.div`
   border-radius: 5px 5px 0 0;
   background-color: #236cff;
   color: #ffffff;
+  @media only screen and (max-width: 992px) {
+    font-size: 0.9rem;
+  }
 `
 // const SmallContent = styled.div`
 //   font-weight: 500;

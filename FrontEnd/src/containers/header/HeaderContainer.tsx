@@ -215,7 +215,7 @@ const HeaderContainer = () => {
       location.pathname === '/analysis' ||
       location.pathname === '/recommend'
     ) {
-      setSelectedGoo({ name: '행정구', code: 0 })
+      setSelectedGoo({ name: '자치구', code: 0 })
       setSelectedDong({ name: '행정동', code: 0 })
       setSelectedCommercial({ name: '상권', code: 0 })
       setSelectedServiceType('')

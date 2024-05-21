@@ -64,7 +64,7 @@ const SelectionStep2 = ({ nextStep }: Step2Props) => {
               placeholder={address !== '' ? `${address}` : '시/군/구 검색하기'}
             />
           </c.InputContainer>
-          {selectedGoo.name !== '행정구' ? (
+          {selectedGoo.name !== '자치구' ? (
             <c.GuidLocation>
               최근 검색한 위치{' '}
               <c.Emphasis onClick={onClickLocation}>

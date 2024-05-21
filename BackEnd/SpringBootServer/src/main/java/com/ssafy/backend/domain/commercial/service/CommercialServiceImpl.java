@@ -12,7 +12,7 @@ import com.ssafy.backend.domain.commercial.document.CommercialAnalysis;
 import com.ssafy.backend.domain.commercial.dto.info.*;
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisKafkaRequest;
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
-import com.ssafy.backend.domain.commercial.dto.request.ConversionCodeRequest;
+import com.ssafy.backend.domain.commercial.dto.request.ConversionCodeNameRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
@@ -55,6 +55,9 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class CommercialServiceImpl implements CommercialService {
+    private static final String DISTRICT = "district";
+    private static final String ADMINISTRATION = "administration";
+
     private final AreaCommercialRepository areaCommercialRepository;
     private final FootTrafficCommercialRepository footTrafficCommercialRepository;
     private final SalesCommercialRepository salesCommercialRepository;
@@ -72,39 +75,52 @@ public class CommercialServiceImpl implements CommercialService {
 
     @Override
     @Transactional(readOnly = true)
-    public ConversionCodeResponse conversionCodeToCodeName(ConversionCodeRequest request) {
+    public ConversionCodeResponse conversionCodeNameToCode(ConversionCodeNameRequest request) {
+        // 자치구
+        if (DISTRICT.equals(request.type())) {
+            return areaCommercialRepository.findDistrictInfoByDistrictCodeName(request.codeName());
+        }
+        
+        // 행정동
+        if (ADMINISTRATION.equals(request.type())) {
+            return areaCommercialRepository.findAdministrationInfoByAdministrationCodeName(request.codeName());
+        }
 
-        // 자치구 변환
-        String districtCodeName = areaCommercialRepository.findDistrictCodeNameByDistrictCode(request.districtCode());
+        // 상권
+        return areaCommercialRepository.findCommercialInfoByCommercialCodeName(request.codeName());
+
+
+        /*// 자치구 변환
+        String districtCode = areaCommercialRepository.findDistrictCodeByDistrictCodeName(request.districtCodeName());
 
         // 행정동 변환
-        String administrationCodeName = convertAdministrationCodeToAdministrationCodeName(request.administrationCode());
+        String administrationCode = convertAdministrationCodeNameToAdministrationCode(request.administrationCodeName());
 
         // 상권 변환
-        String commercialCodName = convertCommercialCodeToCommercialCodeName(request.commercialCod());
+        String commercialCode = convertCommercialCodeNameToCommercialCode(request.commercialCodName());
 
         return ConversionCodeResponse.builder()
-                .districtCode(request.districtCode())
-                .districtCodeName(districtCodeName)
-                .administrationCode(request.administrationCode())
-                .administrationCodeName(administrationCodeName)
-                .commercialCod(request.commercialCod())
-                .commercialCodName(commercialCodName)
-                .build();
+                .districtCodeName(request.districtCodeName())
+                .districtCode(districtCode)
+                .administrationCodeName(request.administrationCodeName())
+                .administrationCode(administrationCode)
+                .commercialCodeName(request.commercialCodName())
+                .commercialCode(commercialCode)
+                .build();*/
     }
 
-    private String convertAdministrationCodeToAdministrationCodeName(final String administrationCode) {
-        if (StringUtils.isBlank(administrationCode)) {
+    private String convertAdministrationCodeNameToAdministrationCode(final String administrationCodeName) {
+        if (StringUtils.isBlank(administrationCodeName)) {
             return null;
         }
-        return areaCommercialRepository.findAdministrationCodeNameByAdministrationCode(administrationCode);
+        return areaCommercialRepository.findAdministrationCodeByAdministrationCodeName(administrationCodeName);
     }
 
-    private String convertCommercialCodeToCommercialCodeName(final String commercialCode) {
-        if (StringUtils.isBlank(commercialCode)) {
+    private String convertCommercialCodeNameToCommercialCode(final String commercialCodeName) {
+        if (StringUtils.isBlank(commercialCodeName)) {
             return null;
         }
-        return areaCommercialRepository.findCommercialCodeNameByCommercialCode(commercialCode);
+        return areaCommercialRepository.findCommercialCodeByCommercialCodeName(commercialCodeName);
     }
 
     @Override

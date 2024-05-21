@@ -26,7 +26,7 @@ public class WordCountProcessor {
                 .stream("commercial-analysis", Consumed.with(STRING_SERDE, COMMERCIAL_ANALYSIS_RESPONSE_SERDE));
 
         // 하루 윈도우 설정
-        TimeWindows dailyWindow = TimeWindows.ofSizeAndGrace(Duration.ofDays(1), Duration.ZERO);
+        TimeWindows dailyWindow = TimeWindows.ofSizeWithNoGrace(Duration.ofDays(1));
 
         // Apply windowed operation
         KTable<Windowed<String>, Long> wordCounts = messageStream
@@ -37,6 +37,7 @@ public class WordCountProcessor {
 
         // 추출한 windowSize를 기반으로 Serde 생성
         long windowSize = Duration.ofDays(1).toMillis(); // 하루 단위의 밀리세컨드
+
 
         wordCounts.toStream()
                 .to("daily-analysis-output", Produced.with(WindowedSerdes.timeWindowedSerdeFrom(String.class, windowSize), Serdes.Long()));

@@ -43,6 +43,7 @@ services:
     ports:
       - "9092:9092"
     environment:
+      TZ: Asia/Seoul
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: nowdoboss_zookeeper:32181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
@@ -66,6 +67,7 @@ services:
     ports:
       - "9093:9093"
     environment:
+      TZ: Asia/Seoul
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: nowdoboss_zookeeper:32181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
@@ -89,6 +91,7 @@ services:
     ports:
       - "9094:9094"
     environment:
+      TZ: Asia/Seoul
       KAFKA_BROKER_ID: 3
       KAFKA_ZOOKEEPER_CONNECT: nowdoboss_zookeeper:32181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
@@ -111,6 +114,7 @@ services:
       - "8090:8080"
     restart: always
     environment:
+      - TZ=Asia/Seoul
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-1:29092,kafka-2:29093,kafka-3:29094
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:32181

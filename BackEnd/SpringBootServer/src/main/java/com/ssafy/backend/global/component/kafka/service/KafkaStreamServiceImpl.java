@@ -33,14 +33,12 @@ public class KafkaStreamServiceImpl implements KafkaStreamService {
         // 시스템에 저장된 시간대로 설정
         ZoneId zoneId = ZoneId.systemDefault();
 
-        // 어제 자정부터 오늘 자정까지 설정 -> 오늘 날짜 00시부터 23:59 윈도우 사이즈 지정
-        LocalDateTime yesterdayMidnight = LocalDate.now(zoneId).minusDays(1).atStartOfDay();
-        Instant startOfYesterday = yesterdayMidnight.atZone(zoneId).toInstant();
-
+        // 오늘 자정부터 현재 시간까지 설정 -> 오늘 날짜 00시부터 현재까지의 윈도우 사이즈 지정
         LocalDateTime todayMidnight = LocalDate.now(zoneId).atStartOfDay();
-        Instant endOfToday = todayMidnight.atZone(zoneId).toInstant();
+        Instant startOfToday = todayMidnight.atZone(zoneId).toInstant();
+        Instant now = Instant.now();
 
-        log.info("Fetching data from window store from {} to {}", startOfYesterday, endOfToday);
+        log.info("Fetching data from window store from {} to {}", startOfToday, now);
 
         ReadOnlyWindowStore<String, Long> windowStore = kafkaStreams.store(
                 StoreQueryParameters.fromNameAndType("daily-ranking-stream", QueryableStoreTypes.windowStore())
@@ -52,7 +50,9 @@ public class KafkaStreamServiceImpl implements KafkaStreamService {
         rankingsMap.put("Commercial", new ArrayList<>());
         rankingsMap.put("Service", new ArrayList<>());
 
-        KeyValueIterator<Windowed<String>, Long> iter = windowStore.fetchAll(startOfYesterday, endOfToday);
+        KeyValueIterator<Windowed<String>, Long> iter = windowStore.fetchAll(startOfToday, now);
+
+//        KeyValueIterator<Windowed<String>, Long> iter = windowStore.all();
 
         while (iter.hasNext()) {
             KeyValue<Windowed<String>, Long> entry = iter.next();

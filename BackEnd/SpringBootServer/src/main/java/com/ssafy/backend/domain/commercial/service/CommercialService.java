@@ -1,7 +1,7 @@
 package com.ssafy.backend.domain.commercial.service;
 
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
-import com.ssafy.backend.domain.commercial.dto.request.ConversionCodeRequest;
+import com.ssafy.backend.domain.commercial.dto.request.ConversionCodeNameRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.global.common.dto.PageResponse;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CommercialService {
 
-    ConversionCodeResponse conversionCodeToCodeName(ConversionCodeRequest request);
+    ConversionCodeResponse conversionCodeNameToCode(ConversionCodeNameRequest request);
     List<CommercialAdministrationResponse> getAdministrativeAreasByDistrict(String districtCode);
 
     List<CommercialAreaResponse> getCommercialAreasByAdministrationCode(String administrationCode);

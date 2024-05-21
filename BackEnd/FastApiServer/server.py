@@ -90,12 +90,15 @@ async def test_spark_connection():
         spark.stop()
 
 def start_recommend_spark():
+    # spark = SparkSession.builder \
+    #     .appName("FastAPI-Spark Integration") \
+    #     .master("spark://master1:7077") \
+    #     .config("spark.pyspark.python", "/opt/venv/bin/python") \
+    #     .config("spark.pyspark.driver.python", "/opt/venv/bin/python") \
+    #     .config("spark.submit.pyFiles", "spark_reco.py") \
+    #     .getOrCreate()
     spark = SparkSession.builder \
         .appName("FastAPI-Spark Integration") \
-        .master("spark://master1:7077") \
-        .config("spark.pyspark.python", "/opt/venv/bin/python") \
-        .config("spark.pyspark.driver.python", "/opt/venv/bin/python") \
-        .config("spark.submit.pyFiles", "spark_reco.py") \
         .getOrCreate()
 
     return spark

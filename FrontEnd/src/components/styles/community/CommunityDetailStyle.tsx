@@ -192,6 +192,12 @@ export const SubContent = styled.div`
   font-weight: 500;
   margin: -2px 0 0 5px;
   font-size: 0.9rem;
+
+  @media only screen and (max-width: 992px) {
+    flex-direction: row;
+    align-items: center;
+    margin: -2px 0 0 0;
+  }
 `
 export const Icon = styled.img`
   //padding: 0 8px 0 0;
@@ -236,7 +242,12 @@ export const Div = styled.div`
   align-items: start;
   display: flex;
   flex-direction: column;
-  justify-content: left;
+  justify-content: center;
+  @media only screen and (max-width: 992px) {
+    scale: 1.1;
+    flex-direction: row;
+    align-items: center;
+  }
 `
 
 export const GotoCard = styled.div`

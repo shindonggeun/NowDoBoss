@@ -19,7 +19,7 @@ import three_line from '@src/assets/three_line.svg'
 import three_line_gray from '@src/assets/three_line_gray.svg'
 import analysisStore from '@src/stores/analysisStore'
 import { Avatar } from '@mui/joy'
-import RealTimeSearchTerms from '@src/common/RealTimeSearchTerms'
+import RealTimeSearchTerms from '@src/containers/header/RealTimeSearchTerms'
 
 const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   height: 70px;
@@ -36,6 +36,7 @@ const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   left: 0;
   right: 0;
   padding-inline: 3vw;
+  width: calc(100vw);
   opacity: ${props => (props.$isTransparent ? 1 : 0)};
   pointer-events: ${props => (props.$isTransparent ? 'auto' : 'none')};
   transition:

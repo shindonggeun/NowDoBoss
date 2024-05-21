@@ -7,7 +7,7 @@ import ListItem from '@mui/joy/ListItem'
 import Sheet from '@mui/joy/Sheet'
 import Dropdown from '@mui/joy/Dropdown'
 import MenuButton from '@mui/joy/MenuButton'
-import RealTimeSearchTerms from './RealTimeSearchTerms'
+import RealTimeSearchTerms from '../containers/header/RealTimeSearchTerms'
 
 interface MenuButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode

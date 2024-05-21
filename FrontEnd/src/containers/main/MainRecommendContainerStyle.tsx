@@ -14,6 +14,10 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: center;
   }
+  @media only screen and (max-width: 500px) {
+    height: 200vh;
+    padding: 0;
+  }
 `
 
 // 내용이 들어갈 div
@@ -28,6 +32,10 @@ export const Content = styled.div`
   @media only screen and (max-width: 992px) {
     flex-direction: column;
     justify-content: center;
+  }
+  @media only screen and (max-width: 500px) {
+    height: 50vh;
+    padding: 0;
   }
 `
 
@@ -51,6 +59,10 @@ export const Text = styled.div`
     padding: 0;
     align-items: center;
   }
+  @media only screen and (max-width: 500px) {
+    height: 50vh;
+    padding: 0;
+  }
 `
 
 // 카드 들어가는 div
@@ -71,6 +83,9 @@ export const CardList = styled.div`
     padding: 0;
     align-items: center;
   }
+  @media only screen and (max-width: 500px) {
+    height: 150vh;
+  }
 `
 
 // overflow-y 적용 할 스크롤 div
@@ -88,6 +103,9 @@ export const Page = styled.div`
     margin: 0;
     padding: 0;
     align-items: center;
+  }
+  @media only screen and (max-width: 500px) {
+    height: 50vh;
   }
 `
 

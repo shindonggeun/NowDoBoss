@@ -5,9 +5,11 @@ import { useEffect, useRef } from 'react'
 const MainIntroContainer = () => {
   const navigate = useNavigate()
   const subRef = useRef(null)
+  const smallRef = useRef(null)
 
   useEffect(() => {
     const currentRef = subRef.current
+    const currentSmallRef = smallRef.current
 
     const observer = new IntersectionObserver(
       entries => {
@@ -30,13 +32,18 @@ const MainIntroContainer = () => {
       observer.observe(currentRef)
     }
 
+    if (currentSmallRef) {
+      observer.observe(currentSmallRef)
+    }
     return () => {
       if (currentRef) {
         observer.unobserve(currentRef)
       }
+      if (currentSmallRef) {
+        observer.unobserve(currentSmallRef)
+      }
     }
-  }, [subRef])
-
+  }, [subRef, smallRef])
   return (
     <i.Container>
       <i.Main>
@@ -88,6 +95,15 @@ const MainIntroContainer = () => {
           상권 추천부터 창업 시뮬레이션까지, 예비 창업자의 든든한 동반자가 되어
           드립니다.
         </i.SubContent>
+        <i.Small ref={smallRef}>
+          서울 상권을 쉽게 파악하세요.
+          <br />
+          지금까지 없었던 직관적인 상권 분석 서비스,
+          <br />
+          상권 추천부터 창업 시뮬레이션까지,
+          <br />
+          예비 창업자의 든든한 동반자가 되어 드립니다.
+        </i.Small>
       </i.Sub>
     </i.Container>
   )

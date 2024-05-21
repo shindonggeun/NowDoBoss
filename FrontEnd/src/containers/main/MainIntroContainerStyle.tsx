@@ -240,6 +240,7 @@ export const SubContent = styled.div`
   text-align: center;
   line-height: 200%;
   opacity: 0;
+  display: flex;
   transform: translateY(50px);
   transition:
     opacity 2s ease-out,
@@ -261,14 +262,35 @@ export const SubContent = styled.div`
   }
   @media only screen and (max-width: 700px) {
     font-size: 1rem;
+    display: none;
   }
-  @media only screen and (max-width: 600px) {
-    font-size: 0.9rem;
+`
+
+export const Small = styled.div`
+  display: none;
+  font-weight: 700;
+  font-size: 1.7rem;
+  text-align: center;
+  line-height: 200%;
+  opacity: 0;
+  transform: translateY(50px);
+  transition:
+    opacity 2s ease-out,
+    transform 2s ease-out;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media only screen and (max-width: 700px) {
+    display: flex;
+    font-size: 1.5rem;
   }
   @media only screen and (max-width: 530px) {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
   }
   @media only screen and (max-width: 440px) {
-    font-size: 0.7rem;
+    font-size: 1.1rem;
   }
 `

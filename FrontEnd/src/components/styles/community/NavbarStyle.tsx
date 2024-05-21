@@ -66,7 +66,8 @@ export const Title = styled.div`
   }
   @media only screen and (max-width: 540px) {
     //padding: 10px 1px;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    padding: 0 5px;
   }
 `
 

@@ -25,7 +25,7 @@ export const Content = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  width: 5rem;
+  width: 5.3rem;
   color: #696d6e;
   margin: 5px 5px 5px 0;
 

@@ -78,7 +78,22 @@ const ChattingHeader = (props: ChattingHeaderPropsType) => {
           <c.MoreModal>
             <c.ModalTriangle />
             <c.ModalDiv>
-              <c.ModalContent onClick={() => {}}>상세보기</c.ModalContent>
+              <c.ModalContent
+                onClick={() => {
+                  navigate('/chatting/list')
+                }}
+              >
+                목록으로
+              </c.ModalContent>
+              <c.ModalContent
+                onClick={() => {
+                  navigate('/chatting/create')
+                }}
+              >
+                방만들기
+              </c.ModalContent>
+              {/* TODO 채팅방 상세보기 */}
+              {/* <c.ModalContent onClick={() => {}}>상세보기</c.ModalContent> */}
 
               <c.ModalContent
                 onClick={() => {

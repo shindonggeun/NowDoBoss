@@ -81,7 +81,7 @@ export const Sub = styled.div`
   }
 `
 export const CreateButton = styled.div`
-  background-color: #b1c3ff;
+  background-color: rgba(21, 73, 181, 0.7);
   cursor: pointer;
   height: 50px;
   padding: 0 20px;
@@ -101,7 +101,7 @@ export const CreateButton = styled.div`
   }
 
   &:hover {
-    background-color: #94a9f3;
+    background-color: #1549b5;
   }
 
   @media only screen and (max-width: 992px) {

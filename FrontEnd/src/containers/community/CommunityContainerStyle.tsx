@@ -52,6 +52,7 @@ export const Context = styled.div`
 
 export const MainContentDiv = styled.div`
   width: 100%;
+  padding: 10px 0;
 
   @media only screen and (max-width: 992px) {
     margin: 0 10%;

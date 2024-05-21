@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import analysisStore from '@src/stores/analysisStore'
 import useAnalysisSummaryStore from '@src/stores/analysisSummaryStore'
 import RadarChart from '@src/common/RadarChart'
-import * as f from '@src/components/styles/analysis/FlowPopulationAnalysisStyle'
+import * as c from '@src/components/styles/analysis/result/ChartCardStyle'
 
 const AgeChart = () => {
   const flowPopulationDataBody = analysisStore(
@@ -60,16 +60,16 @@ const AgeChart = () => {
   }, [flowPopulationDataBody, maxLabel, maxGender, setFlowSummary])
 
   return (
-    <f.AgeChart>
-      <f.ChartTitle>연령별 유동인구</f.ChartTitle>
-      <f.ChartSubTitle>
-        <f.HighlightText>
+    <c.Container>
+      <c.ChartTitle>연령별 유동인구</c.ChartTitle>
+      <c.ChartSubTitle>
+        <c.HighlightText>
           {maxLabel} {maxGender}
-        </f.HighlightText>{' '}
+        </c.HighlightText>{' '}
         유동인구가 가장 높아요.
-      </f.ChartSubTitle>
+      </c.ChartSubTitle>
       <RadarChart labels={labels} value1={maleValues} value2={femaleValues} />
-    </f.AgeChart>
+    </c.Container>
   )
 }
 

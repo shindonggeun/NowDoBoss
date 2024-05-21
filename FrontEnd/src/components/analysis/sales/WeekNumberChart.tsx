@@ -1,6 +1,6 @@
 import analysisStore from '@src/stores/analysisStore'
 import BarChart2 from '@src/common/BarChart2'
-import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
+import * as s from '@src/components/styles/analysis/result/SalesAnalysisStyle'
 
 const WeekNumberChart = () => {
   const salesDataBody = analysisStore(state => state.salesDataBody)

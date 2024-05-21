@@ -1,6 +1,6 @@
 import analysisStore from '@src/stores/analysisStore'
 import PieChart3 from '@src/common/PieChart3'
-import * as s from '@src/components/styles/analysis/StoreCountAnalysisStyle'
+import * as s from '@src/components/styles/analysis/result/StoreCountAnalysisStyle'
 
 const TotalChart = () => {
   const selectedService = analysisStore(state => state.selectedService)

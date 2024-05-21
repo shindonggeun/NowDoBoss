@@ -1,73 +1,9 @@
 import styled from 'styled-components'
 
-export const FirstLowContainer = styled.div`
-  margin-top: 15px;
-  display: flex;
-  gap: 10px;
+export const Container = styled.div`
+  width: 100%;
+  margin-top: 2vh;
 
-  @media (max-width: 576px) {
-    flex-direction: column;
-  }
-`
-
-export const TodayChart = styled.div`
-  width: 55%;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  box-sizing: border-box;
-
-  @media (max-width: 576px) {
-    width: 100%;
-  }
-`
-
-export const WeekChart = styled.div`
-  width: 45%;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  box-sizing: border-box;
-
-  @media (max-width: 576px) {
-    width: 100%;
-  }
-`
-
-export const SecondLowContainer = styled.div`
-  margin-top: 10px;
-  margin-bottom: 15px;
-  display: flex;
-  gap: 10px;
-
-  @media (max-width: 576px) {
-    flex-direction: column;
-  }
-`
-
-export const AgeChart = styled.div`
-  width: 40%;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  box-sizing: border-box;
-
-  @media (max-width: 576px) {
-    width: 100%;
-  }
-`
-
-export const TimeChart = styled.div`
-  width: 60%;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -115,6 +51,7 @@ export const AddBox = styled.div`
   }
 `
 
+// 유동인구 Today chart 박스
 export const Wrap = styled.div`
   width: 100%;
   box-sizing: border-box;

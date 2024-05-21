@@ -1,6 +1,6 @@
 import analysisStore from '@src/stores/analysisStore'
 import HorizontalBarChart from '@src/common/HorizontalBarChart'
-import * as s from '@src/components/styles/analysis/SalesAnalysisStyle'
+import * as s from '@src/components/styles/analysis/result/SalesAnalysisStyle'
 
 const TodaySalesChart = () => {
   const salesDataBody = analysisStore(state => state.salesDataBody)

@@ -67,7 +67,7 @@ export const LeftDiv = styled.div`
   top: 0;
   display: flex;
   flex-direction: column;
-  width: 25%;
+  width: 23%;
   height: 100%;
   gap: 5vh;
   padding: 24px;
@@ -104,7 +104,7 @@ export const SideTitle = styled.div`
 `
 
 export const SideSubTitle = styled.div`
-  font-size: 1.1rem;
+  font-size: 16px;
   font-weight: 600;
   color: white;
 `
@@ -126,7 +126,7 @@ export const SideContentDiv = styled.div`
 export const RightDiv = styled.div`
   position: relative;
   height: 100%;
-  width: 75%;
+  width: 77%;
   border-radius: 0 10px 10px 0;
   box-sizing: border-box;
   overflow-y: scroll;

@@ -12,12 +12,20 @@ import * as a from '@src/containers/analysis/result/AnalysisResultContainerStyle
 
 const AnalysisResultContainer = () => {
   // 카테고리별 컴포넌트로 이동하기 위한 ref
+  const summaryRef = useRef<HTMLDivElement>(null)
   const flowRef = useRef<HTMLDivElement>(null)
   const storeRef = useRef<HTMLDivElement>(null)
   const salesRef = useRef<HTMLDivElement>(null)
   const residentRef = useRef<HTMLDivElement>(null)
   const expenditureRef = useRef<HTMLDivElement>(null)
-  const refArr = [flowRef, storeRef, salesRef, residentRef, expenditureRef]
+  const refArr = [
+    summaryRef,
+    flowRef,
+    storeRef,
+    salesRef,
+    residentRef,
+    expenditureRef,
+  ]
 
   // 카테고리별 컴포넌트로 이동 함수
   const moveTo = (index: number) => {
@@ -44,7 +52,7 @@ const AnalysisResultContainer = () => {
           <a.RightDiv>
             <TopSection />
             <a.ContentDiv>
-              <SummarySection />
+              <SummarySection ref={summaryRef} />
               <FlowContainer ref={flowRef} />
               <StoreContainer ref={storeRef} />
               <SalesContainer ref={salesRef} />

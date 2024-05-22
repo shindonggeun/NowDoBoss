@@ -3,35 +3,55 @@ import styled from 'styled-components'
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1vh;
 `
 
-export const BookmarksDiv = styled.div`
-  padding: 10px 0;
-  border-radius: 5px;
-  box-sizing: border-box;
+export const Button = styled.button`
+  width: 100%;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: Helvetica, 'sans-serif';
+  transition: all 0.2s;
+  padding: 2px 15px;
+  border-radius: 100px;
+  background: white;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   &:hover {
-    background-color: rgba(102, 102, 102, 0.6); /* 호버 시 배경색 변경 */
+    background: white;
+  }
+
+  svg {
+    width: 30px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  &:hover svg {
+    transform: translateX(5px);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 
   @media (max-width: 768px) {
-    padding: 5px 0;
-  }
-`
+    padding: 2px 8px;
 
-export const BookmarkText = styled.div`
-  display: block;
-  color: #ffffff;
-  font-size: 1rem;
-  text-align: center;
-
-  &:hover {
-    color: #cccccc; /* 호버 시 텍스트 색상 변경 */
+    svg {
+      width: 25px;
+    }
   }
 
-  @media (max-width: 425px) {
-    font-size: 0.9rem;
+  @media (max-width: 576px) {
+    font-size: 12px;
+    padding: 2px 5px;
+
+    svg {
+      width: 22px;
+    }
   }
 `

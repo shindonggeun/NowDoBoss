@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
+// import selectPlaceStore from '@src/stores/selectPlaceStore'
+// import analysisStore from '@src/stores/analysisStore'
 import { GetAnalysisBookmarks } from '@src/api/analysisApi'
 import { AnalysisBookmarksResDataType } from '@src/types/AnalysisType'
 import * as p from '@src/components/styles/profile/ProfileStyle'
@@ -6,6 +8,12 @@ import * as p from '@src/components/styles/profile/ProfileStyle'
 
 const AnalysisBookmarksContainer = () => {
   // const navigate = useNavigate()
+  // const setSelectedGoo = selectPlaceStore(state => state.setSelectedGoo)
+  // const setSelectedDong = selectPlaceStore(state => state.setSelectedDong)
+  // const setSelectedCommercial = selectPlaceStore(
+  //   state => state.setSelectedCommercial,
+  // )
+  // const setSelectedService = analysisStore(state => state.setSelectedService)
 
   const { data: AnalysisBookmarksList } = useQuery({
     queryKey: ['getAnalysisBookmarks'],
@@ -33,7 +41,7 @@ const AnalysisBookmarksContainer = () => {
 
     return `${formattedDate} ${formattedTime}`
   }
-  //
+
   // const handleGoResult = (item: AnalysisBookmarksResDataType) => {
   //   const selectedGoo = {
   //     code: Number(item.districtCode),
@@ -56,9 +64,12 @@ const AnalysisBookmarksContainer = () => {
   //     serviceCodeName: item.serviceCodeName,
   //   }
   //
-  //   navigate('/analysis', {
-  //     state: { selectedGoo, selectedDong, selectedCommercial, selectedService },
-  //   })
+  //   setSelectedGoo(selectedGoo)
+  //   setSelectedDong(selectedDong)
+  //   setSelectedCommercial(selectedCommercial)
+  //   setSelectedService(selectedService)
+  //
+  //   navigate('/analysis/result')
   // }
 
   return (

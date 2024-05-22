@@ -20,6 +20,7 @@ import three_line_gray from '@src/assets/three_line_gray.svg'
 import analysisStore from '@src/stores/analysisStore'
 import { Avatar } from '@mui/joy'
 import RealTimeSearchTerms from '@src/containers/header/RealTimeSearchTerms'
+import useWindowWidth from '@src/hooks/useWindowWidth'
 
 const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   height: 70px;
@@ -42,6 +43,11 @@ const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   transition:
     opacity 0.3s,
     background-color 0.3s;
+
+  @media (max-width: 1015px) {
+    opacity: 1;
+    background-color: #ffffff;
+  }
 `
 
 const MenuListLeft = styled.div<{ isMenuOpen?: boolean }>`
@@ -186,6 +192,7 @@ const HeaderContainer = () => {
   const [isHovered, setIsHovered] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
 
+  const isWide = useWindowWidth()
   // 현재 스크롤과 이전 스크롤 상태 비교해서 올림, 내림 스크롤 판단하는 로직
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY
@@ -332,7 +339,7 @@ const HeaderContainer = () => {
     >
       <LogoDiv onClick={() => goNavigate({ url: '/' })}>
         {/* <Logo src={SlimLogoImg} alt="logo" /> */}
-        {location.pathname === '/' && atTop ? (
+        {isWide && location.pathname === '/' && atTop ? (
           <Logo src={WhiteLogo} alt="logo" />
         ) : (
           <Logo src={NavyLogoImg} alt="logo" />

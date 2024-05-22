@@ -36,3 +36,16 @@ export const Divider = styled.span`
   color: #4e5867;
   margin-right: 12px;
 `
+
+export const CloseButton = styled.div`
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:active {
+    background-color: #ff4d4f;
+  }
+`

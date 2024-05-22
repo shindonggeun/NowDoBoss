@@ -4,10 +4,11 @@ import TipBox from '@src/components/analysis/result/TipBox'
 import TotalSummaryCard from '@src/components/analysis/result/TotalSummaryCard'
 import WarningBox from '@src/components/analysis/result/WarningBox'
 import * as s from '@src/components/styles/analysis/result/SummarySectionStyle'
+import { forwardRef, Ref } from 'react'
 
-const SummarySection = () => {
+const SummarySection = forwardRef((_, ref: Ref<HTMLDivElement>) => {
   return (
-    <s.Container>
+    <s.Container ref={ref}>
       <WarningBox />
       <s.SummaryWrap>
         <s.FlowWrap>
@@ -28,6 +29,7 @@ const SummarySection = () => {
       <TotalSummaryCard />
     </s.Container>
   )
-}
+})
 
+SummarySection.displayName = 'SummarySection'
 export default SummarySection

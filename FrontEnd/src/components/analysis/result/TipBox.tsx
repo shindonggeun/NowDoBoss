@@ -8,7 +8,7 @@ const Container = styled.div`
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.09);
   border-radius: 5px;
-  font-size: 15px;
+  font-size: 14px;
   color: #333;
   background-color: #fff;
 

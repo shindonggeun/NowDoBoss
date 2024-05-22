@@ -8,7 +8,7 @@ export const TotalCard = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 
@@ -30,7 +30,7 @@ export const CategoryCard = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 

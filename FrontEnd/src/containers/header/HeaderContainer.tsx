@@ -152,9 +152,13 @@ const RealTimeSearchBar = styled.div<{
 }>`
   display: flex;
   flex-direction: column;
-  justify-content: right;
+  justify-content: center;
   align-items: start;
   color: ${props => (props.$isMain && props.$atTop ? 'white' : '')};
+
+  @media only screen and (max-width: 992px) {
+    justify-content: end;
+  }
 `
 
 const RealTimeTitle = styled.div`

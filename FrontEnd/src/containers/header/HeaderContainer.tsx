@@ -47,6 +47,7 @@ const Container = styled.header<{ $isTransparent: boolean; $isMain: boolean }>`
   @media (max-width: 1015px) {
     opacity: 1;
     background-color: #ffffff;
+    pointer-events: auto;
   }
 `
 
@@ -155,16 +156,18 @@ const BlankDiv = styled.div`
 const RealTimeSearchBar = styled.div<{
   $isMain?: boolean
   $atTop?: boolean
+  $isWide?: boolean
 }>`
   height: 68px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
-  color: ${props => (props.$isMain && props.$atTop ? 'white' : '')};
+  color: ${props =>
+    props.$isMain && props.$atTop && props.$isWide ? 'white' : ''};
 
   @media only screen and (max-width: 992px) {
-    justify-content: end;
+    justify-content: center;
   }
 `
 
@@ -366,6 +369,7 @@ const HeaderContainer = () => {
       <RealTimeSearchBar
         $isMain={location.pathname === '/'}
         $atTop={atTop}
+        $isWide={isWide}
         onClick={() => {
           setIsClicked(true)
         }}
@@ -381,6 +385,7 @@ const HeaderContainer = () => {
 
         <RealTimeSearchTerms isHovered={isHovered} isClicked={isClicked} />
       </RealTimeSearchBar>
+      <HamburgerMenu onClick={() => setMenuOpen(!menuOpen)}>≡</HamburgerMenu>
       <MenuListRight>
         <Menu
           $isActive={activeMenu === '채팅'}
@@ -425,7 +430,6 @@ const HeaderContainer = () => {
         )}
       </MenuListRight>
 
-      <HamburgerMenu onClick={() => setMenuOpen(!menuOpen)}>≡</HamburgerMenu>
       {menuOpen && (
         <DropdownMenu>
           <HeaderDropdown

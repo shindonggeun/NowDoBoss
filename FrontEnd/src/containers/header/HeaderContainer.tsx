@@ -131,6 +131,7 @@ const HamburgerMenu = styled.div`
 
   @media (max-width: 1015px) {
     display: flex; // 화면 너비가 1200px 이하일 경우 햄버거 메뉴 표시
+
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -166,8 +167,8 @@ const RealTimeSearchBar = styled.div<{
   color: ${props =>
     props.$isMain && props.$atTop && props.$isWide ? 'white' : ''};
 
-  @media only screen and (max-width: 992px) {
-    justify-content: center;
+  @media only screen and (max-width: 1015px) {
+    display: none;
   }
 `
 
@@ -385,50 +386,54 @@ const HeaderContainer = () => {
 
         <RealTimeSearchTerms isHovered={isHovered} isClicked={isClicked} />
       </RealTimeSearchBar>
-      <HamburgerMenu onClick={() => setMenuOpen(!menuOpen)}>≡</HamburgerMenu>
-      <MenuListRight>
-        <Menu
-          $isActive={activeMenu === '채팅'}
-          $isMain={location.pathname === '/'}
-          $atTop={atTop}
-          onClick={() => {
-            handleMenuClick('채팅')
-            window.location.reload()
-          }}
-        >
-          <Icon
-            src={
-              location.pathname === '/' && atTop
-                ? WhiteChatImg
-                : location.pathname === '/chatting/list'
-                  ? BlueChatImg
-                  : ChatImg
-            }
-          />
-        </Menu>
-        {userLoggedIn ? (
+
+      {isWide ? (
+        <MenuListRight>
           <Menu
-            $isActive={activeMenu === '프로필'}
+            $isActive={activeMenu === '채팅'}
             $isMain={location.pathname === '/'}
             $atTop={atTop}
-            onClick={() => handleMenuClick('프로필')}
+            onClick={() => {
+              handleMenuClick('채팅')
+              window.location.reload()
+            }}
           >
-            <Avatar src={profileImg} sx={{ width: 35, height: 35 }} />
+            <Icon
+              src={
+                location.pathname === '/' && atTop
+                  ? WhiteChatImg
+                  : location.pathname === '/chatting/list'
+                    ? BlueChatImg
+                    : ChatImg
+              }
+            />
           </Menu>
-        ) : (
-          ['로그인', '회원가입'].map(menuName => (
+          {userLoggedIn ? (
             <Menu
-              key={menuName}
-              $isActive={activeMenu === menuName}
+              $isActive={activeMenu === '프로필'}
               $isMain={location.pathname === '/'}
               $atTop={atTop}
-              onClick={() => handleMenuClick(menuName)}
+              onClick={() => handleMenuClick('프로필')}
             >
-              {menuName}
+              <Avatar src={profileImg} sx={{ width: 35, height: 35 }} />
             </Menu>
-          ))
-        )}
-      </MenuListRight>
+          ) : (
+            ['로그인', '회원가입'].map(menuName => (
+              <Menu
+                key={menuName}
+                $isActive={activeMenu === menuName}
+                $isMain={location.pathname === '/'}
+                $atTop={atTop}
+                onClick={() => handleMenuClick(menuName)}
+              >
+                {menuName}
+              </Menu>
+            ))
+          )}
+        </MenuListRight>
+      ) : (
+        <HamburgerMenu onClick={() => setMenuOpen(!menuOpen)}>≡</HamburgerMenu>
+      )}
 
       {menuOpen && (
         <DropdownMenu>

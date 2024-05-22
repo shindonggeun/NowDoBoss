@@ -5,7 +5,7 @@ const useWindowWidth = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsWide(window.innerWidth >= 992)
+      setIsWide(window.innerWidth >= 1015)
     }
 
     window.addEventListener('resize', handleResize)

@@ -148,9 +148,10 @@ const { VITE_REACT_API_URL } = import.meta.env
 
 type RealTimeSearchTermsPropsType = {
   isHovered: boolean
+  isClicked: boolean
 }
 const RealTimeSearchTerms = (props: RealTimeSearchTermsPropsType) => {
-  const { isHovered } = props
+  const { isHovered, isClicked } = props
   const [index, setIndex] = useState(0)
   const [realTimeData, setRealTimeData] = useState<
     RankingSaveData | undefined
@@ -314,69 +315,70 @@ const RealTimeSearchTerms = (props: RealTimeSearchTermsPropsType) => {
               style={style}
             >{`${i + 1}. ${slicedData[i].name}`}</SearchTerm>
           ))}
-          {isHovered && (
-            <DropdownMenu>
-              <ColDiv>
-                <Header>
-                  <DropdownTitle>5분 주기 실시간 검색 순위</DropdownTitle>
-                  {/* <SmallContent>5분 주기 갱신</SmallContent> */}
-                </Header>
-                <ListContainer>
-                  <List>
-                    <ListTitle>인기 자치구</ListTitle>
-                    {realTimeData?.districtRankings
-                      .slice(0, 10)
-                      .map((item, i) => {
-                        return (
+          {isClicked ||
+            (isHovered && (
+              <DropdownMenu>
+                <ColDiv>
+                  <Header>
+                    <DropdownTitle>5분 주기 실시간 검색 순위</DropdownTitle>
+                    {/* <SmallContent>5분 주기 갱신</SmallContent> */}
+                  </Header>
+                  <ListContainer>
+                    <List>
+                      <ListTitle>인기 자치구</ListTitle>
+                      {realTimeData?.districtRankings
+                        .slice(0, 10)
+                        .map((item, i) => {
+                          return (
+                            <DropdownItem
+                              key={i}
+                              onClick={() => {
+                                handleClickItem(item.name, 'district')
+                              }}
+                            >{`${i + 1}. ${item.name}`}</DropdownItem>
+                          )
+                        })}
+                    </List>
+                    <List>
+                      <ListTitle>인기 행정동</ListTitle>
+                      {realTimeData?.administrationRankings
+                        .slice(0, 10)
+                        .map((item, i) => (
                           <DropdownItem
                             key={i}
                             onClick={() => {
-                              handleClickItem(item.name, 'district')
+                              handleClickItem(item.name, 'administration')
                             }}
                           >{`${i + 1}. ${item.name}`}</DropdownItem>
-                        )
-                      })}
-                  </List>
-                  <List>
-                    <ListTitle>인기 행정동</ListTitle>
-                    {realTimeData?.administrationRankings
-                      .slice(0, 10)
-                      .map((item, i) => (
-                        <DropdownItem
-                          key={i}
-                          onClick={() => {
-                            handleClickItem(item.name, 'administration')
-                          }}
-                        >{`${i + 1}. ${item.name}`}</DropdownItem>
-                      ))}
-                  </List>
-                  <List>
-                    <ListTitle>인기 상권</ListTitle>
-                    {realTimeData?.commercialRankings
-                      .slice(0, 10)
-                      .map((item, i) => (
-                        <DropdownItemCom
-                          key={i}
-                          onClick={() => {
-                            handleClickItem(item.name, 'commercial ')
-                          }}
-                        >{`${i + 1}. ${item.name}`}</DropdownItemCom>
-                      ))}
-                  </List>
-                  <List>
-                    <ListTitle>인기 업종</ListTitle>
-                    {realTimeData?.serviceRankings
-                      .slice(0, 10)
-                      .map((item, i) => (
-                        <DropdownItem
-                          key={i}
-                        >{`${i + 1}. ${item.name}`}</DropdownItem>
-                      ))}
-                  </List>
-                </ListContainer>
-              </ColDiv>
-            </DropdownMenu>
-          )}
+                        ))}
+                    </List>
+                    <List>
+                      <ListTitle>인기 상권</ListTitle>
+                      {realTimeData?.commercialRankings
+                        .slice(0, 10)
+                        .map((item, i) => (
+                          <DropdownItemCom
+                            key={i}
+                            onClick={() => {
+                              handleClickItem(item.name, 'commercial ')
+                            }}
+                          >{`${i + 1}. ${item.name}`}</DropdownItemCom>
+                        ))}
+                    </List>
+                    <List>
+                      <ListTitle>인기 업종</ListTitle>
+                      {realTimeData?.serviceRankings
+                        .slice(0, 10)
+                        .map((item, i) => (
+                          <DropdownItem
+                            key={i}
+                          >{`${i + 1}. ${item.name}`}</DropdownItem>
+                        ))}
+                    </List>
+                  </ListContainer>
+                </ColDiv>
+              </DropdownMenu>
+            ))}
         </Container>
       ) : null}
     </div>

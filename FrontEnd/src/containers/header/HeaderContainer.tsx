@@ -150,6 +150,7 @@ const RealTimeSearchBar = styled.div<{
   $isMain?: boolean
   $atTop?: boolean
 }>`
+  height: 68px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -183,6 +184,7 @@ const HeaderContainer = () => {
   // 호버시 적용
 
   const [isHovered, setIsHovered] = useState(false)
+  const [isClicked, setIsClicked] = useState(false)
 
   // 현재 스크롤과 이전 스크롤 상태 비교해서 올림, 내림 스크롤 판단하는 로직
   const handleScroll = useCallback(() => {
@@ -357,16 +359,20 @@ const HeaderContainer = () => {
       <RealTimeSearchBar
         $isMain={location.pathname === '/'}
         $atTop={atTop}
+        onClick={() => {
+          setIsClicked(true)
+        }}
         onMouseEnter={() => {
           setIsHovered(true)
         }}
         onMouseLeave={() => {
           setIsHovered(false)
+          setIsClicked(false)
         }}
       >
         <RealTimeTitle>실시간 인기 검색어</RealTimeTitle>
 
-        <RealTimeSearchTerms isHovered={isHovered} />
+        <RealTimeSearchTerms isHovered={isHovered} isClicked={isClicked} />
       </RealTimeSearchBar>
       <MenuListRight>
         <Menu

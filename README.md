@@ -320,7 +320,7 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="" width="20%">
+<img src="docs/gif/메인/메인페이지.gif" width="20%">
 <img src="docs/gif/메인/메인_모바일.gif" heigth = "20%" width="25%">
 </div>
 

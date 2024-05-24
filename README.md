@@ -307,22 +307,35 @@
 
 ### 메인화면
 
-- 화면에서 대기능 소개
+- 웹
   - 대기능의 따른 소기능 소개
   - 대기능의 따른 소기능 소개
   - 대기능의 따른 소기능 소개
   - 대기능의 따른 소기능 소개
 
-- 화면에서 대기능 소개
+- 모바일
   - 대기능의 따른 소기능 소개
   - 대기능의 따른 소기능 소개
   - 대기능의 따른 소기능 소개
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="" width="75%">
 <img src="" width="20%">
+<img src="docs/gif/메인/메인_모바일.gif" heigth = "20%" width="25%">
 </div>
+
+### 인기 검색어 화면
+- 웹
+  - 대기능의 따른 소기능 소개
+  - 대기능의 따른 소기능 소개
+  - 대기능의 따른 소기능 소개
+  - 대기능의 따른 소기능 소개
+
+<div width="100%">
+<img src="" width="20%">
+<img src="docs/gif/인기검색어/실시간_인기검색어_이동.gif" heigth = "20%" width="25%">
+</div>  
+
 
 ### 구별 현황 화면
 
@@ -339,8 +352,13 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="" width="75%">
+<img src="docs/gif/구별현황/구별현황(웹).gif" width="40%">
+<img src="docs/gif/구별현황/구별현황상세(웹).gif" width="40%">
+</div>
+
+<div width="100%">
 <img src="" width="20%">
+<img src="docs/gif/구별현황/구별분석_모바일.gif" width="20%">
 </div>
 
 ### 상권 분석 화면
@@ -360,8 +378,8 @@
 
 
 <div width="100%">
-<img src="" width="75%">
-<img src="" width="20%">
+<img src="docs/gif/상권분석/상권분석_저장_웹.gif" width="40%">
+<img src="docs/gif/상권분석/상권분석_모바일.gif" height="40%" width="40%">
 </div>
 
 ### 창업 시뮬레이션 화면
@@ -379,8 +397,16 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="" width="75%">
-<img src="" width="20%">
+<img src="docs/gif/창업시뮬레이션/창업_시뮬레이션.gif" width="20%">
+<img src="docs/gif/창업시뮬레이션/창업_시뮬레이션_저장.gif" width="20%">
+<img src="docs/gif/창업시뮬레이션/창업_시뮬레이션_비교하기.gif" width="20%">
+<img src="docs/gif/창업시뮬레이션/창업_시뮬레이션_공유하기.gif" width="20%">
+</div>
+
+<div width="100%">
+<img src="docs/gif/창업시뮬레이션/창업시뮬레이션(모바일).gif" width="20%">
+<img src="docs/gif/창업시뮬레이션/창업시뮬레이션저장(모바일).gif" width="20%">
+<img src="docs/gif/창업시뮬레이션/창업시뮬레이션비교(모바일).gif" width="20%">
 </div>
 
 ### 상권 추천 화면
@@ -398,8 +424,13 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="" width="75%">
-<img src="" width="20%">
+<img src="docs/gif/상권추천/상권추천(웹).gif" width="20%">
+<img src="docs/gif/상권추천/상권추천상세(웹).gif" width="20%">
+</div>
+
+<div width="100%">
+<img src="docs/gif/상권추천/상권추천(모바일).gif" width="20%">
+<img src="docs/gif/상권추천/상권추천상세(모바일).gif" width="20%">
 </div>
 
 ### 커뮤니티 화면
@@ -417,8 +448,31 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="" width="75%">
-<img src="" width="20%">
+<img src="docs/gif/커뮤니티/커뮤니티_생성.gif" width="20%">
+<img src="docs/gif/커뮤니티/커뮤니티_수정.gif" width="20%">
+<img src="docs/gif/커뮤니티/커뮤니티_삭제.gif" width="20%">
+</div>
+
+<div width="100%">
+<img src="docs/gif/커뮤니티/커뮤니티_댓글_생성.gif" width="20%">
+<img src="docs/gif/커뮤니티/커뮤니티_댓글_수정.gif" width="20%">
+<img src="docs/gif/커뮤니티/커뮤니티_댓글_삭제.gif" width="20%">
+</div>
+
+<div width="100%">
+<img src="docs/gif/커뮤니티/커뮤니티_생성_모바일.gif" width="20%">
+<img src="docs/gif/커뮤니티/커뮤니티_수정_모바일.gif" width="20%">
+<img src="docs/gif/커뮤니티/커뮤니티_삭제_모바일.gif" width="20%">
+</div>
+
+<div width="100%">
+<img src="docs/gif/커뮤니티/커뮤니티_생성_모바일.gif" width="20%">
+<img src="docs/gif/커뮤니티/커뮤니티_수정_모바일.gif" width="20%">
+<img src="docs/gif/커뮤니티/커뮤니티_삭제_모바일.gif" width="20%">
+</div>
+
+<div width="100%">
+<img src="docs/gif/커뮤니티/커뮤니티_댓글_모바일.gif" width="20%">
 </div>
 
 ### 채팅 화면
@@ -436,9 +490,26 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="" width="75%">
-<img src="" width="20%">
+<img src="docs/gif/채팅/채팅방_생성.gif" width="20%">
+<img src="docs/gif/채팅/채팅.gif" width="20%">
+<img src="docs/gif/채팅/채팅방_나가기.gif" width="20%">
+<img src="docs/gif/채팅/채팅알림(웹).gif" width="20%">
+<img src="docs/gif/채팅/내채팅방_검색.gif" width="20%">
 </div>
+
+
+<div width="100%">
+<img src="docs/gif/채팅/채팅방생성(모바일).gif" width="20%">
+<img src="docs/gif/채팅/채팅보내기(모바일).gif" width="20%">
+<img src="docs/gif/채팅/채팅방삭제(모바일).gif" width="20%">
+</div>
+
+<div width="100%">
+<img src="docs/gif/채팅/전체채팅방목록(모바일).gif" width="20%">
+<img src="docs/gif/채팅/내채팅방목록(모바일).gif" width="20%">
+<img src="docs/gif/채팅/채팅방검색(모바일).gif" width="20%">
+</div>
+
 
 ### 프로필 화면
 
@@ -455,33 +526,35 @@
   - 대기능의 따른 소기능 소개
 
 
+### 일반 회원 관련 화면
+
+- 화면에서 대기능 소개
+  - 대기능의 따른 소기능 소개
+  - 대기능의 따른 소기능 소개
+  - 대기능의 따른 소기능 소개
+  - 대기능의 따른 소기능 소개
+
+- 화면에서 대기능 소개
+  - 대기능의 따른 소기능 소개
+  - 대기능의 따른 소기능 소개
+  - 대기능의 따른 소기능 소개
+  - 대기능의 따른 소기능 소개
+
+
 <div width="100%">
-<img src="" width="75%">
-<img src="" width="20%">
+<img src="docs/gif/회원/일반회원가입_로그인_웹.gif" width="20%">
+<img src="docs/gif/회원/일반회원_회원정보수정_비밀번호변경_회원탈퇴_웹.gif" width="20%">
 </div>
 
-### 일반 회원가입 화면
-
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-
-
-<div style="display: flex; justify-content: space-between;">
-    <img src="" width="31%">
-    <img src="" width="31%">
-    <img src="" width="31%">
+<div width="100%">
+<img src="docs/gif/회원/일반회원가입_로그인_모바일.gif" width="20%">
+<img src="docs/gif/회원/일반회원_회원정보수정_비밀번호변경_회원탈퇴_모바일.gif" width="20%">
 </div>
 
-### 로그인 화면
+
+
+
+### 소셜 회원 관련 화면
 
 - 일반 로그인 기능
   - 대기능의 따른 소기능 소개
@@ -495,8 +568,17 @@
   - 대기능의 따른 소기능 소개
   - 대기능의 따른 소기능 소개
 
+
 <div width="100%">
-<img src="" width="100%">
+<img src="docs/gif/회원/카카오_소셜로그인_웹.gif" width="20%">
+<img src="docs/gif/회원/네이버_소셜로그인_웹.gif" width="20%">
+<img src="docs/gif/회원/구글_소셜로그인_웹.gif" width="20%">
+</div>
+
+<div width="100%">
+<img src="docs/gif/회원/카카오_소셜로그인_모바일.gif" width="20%">
+<img src="docs/gif/회원/네이버_소셜로그인_모바일.gif" width="20%">
+<img src="docs/gif/회원/구글_소셜로그인_모바일.gif" width="20%">
 </div>
 
 

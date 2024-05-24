@@ -300,29 +300,19 @@
 - 사이트 기능 소개
 - 반응형 및 다크모드 지원 (전체 페이지에서 동일하게 지원)
 
-<div width="100%">
-<img src="" width="75%">
-<img src="" width="20%">
-</div>
 
 ### 메인화면
 
-- 웹
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
+- 메인화면
+  - 주요 기능에 대한 간단한 소개
+  <div width="100%">
+  <img src="docs/gif/메인/메인페이지.gif" width="50%">
+  </div>
 
 - 모바일
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-
-<div width="100%">
-<img src="docs/gif/메인/메인페이지.gif" width="20%">
-<img src="docs/gif/메인/메인_모바일.gif" heigth = "20%" width="25%">
-</div>
+  <div width="100%">
+  <img src="docs/gif/메인/메인_모바일.gif" width="20%">
+  </div>
 
 ### 인기 검색어 화면
 - 웹
@@ -330,210 +320,226 @@
   - 대기능의 따른 소기능 소개
   - 대기능의 따른 소기능 소개
   - 대기능의 따른 소기능 소개
-
-<div width="100%">
-<img src="" width="20%">
-<img src="docs/gif/인기검색어/실시간_인기검색어_이동.gif" heigth = "20%" width="25%">
-</div>  
+  <div width="100%">
+  <img src="docs/gif/인기검색어/실시간_인기검색어_이동.gif"width="50%">
+  </div>
 
 
 ### 구별 현황 화면
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
+- 서울시 자치구 현황 화면
+  - 유동인구, 평균 매출, 개업률, 폐업률 4가지 범주에 대해 자치구 Top 10 순위 제공
+  <div width="100%">
+  <img src="docs/gif/구별현황/구별현황(웹).gif" width="50%">
+  </div>
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
+- 서울시 자치구 현황 상세 화면
+  - 서울시 지도를 통해 시각적으로 서울시 전체 자치구들의 유동인구, 평균 매출, 개업률, 폐업률 정보 제공
+  - 순위 또는 지도를 누르면 해당 자치구의 상세 현황으로 이동
+  <div width="100%">
+  <img src="docs/gif/구별현황/구별현황상세(웹).gif" width="50%">
+  </div>
 
-<div width="100%">
-<img src="docs/gif/구별현황/구별현황(웹).gif" width="40%">
-<img src="docs/gif/구별현황/구별현황상세(웹).gif" width="40%">
-</div>
-
-<div width="100%">
-<img src="" width="20%">
-<img src="docs/gif/구별현황/구별분석_모바일.gif" width="20%">
-</div>
+- 모바일 화면
+  <div width="100%">
+  <img src="docs/gif/구별현황/구별분석_모바일.gif" width="20%">
+  </div>
 
 ### 상권 분석 화면
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
+- 분석 상권 영역 선택 + 상권 분석 상세
+  - 서울시 자치구, 행정동, 상권, 업종 선택 시 해당 상권 분석 제공
+  - 지도를 통해 영역 선택 가능
+  - 요약, 유동인구, 집객시설, 점포, 매출, 상주인구, 지출 분석
+  - 년도, 분기 별 데이터 제공
+  - 리포트 저장 기능 제공
+  <div width="100%">
+  <img src="docs/gif/상권분석/상권분석_저장_웹.gif" width="50%">
+  </div>
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-
-
-
-<div width="100%">
-<img src="docs/gif/상권분석/상권분석_저장_웹.gif" width="40%">
-<img src="docs/gif/상권분석/상권분석_모바일.gif" height="40%" width="40%">
-</div>
+- 모바일
+  <div width="100%">
+  <img src="docs/gif/상권분석/상권분석_모바일.gif" width="20%">
+  </div>
 
 ### 창업 시뮬레이션 화면
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
+- 창업 시뮬레이션
+  - 지역, 업종, 상세업종, 프랜차이즈 여부, 프랜차이즈 이름, 매장 크기, 층수를 선택
+  - 프랜차이즈 조회 시 해당 업종의 프랜차이즈 이름 조회가능
+  - 입력값을 바탕으로 창업 비용을 계산
+  - 총 비용, 상세 비용, 프랜차이즈 비교, 성수기/비성수기, 연령/성별 분석 정보 제공
+  <div width="100%">
+  <img src="docs/gif/창업시뮬레이션/창업_시뮬레이션.gif" width="50%">
+  </div>
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
 
-<div width="100%">
-<img src="docs/gif/창업시뮬레이션/창업_시뮬레이션.gif" width="20%">
-<img src="docs/gif/창업시뮬레이션/창업_시뮬레이션_저장.gif" width="20%">
-<img src="docs/gif/창업시뮬레이션/창업_시뮬레이션_비교하기.gif" width="20%">
-<img src="docs/gif/창업시뮬레이션/창업_시뮬레이션_공유하기.gif" width="20%">
-</div>
+- 창업 시뮬레이션 저장
+  - 창업 시뮬레이션 결과 저장
+  - 로그인한 사용자마다 저장한 결과를 다시 조회할 수 있다.
+  <div>
+  <img src="docs/gif/창업시뮬레이션/창업_시뮬레이션_저장.gif" width="50%">
+  </div>
 
-<div width="100%">
-<img src="docs/gif/창업시뮬레이션/창업시뮬레이션(모바일).gif" width="20%">
-<img src="docs/gif/창업시뮬레이션/창업시뮬레이션저장(모바일).gif" width="20%">
-<img src="docs/gif/창업시뮬레이션/창업시뮬레이션비교(모바일).gif" width="20%">
-</div>
+
+- 창업 시뮬레이션 비교
+  - 저장된 상업 시뮬레이션 결과들을 이용하여 서로 비교할 수 있다. 
+  <div>
+  <img src="docs/gif/창업시뮬레이션/창업_시뮬레이션_비교하기.gif" width="50%">
+  </div>
+
+
+- 창업 시뮬레이션 공유
+  - 창업 시뮬레이션 결과를 다른 사람과 카톡을 통해 공유 가능
+  - 로그인하지 않은 사용자들도 조회는 가능하지만 저장은 로그인해야 가능
+  <div>
+  <img src="docs/gif/창업시뮬레이션/창업_시뮬레이션_공유하기.gif" width="50%">
+  </div>
+
+- 모바일 화면
+  <div width="100%">
+  <img src="docs/gif/창업시뮬레이션/창업시뮬레이션(모바일).gif" width="20%">
+  <img src="docs/gif/창업시뮬레이션/창업시뮬레이션저장(모바일).gif" width="20%">
+  <img src="docs/gif/창업시뮬레이션/창업시뮬레이션비교(모바일).gif" width="20%">
+  </div>
+
 
 ### 상권 추천 화면
+- 추천 상권 영역 선택 + 지도 화면
+  - 유저가 지역구와 행정동(고르지 않으면 행정동 전체)를 고르면 해당 영역 내 상권 추천
+  - 지도를 통한 선택도 가능
+  <div width="100%">
+  <img src="docs/gif/상권추천/상권추천(웹).gif" width="50%">
+  </div>  
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
+- 유저 맞춤형 추천 상권 정보 화면
+  - 최대 3개의 상권 추천
+  - 추천 상권의 정보를 한눈에 볼 수 있는 요약 정보 제공
+  - 유동인구, 점포 수, 폐업률, 매출, 블루오션 업종 관련 정보 제공
+  - 보관함 저장 기능 제공
+  <div width="100%">
+  <img src="docs/gif/상권추천/상권추천상세(웹).gif" width="50%">
+  </div>
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
+- 모바일 화면
+  <div width="100%">
+  <img src="docs/gif/상권추천/상권추천(모바일).gif" width="20%">
+  <img src="docs/gif/상권추천/상권추천상세(모바일).gif" width="20%">
+  </div>
 
-<div width="100%">
-<img src="docs/gif/상권추천/상권추천(웹).gif" width="20%">
-<img src="docs/gif/상권추천/상권추천상세(웹).gif" width="20%">
-</div>
-
-<div width="100%">
-<img src="docs/gif/상권추천/상권추천(모바일).gif" width="20%">
-<img src="docs/gif/상권추천/상권추천상세(모바일).gif" width="20%">
-</div>
 
 ### 커뮤니티 화면
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
+- 커뮤니티 
+  - 커뮤니티 글 작성
+  <div width="100%">
+  <img src="docs/gif/커뮤니티/커뮤니티_생성.gif" width="50%">
+  </div>
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
+  - 커뮤니티 글 수정
+  <div width="100%">
+  <img src="docs/gif/커뮤니티/커뮤니티_수정.gif" width="50%">
+  </div>
 
-<div width="100%">
-<img src="docs/gif/커뮤니티/커뮤니티_생성.gif" width="20%">
-<img src="docs/gif/커뮤니티/커뮤니티_수정.gif" width="20%">
-<img src="docs/gif/커뮤니티/커뮤니티_삭제.gif" width="20%">
-</div>
+  - 커뮤니티 글 삭제
+  <div width="100%">
+  <img src="docs/gif/커뮤니티/커뮤니티_삭제.gif" width="50%">
+  </div>
 
-<div width="100%">
-<img src="docs/gif/커뮤니티/커뮤니티_댓글_생성.gif" width="20%">
-<img src="docs/gif/커뮤니티/커뮤니티_댓글_수정.gif" width="20%">
-<img src="docs/gif/커뮤니티/커뮤니티_댓글_삭제.gif" width="20%">
-</div>
+- 커뮤니티 댓글
+  - 커뮤니티 댓글 작성
+  <div width="100%">
+  <img src="docs/gif/커뮤니티/커뮤니티_댓글_생성.gif" width="50%">
+  </div>
 
-<div width="100%">
-<img src="docs/gif/커뮤니티/커뮤니티_생성_모바일.gif" width="20%">
-<img src="docs/gif/커뮤니티/커뮤니티_수정_모바일.gif" width="20%">
-<img src="docs/gif/커뮤니티/커뮤니티_삭제_모바일.gif" width="20%">
-</div>
+  - 커뮤니티 댓글 수정
+  <div width="100%">
+  <img src="docs/gif/커뮤니티/커뮤니티_댓글_수정.gif" width="50%">
+  </div>
 
-<div width="100%">
-<img src="docs/gif/커뮤니티/커뮤니티_생성_모바일.gif" width="20%">
-<img src="docs/gif/커뮤니티/커뮤니티_수정_모바일.gif" width="20%">
-<img src="docs/gif/커뮤니티/커뮤니티_삭제_모바일.gif" width="20%">
-</div>
+  - 커뮤니티 댓글 삭제
+  <div width="100%">
+  <img src="docs/gif/커뮤니티/커뮤니티_댓글_삭제.gif" width="50%">
+  </div>
 
-<div width="100%">
-<img src="docs/gif/커뮤니티/커뮤니티_댓글_모바일.gif" width="20%">
-</div>
+- 모바일 화면
+  <div width="100%">
+  <img src="docs/gif/커뮤니티/커뮤니티_생성_모바일.gif" width="20%">
+  <img src="docs/gif/커뮤니티/커뮤니티_수정_모바일.gif" width="20%">
+  <img src="docs/gif/커뮤니티/커뮤니티_삭제_모바일.gif" width="20%">
+  </div>
+
+  <div width="100%">
+  <img src="docs/gif/커뮤니티/커뮤니티_댓글_모바일.gif" width="20%">
+  </div>
 
 ### 채팅 화면
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-
-<div width="100%">
-<img src="docs/gif/채팅/채팅방_생성.gif" width="20%">
-<img src="docs/gif/채팅/채팅.gif" width="20%">
-<img src="docs/gif/채팅/채팅방_나가기.gif" width="20%">
-<img src="docs/gif/채팅/채팅알림(웹).gif" width="20%">
-<img src="docs/gif/채팅/내채팅방_검색.gif" width="20%">
-</div>
+- 채팅방 생성
+  - 채팅방 이름, 소개, 제한인원, 카테고리 설정 가능
+  - 제한인원만큼만 채팅방 입장 가능
+  <div width="100%">
+  <img src="docs/gif/채팅/채팅방_생성.gif" width="50%">
+  </div>
 
 
-<div width="100%">
-<img src="docs/gif/채팅/채팅방생성(모바일).gif" width="20%">
-<img src="docs/gif/채팅/채팅보내기(모바일).gif" width="20%">
-<img src="docs/gif/채팅/채팅방삭제(모바일).gif" width="20%">
-</div>
+- 채팅방 나가기
+  - 해당 채팅방 나가기
+  - 모든 채팅방 구성원이 방을 나갈 경우 채팅방 삭제 
+  <div>
+  <img src="docs/gif/채팅/채팅방_나가기.gif" width="50%">
+  </div>
 
-<div width="100%">
-<img src="docs/gif/채팅/전체채팅방목록(모바일).gif" width="20%">
-<img src="docs/gif/채팅/내채팅방목록(모바일).gif" width="20%">
-<img src="docs/gif/채팅/채팅방검색(모바일).gif" width="20%">
-</div>
+
+- 채팅
+  - 채팅 메시지 주고받기 
+  <div>
+  <img src="docs/gif/채팅/채팅.gif" width="50%">
+  </div>
+
+  - 채팅 메시지 받았을 경우 알림
+  <div>
+  <img src="docs/gif/채팅/채팅알림(웹).gif" width="50%">
+  </div>
+
+- 내 채팅방 검색
+  - 내가 입장하고 나가지 않은 채팅방 목록 중 검색
+  <div>
+  <img src="docs/gif/채팅/내채팅방_검색.gif" width="50%">
+  </div>
+
+- 모바일 화면
+  <div width="100%">
+  <img src="docs/gif/채팅/채팅방생성(모바일).gif" width="20%">
+  <img src="docs/gif/채팅/채팅보내기(모바일).gif" width="20%">
+  <img src="docs/gif/채팅/채팅방삭제(모바일).gif" width="20%">
+  </div>
+
+  <div width="100%">
+  <img src="docs/gif/채팅/전체채팅방목록(모바일).gif" width="20%">
+  <img src="docs/gif/채팅/내채팅방목록(모바일).gif" width="20%">
+  <img src="docs/gif/채팅/채팅방검색(모바일).gif" width="20%">
+  </div>
 
 
 ### 프로필 화면
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
+- 프로필
+  - 회원정보 수정(닉네임, 비밀번호)
+  <div width="100%">
+  <img src="docs/gif/마이페이지/프로필_회원정보수정.gif" width="50%">
+  </div>
+  
+  - 로그아웃, 회원탈퇴
+  <div width="100%">
+  <img src="docs/gif/마이페이지/프로필_로그아웃_회원탈퇴.gif" width="50%">
+  </div>
 
-- 화면에서 대기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-  - 대기능의 따른 소기능 소개
-
-<div width="100%">
-<img src="docs/gif/마이페이지/프로필_회원정보수정.gif" width="20%">
-<img src="docs/gif/마이페이지/프로필_로그아웃_회원탈퇴.gif" width="20%">
-</div>
-
-<div width="100%">
-<img src="docs/gif/마이페이지/모바일_프로필_회원정보_수정.gif" width="20%">
-<img src="docs/gif/마이페이지/모바일_프로필_로그아웃_회원탈퇴.gif" width="20%">
-</div>
+- 모바일 화면
+  <div width="100%">
+  <img src="docs/gif/마이페이지/모바일_프로필_회원정보_수정.gif" width="20%">
+  <img src="docs/gif/마이페이지/모바일_프로필_로그아웃_회원탈퇴.gif" width="20%">
+  </div>
 
 
 ### 일반 회원 관련 화면

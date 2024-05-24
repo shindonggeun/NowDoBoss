@@ -530,6 +530,11 @@
 <img src="docs/gif/마이페이지/프로필_로그아웃_회원탈퇴.gif" width="20%">
 </div>
 
+<div width="100%">
+<img src="docs/gif/마이페이지/모바일_프로필_회원정보_수정.gif" width="20%">
+<img src="docs/gif/마이페이지/모바일_프로필_로그아웃_회원탈퇴.gif" width="20%">
+</div>
+
 
 ### 일반 회원 관련 화면
 

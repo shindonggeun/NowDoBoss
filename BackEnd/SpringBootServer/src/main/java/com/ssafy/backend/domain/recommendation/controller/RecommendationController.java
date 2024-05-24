@@ -83,7 +83,7 @@ public class RecommendationController {
     )
     @GetMapping("/save/detail/{commercialCode}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<RecommendationResponse>> getSavedCommercialRecommendationDetail(
+    public ResponseEntity<Message<List<RecommendationResponse>>> getSavedCommercialRecommendationDetail(
             @AuthenticationPrincipal MemberLoginActive loginActive,
             @PathVariable String commercialCode) {
         return ResponseEntity.ok().body(Message.success(recommendationService.getSavedCommercialDetail(loginActive.id(), commercialCode)));

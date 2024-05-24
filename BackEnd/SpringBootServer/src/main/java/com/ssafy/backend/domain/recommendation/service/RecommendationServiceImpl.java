@@ -80,9 +80,11 @@ public class RecommendationServiceImpl implements RecommendationService{
 
         if (recommendationResponse.block().isEmpty()){
             System.out.println("No data available, returning default response.");
-            UserResponse userResponse = makeBasicUserResponse(id, districtCode, administrationCode);
+            List<UserResponse> userResponses = makeBasicUserResponse(id, districtCode, administrationCode);
             List<RecommendationResponse> res = new ArrayList<>();
-            res.add(createRecommendationResponse(userResponse, periodCode));
+            for (UserResponse userResponse: userResponses){
+                res.add(createRecommendationResponse(userResponse, periodCode));
+            }
             return Mono.just(res);
         }
         return recommendationResponse;
@@ -282,13 +284,12 @@ public class RecommendationServiceImpl implements RecommendationService{
                 })
                 .onErrorResume(e -> {
                     System.out.println("Handling error: " + e.getMessage());
-                    List<UserResponse> list = new ArrayList<>();
-                    list.add(makeBasicUserResponse(id, districtCode, administrationCode));
+                    List<UserResponse> list = makeBasicUserResponse(id, districtCode, administrationCode);
                     return Mono.just(list); // 에러 발생 시 빈 리스트 반환
                 });
     }
 
-    private UserResponse makeBasicUserResponse(Long userId, String districtCode, String administrationCode){
+    private List<UserResponse> makeBasicUserResponse(Long userId, String districtCode, String administrationCode){
         if (administrationCode.equals("0")){ // 자치구 코드만으로
             List<String> administrationCodes = new ArrayList<>();
             List<String> commercialCodes = new ArrayList<>();
@@ -314,23 +315,39 @@ public class RecommendationServiceImpl implements RecommendationService{
     }
 
     @Override
-    public RecommendationResponse getSavedCommercialDetail(Long userId, String commercialCode){
-        return createRecommendationResponse(getUserResponse(userId, Arrays.asList(commercialCode)), "20233");
+    public List<RecommendationResponse> getSavedCommercialDetail(Long userId, String commercialCode){
+        List<RecommendationResponse> rrs = new ArrayList<>();
+        for (UserResponse us: getUserResponse(userId, Arrays.asList(commercialCode))){
+            rrs.add(createRecommendationResponse(us, "20233"));
+        }
+        return rrs;
     }
 
-    private UserResponse getUserResponse(Long userId, List<String> commercialCodes){
-        String commercialCode = "";
+    private List<UserResponse> getUserResponse(Long userId, List<String> commercialCodes){
+        List<UserResponse> uss = new ArrayList<>();
         if (commercialCodes.size() == 1){
-            commercialCode = commercialCodes.get(0);
+            String commercialCode = commercialCodes.get(0);
+            Long sales = salesCommercialRepository.findTopSalesByCommercialCode(commercialCode);
+            Long footTraffic = footTrafficCommercialRepository.getCommercialFootTrafficByCommercialCode(commercialCode, "20233");
+            Double openedRate = storeCommercialRepository.getCommercialRateByCommercialCode(commercialCode, "20233").get("openedRate");
+            Double closedRate = storeCommercialRepository.getCommercialRateByCommercialCode(commercialCode, "20233").get("closedRate");;
+            Long consumption = incomeCommercialRepository.getTotalPriceByCommercialCode(commercialCode, "20233");
+
+            return Arrays.asList(new UserResponse(userId, commercialCode, footTraffic, sales, openedRate, closedRate, consumption, 0.0));
+
         } else {
-            commercialCode = salesCommercialRepository.findTopSalesCommercialInCommercialCodes(commercialCodes, "20233");
+            List<String> commercialCodeList = salesCommercialRepository.findTopSalesCommercialInCommercialCodes(commercialCodes, "20233");
+            for (String commercialCode: commercialCodeList) {
+                Long sales = salesCommercialRepository.findTopSalesByCommercialCode(commercialCode);
+                Long footTraffic = footTrafficCommercialRepository.getCommercialFootTrafficByCommercialCode(commercialCode, "20233");
+                Double openedRate = storeCommercialRepository.getCommercialRateByCommercialCode(commercialCode, "20233").get("openedRate");
+                Double closedRate = storeCommercialRepository.getCommercialRateByCommercialCode(commercialCode, "20233").get("closedRate");
+                Long consumption = incomeCommercialRepository.getTotalPriceByCommercialCode(commercialCode, "20233");
+
+                uss.add(new UserResponse(userId, commercialCode, footTraffic, sales, openedRate, closedRate, consumption, 0.0));
+            }
+            return uss;
         }
-        Long sales = salesCommercialRepository.findTopSalesByCommercialCode(commercialCode);
-        Long footTraffic = footTrafficCommercialRepository.getCommercialFootTrafficByCommercialCode(commercialCode, "20233");
-        Double openedRate = storeCommercialRepository.getCommercialRateByCommercialCode(commercialCode, "20233").get("openedRate");
-        Double closedRate = storeCommercialRepository.getCommercialRateByCommercialCode(commercialCode, "20233").get("closedRate");;
-        Long consumption = incomeCommercialRepository.getTotalPriceByCommercialCode(commercialCode, "20233");
-        return new UserResponse(userId, commercialCode, footTraffic, sales, openedRate, closedRate, consumption, 0.0);
     }
 
     public void saveRecommendationsToRedis(long userId, String districtCode, String administrationCode, List<RecommendationResponse> responses) {

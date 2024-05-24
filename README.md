@@ -526,8 +526,8 @@
   - 대기능의 따른 소기능 소개
 
 <div width="100%">
-<img src="docs/gif/프로필/프로필_회원정보수정.gif" width="20%">
-<img src="docs/gif/프로필/프로필_로그아웃_회원탈퇴.gif" width="20%">
+<img src="docs/gif/마이페이지/프로필_회원정보수정.gif" width="20%">
+<img src="docs/gif/마이페이지/프로필_로그아웃_회원탈퇴.gif" width="20%">
 </div>
 
 

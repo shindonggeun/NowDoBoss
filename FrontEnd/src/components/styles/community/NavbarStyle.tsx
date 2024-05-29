@@ -20,6 +20,7 @@ export const Container = styled.div`
     left: 0;
     height: 8vh;
     padding: 5px 20px;
+    border-bottom: 1px solid #dee4ec;
   }
 
   @media only screen and (max-width: 400px) {
@@ -35,10 +36,9 @@ export const Community = styled.div<{ $isTransparent: boolean }>`
     align-items: center;
     justify-content: left;
     width: 95vw;
-    height: 10vh;
+    height: 5vh;
     margin: 0;
     background-color: #ffffff;
-    border-bottom: 1px solid #dee4ec;
 
     opacity: ${props => (props.$isTransparent ? 1 : 0)};
     pointer-events: ${props => (props.$isTransparent ? 'auto' : 'none')};
@@ -50,7 +50,7 @@ export const Community = styled.div<{ $isTransparent: boolean }>`
     display: flex;
     align-items: center;
     width: 100vw;
-    height: 10vh;
+    height: 5vh;
     margin: 0;
   }
 `
@@ -66,7 +66,8 @@ export const Title = styled.div`
   }
   @media only screen and (max-width: 540px) {
     //padding: 10px 1px;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    padding: 0 5px;
   }
 `
 
@@ -81,7 +82,7 @@ export const Sub = styled.div`
   }
 `
 export const CreateButton = styled.div`
-  background-color: #b1c3ff;
+  background-color: rgba(21, 73, 181, 0.7);
   cursor: pointer;
   height: 50px;
   padding: 0 20px;
@@ -101,7 +102,7 @@ export const CreateButton = styled.div`
   }
 
   &:hover {
-    background-color: #94a9f3;
+    background-color: #1549b5;
   }
 
   @media only screen and (max-width: 992px) {

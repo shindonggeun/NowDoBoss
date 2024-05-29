@@ -124,7 +124,7 @@ const CompareList = ({
 
         return (
           <div key={i}>
-            <c.BodyContainerSubText>추천 {i + 1}</c.BodyContainerSubText>
+            <c.RecommendText>추천 {i + 1}</c.RecommendText>
             <c.FranchiseTitle>{franchise.brandName}</c.FranchiseTitle>
             <c.BodyContainerText>{formattedNumber}</c.BodyContainerText>
           </div>

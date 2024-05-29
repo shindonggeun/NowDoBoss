@@ -55,13 +55,13 @@ const CommunityListContainer = () => {
               />
             </c.List>
           ) : (
-            <c.Mid>
+            <c.List>
               <ArticleList
                 initialArticleList={data.dataBody}
                 hasMoreData={hasMoreData}
                 setHasMoreData={setHasMoreData}
               />
-            </c.Mid>
+            </c.List>
           )}
         </c.Div>
       ) : (

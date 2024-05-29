@@ -81,7 +81,7 @@ export const Title = styled.div`
   font-size: 2rem;
   font-weight: 600;
   @media only screen and (max-width: 550px) {
-    width: 50%;
+    //width: 50%;
   }
 `
 export const RowDiv = styled.div`
@@ -90,6 +90,7 @@ export const RowDiv = styled.div`
   justify-content: space-between;
 
   @media only screen and (max-width: 550px) {
+    flex-direction: column;
   }
 `
 export const Category = styled.div`
@@ -115,6 +116,9 @@ export const TimeAndCounting = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
+  @media only screen and (max-width: 550px) {
+    justify-content: start;
+  }
 `
 
 export const ImgDiv = styled.div`
@@ -192,6 +196,12 @@ export const SubContent = styled.div`
   font-weight: 500;
   margin: -2px 0 0 5px;
   font-size: 0.9rem;
+
+  @media only screen and (max-width: 992px) {
+    flex-direction: row;
+    align-items: center;
+    margin: -2px 0 0 0;
+  }
 `
 export const Icon = styled.img`
   //padding: 0 8px 0 0;
@@ -236,7 +246,14 @@ export const Div = styled.div`
   align-items: start;
   display: flex;
   flex-direction: column;
-  justify-content: left;
+  justify-content: center;
+  @media only screen and (max-width: 992px) {
+    scale: 1.1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
 `
 
 export const GotoCard = styled.div`

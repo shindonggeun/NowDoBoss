@@ -79,9 +79,9 @@ const BarChart3 = (props: BarChartProps) => {
             if (price > 100000000) {
               const billions = Math.floor(price / 100000000)
               const millions = Math.floor(Math.floor(price % 100000000) / 10000)
-              return `${billions}억 ${millions.toLocaleString()} 만원`
+              return `${billions}억 ${millions.toLocaleString()} 만명`
             }
-            return `${Math.floor(price / 10000).toLocaleString()} ${price === 0 ? '원' : '만원'}`
+            return `${Math.floor(price / 10000).toLocaleString()} ${price === 0 ? '원' : '만명'}`
           })
           ctx.font = 'bolder 12px Pretendard'
           ctx.fillStyle = '#22222'

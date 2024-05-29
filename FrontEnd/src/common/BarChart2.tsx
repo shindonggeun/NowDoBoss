@@ -35,13 +35,14 @@ const BarChart2 = (props: BarChartPropsType) => {
         backgroundColor: 'rgba(75, 192, 192, 0.2)', // 차트 색상 (색상을 더 다르게 하고 싶다면 props으로 전환)
         borderColor: 'rgba(75, 192, 192, 1)', // 선 색상
         borderWidth: 0.5,
-        borderRadius: 10,
+        // borderRadius: 10,
       },
     ],
   }
 
   const options = {
     responsive: true, // 차트가 반응형으로 동작하도록 설정
+    aspectRatio: 1.8,
     // maintainAspectRatio: true, // 종횡비 유지 설정
     // hover했을 때 데이터 값이 보이도록 설정
     interaction: {
@@ -55,9 +56,9 @@ const BarChart2 = (props: BarChartPropsType) => {
     },
     layout: {
       padding: {
-        top: 20,
-        left: 30,
-        right: 30,
+        top: 18,
+        left: 15,
+        right: 15,
       },
     },
     scales: {
@@ -84,7 +85,7 @@ const BarChart2 = (props: BarChartPropsType) => {
         const { ctx } = chart
         ctx.save()
         chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
-          ctx.font = 'bolder 12px pretendard'
+          ctx.font = 'bolder 14px pretendard'
           ctx.fillStyle = data.datasets[0].borderColor[index]
           ctx.textAlign = 'center'
           ctx.fillText(

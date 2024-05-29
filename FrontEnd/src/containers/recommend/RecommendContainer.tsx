@@ -13,12 +13,15 @@ import LoadingComponent from '@src/components/recommend/LoadingComponent'
 import { RecommendCommercialType } from '@src/types/MapType'
 import useSelectPlaceStore from '@src/stores/selectPlaceStore'
 import Banner from '@src/common/Banner'
+import * as a from '@src/containers/analysis/SelectContainerStyle'
+import { useNavigate } from 'react-router-dom'
 
 const RecommendContainer = () => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const [shouldRender, setShouldRender] = useState<boolean>(false)
   const reportRef = useRef<HTMLDivElement | null>(null)
   const [selectedTab, setSelectedTab] = useState<string>('')
+  const navigate = useNavigate()
   const [selectedData, setSelectedData] = useState<RecommendCommercialType>({
     commercialCode: 0,
     commercialCodeName: '',
@@ -171,6 +174,9 @@ const RecommendContainer = () => {
       <r.MapDiv>
         <KakaoMap />
       </r.MapDiv>
+      <a.SmallBanner onClick={() => navigate('/analysis/simulation')}>
+        창업 시뮬레이션
+      </a.SmallBanner>
       <r.SearchDiv>
         {/* 서치바 */}
         <r.Search>

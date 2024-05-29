@@ -83,19 +83,19 @@ public class SalesCommercialCustomImpl implements SalesCommercialCustom {
     }
 
     @Override
-    public String findTopSalesCommercialInCommercialCodes(List<String> commercialCodes, String periodCode) {
+    public List<String> findTopSalesCommercialInCommercialCodes(List<String> commercialCodes, String periodCode) {
         QSalesCommercial salesCommercial = QSalesCommercial.salesCommercial;
 
         // 쿼리 작성
-        String res = queryFactory
+        List<String> res = queryFactory
                 .select(salesCommercial.commercialCode)
                 .from(salesCommercial)
                 .where(salesCommercial.periodCode.eq(periodCode)
                         .and(salesCommercial.commercialCode.in(commercialCodes)))
                 .groupBy(salesCommercial.commercialCode)
                 .orderBy(salesCommercial.monthSales.sum().desc())
-                .limit(1) // 가장 큰 값을 가진 한 개의 결과만 가져옴
-                .fetchFirst(); // 첫 번째 결과만 가져옴 (fetchOne()과 동일한 경우도 있음)
+                .limit(3) // 가장 큰 값을 가진 한 개의 결과만 가져옴
+                .fetch(); // 첫 번째 결과만 가져옴 (fetchOne()과 동일한 경우도 있음)
 
         return res;
     }

@@ -57,3 +57,11 @@ export const fetchDongInfo = async (
     .then(res => res.data)
     .catch(err => console.log(err))
 }
+
+// 상권 코드 보내면 역으로 동 정보 받아오는 get api
+export const fetchKorean = async (koreanData: string, type: string) => {
+  return customAxios
+    .get(`/commercial/code-name?codeName=${koreanData}&type=${type}`)
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}

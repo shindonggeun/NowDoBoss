@@ -43,7 +43,7 @@ const PieChart3 = (props: PieChartProps) => {
 
   const options = {
     responsive: true, // 차트가 반응형으로 동작하도록 설정
-    aspectRatio: 1.5, // 가로세로비 조정
+    aspectRatio: 2, // 가로세로비 조정
     // maintainAspectRatio: true, // 종횡비 유지 설정
     // hover했을 때 데이터 값이 보이도록 설정
     interaction: {
@@ -51,7 +51,7 @@ const PieChart3 = (props: PieChartProps) => {
     },
     layout: {
       padding: {
-        top: 20,
+        top: 15,
       },
     },
     plugins: {

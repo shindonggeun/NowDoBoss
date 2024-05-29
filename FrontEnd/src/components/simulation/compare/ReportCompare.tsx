@@ -139,8 +139,9 @@ const SimulationReportCompare = ({ layout, setLayout }: ModalType) => {
           창업 비용 비교하기
         </DialogTitle>
         <c.CompareTitleContainer>
-          <c.CompareTitle>창업준비의 모든비용</c.CompareTitle>
-          <c.CompareTitle>한눈에 비교하기</c.CompareTitle>
+          <c.CompareTitle>
+            창업준비의 모든비용 <br /> 한눈에 비교하기
+          </c.CompareTitle>
         </c.CompareTitleContainer>
         {data && !isLoading && (
           <c.CheckContainer>

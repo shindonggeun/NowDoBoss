@@ -5,7 +5,6 @@ from fastapi import FastAPI, Request, HTTPException, BackgroundTasks
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import lit
 import json
-from pymongo import MongoClient
 import scheduler
 
 app = FastAPI()
@@ -39,6 +38,7 @@ async def recommend_commercial_areas(request: UserRequest, background_tasks: Bac
         print(f"Error occurred: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.post("/data")
 async def receive_data(request: Request):
     body = await request.body()
@@ -47,22 +47,24 @@ async def receive_data(request: Request):
     print("Received data:", data)
     return {"message": "Data received successfully", "receivedData": data}
 
-
-@app.get("/test")
-def test():
-    print("테스트중!")
-
 @app.get("/recommend-test")
 async def recommend_commercial_areas():
     # Spark 세션 생성
     spark = start_recommend_spark()
 
-    # DataFrame으로 HDFS 파일 읽기
-    df = spark.read.csv("hdfs://172.24.48.100:9000/data/commercial_data.csv", header=True, inferSchema=True)
+    try:
+        # DataFrame으로 HDFS 파일 읽기
+        df = spark.read.csv("hdfs://master1:9000/data/commercial_data.csv", header=True, inferSchema=True)
 
-    # 데이터 출력
-    df.show()
-    return {"status": "success", "data": df.collect()}
+        # 데이터 출력
+        df.show()
+        return {"status": "success", "data": df.collect()}
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        # Spark 세션 종료
+        spark.stop()
 
 @app.get("/test-spark-connection")
 async def test_spark_connection():
@@ -78,54 +80,30 @@ async def test_spark_connection():
         # DataFrame 출력
         df.show()
 
-        # Spark 세션 중지
-        spark.stop()
-
         return {"status": "success", "message": "Spark session created and DataFrame displayed successfully"}
-
     except Exception as e:
         # 에러 로그
         print(f"Error occurred: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-
-def start_spark_session():
-    # hdfs_path = "hdfs://master1:9000/"
-
-    # spark = SparkSession.builder \
-    #     .appName("FastAPI-Spark Integration") \
-    #     .master("spark://172.24.48.100:7077") \
-    #     .getOrCreate()
-
-    # Spark 세션 생성
-    spark = SparkSession.builder \
-        .appName("MyApp") \
-        .master("spark://172.24.48.100:7077") \
-        .config("spark.executor.memory", "2g") \
-        .config("spark.executor.cores", "2") \
-        .config("spark.driver.memory", "2g") \
-        .getOrCreate()
-
-    # Hadoop 파일 시스템 설정
-    hadoop_conf = spark._jsc.hadoopConfiguration()
-    hadoop_conf.set("fs.defaultFS", "hdfs://172.24.48.100:9000")
-    return spark
+    finally:
+        # Spark 세션 종료
+        spark.stop()
 
 def start_recommend_spark():
-    # SparkSession 생성
+    # spark = SparkSession.builder \
+    #     .appName("FastAPI-Spark Integration") \
+    #     .master("spark://master1:7077") \
+    #     .config("spark.pyspark.python", "/opt/venv/bin/python") \
+    #     .config("spark.pyspark.driver.python", "/opt/venv/bin/python") \
+    #     .config("spark.submit.pyFiles", "spark_reco.py") \
+    #     .getOrCreate()
     spark = SparkSession.builder \
         .appName("FastAPI-Spark Integration") \
         .getOrCreate()
+
     return spark
 
-def start_update_spark():
-    # Spark 세션 생성
-    spark = SparkSession.builder \
-        .appName("Data Processing") \
-        .getOrCreate()
-    return spark
 
-# def stop_spark(spark):
-#     spark.stop()
 
 if __name__ == "__main__":
     import uvicorn

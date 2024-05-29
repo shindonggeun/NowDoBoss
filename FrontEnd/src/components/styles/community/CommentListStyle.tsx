@@ -101,6 +101,7 @@ export const ModDiv = styled.div`
 `
 export const ModButton = styled.div`
   padding: 0 5px;
+  font-size: 0.8rem;
   &:hover {
     cursor: pointer;
     font-weight: 600;
@@ -114,15 +115,16 @@ export const CommentProfile = styled.img`
 `
 export const CommentName = styled.div`
   font-weight: 600;
-  font-size: 1.3rem;
-  margin-top: -2px;
+  font-size: 1.2rem;
+  margin-top: -3px;
 `
 export const CommentTime = styled.div`
   color: #acacac;
   margin-top: -3px;
   margin-bottom: 5px;
+  font-size: 0.9rem;
 `
 export const CommentContent = styled.div`
   margin-left: 5px;
-  font-size: 1.3rem;
+  font-size: 1rem;
 `

@@ -12,6 +12,7 @@ import com.ssafy.backend.domain.commercial.document.CommercialAnalysis;
 import com.ssafy.backend.domain.commercial.dto.info.*;
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisKafkaRequest;
 import com.ssafy.backend.domain.commercial.dto.request.CommercialAnalysisSaveRequest;
+import com.ssafy.backend.domain.commercial.dto.request.ConversionCodeNameRequest;
 import com.ssafy.backend.domain.commercial.dto.response.*;
 import com.ssafy.backend.domain.commercial.entity.*;
 import com.ssafy.backend.domain.commercial.exception.CommercialErrorCode;
@@ -37,6 +38,7 @@ import com.ssafy.backend.global.component.kafka.producer.KafkaProducer;
 import com.ssafy.backend.global.util.CoordinateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,6 +55,9 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class CommercialServiceImpl implements CommercialService {
+    private static final String DISTRICT = "district";
+    private static final String ADMINISTRATION = "administration";
+
     private final AreaCommercialRepository areaCommercialRepository;
     private final FootTrafficCommercialRepository footTrafficCommercialRepository;
     private final SalesCommercialRepository salesCommercialRepository;
@@ -67,6 +72,56 @@ public class CommercialServiceImpl implements CommercialService {
     private final CommercialAnalysisRepository commercialAnalysisRepository;
     private final KafkaProducer kafkaProducer;
     private final DataRepository dataRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public ConversionCodeResponse conversionCodeNameToCode(ConversionCodeNameRequest request) {
+        // 자치구
+        if (DISTRICT.equals(request.type())) {
+            return areaCommercialRepository.findDistrictInfoByDistrictCodeName(request.codeName());
+        }
+        
+        // 행정동
+        if (ADMINISTRATION.equals(request.type())) {
+            return areaCommercialRepository.findAdministrationInfoByAdministrationCodeName(request.codeName());
+        }
+
+        // 상권
+        return areaCommercialRepository.findCommercialInfoByCommercialCodeName(request.codeName());
+
+
+        /*// 자치구 변환
+        String districtCode = areaCommercialRepository.findDistrictCodeByDistrictCodeName(request.districtCodeName());
+
+        // 행정동 변환
+        String administrationCode = convertAdministrationCodeNameToAdministrationCode(request.administrationCodeName());
+
+        // 상권 변환
+        String commercialCode = convertCommercialCodeNameToCommercialCode(request.commercialCodName());
+
+        return ConversionCodeResponse.builder()
+                .districtCodeName(request.districtCodeName())
+                .districtCode(districtCode)
+                .administrationCodeName(request.administrationCodeName())
+                .administrationCode(administrationCode)
+                .commercialCodeName(request.commercialCodName())
+                .commercialCode(commercialCode)
+                .build();*/
+    }
+
+    private String convertAdministrationCodeNameToAdministrationCode(final String administrationCodeName) {
+        if (StringUtils.isBlank(administrationCodeName)) {
+            return null;
+        }
+        return areaCommercialRepository.findAdministrationCodeByAdministrationCodeName(administrationCodeName);
+    }
+
+    private String convertCommercialCodeNameToCommercialCode(final String commercialCodeName) {
+        if (StringUtils.isBlank(commercialCodeName)) {
+            return null;
+        }
+        return areaCommercialRepository.findCommercialCodeByCommercialCodeName(commercialCodeName);
+    }
 
     @Override
     @Transactional(readOnly = true)

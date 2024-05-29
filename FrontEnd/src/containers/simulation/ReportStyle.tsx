@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  width: 100.1%;
-  min-height: 20rem;
+  width: 100.3%;
+  //min-height: 10rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,9 +12,13 @@ export const Container = styled.div`
 export const SummaryContainer = styled.div`
   width: 100%;
   margin: 0 2vw 1rem 2vw;
-  min-height: 20rem;
+  min-height: 16rem;
   border-radius: 5px;
   background: white;
+
+  @media (max-width: 768px) {
+    margin: 0 15px 1rem 15px;
+  }
 `
 
 export const SaveIcon = styled.img`
@@ -71,14 +75,14 @@ export const SummaryHeader = styled.div`
   position: relative;
 
   @media (max-width: 768px) {
-    margin: 1.2rem 1rem;
+    margin: 25px 20px 10px 20px;
   }
 `
 
 export const HighLight = styled.div`
   display: flex;
   align-items: center;
-  min-width: 12rem;
+  min-width: 10rem;
   background-color: #fdffc7;
   font-size: 1.4rem;
   font-weight: 700;
@@ -90,7 +94,7 @@ export const HighLight = styled.div`
   @media (max-width: 768px) {
     width: 7rem;
     padding: 0.3rem 2rem;
-    font-size: 1.1rem;
+    font-size: 1rem;
     left: 10px;
   }
 `
@@ -108,7 +112,7 @@ export const BodyTop = styled.div`
   padding-left: 4rem;
 
   @media (max-width: 768px) {
-    padding-left: 2rem;
+    padding-left: 20px;
   }
 `
 
@@ -118,7 +122,7 @@ export const BodyTopTitle = styled.div`
   color: #1b3fff;
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 `
 
@@ -127,7 +131,7 @@ export const BodyTopSubTitle = styled.div`
   font-size: 0.8rem;
   color: #808080;
   @media (max-width: 768px) {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
   }
 `
 

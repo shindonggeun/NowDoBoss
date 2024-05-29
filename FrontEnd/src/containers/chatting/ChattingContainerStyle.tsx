@@ -6,7 +6,7 @@ export const SideBar = styled.div`
   width: 250px;
   height: calc(100vh - 68px);
 
-  @media only screen and (max-width: 992px) {
+  @media only screen and (max-width: 1015px) {
     position: static; // 화면 너비가 992px 이하일 때는 고정 위치 해제
     width: 100vw;
     height: auto;

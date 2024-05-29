@@ -99,7 +99,7 @@ export const AnalysisDataIcon = styled.img`
 `
 
 export const SummaryContainer = styled.div`
-  margin: 1rem 1vw;
+  margin: 1rem 0;
 `
 
 export const SummaryTitle = styled.div`

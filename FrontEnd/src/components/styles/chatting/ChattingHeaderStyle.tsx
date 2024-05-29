@@ -19,7 +19,7 @@ export const ChatInfo = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  margin: 10px 20px;
+  margin: 10px 3vh;
 `
 export const ChatImg = styled.div`
   background-color: #d9d9d9;
@@ -43,6 +43,11 @@ export const More = styled.div`
 
   &:hover {
     cursor: pointer;
+  }
+
+  @media only screen and (max-width: 992px) {
+    padding: 10px 3vw;
+    margin: 0 5px;
   }
 `
 

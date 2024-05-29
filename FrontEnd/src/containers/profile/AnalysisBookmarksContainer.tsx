@@ -1,11 +1,19 @@
 import { useQuery } from '@tanstack/react-query'
+// import selectPlaceStore from '@src/stores/selectPlaceStore'
+// import analysisStore from '@src/stores/analysisStore'
 import { GetAnalysisBookmarks } from '@src/api/analysisApi'
 import { AnalysisBookmarksResDataType } from '@src/types/AnalysisType'
 import * as p from '@src/components/styles/profile/ProfileStyle'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
 const AnalysisBookmarksContainer = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
+  // const setSelectedGoo = selectPlaceStore(state => state.setSelectedGoo)
+  // const setSelectedDong = selectPlaceStore(state => state.setSelectedDong)
+  // const setSelectedCommercial = selectPlaceStore(
+  //   state => state.setSelectedCommercial,
+  // )
+  // const setSelectedService = analysisStore(state => state.setSelectedService)
 
   const { data: AnalysisBookmarksList } = useQuery({
     queryKey: ['getAnalysisBookmarks'],
@@ -34,32 +42,35 @@ const AnalysisBookmarksContainer = () => {
     return `${formattedDate} ${formattedTime}`
   }
 
-  const handleGoResult = (item: AnalysisBookmarksResDataType) => {
-    const selectedGoo = {
-      code: Number(item.districtCode),
-      name: item.districtCodeName,
-    }
-
-    const selectedDong = {
-      code: Number(item.administrationCode),
-      name: item.administrationCodeName,
-    }
-
-    const selectedCommercial = {
-      code: Number(item.commercialCode),
-      name: item.commercialCodeName,
-    }
-
-    const selectedService = {
-      serviceType: item.serviceType,
-      serviceCode: item.serviceCode,
-      serviceCodeName: item.serviceCodeName,
-    }
-
-    navigate('/analysis', {
-      state: { selectedGoo, selectedDong, selectedCommercial, selectedService },
-    })
-  }
+  // const handleGoResult = (item: AnalysisBookmarksResDataType) => {
+  //   const selectedGoo = {
+  //     code: Number(item.districtCode),
+  //     name: item.districtCodeName,
+  //   }
+  //
+  //   const selectedDong = {
+  //     code: Number(item.administrationCode),
+  //     name: item.administrationCodeName,
+  //   }
+  //
+  //   const selectedCommercial = {
+  //     code: Number(item.commercialCode),
+  //     name: item.commercialCodeName,
+  //   }
+  //
+  //   const selectedService = {
+  //     serviceType: item.serviceType,
+  //     serviceCode: item.serviceCode,
+  //     serviceCodeName: item.serviceCodeName,
+  //   }
+  //
+  //   setSelectedGoo(selectedGoo)
+  //   setSelectedDong(selectedDong)
+  //   setSelectedCommercial(selectedCommercial)
+  //   setSelectedService(selectedService)
+  //
+  //   navigate('/analysis/result')
+  // }
 
   return (
     <div>
@@ -67,11 +78,7 @@ const AnalysisBookmarksContainer = () => {
         <p.CardWrapper>
           {AnalysisBookmarksList.dataBody.data.map(
             (item: AnalysisBookmarksResDataType, index: number) => (
-              <p.Card
-                key={index}
-                $width={270}
-                onClick={() => handleGoResult(item)}
-              >
+              <p.Card key={index} $width={270}>
                 <p.CardContent $marginTop={5}>
                   {item.serviceCodeName}
                 </p.CardContent>

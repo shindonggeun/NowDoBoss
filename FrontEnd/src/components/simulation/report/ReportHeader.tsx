@@ -43,15 +43,6 @@ const ReportHeader = ({
 
   const [isSaved, setIsSaved] = useState<boolean>(false)
 
-  // 창업 시뮬레이션 비교하기 버튼 클릭 핸들러
-  const handleSimulationCompareClick = () => {
-    if (userLoggedIn) {
-      navigate('/analysis/simulation/compare')
-    } else {
-      onClickFail(true)
-    }
-  }
-
   // 레포트 분석 저장
   const { mutate: mutateSaveReport } = useMutation({
     mutationFn: reportSave,
@@ -94,14 +85,14 @@ const ReportHeader = ({
   // 카카오톡 share 탬플릿
   // const serverUrl = 'http://localhost:5173'
   const serverUrl = 'https://k10c208.p.ssafy.io'
-  const shareKakao = (data: string) => {
+  const shareKakao = (token: string) => {
     window.Kakao.Link.sendCustom({
       templateId: 107914,
       templateArgs: {
         Server_Url: serverUrl,
         // Path: 'api/v1/share',
         Path: 'share',
-        Token: data,
+        Token: token,
       },
     })
   }
@@ -117,8 +108,13 @@ const ReportHeader = ({
     },
   })
 
-  const onClickCompare = async () => {
-    await handleSimulationCompareClick()
+  // 창업 시뮬레이션 비교하기 버튼 클릭 핸들러
+  const onClickCompare = () => {
+    if (userLoggedIn) {
+      navigate('/analysis/simulation/compare')
+    } else {
+      onClickFail(true)
+    }
   }
 
   const onClickShare = () => {

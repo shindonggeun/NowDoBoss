@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 @Component
 public class WordCountProcessor {
-    private static final Serde<String> STRING_SERDE = Serdes.String();
+    private static final Serde<String> STRING_SERDE = Serdes.String();  // 문자열 Serde 설정
     private static final Serde<CommercialAnalysisKafkaRequest> COMMERCIAL_ANALYSIS_RESPONSE_SERDE = JsonSerde.forType(CommercialAnalysisKafkaRequest.class);
 
     @Autowired
@@ -25,8 +25,8 @@ public class WordCountProcessor {
         KStream<String, CommercialAnalysisKafkaRequest> messageStream = streamsBuilder
                 .stream("commercial-analysis", Consumed.with(STRING_SERDE, COMMERCIAL_ANALYSIS_RESPONSE_SERDE));
 
-        // Set the window to start from the beginning of today and last for 24 hours
-        TimeWindows dailyWindow = TimeWindows.ofSizeWithNoGrace(Duration.ofDays(1));
+        // 하루 윈도우 설정
+        TimeWindows dailyWindow = TimeWindows.ofSizeAndGrace(Duration.ofDays(1), Duration.ZERO);
 
         // Apply windowed operation
         KTable<Windowed<String>, Long> wordCounts = messageStream
@@ -37,6 +37,7 @@ public class WordCountProcessor {
 
         // 추출한 windowSize를 기반으로 Serde 생성
         long windowSize = Duration.ofDays(1).toMillis(); // 하루 단위의 밀리세컨드
+
 
         wordCounts.toStream()
                 .to("daily-analysis-output", Produced.with(WindowedSerdes.timeWindowedSerdeFrom(String.class, windowSize), Serdes.Long()));

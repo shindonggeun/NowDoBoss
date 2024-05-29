@@ -35,7 +35,7 @@ const RecommendBanner = (props: RecommendBannerPropsType) => {
       setSelectedCommercial: state.setSelectedCommercial,
     }))
 
-  // 행정동 코드 입력 시 행정구 코드, 이름 찾아서 저장
+  // 행정동 코드 입력 시 자치구 코드, 이름 찾아서 저장
   const ReCallBeforeData = useCallback(
     (code: number) => {
       // 행정동의 8자리 코드 중 5자리 추출

@@ -86,6 +86,16 @@ export const TotalPrice = styled.div`
   }
 `
 
+export const RecommendText = styled.span`
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 8px;
+  background-color: #fdffc7;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+`
+
 export const BodyContainerText = styled.div`
   padding-bottom: 15px;
   @media (max-width: 768px) {

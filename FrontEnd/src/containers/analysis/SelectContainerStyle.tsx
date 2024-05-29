@@ -40,6 +40,24 @@ export const Banner = styled.div`
   }
 `
 
+export const SmallBanner = styled.div`
+  position: absolute;
+  z-index: 10;
+  display: none;
+
+  @media only screen and (max-width: 992px) {
+    display: flex;
+    right: 0;
+    top: 0;
+    margin: 10px 1rem;
+    padding: 8px 10px;
+    border-radius: 5px;
+    background-color: #2a65f0;
+    color: white;
+    font-weight: 500;
+  }
+`
+
 export const ReduceBtnWrap = styled.div`
   position: absolute;
   z-index: 1;

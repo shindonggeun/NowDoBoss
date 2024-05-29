@@ -133,7 +133,7 @@ const ChoicePlace = () => {
         {/* 행정동 드롭다운 */}
 
         <Select
-          disabled={selectedGoo.name === '행정구'}
+          disabled={selectedGoo.name === '자치구'}
           placeholder={selectedDong.name}
           value={selectedDong.name}
           indicator={<KeyboardArrowDown />}
@@ -183,7 +183,7 @@ const ChoicePlace = () => {
         ) : (
           <Select
             disabled={
-              selectedGoo.name === '행정구' || selectedDong.name === '행정동'
+              selectedGoo.name === '자치구' || selectedDong.name === '행정동'
             }
             placeholder={selectedCommercial.name}
             value={selectedCommercial.name}

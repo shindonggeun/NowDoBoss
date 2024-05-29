@@ -15,7 +15,7 @@ export const Container = styled.div`
 
   margin: auto;
   @media only screen and (max-width: 992px) {
-    //
+    height: 120vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,7 +35,7 @@ export const Content = styled.div`
   @media only screen and (max-width: 992px) {
     margin: 10px 0;
     width: calc(100vw - 5px);
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: center;
   }
 `
@@ -150,6 +150,9 @@ export const Recommend = styled.div`
 
   @media only screen and (max-width: 992px) {
     height: 400vh;
+  }
+  @media only screen and (max-width: 500px) {
+    height: 280vh;
   }
 `
 

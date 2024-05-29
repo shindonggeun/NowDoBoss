@@ -29,7 +29,7 @@ export type SelectedPlaceStoreType = {
 
 export const selectPlaceStore = create<SelectedPlaceStoreType>(set => ({
   // 선택한 행정구
-  selectedGoo: { name: '행정구', code: 0 },
+  selectedGoo: { name: '자치구', code: 0 },
   setSelectedGoo: place => set({ selectedGoo: place }),
   // 선택한 행정동
   selectedDong: { name: '행정동', code: 0 },

@@ -96,6 +96,7 @@ export const PoligonMap = styled.div`
     height: 50vh;
   }
   @media only screen and (max-width: 460px) {
+    left: -10px;
   }
 `
 

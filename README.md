@@ -315,7 +315,7 @@
 - 서울시 자치구 현황 화면
   - 유동인구, 평균 매출, 개업률, 폐업률 4가지 범주에 대해 자치구 Top 10 순위 제공
   <div width="100%">
-  <img src="docs/gif/구별현황/구별현황(웹).gif" width="75%">
+  <img src="docs/gif/구별현황/구별현황(웹).gif" width="95%">
   </div>
 
 - 서울시 자치구 현황 상세 화면
@@ -323,10 +323,6 @@
   - 순위 또는 지도를 누르면 해당 자치구의 상세 현황으로 이동
   <div width="100%">
   <img src="docs/gif/구별현황/구별현황상세(웹).gif" width="75%">
-  </div>
-
-- 모바일 화면
-  <div width="100%">
   <img src="docs/gif/구별현황/구별분석_모바일.gif" width="20%">
   </div>
 
@@ -340,10 +336,6 @@
   - 리포트 저장 기능 제공
   <div width="100%">
   <img src="docs/gif/상권분석/상권분석_저장_웹.gif" width="75%">
-  </div>
-
-- 모바일
-  <div width="100%">
   <img src="docs/gif/상권분석/상권분석_모바일.gif" width="20%">
   </div>
 
@@ -384,20 +376,13 @@
   <img src="docs/gif/창업시뮬레이션/창업_시뮬레이션_공유하기.gif" width="95%">
   </div>
 
-- 모바일 화면
-  <div width="100%">
-  <img src="docs/gif/창업시뮬레이션/창업시뮬레이션(모바일).gif" width="20%">
-  <img src="docs/gif/창업시뮬레이션/창업시뮬레이션저장(모바일).gif" width="20%">
-  <img src="docs/gif/창업시뮬레이션/창업시뮬레이션비교(모바일).gif" width="20%">
-  </div>
-
-
 ### 상권 추천 화면
 - 추천 상권 영역 선택 + 지도 화면
   - 유저가 지역구와 행정동(고르지 않으면 행정동 전체)를 고르면 해당 영역 내 상권 추천
   - 지도를 통한 선택도 가능
   <div width="100%">
-  <img src="docs/gif/상권추천/상권추천(웹).gif" width="50%">
+  <img src="docs/gif/상권추천/상권추천(웹).gif" width="75%">
+  <img src="docs/gif/상권추천/상권추천(모바일).gif" width="20%">
   </div>  
 
 - 유저 맞춤형 추천 상권 정보 화면
@@ -407,47 +392,42 @@
   - 보관함 저장 기능 제공
   <div width="100%">
   <img src="docs/gif/상권추천/상권추천상세(웹).gif" width="75%">
-  </div>
-
-- 모바일 화면
-  <div width="100%">
-  <img src="docs/gif/상권추천/상권추천(모바일).gif" width="20%">
   <img src="docs/gif/상권추천/상권추천상세(모바일).gif" width="20%">
   </div>
-
 
 ### 커뮤니티 화면
 
 - 커뮤니티 
   - 커뮤니티 글 작성
   <div width="100%">
-  <img src="docs/gif/커뮤니티/커뮤니티_생성.gif" width="50%">
+  <img src="docs/gif/커뮤니티/커뮤니티_생성.gif" width="75%">
   </div>
 
   - 커뮤니티 글 수정
   <div width="100%">
-  <img src="docs/gif/커뮤니티/커뮤니티_수정.gif" width="50%">
+  <img src="docs/gif/커뮤니티/커뮤니티_수정.gif" width="75%">
   </div>
 
   - 커뮤니티 글 삭제
   <div width="100%">
-  <img src="docs/gif/커뮤니티/커뮤니티_삭제.gif" width="50%">
+  <img src="docs/gif/커뮤니티/커뮤니티_삭제.gif" width="75%">
   </div>
 
 - 커뮤니티 댓글
   - 커뮤니티 댓글 작성
   <div width="100%">
-  <img src="docs/gif/커뮤니티/커뮤니티_댓글_생성.gif" width="50%">
+  <img src="docs/gif/커뮤니티/커뮤니티_댓글_생성.gif" width="75%">
+  <img src="docs/gif/커뮤니티/커뮤니티_댓글_모바일.gif" width="20%">
   </div>
 
   - 커뮤니티 댓글 수정
   <div width="100%">
-  <img src="docs/gif/커뮤니티/커뮤니티_댓글_수정.gif" width="50%">
+  <img src="docs/gif/커뮤니티/커뮤니티_댓글_수정.gif" width="95%">
   </div>
 
   - 커뮤니티 댓글 삭제
   <div width="100%">
-  <img src="docs/gif/커뮤니티/커뮤니티_댓글_삭제.gif" width="50%">
+  <img src="docs/gif/커뮤니티/커뮤니티_댓글_삭제.gif" width="95%">
   </div>
 
 - 모바일 화면
@@ -457,17 +437,13 @@
   <img src="docs/gif/커뮤니티/커뮤니티_삭제_모바일.gif" width="20%">
   </div>
 
-  <div width="100%">
-  <img src="docs/gif/커뮤니티/커뮤니티_댓글_모바일.gif" width="20%">
-  </div>
-
 ### 채팅 화면
 
 - 채팅방 생성
   - 채팅방 이름, 소개, 제한인원, 카테고리 설정 가능
   - 제한인원만큼만 채팅방 입장 가능
   <div width="100%">
-  <img src="docs/gif/채팅/채팅방_생성.gif" width="50%">
+  <img src="docs/gif/채팅/채팅방_생성.gif" width="75%">
   </div>
 
 
@@ -475,25 +451,25 @@
   - 해당 채팅방 나가기
   - 모든 채팅방 구성원이 방을 나갈 경우 채팅방 삭제 
   <div>
-  <img src="docs/gif/채팅/채팅방_나가기.gif" width="50%">
+  <img src="docs/gif/채팅/채팅방_나가기.gif" width="75%">
   </div>
 
 
 - 채팅
   - 채팅 메시지 주고받기 
   <div>
-  <img src="docs/gif/채팅/채팅.gif" width="50%">
+  <img src="docs/gif/채팅/채팅.gif" width="75%">
   </div>
 
   - 채팅 메시지 받았을 경우 알림
   <div>
-  <img src="docs/gif/채팅/채팅알림(웹).gif" width="50%">
+  <img src="docs/gif/채팅/채팅알림(웹).gif" width="75%">
   </div>
 
 - 내 채팅방 검색
   - 내가 입장하고 나가지 않은 채팅방 목록 중 검색
   <div>
-  <img src="docs/gif/채팅/내채팅방_검색.gif" width="50%">
+  <img src="docs/gif/채팅/내채팅방_검색.gif" width="75%">
   </div>
 
 - 모바일 화면
@@ -515,17 +491,13 @@
 - 프로필
   - 회원정보 수정(닉네임, 비밀번호)
   <div width="100%">
-  <img src="docs/gif/마이페이지/프로필_회원정보수정.gif" width="50%">
+  <img src="docs/gif/마이페이지/프로필_회원정보수정.gif" width="75%">
+  <img src="docs/gif/마이페이지/모바일_프로필_회원정보_수정.gif" width="20%">
   </div>
   
   - 로그아웃, 회원탈퇴
   <div width="100%">
-  <img src="docs/gif/마이페이지/프로필_로그아웃_회원탈퇴.gif" width="50%">
-  </div>
-
-- 모바일 화면
-  <div width="100%">
-  <img src="docs/gif/마이페이지/모바일_프로필_회원정보_수정.gif" width="20%">
+  <img src="docs/gif/마이페이지/프로필_로그아웃_회원탈퇴.gif" width="75%">
   <img src="docs/gif/마이페이지/모바일_프로필_로그아웃_회원탈퇴.gif" width="20%">
   </div>
 
@@ -546,12 +518,12 @@
 
 
 <div width="100%">
-<img src="docs/gif/회원/일반회원가입_로그인_웹.gif" width="20%">
-<img src="docs/gif/회원/일반회원_회원정보수정_비밀번호변경_회원탈퇴_웹.gif" width="20%">
+<img src="docs/gif/회원/일반회원가입_로그인_웹.gif" width="75%">
+<img src="docs/gif/회원/일반회원가입_로그인_모바일.gif" width="20%">
 </div>
 
 <div width="100%">
-<img src="docs/gif/회원/일반회원가입_로그인_모바일.gif" width="20%">
+<img src="docs/gif/회원/일반회원_회원정보수정_비밀번호변경_회원탈퇴_웹.gif" width="75%">
 <img src="docs/gif/회원/일반회원_회원정보수정_비밀번호변경_회원탈퇴_모바일.gif" width="20%">
 </div>
 
@@ -574,14 +546,17 @@
 
 
 <div width="100%">
-<img src="docs/gif/회원/카카오_소셜로그인_웹.gif" width="20%">
-<img src="docs/gif/회원/네이버_소셜로그인_웹.gif" width="20%">
-<img src="docs/gif/회원/구글_소셜로그인_웹.gif" width="20%">
+<img src="docs/gif/회원/카카오_소셜로그인_웹.gif" width="75%">
+<img src="docs/gif/회원/카카오_소셜로그인_모바일.gif" width="20%">
 </div>
 
 <div width="100%">
-<img src="docs/gif/회원/카카오_소셜로그인_모바일.gif" width="20%">
+<img src="docs/gif/회원/네이버_소셜로그인_웹.gif" width="75%">
 <img src="docs/gif/회원/네이버_소셜로그인_모바일.gif" width="20%">
+</div>
+
+<div width="100%">
+<img src="docs/gif/회원/구글_소셜로그인_웹.gif" width="75%">
 <img src="docs/gif/회원/구글_소셜로그인_모바일.gif" width="20%">
 </div>
 

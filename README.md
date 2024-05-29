@@ -306,7 +306,7 @@
   - 대기능의 따른 소기능 소개
   - 대기능의 따른 소기능 소개
   <div width="100%">
-  <img src="docs/gif/인기검색어/실시간_인기검색어_이동.gif"width="75%">
+  <img src="docs/gif/인기검색어/실시간_인기검색어_이동.gif"width="95%">
   </div>
 
 
@@ -397,44 +397,40 @@
 
 ### 커뮤니티 화면
 
-- 커뮤니티 
-  - 커뮤니티 글 작성
+- 커뮤니티 게시글
+  - 게시글 작성
   <div width="100%">
   <img src="docs/gif/커뮤니티/커뮤니티_생성.gif" width="75%">
+  <img src="docs/gif/커뮤니티/커뮤니티_생성_모바일.gif" width="20%">
   </div>
 
-  - 커뮤니티 글 수정
+  - 게시글 수정
   <div width="100%">
   <img src="docs/gif/커뮤니티/커뮤니티_수정.gif" width="75%">
+  <img src="docs/gif/커뮤니티/커뮤니티_수정_모바일.gif" width="20%">
   </div>
 
-  - 커뮤니티 글 삭제
+  - 게시글 삭제
   <div width="100%">
   <img src="docs/gif/커뮤니티/커뮤니티_삭제.gif" width="75%">
+  <img src="docs/gif/커뮤니티/커뮤니티_삭제_모바일.gif" width="20%">
   </div>
 
 - 커뮤니티 댓글
-  - 커뮤니티 댓글 작성
+  - 댓글 작성
   <div width="100%">
   <img src="docs/gif/커뮤니티/커뮤니티_댓글_생성.gif" width="75%">
   <img src="docs/gif/커뮤니티/커뮤니티_댓글_모바일.gif" width="20%">
   </div>
 
-  - 커뮤니티 댓글 수정
+  - 댓글 수정
   <div width="100%">
   <img src="docs/gif/커뮤니티/커뮤니티_댓글_수정.gif" width="95%">
   </div>
 
-  - 커뮤니티 댓글 삭제
+  - 댓글 삭제
   <div width="100%">
   <img src="docs/gif/커뮤니티/커뮤니티_댓글_삭제.gif" width="95%">
-  </div>
-
-- 모바일 화면
-  <div width="100%">
-  <img src="docs/gif/커뮤니티/커뮤니티_생성_모바일.gif" width="20%">
-  <img src="docs/gif/커뮤니티/커뮤니티_수정_모바일.gif" width="20%">
-  <img src="docs/gif/커뮤니티/커뮤니티_삭제_모바일.gif" width="20%">
   </div>
 
 ### 채팅 화면
@@ -444,6 +440,14 @@
   - 제한인원만큼만 채팅방 입장 가능
   <div width="100%">
   <img src="docs/gif/채팅/채팅방_생성.gif" width="75%">
+  <img src="docs/gif/채팅/채팅방생성(모바일).gif" width="20%">
+  </div>
+
+- 채팅
+  - 채팅 메시지 주고받기 
+  <div>
+  <img src="docs/gif/채팅/채팅.gif" width="75%">
+  <img src="docs/gif/채팅/채팅보내기(모바일).gif" width="20%">
   </div>
 
 
@@ -452,37 +456,25 @@
   - 모든 채팅방 구성원이 방을 나갈 경우 채팅방 삭제 
   <div>
   <img src="docs/gif/채팅/채팅방_나가기.gif" width="75%">
-  </div>
-
-
-- 채팅
-  - 채팅 메시지 주고받기 
-  <div>
-  <img src="docs/gif/채팅/채팅.gif" width="75%">
+  <img src="docs/gif/채팅/채팅방삭제(모바일).gif" width="20%">
   </div>
 
   - 채팅 메시지 받았을 경우 알림
   <div>
-  <img src="docs/gif/채팅/채팅알림(웹).gif" width="75%">
+  <img src="docs/gif/채팅/채팅알림(웹).gif" width="95%">
   </div>
 
 - 내 채팅방 검색
   - 내가 입장하고 나가지 않은 채팅방 목록 중 검색
   <div>
   <img src="docs/gif/채팅/내채팅방_검색.gif" width="75%">
+  <img src="docs/gif/채팅/채팅방검색(모바일).gif" width="20%">
   </div>
 
 - 모바일 화면
   <div width="100%">
-  <img src="docs/gif/채팅/채팅방생성(모바일).gif" width="20%">
-  <img src="docs/gif/채팅/채팅보내기(모바일).gif" width="20%">
-  <img src="docs/gif/채팅/채팅방삭제(모바일).gif" width="20%">
-  </div>
-
-  <div width="100%">
   <img src="docs/gif/채팅/전체채팅방목록(모바일).gif" width="20%">
   <img src="docs/gif/채팅/내채팅방목록(모바일).gif" width="20%">
-  <img src="docs/gif/채팅/채팅방검색(모바일).gif" width="20%">
   </div>
 
 
